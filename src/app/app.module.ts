@@ -1,12 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { HttpService } from '@/_services';
-import { NavigatorService } from '@/_services';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
@@ -40,8 +37,7 @@ import { HomeComponent } from './home/home.component';
     FontAwesomeModule,
     FormsModule
   ],
-  providers: [HttpService,
-              NavigatorService],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

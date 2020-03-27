@@ -11,7 +11,7 @@
   <tbody>
     <tr *ngFor="let round of rounds">
       <td>
-        <a href="#" (click)="selectRounds(round)" routerLink="/round">
+        <a href="#" routerLink ="/round" [state]="{data: {round: round}}">
           <fa-icon [icon]="faSearchPlus"></fa-icon>
         </a>
       </td>

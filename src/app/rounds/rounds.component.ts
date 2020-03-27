@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { Round } from '@/_models';
-import { HttpService, NavigatorService } from '@/_services';
+import { HttpService} from '@/_services';
 
 @Component({
   selector: 'app-rounds',
@@ -14,7 +14,7 @@ export class RoundsComponent implements OnInit {
   rounds: Array<Round>;
   show: string;
 
-  constructor(private httpService: HttpService, private navigatorService: NavigatorService) {
+  constructor(private httpService: HttpService) {
 
     console.log('rounds requested');
 
@@ -25,10 +25,5 @@ export class RoundsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  selectRounds(round: Round) {
-    console.log('select round executed');
-    this.navigatorService.setRound(round);
   }
 }

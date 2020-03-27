@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
-import { HttpService, NavigatorService } from '@/_services';
+import { HttpService} from '@/_services';
 import { Round } from '@/_models';
 
 
@@ -23,13 +23,12 @@ export class RoundComponent implements OnInit {
   pats: number[] = [];
   par: number[] = [];
 
-  constructor(private httpService: HttpService, private navigatorService: NavigatorService) {
-
-   this.round = this.navigatorService.getRound();
-   this.showRound();
+  constructor(private httpService: HttpService) {
   }
 
   ngOnInit(): void {
+    this.round = history.state.data.round;
+    this.showRound();
   }
 
   showRound() {
