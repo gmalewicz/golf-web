@@ -1,0 +1,24 @@
+<div *ngIf="display">
+  <div>
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="true"
+      [chartType]="barChartType"
+     >
+    </canvas>
+  </div>
+  <div>
+    <br />
+    <button type="button" class="btn btn-primary" routerLink="">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="delete()" routerLink="">
+      Delete
+    </button>
+  </div>
+</div>
+<router-outlet></router-outlet>

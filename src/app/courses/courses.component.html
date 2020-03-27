@@ -1,0 +1,44 @@
+<div *ngIf="parent === 'courses'">
+  <h2>List of courses</h2>
+</div>
+<div *ngIf="parent === 'addRound'">
+  <h2>Select course for round</h2>
+</div>
+<table id="courses-tbl" class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Par</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of courses">
+      <td *ngIf="parent === 'courses'">
+        <a [routerLink]="['/course', row.id, row.name]">
+          <fa-icon [icon]="faSearchPlus"></fa-icon>
+        </a>
+      </td>
+      <td *ngIf="parent === 'addRound'">
+        <a [routerLink]="['/addScorecard', row.id, row.name]">
+          <fa-icon [icon]="faSearchPlus"></fa-icon>
+        </a>
+      </td>
+      <td>{{ row.name }}</td>
+      <td>{{ row.par }}</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <br />
+  <button type="button" class="btn btn-primary" routerLink="">
+    Cancel
+  </button>
+  <span *ngIf="parent === 'courses'">
+    &nbsp;
+    <button type="button" class="btn btn-primary" routerLink="/addCourse">
+      Add
+    </button>
+  </span>
+</div>
+<router-outlet></router-outlet>

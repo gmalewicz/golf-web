@@ -1,0 +1,122 @@
+<div *ngIf="display">
+  <h2>{{ course.name }}</h2>
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <input
+        class="form-control mb-3 mr-sm-2"
+        [(ngModel)]="date"
+        placeholder="YYYY/MM/DD"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <input
+        class="form-control mb-3 mr-sm-2"
+        maxlength="30"
+        [(ngModel)]="teeTime"
+        placeholder="HH:MM"
+      />
+    </div>
+    <br />
+    <br />
+  </div>
+  <div style="display: block">
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
+    >
+    </canvas>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-sm-1">
+      Hole:
+    </div>
+    <div>
+      <div
+        class="btn-group btn-group-justified"
+        role="group"
+        aria-label="hole group"
+        data-toggle="buttons"
+      >
+        <div *ngFor="let hole of barChartLabels">
+          <button
+            type="radio"
+            name="hole"
+            class="btn btn-secondary btn-selector"
+            (click)="selectHole(hole)"
+          >
+            {{ hole }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-sm-1">
+      Stroke:
+    </div>
+    <div>
+      <div
+        class="btn-group btn-group-justified"
+        role="group"
+        aria-label="stroke group"
+        data-toggle="buttons"
+      >
+        <div *ngFor="let stroke of strokeButtons">
+          <button
+            type="radio"
+            name="stroke"
+            class="btn btn-secondary btn-selector"
+            (click)="selectStroke(stroke)"
+          >
+            {{ stroke }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-sm-1">
+      Pats:
+    </div>
+    <div>
+      <div
+        class="btn-group btn-group-justified"
+        role="group"
+        aria-label="pat group"
+        data-toggle="buttons"
+      >
+        <div *ngFor="let pat of patButtons">
+          <button
+            type="radio"
+            name="pat"
+            class="btn btn-secondary btn-selector"
+            (click)="selectPat(pat)"
+          >
+            {{ pat }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <br />
+    <button type="button" class="btn btn-primary" (click)="save()" routerLink="">Save</button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="clear()">
+      Clear
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" routerLink="">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

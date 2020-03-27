@@ -1,0 +1,38 @@
+<h2>My rounds:</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Date</th>
+      <th>Tee Time</th>
+      <th>Course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let round of rounds">
+      <td>
+        <a href="#" (click)="selectRounds(round)" routerLink="/round">
+          <fa-icon [icon]="faSearchPlus"></fa-icon>
+        </a>
+      </td>
+      <td>{{ round.roundDate | date: "mediumDate" }}</td>
+      <td>{{ round.teeTime }}</td>
+      <td>{{ round.course.name }}</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <br />
+  <button type="button" class="btn btn-primary" routerLink="">
+    Cancel
+  </button>
+  &nbsp;
+  <button
+    type="button"
+    class="btn btn-primary"
+    [routerLink]="['/courses', 'addRound']"
+  >
+    Add
+  </button>
+</div>
+<router-outlet></router-outlet>

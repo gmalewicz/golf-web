@@ -1,13 +1,163 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="utf-8">
-  <title>GolfWeb</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
+
+  <head>
+    <title>DrunkGolfers and NiceGirls</title>
+    <base href="/">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css"/>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <!-- <script src='../static/js/main.js'></script> -->
+    <!-- <script src='js/main.js'></script> -->
+
+  </head>
+
 <body>
-  <app-root></app-root>
+
+<!--
+   class="container">
+
+
+    <div class="list-of-holes hide">
+
+      <canvas id="courseHolesChart"></canvas>
+
+    </div>
+
+    <div class="add-round hide">
+
+      <canvas id="addStrokesChart"></canvas>
+
+
+      <div class="row">
+        <div class="col-sm-1">
+          Hole:
+        </div>
+        <div class="col-sm-8">
+
+
+          <div class="btn-group btn-group-toggle float-left btn-holes" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+              <input type="radio" name="holes" id="hole_1" value="1" checked> 1
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_2" value="2"> 2
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_3" value="3"> 3
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_4" value="4"> 4
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_5" value="5"> 5
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_6" value="6"> 6
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_7" value="7"> 7
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_8" value="8"> 8
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_9" value="9"> 9
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_10" value="10"> 10
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_11" value="11"> 11
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_12" value="12"> 12
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_13" value="13"> 13
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_14" value="14"> 14
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_15" value="15"> 15
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_16" value="16"> 16
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_17" value="17"> 17
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="holes" id="hole_18" value="18"> 18
+            </label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-1">
+          Strokes:
+        </div>
+        <div class="col-sm-8">
+          <div class="btn-group btn-group-toggle btn-stroke" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+              <input type="radio" name="strokes" id="stroke_1" value="1" checked> 1
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_2" value="2"> 2
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_3" value="3"> 3
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_4" value="4"> 4
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_5" value="5"> 5
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_6" value="6"> 6
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_7" value="7"> 7
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_8" value="8"> 8
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_9" value="9"> 9
+            </label><label class="btn btn-secondary">
+              <input type="radio" name="strokes" id="stroke_10" value="10"> 10
+            </label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-1">
+          Puts:
+        </div>
+        <div class="col-sm-8">
+          <div class="btn-group btn-group-toggle btn-pats" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+              <input type="radio" name="pats" id="pat_1" value="1" checked> 1
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="pats" id="pat_2" value="2"> 2
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="pats" id="pat_3" value="3"> 3
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="pats" id="pat_4" value="4"> 4
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="pats" id="pat_5" value="5"> 5
+            </label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <br />
+        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary">Clear</button>
+      </div>
+    </div>
+  </div>
+-->
+  <app-root> </app-root>
 </body>
+
+
 </html>
