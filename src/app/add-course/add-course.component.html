@@ -1,97 +1,110 @@
-<div class="form-row">
-  <div class="col-md-4 mb-3">
-    <input
-      class="form-control mb-3 mr-sm-2"
-      [(ngModel)]="courseName"
-      placeholder="Course name"
-    />
-  </div>
-  <div class="col-md-4 mb-3">
-    <input
-      class="form-control mb-3 mr-sm-2"
-      maxlength="2"
-      [(ngModel)]="coursePar"
-      placeholder="Course par"
-    />
-  </div>
-  <br />
-  <br />
-</div>
-<div>
-  <canvas
-    baseChart
-    [datasets]="barChartData"
-    [labels]="barChartLabels"
-    [options]="barChartOptions"
-    [legend]="barChartLegend"
-    [chartType]="barChartType"
-  >
-  </canvas>
-</div>
-<br />
+<form [formGroup]="newCourseForm">
+  <div class="form-row">
+    <div class="form-group col">
+      <input
+        type="text"
+        formControlName="courseName"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
+        placeholder="Course name"
+      />
+      <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
+        <div *ngIf="f.courseName.errors.required">Course name is required</div>
+      </div>
+    </div>
+    &nbsp;
 
-<div class="row">
-  <div class="col-sm-1">
-    Hole:
-  </div>
-  <div>
-    <div
-      class="btn-group btn-group-justified"
-      role="group"
-      aria-label="hole group"
-      data-toggle="buttons"
-    >
-      <div *ngFor="let hole of barChartLabels">
-        <button
-          type="radio"
-          name="hole"
-          class="btn btn-secondary btn-selector"
-          (click)="selectHole(hole)"
-        >
-          {{ hole }}
-        </button>
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="2"
+        formControlName="coursePar"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.coursePar.errors }"
+        placeholder="Course par"
+      />
+      <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
+        <div *ngIf="f.coursePar.errors.required">Course par is required</div>
       </div>
     </div>
   </div>
-</div>
-<br />
-<div class="row">
-  <div class="col-sm-1">
-    Par:
-  </div>
   <div>
-    <div
-      class="btn-group btn-group-justified"
-      role="group"
-      aria-label="par group"
-      data-toggle="buttons"
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
     >
-      <div *ngFor="let par of parButtons">
-        <button
-          type="radio"
-          name="par"
-          class="btn btn-secondary btn-selector"
-          (click)="slectPar(par)"
-        >
-          {{ par }}
-        </button>
+    </canvas>
+  </div>
+  <br />
+
+  <div class="row">
+    <div class="col-sm-1">
+      Hole:
+    </div>
+    <div>
+      <div
+        class="btn-group btn-group-justified"
+        role="group"
+        aria-label="hole group"
+        data-toggle="buttons"
+      >
+        <div *ngFor="let hole of barChartLabels">
+          <button
+            type="radio"
+            name="hole"
+            class="btn btn-secondary btn-selector"
+            (click)="selectHole(hole)"
+          >
+            {{ hole }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div>
   <br />
-  <button type="button" class="btn btn-primary" (click)="save()" routerLink="">
-    Save
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-primary" (click)="clear()">
-    Clear
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-primary" routerLink="">
-    Cancel
-  </button>
-</div>
-
+  <div class="row">
+    <div class="col-sm-1">
+      Par:
+    </div>
+    <div>
+      <div
+        class="btn-group btn-group-justified"
+        role="group"
+        aria-label="par group"
+        data-toggle="buttons"
+      >
+        <div *ngFor="let par of parButtons">
+          <button
+            type="radio"
+            name="par"
+            class="btn btn-secondary btn-selector"
+            (click)="slectPar(par)"
+          >
+            {{ par }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <br />
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="onSubmit()">
+        Save
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-primary" (click)="clear()">
+        Clear
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-primary" routerLink="">
+        Cancel
+      </button>
+    </div>
+  </div>
+</form>
 <router-outlet></router-outlet>

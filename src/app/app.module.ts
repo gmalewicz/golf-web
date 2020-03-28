@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { HttpService } from '@/_services';
@@ -15,6 +15,7 @@ import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { RoundComponent } from './round/round.component';
 import { appRoutingModule } from './app.routing';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HomeComponent } from './home/home.component';
     RoundsComponent,
     AddScorecardComponent,
     RoundComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     ChartsModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]
