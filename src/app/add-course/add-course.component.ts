@@ -1,9 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Hole, Course } from '@/_models';
-import { HttpService} from '@/_services';
+import { HttpService, AlertService} from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-course',
@@ -27,7 +28,10 @@ export class AddCourseComponent implements OnInit {
 
   pars: number[] = [];
 
-  constructor(private httpService: HttpService,  private formBuilder: FormBuilder, private router: Router) {
+  constructor(private httpService: HttpService,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private alertService: AlertService) {
 
    this.generateLabelsAndData();
 
@@ -124,7 +128,11 @@ export class AddCourseComponent implements OnInit {
 
     this.httpService.addCourse(course).subscribe(newCourse => {
       console.log(newCourse);
+      this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
       this.router.navigate(['/']);
+    },
+      error => {
+        this.alertService.error('Adding course failed', true);
     });
   }
 

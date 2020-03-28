@@ -2,7 +2,9 @@ import { HttpService } from '../_services/http.service';
 import { Component, OnInit} from '@angular/core';
 import { Hole } from '@/_models';
 import { ChartDataSets, ChartOptions, ChartType} from 'chart.js';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AlertService } from '@/_services';
 
 @Component({
   selector: 'app-course',
@@ -62,7 +64,10 @@ export class CourseComponent implements OnInit {
 
   }
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute) {}
+  constructor(private httpService: HttpService,
+              private route: ActivatedRoute,
+              private alertService: AlertService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.getHoles();
@@ -83,7 +88,13 @@ export class CourseComponent implements OnInit {
 
     this.httpService.deleteCourse(this.route.snapshot.params.id).subscribe(  courseId => {
       console.log('deleted course id: ' + courseId);
+      this.alertService.success('The course has been successfully deleted', true);
+
+    },
+      (error: HttpErrorResponse) => {
+        this.alertService.error('Deleting the course failed', true);
     });
+    this.router.navigate(['/']);
   }
 
 }
