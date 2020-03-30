@@ -118,7 +118,7 @@ export class AddScorecardComponent implements OnInit {
       roundDate: this.date,
       teeTime: this.teeTime,
       // to do
-      player: [{id: 1, nick: 'dupa'}],
+      player: [{id: 1, nick: 'golfer', password: 'welcome'}],
       scoreCard
     };
 

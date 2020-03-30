@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  template: `
-    <h2>Welcome</h2>
-  `
+  template: ` `
 })
 export class HomeComponent implements OnInit {
 

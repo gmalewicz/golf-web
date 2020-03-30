@@ -3,11 +3,14 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">DrunkGolfers and NiceGirls</a>
     </div>
-    <ul class="nav navbar-nav navbar-right">
+    <ul *ngIf="!currentPlayer" class="nav navbar-nav navbar-right">
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/login">Login</a></li>
+    </ul>
+    <ul *ngIf="currentPlayer" class="nav navbar-nav navbar-right">
       <li class="nav-item"><a class="nav-link" href="#" [routerLink]="['/courses', 'courses']">Courses</a>
       </li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds">Rounds</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/login">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>

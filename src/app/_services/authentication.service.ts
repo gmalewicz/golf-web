@@ -1,0 +1,39 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Player } from '@/_models';
+import { HttpService } from './http.service';
+
+// import { User } from '@/_models';
+
+@Injectable({ providedIn: 'root' })
+export class AuthenticationService {
+  private currentPlayerSubject: BehaviorSubject<Player>;
+  public currentPlayer: Observable<Player>;
+
+  constructor(private httpService: HttpService) {
+    this.currentPlayerSubject = new BehaviorSubject<Player>(JSON.parse(localStorage.getItem('currentPlayer')));
+    this.currentPlayer = this.currentPlayerSubject.asObservable();
+  }
+
+  public get currentUserValue(): Player {
+    return this.currentPlayerSubject.value;
+  }
+
+  login(username: string, password: string) {
+    console.log('log in requested');
+    return this.httpService.authenticate(username, password)
+      .pipe(map(player => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentPlayer', JSON.stringify([player]));
+        this.currentPlayerSubject.next(player);
+        return player;
+      }));
+  }
+
+  logout() {
+    // remove user from local storage and set current user to null
+    localStorage.removeItem('currentPlayer');
+    this.currentPlayerSubject.next(null);
+  }
+}
