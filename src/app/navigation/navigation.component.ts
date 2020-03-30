@@ -21,7 +21,7 @@ export class NavigationComponent implements OnInit {
   logout(): void {
     console.log('logging out');
     this.authenticationService.logout();
-    this.alertService.success('Your have been logged out', false);
+    this.alertService.success('Your have been logged out', true);
     this.router.navigate(['/']);
   }
 }

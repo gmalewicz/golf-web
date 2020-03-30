@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.alertService.clear();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
