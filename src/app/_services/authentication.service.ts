@@ -16,7 +16,7 @@ export class AuthenticationService {
     this.currentPlayer = this.currentPlayerSubject.asObservable();
   }
 
-  public get currentUserValue(): Player {
+  public get currentPlayerValue(): Player {
     return this.currentPlayerSubject.value;
   }
 

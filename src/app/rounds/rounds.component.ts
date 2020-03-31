@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { Round } from '@/_models';
-import { HttpService} from '@/_services';
+import { HttpService, AuthenticationService} from '@/_services';
 
 @Component({
   selector: 'app-rounds',
@@ -14,11 +14,12 @@ export class RoundsComponent implements OnInit {
   rounds: Array<Round>;
   show: string;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private authenticationService: AuthenticationService) {
 
     console.log('rounds requested');
 
-    this.httpService.getRounds(1).subscribe((retRounds: Round[]) => {
+    // to do
+    this.httpService.getRounds(this.authenticationService.currentPlayerValue.id).subscribe((retRounds: Round[]) => {
       console.log(retRounds);
       this.rounds = retRounds;
     });

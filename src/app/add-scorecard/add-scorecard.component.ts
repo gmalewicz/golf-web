@@ -3,6 +3,7 @@ import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Course, ScoreCard, Round } from '@/_models';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '@/_services';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class AddScorecardComponent implements OnInit {
   strokes: number[] = [];
   pats: number[] = [];
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute) {
+  constructor(private httpService: HttpService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
 
    this.getHoles();
 
@@ -112,13 +113,13 @@ export class AddScorecardComponent implements OnInit {
       scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.pats[hole]});
     }
 
-
     const round: Round = {
       course: this.course,
       roundDate: this.date,
       teeTime: this.teeTime,
       // to do
-      player: [{id: 1, nick: 'golfer', password: 'welcome'}],
+      // player: [{id: 1, nick: 'golfer', password: 'welcome', token: 'fake for now'}],
+      player: [this.authenticationService.currentPlayerValue],
       scoreCard
     };
 

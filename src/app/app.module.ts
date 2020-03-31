@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { HttpService } from '@/_services';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
 import { ChartsModule } from 'ng2-charts';
@@ -17,6 +17,7 @@ import { appRoutingModule } from './app.routing';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './alert/alert.component';
+import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
 
 
 @NgModule({
@@ -42,7 +43,10 @@ import { AlertComponent } from './alert/alert.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [HttpService],
+  providers: [HttpService,
+              { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ) {
     console.log('logging out');
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
+    if (this.authenticationService.currentPlayerValue) {
         this.router.navigate(['/']);
     }
   }

@@ -4,7 +4,6 @@ import { Hole, Course } from '@/_models';
 import { HttpService, AlertService} from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-course',
