@@ -1,6 +1,36 @@
 <div *ngIf="display">
   <h2>{{ course.name }}</h2>
+  <form [formGroup]="addScorecardForm">
   <div class="form-row">
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="10"
+        formControlName="date"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
+        placeholder="YYYY/MM/DD"
+      />
+      <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+        <div *ngIf="f.date.errors.required">Date is required</div>
+      </div>
+    </div>
+    &nbsp;
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="5"
+        formControlName="teeTime"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }"
+        placeholder="HH:MM"
+      />
+      <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
+        <div *ngIf="f.teeTime.errors.required">Tee time is required</div>
+      </div>
+    </div>
+
+<!--
     <div class="col-md-4 mb-3">
       <input
         class="form-control mb-3 mr-sm-2"
@@ -16,6 +46,7 @@
         placeholder="HH:MM"
       />
     </div>
+    -->
     <br />
     <br />
   </div>
@@ -107,7 +138,8 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-primary" (click)="save()" routerLink="">Save</button>
+    <div class="form-group">
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
     &nbsp;
     <button type="button" class="btn btn-primary" (click)="clear()">
       Clear
@@ -116,7 +148,9 @@
     <button type="button" class="btn btn-primary" routerLink="">
       Cancel
     </button>
+    </div>
   </div>
+</form>
 </div>
 
 <router-outlet></router-outlet>

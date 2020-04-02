@@ -8,6 +8,7 @@ import { RoundComponent } from './round/round.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
   { path: 'addScorecard/:courseId/:courseName', component: AddScorecardComponent, canActivate: [AuthGuard] },
 
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent }
 ];
 
 export const appRoutingModule = RouterModule.forRoot(routes);

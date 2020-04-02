@@ -1,6 +1,6 @@
 export interface Player {
-  id: number;
+  id?: number;
   nick: string;
   password: string;
-  token: string;
+  token?: string;
 }

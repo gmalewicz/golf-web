@@ -2,8 +2,9 @@ import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Course, ScoreCard, Round } from '@/_models';
-import { ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '@/_services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService, AlertService } from '@/_services';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -17,8 +18,12 @@ export class AddScorecardComponent implements OnInit {
   course: Course;
   display = false;
 
-  date: Date;
-  teeTime: Date;
+  submitted = false;
+
+  public addScorecardForm: FormGroup;
+
+  // date: Date;
+  // teeTime: Date;
 
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
@@ -33,14 +38,26 @@ export class AddScorecardComponent implements OnInit {
   strokes: number[] = [];
   pats: number[] = [];
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute, private authenticationService: AuthenticationService) {
+  constructor(private httpService: HttpService,
+              private route: ActivatedRoute,
+              private authenticationService: AuthenticationService,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private alertService: AlertService) {
 
    this.getHoles();
 
   }
 
   ngOnInit(): void {
+    this.addScorecardForm = this.formBuilder.group({
+      date: ['', Validators.required],
+      teeTime: ['', Validators.required]
+    });
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.addScorecardForm.controls; }
 
   generateLabelsAndData() {
 
@@ -105,7 +122,13 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[2].data = this.pats;
   }
 
-  save() {
+  onSubmit() {
+
+    this.submitted = true;
+
+    if (this.addScorecardForm.invalid) {
+      return;
+    }
 
     const scoreCard: ScoreCard[] = [];
 
@@ -115,8 +138,8 @@ export class AddScorecardComponent implements OnInit {
 
     const round: Round = {
       course: this.course,
-      roundDate: this.date,
-      teeTime: this.teeTime,
+      roundDate: this.f.date.value,
+      teeTime: this.f.teeTime.value,
       // to do
       // player: [{id: 1, nick: 'golfer', password: 'welcome', token: 'fake for now'}],
       player: [this.authenticationService.currentPlayerValue],
@@ -126,7 +149,12 @@ export class AddScorecardComponent implements OnInit {
     this.httpService.addRound(round).subscribe(newRound => {
       console.log(newRound);
       this.display = false;
-    });
+      this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
+      this.router.navigate(['/']);
+    },
+    error => {
+      this.alertService.error('Adding round failed', true);
+  });
   }
 
   selectHole(hole: number) {

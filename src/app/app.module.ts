@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
     RoundComponent,
     HomeComponent,
     LoginComponent,
-    AlertComponent
+    AlertComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

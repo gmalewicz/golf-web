@@ -64,6 +64,17 @@ export class HttpService {
 
     return this.http.post<Player>(this.URL_STR + 'Authenticate', {nick, password}, httpOptions);
   }
+
+  addPlayer(player: Player): Observable<void> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<void>(this.URL_STR + 'addPlayer', player, httpOptions);
+  }
 }
 
 
