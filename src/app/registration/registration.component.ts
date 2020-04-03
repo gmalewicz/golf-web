@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { first } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -61,10 +62,10 @@ export class RegistrationComponent implements OnInit {
           .subscribe(
               data => {
                   this.alertService.success('Registration successful. Please log in', true);
-                  this.router.navigate(['/login']);
+                  this.router.navigate(['/']);
               },
-              error => {
-                  this.alertService.error(error);
+              (error: HttpErrorResponse) => {
+                  this.alertService.error('Nick name already used or server error');
                   this.loading = false;
               });
   }
