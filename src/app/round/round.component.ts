@@ -1,7 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
-import { HttpService} from '@/_services';
+import { HttpService, AlertService} from '@/_services';
 import { Round } from '@/_models';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class RoundComponent implements OnInit {
   pats: number[] = [];
   par: number[] = [];
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private alertService: AlertService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -87,5 +89,18 @@ export class RoundComponent implements OnInit {
         }
       }
     };
+  }
+  onDelete() {
+
+    this.httpService.deleteRound(this.round.id).subscribe(roundId => {
+
+      console.log('deleted round id: ' + roundId);
+      this.alertService.success('The round has been successfully deleted', false);
+
+      },
+        (error: HttpErrorResponse) => {
+          this.alertService.error('Deleting the round failed', false);
+      });
+    this.router.navigate(['/']);
   }
 }

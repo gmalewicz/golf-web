@@ -75,6 +75,11 @@ export class HttpService {
 
     return this.http.post<void>(this.URL_STR + 'addPlayer', player, httpOptions);
   }
+
+  // delete round
+  deleteRound(id: number) {
+    return this.http.delete(this.URL_STR + 'Round/' + id);
+  }
 }
 
 
