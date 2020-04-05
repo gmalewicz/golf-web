@@ -33,7 +33,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
           nick: ['', Validators.required],
-          password: ['', [Validators.required, Validators.minLength(6)]]
+          password: ['', [Validators.required, Validators.minLength(6)]],
+          whs: ['', Validators.required]
       });
   }
 
@@ -54,8 +55,8 @@ export class RegistrationComponent implements OnInit {
       this.loading = true;
 
       const player: Player = {nick: this.f.nick.value,
-                              password: this.f.password.value};
-
+                              password: this.f.password.value,
+                              whs: this.f.whs.value};
 
       this.httpService.addPlayer(player)
           .pipe(first())

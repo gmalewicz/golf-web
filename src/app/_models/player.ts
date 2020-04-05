@@ -3,4 +3,5 @@ export interface Player {
   nick: string;
   password?: string;
   token?: string;
+  whs: number;
 }
