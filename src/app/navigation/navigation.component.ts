@@ -2,6 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-navigation',
@@ -9,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
+
+  faCog = faCog;
 
   currentPlayer: Player;
 

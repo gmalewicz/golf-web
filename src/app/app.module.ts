@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
+import { UpdatePlayerComponent } from './update-player/update-player.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { RegistrationComponent } from './registration/registration.component';
     HomeComponent,
     LoginComponent,
     AlertComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    UpdatePlayerComponent
   ],
   imports: [
     BrowserModule,

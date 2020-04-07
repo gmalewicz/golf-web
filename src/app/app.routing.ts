@@ -9,6 +9,7 @@ import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
+import { UpdatePlayerComponent } from './update-player/update-player.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'course/:id/:courseName', component: CourseComponent, canActivate: [AuthGuard] },
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
   { path: 'addScorecard/:courseId/:courseName', component: AddScorecardComponent, canActivate: [AuthGuard] },
+  { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

@@ -80,6 +80,17 @@ export class HttpService {
   deleteRound(id: number) {
     return this.http.delete(this.URL_STR + 'Round/' + id);
   }
+
+  // update player
+  updatePlayer(player: Player): Observable<Player> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.patch<Player>(this.URL_STR + 'patchPlayer/' + player.id, player, httpOptions);
+  }
 }
 
 

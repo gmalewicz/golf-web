@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">DrunkGolfers and NiceGirls</a>
+      <a class="navbar-brand" href="#">DrunkGolfers and NiceGirls (Beta)</a>
     </div>
     <ul *ngIf="!currentPlayer" class="nav navbar-nav navbar-right">
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/login">Login</a></li>
@@ -11,6 +11,7 @@
       </li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds">Rounds</a></li>
       <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer"><fa-icon [icon]="faCog"></fa-icon></a></li>
     </ul>
   </div>
 </nav>
