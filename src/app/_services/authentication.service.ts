@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
+import { HttpResponse } from '@angular/common/http';
+
 
 // import { User } from '@/_models';
 
@@ -23,8 +25,10 @@ export class AuthenticationService {
   login(username: string, password: string) {
     console.log('log in requested');
     return this.httpService.authenticate(username, password)
-      .pipe(map(player => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
+      .pipe(map(response => {
+        const player: Player = response.body;
+        player.token =  response.headers.get('Jwt');
+
         localStorage.setItem('currentPlayer', JSON.stringify([player]));
         this.currentPlayerSubject.next(player);
         return player;

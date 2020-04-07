@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player } from '@/_models';
 
@@ -54,15 +54,18 @@ export class HttpService {
     return this.http.get<Array<ScoreCard>>(this.URL_STR + 'ScoreCards/' + roundId);
   }
 
-  authenticate(nick: string, password: string): Observable<Player> {
+  authenticate(nick: string, password: string): Observable<HttpResponse<Player>> {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*'
-      })
+      }),
+      observe: 'response' as 'response'
     };
 
-    return this.http.post<Player>(this.URL_STR + 'Authenticate', {nick, password}, httpOptions);
+    // tslint:disable-next-line: max-line-length
+    return this.http.post<any>(this.URL_STR + 'Authenticate', {nick, password}, {
+      headers: new HttpHeaders({'Access-Control-Allow-Origin': '*'}), observe: 'response'});
   }
 
   addPlayer(player: Player): Observable<void> {
