@@ -136,12 +136,10 @@ export class AddScorecardComponent implements OnInit {
       scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.pats[hole]});
     }
 
+
     const round: Round = {
       course: this.course,
-      roundDate: this.f.date.value,
-      teeTime: this.f.teeTime.value,
-      // to do
-      // player: [{id: 1, nick: 'golfer', password: 'welcome', token: 'fake for now'}],
+      roundDate: this.f.date.value + ' ' + this.f.teeTime.value,
       player: [this.authenticationService.currentPlayerValue],
       scoreCard
     };
