@@ -38,7 +38,8 @@ export class HttpService {
     return this.http.get<Array<Round>>(this.URL_STR + 'Rounds/' + id);
   }
 
-  addRound(round: Round): Observable<Round> {
+  // add round
+  addRound(round: Round): Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -47,7 +48,7 @@ export class HttpService {
       })
     };
 
-    return this.http.post<Round>(this.URL_STR + 'Round', round, httpOptions);
+    return this.http.post<any>(this.URL_STR + 'Round', round, httpOptions);
   }
 
   getScoreCards(roundId: number): Observable<Array<ScoreCard>> {

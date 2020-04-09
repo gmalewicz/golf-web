@@ -1,29 +1,30 @@
-<h2>
-  {{ round.course.name }} &nbsp; &nbsp; {{ round.roundDate }} &nbsp; &nbsp;
-  {{ round.teeTime }}
-</h2>
-<br />
-<div style="display: block">
-  <canvas
-    baseChart
-    [datasets]="barChartData"
-    [labels]="barChartLabels"
-    [options]="barChartOptions"
-    [legend]="barChartLegend"
-    [chartType]="barChartType"
-  >
-  </canvas>
-</div>
-
-<div>
+<div *ngIf="display">
+  <h2>
+    {{ round.course.name }} &nbsp; &nbsp; {{ round.roundDate }} &nbsp; &nbsp;
+    {{ round.teeTime }}
+  </h2>
   <br />
-  <button type="button" class="btn btn-primary" routerLink="">
-    Cancel
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-primary" (click)="onDelete()">
-    Delete
-  </button>
-</div>
+  <div style="display: block">
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
+    >
+    </canvas>
+  </div>
 
+  <div>
+    <br />
+    <button type="button" class="btn btn-primary" routerLink="">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="onDelete()">
+      Delete
+    </button>
+  </div>
+</div>
 <router-outlet></router-outlet>

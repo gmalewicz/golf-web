@@ -146,8 +146,8 @@ export class AddScorecardComponent implements OnInit {
       scoreCard
     };
 
-    this.httpService.addRound(round).subscribe(newRound => {
-      console.log(newRound);
+    this.httpService.addRound(round).subscribe(data => {
+      console.log('round added');
       this.display = false;
       this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
       this.router.navigate(['/']);
