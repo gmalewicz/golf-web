@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
@@ -150,8 +151,9 @@ export class AddScorecardComponent implements OnInit {
       this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
       this.router.navigate(['/']);
     },
-    error => {
-      this.alertService.error('Adding round failed', true);
+    (error: HttpErrorResponse) => {
+      // console.log(error.error.message);
+      this.alertService.error(error.error.message, true);
   });
   }
 

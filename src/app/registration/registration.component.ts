@@ -66,7 +66,7 @@ export class RegistrationComponent implements OnInit {
                   this.router.navigate(['/']);
               },
               (error: HttpErrorResponse) => {
-                  this.alertService.error('Nick name already used or server error');
+                  this.alertService.error(error.error.message, false);
                   this.loading = false;
               });
   }
