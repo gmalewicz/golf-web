@@ -13,6 +13,7 @@
       />
       <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
         <div *ngIf="f.date.errors.required">Date is required</div>
+        <div *ngIf="f.date.errors.pattern">Provide the date in the YYYY/MM/DD format</div>
       </div>
     </div>
     &nbsp;
@@ -27,26 +28,9 @@
       />
       <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
         <div *ngIf="f.teeTime.errors.required">Tee time is required</div>
+        <div *ngIf="f.teeTime.errors.pattern">Provide the valid tee time</div>
       </div>
     </div>
-
-<!--
-    <div class="col-md-4 mb-3">
-      <input
-        class="form-control mb-3 mr-sm-2"
-        [(ngModel)]="date"
-        placeholder="YYYY/MM/DD"
-      />
-    </div>
-    <div class="col-md-4 mb-3">
-      <input
-        class="form-control mb-3 mr-sm-2"
-        maxlength="30"
-        [(ngModel)]="teeTime"
-        placeholder="HH:MM"
-      />
-    </div>
-    -->
     <br />
     <br />
   </div>

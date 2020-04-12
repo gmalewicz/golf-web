@@ -28,7 +28,7 @@ export class UpdatePlayerComponent implements OnInit {
   ngOnInit() {
     this.updateForm = this.formBuilder.group({
       password: ['', Validators.minLength(6)],
-      whs: []
+      whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?,?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
     });
     console.log('initialization');
   }

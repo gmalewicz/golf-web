@@ -39,7 +39,7 @@ export class AddCourseComponent implements OnInit {
   ngOnInit(): void {
     this.newCourseForm = this.formBuilder.group({
       courseName: ['', Validators.required],
-      coursePar: ['', Validators.required]
+      coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]]
     });
   }
 
@@ -108,7 +108,7 @@ export class AddCourseComponent implements OnInit {
 
     this.submitted = true;
 
-    if (this.newCourseForm.invalid) {
+    if (this.newCourseForm.invalid || !this.allParSet()) {
       return;
     }
 
@@ -141,5 +141,16 @@ export class AddCourseComponent implements OnInit {
 
     this.pars = [];
     this.barChartData[0].data = this.pars;
+  }
+
+  allParSet(): boolean {
+
+    for (let hole = 0; hole < 18;  hole++) {
+      if (this.pars[hole] === 0) {
+        this.alertService.error('Not all holes are set', false);
+        return false;
+      }
+    }
+    return true;
   }
 }

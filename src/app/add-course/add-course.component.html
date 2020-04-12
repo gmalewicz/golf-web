@@ -25,6 +25,7 @@
       />
       <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
         <div *ngIf="f.coursePar.errors.required">Course par is required</div>
+        <div *ngIf="f.coursePar.errors.pattern">Course par must be a number from 30 to 79</div>
       </div>
     </div>
   </div>

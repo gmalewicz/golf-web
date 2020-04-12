@@ -51,8 +51,8 @@ export class AddScorecardComponent implements OnInit {
 
   ngOnInit(): void {
     this.addScorecardForm = this.formBuilder.group({
-      date: ['', Validators.required],
-      teeTime: ['', Validators.required]
+      date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]]
     });
   }
 

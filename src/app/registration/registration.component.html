@@ -5,6 +5,7 @@
         <input type="text" formControlName="nick" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
         <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
             <div *ngIf="f.nick.errors.required">Nick is required</div>
+            <div *ngIf="f.nick.errors.maxlength">Nick can be up to 10 characters long</div>
         </div>
     </div>
     <div class="form-group">
@@ -20,6 +21,9 @@
       <input type="text" formControlName="whs" class="form-control"  maxlength="5" [ngClass]="{ 'is-invalid': submitted && f.whs.errors }" />
       <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
           <div *ngIf="f.whs.errors.required">WHS is required</div>
+          <div *ngIf="f.whs.errors.max">WHS is caannot be higer than 54</div>
+          <div *ngIf="f.whs.errors.min">WHS is caannot be lower than -5</div>
+          <div *ngIf="f.whs.errors.pattern">Provide valid value with colon if needed</div>
       </div>
   </div>
     <div class="form-group">

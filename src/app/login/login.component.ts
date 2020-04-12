@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.alertService.clear();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
     // get return url from route parameters or default to '/'

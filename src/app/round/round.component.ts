@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
 import { HttpService, AlertService } from '@/_services';
-import { Round } from '@/_models';
+import { Round, ScoreCard, Hole, Player } from '@/_models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
@@ -27,6 +27,16 @@ export class RoundComponent implements OnInit {
   pats: Array<Array<number>> = [];
   par: number[] = [];
 
+  scoreCards: ScoreCard[];
+  holes: Hole[];
+
+  players: Player[] = [];
+
+  dipslayPlayers: boolean[] = [false, false, false, false];
+
+  // 0 - full, 1 - first, 2 - second
+  display9 = 0;
+
   constructor(private httpService: HttpService, private alertService: AlertService, private router: Router) {
     this.round = history.state.data.round;
     this.showRound();
@@ -46,48 +56,71 @@ export class RoundComponent implements OnInit {
       this.round.id), this.httpService.getHoles(this.round.course.id)]).subscribe(([retScoreCards, retHoles]) => {
         console.log(retScoreCards.length);
 
-        for (let score = 0; score < retScoreCards.length; score++) {
+        this.scoreCards = retScoreCards;
+        this.holes = retHoles;
 
-          if (score % 18 === 0) {
-            console.log('create set');
-            this.strokes.push([]);
-            this.pats.push([]);
-          }
-          this.strokes[Math.floor(score / 18)].push(retScoreCards[score].stroke);
-          this.pats[Math.floor(score / 18)].push(retScoreCards[score].pats);
+        for (let idx  = 0; idx < retScoreCards.length; idx += 18  ) {
+          this.players.push(retScoreCards[idx].player);
+          this.dipslayPlayers[Math.floor(idx / 18)] = true;
         }
 
-        console.log(this.strokes);
-
-        console.log(retHoles);
-        for (let hole = 0; hole < 18; hole++) {
-          this.par.push(retHoles[hole].par);
-          this.barChartLabels.push(hole + 1);
-        }
-
-        this.generateLabelsAndData();
+        this.generateLabelsAndData(1, 18);
         this.display = true;
       });
   }
 
-  generateLabelsAndData() {
+  generateLabelsAndData(startHole: number, endHole: number) {
+
+    for (let score = 0; score < this.scoreCards.length; score++) {
+
+      if (score % 18 === 0) {
+        console.log('create set');
+        this.strokes.push([]);
+        this.pats.push([]);
+      }
+      // include first 9
+      if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
+        console.log('first 9: ' + score);
+        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke);
+        this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
+      }
+      // include second 9
+      if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
+        console.log('second 9: ' + score);
+        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke);
+        this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
+      }
+
+    }
+
+    console.log(this.holes);
+    for (let hole = startHole - 1; hole < endHole; hole++) {
+      this.par.push(this.holes[hole].par);
+      this.barChartLabels.push(hole + 1);
+    }
+
+    console.log(this.strokes);
     console.log(this.strokes);
     this.barChartData = [{ stack: 'Stack 0', label: 'Par', data: this.par, backgroundColor: 'purple', borderWidth: 1 }];
     console.log(this.strokes.length);
-    if (this.strokes.length > 0) {
-      this.barChartData.push({ stack: 'Stack 1', label: 'Strokes', data: this.strokes[0], backgroundColor: '#F8A82F', borderWidth: 1 });
-      this.barChartData.push({ stack: 'Stack 1', label: 'Puts', data: this.pats[0], backgroundColor: '#B0956D', borderWidth: 1 });
+    if (this.strokes.length > 0 && this.dipslayPlayers[0]) {
+      this.barChartData.push({ stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
+        data: this.strokes[0], backgroundColor: '#F99B20', borderWidth: 1 });
+      this.barChartData.push({ stack: 'Stack 1', label: 'Puts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
     }
-    if (this.strokes.length > 1) {
-      this.barChartData.push({ stack: 'Stack 2', label: 'Strokes', data: this.strokes[1], backgroundColor: '#23F45F', borderWidth: 1 });
-      this.barChartData.push({ stack: 'Stack 2', label: 'Puts', data: this.pats[1], backgroundColor: '#6EA47E', borderWidth: 1 });
+    if (this.strokes.length > 1 && this.dipslayPlayers[1]) {
+      this.barChartData.push({ stack: 'Stack 2', label: 'S(' + this.players[1].nick + ')',
+        data: this.strokes[1], backgroundColor: '#51E21D', borderWidth: 1 });
+      this.barChartData.push({ stack: 'Stack 2', label: 'Puts', data: this.pats[1], backgroundColor: '#44BE18', borderWidth: 1 });
     }
-    if (this.strokes.length > 2) {
-      this.barChartData.push({ stack: 'Stack 3', label: 'Strokes', data: this.strokes[2], backgroundColor: '#222CF0', borderWidth: 1 });
-      this.barChartData.push({ stack: 'Stack 3', label: 'Puts', data: this.pats[2], backgroundColor: '#6467A9', borderWidth: 1 });
+    if (this.strokes.length > 2 && this.dipslayPlayers[2]) {
+      this.barChartData.push({ stack: 'Stack 3', label: 'S(' + this.players[2].nick + ')',
+        data: this.strokes[2], backgroundColor: '#371BEB', borderWidth: 1 });
+      this.barChartData.push({ stack: 'Stack 3', label: 'Puts', data: this.pats[2], backgroundColor: '#2F18C7', borderWidth: 1 });
     }
-    if (this.strokes.length > 3) {
-      this.barChartData.push({ stack: 'Stack 4', label: 'Strokes', data: this.strokes[3], backgroundColor: '#F22F70', borderWidth: 1 });
+    if (this.strokes.length > 3 && this.dipslayPlayers[3]) {
+      this.barChartData.push({ stack: 'Stack 4', label: 'S(' + this.players[3].nick + ')',
+        data: this.strokes[3], backgroundColor: '#F22F70', borderWidth: 1 });
       this.barChartData.push({ stack: 'Stack 4', label: 'Puts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
     }
 
@@ -112,6 +145,7 @@ export class RoundComponent implements OnInit {
       }
     };
   }
+  // to be refactored - need to delete round for player
   onDelete() {
 
     this.httpService.deleteRound(this.round.id).subscribe(roundId => {
@@ -124,5 +158,53 @@ export class RoundComponent implements OnInit {
         this.alertService.error('Deleting the round failed', false);
       });
     this.router.navigate(['/']);
+  }
+
+  onFirst9() {
+
+    this.display9 = 1;
+    this.clearChartData();
+    this.generateLabelsAndData(1, 9);
+  }
+
+  onLast9() {
+
+    this.display9 = 2;
+    this.clearChartData();
+    this.generateLabelsAndData(10, 18);
+  }
+
+  onBoth9() {
+
+    this.display9 = 0;
+    this.clearChartData();
+    this.generateLabelsAndData(1, 18);
+  }
+
+  clearChartData() {
+
+    this.barChartLabels = [];
+    this.barChartData = [];
+    this.barChartOptions = {};
+
+    this.strokes = [];
+    this.pats = [];
+    this.par = [];
+  }
+
+  onChecked($event, playerIdx){
+    console.log($event.target.checked ); // {}, true || false
+    console.log($event); // {}, true || false
+
+    this.dipslayPlayers[playerIdx] = $event.target.checked;
+
+    if (this.display9 === 0) {
+      this.onBoth9();
+    } else if (this.display9 === 1) {
+      this.onFirst9();
+    } else {
+      this.onLast9();
+    }
+
   }
 }

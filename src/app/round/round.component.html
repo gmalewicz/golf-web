@@ -14,16 +14,55 @@
     >
     </canvas>
   </div>
-
+  <div>
+    <br />
+    <button type="button" class="btn btn-secondary" (click)="onBoth9()">
+      Both 9
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-secondary" (click)="onFirst9()">
+      First 9
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-secondary" (click)="onLast9()">
+      Last 9
+    </button>
+    &nbsp;
+    &nbsp;
+    Show player:
+    &nbsp;
+    <div class="form-check-inline" *ngIf="players.length > 0">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" value="0" checked="checked" (change)="onChecked($event, 0)" >{{players[0].nick}}
+      </label>
+    </div>
+    <div class="form-check-inline" *ngIf="players.length > 1">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" value="1" checked="checked"  (change)="onChecked($event, 1)" >{{players[1].nick}}
+      </label>
+    </div>
+    <div class="form-check-inline" *ngIf="players.length > 2">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" value="2" checked="checked"  (change)="onChecked($event, 2)">{{players[2].nick}}
+      </label>
+    </div>
+    <div class="form-check-inline" *ngIf="players.length > 3">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" value="3" checked="checked"  (change)="onChecked($event, 3)">{{players[3].nick}}
+      </label>
+    </div>
+  </div>
   <div>
     <br />
     <button type="button" class="btn btn-primary" routerLink="">
       Cancel
     </button>
+    <!-- to be refeactored
     &nbsp;
     <button type="button" class="btn btn-primary" (click)="onDelete()">
       Delete
     </button>
+    -->
   </div>
 </div>
 <router-outlet></router-outlet>
