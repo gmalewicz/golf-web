@@ -1,0 +1,30 @@
+<table id="games-tbl" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Rules</th>
+      <th>Name</th>
+      <th>Start</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a [routerLink]="['/holeStakeRules']">
+          <fa-icon [icon]="faSearchPlus"></fa-icon>
+        </a>
+      </td>
+      <td>Hole Stake</td>
+      <td>
+        <a [routerLink]="['/holeStakeSetup']">
+          <fa-icon [icon]="faMoneyBillAlt"></fa-icon>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <br />
+  <button type="button" class="btn btn-primary" routerLink="">
+    Cancel
+  </button>
+</div>

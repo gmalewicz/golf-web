@@ -1,0 +1,47 @@
+<div>
+  <h2>Hole Stake Game Set Up</h2>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-2">
+    Number of players:
+  </div>
+  <div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-secondary active">
+        <input type="radio" name="players" id="option1" autocomplete="off" checked (click)="onPlayers(3)"> 3 players
+      </label>
+      <label class="btn btn-secondary" >
+        <input type="radio" name="players" id="option2" autocomplete="off" (click)="onPlayers(4)"> 4 players
+      </label>
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-2">
+Stake:
+</div>
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary active">
+    <input type="radio" name="stake" id="option1" autocomplete="off" checked checked (click)="onStake(3)"> 3
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(6)"> 6
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(9)"> 9
+  </label>
+</div>
+</div>
+<div>
+  <br />
+  <button type="button" class="btn btn-primary" routerLink="">
+    Cancel
+  </button>
+  &nbsp;
+  <button type="button" class="btn btn-primary" (click)="onStart()">
+    Start
+  </button>
+</div>

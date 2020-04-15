@@ -10,6 +10,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
+import { GamesComponent } from './games/games.component';
+import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
+import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
 
 
 const routes: Routes = [
@@ -22,6 +25,9 @@ const routes: Routes = [
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
   { path: 'addScorecard/:courseId/:courseName', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
+  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
+  { path: 'holeStakeSetup', component: HoleStakeSetupComponent, canActivate: [AuthGuard] },
+  { path: 'holeStakeGame/:players/:stake', component: HoleStakeGameComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

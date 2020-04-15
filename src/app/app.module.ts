@@ -20,6 +20,10 @@ import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
+import { GamesComponent } from './games/games.component';
+import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
+import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
+import { HoleStakeGameItmComponent } from './hole-stake-game-itm/hole-stake-game-itm.component';
 
 
 @NgModule({
@@ -36,7 +40,11 @@ import { UpdatePlayerComponent } from './update-player/update-player.component';
     LoginComponent,
     AlertComponent,
     RegistrationComponent,
-    UpdatePlayerComponent
+    UpdatePlayerComponent,
+    GamesComponent,
+    HoleStakeSetupComponent,
+    HoleStakeGameComponent,
+    HoleStakeGameItmComponent
   ],
   imports: [
     BrowserModule,
