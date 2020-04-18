@@ -23,8 +23,7 @@ import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { GamesComponent } from './games/games.component';
 import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
 import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
-import { HoleStakeGameItmComponent } from './hole-stake-game-itm/hole-stake-game-itm.component';
-
+import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,7 @@ import { HoleStakeGameItmComponent } from './hole-stake-game-itm/hole-stake-game
     GamesComponent,
     HoleStakeSetupComponent,
     HoleStakeGameComponent,
-    HoleStakeGameItmComponent
+    HoleStakeRulesComponent,
   ],
   imports: [
     BrowserModule,

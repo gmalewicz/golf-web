@@ -76,7 +76,7 @@
       <td>{{score[0]}}</td>
       <td>{{score[1]}}</td>
       <td>{{score[2]}}</td>
-      <td>{{score[3]}}</td>
+      <td *ngIf="players > 3">{{score[3]}}</td>
     </tr>
   </tbody>
 </table>

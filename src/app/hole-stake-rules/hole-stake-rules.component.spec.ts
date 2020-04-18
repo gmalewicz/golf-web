@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HoleStakeGameItmComponent } from './hole-stake-game-itm.component';
+import { HoleStakeRulesComponent } from './hole-stake-rules.component';
 
-describe('HoleStakeGameItmComponent', () => {
-  let component: HoleStakeGameItmComponent;
-  let fixture: ComponentFixture<HoleStakeGameItmComponent>;
+describe('HoleStakeRulesComponent', () => {
+  let component: HoleStakeRulesComponent;
+  let fixture: ComponentFixture<HoleStakeRulesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HoleStakeGameItmComponent ]
+      declarations: [ HoleStakeRulesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HoleStakeGameItmComponent);
+    fixture = TestBed.createComponent(HoleStakeRulesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

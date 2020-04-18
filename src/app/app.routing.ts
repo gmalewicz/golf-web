@@ -13,6 +13,7 @@ import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { GamesComponent } from './games/games.component';
 import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
 import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
+import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'holeStakeSetup', component: HoleStakeSetupComponent, canActivate: [AuthGuard] },
+  { path: 'holeStakeRules', component: HoleStakeRulesComponent, canActivate: [AuthGuard] },
   { path: 'holeStakeGame/:players/:stake', component: HoleStakeGameComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },

@@ -31,7 +31,7 @@ export class HoleStakeGameComponent implements OnInit {
     this.completedStatus = Array(18).fill('No');
     this.completedStatus[0] = 'Confirm';
     this.editHole = -1;
-    this.score = Array(4).fill(0);
+    this.score = Array(this.players).fill(0);
 
     console.log(this.gameResult);
     console.log('players: ' + this.players + ' stake: ' + this.stake);
@@ -41,6 +41,12 @@ export class HoleStakeGameComponent implements OnInit {
   }
 
   onCompleted(holeIdx: number): void {
+
+    // not allow complete the hole without the winner
+    if  (!this.rowResult.includes(1)) {
+      return;
+    }
+
     this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
     console.log(this.gameResult);
     this.rowResult.fill(1);
@@ -57,6 +63,11 @@ export class HoleStakeGameComponent implements OnInit {
   onEdit(holeIdx: number): void {
 
     if (this.completedStatus[holeIdx] === 'Edit') {
+
+      // not allow complete the hole without the winner
+      if  (!this.editResult.includes(1)) {
+        return;
+      }
       this.completedStatus[holeIdx] = 'Done';
       this.editHole = -1;
       this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.editResult[i]);
@@ -68,7 +79,6 @@ export class HoleStakeGameComponent implements OnInit {
       this.completedStatus[holeIdx] = 'Edit';
     }
   }
-
 
   onChangeResult(player: number, hole: number): void {
 
@@ -89,7 +99,7 @@ export class HoleStakeGameComponent implements OnInit {
   }
 
   calculateScore() {
-    this.score = Array(4).fill(0);
+    this.score = Array(this.players).fill(0);
     this.gameResult.forEach((hole) => {
         // first find number of winners
         let winnersCnt = 0;
