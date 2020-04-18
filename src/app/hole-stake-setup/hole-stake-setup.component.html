@@ -8,10 +8,10 @@
   </div>
   <div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-secondary active">
+      <label class="btn btn-outline-success active">
         <input type="radio" name="players" id="option1" autocomplete="off" checked (click)="onPlayers(3)"> 3 players
       </label>
-      <label class="btn btn-secondary" >
+      <label class="btn btn-outline-success" >
         <input type="radio" name="players" id="option2" autocomplete="off" (click)="onPlayers(4)"> 4 players
       </label>
     </div>
@@ -24,24 +24,24 @@ Stake:
 </div>
 
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-secondary active">
+  <label class="btn btn-outline-success active">
     <input type="radio" name="stake" id="option1" autocomplete="off" checked checked (click)="onStake(3)"> 3
   </label>
-  <label class="btn btn-secondary">
+  <label class="btn btn-outline-success">
     <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(6)"> 6
   </label>
-  <label class="btn btn-secondary">
+  <label class="btn btn-outline-success">
     <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(9)"> 9
   </label>
 </div>
 </div>
 <div>
   <br />
-  <button type="button" class="btn btn-primary" routerLink="">
+  <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
   &nbsp;
-  <button type="button" class="btn btn-primary" (click)="onStart()">
+  <button type="button" class="btn btn-success" (click)="onStart()">
     Start
   </button>
 </div>

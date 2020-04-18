@@ -52,16 +52,15 @@
     </div>
     <div>
       <div
-        class="btn-group btn-group-justified"
+        class="btn-group btn-group-justified flex-wrap"
         role="group"
         aria-label="hole group"
-        data-toggle="buttons"
       >
         <div *ngFor="let hole of barChartLabels">
           <button
             type="radio"
             name="hole"
-            class="btn btn-secondary btn-selector"
+            class="btn btn-outline-success"
             (click)="selectHole(hole)"
           >
             {{ hole }}
@@ -77,16 +76,15 @@
     </div>
     <div>
       <div
-        class="btn-group btn-group-justified"
+        class="btn-group btn-group-justified flex-wrap"
         role="group"
         aria-label="stroke group"
-        data-toggle="buttons"
       >
         <div *ngFor="let stroke of strokeButtons">
           <button
             type="radio"
             name="stroke"
-            class="btn btn-secondary btn-selector"
+            class="btn btn-outline-success"
             (click)="selectStroke(stroke)"
           >
             {{ stroke }}
@@ -102,16 +100,15 @@
     </div>
     <div>
       <div
-        class="btn-group btn-group-justified"
+        class="btn-group btn-group-justified flex-wrap"
         role="group"
         aria-label="pat group"
-        data-toggle="buttons"
       >
         <div *ngFor="let pat of patButtons">
           <button
             type="radio"
             name="pat"
-            class="btn btn-secondary btn-selector"
+            class="btn btn-outline-success"
             (click)="selectPat(pat)"
           >
             {{ pat }}
@@ -123,13 +120,13 @@
   <div>
     <br />
     <div class="form-group">
-    <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">Save</button>
     &nbsp;
-    <button type="button" class="btn btn-primary" (click)="clear()">
+    <button type="button" class="btn btn-success" (click)="clear()">
       Clear
     </button>
     &nbsp;
-    <button type="button" class="btn btn-primary" routerLink="">
+    <button type="button" class="btn btn-success" routerLink="">
       Cancel
     </button>
     </div>

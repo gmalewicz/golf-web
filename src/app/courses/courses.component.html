@@ -16,12 +16,12 @@
     <tr *ngFor="let row of courses">
       <td *ngIf="parent === 'courses'">
         <a [routerLink]="['/course', row.id, row.name]">
-          <fa-icon [icon]="faSearchPlus"></fa-icon>
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
       <td *ngIf="parent === 'addRound'">
         <a [routerLink]="['/addScorecard', row.id, row.name]">
-          <fa-icon [icon]="faSearchPlus"></fa-icon>
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
       <td>{{ row.name }}</td>
@@ -31,12 +31,12 @@
 </table>
 <div>
   <br />
-  <button type="button" class="btn btn-primary" routerLink="">
+  <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
   <span *ngIf="parent === 'courses'">
     &nbsp;
-    <button type="button" class="btn btn-primary" routerLink="/addCourse">
+    <button type="button" class="btn btn-success" routerLink="/addCourse">
       Add
     </button>
   </span>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faSearchPlus, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-games',
@@ -9,7 +9,7 @@ import { faSearchPlus, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons'
 export class GamesComponent implements OnInit {
 
   faSearchPlus = faSearchPlus;
-  faMoneyBillAlt = faMoneyBillAlt;
+  faPlay = faPlay;
 
   constructor() { }
 

@@ -18,25 +18,25 @@
       <span *ngIf="hole === currentHole || hole === editHole + 1; then showPlayerBtns else showPlayerLbs"></span>
       <ng-template #showPlayerBtns>
         <td>
-          <button name="p1" class="btn btn-secondary btn-selector" (click)="onChangeResult(0, hole)">
+          <button name="p1" class="btn btn-outline-success btn-selector" (click)="onChangeResult(0, hole)">
             <span *ngIf="hole === currentHole">{{rowResult[0]}}</span>
             <span *ngIf="hole === editHole + 1">{{editResult[0]}}</span>
           </button>
         </td>
         <td>
-          <button name="p2" class="btn btn-secondary btn-selector" (click)="onChangeResult(1, hole)">
+          <button name="p2" class="btn btn-outline-success btn-selector" (click)="onChangeResult(1, hole)">
             <span *ngIf="hole === currentHole">{{rowResult[1]}}</span>
             <span *ngIf="hole === editHole + 1">{{editResult[1]}}</span>
           </button>
         </td>
         <td>
-          <button name="p3" class="btn btn-secondary btn-selector" (click)="onChangeResult(2, hole)">
+          <button name="p3" class="btn btn-outline-success btn-selector" (click)="onChangeResult(2, hole)">
             <span *ngIf="hole === currentHole">{{rowResult[2]}}</span>
             <span *ngIf="hole === editHole + 1">{{editResult[2]}}</span>
           </button>
         </td>
         <td *ngIf="players > 3">
-          <button name="p4" class="btn btn-secondary btn-selector" (click)="onChangeResult(3, hole)">
+          <button name="p4" class="btn btn-outline-success btn-selector" (click)="onChangeResult(3, hole)">
             <span *ngIf="hole === currentHole">{{rowResult[3]}}</span>
             <span *ngIf="hole === editHole + 1">{{editResult[3]}}</span>
           </button>
@@ -58,12 +58,12 @@
       </ng-template>
 
       <td *ngIf="hole == currentHole">
-        <button name="completed" class="btn btn-secondary btn-selector" (click)="onCompleted(hole - 1)">
+        <button name="completed" class="btn btn-outline-success btn-selector" (click)="onCompleted(hole - 1)">
           {{completedStatus[hole - 1]}}
         </button>
       </td>
       <td *ngIf="hole < currentHole">
-        <button name="completed" class="btn btn-success btn-selector" (click)="onEdit(hole - 1)">
+        <button name="completed" class="btn btn-outline-success btn-selector" (click)="onEdit(hole - 1)">
           {{completedStatus[hole - 1]}}
         </button>
       </td>
@@ -80,3 +80,8 @@
     </tr>
   </tbody>
 </table>
+<div>
+  <button type="button" class="btn btn-success" routerLink="">
+    Cancel
+  </button>
+</div>

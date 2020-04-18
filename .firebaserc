@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "valid-delight-259218": {
+      "hosting": {
+        "golf-web": [
+          "valid-delight-259218"
+        ]
+      }
+    }
+  }
+}

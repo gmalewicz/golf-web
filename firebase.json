@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "golf-web",
+      "public": "dist/golf-web",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

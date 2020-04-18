@@ -14,18 +14,26 @@ export class NavigationComponent implements OnInit {
 
   faCog = faCog;
 
+  // helper to hide menu
+  display = false;
+
   currentPlayer: Player;
 
   constructor(private authenticationService: AuthenticationService, private router: Router, private alertService: AlertService) {
     this.authenticationService.currentPlayer.subscribe(x => this.currentPlayer = x);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   logout(): void {
     console.log('logging out');
     this.authenticationService.logout();
     this.alertService.success('Your have been logged out', true);
     this.router.navigate(['/']);
+  }
+
+  onClick() {
+    this.display = !this.display;
   }
 }

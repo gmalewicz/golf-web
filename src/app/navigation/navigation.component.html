@@ -1,18 +1,41 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">DrunkGolfers and NiceGirls (Beta)</a>
-    </div>
-    <ul *ngIf="!currentPlayer" class="nav navbar-nav navbar-right">
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/login">Login</a></li>
-    </ul>
-    <ul *ngIf="currentPlayer" class="nav navbar-nav navbar-right">
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/games">Games</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" [routerLink]="['/courses', 'courses']">Courses</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds">Rounds</a></li>
+<nav class="navbar navbar-dark bg-success">
+
+  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls (Beta)</a>
+
+  <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarToggleLogOut" aria-controls="navbarToggleExternalContent" aria-expanded="false"
+    aria-label="Toggle navigation" (click)="onClick()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <button *ngIf="currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarToggleLogIn" aria-controls="navbarToggleExternalContent" aria-expanded="false"
+    aria-label="Toggle navigation" (click)="onClick()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div *ngIf="currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogIn">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Games</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="#" [routerLink]="['/courses', 'courses']"
+          (click)="onClick()">Courses</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Rounds</a></li>
       <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer"><fa-icon [icon]="faCog"></fa-icon></a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
+          <fa-icon [icon]="faCog"></fa-icon>
+        </a></li>
     </ul>
+
+  </div>
+
+  <div *ngIf="!currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogOut">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()">Login</a></li>
+    </ul>
+
   </div>
 </nav>
-

@@ -12,7 +12,7 @@
     <tr *ngFor="let round of rounds">
       <td>
         <a href="#" routerLink ="/round" [state]="{data: {round: round}}">
-          <fa-icon [icon]="faSearchPlus"></fa-icon>
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
       <td>{{ round.roundDate | date: "mediumDate" }}</td>
@@ -23,13 +23,13 @@
 </table>
 <div>
   <br />
-  <button type="button" class="btn btn-primary" routerLink="">
+  <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
   &nbsp;
   <button
     type="button"
-    class="btn btn-primary"
+    class="btn btn-success"
     [routerLink]="['/courses', 'addRound']"
   >
     Add

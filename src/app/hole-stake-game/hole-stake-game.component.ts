@@ -29,6 +29,7 @@ export class HoleStakeGameComponent implements OnInit {
     this.editResult = Array(this.players).fill(1);
     this.gameResult =  new Array(18).fill(new Array(this.players)).map((x) => x.fill(1));
     this.completedStatus = Array(18).fill('No');
+    this.completedStatus[0] = 'Confirm';
     this.editHole = -1;
     this.score = Array(4).fill(0);
 
@@ -44,7 +45,12 @@ export class HoleStakeGameComponent implements OnInit {
     console.log(this.gameResult);
     this.rowResult.fill(1);
     this.completedStatus[holeIdx] = 'Done';
+
     this.currentHole++;
+    if (this.currentHole < 18) {
+      this.completedStatus[holeIdx + 1] = 'Confirm';
+    }
+
     this.calculateScore();
   }
 

@@ -1,3 +1,4 @@
+<div class="container">
 <form [formGroup]="newCourseForm">
   <div class="form-row">
     <div class="form-group col">
@@ -48,16 +49,16 @@
     </div>
     <div>
       <div
-        class="btn-group btn-group-justified"
+        class="btn-group btn-group-justified flex-wrap"
         role="group"
         aria-label="hole group"
-        data-toggle="buttons"
+
       >
         <div *ngFor="let hole of barChartLabels">
           <button
             type="radio"
             name="hole"
-            class="btn btn-secondary btn-selector"
+            class="btn btn-outline-success"
             (click)="selectHole(hole)"
           >
             {{ hole }}
@@ -73,16 +74,16 @@
     </div>
     <div>
       <div
-        class="btn-group btn-group-justified"
+        class="btn-group btn-group-justified flex-wrap"
         role="group"
         aria-label="par group"
-        data-toggle="buttons"
+
       >
         <div *ngFor="let par of parButtons">
           <button
             type="radio"
             name="par"
-            class="btn btn-secondary btn-selector"
+            class="btn btn-outline-success"
             (click)="slectPar(par)"
           >
             {{ par }}
@@ -94,18 +95,19 @@
   <div>
     <br />
     <div class="form-group">
-      <button class="btn btn-primary" (click)="onSubmit()">
+      <button class="btn btn-success" (click)="onSubmit()">
         Save
       </button>
       &nbsp;
-      <button type="button" class="btn btn-primary" (click)="clear()">
+      <button type="button" class="btn btn-success" (click)="clear()">
         Clear
       </button>
       &nbsp;
-      <button type="button" class="btn btn-primary" routerLink="">
+      <button type="button" class="btn btn-success" routerLink="">
         Cancel
       </button>
     </div>
   </div>
 </form>
+</div>
 <router-outlet></router-outlet>

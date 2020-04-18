@@ -1,22 +1,22 @@
 <table id="games-tbl" class="table table-striped">
   <thead>
     <tr>
-      <th>Rules</th>
-      <th>Name</th>
       <th>Start</th>
+      <th>Name</th>
+      <th>Rules</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <a [routerLink]="['/holeStakeRules']">
-          <fa-icon [icon]="faSearchPlus"></fa-icon>
+        <a [routerLink]="['/holeStakeSetup']">
+          <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
         </a>
       </td>
       <td>Hole Stake</td>
       <td>
-        <a [routerLink]="['/holeStakeSetup']">
-          <fa-icon [icon]="faMoneyBillAlt"></fa-icon>
+        <a [routerLink]="['/holeStakeRules']">
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
     </tr>
@@ -24,7 +24,7 @@
 </table>
 <div>
   <br />
-  <button type="button" class="btn btn-primary" routerLink="">
+  <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
 </div>
