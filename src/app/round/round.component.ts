@@ -81,13 +81,13 @@ export class RoundComponent implements OnInit {
       // include first 9
       if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
         console.log('first 9: ' + score);
-        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke);
+        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
         this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
       }
       // include second 9
       if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
         console.log('second 9: ' + score);
-        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke);
+        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
         this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
       }
 

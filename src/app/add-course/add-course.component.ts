@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class AddCourseComponent implements OnInit {
 
+  selectedPar = null;
+
   public newCourseForm: FormGroup;
   submitted = false;
 
@@ -22,6 +24,8 @@ export class AddCourseComponent implements OnInit {
   public barChartOptions: ChartOptions;
 
   public parButtons = [3, 4, 5, 6];
+  public parSelectorActive = Array(4);
+  public holeSelectorActive = Array(18);
 
   updatingHhole = 0;
 
@@ -32,14 +36,17 @@ export class AddCourseComponent implements OnInit {
               private router: Router,
               private alertService: AlertService) {
 
-   this.generateLabelsAndData();
+    this.parSelectorActive.fill({active: false});
+    this.holeSelectorActive.fill({active: false});
+    this.generateLabelsAndData();
 
   }
 
   ngOnInit(): void {
     this.newCourseForm = this.formBuilder.group({
       courseName: ['', Validators.required],
-      coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]]
+      coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
+    //  selectedPar: ['']
     });
   }
 
@@ -82,13 +89,16 @@ export class AddCourseComponent implements OnInit {
 
   }
 
-  selectHole(hole) {
+  selectHole(hole: number) {
     console.log('selected hole: ' + hole);
+
+    this.parSelectorActive.fill({active: false});
+
     this.updatingHhole = hole;
+
   }
 
-  slectPar(par) {
-    console.log('selected par: ' + par);
+  selectPar(par: number) {
 
     const updatedPars = [];
 
@@ -139,7 +149,10 @@ export class AddCourseComponent implements OnInit {
     this.f.courseName.setValue('');
     this.f.coursePar.setValue('');
 
-    this.pars = [];
+    this.parSelectorActive.fill({active: false});
+    this.holeSelectorActive.fill({active: false});
+
+    this.pars.fill(0);
     this.barChartData[0].data = this.pars;
   }
 

@@ -3,45 +3,83 @@
 </div>
 <br />
 <div class="row">
-  <div class="col-sm-2">
+  <div class="col-sm-3">
     Number of players:
   </div>
   <div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-outline-success active">
-        <input type="radio" name="players" id="option1" autocomplete="off" checked (click)="onPlayers(3)"> 3 players
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(2)"> 2 players
       </label>
-      <label class="btn btn-outline-success" >
-        <input type="radio" name="players" id="option2" autocomplete="off" (click)="onPlayers(4)"> 4 players
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(3)"> 3 players
+      </label>
+      <label class="btn btn-outline-success active">
+        <input type="radio" name="players" id="player" autocomplete="off" checked (click)="onPlayers(4)"> 4 players
       </label>
     </div>
   </div>
 </div>
 <br />
 <div class="row">
-  <div class="col-sm-2">
-Stake:
+  <div class="col-sm-3">
+    Stake:
+  </div>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-outline-success active">
+      <input type="radio" name="stake" id="stake_3" autocomplete="off" checked (click)="onStake(3)"> 3
+    </label>
+    <label class="btn btn-outline-success">
+      <input type="radio" name="stake" id="stake_6" autocomplete="off" (click)="onStake(6)"> 6
+    </label>
+    <label class="btn btn-outline-success">
+      <input type="radio" name="stake" id="stake_9" autocomplete="off" (click)="onStake(9)"> 9
+    </label>
+  </div>
 </div>
-
-<div class="btn-group btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-outline-success active">
-    <input type="radio" name="stake" id="option1" autocomplete="off" checked checked (click)="onStake(3)"> 3
-  </label>
-  <label class="btn btn-outline-success">
-    <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(6)"> 6
-  </label>
-  <label class="btn btn-outline-success">
-    <input type="radio" name="stake" id="option2" autocomplete="off" (click)="onStake(9)"> 9
-  </label>
-</div>
-</div>
-<div>
-  <br />
-  <button type="button" class="btn btn-success" routerLink="">
-    Cancel
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-success" (click)="onStart()">
-    Start
-  </button>
-</div>
+<br />
+<form [formGroup]="holeGameSetupForm">
+  <div class="form-group">
+    <label for="player1">Player 1 nick: </label>
+    <input type="text" formControlName="player1" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.player1.errors }" />
+    <div *ngIf="submitted && f.player1.errors" class="invalid-feedback">
+      <div *ngIf="f.player1.errors.required">Player nick is required</div>
+      <div *ngIf="f.player1.errors.maxlength">Nick can be up to 10 characters long</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="player2Lbl">Player 2 nick:</label>
+    <input type="text" formControlName="player2" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.player2.errors }" />
+    <div *ngIf="submitted && f.player2.errors" class="invalid-feedback">
+      <div *ngIf="f.player2.errors.required">Player nick is required</div>
+    </div>
+  </div>
+  <div *ngIf="players > 2" class="form-group">
+    <label for="player3Lbl">Player 3 nick:</label>
+    <input type="text" formControlName="player3" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.player3.errors }" />
+    <div *ngIf="submitted && f.player3.errors" class="invalid-feedback">
+      <div *ngIf="f.player3.errors.required">Player nick is required</div>
+    </div>
+  </div>
+  <div *ngIf="players > 3" class="form-group">
+    <label for="player4Lbl">Player 4 nick: </label>
+    <input type="text" formControlName="player4" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.player4.errors }" />
+    <div *ngIf="submitted && f.player4.errors" class="invalid-feedback">
+      <div *ngIf="f.player4.errors.required">Player nick is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <br />
+    <button type="button" class="btn btn-success" routerLink="">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="onSubmit()">
+      Start
+    </button>
+  </div>
+</form>

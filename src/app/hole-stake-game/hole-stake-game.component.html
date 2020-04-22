@@ -2,10 +2,10 @@
   <thead>
     <tr>
       <th>Hole</th>
-      <th>P1</th>
-      <th>P2</th>
-      <th>P3</th>
-      <th *ngIf="players > 3">P4</th>
+      <th>{{playerNicks[0]}}</th>
+      <th>{{playerNicks[1]}}</th>
+      <th *ngIf="players > 2">{{playerNicks[2]}}</th>
+      <th *ngIf="players > 3">{{playerNicks[3]}}</th>
       <th>Completed</th>
     </tr>
   </thead>
@@ -29,7 +29,7 @@
             <span *ngIf="hole === editHole + 1">{{editResult[1]}}</span>
           </button>
         </td>
-        <td>
+        <td *ngIf="players > 2">
           <button name="p3" class="btn btn-outline-success btn-selector" (click)="onChangeResult(2, hole)">
             <span *ngIf="hole === currentHole">{{rowResult[2]}}</span>
             <span *ngIf="hole === editHole + 1">{{editResult[2]}}</span>
@@ -49,7 +49,7 @@
         <td>
           {{gameResult[hole - 1][1]}}
         </td>
-        <td>
+        <td  *ngIf="players > 2">
           {{gameResult[hole - 1][2]}}
         </td>
         <td *ngIf="players > 3">
@@ -75,7 +75,7 @@
       <td>Score</td>
       <td>{{score[0]}}</td>
       <td>{{score[1]}}</td>
-      <td>{{score[2]}}</td>
+      <td *ngIf="players > 2">{{score[2]}}</td>
       <td *ngIf="players > 3">{{score[3]}}</td>
     </tr>
   </tbody>

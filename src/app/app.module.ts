@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
-import { HttpService } from '@/_services';
+import { HttpService, HoleStakeService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
@@ -24,6 +24,7 @@ import { GamesComponent } from './games/games.component';
 import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
 import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
+import { ChangeLogComponent } from './change-log/change-log.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.com
     HoleStakeSetupComponent,
     HoleStakeGameComponent,
     HoleStakeRulesComponent,
+    ChangeLogComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +57,7 @@ import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.com
     ReactiveFormsModule
   ],
   providers: [HttpService,
+              HoleStakeService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],

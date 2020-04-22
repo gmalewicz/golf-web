@@ -1,1 +1,6 @@
 .btn-selector { width: 40px}
+
+.buttonWidth {
+  width: 40px;
+  display: inline-block;
+}

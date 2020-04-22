@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
 
-  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls (Beta)</a>
+  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls (Beta v1)</a>
 
   <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
     data-target="#navbarToggleLogOut" aria-controls="navbarToggleExternalContent" aria-expanded="false"
@@ -23,6 +23,7 @@
       <li class="nav-item"><a class="nav-link" href="#" [routerLink]="['/courses', 'courses']"
           (click)="onClick()">Courses</a></li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Rounds</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
       <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
       <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
           <fa-icon [icon]="faCog"></fa-icon>

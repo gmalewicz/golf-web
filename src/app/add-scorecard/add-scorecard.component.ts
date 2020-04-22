@@ -36,6 +36,10 @@ export class AddScorecardComponent implements OnInit {
   public strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   public patButtons = [0, 1, 2, 3, 4, 5];
 
+  public holeSelectorActive = Array(18);
+  public strokeSelectorActive = Array(10);
+  public patSelectorActive = Array(6);
+
   strokes: number[] = [];
   pats: number[] = [];
 
@@ -46,7 +50,10 @@ export class AddScorecardComponent implements OnInit {
               private router: Router,
               private alertService: AlertService) {
 
-   this.getHoles();
+    this.holeSelectorActive.fill({active: false});
+    this.strokeSelectorActive.fill({active: false});
+    this.patSelectorActive.fill({active: false});
+    this.getHoles();
 
   }
 
@@ -76,7 +83,7 @@ export class AddScorecardComponent implements OnInit {
 
     this.barChartData = [{stack: 'Stack 0', label: 'Par',  data: barData, backgroundColor: 'purple', borderWidth: 1 },
                          {stack: 'Stack 1', label: 'Strokes', data: this.strokes, backgroundColor : 'red', borderWidth : 1},
-                         {stack: 'Stack 1', label: 'Puts', data: this.pats, backgroundColor : 'blue', borderWidth : 1}];
+                         {stack: 'Stack 1', label: 'Putts', data: this.pats, backgroundColor : 'blue', borderWidth : 1}];
 
     console.log(this.barChartLabels);
     console.log(this.barChartData);
@@ -117,13 +124,20 @@ export class AddScorecardComponent implements OnInit {
   }
 
   clear() {
-    this.pats = [];
-    this.strokes = [];
+
+    this.alertService.clear();
+    this.pats.fill(0);
+    this.strokes.fill(0);
     this.barChartData[1].data = this.strokes;
     this.barChartData[2].data = this.pats;
+    this.holeSelectorActive.fill({active: false});
+    this.strokeSelectorActive.fill({active: false});
+    this.patSelectorActive.fill({active: false});
   }
 
   onSubmit() {
+
+    this.alertService.clear();
 
     this.submitted = true;
 
@@ -158,40 +172,76 @@ export class AddScorecardComponent implements OnInit {
   }
 
   selectHole(hole: number) {
+
+    this.alertService.clear();
+
     console.log('selected hole: ' + hole);
     this.updatingHhole = hole;
+    this.strokeSelectorActive.fill({active: false});
+    this.patSelectorActive.fill({active: false});
   }
 
   selectStroke(stroke: number) {
+
+    this.alertService.clear();
+
     console.log('selected stroke: ' + stroke);
-    const updatedStrokes = [];
 
-    for (let hole = 0; hole < 18; hole++) {
-
-      updatedStrokes.push(this.strokes[hole]);
-
+     // number of pats cannot be greater than number of strokes
+    if (stroke < this.pats[this.updatingHhole - 1]) {
+      this.alertService.error('Number of pats cannot be greater than number of strokes', false);
+      return;
     }
-    console.log('updated strokes: ' + updatedStrokes);
 
-    this.strokes[this.updatingHhole - 1] = stroke;
-    updatedStrokes[this.updatingHhole - 1] = stroke;
-    this.barChartData[1].data = updatedStrokes;
-
-  }
-
-  selectPat(pat: number) {
-    console.log('selected pat: ' + pat);
+    const updatedStrokes = [];
     const updatedPats = [];
 
     for (let hole = 0; hole < 18; hole++) {
 
       updatedPats.push(this.pats[hole]);
+      updatedStrokes.push(this.strokes[hole] - this.pats[hole]);
+
+    }
+    console.log('updated strokes: ' + updatedStrokes);
+
+    this.strokes[this.updatingHhole - 1] = stroke;
+    updatedStrokes[this.updatingHhole - 1] = stroke - this.pats[this.updatingHhole - 1];
+
+    //updatedStrokes[this.updatingHhole - 1] = this.strokes[this.updatingHhole - 1] - pat;
+
+    this.barChartData[1].data = updatedStrokes;
+
+  }
+
+  selectPat(pat: number) {
+
+    this.alertService.clear();
+
+    console.log('selected pat: ' + pat);
+
+    // number of pats cannot be greater than number of strokes
+    if (pat > this.strokes[this.updatingHhole - 1]) {
+      this.alertService.error('Number of pats cannot be greater than number of strokes', false);
+      return;
+    }
+
+
+    const updatedPats = [];
+    const updatedStrokes = [];
+
+    for (let hole = 0; hole < 18; hole++) {
+
+      updatedPats.push(this.pats[hole]);
+      updatedStrokes.push(this.strokes[hole] - this.pats[hole]);
 
     }
 
     this.pats[this.updatingHhole - 1] = pat;
     updatedPats[this.updatingHhole - 1] = pat;
 
+    updatedStrokes[this.updatingHhole - 1] = this.strokes[this.updatingHhole - 1] - pat;
+
+    this.barChartData[1].data = updatedStrokes;
     this.barChartData[2].data = updatedPats;
 
   }

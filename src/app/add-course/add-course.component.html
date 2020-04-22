@@ -48,22 +48,10 @@
       Hole:
     </div>
     <div>
-      <div
-        class="btn-group btn-group-justified flex-wrap"
-        role="group"
-        aria-label="hole group"
-
-      >
-        <div *ngFor="let hole of barChartLabels">
-          <button
-            type="radio"
-            name="hole"
-            class="btn btn-outline-success"
-            (click)="selectHole(hole)"
-          >
-            {{ hole }}
-          </button>
-        </div>
+      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
+          <input type="radio" name="hole" id="hole" autocomplete="off" (click)="selectHole(hole)"> {{ hole }}
+        </label>
       </div>
     </div>
   </div>
@@ -73,22 +61,10 @@
       Par:
     </div>
     <div>
-      <div
-        class="btn-group btn-group-justified flex-wrap"
-        role="group"
-        aria-label="par group"
-
-      >
-        <div *ngFor="let par of parButtons">
-          <button
-            type="radio"
-            name="par"
-            class="btn btn-outline-success"
-            (click)="slectPar(par)"
-          >
-            {{ par }}
-          </button>
-        </div>
+      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="parSelectorActive[i]">
+          <input type="radio" value= {{par}} (click)="selectPar(par)"> {{ par }}
+        </label>
       </div>
     </div>
   </div>

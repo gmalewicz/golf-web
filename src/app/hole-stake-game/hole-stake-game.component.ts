@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HoleStakeService } from '@/_services';
 
 @Component({
   selector: 'app-hole-stake-game',
@@ -18,11 +19,13 @@ export class HoleStakeGameComponent implements OnInit {
   completedStatus: string[];
   editHole: number;
   score: number[];
+  playerNicks: number[];
 
-  constructor( private route: ActivatedRoute) {
+  constructor(private holeStakeService: HoleStakeService) {
 
-    this.players = +this.route.snapshot.params.players;
-    this.stake = this.route.snapshot.params.stake;
+    this.players = holeStakeService.getHoleStake().playersNo;
+    this.stake = holeStakeService.getHoleStake().stake;
+    this.playerNicks = holeStakeService.getHoleStake().players;
     this.holes = Array(18).fill(0).map((x, i) => i + 1);
     this.currentHole = 1;
     this.rowResult = Array(this.players).fill(1);
@@ -53,7 +56,7 @@ export class HoleStakeGameComponent implements OnInit {
     this.completedStatus[holeIdx] = 'Done';
 
     this.currentHole++;
-    if (this.currentHole < 18) {
+    if (this.currentHole <= 18) {
       this.completedStatus[holeIdx + 1] = 'Confirm';
     }
 
