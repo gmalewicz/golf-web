@@ -25,6 +25,7 @@ import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.com
 import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
+import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ChangeLogComponent } from './change-log/change-log.component';
     HoleStakeGameComponent,
     HoleStakeRulesComponent,
     ChangeLogComponent,
+    BbbGameRulesComponent,
   ],
   imports: [
     BrowserModule,

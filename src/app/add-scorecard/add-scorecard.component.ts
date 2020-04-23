@@ -179,6 +179,20 @@ export class AddScorecardComponent implements OnInit {
     this.updatingHhole = hole;
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
+
+    if (this.strokes[hole - 1] > 0) {
+      this.strokeSelectorActive[this.strokes[hole - 1] - 1] = {active: true};
+    }
+
+    if (this.pats[hole - 1] > 0) {
+      this.patSelectorActive[this.pats[hole - 1]] = {active: true};
+    }
+
+    // to highlight 0 putts
+    if (this.pats[hole - 1] === 0 && this.strokes[hole - 1] > 0) {
+      this.patSelectorActive[this.pats[hole - 1]] = {active: true};
+    }
+
   }
 
   selectStroke(stroke: number) {
@@ -206,8 +220,6 @@ export class AddScorecardComponent implements OnInit {
 
     this.strokes[this.updatingHhole - 1] = stroke;
     updatedStrokes[this.updatingHhole - 1] = stroke - this.pats[this.updatingHhole - 1];
-
-    //updatedStrokes[this.updatingHhole - 1] = this.strokes[this.updatingHhole - 1] - pat;
 
     this.barChartData[1].data = updatedStrokes;
 

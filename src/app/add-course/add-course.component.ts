@@ -96,6 +96,10 @@ export class AddCourseComponent implements OnInit {
 
     this.updatingHhole = hole;
 
+    if (this.pars[this.updatingHhole - 1] > 0) {
+      this.parSelectorActive[this.pars[this.updatingHhole - 1] - 3] =  ({active: true});
+    }
+
   }
 
   selectPar(par: number) {

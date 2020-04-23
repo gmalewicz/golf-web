@@ -62,9 +62,14 @@
           {{completedStatus[hole - 1]}}
         </button>
       </td>
-      <td *ngIf="hole < currentHole">
-        <button name="completed" class="btn btn-outline-success btn-selector" (click)="onEdit(hole - 1)">
+      <td *ngIf="hole < currentHole && completedStatus[hole - 1] === 'Done'">
+        <label name="completed" (click)="onEdit(hole - 1)">
           {{completedStatus[hole - 1]}}
+        </label>
+      </td>
+      <td *ngIf="hole < currentHole && completedStatus[hole - 1] === 'Edit'">
+        <button name="completed" class="btn btn-outline-success btn-selector" (click)="onEdit(hole - 1)">
+          Done
         </button>
       </td>
       <td *ngIf="hole >currentHole">
