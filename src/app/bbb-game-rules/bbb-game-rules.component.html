@@ -7,18 +7,19 @@
 <p>If betting on it, the high-points-earner can win a set amount (with each golfer starting the round by paying into the pot); or you can assign each point a cash value and pay out the differences at the end. (There are 54 points total at stake, so be careful when setting the betting unit.)</p>
 <br/>
 <h2>Application functionality</h2>
-<p>Only playing for points is currently available. More functionality is comming soon :)</p>
-<p>Enter points for each player. Sum of points for a hole cannot be greater than 3</p>
+<p>Only playing for stake is currently available.</p>
+<p>Enter points for each player. Sum of points for a hole cannot be greater than 3 and lower than 2</p>
 <p>In case of mistake the hole can be editted by pressing Done label.</p>
 <p>The hole will be opened for edition. When completed press Done button again to finalize it.</p>
-<p>The score is displayed at the buttom of the page. It is recalculated after the completion of each hole or finalization of edition.</p>
+<p>The score together is displayed at the buttom of the page. It is recalculated after the completion of each hole or finalization of edition.</p>
+<p>The payment is calculated only for loosers and indicates money due to each winner.</p>
 <div>
   <br />
   <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
   &nbsp;
-  <button type="button" class="btn btn-success" routerLink="/holeStakeSetup">
+  <button type="button" class="btn btn-success" routerLink="/bbbSetup">
     Start
   </button>
 </div>

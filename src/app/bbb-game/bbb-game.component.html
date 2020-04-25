@@ -1,5 +1,5 @@
 <div>
-  <h3>Hole Stake: stake {{stake}}</h3>
+  <h3>Bingo, Bango, Bongo: stake {{stake}}</h3>
 </div>
 <p></p>
 <table id="holeStake-tbl" class="table">
@@ -80,12 +80,23 @@
         {{completedStatus[hole - 1]}}
       </td>
     </tr>
-    <tr  [ngClass]="'score'">
+    <tr [ngClass]="'score'">
       <td>Score</td>
       <td>{{score[0]}}</td>
       <td>{{score[1]}}</td>
       <td *ngIf="players > 2">{{score[2]}}</td>
       <td *ngIf="players > 3">{{score[3]}}</td>
+    </tr>
+    <tr [ngClass]="'score'">
+      <td>Payement</td>
+      <td *ngIf="payment[0] != 0">{{payment[0] | number: '1.1-2'}}</td>
+      <td *ngIf="payment[0] === 0">WIN</td>
+      <td *ngIf="payment[1] != 0">{{payment[0] | number: '1.1-2'}}</td>
+      <td *ngIf="payment[1] === 0">WIN</td>
+      <td *ngIf="players > 2 && payment[2] != 0">{{payment[2] | number: '1.1-2'}}</td>
+      <td *ngIf="players > 2 && payment[2] === 0">WIN</td>
+      <td *ngIf="players > 3 && payment[3] != 0">{{payment[3] | number: '1.1-2'}}</td>
+      <td *ngIf="players > 3 && payment[3] === 0">WIN</td>
     </tr>
   </tbody>
 </table>
@@ -94,3 +105,4 @@
     Cancel
   </button>
 </div>
+

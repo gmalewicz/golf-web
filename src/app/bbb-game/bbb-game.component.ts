@@ -1,13 +1,12 @@
-import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { GameSetupService } from '@/_services';
 
 @Component({
-  selector: 'app-hole-stake-game',
-  templateUrl: './hole-stake-game.component.html',
-  styleUrls: ['./hole-stake-game.component.css']
+  selector: 'app-bbb-game',
+  templateUrl: './bbb-game.component.html',
+  styleUrls: ['./bbb-game.component.css']
 })
-export class HoleStakeGameComponent implements OnInit {
+export class BbbGameComponent implements OnInit {
 
   players: number;
   stake: number;
@@ -20,6 +19,7 @@ export class HoleStakeGameComponent implements OnInit {
   editHole: number;
   score: number[];
   playerNicks: string[];
+  payment: number[];
 
   constructor(private gameSetupService: GameSetupService) {
 
@@ -28,13 +28,14 @@ export class HoleStakeGameComponent implements OnInit {
     this.playerNicks = gameSetupService.getGameSetup().players;
     this.holes = Array(18).fill(0).map((x, i) => i + 1);
     this.currentHole = 1;
-    this.rowResult = Array(this.players).fill(1);
-    this.editResult = Array(this.players).fill(1);
-    this.gameResult =  new Array(18).fill(new Array(this.players)).map((x) => x.fill(1));
+    this.rowResult = Array(this.players).fill(0);
+    this.editResult = Array(this.players).fill(0);
+    this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(0));
     this.completedStatus = Array(18).fill('No');
     this.completedStatus[0] = 'Confirm';
     this.editHole = -1;
     this.score = Array(this.players).fill(0);
+    this.payment = Array(this.players).fill(0);
 
     console.log(this.gameResult);
     console.log('players: ' + this.players + ' stake: ' + this.stake);
@@ -46,13 +47,13 @@ export class HoleStakeGameComponent implements OnInit {
   onCompleted(holeIdx: number): void {
 
     // not allow complete the hole without the winner
-    if  (!this.rowResult.includes(1)) {
+    if (this.rowResult.reduce((p, n) => p + n) < 2 || this.rowResult.reduce((p, n) => p + n) > 3) {
       return;
     }
 
-    this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
+    this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
     console.log(this.gameResult);
-    this.rowResult.fill(1);
+    this.rowResult.fill(0);
     this.completedStatus[holeIdx] = 'Done';
 
     this.currentHole++;
@@ -60,7 +61,7 @@ export class HoleStakeGameComponent implements OnInit {
       this.completedStatus[holeIdx + 1] = 'Confirm';
     }
 
-    this.calculateScore();
+    this.calculateScoreAndPayment();
   }
 
   onEdit(holeIdx: number): void {
@@ -68,15 +69,15 @@ export class HoleStakeGameComponent implements OnInit {
     if (this.completedStatus[holeIdx] === 'Edit') {
 
       // not allow complete the hole without the winner
-      if  (!this.editResult.includes(1)) {
+      if (this.editResult.reduce((p, n) => p + n) < 2 || this.editResult.reduce((p, n) => p + n) > 3) {
         return;
       }
       this.completedStatus[holeIdx] = 'Done';
       this.editHole = -1;
-      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.editResult[i]);
-      this.calculateScore();
+      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.editResult[i]);
+      this.calculateScoreAndPayment();
     } else if (this.editHole === -1) {
-      this.editResult = Array(this.players).fill(0).map((x, i) =>  this.gameResult[holeIdx][i]);
+      this.editResult = Array(this.players).fill(0).map((x, i) => this.gameResult[holeIdx][i]);
       console.log(this.editResult);
       this.editHole = holeIdx;
       this.completedStatus[holeIdx] = 'Edit';
@@ -94,33 +95,47 @@ export class HoleStakeGameComponent implements OnInit {
 
     console.log('player: ' + player + ' current result: ' + updArray);
 
-    if (updArray[player] === this.players) {
-      updArray[player] = 1;
+    if (updArray[player] === 3) {
+      updArray[player] = 0;
     } else {
       updArray[player]++;
     }
   }
 
-  calculateScore() {
+  calculateScoreAndPayment() {
     this.score = Array(this.players).fill(0);
     this.gameResult.forEach((hole) => {
-        // first find number of winners
-        let winnersCnt = 0;
-        hole.forEach((plScore) => {if (plScore === 1) { winnersCnt++; }});
-        let winnerAmt = 0;
-        let looserAmt = 0;
-        // than calculate winner amount
-        if (winnersCnt < this.players) {
-          winnerAmt = this.stake / winnersCnt;
-        }
-        console.log('winnerAmout: ' + winnerAmt);
-        // last calculate looser amount
-        if (this.players - winnersCnt > 0) {
-          looserAmt = -this.stake / (this.players - winnersCnt);
-          console.log('looserAmout: ' + looserAmt);
-        }
-        // update scores
-        hole.map((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
+      // update scores
+      hole.map((x, i) => this.score[i] += x);
+    });
+
+    // the best score
+    const max = this.score.reduce((p, c) => {
+      if (c > p) {
+        p = c;
+      }
+      return p;
+    });
+    // how many the best score
+    const maxCnt = this.score.reduce((p, c) => {
+      if (c >= max) {
+        p++;
+      }
+      return p;
+    }, 0);
+
+    console.log('max: ' + max);
+    console.log('maxCnt: ' + maxCnt);
+    console.log('score: ' + this.score);
+
+    this.score.forEach((v, i) => {
+
+      if (v === max) {
+         this.payment[i] = 0;
+         // this.payment[i] = (max - v) * this.stake;
+      } else {
+        this.payment[i] = (v - max) * this.stake;
+      }
     });
   }
 }

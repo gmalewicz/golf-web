@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
-import { HttpService, HoleStakeService } from '@/_services';
+import { HttpService, GameSetupService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
@@ -26,6 +26,8 @@ import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.compon
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
+import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
+import { BbbGameComponent } from './bbb-game/bbb-game.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component
     HoleStakeRulesComponent,
     ChangeLogComponent,
     BbbGameRulesComponent,
+    BbbGameSetupComponent,
+    BbbGameComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,7 @@ import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component
     ReactiveFormsModule
   ],
   providers: [HttpService,
-              HoleStakeService,
+              GameSetupService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],

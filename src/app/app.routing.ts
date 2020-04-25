@@ -16,6 +16,8 @@ import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.compon
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
+import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
+import { BbbGameComponent } from './bbb-game/bbb-game.component';
 
 
 const routes: Routes = [
@@ -33,8 +35,10 @@ const routes: Routes = [
   { path: 'holeStakeRules', component: HoleStakeRulesComponent, canActivate: [AuthGuard] },
   { path: 'holeStakeGame', component: HoleStakeGameComponent, canActivate: [AuthGuard] },
   { path: 'bbbRules', component: BbbGameRulesComponent, canActivate: [AuthGuard] },
-
+  { path: 'bbbSetup', component: BbbGameSetupComponent, canActivate: [AuthGuard] },
+  { path: 'bbbGame', component: BbbGameComponent, canActivate: [AuthGuard] },
   { path: 'changeLog', component: ChangeLogComponent},
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }
 ];
