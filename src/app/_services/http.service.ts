@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player } from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Game } from '@/_models';
 
 @Injectable()
 export class HttpService {
@@ -95,6 +95,21 @@ export class HttpService {
     };
 
     return this.http.patch<Player>(this.URL_STR + 'patchPlayer/' + player.id, player, httpOptions);
+  }
+
+  addGame(game: Game): Observable<void> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<void>(this.URL_STR + 'Game', game, httpOptions);
+  }
+
+  getGames(player: Player): Observable<Array<Game>> {
+    return this.http.get<Array<Game>>(this.URL_STR + 'Game/' + player.id);
   }
 }
 

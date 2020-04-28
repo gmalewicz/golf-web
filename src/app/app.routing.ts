@@ -18,6 +18,8 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
 import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
 import { BbbGameComponent } from './bbb-game/bbb-game.component';
+import { LastGamesComponent } from './last-games/last-games.component';
+import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 
 
 const routes: Routes = [
@@ -37,7 +39,9 @@ const routes: Routes = [
   { path: 'bbbRules', component: BbbGameRulesComponent, canActivate: [AuthGuard] },
   { path: 'bbbSetup', component: BbbGameSetupComponent, canActivate: [AuthGuard] },
   { path: 'bbbGame', component: BbbGameComponent, canActivate: [AuthGuard] },
-  { path: 'changeLog', component: ChangeLogComponent},
+  { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
+  { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
+  { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

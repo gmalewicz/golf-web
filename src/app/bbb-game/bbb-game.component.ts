@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GameSetupService } from '@/_services';
+import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
+import { Router } from '@angular/router';
+import { Game } from '@/_models';
 
 @Component({
   selector: 'app-bbb-game',
@@ -21,7 +23,11 @@ export class BbbGameComponent implements OnInit {
   playerNicks: string[];
   payment: number[];
 
-  constructor(private gameSetupService: GameSetupService) {
+  constructor(private gameSetupService: GameService,
+              private httpService: HttpService,
+              private alertService: AlertService,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
 
     this.players = gameSetupService.getGameSetup().playersNo;
     this.stake = gameSetupService.getGameSetup().stake;
@@ -137,5 +143,31 @@ export class BbbGameComponent implements OnInit {
         this.payment[i] = (v - max) * this.stake;
       }
     });
+  }
+
+  save() {
+
+    const game: Game = {
+
+      gameId: 2,
+      stake: this.stake,
+      player: this.authenticationService.currentPlayerValue,
+      gameDate: new Date().toISOString(),
+      gameData: {
+        playerNicks: this.playerNicks,
+        score: this.score,
+        gameResult: this.gameResult
+      }
+    };
+
+    this.httpService.addGame(game).subscribe(data => {
+      this.alertService.success('The game has been successfully saved', true);
+      this.router.navigate(['/']);
+    },
+      error => {
+        this.alertService.error('Saving game failed', true);
+        this.router.navigate(['/']);
+    });
+
   }
 }

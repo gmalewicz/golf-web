@@ -1,0 +1,47 @@
+<div>
+  <h3 *ngIf="game.gameId === 1">Hole Stake game was played {{game.gameDate | date: 'short'}}</h3>
+  <h3 *ngIf="game.gameId === 2">Bingo, Bango, Bongo game was played {{game.gameDate | date: 'short'}}</h3>
+</div>
+<p></p>
+<table id="game-tbl" class="table">
+  <thead>
+    <tr>
+      <th>Hole</th>
+      <th>{{game.gameData.playerNicks[0]}}</th>
+      <th>{{game.gameData.playerNicks[1]}}</th>
+      <th *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.playerNicks[2]}}</th>
+      <th *ngIf="game.gameData.playerNicks.length > 3">{{game.gameData.playerNicks[3]}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let hole of game.gameData.gameResult; let i = index;">
+      <td>
+        {{i + 1}}
+      </td>
+        <td>
+          {{hole[0]}}
+        </td>
+        <td>
+          {{hole[1]}}
+        </td>
+        <td *ngIf="game.gameData.playerNicks.length > 2">
+          {{hole[2]}}
+        </td>
+        <td *ngIf="game.gameData.playerNicks.length > 3">
+          {{hole[3]}}
+        </td>
+    </tr>
+    <tr  [ngClass]="'score'">
+      <td>Score</td>
+      <td>{{game.gameData.score[0]}}</td>
+      <td>{{game.gameData.score[1]}}</td>
+      <td *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.score[2]}}</td>
+      <td *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.score[3]}}</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <button type="button" class="btn btn-success" routerLink="">
+    Cancel
+  </button>
+</div>

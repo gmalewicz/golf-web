@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
-import { HttpService, GameSetupService } from '@/_services';
+import { HttpService, GameService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
@@ -28,6 +28,8 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
 import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
 import { BbbGameComponent } from './bbb-game/bbb-game.component';
+import { LastGamesComponent } from './last-games/last-games.component';
+import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { BbbGameComponent } from './bbb-game/bbb-game.component';
     BbbGameRulesComponent,
     BbbGameSetupComponent,
     BbbGameComponent,
+    LastGamesComponent,
+    LastGamesDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,7 @@ import { BbbGameComponent } from './bbb-game/bbb-game.component';
     ReactiveFormsModule
   ],
   providers: [HttpService,
-              GameSetupService,
+              GameService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],

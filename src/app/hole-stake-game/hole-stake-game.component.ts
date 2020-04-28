@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { GameSetupService } from '@/_services';
+import { Component, OnInit} from '@angular/core';
+import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
+import { Game } from '@/_models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hole-stake-game',
@@ -21,11 +22,15 @@ export class HoleStakeGameComponent implements OnInit {
   score: number[];
   playerNicks: string[];
 
-  constructor(private gameSetupService: GameSetupService) {
+  constructor(private gameService: GameService,
+              private httpService: HttpService,
+              private alertService: AlertService,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
 
-    this.players = gameSetupService.getGameSetup().playersNo;
-    this.stake = gameSetupService.getGameSetup().stake;
-    this.playerNicks = gameSetupService.getGameSetup().players;
+    this.players = gameService.getGameSetup().playersNo;
+    this.stake = gameService.getGameSetup().stake;
+    this.playerNicks = gameService.getGameSetup().players;
     this.holes = Array(18).fill(0).map((x, i) => i + 1);
     this.currentHole = 1;
     this.rowResult = Array(this.players).fill(1);
@@ -122,5 +127,31 @@ export class HoleStakeGameComponent implements OnInit {
         // update scores
         hole.map((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
     });
+  }
+
+  save() {
+
+    const game: Game = {
+
+      gameId: 1,
+      stake: this.stake,
+      player: this.authenticationService.currentPlayerValue,
+      gameDate: new Date().toISOString(),
+      gameData: {
+        playerNicks: this.playerNicks,
+        score: this.score,
+        gameResult: this.gameResult
+      }
+    };
+
+    this.httpService.addGame(game).subscribe(data => {
+      this.alertService.success('The game has been successfully saved', true);
+      this.router.navigate(['/']);
+    },
+      error => {
+        this.alertService.error('Saving game failed', true);
+        this.router.navigate(['/']);
+    });
+
   }
 }

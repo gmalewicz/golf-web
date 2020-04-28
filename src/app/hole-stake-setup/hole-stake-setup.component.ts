@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService, GameSetupService } from '@/_services';
+import { AuthenticationService, GameService } from '@/_services';
 import { GameSetup } from '@/_models';
 
 @Component({
@@ -21,7 +21,7 @@ export class HoleStakeSetupComponent implements OnInit {
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private gameSetupService: GameSetupService) { }
+              private gameService: GameService) { }
 
   ngOnInit(): void {
     this.holeGameSetupForm = this.formBuilder.group({
@@ -67,7 +67,7 @@ export class HoleStakeSetupComponent implements OnInit {
       players: playerNicks
     };
 
-    this.gameSetupService.setGameSetup(gameSetup);
+    this.gameService.setGameSetup(gameSetup);
 
     this.router.navigate(['holeStakeGame']);
   }

@@ -2,7 +2,7 @@ import { GameSetup } from './../_models/gameSetup';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService, GameSetupService } from '@/_services';
+import { AuthenticationService, GameService } from '@/_services';
 
 @Component({
   selector: 'app-bbb-game-setup',
@@ -21,7 +21,7 @@ export class BbbGameSetupComponent implements OnInit {
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private holeStakeService: GameSetupService) { }
+              private holeStakeService: GameService) { }
 
   ngOnInit(): void {
     this.bbbGameSetupForm = this.formBuilder.group({

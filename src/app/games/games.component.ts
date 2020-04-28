@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-games',
@@ -11,9 +12,15 @@ export class GamesComponent implements OnInit {
   faSearchPlus = faSearchPlus;
   faPlay = faPlay;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onLastGames() {
+
+    this.router.navigate(['lastGames']);
+
   }
 
 }
