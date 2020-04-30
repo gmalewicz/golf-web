@@ -7,7 +7,7 @@ import { Course, Hole, Round, ScoreCard, Player, Game } from '@/_models';
 export class HttpService {
 
   URL_STR = 'http://localhost:8080/rest/';
-  //URL_STR = 'http://35.234.96.69/rest/';
+  // URL_STR = 'http://dgng.pl/rest/';
 
   constructor(private http: HttpClient) { }
 

@@ -106,7 +106,7 @@ export class RoundComponent implements OnInit {
     if (this.strokes.length > 0 && this.dipslayPlayers[0]) {
       this.barChartData.push({ stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
         data: this.strokes[0], backgroundColor: '#F99B20', borderWidth: 1 });
-      this.barChartData.push({ stack: 'Stack 1', label: 'Puts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
+      this.barChartData.push({ stack: 'Stack 1', label: 'Putts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
     }
     if (this.strokes.length > 1 && this.dipslayPlayers[1]) {
       this.barChartData.push({ stack: 'Stack 2', label: 'S(' + this.players[1].nick + ')',

@@ -203,7 +203,7 @@ export class AddScorecardComponent implements OnInit {
 
      // number of pats cannot be greater than number of strokes
     if (stroke < this.pats[this.updatingHhole - 1]) {
-      this.alertService.error('Number of pats cannot be greater than number of strokes', false);
+      this.alertService.error('Number of putts cannot be greater than number of strokes', false);
       return;
     }
 
