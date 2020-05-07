@@ -14,3 +14,8 @@ export interface GameData {
   score: number[];
   gameResult: number[][];
 }
+
+export interface GameSendData {
+  gameId: number;
+  email: string;
+}

@@ -15,6 +15,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class AddScorecardComponent implements OnInit {
 
+  loading = false;
+
   // show: string;
   course: Course;
   display = false;
@@ -41,7 +43,9 @@ export class AddScorecardComponent implements OnInit {
   public patSelectorActive = Array(6);
 
   strokes: number[] = [];
-  pats: number[] = [];
+  putts: number[] = [];
+
+  displayResult = '';
 
   constructor(private httpService: HttpService,
               private route: ActivatedRoute,
@@ -78,12 +82,12 @@ export class AddScorecardComponent implements OnInit {
       this.barChartLabels.push(hole);
       barData.push(this.course.holes[hole - 1].par);
       this.strokes.push(0);
-      this.pats.push(0);
+      this.putts.push(0);
     }
 
     this.barChartData = [{stack: 'Stack 0', label: 'Par',  data: barData, backgroundColor: 'purple', borderWidth: 1 },
                          {stack: 'Stack 1', label: 'Strokes', data: this.strokes, backgroundColor : 'red', borderWidth : 1},
-                         {stack: 'Stack 1', label: 'Putts', data: this.pats, backgroundColor : 'blue', borderWidth : 1}];
+                         {stack: 'Stack 1', label: 'Putts', data: this.putts, backgroundColor : 'blue', borderWidth : 1}];
 
     console.log(this.barChartLabels);
     console.log(this.barChartData);
@@ -115,7 +119,7 @@ export class AddScorecardComponent implements OnInit {
       this.course = {
         id: this.route.snapshot.params.courseId,
         name: this.route.snapshot.params.courseName,
-        par: 0,
+        par: this.route.snapshot.params.coursePar,
         holes: retHoles
       };
       this.generateLabelsAndData();
@@ -126,13 +130,14 @@ export class AddScorecardComponent implements OnInit {
   clear() {
 
     this.alertService.clear();
-    this.pats.fill(0);
+    this.putts.fill(0);
     this.strokes.fill(0);
     this.barChartData[1].data = this.strokes;
-    this.barChartData[2].data = this.pats;
+    this.barChartData[2].data = this.putts;
     this.holeSelectorActive.fill({active: false});
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
+    this.displayResult = '';
   }
 
   onSubmit() {
@@ -145,10 +150,12 @@ export class AddScorecardComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     const scoreCard: ScoreCard[] = [];
 
     for (let hole = 0; hole < 18; hole++) {
-      scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.pats[hole]});
+      scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole]});
     }
 
 
@@ -168,6 +175,7 @@ export class AddScorecardComponent implements OnInit {
     (error: HttpErrorResponse) => {
       // console.log(error.error.message);
       this.alertService.error(error.error.message, true);
+      this.loading = false;
   });
   }
 
@@ -184,13 +192,13 @@ export class AddScorecardComponent implements OnInit {
       this.strokeSelectorActive[this.strokes[hole - 1] - 1] = {active: true};
     }
 
-    if (this.pats[hole - 1] > 0) {
-      this.patSelectorActive[this.pats[hole - 1]] = {active: true};
+    if (this.putts[hole - 1] > 0) {
+      this.patSelectorActive[this.putts[hole - 1]] = {active: true};
     }
 
     // to highlight 0 putts
-    if (this.pats[hole - 1] === 0 && this.strokes[hole - 1] > 0) {
-      this.patSelectorActive[this.pats[hole - 1]] = {active: true};
+    if (this.putts[hole - 1] === 0 && this.strokes[hole - 1] > 0) {
+      this.patSelectorActive[this.putts[hole - 1]] = {active: true};
     }
 
   }
@@ -202,7 +210,7 @@ export class AddScorecardComponent implements OnInit {
     console.log('selected stroke: ' + stroke);
 
      // number of pats cannot be greater than number of strokes
-    if (stroke < this.pats[this.updatingHhole - 1]) {
+    if (stroke < this.putts[this.updatingHhole - 1]) {
       this.alertService.error('Number of putts cannot be greater than number of strokes', false);
       return;
     }
@@ -212,17 +220,27 @@ export class AddScorecardComponent implements OnInit {
 
     for (let hole = 0; hole < 18; hole++) {
 
-      updatedPats.push(this.pats[hole]);
-      updatedStrokes.push(this.strokes[hole] - this.pats[hole]);
+      updatedPats.push(this.putts[hole]);
+      updatedStrokes.push(this.strokes[hole] - this.putts[hole]);
 
     }
     console.log('updated strokes: ' + updatedStrokes);
 
     this.strokes[this.updatingHhole - 1] = stroke;
-    updatedStrokes[this.updatingHhole - 1] = stroke - this.pats[this.updatingHhole - 1];
+    updatedStrokes[this.updatingHhole - 1] = stroke - this.putts[this.updatingHhole - 1];
 
     this.barChartData[1].data = updatedStrokes;
 
+    const result = this.strokes.reduce((p, c) => p + c);
+
+    const difference = result - this.course.par;
+
+    let differenceStr = '' + difference;
+    if (difference > 0) {
+      differenceStr = '+' + difference;
+    }
+
+    this.displayResult = result +  '/' + this.course.par + ' (' + differenceStr + ')';
   }
 
   selectPat(pat: number) {
@@ -243,12 +261,12 @@ export class AddScorecardComponent implements OnInit {
 
     for (let hole = 0; hole < 18; hole++) {
 
-      updatedPats.push(this.pats[hole]);
-      updatedStrokes.push(this.strokes[hole] - this.pats[hole]);
+      updatedPats.push(this.putts[hole]);
+      updatedStrokes.push(this.strokes[hole] - this.putts[hole]);
 
     }
 
-    this.pats[this.updatingHhole - 1] = pat;
+    this.putts[this.updatingHhole - 1] = pat;
     updatedPats[this.updatingHhole - 1] = pat;
 
     updatedStrokes[this.updatingHhole - 1] = this.strokes[this.updatingHhole - 1] - pat;

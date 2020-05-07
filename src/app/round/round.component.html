@@ -1,9 +1,12 @@
 <div *ngIf="display">
-  <h2>
-    {{ round.course.name }} &nbsp; &nbsp; {{ round.roundDate }}
-  </h2>
-  <br />
-  <div style="display: block">
+  <h2>{{ round.course.name }} &nbsp; &nbsp; {{ round.roundDate }}</h2>
+  <p>
+    <span *ngIf="dipslayPlayers[0]">{{ players[0].nick }}: &nbsp; {{dipslayPlayerResult[0]}}</span>
+    <span *ngIf="dipslayPlayers[1]">&nbsp; {{ players[1].nick }}: &nbsp; {{dipslayPlayerResult[1]}} </span>
+    <span *ngIf="dipslayPlayers[2]">&nbsp; {{ players[2].nick }}: &nbsp; {{dipslayPlayerResult[2]}}</span>
+    <span *ngIf="dipslayPlayers[3]">&nbsp; {{ players[3].nick }}: &nbsp; {{dipslayPlayerResult[3]}}</span>
+  </p>
+  <div style="display: block;">
     <canvas
       baseChart
       [datasets]="barChartData"
@@ -27,28 +30,51 @@
     <button type="button" class="btn btn-outline-success" (click)="onLast9()">
       Last 9
     </button>
-    <br/>
-    <br/>
-    Show player:
-    &nbsp;
+    <br />
+    <br />
+    Show player: &nbsp;
     <div class="form-check-inline" *ngIf="players.length > 0">
       <label class="form-check-label">
-        <input type="checkbox" class="form-check-input" value="0" checked="checked" (change)="onChecked($event, 0)" >{{players[0].nick}}
+        <input
+          type="checkbox"
+          class="form-check-input"
+          value="0"
+          checked="checked"
+          (change)="onChecked($event, 0)"
+        />{{ players[0].nick }}
       </label>
     </div>
     <div class="form-check-inline" *ngIf="players.length > 1">
       <label class="form-check-label">
-        <input type="checkbox" class="form-check-input" value="1" checked="checked"  (change)="onChecked($event, 1)" >{{players[1].nick}}
+        <input
+          type="checkbox"
+          class="form-check-input"
+          value="1"
+          checked="checked"
+          (change)="onChecked($event, 1)"
+        />{{ players[1].nick }}
       </label>
     </div>
     <div class="form-check-inline" *ngIf="players.length > 2">
       <label class="form-check-label">
-        <input type="checkbox" class="form-check-input" value="2" checked="checked"  (change)="onChecked($event, 2)">{{players[2].nick}}
+        <input
+          type="checkbox"
+          class="form-check-input"
+          value="2"
+          checked="checked"
+          (change)="onChecked($event, 2)"
+        />{{ players[2].nick }}
       </label>
     </div>
     <div class="form-check-inline" *ngIf="players.length > 3">
       <label class="form-check-label">
-        <input type="checkbox" class="form-check-input" value="3" checked="checked"  (change)="onChecked($event, 3)">{{players[3].nick}}
+        <input
+          type="checkbox"
+          class="form-check-input"
+          value="3"
+          checked="checked"
+          (change)="onChecked($event, 3)"
+        />{{ players[3].nick }}
       </label>
     </div>
   </div>
@@ -59,7 +85,8 @@
     </button>
     <!-- to be refeactored
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onDelete()">
+    <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Delete
     </button>
     -->

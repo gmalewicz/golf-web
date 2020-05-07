@@ -10,6 +10,7 @@ import { Game } from '@/_models';
 })
 export class BbbGameComponent implements OnInit {
 
+  loading = false;
   players: number;
   stake: number;
   holes: number[];
@@ -147,6 +148,8 @@ export class BbbGameComponent implements OnInit {
 
   save() {
 
+    this.loading = true;
+
     const game: Game = {
 
       gameId: 2,
@@ -166,6 +169,7 @@ export class BbbGameComponent implements OnInit {
     },
       error => {
         this.alertService.error('Saving game failed', true);
+        this.loading = false;
         this.router.navigate(['/']);
     });
 

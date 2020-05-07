@@ -1,47 +1,87 @@
 <div>
-  <h3 *ngIf="game.gameId === 1">Hole Stake game was played {{game.gameDate | date: 'short'}}</h3>
-  <h3 *ngIf="game.gameId === 2">Bingo, Bango, Bongo game was played {{game.gameDate | date: 'short'}}</h3>
+  <h3 *ngIf="game.gameId === 1">
+    Hole Stake game was played {{ game.gameDate | date: "short" }}
+  </h3>
+  <h3 *ngIf="game.gameId === 2">
+    Bingo, Bango, Bongo game was played {{ game.gameDate | date: "short" }}
+  </h3>
 </div>
 <p></p>
 <table id="game-tbl" class="table">
   <thead>
     <tr>
       <th>Hole</th>
-      <th>{{game.gameData.playerNicks[0]}}</th>
-      <th>{{game.gameData.playerNicks[1]}}</th>
-      <th *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.playerNicks[2]}}</th>
-      <th *ngIf="game.gameData.playerNicks.length > 3">{{game.gameData.playerNicks[3]}}</th>
+      <th>{{ game.gameData.playerNicks[0] }}</th>
+      <th>{{ game.gameData.playerNicks[1] }}</th>
+      <th *ngIf="game.gameData.playerNicks.length > 2">
+        {{ game.gameData.playerNicks[2] }}
+      </th>
+      <th *ngIf="game.gameData.playerNicks.length > 3">
+        {{ game.gameData.playerNicks[3] }}
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let hole of game.gameData.gameResult; let i = index;">
+    <tr *ngFor="let hole of game.gameData.gameResult; let i = index">
       <td>
-        {{i + 1}}
+        {{ i + 1 }}
       </td>
-        <td>
-          {{hole[0]}}
-        </td>
-        <td>
-          {{hole[1]}}
-        </td>
-        <td *ngIf="game.gameData.playerNicks.length > 2">
-          {{hole[2]}}
-        </td>
-        <td *ngIf="game.gameData.playerNicks.length > 3">
-          {{hole[3]}}
-        </td>
+      <td>
+        {{ hole[0] }}
+      </td>
+      <td>
+        {{ hole[1] }}
+      </td>
+      <td *ngIf="game.gameData.playerNicks.length > 2">
+        {{ hole[2] }}
+      </td>
+      <td *ngIf="game.gameData.playerNicks.length > 3">
+        {{ hole[3] }}
+      </td>
     </tr>
-    <tr  [ngClass]="'score'">
+    <tr [ngClass]="'score'">
       <td>Score</td>
-      <td>{{game.gameData.score[0]}}</td>
-      <td>{{game.gameData.score[1]}}</td>
-      <td *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.score[2]}}</td>
-      <td *ngIf="game.gameData.playerNicks.length > 2">{{game.gameData.score[3]}}</td>
+      <td>{{ game.gameData.score[0] }}</td>
+      <td>{{ game.gameData.score[1] }}</td>
+      <td *ngIf="game.gameData.playerNicks.length > 2">
+        {{ game.gameData.score[2] }}
+      </td>
+      <td *ngIf="game.gameData.playerNicks.length > 2">
+        {{ game.gameData.score[3] }}
+      </td>
     </tr>
   </tbody>
 </table>
-<div>
-  <button type="button" class="btn btn-success" routerLink="">
-    Cancel
-  </button>
-</div>
+<form [formGroup]="mailItForm" class="form-row">
+  <span class="">
+    <button type="button" class="btn btn-success" routerLink="">
+      Cancel
+    </button>
+  </span>
+  &nbsp;
+  <span class="form-group">
+    <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Mail It
+    </button>
+  </span>
+  &nbsp;
+  <span class="form-group">
+    <input
+      type="text"
+      formControlName="email"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+      placeholder="example@gmail.com"
+    />
+    <span *ngIf="submitted && f.email.errors" class="invalid-feedback">
+      <span *ngIf="f.email.errors.required">Email address is required</span>
+      <span *ngIf="f.email.errors.email">
+        Valid email address is required
+      </span>
+    </span>
+  </span>
+</form>

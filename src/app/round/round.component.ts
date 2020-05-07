@@ -14,6 +14,7 @@ import { combineLatest } from 'rxjs';
 })
 export class RoundComponent implements OnInit {
 
+  loading = false;
   display = false;
   round: Round;
 
@@ -33,6 +34,7 @@ export class RoundComponent implements OnInit {
   players: Player[] = [];
 
   dipslayPlayers: boolean[] = [false, false, false, false];
+  dipslayPlayerResult: string[] = ['0/0', '0/0', '0/0', '0/0'];
 
   // 0 - full, 1 - first, 2 - second
   display9 = 0;
@@ -65,6 +67,7 @@ export class RoundComponent implements OnInit {
         }
 
         this.generateLabelsAndData(1, 18);
+        this.generateRoundResults();
         this.display = true;
       });
   }
@@ -148,6 +151,8 @@ export class RoundComponent implements OnInit {
   // to be refactored - need to delete round for player
   onDelete() {
 
+    this.loading = true;
+
     this.httpService.deleteRound(this.round.id).subscribe(roundId => {
 
       console.log('deleted round id: ' + roundId);
@@ -156,6 +161,7 @@ export class RoundComponent implements OnInit {
     },
       (error: HttpErrorResponse) => {
         this.alertService.error('Deleting the round failed', false);
+        this.loading = false;
       });
     this.router.navigate(['/']);
   }
@@ -165,6 +171,7 @@ export class RoundComponent implements OnInit {
     this.display9 = 1;
     this.clearChartData();
     this.generateLabelsAndData(1, 9);
+    this.generateRoundResults();
   }
 
   onLast9() {
@@ -172,6 +179,7 @@ export class RoundComponent implements OnInit {
     this.display9 = 2;
     this.clearChartData();
     this.generateLabelsAndData(10, 18);
+    this.generateRoundResults();
   }
 
   onBoth9() {
@@ -179,6 +187,27 @@ export class RoundComponent implements OnInit {
     this.display9 = 0;
     this.clearChartData();
     this.generateLabelsAndData(1, 18);
+    this.generateRoundResults();
+  }
+
+  generateRoundResults() {
+
+      const displayPar = this.par.reduce((p, c) =>  p + c);
+
+      this.players.forEach((player, i) => {
+
+      let stroke = this.strokes[i].reduce((p, c) =>  p + c);
+      stroke += this.pats[i].reduce((p, c) =>  p + c);
+
+      const difference = stroke - displayPar;
+
+      let differenceStr = '' + difference;
+      if (difference > 0) {
+        differenceStr = '+' + difference;
+      }
+
+      this.dipslayPlayerResult[i] = stroke +  '/' + displayPar + ' (' + differenceStr + ')';
+    });
   }
 
   clearChartData() {
@@ -192,7 +221,7 @@ export class RoundComponent implements OnInit {
     this.par = [];
   }
 
-  onChecked($event, playerIdx){
+  onChecked($event, playerIdx) {
     console.log($event.target.checked ); // {}, true || false
     console.log($event); // {}, true || false
 

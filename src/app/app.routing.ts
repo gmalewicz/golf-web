@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'addCourse', component: AddCourseComponent, canActivate: [AuthGuard] },
   { path: 'course/:id/:courseName', component: CourseComponent, canActivate: [AuthGuard] },
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
-  { path: 'addScorecard/:courseId/:courseName', component: AddScorecardComponent, canActivate: [AuthGuard] },
+  { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'holeStakeSetup', component: HoleStakeSetupComponent, canActivate: [AuthGuard] },

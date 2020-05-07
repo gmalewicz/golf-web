@@ -20,7 +20,7 @@
         </a>
       </td>
       <td *ngIf="parent === 'addRound'">
-        <a [routerLink]="['/addScorecard', row.id, row.name]">
+        <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>

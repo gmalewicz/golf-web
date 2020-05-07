@@ -1,5 +1,5 @@
 <div *ngIf="display">
-  <h2>{{ course.name }}</h2>
+  <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
   <form [formGroup]="addScorecardForm">
   <div class="form-row">
     <div class="form-group col">
@@ -88,7 +88,10 @@
   <div>
     <br />
     <div class="form-group">
-    <button type="button" class="btn btn-success" (click)="onSubmit()">Save</button>
+    <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Save
+    </button>
     &nbsp;
     <button type="button" class="btn btn-success" (click)="clear()">
       Clear

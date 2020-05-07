@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player, Game } from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData } from '@/_models';
 
 @Injectable()
 export class HttpService {
 
   URL_STR = 'http://localhost:8080/rest/';
-  // URL_STR = 'http://dgng.pl/rest/';
+  //URL_STR = 'http://dgng.pl/rest/';
 
   constructor(private http: HttpClient) { }
 
@@ -78,7 +78,7 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(this.URL_STR + 'addPlayer', player, httpOptions);
+    return this.http.post<void>(this.URL_STR + 'AddPlayer', player, httpOptions);
   }
 
   // delete round
@@ -94,7 +94,7 @@ export class HttpService {
       })
     };
 
-    return this.http.patch<Player>(this.URL_STR + 'patchPlayer/' + player.id, player, httpOptions);
+    return this.http.patch<Player>(this.URL_STR + 'PatchPlayer/' + player.id, player, httpOptions);
   }
 
   addGame(game: Game): Observable<void> {
@@ -110,6 +110,17 @@ export class HttpService {
 
   getGames(player: Player): Observable<Array<Game>> {
     return this.http.get<Array<Game>>(this.URL_STR + 'Game/' + player.id);
+  }
+
+  sendGame(gameSendData: GameSendData): Observable<void> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<void>(this.URL_STR + 'SendGame', gameSendData, httpOptions);
   }
 }
 

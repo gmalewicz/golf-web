@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HoleStakeGameComponent implements OnInit {
 
+  loading = false;
   players: number;
   stake: number;
   holes: number[];
@@ -131,6 +132,8 @@ export class HoleStakeGameComponent implements OnInit {
 
   save() {
 
+    this.loading = true;
+
     const game: Game = {
 
       gameId: 1,
@@ -150,6 +153,7 @@ export class HoleStakeGameComponent implements OnInit {
     },
       error => {
         this.alertService.error('Saving game failed', true);
+        this.loading = false;
         this.router.navigate(['/']);
     });
 

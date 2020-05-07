@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class AddCourseComponent implements OnInit {
 
+  loading = false;
+
   selectedPar = null;
 
   public newCourseForm: FormGroup;
@@ -126,6 +128,8 @@ export class AddCourseComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     const newHoles: Hole[] = [];
 
     for (let hole = 0; hole < 18;  hole++) {
@@ -146,6 +150,7 @@ export class AddCourseComponent implements OnInit {
     },
       error => {
         this.alertService.error('Adding course failed', true);
+        this.loading = false;
     });
   }
 

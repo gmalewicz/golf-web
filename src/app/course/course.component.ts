@@ -13,6 +13,8 @@ import { AlertService } from '@/_services';
 })
 export class CourseComponent implements OnInit {
 
+  loading = false;
+
   display = false;
 
   holes: Array<Hole>;
@@ -86,6 +88,8 @@ export class CourseComponent implements OnInit {
 
   delete() {
 
+    this.loading = true;
+
     this.httpService.deleteCourse(this.route.snapshot.params.id).subscribe(  courseId => {
       console.log('deleted course id: ' + courseId);
       this.alertService.success('The course has been successfully deleted', true);
@@ -93,6 +97,7 @@ export class CourseComponent implements OnInit {
     },
       (error: HttpErrorResponse) => {
         this.alertService.error('Deleting the course failed', true);
+        this.loading = false;
     });
     this.router.navigate(['/']);
   }
