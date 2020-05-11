@@ -50,7 +50,7 @@ export class LastGamesDetailsComponent implements OnInit {
     this.loading = true;
 
     const gameSendData: GameSendData = {
-      gameId: this.game.gameId,
+      gameId: this.game.id,
       email: this.f.email.value
     };
 

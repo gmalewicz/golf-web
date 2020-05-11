@@ -1,10 +1,12 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
-import { HttpService, AlertService } from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Round, ScoreCard, Hole, Player } from '@/_models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -12,7 +14,9 @@ import { combineLatest } from 'rxjs';
   templateUrl: './round.component.html',
   styleUrls: ['./round.component.css']
 })
-export class RoundComponent implements OnInit {
+export class RoundComponent implements OnInit, AfterViewInit {
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   loading = false;
   display = false;
@@ -39,9 +43,17 @@ export class RoundComponent implements OnInit {
   // 0 - full, 1 - first, 2 - second
   display9 = 0;
 
-  constructor(private httpService: HttpService, private alertService: AlertService, private router: Router) {
+  constructor(private httpService: HttpService,
+              private alertService: AlertService,
+              private router: Router,
+              private authenticationService: AuthenticationService,
+              public dialog: MatDialog) {
+
     this.round = history.state.data.round;
     this.showRound();
+  }
+  ngAfterViewInit(): void {
+    // throw new Error("Method not implemented.");
   }
 
   ngOnInit(): void {
@@ -61,7 +73,7 @@ export class RoundComponent implements OnInit {
         this.scoreCards = retScoreCards;
         this.holes = retHoles;
 
-        for (let idx  = 0; idx < retScoreCards.length; idx += 18  ) {
+        for (let idx = 0; idx < retScoreCards.length; idx += 18) {
           this.players.push(retScoreCards[idx].player);
           this.dipslayPlayers[Math.floor(idx / 18)] = true;
         }
@@ -107,23 +119,31 @@ export class RoundComponent implements OnInit {
     this.barChartData = [{ stack: 'Stack 0', label: 'Par', data: this.par, backgroundColor: 'purple', borderWidth: 1 }];
     console.log(this.strokes.length);
     if (this.strokes.length > 0 && this.dipslayPlayers[0]) {
-      this.barChartData.push({ stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
-        data: this.strokes[0], backgroundColor: '#F99B20', borderWidth: 1 });
+      this.barChartData.push({
+        stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
+        data: this.strokes[0], backgroundColor: '#F99B20', borderWidth: 1
+      });
       this.barChartData.push({ stack: 'Stack 1', label: 'Putts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
     }
     if (this.strokes.length > 1 && this.dipslayPlayers[1]) {
-      this.barChartData.push({ stack: 'Stack 2', label: 'S(' + this.players[1].nick + ')',
-        data: this.strokes[1], backgroundColor: '#51E21D', borderWidth: 1 });
+      this.barChartData.push({
+        stack: 'Stack 2', label: 'S(' + this.players[1].nick + ')',
+        data: this.strokes[1], backgroundColor: '#51E21D', borderWidth: 1
+      });
       this.barChartData.push({ stack: 'Stack 2', label: 'Putts', data: this.pats[1], backgroundColor: '#44BE18', borderWidth: 1 });
     }
     if (this.strokes.length > 2 && this.dipslayPlayers[2]) {
-      this.barChartData.push({ stack: 'Stack 3', label: 'S(' + this.players[2].nick + ')',
-        data: this.strokes[2], backgroundColor: '#371BEB', borderWidth: 1 });
+      this.barChartData.push({
+        stack: 'Stack 3', label: 'S(' + this.players[2].nick + ')',
+        data: this.strokes[2], backgroundColor: '#371BEB', borderWidth: 1
+      });
       this.barChartData.push({ stack: 'Stack 3', label: 'Putts', data: this.pats[2], backgroundColor: '#2F18C7', borderWidth: 1 });
     }
     if (this.strokes.length > 3 && this.dipslayPlayers[3]) {
-      this.barChartData.push({ stack: 'Stack 4', label: 'S(' + this.players[3].nick + ')',
-        data: this.strokes[3], backgroundColor: '#F22F70', borderWidth: 1 });
+      this.barChartData.push({
+        stack: 'Stack 4', label: 'S(' + this.players[3].nick + ')',
+        data: this.strokes[3], backgroundColor: '#F22F70', borderWidth: 1
+      });
       this.barChartData.push({ stack: 'Stack 4', label: 'Putts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
     }
 
@@ -148,22 +168,49 @@ export class RoundComponent implements OnInit {
       }
     };
   }
-  // to be refactored - need to delete round for player
+
   onDelete() {
+    console.log('delete executed');
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete score card?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // do confirmation actions
 
-    this.loading = true;
+        this.loading = true;
 
-    this.httpService.deleteRound(this.round.id).subscribe(roundId => {
+        this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(roundId => {
 
-      console.log('deleted round id: ' + roundId);
-      this.alertService.success('The round has been successfully deleted', false);
+          console.log('deleted scorecard for round id: ' + roundId);
+          this.alertService.success('The scorecard has been successfully deleted', false);
 
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error('Deleting the round failed', false);
-        this.loading = false;
-      });
-    this.router.navigate(['/']);
+        },
+          (error: HttpErrorResponse) => {
+            this.alertService.error('Deleting the scorecard failed', false);
+            this.loading = false;
+          });
+        this.router.navigate(['/']);
+      }
+      this.dialogRef = null;
+    });
+  }
+
+  onEdit() {
+
+    // prepare data to pass to ad-scorecard module
+    this.round.course.holes = this.holes;
+    this.round.player = [];
+    this.round.player.push(this.authenticationService.currentPlayerValue);
+    // remove rounds for all other players
+    this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
+    this.router.navigate(['/addScorecard/' + this.round.course.id + '/' +
+                                             this.round.course.name + '/' +
+                                             this.round.course.par], {
+                                             state: {data: {round: this.round}}
+                                             });
+
   }
 
   onFirst9() {
@@ -192,12 +239,12 @@ export class RoundComponent implements OnInit {
 
   generateRoundResults() {
 
-      const displayPar = this.par.reduce((p, c) =>  p + c);
+    const displayPar = this.par.reduce((p, c) => p + c);
 
-      this.players.forEach((player, i) => {
+    this.players.forEach((player, i) => {
 
-      let stroke = this.strokes[i].reduce((p, c) =>  p + c);
-      stroke += this.pats[i].reduce((p, c) =>  p + c);
+      let stroke = this.strokes[i].reduce((p, c) => p + c);
+      stroke += this.pats[i].reduce((p, c) => p + c);
 
       const difference = stroke - displayPar;
 
@@ -206,7 +253,7 @@ export class RoundComponent implements OnInit {
         differenceStr = '+' + difference;
       }
 
-      this.dipslayPlayerResult[i] = stroke +  '/' + displayPar + ' (' + differenceStr + ')';
+      this.dipslayPlayerResult[i] = stroke + '/' + displayPar + ' (' + differenceStr + ')';
     });
   }
 
@@ -222,7 +269,7 @@ export class RoundComponent implements OnInit {
   }
 
   onChecked($event, playerIdx) {
-    console.log($event.target.checked ); // {}, true || false
+    console.log($event.target.checked); // {}, true || false
     console.log($event); // {}, true || false
 
     this.dipslayPlayers[playerIdx] = $event.target.checked;

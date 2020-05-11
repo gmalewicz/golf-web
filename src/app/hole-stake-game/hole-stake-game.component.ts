@@ -2,6 +2,9 @@ import { Component, OnInit} from '@angular/core';
 import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Game } from '@/_models';
 import { Router } from '@angular/router';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-hole-stake-game',
@@ -9,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./hole-stake-game.component.css']
 })
 export class HoleStakeGameComponent implements OnInit {
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   loading = false;
   players: number;
@@ -27,7 +32,8 @@ export class HoleStakeGameComponent implements OnInit {
               private httpService: HttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              public dialog: MatDialog) {
 
     this.players = gameService.getGameSetup().playersNo;
     this.stake = gameService.getGameSetup().stake;
@@ -130,6 +136,20 @@ export class HoleStakeGameComponent implements OnInit {
     });
   }
 
+  onSave() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to save the game?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.save();
+      }
+      this.dialogRef = null;
+    });
+  }
+
   save() {
 
     this.loading = true;
@@ -157,5 +177,19 @@ export class HoleStakeGameComponent implements OnInit {
         this.router.navigate(['/']);
     });
 
+  }
+
+  onCancel() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to cancel the game?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/']);
+      }
+      this.dialogRef = null;
+    });
   }
 }

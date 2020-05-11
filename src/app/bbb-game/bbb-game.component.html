@@ -101,11 +101,11 @@
   </tbody>
 </table>
 <div>
-  <button type="button" class="btn btn-success" routerLink="">
+  <button type="button" class="btn btn-success" (click)="onCancel()">
     Cancel
   </button>
   &nbsp;
-  <button [disabled]="loading" class="btn btn-success" (click)="save()">
+  <button [disabled]="loading" class="btn btn-success" (click)="onSave()">
     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
     Save
   </button>

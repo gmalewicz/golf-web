@@ -7,7 +7,7 @@ import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData } from '@/_m
 export class HttpService {
 
   URL_STR = 'http://localhost:8080/rest/';
-  //URL_STR = 'http://dgng.pl/rest/';
+  // URL_STR = 'http://dgng.pl/rest/';
 
   constructor(private http: HttpClient) { }
 
@@ -53,7 +53,7 @@ export class HttpService {
   }
 
   getScoreCards(roundId: number): Observable<Array<ScoreCard>> {
-    return this.http.get<Array<ScoreCard>>(this.URL_STR + 'ScoreCards/' + roundId);
+    return this.http.get<Array<ScoreCard>>(this.URL_STR + 'ScoreCard/' + roundId);
   }
 
   authenticate(nick: string, password: string): Observable<HttpResponse<Player>> {
@@ -122,6 +122,23 @@ export class HttpService {
 
     return this.http.post<void>(this.URL_STR + 'SendGame', gameSendData, httpOptions);
   }
+
+  // delete round (scorecard)
+  deleteScoreCard(playerId: number, roundId: number) {
+    return this.http.delete(this.URL_STR + 'ScoreCard/' + playerId + '/' + roundId);
+  }
+
+  // update round
+  updateRound(round: Round): Observable<void> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.patch<void>(this.URL_STR + 'ScoreCard', round, httpOptions);
+  }
+
 }
 
 

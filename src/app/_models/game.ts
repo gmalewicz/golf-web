@@ -2,7 +2,8 @@ import { Data } from '@angular/router';
 import { Player } from '.';
 
 export interface Game {
-  player: Player;
+  id?: number;
+  player?: Player;
   gameId: number;
   stake: number;
   gameDate: string;

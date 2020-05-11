@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Router } from '@angular/router';
 import { Game } from '@/_models';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-bbb-game',
@@ -9,6 +11,8 @@ import { Game } from '@/_models';
   styleUrls: ['./bbb-game.component.css']
 })
 export class BbbGameComponent implements OnInit {
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   loading = false;
   players: number;
@@ -28,7 +32,8 @@ export class BbbGameComponent implements OnInit {
               private httpService: HttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              public dialog: MatDialog) {
 
     this.players = gameSetupService.getGameSetup().playersNo;
     this.stake = gameSetupService.getGameSetup().stake;
@@ -146,6 +151,20 @@ export class BbbGameComponent implements OnInit {
     });
   }
 
+  onSave() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to save the game?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.save();
+      }
+      this.dialogRef = null;
+    });
+  }
+
   save() {
 
     this.loading = true;
@@ -172,6 +191,19 @@ export class BbbGameComponent implements OnInit {
         this.loading = false;
         this.router.navigate(['/']);
     });
+  }
 
+  onCancel() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to cancel the game?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/']);
+      }
+      this.dialogRef = null;
+    });
   }
 }

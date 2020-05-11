@@ -6,7 +6,9 @@ import { Course, ScoreCard, Round } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
+import { ThrowStmt } from '@angular/compiler';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -14,6 +16,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   styleUrls: ['./add-scorecard.component.css']
 })
 export class AddScorecardComponent implements OnInit {
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
+
+  round: Round;
 
   loading = false;
 
@@ -52,11 +58,23 @@ export class AddScorecardComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               private router: Router,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              public dialog: MatDialog) {
 
     this.holeSelectorActive.fill({active: false});
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
+
+    if (history.state.data) {
+      this.round = history.state.data.round;
+
+    } else {
+      this.round = null;
+    }
+
+    console.log(this.round);
+
+
     this.getHoles();
 
   }
@@ -78,11 +96,22 @@ export class AddScorecardComponent implements OnInit {
     const barData: number[] = [];
     this.barChartLabels = [];
 
+    const updatedPats = [];
+    const updatedStrokes = [];
+
     for (let hole = 1; hole <= 18; hole++) {
       this.barChartLabels.push(hole);
       barData.push(this.course.holes[hole - 1].par);
-      this.strokes.push(0);
-      this.putts.push(0);
+      // in case of edit score card
+      if (this.round != null) {
+        this.strokes.push(this.round.scoreCard[hole - 1].stroke );
+        this.putts.push(this.round.scoreCard[hole - 1].pats);
+        updatedPats.push(this.putts[hole - 1]);
+        updatedStrokes.push(this.strokes[hole - 1] - this.putts[hole - 1]);
+      } else {
+        this.strokes.push(0);
+        this.putts.push(0);
+      }
     }
 
     this.barChartData = [{stack: 'Stack 0', label: 'Par',  data: barData, backgroundColor: 'purple', borderWidth: 1 },
@@ -91,6 +120,16 @@ export class AddScorecardComponent implements OnInit {
 
     console.log(this.barChartLabels);
     console.log(this.barChartData);
+
+    if (this.round != null) {
+      this.barChartData[1].data = updatedStrokes;
+      this.barChartData[2].data = updatedPats;
+      this.f.date.setValue(this.round.roundDate.substr(0, 10));
+      this.f.teeTime.setValue(this.round.roundDate.substr(11, 5));
+
+      this.calculateResult();
+
+    }
 
     this.barChartOptions = {
       responsive: true,
@@ -129,18 +168,55 @@ export class AddScorecardComponent implements OnInit {
 
   clear() {
 
-    this.alertService.clear();
-    this.putts.fill(0);
-    this.strokes.fill(0);
-    this.barChartData[1].data = this.strokes;
-    this.barChartData[2].data = this.putts;
-    this.holeSelectorActive.fill({active: false});
-    this.strokeSelectorActive.fill({active: false});
-    this.patSelectorActive.fill({active: false});
-    this.displayResult = '';
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to clear score card?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.alertService.clear();
+        this.putts.fill(0);
+        this.strokes.fill(0);
+        this.barChartData[1].data = this.strokes;
+        this.barChartData[2].data = this.putts;
+        this.holeSelectorActive.fill({active: false});
+        this.strokeSelectorActive.fill({active: false});
+        this.patSelectorActive.fill({active: false});
+        this.displayResult = '';
+      }
+      this.dialogRef = null;
+    });
   }
 
   onSubmit() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to save score card?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.save();
+      }
+      this.dialogRef = null;
+    });
+  }
+
+  onCancel() {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to exit?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/']);
+      }
+      this.dialogRef = null;
+    });
+  }
+
+  save() {
 
     this.alertService.clear();
 
@@ -154,29 +230,59 @@ export class AddScorecardComponent implements OnInit {
 
     const scoreCard: ScoreCard[] = [];
 
+    if (this.round != null) {
+
+      this.round.scoreCard.forEach((s, i) => console.log('card id: ' + s.id + ' stroke: ' + s.stroke + ' putts: ' + s.pats));
+
+
+      console.log('edited strokes: ' + this.strokes);
+      console.log('edited putts: ' + this.putts);
+    }
     for (let hole = 0; hole < 18; hole++) {
-      scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole]});
+
+      if (this.round == null) {
+        scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole]});
+      } else {
+        this.round.scoreCard[hole].stroke = this.strokes[hole];
+        this.round.scoreCard[hole].pats = this.putts[hole];
+      }
     }
 
+    if (this.round == null) {
 
-    const round: Round = {
-      course: this.course,
-      roundDate: this.f.date.value + ' ' + this.f.teeTime.value,
-      player: [this.authenticationService.currentPlayerValue],
-      scoreCard
-    };
+      const round: Round = {
+        course: this.course,
+        roundDate: this.f.date.value + ' ' + this.f.teeTime.value,
+        player: [this.authenticationService.currentPlayerValue],
+        scoreCard
+      };
 
-    this.httpService.addRound(round).subscribe(data => {
-      console.log('round added');
-      this.display = false;
-      this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
-      this.router.navigate(['/']);
-    },
-    (error: HttpErrorResponse) => {
-      // console.log(error.error.message);
-      this.alertService.error(error.error.message, true);
-      this.loading = false;
-  });
+      this.httpService.addRound(round).subscribe(data => {
+        console.log('round added');
+        this.display = false;
+        this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
+        this.router.navigate(['/']);
+      },
+      (error: HttpErrorResponse) => {
+        // console.log(error.error.message);
+        this.alertService.error(error.error.message, true);
+        this.loading = false;
+      });
+    } else {
+      this.round.roundDate = this.f.date.value + ' ' + this.f.teeTime.value;
+      // this.round.scoreCard = scoreCard;
+
+      this.httpService.updateRound(this.round).subscribe(data => {
+        console.log('round updated');
+        this.display = false;
+        this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
+        this.router.navigate(['/']);
+      },
+      (error: HttpErrorResponse) => {
+        this.alertService.error(error.error.message, true);
+        this.loading = false;
+      });
+    }
   }
 
   selectHole(hole: number) {
@@ -231,6 +337,10 @@ export class AddScorecardComponent implements OnInit {
 
     this.barChartData[1].data = updatedStrokes;
 
+    this.calculateResult();
+  }
+
+  private calculateResult() {
     const result = this.strokes.reduce((p, c) => p + c);
 
     const difference = result - this.course.par;

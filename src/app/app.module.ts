@@ -30,6 +30,9 @@ import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component
 import { BbbGameComponent } from './bbb-game/bbb-game.component';
 import { LastGamesComponent } from './last-games/last-games.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,7 @@ import { LastGamesDetailsComponent } from './last-games-details/last-games-detai
     BbbGameComponent,
     LastGamesComponent,
     LastGamesDetailsComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,13 +68,16 @@ import { LastGamesDetailsComponent } from './last-games-details/last-games-detai
     ChartsModule,
     FontAwesomeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [HttpService,
               GameService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialogComponent]
 })
 export class AppModule { }

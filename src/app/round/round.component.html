@@ -83,13 +83,16 @@
     <button type="button" class="btn btn-success" routerLink="">
       Cancel
     </button>
-    <!-- to be refeactored
+    &nbsp;
+    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Edit ScoreCard
+    </button>
     &nbsp;
     <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Delete
+      Delete ScoreCard
     </button>
-    -->
   </div>
 </div>
 <router-outlet></router-outlet>
