@@ -206,10 +206,10 @@ export class RoundComponent implements OnInit, AfterViewInit {
     // remove rounds for all other players
     this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
     this.router.navigate(['/addScorecard/' + this.round.course.id + '/' +
-                                             this.round.course.name + '/' +
-                                             this.round.course.par], {
-                                             state: {data: {round: this.round}}
-                                             });
+      this.round.course.name + '/' +
+      this.round.course.par], {
+      state: { data: { round: this.round } }
+    });
 
   }
 
@@ -282,5 +282,30 @@ export class RoundComponent implements OnInit, AfterViewInit {
       this.onLast9();
     }
 
+  }
+
+  onViewWHS() {
+
+    // skip if at least one hole has 0 strokes
+    let zeroHoleFound = false;
+    this.scoreCards.forEach((s, i) => {if (s.player.id === this.authenticationService.currentPlayerValue.id && s.stroke === 0) {
+      zeroHoleFound = true;
+      return;
+    }});
+    if (zeroHoleFound) {
+      this.alertService.error('Functionality (currently) available only if 18 holes are played', false);
+      return;
+    }
+
+    // prepare data to pass to ad-scorecard module
+    this.round.course.holes = this.holes;
+    // set current player
+    this.round.player = [];
+    this.round.player.push(this.authenticationService.currentPlayerValue);
+    // remove rounds for all other players
+    this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
+    this.router.navigate(['/roundViewWHSComponent'], {
+      state: { data: { round: this.round } }
+    });
   }
 }

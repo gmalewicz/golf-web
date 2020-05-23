@@ -20,6 +20,7 @@ import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component
 import { BbbGameComponent } from './bbb-game/bbb-game.component';
 import { LastGamesComponent } from './last-games/last-games.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
+import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'courses/:parent', component: CoursesComponent, canActivate: [AuthGuard] },
   { path: 'rounds', component: RoundsComponent, canActivate: [AuthGuard] },
   { path: 'addCourse', component: AddCourseComponent, canActivate: [AuthGuard] },
-  { path: 'course/:id/:courseName', component: CourseComponent, canActivate: [AuthGuard] },
+  { path: 'course', component: CourseComponent, canActivate: [AuthGuard] },
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
   { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
   { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
   { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'roundViewWHSComponent', component: RoundViewWHSComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

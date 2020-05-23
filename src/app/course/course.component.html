@@ -1,20 +1,38 @@
 <div *ngIf="display">
   <div>
-    <canvas
-      baseChart
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [legend]="true"
-      [chartType]="barChartType"
-     >
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true"
+      [chartType]="barChartType">
     </canvas>
+  </div>
+  <div *ngIf="displayTees">
+    <table id="tee-tbl" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tee</th>
+          <th>CR</th>
+          <th>SR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tee">
+          <td>{{ row.tee }}</td>
+          <td>{{ row.cr }}</td>
+          <td>{{ row.sr }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div>
     <br />
     <button type="button" class="btn btn-success" routerLink="">
       Cancel
     </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="onShowTees()">
+      {{showTeesLbl}}
+    </button>
+
+
     <!-- to be refactored
     &nbsp;
     <button [disabled]="loading" class="btn btn-success" (click)="delete()">

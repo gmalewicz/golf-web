@@ -1,0 +1,122 @@
+<h2>{{ round.course.name }} &nbsp; &nbsp; {{ round.roundDate }} &nbsp; &nbsp; Course HCP: &nbsp; {{ courseHCP }}</h2>
+<br/>
+<table id="holeStake-tbl" class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Hole</th>
+      <th *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].hole}}
+      </th>
+      <th>OUT</th>
+      <th *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].hole}}
+      </th>
+      <th>IN</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PAR</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.course.holes[i].par}}
+      </td>
+      <td>{{first9par}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.course.holes[i + 9].par}}
+      </td>
+      <td>{{last9par}}</td>
+      <td>{{first9par + last9par}}</td>
+    </tr>
+    <tr>
+      <th>SI</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.course.holes[i].si}}
+      </td>
+      <td></td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.course.holes[i + 9].si}}
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Score Brutto</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].stroke}}
+      </td>
+      <td>{{first9score}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].stroke}}
+      </td>
+      <td>{{last9score}}</td>
+      <td>{{first9score + last9score}}</td>
+    </tr>
+    <tr>
+      <th>HCP</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].hcp}}
+      </td>
+      <td></td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].hcp}}
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Score Netto</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].scoreNetto}}
+      </td>
+      <td>{{first9scoreNetto}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].scoreNetto}}
+      </td>
+      <td>{{last9scoreNetto}}</td>
+      <td>{{first9scoreNetto + last9scoreNetto}}</td>
+    </tr>
+    <tr>
+      <th>Cor. Score Brutto</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].corScoreBrutto}}
+      </td>
+      <td>{{first9CorScorBrutto}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].corScoreBrutto}}
+      </td>
+      <td>{{last9CorScorBrutto}}</td>
+      <td>{{first9CorScorBrutto + last9CorScorBrutto}}</td>
+    </tr>
+    <tr>
+      <th>STB Netto</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].stbNetto}}
+      </td>
+      <td>{{first9StbNetto}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].stbNetto}}
+      </td>
+      <td>{{last9StbNetto}}</td>
+      <td>{{first9StbNetto + last9StbNetto}}</td>
+    </tr>
+    <tr>
+      <th>STB Brutto</th>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i].stbBrutto}}
+      </td>
+      <td>{{first9StbBrutto}}</td>
+      <td *ngFor="let i = index of counter(9)">
+        {{round.scoreCard[i + 9].stbBrutto}}
+      </td>
+      <td>{{last9StbBrutto}}</td>
+      <td>{{first9StbBrutto + last9StbBrutto}}</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <br />
+  <button type="button" class="btn btn-success" routerLink="">
+    Cancel
+  </button>
+</div>

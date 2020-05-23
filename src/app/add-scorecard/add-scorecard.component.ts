@@ -2,13 +2,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Course, ScoreCard, Round } from '@/_models';
+import { Course, ScoreCard, Round, Tee } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ThrowStmt } from '@angular/compiler';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { combineLatest } from 'rxjs';
+import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -23,16 +24,15 @@ export class AddScorecardComponent implements OnInit {
 
   loading = false;
 
-  // show: string;
   course: Course;
   display = false;
 
   submitted = false;
 
-  public addScorecardForm: FormGroup;
+  teeOptions = [];
+  selectedTee: number;
 
-  // date: Date;
-  // teeTime: Date;
+  public addScorecardForm: FormGroup;
 
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
@@ -61,28 +61,29 @@ export class AddScorecardComponent implements OnInit {
               private alertService: AlertService,
               public dialog: MatDialog) {
 
+    // initialize buttons and set them not to be marked
     this.holeSelectorActive.fill({active: false});
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
 
+    // get round from state in case of edit
     if (history.state.data) {
       this.round = history.state.data.round;
-
     } else {
       this.round = null;
     }
 
     console.log(this.round);
 
-
-    this.getHoles();
+    this.getRoundData();
 
   }
 
   ngOnInit(): void {
     this.addScorecardForm = this.formBuilder.group({
       date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]]
+      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
+      teeDropDown: ['', [ Validators.required ]]
     });
   }
 
@@ -125,7 +126,19 @@ export class AddScorecardComponent implements OnInit {
       this.barChartData[1].data = updatedStrokes;
       this.barChartData[2].data = updatedPats;
       this.f.date.setValue(this.round.roundDate.substr(0, 10));
+      this.f.date.disable();
       this.f.teeTime.setValue(this.round.roundDate.substr(11, 5));
+      this.f.teeTime.disable();
+
+      // get tee which was played
+      this.httpService.getPlayerRoundDetails
+        (this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(playerRoundDetails => {
+          this.f.teeDropDown.setValue(playerRoundDetails.teeId);
+          this.f.teeDropDown.disable();
+      },
+      (error: HttpErrorResponse) => {
+        this.alertService.error(error.error.message, false);
+      });
 
       this.calculateResult();
 
@@ -151,18 +164,28 @@ export class AddScorecardComponent implements OnInit {
 
   }
 
-  getHoles() {
-    this.httpService.getHoles(this.route.snapshot.params.courseId).subscribe(retHoles => {
-      console.log(retHoles);
+  getRoundData() {
+
+  // get list of holes and tees and update course object using received data
+  combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
+    this.httpService.getTees(this.route.snapshot.params.courseId)]).subscribe(([retHoles, retTees]) => {
 
       this.course = {
         id: this.route.snapshot.params.courseId,
         name: this.route.snapshot.params.courseName,
         par: this.route.snapshot.params.coursePar,
-        holes: retHoles
+        holes: retHoles,
+        tees: retTees
       };
+
+      // create tee labels
+      retTees.forEach((t, i) => this.teeOptions.push({label: t.tee, value: t.id}));
+
       this.generateLabelsAndData();
       this.display = true;
+    },
+    (error: HttpErrorResponse) => {
+      this.alertService.error(error.error.message, false);
     });
   }
 
@@ -190,28 +213,34 @@ export class AddScorecardComponent implements OnInit {
 
   onSubmit() {
 
+    // display dialog box for saving confirmation
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
     this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to save score card?';
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // save if accepted by player
         this.save();
       }
+      // do nothing if not
       this.dialogRef = null;
     });
   }
 
   onCancel() {
 
+    // display dialog box for cancel confirmation
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
     this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to exit?';
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // go to min page if cancel
         this.router.navigate(['/']);
       }
+      // do nthing if not
       this.dialogRef = null;
     });
   }
@@ -256,6 +285,8 @@ export class AddScorecardComponent implements OnInit {
         player: [this.authenticationService.currentPlayerValue],
         scoreCard
       };
+      // only selected tee shall be sent, so replace entire list with selected tee
+      round.course.tees = round.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value);
 
       this.httpService.addRound(round).subscribe(data => {
         console.log('round added');

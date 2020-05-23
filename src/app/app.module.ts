@@ -32,7 +32,9 @@ import { LastGamesComponent } from './last-games/last-games.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import {DropdownModule} from 'primeng';
+import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     LastGamesComponent,
     LastGamesDetailsComponent,
     ConfirmationDialogComponent,
+    RoundViewWHSComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +74,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    DropdownModule,
   ],
   providers: [HttpService,
               GameService,

@@ -31,6 +31,17 @@
         <div *ngIf="f.teeTime.errors.pattern">Provide the valid tee time</div>
       </div>
     </div>
+    <div class="form-group col">
+      <p-dropdown
+        formControlName="teeDropDown"
+        [options]="teeOptions"
+        [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }"
+        placeholder="tee">
+      </p-dropdown>
+      <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
+        <div *ngIf="f.teeDropDown.errors.required">Tee is required</div>
+      </div>
+    </div>
     <br />
     <br />
   </div>

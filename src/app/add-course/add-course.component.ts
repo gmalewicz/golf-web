@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Hole, Course } from '@/_models';
+import { Hole, Course, Tee } from '@/_models';
 import { HttpService, AlertService} from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,37 +18,46 @@ export class AddCourseComponent implements OnInit {
 
   public newCourseForm: FormGroup;
   submitted = false;
+  addTeeSubmitted = false;
 
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
-  public barChartLabels: number[] = [];
+  public barChartLabels: string[] = [];
   public barChartData: ChartDataSets[];
   public barChartOptions: ChartOptions;
 
   public parButtons = [3, 4, 5, 6];
   public parSelectorActive = Array(4);
   public holeSelectorActive = Array(18);
+  public siSelectorActive = Array(18);
 
-  updatingHhole = 0;
+  updatingHole = 0;
 
   pars: number[] = [];
+  si: number[] = [];
+
+  tees: Tee[] = [];
 
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
               private alertService: AlertService) {
 
+    // initialize all buttons for net selected
     this.parSelectorActive.fill({active: false});
+    this.siSelectorActive.fill({active: false});
     this.holeSelectorActive.fill({active: false});
-    this.generateLabelsAndData();
 
+    this.generateLabelsAndData();
   }
 
   ngOnInit(): void {
     this.newCourseForm = this.formBuilder.group({
       courseName: ['', Validators.required],
       coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
-    //  selectedPar: ['']
+      tee: ['', Validators.required],
+      cr: ['', [, Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
+      sr: ['', [, Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
     });
   }
 
@@ -57,20 +66,16 @@ export class AddCourseComponent implements OnInit {
 
   generateLabelsAndData() {
 
-    console.log('on changes executed');
+    // initialize data
+    const chartPars = Array(18).fill(0);
+    this.pars = Array(18).fill(0);
+    this.si = Array(18).fill(0);
+    this.barChartLabels = Array(18).fill(0).map((x, i) => '' + (i + 1));
 
-    this.barChartLabels = [];
+    // set bar chart data
+    this.barChartData = [{ data: chartPars, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
 
-    for (let hole = 1; hole <= 18; hole++) {
-      this.barChartLabels.push(hole);
-      this.pars.push(0);
-    }
-
-    this.barChartData = [{ data: this.pars, label: 'Par', backgroundColor: 'purple', borderWidth: 1 }];
-
-    console.log(this.barChartLabels);
-    console.log(this.barChartData);
-
+    // set bar chart options
     this.barChartOptions = {
       responsive: true,
       scales: {
@@ -92,59 +97,107 @@ export class AddCourseComponent implements OnInit {
   }
 
   selectHole(hole: number) {
-    console.log('selected hole: ' + hole);
+    // console.log('selected hole: ' + hole);
 
+    // clear error
+    this.alertService.clear();
+
+    // save updating hole index
+    this.updatingHole = hole;
+
+    // clean up par, hole and si pressed buttons
+    this.holeSelectorActive.fill({active: false});
     this.parSelectorActive.fill({active: false});
+    this.siSelectorActive.fill({active: false});
 
-    this.updatingHhole = hole;
+    // dispaly pressed button until another hole button is pressed
+    this.holeSelectorActive[this.updatingHole] =  ({active: true});
 
-    if (this.pars[this.updatingHhole - 1] > 0) {
-      this.parSelectorActive[this.pars[this.updatingHhole - 1] - 3] =  ({active: true});
+    // dispaly pressed button if par has been already marked for that hole
+    if (this.pars[this.updatingHole] > 0) {
+      this.parSelectorActive[this.pars[this.updatingHole] - 3] =  ({active: true});
     }
 
+    // dispaly pressed button if si has been already marked for that hole
+    if (this.si[this.updatingHole] > 0) {
+      this.siSelectorActive[this.si[this.updatingHole] - 1] =  ({active: true});
+    }
   }
 
   selectPar(par: number) {
 
-    const updatedPars = [];
+   // console.log('Selected par: ' + par);
 
-    for (let hole = 0; hole < 18; hole++) {
+   // clear error
+   this.alertService.clear();
 
-      updatedPars.push(this.pars[hole]);
+   // save selected par
+   this.pars[this.updatingHole] = par;
 
+   // recreate bar data for refresh purposes
+   // note that data canot be updated, it needs to be recreated
+   this.barChartData[0].data = null;
+   this.barChartData[0].data = Array(18).fill(0).map((x, i) => this.pars[i]);
+  }
+
+  selectSi(si: number) {
+
+    // console.log('Selected si: ' + si);
+
+    // clear error
+    this.alertService.clear();
+
+    // check if that si has been already used
+    if (this.si.includes(si + 1)) {
+      this.alertService.error('The same SI cannot be assigned twice to the same hole', false);
+      return;
     }
-    console.log('updated pars: ' + updatedPars);
 
-    this.pars[this.updatingHhole - 1] = par;
-    updatedPars[this.updatingHhole - 1] = par;
-    this.barChartData[0].data = updatedPars;
+    // save selected si
+    this.si[this.updatingHole] = si + 1;
+
+    // clean up par, hole and si pressed buttons
+    this.siSelectorActive.fill({active: false});
+
+    // dispaly pressed button until another hole button is pressed
+    this.siSelectorActive[this.updatingHole] =  ({active: true});
+
+    // updated label: in case of label recreation is not needed - lable can be just updated
+    this.barChartLabels[this.updatingHole] = '' + (this.updatingHole + 1) + '(' + (si + 1) + ')';
+
   }
 
   onSubmit() {
 
+    // needed to indicate if main form has been submitted
     this.submitted = true;
 
-    if (this.newCourseForm.invalid || !this.allParSet()) {
+    // verify form data and other entries
+    if (this.f.courseName.invalid || this.f.coursePar.invalid || !this.allDataSet()) {
+      console.log('alldata set');
       return;
     }
 
+    // needed for loading spin button
     this.loading = true;
 
+    // create Hole object array
     const newHoles: Hole[] = [];
-
     for (let hole = 0; hole < 18;  hole++) {
-      newHoles.push({par:  this.pars[hole], number:  hole + 1});
-
+      newHoles.push({par:  this.pars[hole], number:  hole + 1, si: this.si[hole]});
     }
+
+    // create Course object
     const course: Course = ({
       name: this.f.courseName.value,
       par: +this.f.coursePar.value,
-      holes: newHoles
+      holes: newHoles,
+      tees: this.tees
     });
-    console.log('prepared course: ' + course.name + ' ' + course.par + ' ' + course.holes);
 
+    // send Course to the server
     this.httpService.addCourse(course).subscribe(newCourse => {
-      console.log(newCourse);
+
       this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
       this.router.navigate(['/']);
     },
@@ -155,24 +208,66 @@ export class AddCourseComponent implements OnInit {
   }
 
   clear() {
+
+    // clear error
+    this.alertService.clear();
+
+    // clear couse name and par
     this.f.courseName.setValue('');
     this.f.coursePar.setValue('');
 
+    // clear button selections
+    this.siSelectorActive.fill({active: false});
     this.parSelectorActive.fill({active: false});
     this.holeSelectorActive.fill({active: false});
 
+    // clear choosen pars, si and chart data
+    this.si.fill(0);
     this.pars.fill(0);
     this.barChartData[0].data = this.pars;
+    // initialize chart labels
+    this.barChartLabels = Array(18).fill(0).map((x, i) => '' + (i + 1));
+
+    // set first hole as an active one
+    this.updatingHole = 0;
+    this.holeSelectorActive[0] =  ({active: true});
   }
 
-  allParSet(): boolean {
+  allDataSet(): boolean {
 
-    for (let hole = 0; hole < 18;  hole++) {
-      if (this.pars[hole] === 0) {
-        this.alertService.error('Not all holes are set', false);
-        return false;
-      }
+    // verify if all pars are set
+    if (this.pars.includes(0)) {
+      this.alertService.error('Pars are not set for all holes', false);
+      return false;
     }
+    // verify if all SI are set
+    if (this.si.includes(0)) {
+      this.alertService.error('SI are not set for all holes', false);
+      return false;
+    }
+
+    // verify if at least one tee is defined
+    if (this.tees.length < 1) {
+      this.alertService.error('At least one tee must be defined', false);
+      return false;
+    }
+
     return true;
+  }
+
+  addTee(): void {
+
+    // mark that tee data have been submitted
+    this.addTeeSubmitted = true;
+
+    // display errors if any
+    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid) {
+      return;
+    }
+
+    // save tee
+    this.tees.push({tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value});
+    // clare submit flag to be ready for the next tee
+    this.addTeeSubmitted = false;
   }
 }

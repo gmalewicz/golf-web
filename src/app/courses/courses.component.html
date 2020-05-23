@@ -15,7 +15,7 @@
   <tbody>
     <tr *ngFor="let row of courses">
       <td *ngIf="parent === 'courses'">
-        <a [routerLink]="['/course', row.id, row.name]">
+        <a [routerLink]="['/course']" [state]="{data: {course: row}}">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>

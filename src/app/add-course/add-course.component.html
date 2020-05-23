@@ -50,7 +50,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
-          <input type="radio" name="hole" id="hole" autocomplete="off" (click)="selectHole(hole)"> {{ hole }}
+          <input type="radio" (click)="selectHole(i)"> {{ i + 1 }}
         </label>
       </div>
     </div>
@@ -68,20 +68,103 @@
       </div>
     </div>
   </div>
+  <br/>
+  <div class="row">
+    <div class="col-sm-1">
+      SI:
+    </div>
+    <div>
+      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="siSelectorActive[i]">
+          <input type="radio" autocomplete="off" (click)="selectSi(i)"> {{ i + 1 }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div *ngIf="tees.length > 0">
+    <table id="tee-tbl" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tee</th>
+          <th>CR</th>
+          <th>SR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tees">
+          <td>{{ row.tee }}</td>
+          <td>{{ row.cr }}</td>
+          <td>{{ row.sr }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br/>
+  <div class="form-row">
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="20"
+        formControlName="tee"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
+        placeholder="Tee"
+      />
+      <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
+        <div *ngIf="f.tee.errors.required">Tee name is required</div>
+      </div>
+    </div>
+    &nbsp;
+
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="4"
+        formControlName="cr"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.cr.errors }"
+        placeholder="CR"
+      />
+      <div *ngIf="addTeeSubmitted && f.cr.errors" class="invalid-feedback">
+        <div *ngIf="f.cr.errors.required">Course CR is required</div>
+        <div *ngIf="f.cr.errors.pattern">Course CR must be in range: 20 to 89.9</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <input
+        type="text"
+        maxlength="3"
+        formControlName="sr"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.sr.errors }"
+        placeholder="SR"
+      />
+      <div *ngIf="addTeeSubmitted && f.sr.errors" class="invalid-feedback">
+        <div *ngIf="f.sr.errors.required">Course SR is required</div>
+        <div *ngIf="f.sr.errors.pattern">Course SR must be in range: 10 to 299</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-success" (click)="addTee()">
+        Add Tee
+      </button>
+      </div>
+  </div>
   <div>
     <br />
     <div class="form-group">
-      <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Save
+      <button type="button" class="btn btn-success" routerLink="">
+        Cancel
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="clear()">
         Clear
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success" routerLink="">
-        Cancel
+      <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Save
       </button>
     </div>
   </div>

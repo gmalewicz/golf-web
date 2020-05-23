@@ -6,4 +6,9 @@ export interface ScoreCard {
   stroke: number;
   pats: number;
   player?: Player;
+  hcp?: number;
+  scoreNetto?: number;
+  stbNetto?: number;
+  stbBrutto?: number;
+  corScoreBrutto?: number;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData } from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, PlayerRoundDetails } from '@/_models';
 
 @Injectable()
 export class HttpService {
@@ -137,6 +137,16 @@ export class HttpService {
     };
 
     return this.http.patch<void>(this.URL_STR + 'ScoreCard', round, httpOptions);
+  }
+
+  // gets list of tees for course
+  getTees(courseId: number): Observable<Array<Tee>> {
+    return this.http.get<Array<Tee>>(this.URL_STR + 'Tee/' + courseId);
+  }
+
+  // gets player round details
+  getPlayerRoundDetails(playerId: number, roundId: number): Observable<PlayerRoundDetails> {
+    return this.http.get<PlayerRoundDetails>(this.URL_STR + 'RoundPlayerDetails/' + playerId + '/' + roundId);
   }
 
 }

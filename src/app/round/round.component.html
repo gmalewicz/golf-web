@@ -89,6 +89,11 @@
       Edit ScoreCard
     </button>
     &nbsp;
+    <button [disabled]="loading" class="btn btn-success" (click)="onViewWHS()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      WHS view
+    </button>
+    &nbsp;
     <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Delete ScoreCard
