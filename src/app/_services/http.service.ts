@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, PlayerRoundDetails } from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, PlayerRoundDetails, Tournament, TournamentResult } from '@/_models';
 
 @Injectable()
 export class HttpService {
 
-  URL_STR = 'http://localhost:8080/rest/';
-  // URL_STR = 'http://dgng.pl/rest/';
+  //URL_STR = 'http://localhost:8080/rest/';
+  URL_STR = 'http://dgng.pl/rest/';
 
   constructor(private http: HttpClient) { }
 
@@ -147,6 +147,32 @@ export class HttpService {
   // gets player round details
   getPlayerRoundDetails(playerId: number, roundId: number): Observable<PlayerRoundDetails> {
     return this.http.get<PlayerRoundDetails>(this.URL_STR + 'RoundPlayerDetails/' + playerId + '/' + roundId);
+  }
+
+  // gets tournaments
+  getTournaments(): Observable<Array<Tournament>> {
+    return this.http.get<Array<Tournament>>(this.URL_STR + 'Tournament');
+  }
+
+  // gets tournament results
+  getTournamentResults(): Observable<Array<TournamentResult>> {
+    return this.http.get<Array<TournamentResult>>(this.URL_STR + 'TournamentResult');
+  }
+
+  // gets rounds that can be added to tournament
+  getTournamentRounds(tournamentId: number): Observable<Array<Round>> {
+    return this.http.get<Array<Round>>(this.URL_STR + 'TournamentRounds/' + tournamentId);
+  }
+
+  addRoundToTournament(round: Round, tournamentId: number): Observable<void> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<void>(this.URL_STR + 'TournamentRound/' + tournamentId, round, httpOptions);
   }
 
 }

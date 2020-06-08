@@ -26,6 +26,8 @@ export class RoundViewWHSComponent implements OnInit {
   last9StbBrutto: number;
   first9CorScorBrutto: number;
   last9CorScorBrutto: number;
+  scoreBruttoClass: string[] = Array(18).fill('');
+  scoreNettoClass: string[] = Array(18).fill('');
 
   constructor(private authenticationService: AuthenticationService,
               private httpService: HttpService,
@@ -41,6 +43,29 @@ export class RoundViewWHSComponent implements OnInit {
     // create player score for each 9
     this.first9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
     this.last9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+
+    // this.scoreBruttoClass = Array(18).fill('');
+    this.scoreBruttoClass.forEach((v, i) => {
+      if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par - 1) {
+
+        this.scoreBruttoClass[i] = 'eagle';
+
+      } else if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par) {
+
+        this.scoreBruttoClass[i] = 'birdie';
+
+      } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par) {
+
+        this.scoreBruttoClass[i] = 'par';
+
+      } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par + 1) {
+        this.scoreBruttoClass[i] = 'boggey';
+
+      } else if (this.round.scoreCard[i].stroke > this.round.course.holes[i].par + 1) {
+        this.scoreBruttoClass[i] = 'doubleBoggey';
+
+      }
+    });
 
     this.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id);
 
@@ -73,6 +98,7 @@ export class RoundViewWHSComponent implements OnInit {
           }
           // update score netto
           this.round.scoreCard[i].scoreNetto = this.round.scoreCard[i].stroke - this.round.scoreCard[i].hcp;
+
           // update STB netto
           this.round.scoreCard[i].stbNetto = this.round.course.holes[i].par - this.round.scoreCard[i].scoreNetto + 2;
           if (this.round.scoreCard[i].stbNetto < 0) {
@@ -92,6 +118,29 @@ export class RoundViewWHSComponent implements OnInit {
 
         });
 
+        // his.scoreNettoClass = Array(18).fill('');
+        this.scoreNettoClass.forEach((v, i) => {
+          if (this.round.scoreCard[i].scoreNetto < this.round.course.holes[i].par - 1) {
+
+            this.scoreNettoClass[i] = 'eagle';
+
+          } else if (this.round.scoreCard[i].scoreNetto < this.round.course.holes[i].par) {
+
+            this.scoreNettoClass[i] = 'birdie';
+
+          } else if (this.round.scoreCard[i].scoreNetto === this.round.course.holes[i].par) {
+
+            this.scoreNettoClass[i] = 'par';
+
+          } else if (this.round.scoreCard[i].scoreNetto === this.round.course.holes[i].par + 1) {
+            this.scoreNettoClass[i] = 'boggey';
+
+          } else if (this.round.scoreCard[i].scoreNetto > this.round.course.holes[i].par + 1) {
+            this.scoreNettoClass[i] = 'doubleBoggey';
+
+          }
+        });
+
         // create player score for each 9
         this.first9scoreNetto = this.round.scoreCard.map(s => s.scoreNetto)
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
@@ -102,12 +151,12 @@ export class RoundViewWHSComponent implements OnInit {
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9StbNetto = this.round.scoreCard.map(s => s.stbNetto)
           .reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
-         // create player STB brutto for each 9
+        // create player STB brutto for each 9
         this.first9StbBrutto = this.round.scoreCard.map(s => s.stbBrutto)
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9StbBrutto = this.round.scoreCard.map(s => s.stbBrutto)
-         .reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
-          // create player STB brutto for each 9
+          .reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+        // create player STB brutto for each 9
         this.first9CorScorBrutto = this.round.scoreCard.map(s => s.corScoreBrutto)
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9CorScorBrutto = this.round.scoreCard.map(s => s.corScoreBrutto)

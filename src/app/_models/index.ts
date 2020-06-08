@@ -7,3 +7,5 @@ export * from './gameSetup';
 export * from './game';
 export * from './tee';
 export * from './playerRoundDetails';
+export * from './tournament';
+export * from './tournamentResult';

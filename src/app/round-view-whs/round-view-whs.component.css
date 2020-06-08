@@ -1,0 +1,34 @@
+.birdie {
+  background-color: red;
+  color: white;
+}
+
+.eagle {
+  background-color: yellow;
+  color: black;
+}
+
+.boggey {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.doubleBoggey {
+  background-color: blue;
+  color: white;
+}
+
+.par {
+  background-color: white;
+  color: black;
+}
+
+.w-5 {
+  width: 4% !important;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+  vertical-align: middle;
+}

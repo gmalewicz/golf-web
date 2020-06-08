@@ -1,0 +1,31 @@
+<h2>List of tournaments:</h2>
+<br/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tournament of tournaments">
+      <td>
+        <a href="#"  routerLink ="/tournamentResults" [state]="{data: {tournament: tournament}}">
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
+      <td>{{ tournament.name }}</td>
+      <td>{{ tournament.startDate | date: "mediumDate" }}</td>
+      <td>{{ tournament.endDate | date: "mediumDate"}}</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <br />
+  <button type="button" class="btn btn-success" routerLink="">
+    Cancel
+  </button>
+</div>
+<router-outlet></router-outlet>

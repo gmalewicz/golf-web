@@ -21,6 +21,9 @@ import { BbbGameComponent } from './bbb-game/bbb-game.component';
 import { LastGamesComponent } from './last-games/last-games.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
+import { TournamentsComponent } from './tournaments/tournaments.component';
+import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
+import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 
 
 const routes: Routes = [
@@ -44,6 +47,9 @@ const routes: Routes = [
   { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
   { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] },
   { path: 'roundViewWHSComponent', component: RoundViewWHSComponent, canActivate: [AuthGuard] },
+  { path: 'tournaments', component: TournamentsComponent, canActivate: [AuthGuard] },
+  { path: 'tournamentResults', component: TournamentResultsComponent, canActivate: [AuthGuard] },
+  { path: 'tournamentRounds', component: TournamentRoundsComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

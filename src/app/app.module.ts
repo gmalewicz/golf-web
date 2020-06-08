@@ -35,6 +35,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import {DropdownModule} from 'primeng';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
+import { TournamentsComponent } from './tournaments/tournaments.component';
+import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
+import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component
     LastGamesDetailsComponent,
     ConfirmationDialogComponent,
     RoundViewWHSComponent,
+    TournamentsComponent,
+    TournamentResultsComponent,
+    TournamentRoundsComponent,
   ],
   imports: [
     BrowserModule,
