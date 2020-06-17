@@ -1,0 +1,73 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Tournament } from '@/_models';
+import { AuthenticationService, HttpService, AlertService } from '@/_services';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+
+@Component({
+  selector: 'app-add-tournament',
+  templateUrl: './add-tournament.component.html',
+  styleUrls: ['./add-tournament.component.css']
+})
+export class AddTournamentComponent implements OnInit {
+
+  addTournamentForm: FormGroup;
+  submitted = false;
+  loading = false;
+
+  constructor(private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
+              private httpService: HttpService,
+              private alertService: AlertService,
+              private router: Router) { }
+
+  ngOnInit(): void {
+    this.addTournamentForm = this.formBuilder.group({
+      name: ['', Validators.minLength(3)],
+      startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+      endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]]
+    });
+    // console.log('initialization');
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.addTournamentForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.addTournamentForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+
+    const tournament: Tournament = {
+      player: {id: this.authenticationService.currentPlayerValue.id,
+               nick: this.authenticationService.currentPlayerValue.nick,
+               whs: this.authenticationService.currentPlayerValue.whs},
+      name: this.f.name.value,
+      startDate: this.f.startDate.value,
+      endDate: this.f.endDate.value
+    };
+
+    if (tournament.startDate > tournament.endDate) {
+      this.alertService.error('Start date cannot be later than end date', false);
+      return;
+    }
+
+    this.httpService.addTournament(tournament).subscribe(data => {
+
+      this.alertService.success('Tournament successfully created', true);
+      this.loading = false;
+      this.router.navigate(['/']);
+    },
+      (error: HttpErrorResponse) => {
+        this.alertService.error('Tournament creation failed', true);
+        this.loading = false;
+        this.router.navigate(['/']);
+      });
+  }
+}

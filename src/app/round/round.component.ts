@@ -304,7 +304,7 @@ export class RoundComponent implements OnInit, AfterViewInit {
     this.round.player.push(this.authenticationService.currentPlayerValue);
     // remove rounds for all other players
     this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
-    this.router.navigate(['/roundViewWHSComponent'], {
+    this.router.navigate(['/roundViewWHS'], {
       state: { data: { round: this.round } }
     });
   }

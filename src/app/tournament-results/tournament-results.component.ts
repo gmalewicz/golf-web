@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TournamentResultsComponent implements OnInit {
 
   tournament: Tournament;
-  nick: string;
+  playerId: number;
 
   tournamentResults: Array<TournamentResult>;
 
@@ -20,10 +20,10 @@ export class TournamentResultsComponent implements OnInit {
               private authenticationService: AuthenticationService) {
 
     this.tournament = history.state.data.tournament;
-    this.nick = this.authenticationService.currentPlayerValue.nick;
+    this.playerId = this.authenticationService.currentPlayerValue.id;
 
     // to do
-    this.httpService.getTournamentResults().subscribe((retTournamentResults: TournamentResult[]) => {
+    this.httpService.getTournamentResults(this.tournament.id).subscribe((retTournamentResults: TournamentResult[]) => {
       this.tournamentResults = retTournamentResults;
     },
     (error: HttpErrorResponse) => {

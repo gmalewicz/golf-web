@@ -38,6 +38,7 @@ import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
+import { AddTournamentComponent } from './add-tournament/add-tournament.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds
     TournamentsComponent,
     TournamentResultsComponent,
     TournamentRoundsComponent,
+    AddTournamentComponent,
   ],
   imports: [
     BrowserModule,

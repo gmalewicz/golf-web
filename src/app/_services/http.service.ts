@@ -6,8 +6,8 @@ import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, Player
 @Injectable()
 export class HttpService {
 
-  //URL_STR = 'http://localhost:8080/rest/';
-  URL_STR = 'http://dgng.pl/rest/';
+  URL_STR = 'http://localhost:8080/rest/';
+  // URL_STR = 'http://dgng.pl/rest/';
 
   constructor(private http: HttpClient) { }
 
@@ -155,8 +155,8 @@ export class HttpService {
   }
 
   // gets tournament results
-  getTournamentResults(): Observable<Array<TournamentResult>> {
-    return this.http.get<Array<TournamentResult>>(this.URL_STR + 'TournamentResult');
+  getTournamentResults(tournamentId: number): Observable<Array<TournamentResult>> {
+    return this.http.get<Array<TournamentResult>>(this.URL_STR + 'TournamentResult/' + tournamentId);
   }
 
   // gets rounds that can be added to tournament
@@ -173,6 +173,17 @@ export class HttpService {
     };
 
     return this.http.post<void>(this.URL_STR + 'TournamentRound/' + tournamentId, round, httpOptions);
+  }
+
+  addTournament(tournament: Tournament): Observable<void> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<void>(this.URL_STR + 'Tournament', tournament, httpOptions);
   }
 
 }

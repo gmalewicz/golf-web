@@ -7,5 +7,7 @@ export interface TournamentResult {
   strokesBrutto: number;
   strokesNetto: number;
   tournament?: Tournament;
+  stbNet: number;
+  stbGross: number;
 }
 

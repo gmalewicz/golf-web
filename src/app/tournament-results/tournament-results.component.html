@@ -5,6 +5,8 @@
     <tr>
       <th>Place</th>
       <th>Player</th>
+      <th>Net STB</th>
+      <th>Gross STB</th>
       <th>Gross Strokes</th>
       <th>Net Strokes</th>
       <th>Played Rounds</th>
@@ -16,6 +18,8 @@
         {{i + 1}}
       </td>
       <td>{{ tournamentResult.player.nick }}</td>
+      <td>{{ tournamentResult.stbNet}}</td>
+      <td>{{ tournamentResult.stbGross}}</td>
       <td>{{ tournamentResult.strokesBrutto}}</td>
       <td>{{ tournamentResult.strokesNetto}}</td>
       <td>{{ tournamentResult.playedRounds}}</td>
@@ -27,8 +31,8 @@
   <button type="button" class="btn btn-success" routerLink="">
     Cancel
   </button>
-  <span *ngIf="nick === 'Greg'">
-    &nbsp;
+  &nbsp;
+  <span *ngIf="tournament.player.id === playerId">
     <button type="button" class="btn btn-success"  routerLink ="/tournamentRounds" [state]="{data: {tournament: tournament}}">
       Add Round
     </button>

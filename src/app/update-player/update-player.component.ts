@@ -30,7 +30,7 @@ export class UpdatePlayerComponent implements OnInit {
       password: ['', Validators.minLength(6)],
       whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
     });
-    console.log('initialization');
+    // console.log('initialization');
   }
 
   // convenience getter for easy access to form fields

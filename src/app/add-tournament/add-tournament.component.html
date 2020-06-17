@@ -1,0 +1,36 @@
+<h2>Add the new tournament:</h2>
+<form [formGroup]="addTournamentForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="name">Tournament name</label>
+    <input type="text" formControlName="name" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+      <div *ngIf="f.name.errors.minlength">Tournament name must be at least 3 characters</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name">Start date</label>
+    <input type="text" maxlength="10" formControlName="startDate" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" placeholder="YYYY/MM/DD" />
+    <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+      <div *ngIf="f.startDate.errors.required">Date is required</div>
+      <div *ngIf="f.startDate.errors.pattern">Provide the date in the YYYY/MM/DD format</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name">End date</label>
+    <input type="text" maxlength="10" formControlName="endDate" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" placeholder="YYYY/MM/DD" />
+    <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+      <div *ngIf="f.endDate.errors.required">Date is required</div>
+      <div *ngIf="f.endDate.errors.pattern">Provide the date in the YYYY/MM/DD format</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-success">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Create
+    </button>
+    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+  </div>
+</form>
