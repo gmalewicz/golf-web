@@ -186,6 +186,17 @@ export class HttpService {
     return this.http.post<void>(this.URL_STR + 'Tournament', tournament, httpOptions);
   }
 
+  // reset password
+  resetPassword(adminId: number, player: Player): Observable<HttpResponse<null>> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.patch<HttpResponse<null>>(this.URL_STR + 'ResetPassword/' + adminId, player, httpOptions);
+  }
+
 }
 
 

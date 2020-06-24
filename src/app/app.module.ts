@@ -39,6 +39,7 @@ import { TournamentsComponent } from './tournaments/tournaments.component';
 import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 import { AddTournamentComponent } from './add-tournament/add-tournament.component';
+import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,8 @@ import { AddTournamentComponent } from './add-tournament/add-tournament.componen
     BrowserAnimationsModule,
     MatDialogModule,
     DropdownModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   providers: [HttpService,
               GameService,

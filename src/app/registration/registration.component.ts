@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { first } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registration',
@@ -32,9 +33,10 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
-          nick: ['', [Validators.required, Validators.maxLength(10)]],
+        nick: ['', [Validators.required, Validators.maxLength(10)]],
           password: ['', [Validators.required, Validators.minLength(6)]],
-          whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
+          whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]],
+          recaptchaReactive: ['', [Validators.required]],
       });
   }
 
@@ -52,11 +54,15 @@ export class RegistrationComponent implements OnInit {
           return;
       }
 
+      // console.log(this.f.recaptchaReactive.value);
+
+
       this.loading = true;
 
       const player: Player = {nick: this.f.nick.value,
                               password: this.f.password.value,
-                              whs: this.f.whs.value};
+                              whs: this.f.whs.value,
+                             captcha: this.f.recaptchaReactive.value};
 
       this.httpService.addPlayer(player)
           .pipe(first())
@@ -69,6 +75,10 @@ export class RegistrationComponent implements OnInit {
                   this.alertService.error(error.error.message, false);
                   this.loading = false;
               });
+  }
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
 
 }

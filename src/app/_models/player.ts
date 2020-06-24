@@ -4,4 +4,6 @@ export interface Player {
   password?: string;
   token?: string;
   whs: number;
+  captcha?: string;
+  role?: number;
 }

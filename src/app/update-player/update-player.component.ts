@@ -16,6 +16,10 @@ export class UpdatePlayerComponent implements OnInit {
   updateForm: FormGroup;
   loading = false;
   submitted = false;
+  submittedReset = false;
+  role = 0;
+
+  resetPasswordForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,11 +34,21 @@ export class UpdatePlayerComponent implements OnInit {
       password: ['', Validators.minLength(6)],
       whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
     });
+
+    this.resetPasswordForm = this.formBuilder.group({
+      nick: ['', [Validators.required, Validators.maxLength(10)]],
+      password: ['', Validators.minLength(6)]
+    });
+
     // console.log('initialization');
+    this.role = this.authenticationService.currentPlayerValue.role;
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.updateForm.controls; }
+
+  // convenience getter for easy access to form fields
+  get fReset() { return this.resetPasswordForm.controls; }
 
   onSubmit() {
     this.submitted = true;
@@ -70,6 +84,40 @@ export class UpdatePlayerComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           this.alertService.error('Player update failed', true);
+          this.loading = false;
+          this.router.navigate(['/']);
+        });
+  }
+
+  onSubmitResetPassword() {
+
+    this.submittedReset = true;
+
+    // reset alerts on submit
+    this.alertService.clear();
+
+    // stop here if form is invalid
+    if (this.resetPasswordForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+
+    const player: Player = {
+      nick: this.fReset.nick.value,
+      password: this.fReset.password.value,
+      whs: 0
+    };
+
+    this.httpService.resetPassword(this.authenticationService.currentPlayerValue.id, player)
+      .subscribe(
+        data => {
+          this.alertService.success('Password successfully reset', true);
+          this.loading = false;
+          this.router.navigate(['/']);
+        },
+        (error: HttpErrorResponse) => {
+          this.alertService.error(error.error.message, true);
           this.loading = false;
           this.router.navigate(['/']);
         });
