@@ -29,6 +29,8 @@ export class RoundViewWHSComponent implements OnInit {
   scoreBruttoClass: string[] = Array(18).fill('');
   scoreNettoClass: string[] = Array(18).fill('');
 
+  scoreDiff: number;
+
   constructor(private authenticationService: AuthenticationService,
               private httpService: HttpService,
               private alertService: AlertService) { }
@@ -161,6 +163,10 @@ export class RoundViewWHSComponent implements OnInit {
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9CorScorBrutto = this.round.scoreCard.map(s => s.corScoreBrutto)
           .reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+
+        // calculate score differntial
+        this.scoreDiff = (113 / this.playerRoundDetails.sr) *
+          ((this.first9CorScorBrutto +  this.last9CorScorBrutto) - this.playerRoundDetails.cr);
 
       },
         (error: HttpErrorResponse) => {
