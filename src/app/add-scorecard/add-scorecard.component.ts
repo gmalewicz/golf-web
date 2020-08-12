@@ -41,17 +41,19 @@ export class AddScorecardComponent implements OnInit {
   public barChartOptions: ChartOptions;
 
   updatingHhole = 0;
-  public strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   public patButtons = [0, 1, 2, 3, 4, 5];
 
   public holeSelectorActive = Array(18);
-  public strokeSelectorActive = Array(10);
+  public strokeSelectorActive = Array(15);
   public patSelectorActive = Array(6);
 
   strokes: number[] = [];
   putts: number[] = [];
 
+  tee: Tee;
   displayResult = '';
+  first9Par: number;
 
   constructor(private httpService: HttpService,
               private route: ActivatedRoute,
@@ -62,9 +64,9 @@ export class AddScorecardComponent implements OnInit {
               public dialog: MatDialog) {
 
     // initialize buttons and set them not to be marked
-    this.holeSelectorActive.fill({active: false});
-    this.strokeSelectorActive.fill({active: false});
-    this.patSelectorActive.fill({active: false});
+    this.holeSelectorActive.fill({disabled: true, active: false});
+    this.strokeSelectorActive.fill({disabled: true, active: false});
+    this.patSelectorActive.fill({disabled: true, active: false});
 
     // get round from state in case of edit
     if (history.state.data) {
@@ -73,7 +75,7 @@ export class AddScorecardComponent implements OnInit {
       this.round = null;
     }
 
-    console.log(this.round);
+    // console.log(this.round);
 
     this.getRoundData();
 
@@ -92,7 +94,7 @@ export class AddScorecardComponent implements OnInit {
 
   generateLabelsAndData() {
 
-    console.log('generate labels & data');
+    // console.log('generate labels & data');
 
     const barData: number[] = [];
     this.barChartLabels = [];
@@ -119,8 +121,8 @@ export class AddScorecardComponent implements OnInit {
                          {stack: 'Stack 1', label: 'Strokes', data: this.strokes, backgroundColor : 'red', borderWidth : 1},
                          {stack: 'Stack 1', label: 'Putts', data: this.putts, backgroundColor : 'blue', borderWidth : 1}];
 
-    console.log(this.barChartLabels);
-    console.log(this.barChartData);
+    // console.log(this.barChartLabels);
+    // console.log(this.barChartData);
 
     if (this.round != null) {
       this.barChartData[1].data = updatedStrokes;
@@ -135,13 +137,13 @@ export class AddScorecardComponent implements OnInit {
         (this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(playerRoundDetails => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
           this.f.teeDropDown.disable();
+
+          // updaate availability of holes, strokes and putts
+          this.teeChange(false);
       },
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
       });
-
-      this.calculateResult();
-
     }
 
     this.barChartOptions = {
@@ -178,8 +180,12 @@ export class AddScorecardComponent implements OnInit {
         tees: retTees
       };
 
+      this.first9Par = this.course.holes.filter((h) => {if (h.number <= 9) { return h.par; }})
+              .map(h => h.par ).reduce((p, c) => p + c);
+
       // create tee labels
-      retTees.forEach((t, i) => this.teeOptions.push({label: t.tee, value: t.id}));
+      const teeType = ['1-18', '1-9', '10-18'];
+      retTees.forEach((t, i) => this.teeOptions.push({label: t.tee + ' ' + teeType[t.teeType], value: t.id}));
 
       this.generateLabelsAndData();
       this.display = true;
@@ -259,14 +265,14 @@ export class AddScorecardComponent implements OnInit {
 
     const scoreCard: ScoreCard[] = [];
 
-    if (this.round != null) {
+    // if (this.round != null) {
 
-      this.round.scoreCard.forEach((s, i) => console.log('card id: ' + s.id + ' stroke: ' + s.stroke + ' putts: ' + s.pats));
+      // this.round.scoreCard.forEach((s, i) => console.log('card id: ' + s.id + ' stroke: ' + s.stroke + ' putts: ' + s.pats));
 
 
-      console.log('edited strokes: ' + this.strokes);
-      console.log('edited putts: ' + this.putts);
-    }
+      // console.log('edited strokes: ' + this.strokes);
+      // console.log('edited putts: ' + this.putts);
+    // }
     for (let hole = 0; hole < 18; hole++) {
 
       if (this.round == null) {
@@ -289,7 +295,7 @@ export class AddScorecardComponent implements OnInit {
       round.course.tees = round.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value);
 
       this.httpService.addRound(round).subscribe(data => {
-        console.log('round added');
+        // console.log('round added');
         this.display = false;
         this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
         this.router.navigate(['/']);
@@ -304,7 +310,7 @@ export class AddScorecardComponent implements OnInit {
       // this.round.scoreCard = scoreCard;
 
       this.httpService.updateRound(this.round).subscribe(data => {
-        console.log('round updated');
+        // console.log('round updated');
         this.display = false;
         this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
         this.router.navigate(['/']);
@@ -320,7 +326,7 @@ export class AddScorecardComponent implements OnInit {
 
     this.alertService.clear();
 
-    console.log('selected hole: ' + hole);
+    // console.log('selected hole: ' + hole);
     this.updatingHhole = hole;
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
@@ -344,7 +350,7 @@ export class AddScorecardComponent implements OnInit {
 
     this.alertService.clear();
 
-    console.log('selected stroke: ' + stroke);
+    // console.log('selected stroke: ' + stroke);
 
      // number of pats cannot be greater than number of strokes
     if (stroke < this.putts[this.updatingHhole - 1]) {
@@ -361,7 +367,7 @@ export class AddScorecardComponent implements OnInit {
       updatedStrokes.push(this.strokes[hole] - this.putts[hole]);
 
     }
-    console.log('updated strokes: ' + updatedStrokes);
+    // console.log('updated strokes: ' + updatedStrokes);
 
     this.strokes[this.updatingHhole - 1] = stroke;
     updatedStrokes[this.updatingHhole - 1] = stroke - this.putts[this.updatingHhole - 1];
@@ -372,23 +378,35 @@ export class AddScorecardComponent implements OnInit {
   }
 
   private calculateResult() {
-    const result = this.strokes.reduce((p, c) => p + c);
 
-    const difference = result - this.course.par;
+    const result = this.strokes.reduce((p, c) => p + c);
+    let difference = 0;
+    let par = 0;
+
+    if (this.tee.teeType === 1) {
+      difference = result - this.first9Par;
+      par = this.first9Par;
+    } else if (this.tee.teeType === 2) {
+      difference = result - this.course.par + this.first9Par;
+      par = this.course.par - this.first9Par;
+    } else {
+      difference = result - this.course.par;
+      par = this.course.par;
+    }
 
     let differenceStr = '' + difference;
     if (difference > 0) {
       differenceStr = '+' + difference;
     }
 
-    this.displayResult = result +  '/' + this.course.par + ' (' + differenceStr + ')';
+    this.displayResult = result +  '/' + par + ' (' + differenceStr + ')';
   }
 
   selectPat(pat: number) {
 
     this.alertService.clear();
 
-    console.log('selected pat: ' + pat);
+    // console.log('selected pat: ' + pat);
 
     // number of pats cannot be greater than number of strokes
     if (pat > this.strokes[this.updatingHhole - 1]) {
@@ -415,5 +433,42 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[1].data = updatedStrokes;
     this.barChartData[2].data = updatedPats;
 
+  }
+
+  // change which 9 is available when tee has been changed
+  teeChange(clearGraph: boolean) {
+
+    // update available holes
+    this.tee = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value).pop();
+
+    if (this.tee.teeType === 1) {
+      this.holeSelectorActive.fill({ disabled: true, active: false}, 9);
+      this.holeSelectorActive.fill({ disabled: false}, 0, 9);
+
+    } else if (this.tee.teeType === 2) {
+      this.holeSelectorActive.fill({ disabled: true, active: false}, 0, 9);
+      this.holeSelectorActive.fill({ disabled: false}, 9);
+
+    } else {
+      this.holeSelectorActive.fill({ disabled: false});
+    }
+
+    if (clearGraph) {
+      this.clearGraph();
+    }
+
+    this.calculateResult();
+  }
+
+  private clearGraph() {
+    // clear graph
+    this.putts.fill(0);
+    this.barChartData[2].data = this.putts;
+    this.strokes.fill(0);
+    this.barChartData[1].data = this.strokes;
+
+    // clear strokes and putts
+    this.strokeSelectorActive.fill({disabled: false, active: false});
+    this.patSelectorActive.fill({disabled: false, active: false});
   }
 }

@@ -62,13 +62,13 @@ export class RoundComponent implements OnInit, AfterViewInit {
 
   showRound() {
 
-    console.log('strokes: ' + this.strokes);
-    console.log('pats: ' + this.pats);
-    console.log('par: ' + this.par);
+    // console.log('strokes: ' + this.strokes);
+    // console.log('pats: ' + this.pats);
+    // console.log('par: ' + this.par);
 
     combineLatest([this.httpService.getScoreCards(
       this.round.id), this.httpService.getHoles(this.round.course.id)]).subscribe(([retScoreCards, retHoles]) => {
-        console.log(retScoreCards.length);
+        // console.log(retScoreCards.length);
 
         this.scoreCards = retScoreCards;
         this.holes = retHoles;
@@ -89,35 +89,35 @@ export class RoundComponent implements OnInit, AfterViewInit {
     for (let score = 0; score < this.scoreCards.length; score++) {
 
       if (score % 18 === 0) {
-        console.log('create set');
+        // console.log('create set');
         this.strokes.push([]);
         this.pats.push([]);
       }
       // include first 9
       if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
-        console.log('first 9: ' + score);
+        // console.log('first 9: ' + score);
         this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
         this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
       }
       // include second 9
       if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
-        console.log('second 9: ' + score);
+        // console.log('second 9: ' + score);
         this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
         this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
       }
 
     }
 
-    console.log(this.holes);
+    // console.log(this.holes);
     for (let hole = startHole - 1; hole < endHole; hole++) {
       this.par.push(this.holes[hole].par);
       this.barChartLabels.push(hole + 1);
     }
 
-    console.log(this.strokes);
-    console.log(this.strokes);
+    // console.log(this.strokes);
+    // console.log(this.strokes);
     this.barChartData = [{ stack: 'Stack 0', label: 'Par', data: this.par, backgroundColor: 'purple', borderWidth: 1 }];
-    console.log(this.strokes.length);
+    // console.log(this.strokes.length);
     if (this.strokes.length > 0 && this.dipslayPlayers[0]) {
       this.barChartData.push({
         stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
@@ -147,8 +147,8 @@ export class RoundComponent implements OnInit, AfterViewInit {
       this.barChartData.push({ stack: 'Stack 4', label: 'Putts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
     }
 
-    console.log(this.barChartLabels);
-    console.log(this.barChartData);
+    // console.log(this.barChartLabels);
+    // console.log(this.barChartData);
 
     this.barChartOptions = {
       responsive: true,
@@ -170,7 +170,7 @@ export class RoundComponent implements OnInit, AfterViewInit {
   }
 
   onDelete() {
-    console.log('delete executed');
+    // console.log('delete executed');
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -183,7 +183,7 @@ export class RoundComponent implements OnInit, AfterViewInit {
 
         this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(roundId => {
 
-          console.log('deleted scorecard for round id: ' + roundId);
+          // console.log('deleted scorecard for round id: ' + roundId);
           this.alertService.success('The scorecard has been successfully deleted', false);
 
         },
@@ -244,6 +244,7 @@ export class RoundComponent implements OnInit, AfterViewInit {
     this.players.forEach((player, i) => {
 
       let stroke = this.strokes[i].reduce((p, c) => p + c);
+
       stroke += this.pats[i].reduce((p, c) => p + c);
 
       const difference = stroke - displayPar;
@@ -269,8 +270,8 @@ export class RoundComponent implements OnInit, AfterViewInit {
   }
 
   onChecked($event, playerIdx) {
-    console.log($event.target.checked); // {}, true || false
-    console.log($event); // {}, true || false
+    // console.log($event.target.checked); // {}, true || false
+    // console.log($event); // {}, true || false
 
     this.dipslayPlayers[playerIdx] = $event.target.checked;
 
@@ -287,15 +288,15 @@ export class RoundComponent implements OnInit, AfterViewInit {
   onViewWHS() {
 
     // skip if at least one hole has 0 strokes
-    let zeroHoleFound = false;
-    this.scoreCards.forEach((s, i) => {if (s.player.id === this.authenticationService.currentPlayerValue.id && s.stroke === 0) {
-      zeroHoleFound = true;
-      return;
-    }});
-    if (zeroHoleFound) {
-      this.alertService.error('Functionality (currently) available only if 18 holes are played', false);
-      return;
-    }
+    // let zeroHoleFound = false;
+    // this.scoreCards.forEach((s, i) => {if (s.player.id === this.authenticationService.currentPlayerValue.id && s.stroke === 0) {
+    //  zeroHoleFound = true;
+    //  return;
+    // }});
+    // if (zeroHoleFound) {
+    //  this.alertService.error('Functionality (currently) available only if 18 holes are played', false);
+    //  return;
+    // }
 
     // prepare data to pass to ad-scorecard module
     this.round.course.holes = this.holes;

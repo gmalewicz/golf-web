@@ -49,8 +49,8 @@ export class BbbGameComponent implements OnInit {
     this.score = Array(this.players).fill(0);
     this.payment = Array(this.players).fill(0);
 
-    console.log(this.gameResult);
-    console.log('players: ' + this.players + ' stake: ' + this.stake);
+    // console.log(this.gameResult);
+    // console.log('players: ' + this.players + ' stake: ' + this.stake);
   }
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class BbbGameComponent implements OnInit {
     }
 
     this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
-    console.log(this.gameResult);
+    // console.log(this.gameResult);
     this.rowResult.fill(0);
     this.completedStatus[holeIdx] = 'Done';
 
@@ -90,7 +90,7 @@ export class BbbGameComponent implements OnInit {
       this.calculateScoreAndPayment();
     } else if (this.editHole === -1) {
       this.editResult = Array(this.players).fill(0).map((x, i) => this.gameResult[holeIdx][i]);
-      console.log(this.editResult);
+      // console.log(this.editResult);
       this.editHole = holeIdx;
       this.completedStatus[holeIdx] = 'Edit';
     }
@@ -105,7 +105,7 @@ export class BbbGameComponent implements OnInit {
       updArray = this.rowResult;
     }
 
-    console.log('player: ' + player + ' current result: ' + updArray);
+    // console.log('player: ' + player + ' current result: ' + updArray);
 
     if (updArray[player] === 3) {
       updArray[player] = 0;
@@ -136,9 +136,9 @@ export class BbbGameComponent implements OnInit {
       return p;
     }, 0);
 
-    console.log('max: ' + max);
-    console.log('maxCnt: ' + maxCnt);
-    console.log('score: ' + this.score);
+    // console.log('max: ' + max);
+    // console.log('maxCnt: ' + maxCnt);
+    // console.log('score: ' + this.score);
 
     this.score.forEach((v, i) => {
 
@@ -149,6 +149,8 @@ export class BbbGameComponent implements OnInit {
         this.payment[i] = (v - max) * this.stake;
       }
     });
+
+    // console.log('payment: ' + this.payment);
   }
 
   onSave() {

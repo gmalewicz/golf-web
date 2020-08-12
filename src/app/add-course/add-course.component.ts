@@ -4,6 +4,7 @@ import { Hole, Course, Tee } from '@/_models';
 import { HttpService, AlertService} from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-course',
@@ -38,6 +39,10 @@ export class AddCourseComponent implements OnInit {
 
   tees: Tee[] = [];
 
+  teeTypes = [];
+
+  nbrHoles = [];
+
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -47,6 +52,14 @@ export class AddCourseComponent implements OnInit {
     this.parSelectorActive.fill({active: false});
     this.siSelectorActive.fill({active: false});
     this.holeSelectorActive.fill({active: false});
+
+    // initialize tee types
+    this.teeTypes = [{label: '1-18', value: 0},
+                     {label: '1-9', value: 1},
+                     {label: '10-18', value: 2}];
+
+    this.nbrHoles = [{label: '18', value: 18},
+                     {label: '9', value: 9}];
 
     this.generateLabelsAndData();
   }
@@ -58,6 +71,8 @@ export class AddCourseComponent implements OnInit {
       tee: ['', Validators.required],
       cr: ['', [, Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
       sr: ['', [, Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
+      teeTypeDropDown: ['', [ Validators.required ]],
+      nbrHolesDropDown: ['', [ Validators.required ]]
     });
   }
 
@@ -174,7 +189,7 @@ export class AddCourseComponent implements OnInit {
 
     // verify form data and other entries
     if (this.f.courseName.invalid || this.f.coursePar.invalid || !this.allDataSet()) {
-      console.log('alldata set');
+      // console.log('all data set');
       return;
     }
 
@@ -192,7 +207,8 @@ export class AddCourseComponent implements OnInit {
       name: this.f.courseName.value,
       par: +this.f.coursePar.value,
       holes: newHoles,
-      tees: this.tees
+      tees: this.tees,
+      holeNbr: this.f.nbrHolesDropDown.value
     });
 
     // send Course to the server
@@ -201,10 +217,12 @@ export class AddCourseComponent implements OnInit {
       this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
       this.router.navigate(['/']);
     },
-      error => {
-        this.alertService.error('Adding course failed', true);
-        this.loading = false;
+    (error: HttpErrorResponse) => {
+      this.alertService.error(error.error.error + ' ' + error.error.message, true);
+      this.loading = false;
     });
+
+
   }
 
   clear() {
@@ -212,9 +230,11 @@ export class AddCourseComponent implements OnInit {
     // clear error
     this.alertService.clear();
 
-    // clear couse name and par
-    this.f.courseName.setValue('');
-    this.f.coursePar.setValue('');
+    // clear couse name, par and number of holes
+    this.f.courseName.reset();
+    this.f.coursePar.reset();
+    this.f.nbrHolesDropDown.reset();
+
 
     // clear button selections
     this.siSelectorActive.fill({active: false});
@@ -231,6 +251,13 @@ export class AddCourseComponent implements OnInit {
     // set first hole as an active one
     this.updatingHole = 0;
     this.holeSelectorActive[0] =  ({active: true});
+
+    // clear tees
+    this.tees = [];
+    this.f.tee.reset();
+    this.f.cr.reset();
+    this.f.sr.reset();
+    this.f.teeTypeDropDown.reset();
   }
 
   allDataSet(): boolean {
@@ -266,7 +293,9 @@ export class AddCourseComponent implements OnInit {
     }
 
     // save tee
-    this.tees.push({tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value});
+    this.tees.push({tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value,
+        teeType: this.f.teeTypeDropDown.value});
+
     // clare submit flag to be ready for the next tee
     this.addTeeSubmitted = false;
   }

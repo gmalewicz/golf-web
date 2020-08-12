@@ -91,7 +91,7 @@
       <td>Payement</td>
       <td *ngIf="payment[0] != 0">{{payment[0] | number: '1.1-2'}}</td>
       <td *ngIf="payment[0] === 0">WIN</td>
-      <td *ngIf="payment[1] != 0">{{payment[0] | number: '1.1-2'}}</td>
+      <td *ngIf="payment[1] != 0">{{payment[1] | number: '1.1-2'}}</td>
       <td *ngIf="payment[1] === 0">WIN</td>
       <td *ngIf="players > 2 && payment[2] != 0">{{payment[2] | number: '1.1-2'}}</td>
       <td *ngIf="players > 2 && payment[2] === 0">WIN</td>

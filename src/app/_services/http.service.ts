@@ -7,8 +7,8 @@ import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, Player
 @Injectable()
 export class HttpService {
 
-  // URL_STR = 'http://localhost:8080/rest/'; // local database
-  URL_STR = 'http://dgng.pl/rest/';  // production
+  URL_STR = 'http://localhost:8080/rest/'; // local database
+  // URL_STR = 'http://dgng.pl/rest/';  // production
   // URL_STR = 'http://localhost:8090/rest/'; // integration database
 
   constructor(private http: HttpClient) { }

@@ -3,4 +3,5 @@ export interface Tee {
   cr: number;
   sr: number;
   tee: string;
+  teeType: number;
 }

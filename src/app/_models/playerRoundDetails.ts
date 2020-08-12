@@ -3,5 +3,6 @@ export interface PlayerRoundDetails {
   cr: number;
   sr: number;
   tee: string;
-  teeId?: number;
+  teeId: number;
+  teeType: number;
 }
