@@ -12,18 +12,53 @@
       <th>Played Rounds</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let tournamentResult of tournamentResults,  let i = index">
-      <td>
-        {{i + 1}}
-      </td>
-      <td>{{ tournamentResult.player.nick }}</td>
-      <td>{{ tournamentResult.stbNet}}</td>
-      <td>{{ tournamentResult.stbGross}}</td>
-      <td>{{ tournamentResult.strokesBrutto}}</td>
-      <td>{{ tournamentResult.strokesNetto}}</td>
-      <td>{{ tournamentResult.playedRounds}}</td>
-    </tr>
+  <tbody *ngFor="let tournamentResult of tournamentResults,  let i = index">
+      <tr>
+        <td *ngIf="displayRound[i] == false">
+          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+           &nbsp;
+          {{i + 1}}
+        </td>
+        <td *ngIf="displayRound[i] == true">
+          <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+           &nbsp;
+          {{i + 1}}
+        </td>
+        <td>{{ tournamentResult.player.nick }}</td>
+        <td>{{ tournamentResult.stbNet}}</td>
+        <td>{{ tournamentResult.stbGross}}</td>
+        <td>{{ tournamentResult.strokesBrutto}}</td>
+        <td>{{ tournamentResult.strokesNetto}}</td>
+        <td>{{ tournamentResult.playedRounds}}</td>
+      </tr>
+      <tr *ngIf="tournamentRounds[i] != null && displayRound[i] == true then showDetails"></tr>
+
+      <ng-template #showDetails>
+        <td colspan="7">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Course</th>
+                <th>Net STB</th>
+                <th>Gross STB</th>
+                <th>Gross Strokes</th>
+                <th>Net Strokes</th>
+                <th>Score Differential</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let tournamentRound of tournamentRounds[i],  let j = index">
+              <td>{{j + 1}}</td>
+              <td>{{tournamentRound.courseName}}</td>
+              <td>{{tournamentRound.stbNet}}</td>
+              <td>{{tournamentRound.stbGross}}</td>
+              <td>{{tournamentRound.strokesBrutto}}</td>
+              <td>{{tournamentRound.strokesNetto}}</td>
+              <td>{{tournamentRound.scrDiff}}</td>
+            </tbody>
+          </table>
+        </td>
+      </ng-template>
   </tbody>
 </table>
 <div>
@@ -39,3 +74,5 @@
 </span>
 </div>
 <router-outlet></router-outlet>
+
+

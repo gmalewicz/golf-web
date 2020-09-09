@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, PlayerRoundDetails,
-  Tournament, TournamentResult } from '@/_models';
+  Tournament, TournamentResult, TournamentRound } from '@/_models';
 
 @Injectable()
 export class HttpService {
@@ -197,6 +197,11 @@ export class HttpService {
     };
 
     return this.http.patch<HttpResponse<null>>(this.URL_STR + 'ResetPassword/' + adminId, player, httpOptions);
+  }
+
+  // gets tournamnet rounds
+  getTournamentResultRounds(resultId: number): Observable<Array<TournamentRound>> {
+    return this.http.get<Array<TournamentRound>>(this.URL_STR + 'TournamentResultRound/' + resultId);
   }
 
 }

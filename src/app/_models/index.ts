@@ -9,3 +9,4 @@ export * from './tee';
 export * from './playerRoundDetails';
 export * from './tournament';
 export * from './tournamentResult';
+export * from './tournamentRound';

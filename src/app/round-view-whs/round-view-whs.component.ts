@@ -256,7 +256,7 @@ export class RoundViewWHSComponent implements OnInit {
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9StbBrutto = this.round.scoreCard.map(s => s.stbBrutto)
           .reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
-        // create player STB brutto for each 9
+        // create player corrected score brutto for each 9
         this.first9CorScorBrutto = this.round.scoreCard.map(s => s.corScoreBrutto)
           .reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9CorScorBrutto = this.round.scoreCard.map(s => s.corScoreBrutto)
