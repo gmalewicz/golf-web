@@ -40,6 +40,9 @@ import { TournamentResultsComponent } from './tournament-results/tournament-resu
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 import { AddTournamentComponent } from './add-tournament/add-tournament.component';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
+import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
+import { OnlineRoundComponent } from './online-round/online-round.component';
+import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +75,9 @@ import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
     TournamentResultsComponent,
     TournamentRoundsComponent,
     AddTournamentComponent,
+    OnlineScoreCardComponent,
+    OnlineRoundComponent,
+    OnlineScoreCardViewComponent,
   ],
   imports: [
     BrowserModule,

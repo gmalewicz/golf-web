@@ -36,6 +36,8 @@
     "primeng": "^9.0.6",
     "quill": "^1.3.7",
     "rxjs": "~6.5.4",
+    "sockjs-client": "^1.5.0",
+    "stompjs": "^2.3.3",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
@@ -49,6 +51,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "@types/sockjs-client": "^1.1.1",
     "codelyzer": "^5.1.2",
     "firebase-tools": "^8.0.0",
     "fuzzy": "^0.1.3",

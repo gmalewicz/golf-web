@@ -24,6 +24,11 @@
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
+      <td *ngIf="parent === 'addOnlineRound'">
+        <a [routerLink]="['/onlineRound', row.id, row.name, row.par]">
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
       <td>{{ row.name }}</td>
       <td>{{ row.par }}</td>
     </tr>

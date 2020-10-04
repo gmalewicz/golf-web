@@ -1,0 +1,120 @@
+<div *ngIf="display">
+  <div>
+    <h2>
+      {{course.name}}
+      <span *ngIf="started">
+        :
+        {{ f.teeTime.value }}
+        Hole:
+        {{currentHole + 1}}
+      </span>
+    </h2>
+  </div>
+  <div *ngIf="!started">
+    <form [formGroup]="addScorecardForm">
+      <div class="form-row">
+        <div class="form-group col">
+          <input type="text" maxlength="5" formControlName="teeTime" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }" placeholder="HH:MM" />
+          <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
+            <div *ngIf="f.teeTime.errors.required">Tee time is required</div>
+            <div *ngIf="f.teeTime.errors.pattern">
+              Provide the valid tee time
+            </div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <p-dropdown (onChange)="teeChange(true)" formControlName="teeDropDown" [options]="teeOptions"
+            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
+          </p-dropdown>
+          &nbsp;
+          <button [disabled]="loading" class="btn btn-success" (click)="onStart()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Start
+          </button>
+          <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.teeDropDown.errors.required">Tee is required</div>
+          </div>
+        </div>
+        <br />
+        <br />
+      </div>
+    </form>
+  </div>
+  <div  *ngIf="started">
+    <div >
+      <div>
+        <button type="button" class="btn btn-success" (click)="onDecrease()">
+          &lt;
+        </button>
+        &nbsp;
+        {{strokes[currentHole]}}
+        &nbsp;
+        <button type="button" class="btn btn-success" (click)="onIncrease()">
+          &gt;
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-success" (click)="addScore()">
+          Save
+        </button>
+      </div>
+    </div>
+    <br/>
+    <div>
+      <table id="holeStake-tbl" class="table table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Hole</th>
+            <th>Si</th>
+            <th>Par</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let hole of holes, let i = index" class="center">
+
+            <tr *ngIf="strokes[hole] > 0">
+              <td *ngIf="i === currentHole">
+                <a (click)="onUpdate(i)">
+                  <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
+                </a>
+              </td>
+              <td *ngIf="i != currentHole">
+                <a (click)="onUpdate(i)">
+                  <fa-icon [icon]="faPlay" class="golf-gray"></fa-icon>
+                </a>
+              </td>
+              <td>
+                {{course.holes[hole].number}}
+              </td>
+              <td>
+                {{course.holes[hole].si}}
+              </td>
+              <td>
+                {{course.holes[hole].par}}
+              </td>
+              <td>
+                {{strokes[hole]}}
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div>
+    <br />
+    <div class="form-group">
+      <button type="button" class="btn btn-success" routerLink="">
+        Cancel
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onDelete()">
+        Delete
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onFinal()">
+        Finalize
+      </button>
+    </div>
+  </div>
+</div>

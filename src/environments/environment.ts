@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  URL_STR: 'http://localhost:8080/rest/'
+  URL_STR: 'http://localhost:8080/rest/',
+  WS_ENDPOINT: 'http://localhost:8080/websocket/onlinescorecard?token=',
+  reconnectInterval: 2000
 };
 
 /*

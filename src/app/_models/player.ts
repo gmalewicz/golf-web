@@ -1,9 +1,9 @@
 export interface Player {
   id?: number;
-  nick: string;
+  nick?: string;
   password?: string;
   token?: string;
-  whs: number;
+  whs?: number;
   captcha?: string;
   role?: number;
 }

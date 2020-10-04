@@ -25,6 +25,12 @@ import { TournamentsComponent } from './tournaments/tournaments.component';
 import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 import { AddTournamentComponent } from './add-tournament/add-tournament.component';
+import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
+import { OnlineRoundComponent } from './online-round/online-round.component';
+import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
+
+
+
 
 
 const routes: Routes = [
@@ -52,6 +58,9 @@ const routes: Routes = [
   { path: 'tournamentResults', component: TournamentResultsComponent, canActivate: [AuthGuard] },
   { path: 'tournamentRounds', component: TournamentRoundsComponent, canActivate: [AuthGuard] },
   { path: 'addTournament', component: AddTournamentComponent, canActivate: [AuthGuard] },
+  { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
+  { path: 'onlineRound/:courseId/:courseName/:coursePar', component: OnlineRoundComponent, canActivate: [AuthGuard] },
+  { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

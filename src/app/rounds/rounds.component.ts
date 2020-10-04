@@ -16,9 +16,8 @@ export class RoundsComponent implements OnInit {
 
   constructor(private httpService: HttpService, private authenticationService: AuthenticationService) {
 
-    console.log('rounds requested');
+    // console.log('rounds requested');
 
-    // to do
     this.httpService.getRounds(this.authenticationService.currentPlayerValue.id).subscribe((retRounds: Round[]) => {
       console.log(retRounds);
       this.rounds = retRounds;

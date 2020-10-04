@@ -1,9 +1,11 @@
+import { OnlineScoreCard } from '@/_models/onlineScoreCard';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player, Game, GameSendData, Tee, PlayerRoundDetails,
   Tournament, TournamentResult, TournamentRound } from '@/_models';
+import { OnlineRound } from '@/_models/onlineRound';
 
 @Injectable()
 export class HttpService {
@@ -15,6 +17,14 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   getCourses(): Observable<Array<Course>> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
     return this.http.get<Array<Course>>(environment.URL_STR + 'Courses');
   }
 
@@ -205,6 +215,39 @@ export class HttpService {
     return this.http.get<Array<TournamentRound>>(environment.URL_STR + 'TournamentResultRound/' + resultId);
   }
 
+  addOnlineRound(onlineRound: OnlineRound): Observable<OnlineRound> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<OnlineRound>(environment.URL_STR + 'OnlineRound', onlineRound, httpOptions);
+  }
+
+  getOnlineRounds(): Observable<Array<OnlineRound>> {
+    return this.http.get<Array<OnlineRound>>(environment.URL_STR + 'OnlineRound');
+  }
+
+  getOnlineScoreCard(onlineRoundId: number): Observable<Array<OnlineScoreCard>> {
+    return this.http.get<Array<OnlineScoreCard>>(environment.URL_STR + 'OnlineScoreCard/'  + onlineRoundId);
+  }
+
+  deleteOnlineRound(id: number) {
+    return this.http.delete(environment.URL_STR + 'OnlineRound/' + id);
+  }
+
+  finalizeOnlineRound(onlineRoundId: number): Observable<Round> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+
+    return this.http.post<Round>(environment.URL_STR + 'FinalizeOnlineRound/' + onlineRoundId, httpOptions);
+  }
 }
 
 

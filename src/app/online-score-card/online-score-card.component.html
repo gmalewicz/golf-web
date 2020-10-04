@@ -1,0 +1,57 @@
+<div *ngIf="display && onlineRound.length > 0">
+  <h2>Active score cards:</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Tee Time</th>
+        <th>Course</th>
+        <th>Nick</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let round of onlineRound">
+        <td>
+          <a
+            href="#"
+            routerLink="/onlineScoreCardView"
+            [state]="{ data: { onlineRound: round } }"
+          >
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td>{{ round.teeTime }}</td>
+        <td>{{ round.course.name }}</td>
+        <td>{{ round.player.nick }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="display && onlineRound.length === 0">
+  <h2>No active score cards</h2>
+</div>
+<div>
+  <br />
+  <span  *ngIf="myOnlineRound === undefined">
+  <button
+    type="button"
+    class="btn btn-success"
+    [routerLink]="['/courses', 'addOnlineRound']"
+  >
+    Start Round
+  </button>
+  </span>
+  <span  *ngIf="myOnlineRound != undefined">
+    <button
+      type="button"
+      class="btn btn-success"
+      [routerLink]="['/onlineRound', myOnlineRound.course.id, myOnlineRound.course.name, myOnlineRound.course.par]"
+      [state]="{ data: { onlineRound: myOnlineRound } }"
+    >
+      Continue Round
+    </button>
+  </span>
+  &nbsp;
+  <button type="button" class="btn btn-success">Cancel</button>
+</div>
+<router-outlet></router-outlet>
