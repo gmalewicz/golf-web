@@ -25,11 +25,11 @@ export class HttpService {
       })
     };
 
-    return this.http.get<Array<Course>>(environment.URL_STR + 'Courses');
+    return this.http.get<Array<Course>>('rest/Courses');
   }
 
   getHoles(id: number): Observable<Array<Hole>> {
-    return this.http.get<Array<Hole>>(environment.URL_STR + 'Holes/' + id);
+    return this.http.get<Array<Hole>>('rest/Holes/' + id);
   }
 
   addCourse(course: Course): Observable<Course> {
@@ -41,15 +41,15 @@ export class HttpService {
       })
     };
 
-    return this.http.post<Course>(environment.URL_STR + 'Course', course, httpOptions);
+    return this.http.post<Course>('rest/Course', course, httpOptions);
   }
 
   deleteCourse(id: number) {
-    return this.http.delete(environment.URL_STR + 'Course/' + id);
+    return this.http.delete('rest/Course/' + id);
   }
 
   getRounds(id: number): Observable<Array<Round>> {
-    return this.http.get<Array<Round>>(environment.URL_STR + 'Rounds/' + id);
+    return this.http.get<Array<Round>>('rest/Rounds/' + id);
   }
 
   // add round
@@ -62,11 +62,11 @@ export class HttpService {
       })
     };
 
-    return this.http.post<any>(environment.URL_STR + 'Round', round, httpOptions);
+    return this.http.post<any>('rest/Round', round, httpOptions);
   }
 
   getScoreCards(roundId: number): Observable<Array<ScoreCard>> {
-    return this.http.get<Array<ScoreCard>>(environment.URL_STR + 'ScoreCard/' + roundId);
+    return this.http.get<Array<ScoreCard>>('rest/ScoreCard/' + roundId);
   }
 
   authenticate(nick: string, password: string): Observable<HttpResponse<Player>> {
@@ -79,7 +79,8 @@ export class HttpService {
     };
 
     // tslint:disable-next-line: max-line-length
-    return this.http.post<any>(environment.URL_STR + 'Authenticate', {nick, password}, {
+    // return this.http.post<any>(environment.URL_STR + 'Authenticate', {nick, password}, {
+    return this.http.post<any>('rest/Authenticate', {nick, password}, {
       headers: new HttpHeaders({'Access-Control-Allow-Origin': '*'}), observe: 'response'});
   }
 
@@ -91,12 +92,12 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(environment.URL_STR + 'AddPlayer', player, httpOptions);
+    return this.http.post<void>('rest/AddPlayer', player, httpOptions);
   }
 
   // delete round
   deleteRound(id: number) {
-    return this.http.delete(environment.URL_STR + 'Round/' + id);
+    return this.http.delete('rest/Round/' + id);
   }
 
   // update player
@@ -107,7 +108,7 @@ export class HttpService {
       })
     };
 
-    return this.http.patch<Player>(environment.URL_STR + 'PatchPlayer/' + player.id, player, httpOptions);
+    return this.http.patch<Player>('rest/PatchPlayer/' + player.id, player, httpOptions);
   }
 
   addGame(game: Game): Observable<void> {
@@ -118,11 +119,11 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(environment.URL_STR + 'Game', game, httpOptions);
+    return this.http.post<void>('rest/Game', game, httpOptions);
   }
 
   getGames(player: Player): Observable<Array<Game>> {
-    return this.http.get<Array<Game>>(environment.URL_STR + 'Game/' + player.id);
+    return this.http.get<Array<Game>>('rest/Game/' + player.id);
   }
 
   sendGame(gameSendData: GameSendData): Observable<void> {
@@ -133,12 +134,12 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(environment.URL_STR + 'SendGame', gameSendData, httpOptions);
+    return this.http.post<void>('rest/SendGame', gameSendData, httpOptions);
   }
 
   // delete round (scorecard)
   deleteScoreCard(playerId: number, roundId: number) {
-    return this.http.delete(environment.URL_STR + 'ScoreCard/' + playerId + '/' + roundId);
+    return this.http.delete('rest/ScoreCard/' + playerId + '/' + roundId);
   }
 
   // update round
@@ -149,32 +150,32 @@ export class HttpService {
       })
     };
 
-    return this.http.patch<void>(environment.URL_STR + 'ScoreCard', round, httpOptions);
+    return this.http.patch<void>('rest/ScoreCard', round, httpOptions);
   }
 
   // gets list of tees for course
   getTees(courseId: number): Observable<Array<Tee>> {
-    return this.http.get<Array<Tee>>(environment.URL_STR + 'Tee/' + courseId);
+    return this.http.get<Array<Tee>>('rest/Tee/' + courseId);
   }
 
   // gets player round details
   getPlayerRoundDetails(playerId: number, roundId: number): Observable<PlayerRoundDetails> {
-    return this.http.get<PlayerRoundDetails>(environment.URL_STR + 'RoundPlayerDetails/' + playerId + '/' + roundId);
+    return this.http.get<PlayerRoundDetails>('rest/RoundPlayerDetails/' + playerId + '/' + roundId);
   }
 
   // gets tournaments
   getTournaments(): Observable<Array<Tournament>> {
-    return this.http.get<Array<Tournament>>(environment.URL_STR + 'Tournament');
+    return this.http.get<Array<Tournament>>('rest/Tournament');
   }
 
   // gets tournament results
   getTournamentResults(tournamentId: number): Observable<Array<TournamentResult>> {
-    return this.http.get<Array<TournamentResult>>(environment.URL_STR + 'TournamentResult/' + tournamentId);
+    return this.http.get<Array<TournamentResult>>('rest/TournamentResult/' + tournamentId);
   }
 
   // gets rounds that can be added to tournament
   getTournamentRounds(tournamentId: number): Observable<Array<Round>> {
-    return this.http.get<Array<Round>>(environment.URL_STR + 'TournamentRounds/' + tournamentId);
+    return this.http.get<Array<Round>>('rest/TournamentRounds/' + tournamentId);
   }
 
   addRoundToTournament(round: Round, tournamentId: number): Observable<void> {
@@ -185,7 +186,7 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(environment.URL_STR + 'TournamentRound/' + tournamentId, round, httpOptions);
+    return this.http.post<void>('rest/TournamentRound/' + tournamentId, round, httpOptions);
   }
 
   addTournament(tournament: Tournament): Observable<void> {
@@ -196,7 +197,7 @@ export class HttpService {
       })
     };
 
-    return this.http.post<void>(environment.URL_STR + 'Tournament', tournament, httpOptions);
+    return this.http.post<void>('rest/Tournament', tournament, httpOptions);
   }
 
   // reset password
@@ -207,12 +208,12 @@ export class HttpService {
       })
     };
 
-    return this.http.patch<HttpResponse<null>>(environment.URL_STR + 'ResetPassword/' + adminId, player, httpOptions);
+    return this.http.patch<HttpResponse<null>>('rest/ResetPassword/' + adminId, player, httpOptions);
   }
 
   // gets tournamnet rounds
   getTournamentResultRounds(resultId: number): Observable<Array<TournamentRound>> {
-    return this.http.get<Array<TournamentRound>>(environment.URL_STR + 'TournamentResultRound/' + resultId);
+    return this.http.get<Array<TournamentRound>>('rest/TournamentResultRound/' + resultId);
   }
 
   addOnlineRound(onlineRound: OnlineRound): Observable<OnlineRound> {
@@ -223,19 +224,19 @@ export class HttpService {
       })
     };
 
-    return this.http.post<OnlineRound>(environment.URL_STR + 'OnlineRound', onlineRound, httpOptions);
+    return this.http.post<OnlineRound>('rest/OnlineRound', onlineRound, httpOptions);
   }
 
   getOnlineRounds(): Observable<Array<OnlineRound>> {
-    return this.http.get<Array<OnlineRound>>(environment.URL_STR + 'OnlineRound');
+    return this.http.get<Array<OnlineRound>>('rest/OnlineRound');
   }
 
   getOnlineScoreCard(onlineRoundId: number): Observable<Array<OnlineScoreCard>> {
-    return this.http.get<Array<OnlineScoreCard>>(environment.URL_STR + 'OnlineScoreCard/'  + onlineRoundId);
+    return this.http.get<Array<OnlineScoreCard>>('rest/OnlineScoreCard/'  + onlineRoundId);
   }
 
   deleteOnlineRound(id: number) {
-    return this.http.delete(environment.URL_STR + 'OnlineRound/' + id);
+    return this.http.delete('rest/OnlineRound/' + id);
   }
 
   finalizeOnlineRound(onlineRoundId: number): Observable<Round> {
@@ -246,7 +247,7 @@ export class HttpService {
       })
     };
 
-    return this.http.post<Round>(environment.URL_STR + 'FinalizeOnlineRound/' + onlineRoundId, httpOptions);
+    return this.http.post<Round>('rest/FinalizeOnlineRound/' + onlineRoundId, httpOptions);
   }
 }
 

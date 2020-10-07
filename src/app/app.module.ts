@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { HttpService, GameService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
 import { ChartsModule } from 'ng2-charts';
@@ -91,7 +91,12 @@ import { OnlineScoreCardViewComponent } from './online-score-card-view/online-sc
     MatDialogModule,
     DropdownModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    HttpClientXsrfModule
+    // HttpClientXsrfModule.withOptions({
+    //  cookieName: 'My-Xsrf-Cookie', // this is optional
+    //  headerName: 'My-Xsrf-Header' // this is optional
+    // })
   ],
   providers: [HttpService,
               GameService,
