@@ -38,7 +38,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   round: OnlineRound;
   roundCompleted = false;
   totalStrokes: number;
-  // prevStroke: number;
+  courseStrokes = 0;
   holes: number[];
 
   webSocketAPI: WebSocketAPI;
@@ -115,42 +115,35 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     // get score cards
     this.httpService.getOnlineScoreCard(this.round.id).subscribe(retScoreCards => {
 
+      this.tee = this.round.tee;
+
       retScoreCards.map(scoreCard => this.strokes[scoreCard.hole - 1] = scoreCard.stroke);
       this.totalStrokes = this.strokes.reduce((prev, current) => prev + current);
       // console.log(this.strokes);
-      if (retScoreCards.length === 0) {
-        this.currentHole = 0;
+      if (retScoreCards.length === 0 && this.tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
+        this.currentHole = 8;
+      } else if (retScoreCards.length === 0) {
+        this.currentHole = -1;
       } else {
         this.currentHole = retScoreCards.map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
       }
       // console.log(this.currentHole);
-      this.lastPlayed = this.currentHole + 1;
-      this.currentStroke = this.course.holes[this.currentHole].par;
+      // this.lastPlayed = this.currentHole;
 
-      this.tee = this.round.tee;
 
       // check if round not completed
       if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17)  {
         this.roundCompleted = true;
+
       }
 
       if (!this.roundCompleted) {
         this.currentHole++;
       }
+      this.lastPlayed = this.currentHole;
+      this.currentStroke = this.course.holes[this.currentHole].par;
+      this.prepareHolesAndCourseStrokes();
 
-      switch (this.tee.teeType) {
-        case teeTypes.TEE_TYPE_18:
-          // console.log(new Array(18).fill(0).map((x, i) => x + i));
-          this.holes = new Array(18).fill(0).map((x, i) => x + i);
-          break;
-        case teeTypes.TEE_TYPE_FIRST_9:
-          this.holes = new Array(9).fill(0).map((x, i) => x + i);
-          break;
-        default:
-          // console.log(new Array(9).fill(0).map((x, i) => x + i + 9));
-          this.holes = new Array(9).fill(0).map((x, i) => x + i + 9);
-          break;
-      }
       // console.log(this.holes);
       this.webSocketAPI._connect(false);
 
@@ -160,6 +153,25 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
       });
+  }
+
+  private prepareHolesAndCourseStrokes() {
+    switch (this.tee.teeType) {
+      case teeTypes.TEE_TYPE_18:
+        // console.log(new Array(18).fill(0).map((x, i) => x + i));
+        this.holes = new Array(18).fill(0).map((x, i) => x + i);
+        this.courseStrokes = this.course.par;
+        break;
+      case teeTypes.TEE_TYPE_FIRST_9:
+        this.holes = new Array(9).fill(0).map((x, i) => x + i);
+        this.courseStrokes = this.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+        break;
+      default:
+        // console.log(new Array(9).fill(0).map((x, i) => x + i + 9));
+        this.holes = new Array(9).fill(0).map((x, i) => x + i + 9);
+        this.courseStrokes = this.course.holes.map(h => h.par).reduce((p, n, i) => { if (i > 9) { return p + n; } else { return p; } });
+        break;
+    }
   }
 
   onStart() {
@@ -195,24 +207,12 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
           // update for last 9 round
           if (this.tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
             this.currentHole = 9;
+            this.lastPlayed = 9;
             this.currentStroke = this.course.holes[9].par;
           } else {
             this.currentStroke = this.course.holes[0].par;
           }
-
-          switch (this.tee.teeType) {
-            case teeTypes.TEE_TYPE_18:
-              // console.log(new Array(18).fill(0).map((x, i) => x + i));
-              this.holes = new Array(18).fill(0).map((x, i) => x + i);
-              break;
-            case teeTypes.TEE_TYPE_FIRST_9:
-              this.holes = new Array(9).fill(0).map((x, i) => x + i);
-              break;
-            default:
-              // console.log(new Array(9).fill(0).map((x, i) => x + i + 9));
-              this.holes = new Array(9).fill(0).map((x, i) => x + i + 9);
-              break;
-          }
+          this.prepareHolesAndCourseStrokes();
 
           this.started = true;
         },
@@ -232,6 +232,9 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   }
 
   addScore() {
+
+    // console.log('last played: ' + this.lastPlayed);
+    // console.log('current hole: ' + this.currentHole);
 
     // create new online score card
     const currentOnlineScoreCard: OnlineScoreCard = {
@@ -254,6 +257,8 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
         this.lastPlayed++;
       }
     }
+
+
 
     // save only if anything has been changes
     if (this.currentStroke !== this.strokes[this.currentHole]) {

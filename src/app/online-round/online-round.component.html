@@ -3,12 +3,16 @@
     <h2>
       {{course.name}}
       <span *ngIf="started">
-        :
+        <!--
+          :
         {{ f.teeTime.value }}
         Hole:
         {{currentHole + 1}}
         Strokes:
+        -->
         {{totalStrokes}}
+        /
+        {{courseStrokes}}
       </span>
     </h2>
   </div>
@@ -46,6 +50,9 @@
   <div  *ngIf="started">
     <div >
       <div>
+        Hole:
+        {{currentHole + 1}}
+        &nbsp;
         <button type="button" class="btn btn-success" (click)="onDecrease()">
           &lt;
         </button>
