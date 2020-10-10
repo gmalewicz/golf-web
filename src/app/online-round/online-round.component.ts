@@ -32,10 +32,13 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   display = false;
   started = false;
   currentHole = 0;
+  currentStroke: number;
   lastPlayed = 0;
   strokes: number[] = Array(18).fill(0);
   round: OnlineRound;
   roundCompleted = false;
+  totalStrokes: number;
+  // prevStroke: number;
   holes: number[];
 
   webSocketAPI: WebSocketAPI;
@@ -47,6 +50,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private authenticationService: AuthenticationService,
               private router: Router) {
+    this.totalStrokes = 0;
     this.getRoundData();
     this.webSocketAPI = new WebSocketAPI(null, this.alertService, this.authenticationService);
   }
@@ -112,6 +116,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     this.httpService.getOnlineScoreCard(this.round.id).subscribe(retScoreCards => {
 
       retScoreCards.map(scoreCard => this.strokes[scoreCard.hole - 1] = scoreCard.stroke);
+      this.totalStrokes = this.strokes.reduce((prev, current) => prev + current);
       // console.log(this.strokes);
       if (retScoreCards.length === 0) {
         this.currentHole = 0;
@@ -120,19 +125,17 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       }
       // console.log(this.currentHole);
       this.lastPlayed = this.currentHole + 1;
+      this.currentStroke = this.course.holes[this.currentHole].par;
 
       this.tee = this.round.tee;
 
       // check if round not completed
-      if (this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) {
-        this.roundCompleted = true;
-      } else if (this.currentHole === 17) {
+      if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17)  {
         this.roundCompleted = true;
       }
 
       if (!this.roundCompleted) {
         this.currentHole++;
-        this.strokes[this.currentHole] = this.course.holes[this.currentHole].par;
       }
 
       switch (this.tee.teeType) {
@@ -175,8 +178,6 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       if (result) {
         // save if accepted by player
         this.loading = true;
-        // this.started = true;
-        // this.webSocketAPI._connect();
         this.webSocketAPI._connect(false);
 
         const onlineRound: OnlineRound = {
@@ -194,9 +195,9 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
           // update for last 9 round
           if (this.tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
             this.currentHole = 9;
-            this.strokes[this.currentHole] = this.course.holes[9].par;
+            this.currentStroke = this.course.holes[9].par;
           } else {
-            this.strokes[this.currentHole] = this.course.holes[0].par;
+            this.currentStroke = this.course.holes[0].par;
           }
 
           switch (this.tee.teeType) {
@@ -232,11 +233,10 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   addScore() {
 
-    // if (!this.roundCompleted) {
-
+    // create new online score card
     const currentOnlineScoreCard: OnlineScoreCard = {
       hole: this.currentHole + 1,
-      stroke: this.strokes[this.currentHole],
+      stroke: this.currentStroke,
       player: {
         id: this.authenticationService.currentPlayerValue.id
       },
@@ -244,31 +244,38 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       update: false
     };
 
+    // verify if it is update
     if (this.lastPlayed > this.currentHole) {
       currentOnlineScoreCard.update = true;
+    // or new scorecard
     } else {
+      // this.prevStroke = this.strokes[this.currentHole];
       if (!this.roundCompleted) {
         this.lastPlayed++;
       }
     }
 
-    this.webSocketAPI._send(currentOnlineScoreCard);
+    // save only if anything has been changes
+    if (this.currentStroke !== this.strokes[this.currentHole]) {
+      // send scorecard to server
+      this.webSocketAPI._send(currentOnlineScoreCard);
+      // update total strokes by substracting current value and adding the new one
+      this.totalStrokes -= this.strokes[this.currentHole];
+      this.totalStrokes += this.currentStroke;
+    }
 
-    // }
+    // update stroke list
+    this.strokes[this.currentHole] = this.currentStroke;
 
     // console.log('current hole: ' + this.currentHole);
-    if (this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) {
-      this.roundCompleted = true;
-    } else if (this.currentHole === 17) {
+    if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17) {
       this.roundCompleted = true;
     }
 
     // update current hole if round is not completed
     if (!this.roundCompleted) {
-      this.currentHole++;
-      if (this.lastPlayed === this.currentHole) {
-        this.strokes[this.currentHole] = this.course.holes[this.currentHole].par;
-      }
+      this.currentHole = this.lastPlayed;
+      this.currentStroke = this.course.holes[this.currentHole].par;
     }
   }
 
@@ -334,25 +341,28 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   onDecrease() {
 
     // number of strokes canot be lower than 1
-    if (this.strokes[this.currentHole] === 1) {
+    if (this.currentStroke === 1) {
       return;
     }
+    this.currentStroke--;
 
-    this.strokes[this.currentHole]--;
   }
 
   onUpdate(hole: number) {
-    console.log('hole: ' + hole);
-    console.log('last played: ' + this.lastPlayed);
+    // console.log('hole: ' + hole);
+    // console.log('last played: ' + this.lastPlayed);
     this.currentHole = hole;
+    // console.log(this.strokes);
+    this.currentStroke = this.strokes[hole];
   }
 
   onIncrease() {
 
     // number of strokes canot be greater than 15
-    if (this.strokes[this.currentHole] === 15) {
+    if (this.currentStroke === 15) {
       return;
     }
-    this.strokes[this.currentHole]++;
+    // this.strokes[this.currentHole]++;
+    this.currentStroke++;
   }
 }
