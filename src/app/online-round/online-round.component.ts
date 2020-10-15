@@ -50,12 +50,14 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private authenticationService: AuthenticationService,
               private router: Router) {
+
     this.totalStrokes = 0;
     this.getRoundData();
     this.webSocketAPI = new WebSocketAPI(null, this.alertService, this.authenticationService);
   }
 
   ngOnInit(): void {
+
     this.addScorecardForm = this.formBuilder.group({
       teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
       teeDropDown: ['', [Validators.required]]

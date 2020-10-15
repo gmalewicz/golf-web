@@ -1,5 +1,5 @@
 <div *ngIf="display">
-  <h2>{{ onlineRound.course.name }} : &nbsp; {{ onlineRound.teeTime }} &nbsp; Player: &nbsp; {{onlineRound.player.nick}}
+  <h2>{{ course.name }}
   </h2>
   <br/>
   <div class="table-responsive">
@@ -22,11 +22,11 @@
     <tr>
       <th>PAR</th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        {{onlineRound.course.holes[i].par}}
+        {{course.holes[i].par}}
       </td>
       <th class="center">{{first9par}}</th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        {{onlineRound.course.holes[i + 9].par}}
+        {{course.holes[i + 9].par}}
       </td>
       <th class="center">{{last9par}}</th>
       <th class="center">{{first9par + last9par}}</th>
@@ -34,30 +34,30 @@
     <tr>
       <th>SI</th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        {{onlineRound.course.holes[i].si}}
+        {{course.holes[i].si}}
       </td>
       <th></th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        {{onlineRound.course.holes[i + 9].si}}
+        {{course.holes[i + 9].si}}
       </td>
       <th></th>
       <th></th>
     </tr>
-    <tr>
-      <th>Score</th>
+    <tr *ngFor="let onlineRound of onlineRounds" class="center">
+      <th>{{onlineRound.player.nick}}</th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        <span *ngIf="onlineScoreCard[i] != null">
-          {{onlineScoreCard[i].stroke}}
+        <span *ngIf="onlineRound.scoreCardAPI[i] != null">
+          {{onlineRound.scoreCardAPI[i].stroke}}
         </span>
       </td>
-      <th class="center">{{first9score}}</th>
+      <th class="center">{{onlineRound.first9score}}</th>
       <td *ngFor="let i = index of counter(9)" class="center">
-        <span *ngIf="onlineScoreCard[i + 9] != null">
-          {{onlineScoreCard[i + 9].stroke}}
+        <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
+          {{onlineRound.scoreCardAPI[i + 9].stroke}}
         </span>
       </td>
-      <th class="center">{{last9score}}</th>
-      <th class="center">{{first9score + last9score}}</th>
+      <th class="center">{{onlineRound.last9score}}</th>
+      <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
     </tr>
   </tbody>
   </table>

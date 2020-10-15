@@ -249,6 +249,10 @@ export class HttpService {
 
     return this.http.post<Round>('rest/FinalizeOnlineRound/' + onlineRoundId, httpOptions);
   }
+
+  getOnlineRoundsForCourse(courseId: number): Observable<Array<OnlineRound>> {
+    return this.http.get<Array<OnlineRound>>('rest/OnlineRoundCourse/' + courseId);
+  }
 }
 
 

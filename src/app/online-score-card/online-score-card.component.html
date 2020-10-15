@@ -3,10 +3,9 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th></th>
-        <th>Tee Time</th>
-        <th>Course</th>
         <th>Nick</th>
+        <th>Course</th>
+        <th>Tee Time</th>
       </tr>
     </thead>
     <tbody>
@@ -19,10 +18,19 @@
           >
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
           </a>
+          {{ round.player.nick }}
+        </td>
+        <td>
+          <a
+            href="#"
+            routerLink="/onlineScoreCardView"
+            [state]="{ data: { course: round.course } }"
+          >
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+          {{ round.course.name }}
         </td>
         <td>{{ round.teeTime }}</td>
-        <td>{{ round.course.name }}</td>
-        <td>{{ round.player.nick }}</td>
       </tr>
     </tbody>
   </table>

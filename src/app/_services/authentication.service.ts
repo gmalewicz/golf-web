@@ -3,8 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
-import { HttpResponse } from '@angular/common/http';
-
 
 // import { User } from '@/_models';
 

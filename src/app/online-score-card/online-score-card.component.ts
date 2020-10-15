@@ -41,35 +41,10 @@ export class OnlineScoreCardComponent implements OnInit {
   ngOnInit(): void {
     // this.webSocketAPI = new WebSocketAPI(new OnlineScoreCardComponent());
   }
-/*
-  sendIt() {
-    console.log('before connet');
-    this.webSocketAPI._connect();
-    console.log('after connet');
-    setTimeout(() => {
-    this.webSocketAPI._send(this.buildMessage());
-    }, 5000);
-    setTimeout(() => {
-      this.webSocketAPI._disconnect();
-    }, 10000);
 
+  showForRound(courseId: number) {
+    console.log('show for round executed');
   }
 
-
-  buildMessage(): ScoreCard {
-
-    const scoreCard: ScoreCard = {
-      hole: 1,
-      stroke: 5,
-      pats: 0
-    };
-
-    return scoreCard;
-  }
-*/
-
-startRound() {
-
-}
 
 }
