@@ -44,12 +44,12 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   webSocketAPI: WebSocketAPI;
 
   constructor(private httpService: HttpService,
-              private route: ActivatedRoute ,
-              private alertService: AlertService,
-              private formBuilder: FormBuilder,
-              private dialog: MatDialog,
-              private authenticationService: AuthenticationService,
-              private router: Router) {
+    private route: ActivatedRoute,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private authenticationService: AuthenticationService,
+    private router: Router) {
 
     this.totalStrokes = 0;
     this.getRoundData();
@@ -71,35 +71,44 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   getRoundData() {
 
-    // get list of holes and tees and update course object using received data
-    combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
-    this.httpService.getTees(this.route.snapshot.params.courseId)]).subscribe(([retHoles, retTees]) => {
+    this.course = {
+      id: this.route.snapshot.params.courseId,
+      name: this.route.snapshot.params.courseName,
+      par: this.route.snapshot.params.coursePar
+    };
 
-      this.course = {
-        id: this.route.snapshot.params.courseId,
-        name: this.route.snapshot.params.courseName,
-        par: this.route.snapshot.params.coursePar,
-        holes: retHoles,
-        tees: retTees
-      };
+    // process edit
+    if (history.state.data) {
 
-      // console.log('ret holes: ' + this.course.holes);
-
-      // create tee labels
-      const teeType = ['1-18', '1-9', '10-18'];
-      retTees.forEach((t, i) => this.teeOptions.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
-
-      // get online round from state in case of edit
-      if (history.state.data) {
-        this.round = history.state.data.onlineRound;
-        this.onEdit();
-      }
-
-      this.display = true;
-    },
-      (error: HttpErrorResponse) => {
+      this.httpService.getHoles(this.route.snapshot.params.courseId).subscribe(retHoles => {
+        this.course.holes = retHoles;
+      }, (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
       });
+
+      this.round = history.state.data.onlineRound;
+      this.onEdit();
+      this.display = true;
+
+    // process in case of start of the new online round
+    } else {
+
+      // get list of holes and tees and update course object using received data
+      combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
+      this.httpService.getTees(this.route.snapshot.params.courseId)]).subscribe(([retHoles, retTees]) => {
+
+        this.course.holes = retHoles;
+        this.course.tees = retTees;
+        // create tee labels
+        const teeType = ['1-18', '1-9', '10-18'];
+        retTees.forEach((t, i) => this.teeOptions.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
+
+        this.display = true;
+      },
+        (error: HttpErrorResponse) => {
+          this.alertService.error(error.error.message, false);
+      });
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -129,12 +138,9 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       } else {
         this.currentHole = retScoreCards.map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
       }
-      // console.log(this.currentHole);
-      // this.lastPlayed = this.currentHole;
-
 
       // check if round not completed
-      if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17)  {
+      if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17) {
         this.roundCompleted = true;
 
       }
@@ -252,7 +258,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     // verify if it is update
     if (this.lastPlayed > this.currentHole) {
       currentOnlineScoreCard.update = true;
-    // or new scorecard
+      // or new scorecard
     } else {
       // this.prevStroke = this.strokes[this.currentHole];
       if (!this.roundCompleted) {
