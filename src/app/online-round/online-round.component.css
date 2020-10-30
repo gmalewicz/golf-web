@@ -5,3 +5,13 @@
 .golf-gray {
   color: gray;
 }
+
+.edit {
+  background-color: blue;
+  color: white;
+}
+
+.no-edit {
+  background-color: white;
+  color: black;
+}

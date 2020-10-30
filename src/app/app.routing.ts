@@ -28,6 +28,7 @@ import { AddTournamentComponent } from './add-tournament/add-tournament.componen
 import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
 import { OnlineRoundComponent } from './online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
+import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
 
 
 
@@ -59,8 +60,9 @@ const routes: Routes = [
   { path: 'tournamentRounds', component: TournamentRoundsComponent, canActivate: [AuthGuard] },
   { path: 'addTournament', component: AddTournamentComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
-  { path: 'onlineRound/:courseId/:courseName/:coursePar', component: OnlineRoundComponent, canActivate: [AuthGuard] },
+  { path: 'onlineRound', component: OnlineRoundComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
+  { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

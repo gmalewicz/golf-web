@@ -34,9 +34,9 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
         nick: ['', [Validators.required, Validators.maxLength(10)]],
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]],
-          recaptchaReactive: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]],
+        recaptchaReactive: ['', [Validators.required]],
       });
   }
 

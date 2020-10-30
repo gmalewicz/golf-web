@@ -137,8 +137,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         if (onlineScoreCard.hole < 10) {
 
           // for update
-          if (onlineScoreCard[onlineScoreCard.hole - 1] != null) {
-            onlineRound.first9score -= onlineScoreCard[onlineScoreCard.hole - 1].stroke;
+          if (onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] != null) {
+            onlineRound.first9score -= onlineRound.scoreCardAPI[onlineScoreCard.hole - 1].stroke;
           }
           onlineRound.first9score += onlineScoreCard.stroke;
         } else {

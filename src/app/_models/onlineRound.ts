@@ -11,4 +11,6 @@ export interface OnlineRound {
   scoreCardAPI?: OnlineScoreCard[];
   first9score?: number;
   last9score?: number;
+  owner?: number;
+  finalized?: boolean;
 }

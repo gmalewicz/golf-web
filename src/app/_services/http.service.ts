@@ -10,10 +10,6 @@ import { OnlineRound } from '@/_models/onlineRound';
 @Injectable()
 export class HttpService {
 
-  // URL_STR = 'http://localhost:8080/rest/'; // local database
-  // URL_STR = 'http://dgng.pl/rest/';  // production
-  // URL_STR = 'http://localhost:8090/rest/'; // integration database
-
   constructor(private http: HttpClient) { }
 
   getCourses(): Observable<Array<Course>> {
@@ -252,6 +248,24 @@ export class HttpService {
 
   getOnlineRoundsForCourse(courseId: number): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRoundCourse/' + courseId);
+  }
+
+  getPlayerForNick(nick: string): Observable<Player> {
+    return this.http.get<Player>('rest/Player/' + nick);
+  }
+
+  addOnlineRounds(onlineRounds: Array<OnlineRound>): Observable<Array<OnlineRound>> {
+
+    return this.http.post<Array<OnlineRound>>('rest/OnlineRounds', onlineRounds);
+  }
+
+  deleteOnlineRoundForOwner(ownerId: number) {
+    return this.http.delete('rest/OnlineRoundForOwner/' + ownerId);
+  }
+
+  finalizeOnlineOwnerRound(ownerId: number): Observable<HttpResponse<null>> {
+
+    return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds/', ownerId);
   }
 }
 

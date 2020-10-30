@@ -1,9 +1,9 @@
+import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { teeTypes } from './../_models/tee';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { WebSocketAPI } from '@/_helpers/web.socekt.api';
 import { Course, Tee } from '@/_models';
 import { OnlineRound } from '@/_models/onlineRound';
-import { OnlineScoreCard } from '@/_models/onlineScoreCard';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -11,7 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 @Component({
   selector: 'app-online-round',
@@ -21,275 +23,212 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   faPlay = faPlay;
+  faSearchPlus = faSearchPlus;
 
   course: Course;
-  teeOptions = [];
-  public addScorecardForm: FormGroup;
-  submitted = false;
-  tee: Tee;
-  loading = false;
-  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
-  display = false;
-  started = false;
-  currentHole = 0;
-  currentStroke: number;
-  lastPlayed = 0;
-  strokes: number[] = Array(18).fill(0);
-  round: OnlineRound;
+  onlineRounds: OnlineRound[];
+
+  curPayerIdx: number;
+  curHoleIdx: number;
+
+  // strokes for the current hole
+  curHoleStrokes: number[];
+  // strokes container for display
+  strokes: number[][];
+  // total stokes per player
+  totalStrokes: number[];
+  // round competion indicator
   roundCompleted = false;
-  totalStrokes: number;
-  courseStrokes = 0;
-  holes: number[];
+  // last played hole
+  lastPlayed: number;
+  // edit / no-edit class
+  editClass: string[];
+
+  // teeOptions = [];
+  // public addScorecardForm: FormGroup;
+  submitted = false;
+  // tee: Tee;
+  loading = false;
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
+
+  display = false;
 
   webSocketAPI: WebSocketAPI;
 
   constructor(private httpService: HttpService,
-    private route: ActivatedRoute,
-    private alertService: AlertService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private authenticationService: AuthenticationService,
-    private router: Router) {
-
-    this.totalStrokes = 0;
-    this.getRoundData();
-    this.webSocketAPI = new WebSocketAPI(null, this.alertService, this.authenticationService);
+              private route: ActivatedRoute,
+              private alertService: AlertService,
+              private formBuilder: FormBuilder,
+              private dialog: MatDialog,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
 
-    this.addScorecardForm = this.formBuilder.group({
-      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
-      teeDropDown: ['', [Validators.required]]
-    });
+    // go to the login page is user not logged in
+    if (this.authenticationService.currentPlayerValue === null || history.state.data === undefined) {
+      return;
+    }
+
+    console.log(history);
+    console.log(history.state);
+    console.log(history.state.data === undefined);
+    // console.log(history.state.data.onlineRounds);
+
+    // get passed data
+    this.onlineRounds = history.state.data.onlineRounds;
+    console.log(this.onlineRounds);
+    this.course = history.state.data.course;
+    // initialize variables
+    this.curPayerIdx = 0;
+    // this.curHoleIdx = 0;
+    this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
+    this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
+    this.lastPlayed = 0;
+    this.editClass = Array(this.onlineRounds.length).fill('no-edit');
+    this.editClass[0] = 'edit';
+
+    this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
+
+    console.log('strokes: ' + this.strokes);
+
+    this.getRoundData();
+    // open web socket
+    this.webSocketAPI = new WebSocketAPI(null, this.alertService, this.authenticationService);
   }
 
+
   ngOnDestroy(): void {
-    // console.log('destroy');
-    this.webSocketAPI._disconnect();
+
+    if (this.webSocketAPI !== undefined) {
+      this.webSocketAPI._disconnect();
+    }
   }
 
   getRoundData() {
 
-    this.course = {
-      id: this.route.snapshot.params.courseId,
-      name: this.route.snapshot.params.courseName,
-      par: this.route.snapshot.params.coursePar
-    };
+    this.httpService.getHoles(this.course.id).subscribe(retHoles => {
+      this.course.holes = retHoles;
+      this.loadScoreCards();
+      // this.display = true;
+    }, (error: HttpErrorResponse) => {
+      this.alertService.error(error.error.message, false);
+    });
+  }
 
-    // process edit
-    if (history.state.data) {
+  loadScoreCards() {
 
-      this.httpService.getHoles(this.route.snapshot.params.courseId).subscribe(retHoles => {
-        this.course.holes = retHoles;
-      }, (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, false);
-      });
-
-      this.round = history.state.data.onlineRound;
-      this.onEdit();
-      this.display = true;
-
-    // process in case of start of the new online round
-    } else {
-
-      // get list of holes and tees and update course object using received data
-      combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
-      this.httpService.getTees(this.route.snapshot.params.courseId)]).subscribe(([retHoles, retTees]) => {
-
-        this.course.holes = retHoles;
-        this.course.tees = retTees;
-        // create tee labels
-        const teeType = ['1-18', '1-9', '10-18'];
-        retTees.forEach((t, i) => this.teeOptions.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
-
-        this.display = true;
-      },
-        (error: HttpErrorResponse) => {
-          this.alertService.error(error.error.message, false);
-      });
+    const calls: Observable<OnlineScoreCard[]>[] = Array(this.onlineRounds.length);
+    // console.log(calls);
+    for (let i = 0; i < this.onlineRounds.length; i++) {
+      // console.log(i);
+      calls[i] = this.httpService.getOnlineScoreCard(this.onlineRounds[i].id);
     }
-  }
+    // calls[0] = this.httpService.getOnlineScoreCard(this.onlineRounds[0].id);
+    // console.log(calls);
 
-  // convenience getter for easy access to form fields
-  get f() { return this.addScorecardForm.controls; }
+    combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
 
-  // change which 9 is available when tee has been changed
-  teeChange(clearGraph: boolean) {
+      for (const i of Object.keys(onlineScoreCards)) {
 
-    // update available holes
-    this.tee = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value).pop();
-  }
+        // set lastPlayed hole
+        if (onlineScoreCards.length > this.lastPlayed - 1) {
+          this.lastPlayed = onlineScoreCards.length;
+        }
 
-  onEdit() {
-
-    // get score cards
-    this.httpService.getOnlineScoreCard(this.round.id).subscribe(retScoreCards => {
-
-      this.tee = this.round.tee;
-
-      retScoreCards.map(scoreCard => this.strokes[scoreCard.hole - 1] = scoreCard.stroke);
-      this.totalStrokes = this.strokes.reduce((prev, current) => prev + current);
-      // console.log(this.strokes);
-      if (retScoreCards.length === 0 && this.tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
-        this.currentHole = 8;
-      } else if (retScoreCards.length === 0) {
-        this.currentHole = -1;
+        // this.onlineRounds[i].scoreCardAPI = onlineScoreCards[i];
+        onlineScoreCards[i].forEach((sc: OnlineScoreCard) => {
+          // initialize strokes per holes for display
+          this.strokes[sc.hole - 1][i] = sc.stroke;
+          // initialize total strokes per player
+          this.totalStrokes[i] += sc.stroke;
+        });
+      }
+      // initialize the current hole inedex (assumed all players will play the same number of holes)
+      if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
+        this.curHoleIdx = 8;
+      } else if (onlineScoreCards[0].length === 0) {
+        this.curHoleIdx = 0;
       } else {
-        this.currentHole = retScoreCards.map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
+        this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
       }
+      // console.log('current hole index: ' + this.curHoleIdx);
 
-      // check if round not completed
-      if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17) {
+      // check if round is completed completed
+      if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
         this.roundCompleted = true;
-
+      } else {
+        this.roundCompleted = false;
       }
 
-      if (!this.roundCompleted) {
-        this.currentHole++;
-      }
-      this.lastPlayed = this.currentHole;
-      this.currentStroke = this.course.holes[this.currentHole].par;
-      this.prepareHolesAndCourseStrokes();
+      this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
+      // in case if stroke is 0 load par instead
+      this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+        if (s === 0) {
+          s = this.course.holes[this.curHoleIdx].par;
+          console.log('s: ' + s);
+        }
+        return s;
+      });
 
-      // console.log(this.holes);
+      // establish connection to the server
       this.webSocketAPI._connect(false);
-
-      // console.log(this.course.holes);
-      this.started = true;
+      this.display = true;
     },
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
-      });
-  }
-
-  private prepareHolesAndCourseStrokes() {
-    switch (this.tee.teeType) {
-      case teeTypes.TEE_TYPE_18:
-        // console.log(new Array(18).fill(0).map((x, i) => x + i));
-        this.holes = new Array(18).fill(0).map((x, i) => x + i);
-        this.courseStrokes = this.course.par;
-        break;
-      case teeTypes.TEE_TYPE_FIRST_9:
-        this.holes = new Array(9).fill(0).map((x, i) => x + i);
-        this.courseStrokes = this.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-        break;
-      default:
-        // console.log(new Array(9).fill(0).map((x, i) => x + i + 9));
-        this.holes = new Array(9).fill(0).map((x, i) => x + i + 9);
-        this.courseStrokes = this.course.holes.map(h => h.par).reduce((p, n, i) => { if (i > 9) { return p + n; } else { return p; } });
-        break;
-    }
-  }
-
-  onStart() {
-
-    this.submitted = true;
-    if (this.addScorecardForm.invalid) {
-      return;
-    }
-
-    // display dialog box for saving confirmation
-    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      disableClose: false
-    });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to start the round?';
-    this.dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // save if accepted by player
-        this.loading = true;
-        this.webSocketAPI._connect(false);
-
-        const onlineRound: OnlineRound = {
-          course: this.course,
-          teeTime: this.f.teeTime.value,
-          player: this.authenticationService.currentPlayerValue,
-          tee: this.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value).pop()
-        };
-
-        this.httpService.addOnlineRound(onlineRound).subscribe(round => {
-          // console.log('online round started');
-
-          this.round = round;
-
-          // update for last 9 round
-          if (this.tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
-            this.currentHole = 9;
-            this.lastPlayed = 9;
-            this.currentStroke = this.course.holes[9].par;
-          } else {
-            this.currentStroke = this.course.holes[0].par;
-          }
-          this.prepareHolesAndCourseStrokes();
-
-          this.started = true;
-        },
-          (error: HttpErrorResponse) => {
-            // console.log(error.error.message);
-            this.alertService.error(error.error.message, true);
-            this.loading = false;
-            this.webSocketAPI._disconnect();
-          });
-
-        this.loading = false;
-
-      }
-      // do nothing if not
-      this.dialogRef = null;
     });
   }
 
   addScore() {
 
-    // console.log('last played: ' + this.lastPlayed);
-    // console.log('current hole: ' + this.currentHole);
+    console.log('current hole strokes: ' + this.curHoleStrokes);
+    console.log('current strokes: ' + this.strokes);
 
-    // create new online score card
-    const currentOnlineScoreCard: OnlineScoreCard = {
-      hole: this.currentHole + 1,
-      stroke: this.currentStroke,
-      player: {
-        id: this.authenticationService.currentPlayerValue.id
-      },
-      onlineRoundId: this.round.id,
-      update: false
-    };
+    console.log('stroke: ' + this.strokes[this.curHoleIdx][this.curPayerIdx]);
 
-    // verify if it is update
-    if (this.lastPlayed > this.currentHole) {
-      currentOnlineScoreCard.update = true;
-      // or new scorecard
-    } else {
-      // this.prevStroke = this.strokes[this.currentHole];
-      if (!this.roundCompleted) {
-        this.lastPlayed++;
+    // save only if anything has been changed
+    if (this.curHoleStrokes[this.curPayerIdx] !== this.strokes[this.curHoleIdx][this.curPayerIdx]) {
+
+       // create new online score card
+      const currentOnlineScoreCard: OnlineScoreCard = {
+        hole: this.curHoleIdx + 1,
+        stroke: this.curHoleStrokes[this.curPayerIdx],
+        player: {
+          id: this.onlineRounds[this.curPayerIdx].player.id
+        },
+        onlineRoundId: this.onlineRounds[this.curPayerIdx].id,
+        update: false
+      };
+
+      // verify if it is an update
+      if (this.curHoleStrokes[this.curPayerIdx] !== this.strokes[this.curHoleIdx][this.curPayerIdx] &&
+        this.strokes[this.curHoleIdx][this.curPayerIdx] !== 0) {
+          currentOnlineScoreCard.update = true;
       }
-    }
 
-
-
-    // save only if anything has been changes
-    if (this.currentStroke !== this.strokes[this.currentHole]) {
       // send scorecard to server
       this.webSocketAPI._send(currentOnlineScoreCard);
       // update total strokes by substracting current value and adding the new one
-      this.totalStrokes -= this.strokes[this.currentHole];
-      this.totalStrokes += this.currentStroke;
+      this.totalStrokes[this.curPayerIdx] -= this.strokes[this.curHoleIdx][this.curPayerIdx];
+      this.totalStrokes[this.curPayerIdx] += this.curHoleStrokes[this.curPayerIdx];
+      // udate strokes for display
+      this.strokes[this.curHoleIdx][this.curPayerIdx] = this.curHoleStrokes[this.curPayerIdx];
     }
 
-    // update stroke list
-    this.strokes[this.currentHole] = this.currentStroke;
-
-    // console.log('current hole: ' + this.currentHole);
-    if ((this.tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.currentHole === 8) || this.currentHole === 17) {
-      this.roundCompleted = true;
+    // move to the next player
+    this.editClass[this.curPayerIdx] = 'no-edit';
+    // increase current player index is not last or set to 0 if last
+    if (this.curPayerIdx < this.onlineRounds.length - 1) {
+      this.curPayerIdx++;
+    } else {
+      this.curPayerIdx = 0;
     }
+    this.editClass[this.curPayerIdx] = 'edit';
 
-    // update current hole if round is not completed
-    if (!this.roundCompleted) {
-      this.currentHole = this.lastPlayed;
-      this.currentStroke = this.course.holes[this.currentHole].par;
-    }
+    console.log('curPlayerIdx: ' + this.curPayerIdx);
   }
 
   onDelete() {
@@ -305,7 +244,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        this.httpService.deleteOnlineRound(this.round.id).subscribe(onlineRoundId => {
+        this.httpService.deleteOnlineRoundForOwner(this.authenticationService.currentPlayerValue.id).subscribe(onlineRoundId => {
           // console.log('deleted course id: ' + onlineRoundId);
           this.alertService.success('This score card has been successfully deleted', false);
 
@@ -334,7 +273,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        this.httpService.finalizeOnlineRound(this.round.id).subscribe(round => {
+        this.httpService.finalizeOnlineOwnerRound(this.authenticationService.currentPlayerValue.id).subscribe(data => {
           // console.log('deleted course id: ' + onlineRoundId);
           this.alertService.success('The round has been successfuly saved', false);
 
@@ -354,28 +293,69 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   onDecrease() {
 
     // number of strokes canot be lower than 1
-    if (this.currentStroke === 1) {
+    if (this.curHoleStrokes[this.curPayerIdx] === 1) {
       return;
     }
-    this.currentStroke--;
+    this.curHoleStrokes[this.curPayerIdx]--;
 
   }
 
-  onUpdate(hole: number) {
-    // console.log('hole: ' + hole);
-    // console.log('last played: ' + this.lastPlayed);
-    this.currentHole = hole;
-    // console.log(this.strokes);
-    this.currentStroke = this.strokes[hole];
+  selectHole(holeIdx: number) {
+
+    console.log('hole: ' + holeIdx);
+
+    // check if it is not the last hole in the scorecard
+    if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && holeIdx > 8) {
+      this.curHoleIdx = 8;
+      return;
+    }
+    if (holeIdx === 18) {
+      this.curHoleIdx = 17;
+      return;
+    }
+
+    // check if the requested hole is not below hole 9 in case if the last 9 is played
+    if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9 && holeIdx <= 8) {
+      this.curHoleIdx = 9;
+      return;
+    }
+
+    this.curHoleIdx = holeIdx;
+    // copy strokes from stokes table
+    this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s = this.strokes[this.curHoleIdx][idx]);
+    // in case if stroke is 0 load par instead
+    this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+      if (s === 0) {
+        s = this.course.holes[holeIdx].par;
+        console.log('s: ' + s);
+      }
+      return s;
+    });
+    // set player index to 0 and update edit stye
+    this.editClass[this.curPayerIdx] = 'no-edit';
+    this.curPayerIdx = 0;
+    this.editClass[this.curPayerIdx] = 'edit';
   }
 
   onIncrease() {
 
     // number of strokes canot be greater than 15
-    if (this.currentStroke === 15) {
+    if (this.curHoleStrokes[this.curPayerIdx] === 15) {
       return;
     }
     // this.strokes[this.currentHole]++;
-    this.currentStroke++;
+    this.curHoleStrokes[this.curPayerIdx]++;
+  }
+
+  // helper function to provide verious arrays for html
+  counter(i: number) {
+    return new Array(i);
+  }
+
+  calculateStyle(playerIdx: number) {
+    if (playerIdx === this.curPayerIdx) {
+      return 'edit';
+    }
+    return 'no-edit';
   }
 }

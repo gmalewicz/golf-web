@@ -1,4 +1,4 @@
-<div *ngIf="display && onlineRound.length > 0">
+<div *ngIf="display && onlineRounds.length > 0">
   <h2>Active score cards:</h2>
   <table class="table table-striped">
     <thead>
@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let round of onlineRound">
+      <tr *ngFor="let round of onlineRounds">
         <td>
           <a
             href="#"
@@ -35,12 +35,12 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="display && onlineRound.length === 0">
+<div *ngIf="display && onlineRounds.length === 0">
   <h2>No active score cards</h2>
 </div>
 <div>
   <br />
-  <span  *ngIf="myOnlineRound === undefined">
+  <span  *ngIf="display && myOnlineRounds.length === 0">
   <button
     type="button"
     class="btn btn-success"
@@ -49,12 +49,12 @@
     Start Round
   </button>
   </span>
-  <span  *ngIf="myOnlineRound != undefined">
+  <span  *ngIf="display && myOnlineRounds.length > 0">
     <button
       type="button"
       class="btn btn-success"
-      [routerLink]="['/onlineRound', myOnlineRound.course.id, myOnlineRound.course.name, myOnlineRound.course.par]"
-      [state]="{ data: { onlineRound: myOnlineRound } }"
+      [routerLink]="['/onlineRound']"
+      [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
     >
       Continue Round
     </button>

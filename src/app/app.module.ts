@@ -43,6 +43,7 @@ import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
 import { OnlineRoundComponent } from './online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
+import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { OnlineScoreCardViewComponent } from './online-score-card-view/online-sc
     OnlineScoreCardComponent,
     OnlineRoundComponent,
     OnlineScoreCardViewComponent,
+    OnlineRoundDefComponent,
   ],
   imports: [
     BrowserModule,

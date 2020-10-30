@@ -12,7 +12,7 @@
       <th>Played Rounds</th>
     </tr>
   </thead>
-  <tbody *ngFor="let tournamentResult of tournamentResults,  let i = index">
+  <tbody *ngFor="let tournamentResult of tournamentResults, let i = index">
       <tr>
         <td *ngIf="displayRound[i] == false">
           <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>

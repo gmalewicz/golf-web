@@ -14,9 +14,9 @@ import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 export class OnlineScoreCardComponent implements OnInit {
 
   display = false;
-  onlineRound: OnlineRound[];
+  onlineRounds: OnlineRound[];
   faSearchPlus = faSearchPlus;
-  myOnlineRound: OnlineRound;
+  myOnlineRounds: OnlineRound[];
 
   constructor(private httpService: HttpService,
               private authenticationService: AuthenticationService,
@@ -25,13 +25,13 @@ export class OnlineScoreCardComponent implements OnInit {
     this.httpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
 
       // initialize this player round if any
-      this.myOnlineRound = retOnlineRounds.filter(v => v.player.id === authenticationService.currentPlayerValue.id).pop();
+      this.myOnlineRounds = retOnlineRounds.filter(v => v.owner === authenticationService.currentPlayerValue.id);
 
-      console.log(this.myOnlineRound);
+      console.log(this.myOnlineRounds);
 
       // set all rounds except the one for this player
-      this.onlineRound = retOnlineRounds.filter(v => v.player.id !== authenticationService.currentPlayerValue.id);
-      console.log(this.onlineRound);
+      this.onlineRounds = retOnlineRounds.filter(v => v.owner !== authenticationService.currentPlayerValue.id);
+      console.log(this.onlineRounds);
 
       this.display = true;
     });
