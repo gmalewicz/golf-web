@@ -14,10 +14,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UpdatePlayerComponent implements OnInit {
 
   updateForm: FormGroup;
-  loading = false;
-  submitted = false;
-  submittedReset = false;
-  role = 0;
+  loading: boolean;
+  submitted: boolean;
+  submittedReset: boolean;
+  role: number;
 
   resetPasswordForm: FormGroup;
 
@@ -30,18 +30,29 @@ export class UpdatePlayerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.updateForm = this.formBuilder.group({
-      password: ['', Validators.minLength(6)],
-      whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
-    });
 
-    this.resetPasswordForm = this.formBuilder.group({
-      nick: ['', [Validators.required, Validators.maxLength(10)]],
-      password: ['', Validators.minLength(6)]
-    });
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
 
-    // console.log('initialization');
-    this.role = this.authenticationService.currentPlayerValue.role;
+      this.loading = false;
+      this.submitted = false;
+      this.submittedReset = false;
+      this.role = 0;
+      this.updateForm = this.formBuilder.group({
+        password: ['', Validators.minLength(6)],
+        whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]]
+      });
+
+      this.resetPasswordForm = this.formBuilder.group({
+        nick: ['', [Validators.required, Validators.maxLength(10)]],
+        password: ['', Validators.minLength(6)]
+      });
+
+      // console.log('initialization');
+      this.role = this.authenticationService.currentPlayerValue.role;
+    }
   }
 
   // convenience getter for easy access to form fields

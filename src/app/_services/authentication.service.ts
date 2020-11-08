@@ -21,7 +21,7 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    console.log('log in requested');
+    // console.log('log in requested');
     return this.httpService.authenticate(username, password)
       .pipe(map(response => {
         const player: Player = response.body;

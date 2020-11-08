@@ -9,7 +9,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
-import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -19,40 +18,36 @@ import {SelectItem} from 'primeng/api';
 export class AddScorecardComponent implements OnInit {
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
-
   round: Round;
-
-  loading = false;
-
+  loading: boolean;
   course: Course;
-  display = false;
+  display: boolean;
+  submitted: boolean;
 
-  submitted = false;
-
-  teeOptions = [];
+  teeOptions: any[];
   selectedTee: number;
 
   public addScorecardForm: FormGroup;
 
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  public barChartLabels: number[] = [];
+  public barChartType: ChartType;
+  public barChartLegend: boolean;
+  public barChartLabels: number[] ;
   public barChartData: ChartDataSets[];
   public barChartOptions: ChartOptions;
 
-  updatingHhole = 0;
-  public strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  public patButtons = [0, 1, 2, 3, 4, 5];
+  updatingHhole: number;
+  public strokeButtons: number[];
+  public patButtons: number[];
 
-  public holeSelectorActive = Array(18);
-  public strokeSelectorActive = Array(15);
-  public patSelectorActive = Array(6);
+  public holeSelectorActive: any[];
+  public strokeSelectorActive: any[];
+  public patSelectorActive: any[];
 
-  strokes: number[] = [];
-  putts: number[] = [];
+  strokes: number[];
+  putts: number[];
 
   tee: Tee;
-  displayResult = '';
+  displayResult: string;
   first9Par: number;
 
   constructor(private httpService: HttpService,
@@ -62,31 +57,49 @@ export class AddScorecardComponent implements OnInit {
               private router: Router,
               private alertService: AlertService,
               public dialog: MatDialog) {
-
-    // initialize buttons and set them not to be marked
-    this.holeSelectorActive.fill({disabled: true, active: false});
-    this.strokeSelectorActive.fill({disabled: true, active: false});
-    this.patSelectorActive.fill({disabled: true, active: false});
-
-    // get round from state in case of edit
-    if (history.state.data) {
-      this.round = history.state.data.round;
-    } else {
-      this.round = null;
-    }
-
-    // console.log(this.round);
-
-    this.getRoundData();
-
   }
 
   ngOnInit(): void {
-    this.addScorecardForm = this.formBuilder.group({
-      date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
-      teeDropDown: ['', [ Validators.required ]]
-    });
+
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.addScorecardForm = this.formBuilder.group({
+        date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
+        teeDropDown: ['', [ Validators.required ]]
+      });
+
+      // initialize buttons and set them not to be marked
+      this.holeSelectorActive = Array(18).fill({disabled: true, active: false});
+      this.strokeSelectorActive = Array(15).fill({disabled: true, active: false});
+      this.patSelectorActive = Array(6).fill({disabled: true, active: false});
+
+      // get round from state in case of edit
+      if (history.state.data) {
+        this.round = history.state.data.round;
+      } else {
+        this.round = null;
+      }
+
+      this.loading = false;
+      this.display = false;
+      this.submitted = false;
+      this.teeOptions = [];
+      this.barChartType = 'bar';
+      this.barChartLegend = true;
+      this.barChartLabels = [];
+      this.updatingHhole = 0;
+      this.strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+      this.patButtons = [0, 1, 2, 3, 4, 5];
+      this.strokes = [];
+      this.putts = [];
+      this.displayResult = '';
+
+      this.getRoundData();
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -265,14 +278,6 @@ export class AddScorecardComponent implements OnInit {
 
     const scoreCard: ScoreCard[] = [];
 
-    // if (this.round != null) {
-
-      // this.round.scoreCard.forEach((s, i) => console.log('card id: ' + s.id + ' stroke: ' + s.stroke + ' putts: ' + s.pats));
-
-
-      // console.log('edited strokes: ' + this.strokes);
-      // console.log('edited putts: ' + this.putts);
-    // }
     for (let hole = 0; hole < 18; hole++) {
 
       if (this.round == null) {

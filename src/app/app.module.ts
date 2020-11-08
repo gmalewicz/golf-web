@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
-import { HttpService, GameService } from '@/_services';
+import { HttpService } from '@/_services';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CourseComponent } from './course/course.component';
@@ -33,7 +33,7 @@ import { LastGamesDetailsComponent } from './last-games-details/last-games-detai
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import {DropdownModule} from 'primeng';
+import { DropdownModule} from 'primeng/dropdown';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
@@ -101,7 +101,6 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
     // })
   ],
   providers: [HttpService,
-              GameService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Router } from '@angular/router';
 import { Game } from '@/_models';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
@@ -28,32 +28,34 @@ export class BbbGameComponent implements OnInit {
   playerNicks: string[];
   payment: number[];
 
-  constructor(private gameSetupService: GameService,
-              private httpService: HttpService,
+  constructor(private httpService: HttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router,
               public dialog: MatDialog) {
-
-    this.players = gameSetupService.getGameSetup().playersNo;
-    this.stake = gameSetupService.getGameSetup().stake;
-    this.playerNicks = gameSetupService.getGameSetup().players;
-    this.holes = Array(18).fill(0).map((x, i) => i + 1);
-    this.currentHole = 1;
-    this.rowResult = Array(this.players).fill(0);
-    this.editResult = Array(this.players).fill(0);
-    this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(0));
-    this.completedStatus = Array(18).fill('No');
-    this.completedStatus[0] = 'Confirm';
-    this.editHole = -1;
-    this.score = Array(this.players).fill(0);
-    this.payment = Array(this.players).fill(0);
-
-    // console.log(this.gameResult);
-    // console.log('players: ' + this.players + ' stake: ' + this.stake);
   }
 
   ngOnInit(): void {
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.players = history.state.data.playersNo;
+      this.stake = history.state.data.stake;
+      this.playerNicks = history.state.data.players;
+      this.holes = Array(18).fill(0).map((x, i) => i + 1);
+      this.currentHole = 1;
+      this.rowResult = Array(this.players).fill(0);
+      this.editResult = Array(this.players).fill(0);
+      this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(0));
+      this.completedStatus = Array(18).fill('No');
+      this.completedStatus[0] = 'Confirm';
+      this.editHole = -1;
+      this.score = Array(this.players).fill(0);
+      this.payment = Array(this.players).fill(0);
+    }
   }
 
   onCompleted(holeIdx: number): void {

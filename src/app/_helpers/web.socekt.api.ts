@@ -8,17 +8,26 @@ export class WebSocketAPI {
     topic = '/topic';
     stompClient: any;
     appComponent: any;
-    lostConnection = false;
+    lostConnection: boolean;
+    acceptMessage: boolean;
+    reconnect: boolean;
 
     constructor(appComponent: any,
                 private alertService: AlertService,
-                private authenticationService: AuthenticationService) {
+                private authenticationService: AuthenticationService,
+                acceptMessage: boolean,
+                reconnect: boolean) {
         this.appComponent = appComponent;
+        this.acceptMessage = acceptMessage;
+        this.lostConnection = false;
+        this.reconnect = reconnect;
+
+        // console.log(appComponent);
     }
 
     _connect(listen: boolean) {
 
-      console.log('Initialize WebSocket Connection: ' + environment.WS_ENDPOINT);
+      // console.log('Initialize WebSocket Connection: ' + environment.WS_ENDPOINT);
       const ws = new SockJS(environment.WS_ENDPOINT + this.authenticationService.currentPlayerValue.token);
       this.stompClient = Stomp.over(ws);
 
@@ -30,7 +39,9 @@ export class WebSocketAPI {
         if (_this.lostConnection) {
           _this.alertService.clear();
           _this.lostConnection = false;
-          _this.alertService.success('Connection to the server established', false);
+          // console.log(this.appComponent);
+          _this.appComponent.handleLostConnection(false);
+          // _this.alertService.success('Connection to the server established', false);
         }
 
         if (listen) {
@@ -40,12 +51,15 @@ export class WebSocketAPI {
           _this.stompClient.reconnect_delay = 2000;
         }
       }, (error: any) => {
-        console.log('errorCallBack -> ' + error);
-        this.alertService.error('Lost connection to the server', false);
+        // console.log('errorCallBack -> ' + error);
         this.lostConnection = true;
-        setTimeout(() => {
-          this._connect(listen);
-        }, 5000);
+        this.alertService.error('Lost connection to the server', false);
+        this.appComponent.handleLostConnection(true);
+        if (this.reconnect) {
+          setTimeout(() => {
+            this._connect(listen);
+          }, 5000);
+        }
       });
     }
 
@@ -53,18 +67,18 @@ export class WebSocketAPI {
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
         }
-        console.log('Disconnected');
+        // console.log('Disconnected');
     }
 
     _send(message: any) {
-        console.log('api via web socket');
+        // console.log('api via web socket');
         this.stompClient.send('/app/hole', {}, JSON.stringify(message));
     }
 
     onMessageReceived(message: any) {
-        console.log('Message Recieved from Server :: ' + message);
+        // console.log('Message Recieved from Server :: ' + message);
         // this.appComponent.handleMessage(JSON.stringify(message.body));
-        if (this.appComponent != null) {
+        if (this.acceptMessage) {
           this.appComponent.handleMessage(JSON.parse(message.body));
         }
     }

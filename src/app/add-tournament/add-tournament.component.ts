@@ -13,8 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AddTournamentComponent implements OnInit {
 
   addTournamentForm: FormGroup;
-  submitted = false;
-  loading = false;
+  submitted: boolean;
+  loading: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -23,12 +23,22 @@ export class AddTournamentComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.addTournamentForm = this.formBuilder.group({
-      name: ['', Validators.minLength(3)],
-      startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-      endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]]
-    });
-    // console.log('initialization');
+
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.addTournamentForm = this.formBuilder.group({
+        name: ['', Validators.minLength(3)],
+        startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]]
+      });
+      // console.log('initialization');
+
+      this.submitted = false;
+      this.loading = false;
+    }
   }
 
   // convenience getter for easy access to form fields

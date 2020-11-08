@@ -10,10 +10,10 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        console.log('attempt to set JWT token');
+        // console.log('attempt to set JWT token');
         const currentPlayer = this.authenticationService.currentPlayerValue;
         if (currentPlayer && currentPlayer.token) {
-            console.log('setting JWT token');
+            // console.log('setting JWT token');
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${currentPlayer.token}`

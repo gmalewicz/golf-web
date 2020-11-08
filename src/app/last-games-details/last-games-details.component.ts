@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game, GameSendData } from '@/_models';
-import { GameService, HttpService, AlertService } from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,19 +13,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LastGamesDetailsComponent implements OnInit {
 
   game: Game;
-  mailIt = false;
-  submitted = false;
-  loading = false;
+  mailIt: boolean;
+  submitted: boolean;
+  loading: boolean;
 
   public mailItForm: FormGroup;
 
-  constructor(private gameService: GameService,
-              private httpService: HttpService,
+  constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private alertService: AlertService,
-              private router: Router) {
+              private router: Router,
+              private authenticationService: AuthenticationService) {
 
-    this.game = gameService.getGame();
   }
 
   // convenience getter for easy access to form fields
@@ -33,10 +32,20 @@ export class LastGamesDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.mailItForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
 
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.mailIt = false;
+      this.submitted = false;
+      this.loading = false;
+      this.game = history.state.data.game;
+      this.mailItForm = this.formBuilder.group({
+        email: ['', [Validators.required, Validators.email]]
+      });
+    }
   }
 
   onSubmit() {
@@ -55,7 +64,7 @@ export class LastGamesDetailsComponent implements OnInit {
     };
 
     this.httpService.sendGame(gameSendData).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.alertService.success('The game data sent to ' + this.f.email.value, true);
       this.router.navigate(['/']);
     },

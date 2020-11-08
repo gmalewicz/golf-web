@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Hole, Course, Tee } from '@/_models';
-import { HttpService, AlertService} from '@/_services';
+import { HttpService, AlertService, AuthenticationService} from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,67 +13,86 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AddCourseComponent implements OnInit {
 
-  loading = false;
+  loading: boolean;
 
-  selectedPar = null;
+  // selectedPar = null;
 
   public newCourseForm: FormGroup;
-  submitted = false;
-  addTeeSubmitted = false;
+  submitted: boolean;
+  addTeeSubmitted: boolean;
 
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  public barChartLabels: string[] = [];
+  public barChartType: ChartType;
+  public barChartLegend;
+  public barChartLabels: string[];
   public barChartData: ChartDataSets[];
   public barChartOptions: ChartOptions;
 
-  public parButtons = [3, 4, 5, 6];
-  public parSelectorActive = Array(4);
-  public holeSelectorActive = Array(18);
-  public siSelectorActive = Array(18);
+  public parButtons: number[];
+  public parSelectorActive: {active: boolean}[];
+  public holeSelectorActive: {active: boolean}[];
+  public siSelectorActive: {active: boolean}[];
 
-  updatingHole = 0;
+  updatingHole: number;
+  pars: number[];
+  si: number[];
+  tees: Tee[];
 
-  pars: number[] = [];
-  si: number[] = [];
+  teeTypes: { label: string; value: number; }[];
 
-  tees: Tee[] = [];
-
-  teeTypes = [];
-
-  nbrHoles = [];
+  nbrHoles: { label: string; value: number; }[];
 
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private authenticationService: AuthenticationService,
               private alertService: AlertService) {
-
-    // initialize all buttons for net selected
-    this.parSelectorActive.fill({active: false});
-    this.siSelectorActive.fill({active: false});
-    this.holeSelectorActive.fill({active: false});
-
-    // initialize tee types
-    this.teeTypes = [{label: '1-18', value: 0},
-                     {label: '1-9', value: 1},
-                     {label: '10-18', value: 2}];
-
-    this.nbrHoles = [{label: '18', value: 18},
-                     {label: '9', value: 9}];
-
-    this.generateLabelsAndData();
   }
 
   ngOnInit(): void {
-    this.newCourseForm = this.formBuilder.group({
-      courseName: ['', Validators.required],
-      coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
-      tee: ['', Validators.required],
-      cr: ['', [, Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
-      sr: ['', [, Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
-      teeTypeDropDown: ['', [ Validators.required ]],
-      nbrHolesDropDown: ['', [ Validators.required ]]
-    });
+
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.newCourseForm = this.formBuilder.group({
+        courseName: ['', Validators.required],
+        coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
+        tee: ['', Validators.required],
+        cr: ['', [, Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
+        sr: ['', [, Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
+        teeTypeDropDown: ['', [ Validators.required ]],
+        nbrHolesDropDown: ['', [ Validators.required ]]
+      });
+
+      // initialize all buttons for net selected
+      this.parSelectorActive = Array(4).fill({active: false});
+      this.siSelectorActive = Array(18).fill({active: false});
+      this.holeSelectorActive = Array(18).fill({active: false});
+
+      // initialize tee types
+      this.teeTypes = [{label: '1-18', value: 0},
+                      {label: '1-9', value: 1},
+                      {label: '10-18', value: 2}];
+
+      this.nbrHoles = [{label: '18', value: 18},
+                        {label: '9', value: 9}];
+
+      this.updatingHole = 0;
+      this.pars = [];
+      this.si = [];
+      this.tees = [];
+
+      this.barChartType = 'bar';
+      this.barChartLegend = true;
+      this.barChartLabels = [];
+      this.submitted = false;
+      this.addTeeSubmitted = false;
+      this.loading = false;
+      this.parButtons = [3, 4, 5, 6];
+
+      this.generateLabelsAndData();
+    }
   }
 
   // convenience getter for easy access to form fields

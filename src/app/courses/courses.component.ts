@@ -1,9 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpService } from '@/_services/http.service';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Course } from '@/_models';
-import { ActivatedRoute } from '@angular/router';
-import { AlertService } from '@/_services';
+import { Router } from '@angular/router';
+import { AlertService, AuthenticationService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -13,29 +13,34 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class CoursesComponent implements OnInit {
 
-  faSearchPlus = faSearchPlus;
-
+  faSearchPlus: IconDefinition;
   courses: Array<Course>;
 
   // parent who call me
   parent: string;
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute, private alertService: AlertService) {
-
-    this.parent = this.route.snapshot.params.parent;
-
-    console.log('requested parent is: ' + this.parent);
-
-    this.getCourses();
-
+  constructor(private httpService: HttpService,
+              private alertService: AlertService,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+      this.parent = history.state.data.parent;
+      this.faSearchPlus = faSearchPlus;
+      // console.log('requested parent is: ' + this.parent);
+      this.getCourses();
+    }
   }
 
   getCourses() {
     this.httpService.getCourses().subscribe(retCourses => {
-      console.log(retCourses);
+      // console.log(retCourses);
       this.courses = retCourses;
     },
       (error: HttpErrorResponse) => {

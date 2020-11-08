@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { faSearchPlus, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@/_services';
 
 @Component({
   selector: 'app-games',
@@ -9,12 +10,20 @@ import { Router } from '@angular/router';
 })
 export class GamesComponent implements OnInit {
 
-  faSearchPlus = faSearchPlus;
-  faPlay = faPlay;
+  faSearchPlus: IconDefinition;
+  faPlay: IconDefinition;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+      this.faSearchPlus = faSearchPlus;
+      this.faPlay = faPlay;
+    }
   }
 
   onLastGames() {

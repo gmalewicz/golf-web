@@ -1,9 +1,8 @@
-import { getTestBed } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { Game } from '@/_models';
-import { HttpService, AuthenticationService, AlertService, GameService } from '@/_services';
+import { HttpService, AuthenticationService, AlertService} from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,26 +12,29 @@ import { Router } from '@angular/router';
 })
 export class LastGamesComponent implements OnInit {
 
-  faSearchPlus = faSearchPlus;
+  faSearchPlus: IconDefinition;
 
   games: Game[];
 
   constructor(private httpService: HttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
-              private router: Router,
-              private gameService: GameService) {
-
-    this.getGames();
-
+              private router: Router) {
   }
 
   ngOnInit(): void {
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+      this.faSearchPlus = faSearchPlus;
+      this.getGames();
+    }
   }
 
   private getGames() {
     this.httpService.getGames(this.authenticationService.currentPlayerValue).subscribe(retGames => {
-      console.log(retGames);
+      // console.log(retGames);
       this.games = retGames;
     },
       (error: HttpErrorResponse) => {
@@ -42,10 +44,11 @@ export class LastGamesComponent implements OnInit {
   }
 
   onGame(game: Game) {
-    console.log('game is: ' + game.gameId);
-    this.gameService.setGame(game);
+    // console.log('game is: ' + game.gameId);
+    // this.gameService.setGame(game);
 
-    this.router.navigate(['lastGamesDetails']);
+    this.router.navigate(['lastGamesDetails'], {
+        state: {  data: { game } }
+    });
   }
-
 }

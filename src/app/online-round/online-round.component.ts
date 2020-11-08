@@ -2,12 +2,12 @@ import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { teeTypes } from './../_models/tee';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { WebSocketAPI } from '@/_helpers/web.socekt.api';
-import { Course, Tee } from '@/_models';
+import { Course} from '@/_models';
 import { OnlineRound } from '@/_models/onlineRound';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
@@ -38,23 +38,23 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   // total stokes per player
   totalStrokes: number[];
   // round competion indicator
-  roundCompleted = false;
+  roundCompleted: boolean;
   // last played hole
   lastPlayed: number;
   // edit / no-edit class
   editClass: string[];
+  submitted: boolean;
 
-  // teeOptions = [];
-  // public addScorecardForm: FormGroup;
-  submitted = false;
-  // tee: Tee;
-  loading = false;
+  loading: boolean;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
-  display = false;
+  display: boolean;
 
   webSocketAPI: WebSocketAPI;
+
+  // lost connection indicator
+  lostConnection: boolean;
 
   constructor(private httpService: HttpService,
               private route: ActivatedRoute,
@@ -67,36 +67,40 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    // go to the login page is user not logged in
-    if (this.authenticationService.currentPlayerValue === null || history.state.data === undefined) {
-      return;
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      // get passed data
+      this.onlineRounds = history.state.data.onlineRounds;
+      // console.log(this.onlineRounds);
+      this.course = history.state.data.course;
+      // initialize variables
+      this.curPayerIdx = 0;
+      // this.curHoleIdx = 0;
+      this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
+      this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
+      this.lastPlayed = 0;
+      this.editClass = Array(this.onlineRounds.length).fill('no-edit');
+      this.editClass[0] = 'edit';
+
+      this.submitted = false;
+      this.loading = false;
+      this.display = false;
+      this.roundCompleted = false;
+
+      this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
+
+      this.lostConnection = true;
+
+      // console.log('strokes: ' + this.strokes);
+
+      this.getRoundData();
+      // open web socket
+      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, false, true);
     }
-
-    console.log(history);
-    console.log(history.state);
-    console.log(history.state.data === undefined);
-    // console.log(history.state.data.onlineRounds);
-
-    // get passed data
-    this.onlineRounds = history.state.data.onlineRounds;
-    console.log(this.onlineRounds);
-    this.course = history.state.data.course;
-    // initialize variables
-    this.curPayerIdx = 0;
-    // this.curHoleIdx = 0;
-    this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
-    this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
-    this.lastPlayed = 0;
-    this.editClass = Array(this.onlineRounds.length).fill('no-edit');
-    this.editClass[0] = 'edit';
-
-    this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
-
-    console.log('strokes: ' + this.strokes);
-
-    this.getRoundData();
-    // open web socket
-    this.webSocketAPI = new WebSocketAPI(null, this.alertService, this.authenticationService);
   }
 
 
@@ -148,7 +152,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       }
       // initialize the current hole inedex (assumed all players will play the same number of holes)
       if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
-        this.curHoleIdx = 8;
+        this.curHoleIdx = 9;
       } else if (onlineScoreCards[0].length === 0) {
         this.curHoleIdx = 0;
       } else {
@@ -168,13 +172,14 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
         if (s === 0) {
           s = this.course.holes[this.curHoleIdx].par;
-          console.log('s: ' + s);
+          // console.log('s: ' + s);
         }
         return s;
       });
 
       // establish connection to the server
       this.webSocketAPI._connect(false);
+      this.lostConnection = false;
       this.display = true;
     },
       (error: HttpErrorResponse) => {
@@ -184,10 +189,14 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   addScore() {
 
-    console.log('current hole strokes: ' + this.curHoleStrokes);
-    console.log('current strokes: ' + this.strokes);
+    // return where no connection to the server
+    if (this.lostConnection) {
+      return;
+    }
 
-    console.log('stroke: ' + this.strokes[this.curHoleIdx][this.curPayerIdx]);
+    // console.log('current hole strokes: ' + this.curHoleStrokes);
+    // console.log('current strokes: ' + this.strokes);
+    // console.log('stroke: ' + this.strokes[this.curHoleIdx][this.curPayerIdx]);
 
     // save only if anything has been changed
     if (this.curHoleStrokes[this.curPayerIdx] !== this.strokes[this.curHoleIdx][this.curPayerIdx]) {
@@ -228,7 +237,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     }
     this.editClass[this.curPayerIdx] = 'edit';
 
-    console.log('curPlayerIdx: ' + this.curPayerIdx);
+    // console.log('curPlayerIdx: ' + this.curPayerIdx);
   }
 
   onDelete() {
@@ -302,7 +311,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
   selectHole(holeIdx: number) {
 
-    console.log('hole: ' + holeIdx);
+    // console.log('hole: ' + holeIdx);
 
     // check if it is not the last hole in the scorecard
     if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && holeIdx > 8) {
@@ -327,7 +336,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
         s = this.course.holes[holeIdx].par;
-        console.log('s: ' + s);
+        // console.log('s: ' + s);
       }
       return s;
     });
@@ -357,5 +366,9 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       return 'edit';
     }
     return 'no-edit';
+  }
+
+  handleLostConnection(lost: boolean) {
+    this.lostConnection = lost;
   }
 }

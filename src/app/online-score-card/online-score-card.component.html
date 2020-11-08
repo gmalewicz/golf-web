@@ -6,6 +6,7 @@
         <th>Nick</th>
         <th>Course</th>
         <th>Tee Time</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@
           {{ round.course.name }}
         </td>
         <td>{{ round.teeTime }}</td>
+        <td *ngIf="round.finalized === true">
+          Finished
+        </td>
+        <td *ngIf="round.finalized === false">
+          Open
+        </td>
       </tr>
     </tbody>
   </table>
@@ -38,13 +45,13 @@
 <div *ngIf="display && onlineRounds.length === 0">
   <h2>No active score cards</h2>
 </div>
-<div>
+<div *ngIf="display">
   <br />
   <span  *ngIf="display && myOnlineRounds.length === 0">
   <button
     type="button"
     class="btn btn-success"
-    [routerLink]="['/courses', 'addOnlineRound']"
+    routerLink= "/courses" [state]="{ data: { parent: 'addOnlineRound' } }"
   >
     Start Round
   </button>
@@ -60,6 +67,6 @@
     </button>
   </span>
   &nbsp;
-  <button type="button" class="btn btn-success">Cancel</button>
+  <button type="button" class="btn btn-success" routerLink="">Cancel</button>
 </div>
 <router-outlet></router-outlet>

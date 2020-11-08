@@ -14,8 +14,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading: boolean;
+  submitted: boolean;
   returnUrl: string;
 
   constructor(
@@ -24,15 +24,18 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService
-  ) {
-    console.log('logging out');
+  ) {}
+
+  ngOnInit() {
+
+    // console.log('logging out');
     // redirect to home if already logged in
     if (this.authenticationService.currentPlayerValue) {
         this.router.navigate(['/']);
     }
-  }
 
-  ngOnInit() {
+    this.loading = false;
+    this.submitted = false;
     this.alertService.clear();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -79,6 +82,5 @@ export class LoginComponent implements OnInit {
           }
           this.loading = false;
         });
-
   }
 }

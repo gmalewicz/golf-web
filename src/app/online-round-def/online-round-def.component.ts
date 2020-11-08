@@ -17,12 +17,12 @@ export class OnlineRoundDefComponent implements OnInit {
   course: Course;
   defScoreCardForm: FormGroup;
   teeOptions = [];
-  display = false;
-  submitted = false;
-  loading = false;
-  noOfPlayers = 1;
-  players: Player[] = Array(4);
-  tees: Tee[] = Array(4);
+  display: boolean;
+  submitted: boolean;
+  loading: boolean;
+  noOfPlayers: number;
+  players: Player[];
+  tees: Tee[];
 
   faSearchPlus = faSearchPlus;
   faCheckCircle = faCheckCircle;
@@ -32,11 +32,25 @@ export class OnlineRoundDefComponent implements OnInit {
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router) {
-
-    this.getCourseData();
   }
 
   ngOnInit(): void {
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      // initialization
+    this.display = false;
+    this.submitted = false;
+    this.loading = false;
+    this.noOfPlayers = 1;
+    this.players = Array(4);
+    this.tees = Array(4);
+
+    this.getCourseData();
+    }
   }
 
   private getCourseData() {

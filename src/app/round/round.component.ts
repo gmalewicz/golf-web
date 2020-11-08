@@ -1,9 +1,9 @@
-import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Round, ScoreCard, Hole, Player } from '@/_models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
@@ -14,34 +14,34 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
   templateUrl: './round.component.html',
   styleUrls: ['./round.component.css']
 })
-export class RoundComponent implements OnInit, AfterViewInit {
+export class RoundComponent implements OnInit {
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
-  loading = false;
-  display = false;
+  loading: boolean;
+  display: boolean;
   round: Round;
 
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  public barChartLabels: number[] = [];
+  public barChartType: ChartType;
+  public barChartLegend: boolean;
+  public barChartLabels: number[];
   public barChartData: ChartDataSets[];
   public barChartOptions: ChartOptions;
 
-  strokes: Array<Array<number>> = [];
-  pats: Array<Array<number>> = [];
-  par: number[] = [];
+  strokes: Array<Array<number>>;
+  pats: Array<Array<number>>;
+  par: number[];
 
   scoreCards: ScoreCard[];
   holes: Hole[];
 
-  players: Player[] = [];
+  players: Player[];
 
-  dipslayPlayers: boolean[] = [false, false, false, false];
-  dipslayPlayerResult: string[] = ['0/0', '0/0', '0/0', '0/0'];
+  dipslayPlayers: boolean[];
+  dipslayPlayerResult: string[];
 
   // 0 - full, 1 - first, 2 - second
-  display9 = 0;
+  display9: number;
 
   constructor(private httpService: HttpService,
               private alertService: AlertService,
@@ -49,15 +49,30 @@ export class RoundComponent implements OnInit, AfterViewInit {
               private authenticationService: AuthenticationService,
               public dialog: MatDialog) {
 
-    this.round = history.state.data.round;
-    this.showRound();
-  }
-  ngAfterViewInit(): void {
-    // throw new Error("Method not implemented.");
   }
 
   ngOnInit(): void {
 
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.display9 = 0;
+      this.players = [];
+      this.dipslayPlayers = [false, false, false, false];
+      this.dipslayPlayerResult = ['0/0', '0/0', '0/0', '0/0'];
+      this.strokes = [];
+      this.pats = [];
+      this.par = [];
+      this.barChartType = 'bar';
+      this.barChartLegend = true;
+      this.barChartLabels = [];
+      this.loading = false;
+      this.display = false;
+      this.round = history.state.data.round;
+      this.showRound();
+    }
   }
 
   showRound() {

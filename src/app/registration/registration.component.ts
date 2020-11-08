@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { first } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+// import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registration',
@@ -15,8 +15,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 export class RegistrationComponent implements OnInit {
 
   registerForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading: boolean;
+  submitted: boolean;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -24,14 +24,18 @@ export class RegistrationComponent implements OnInit {
       private authenticationService: AuthenticationService,
       private alertService: AlertService,
       private httpService: HttpService
-  ) {
-      // redirect to home if already logged in
-      if (this.authenticationService.currentPlayerValue) {
-          this.router.navigate(['/']);
-      }
-  }
+  ) {}
 
   ngOnInit() {
+
+      // redirect to home if already logged in
+      if (this.authenticationService.currentPlayerValue) {
+        this.router.navigate(['/']);
+      }
+
+      this.loading = false;
+      this.submitted = false;
+
       this.registerForm = this.formBuilder.group({
         nick: ['', [Validators.required, Validators.maxLength(10)]],
         password: ['', [Validators.required, Validators.minLength(6)]],
@@ -62,7 +66,7 @@ export class RegistrationComponent implements OnInit {
       const player: Player = {nick: this.f.nick.value,
                               password: this.f.password.value,
                               whs: this.f.whs.value,
-                             captcha: this.f.recaptchaReactive.value};
+                              captcha: this.f.recaptchaReactive.value};
 
       this.httpService.addPlayer(player)
           .pipe(first())
@@ -77,8 +81,7 @@ export class RegistrationComponent implements OnInit {
               });
   }
 
-  resolved(captchaResponse: string) {
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
-  }
-
+  // resolved(captchaResponse: string) {
+  //  console.log(`Resolved captcha with response: ${captchaResponse}`);
+  // }
 }

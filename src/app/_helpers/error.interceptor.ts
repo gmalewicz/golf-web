@@ -12,8 +12,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
-            console.log('error intercepted');
-            console.log('player: ' + this.authenticationService.currentPlayerValue.nick);
+            // console.log('error intercepted');
+            // console.log('player: ' + this.authenticationService.currentPlayerValue.nick);
             if (err.status === 401 || this.authenticationService.currentPlayerValue === null) {
               this.authenticationService.logout();
               this.router.navigate(['/login']);

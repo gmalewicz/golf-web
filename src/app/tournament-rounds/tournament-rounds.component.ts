@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tournament, Round } from '@/_models';
-import { HttpService, AlertService } from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,34 +12,40 @@ import { Router } from '@angular/router';
 })
 export class TournamentRoundsComponent implements OnInit {
 
-  faSearchPlus = faSearchPlus;
+  faSearchPlus: IconDefinition;
 
   tournament: Tournament;
   rounds: Round[];
 
   constructor(private httpService: HttpService,
               private alertService: AlertService,
-              private router: Router) {
-
-    this.tournament = history.state.data.tournament;
-
-    this.httpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
-      console.log('test');
-      this.rounds = retRounds;
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, false);
-    });
-
-  }
+              private authenticationService: AuthenticationService,
+              private router: Router) {}
 
   ngOnInit(): void {
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.faSearchPlus = faSearchPlus;
+      this.tournament = history.state.data.tournament;
+
+      this.httpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
+        // console.log('test');
+        this.rounds = retRounds;
+      },
+        (error: HttpErrorResponse) => {
+          this.alertService.error(error.error.message, false);
+      });
+    }
   }
 
   addRound(round: Round) {
 
     this.httpService.addRoundToTournament(round, this.tournament.id).subscribe(data => {
-      console.log('adding round to tournament');
+      // console.log('adding round to tournament');
       this.alertService.success('Round successfully added to tournamnet', true);
       this.router.navigate(['/']);
     },

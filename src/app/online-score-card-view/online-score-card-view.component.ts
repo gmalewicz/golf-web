@@ -1,11 +1,11 @@
 import { Course } from './../_models/course';
 import { WebSocketAPI } from '@/_helpers/web.socekt.api';
-import { Hole } from '@/_models';
 import { OnlineRound } from '@/_models/onlineRound';
 import { OnlineScoreCard } from '@/_models/onlineScoreCard';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -23,31 +23,39 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private alertService: AlertService,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              private router: Router) { }
 
   ngOnDestroy(): void {
     // console.log('destroy');
-    this.webSocketAPI._disconnect();
+    if (this.webSocketAPI != null) {
+      this.webSocketAPI._disconnect();
+    }
   }
+
 
   ngOnInit(): void {
 
-    // get round from state
-    const onlineRound: OnlineRound = history.state.data.onlineRound;
-    // get course from state
-    this.course = history.state.data.course;
-
-    if (onlineRound != null) {
-      this.onlineRounds = new Array(1);
-      this.onlineRounds[0] = onlineRound;
-      this.course = onlineRound.course;
-      this.showRound();
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
     } else {
-      this.showCourse();
+      // get round from state
+      const onlineRound: OnlineRound = history.state.data.onlineRound;
+      // get course from state
+      this.course = history.state.data.course;
+
+      if (onlineRound != null) {
+        this.onlineRounds = new Array(1);
+        this.onlineRounds[0] = onlineRound;
+        this.course = onlineRound.course;
+        this.showRound();
+      } else {
+        this.showCourse();
+      }
+
+      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, false);
     }
-
-    this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService);
-
   }
 
   showRound() {
@@ -93,19 +101,29 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         retOnlineRounds.forEach(retOnlineRound => {
 
+          let plIdx = 0;
+
+          const retScoreCardAPI = retOnlineRound.scoreCardAPI;
+          // const onlineScoreCards = Array(18).fill(null);
+          retOnlineRound.scoreCardAPI = Array(18).fill(null);
+          // console.log('retScoreCardAPIs ' + retScoreCardAPI);
+          // console.log('retScoreCardAPI ' + retOnlineRound.scoreCardAPI);
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
-          let idx = retOnlineRound.scoreCardAPI.length;
-          while (idx > 0) {
 
-            // initiate first and last 9 total strokes
-            if (retOnlineRound.scoreCardAPI[idx - 1].hole < 10) {
-              retOnlineRound.first9score += retOnlineRound.scoreCardAPI[idx - 1].stroke;
+          retScoreCardAPI.forEach(scoreCardAPI => {
+            // console.log(scoreCardAPI.hole - 1);
+            retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
+            if (scoreCardAPI.hole < 10) {
+              retOnlineRound.first9score += scoreCardAPI.stroke;
             } else {
-              retOnlineRound.last9score += retOnlineRound.scoreCardAPI[idx - 1].stroke;
+              retOnlineRound.last9score += scoreCardAPI.stroke;
             }
-            idx--;
-          }
+
+          });
+
+          this.onlineRounds = retOnlineRounds;
+          plIdx++;
         });
 
         this.onlineRounds = retOnlineRounds;
@@ -151,5 +169,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] = onlineScoreCard;
       }
     });
+  }
+
+  handleLostConnection(lost: boolean) {
+
+    // console.log('Handling lost connection');
+    this.router.navigate(['/']);
+
   }
 }

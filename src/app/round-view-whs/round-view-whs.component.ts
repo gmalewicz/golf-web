@@ -1,10 +1,9 @@
-import { element } from 'protractor';
 import { PlayerRoundDetails } from './../_models/playerRoundDetails';
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
-import { Round, ScoreCard, Hole } from '@/_models';
+import { Component, OnInit} from '@angular/core';
+import { Round, Hole } from '@/_models';
 import { AuthenticationService, HttpService, AlertService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
-import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-round-view-whs',
@@ -28,8 +27,8 @@ export class RoundViewWHSComponent implements OnInit {
   last9StbBrutto: number;
   first9CorScorBrutto: number;
   last9CorScorBrutto: number;
-  scoreBruttoClass: string[] = Array(18).fill('');
-  scoreNettoClass: string[] = Array(18).fill('');
+  scoreBruttoClass: string[];
+  scoreNettoClass: string[];
 
   scoreDiff: number;
 
@@ -37,78 +36,87 @@ export class RoundViewWHSComponent implements OnInit {
   // 0 - both full
   // 1 - first full
   // 2 second full
-  ninesFull = -1;
+  ninesFull: number;
 
   constructor(private authenticationService: AuthenticationService,
               private httpService: HttpService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private router: Router) { }
 
   ngOnInit(): void {
 
-    // get round from state
-    this.round = history.state.data.round;
-    // create pars for first and last 9
-    this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-    this.last9par = this.round.course.par - this.first9par;
-    // create player score for each 9
-    this.first9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-    this.last9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
 
-    this.scoreBruttoClass.forEach((v, i) => {
+      this.ninesFull = -1;
 
-      if (this.round.scoreCard[i].stroke === 0) {
+      this.scoreBruttoClass = Array(18).fill('');
+      this.scoreNettoClass = Array(18).fill('');
 
-        this.scoreBruttoClass[i] = 'par';
+      // get round from state
+      this.round = history.state.data.round;
+      // create pars for first and last 9
+      this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      this.last9par = this.round.course.par - this.first9par;
+      // create player score for each 9
+      this.first9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      this.last9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
 
-      } else if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par - 1) {
+      this.scoreBruttoClass.forEach((v, i) => {
 
-        this.scoreBruttoClass[i] = 'eagle';
+        if (this.round.scoreCard[i].stroke === 0) {
 
-      } else if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par) {
+          this.scoreBruttoClass[i] = 'par';
 
-        this.scoreBruttoClass[i] = 'birdie';
+        } else if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par - 1) {
 
-      } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par) {
+          this.scoreBruttoClass[i] = 'eagle';
 
-        this.scoreBruttoClass[i] = 'par';
+        } else if (this.round.scoreCard[i].stroke < this.round.course.holes[i].par) {
 
-      } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par + 1) {
-        this.scoreBruttoClass[i] = 'boggey';
+          this.scoreBruttoClass[i] = 'birdie';
 
-      } else if (this.round.scoreCard[i].stroke > this.round.course.holes[i].par + 1) {
-        this.scoreBruttoClass[i] = 'doubleBoggey';
+        } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par) {
 
+          this.scoreBruttoClass[i] = 'par';
+
+        } else if (this.round.scoreCard[i].stroke === this.round.course.holes[i].par + 1) {
+          this.scoreBruttoClass[i] = 'boggey';
+
+        } else if (this.round.scoreCard[i].stroke > this.round.course.holes[i].par + 1) {
+          this.scoreBruttoClass[i] = 'doubleBoggey';
+
+        }
+      });
+
+      const emptyHoles = this.round.scoreCard.map(sc => sc.stroke);
+      // console.log('empty holes: ' + emptyHoles);
+      let first9full = true;
+      let second9full = true;
+      // check if first 9 is full
+      const firstEmptyHoleIdx = emptyHoles.findIndex(value => value === 0);
+      if (firstEmptyHoleIdx <= 8 && firstEmptyHoleIdx > -1) {
+        first9full = false;
+        // console.log('first 9 empty');
       }
-    });
+      // check if second 9 is full
+      if (emptyHoles.lastIndexOf(0) > 8) {
+        second9full = false;
+        // console.log('second 9 empty');
+      }
+      // set nines full variable
+      if (first9full && second9full) {
+        this.ninesFull = 0;
+      } else if (first9full) {
+        this.ninesFull = 1;
+      } else if (second9full) {
+        this.ninesFull = 2;
+      }
 
-
-
-
-    const emptyHoles = this.round.scoreCard.map(sc => sc.stroke);
-    // console.log('empty holes: ' + emptyHoles);
-    let first9full = true;
-    let second9full = true;
-    // check if first 9 is full
-    const firstEmptyHoleIdx = emptyHoles.findIndex(value => value === 0);
-    if (firstEmptyHoleIdx <= 8 && firstEmptyHoleIdx > -1) {
-      first9full = false;
-      // console.log('first 9 empty');
+      this.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id);
     }
-    // check if second 9 is full
-    if (emptyHoles.lastIndexOf(0) > 8) {
-      second9full = false;
-      // console.log('second 9 empty');
-    }
-    // set nines full variable
-    if (first9full && second9full) {
-      this.ninesFull = 0;
-    } else if (first9full) {
-      this.ninesFull = 1;
-    } else if (second9full) {
-      this.ninesFull = 2;
-    }
-
-    this.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id);
   }
 
   // get player WHS and tee datails

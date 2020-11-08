@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
 
-  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls v1.8</a>
+  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls v1.8.1</a>
 
   <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
     data-target="#navbarToggleLogOut" aria-controls="navbarToggleExternalContent" aria-expanded="false"
@@ -20,7 +20,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Games</a>
       </li>
-      <li class="nav-item"><a class="nav-link" href="#" [routerLink]="['/courses', 'courses']"
+      <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"
           (click)="onClick()">Courses</a></li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Rounds</a></li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>

@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { GameService, HttpService, AlertService, AuthenticationService } from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Game } from '@/_models';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ export class HoleStakeGameComponent implements OnInit {
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
-  loading = false;
+  loading: boolean;
   players: number;
   stake: number;
   holes: number[];
@@ -28,31 +28,36 @@ export class HoleStakeGameComponent implements OnInit {
   score: number[];
   playerNicks: string[];
 
-  constructor(private gameService: GameService,
-              private httpService: HttpService,
+  constructor(private httpService: HttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router,
               public dialog: MatDialog) {
-
-    this.players = gameService.getGameSetup().playersNo;
-    this.stake = gameService.getGameSetup().stake;
-    this.playerNicks = gameService.getGameSetup().players;
-    this.holes = Array(18).fill(0).map((x, i) => i + 1);
-    this.currentHole = 1;
-    this.rowResult = Array(this.players).fill(1);
-    this.editResult = Array(this.players).fill(1);
-    this.gameResult =  new Array(18).fill(new Array(this.players)).map((x) => x.fill(1));
-    this.completedStatus = Array(18).fill('No');
-    this.completedStatus[0] = 'Confirm';
-    this.editHole = -1;
-    this.score = Array(this.players).fill(0);
-
-    console.log(this.gameResult);
-    console.log('players: ' + this.players + ' stake: ' + this.stake);
   }
 
   ngOnInit(): void {
+
+    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+      this.loading = false;
+      this.players = history.state.data.playersNo;
+      this.stake = history.state.data.stake;
+      this.playerNicks = history.state.data.players;
+      this.holes = Array(18).fill(0).map((x, i) => i + 1);
+      this.currentHole = 1;
+      this.rowResult = Array(this.players).fill(1);
+      this.editResult = Array(this.players).fill(1);
+      this.gameResult =  new Array(18).fill(new Array(this.players)).map((x) => x.fill(1));
+      this.completedStatus = Array(18).fill('No');
+      this.completedStatus[0] = 'Confirm';
+      this.editHole = -1;
+      this.score = Array(this.players).fill(0);
+
+      // console.log(this.gameResult);
+      // console.log('players: ' + this.players + ' stake: ' + this.stake);
+    }
   }
 
   onCompleted(holeIdx: number): void {
@@ -63,7 +68,7 @@ export class HoleStakeGameComponent implements OnInit {
     }
 
     this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
-    console.log(this.gameResult);
+    // console.log(this.gameResult);
     this.rowResult.fill(1);
     this.completedStatus[holeIdx] = 'Done';
 
@@ -89,7 +94,7 @@ export class HoleStakeGameComponent implements OnInit {
       this.calculateScore();
     } else if (this.editHole === -1) {
       this.editResult = Array(this.players).fill(0).map((x, i) =>  this.gameResult[holeIdx][i]);
-      console.log(this.editResult);
+      // console.log(this.editResult);
       this.editHole = holeIdx;
       this.completedStatus[holeIdx] = 'Edit';
     }
@@ -104,7 +109,7 @@ export class HoleStakeGameComponent implements OnInit {
       updArray = this.rowResult;
     }
 
-    console.log('player: ' + player + ' current result: ' + updArray);
+    // console.log('player: ' + player + ' current result: ' + updArray);
 
     if (updArray[player] === this.players) {
       updArray[player] = 1;
@@ -125,11 +130,11 @@ export class HoleStakeGameComponent implements OnInit {
         if (winnersCnt < this.players) {
           winnerAmt = this.stake / winnersCnt;
         }
-        console.log('winnerAmout: ' + winnerAmt);
+        // console.log('winnerAmout: ' + winnerAmt);
         // last calculate looser amount
         if (this.players - winnersCnt > 0) {
           looserAmt = -this.stake / (this.players - winnersCnt);
-          console.log('looserAmout: ' + looserAmt);
+          // console.log('looserAmout: ' + looserAmt);
         }
         // update scores
         hole.map((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});

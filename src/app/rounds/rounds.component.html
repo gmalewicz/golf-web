@@ -30,7 +30,7 @@
   <button
     type="button"
     class="btn btn-success"
-    [routerLink]="['/courses', 'addRound']"
+    routerLink= "/courses" [state]="{ data: { parent: 'addRound' } }"
   >
     Add
   </button>

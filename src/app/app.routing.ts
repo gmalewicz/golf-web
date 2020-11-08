@@ -37,7 +37,7 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
 const routes: Routes = [
   { path: '', component: HomeComponent },
   // navigation main manu in navigation component or during round adding
-  { path: 'courses/:parent', component: CoursesComponent, canActivate: [AuthGuard] },
+  { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
   { path: 'rounds', component: RoundsComponent, canActivate: [AuthGuard] },
   { path: 'addCourse', component: AddCourseComponent, canActivate: [AuthGuard] },
   { path: 'course', component: CourseComponent, canActivate: [AuthGuard] },

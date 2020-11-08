@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService, GameService } from '@/_services';
-import { GameSetup } from '@/_models';
+import { AuthenticationService} from '@/_services';
 
 @Component({
   selector: 'app-hole-stake-setup',
@@ -12,38 +11,49 @@ import { GameSetup } from '@/_models';
 export class HoleStakeSetupComponent implements OnInit {
 
   public holeGameSetupForm: FormGroup;
-  submitted = false;
-  loading = false;
+  submitted: boolean;
+  loading: boolean;
 
-  players = 4;
-  stake = 3;
+  players: number;
+  stake: number;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
-              private gameService: GameService) { }
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.holeGameSetupForm = this.formBuilder.group({
-      player1: [this.authenticationService.currentPlayerValue.nick, [Validators.required, Validators.maxLength(10)]],
-      player2: ['P2', Validators.required],
-      player3: ['P3', Validators.required],
-      player4: ['P4', Validators.required]
-    });
+
+    if (this.authenticationService.currentPlayerValue === null) {
+      this.authenticationService.logout();
+      this.router.navigate(['/']);
+    } else {
+
+      this.submitted = false;
+      this.loading = false;
+      this.players = 4;
+      this.stake = 3;
+
+      this.holeGameSetupForm = this.formBuilder.group({
+        player1: [this.authenticationService.currentPlayerValue.nick, [Validators.required, Validators.maxLength(10)]],
+        player2: ['P2', Validators.required],
+        player3: ['P3', Validators.required],
+        player4: ['P4', Validators.required]
+      });
+    }
   }
 
   onPlayers(players: number): void {
-    console.log('players: ' + players);
+    // console.log('players: ' + players);
     this.players = players;
   }
 
   onStake(stake: number): void {
-    console.log('stake: ' + stake);
+    // console.log('stake: ' + stake);
     this.stake = stake;
   }
 
   onSubmit(): void {
-    console.log('start game');
+    // console.log('start game');
     this.submitted = true;
 
     if (this.holeGameSetupForm.invalid) {
@@ -61,15 +71,13 @@ export class HoleStakeSetupComponent implements OnInit {
       playerNicks.push(this.f.player4.value);
     }
 
-    const gameSetup: GameSetup = {
-      playersNo: this.players,
-      stake: this.stake,
-      players: playerNicks
-    };
+    this.router.navigate(['holeStakeGame'], {
+      state: {  data: { playersNo: this.players,
+                        stake: this.stake,
+                        players: playerNicks } }
+    });
 
-    this.gameService.setGameSetup(gameSetup);
 
-    this.router.navigate(['holeStakeGame']);
   }
 
   // convenience getter for easy access to form fields
