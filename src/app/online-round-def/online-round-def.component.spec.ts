@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OnlineRoundDefComponent } from './online-round-def.component';
 
@@ -6,7 +6,7 @@ describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;
   let fixture: ComponentFixture<OnlineRoundDefComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OnlineRoundDefComponent ]
     })

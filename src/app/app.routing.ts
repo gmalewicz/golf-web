@@ -68,4 +68,4 @@ const routes: Routes = [
   { path: 'register', component: RegistrationComponent }
 ];
 
-export const appRoutingModule = RouterModule.forRoot(routes);
+export const appRoutingModule = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });
