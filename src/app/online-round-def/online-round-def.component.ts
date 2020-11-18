@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faCheckCircle, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -24,8 +24,8 @@ export class OnlineRoundDefComponent implements OnInit {
   players: Player[];
   tees: Tee[];
 
-  faSearchPlus = faSearchPlus;
-  faCheckCircle = faCheckCircle;
+  faSearchPlus: IconDefinition;
+  faCheckCircle: IconDefinition;
 
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
@@ -48,6 +48,8 @@ export class OnlineRoundDefComponent implements OnInit {
     this.noOfPlayers = 1;
     this.players = Array(4);
     this.tees = Array(4);
+    this.faSearchPlus = faSearchPlus;
+    this.faCheckCircle = faCheckCircle;
 
     this.getCourseData();
     }

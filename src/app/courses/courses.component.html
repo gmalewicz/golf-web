@@ -1,5 +1,6 @@
 <div *ngIf="parent === 'courses'">
-  <h2>List of courses</h2>
+  <h2 *ngIf="favourites">Favourite courses</h2>
+  <h2 *ngIf="!favourites">List of all courses</h2>
 </div>
 <div *ngIf="parent === 'addRound'">
   <h2>Select course for round</h2>
@@ -10,6 +11,7 @@
       <th></th>
       <th>Name</th>
       <th>Par</th>
+      <th *ngIf="parent === 'courses'"></th>
     </tr>
   </thead>
   <tbody>
@@ -33,6 +35,11 @@
       </td>
       <td>{{ row.name }}</td>
       <td>{{ row.par }}</td>
+      <td *ngIf="parent === 'courses'">
+        <a (click)="onClickFavourite(row)">
+          <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -40,6 +47,15 @@
   <br />
   <button type="button" class="btn btn-success" routerLink="">
     Cancel
+  </button>
+  &nbsp;
+  <button type="button" class="btn btn-success" (click)="onToggleAllFavourites()">
+    <span *ngIf="favourites">
+      All
+    </span>
+    <span *ngIf="!favourites">
+      Favourites
+    </span>
   </button>
   <span *ngIf="parent === 'courses'">
     &nbsp;
