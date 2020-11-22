@@ -1,9 +1,10 @@
 import { Component, OnInit} from '@angular/core';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Game } from '@/_models';
+import { AlertService, AuthenticationService } from '@/_services';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { Game } from '../_models';
+import { GameHttpService } from '../_services';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class HoleStakeGameComponent implements OnInit {
   score: number[];
   playerNicks: string[];
 
-  constructor(private httpService: HttpService,
+  constructor(private gameHttpService: GameHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router,
@@ -172,7 +173,7 @@ export class HoleStakeGameComponent implements OnInit {
       }
     };
 
-    this.httpService.addGame(game).subscribe(data => {
+    this.gameHttpService.addGame(game).subscribe(data => {
       this.alertService.success('The game has been successfully saved', true);
       this.router.navigate(['/']);
     },

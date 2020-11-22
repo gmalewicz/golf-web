@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
+import { AlertService, AuthenticationService } from '@/_services';
 import { Router } from '@angular/router';
-import { Game } from '@/_models';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { Game } from '../_models';
+import { GameHttpService } from '../_services';
 
 @Component({
   selector: 'app-bbb-game',
@@ -28,7 +29,7 @@ export class BbbGameComponent implements OnInit {
   playerNicks: string[];
   payment: number[];
 
-  constructor(private httpService: HttpService,
+  constructor(private gameHttpService: GameHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router,
@@ -186,7 +187,7 @@ export class BbbGameComponent implements OnInit {
       }
     };
 
-    this.httpService.addGame(game).subscribe(data => {
+    this.gameHttpService.addGame(game).subscribe(data => {
       this.alertService.success('The game has been successfully saved', true);
       this.router.navigate(['/']);
     },

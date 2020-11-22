@@ -1,3 +1,4 @@
+import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses.component';
@@ -10,16 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
-import { GamesComponent } from './games/games.component';
-import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
-import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
-import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
-import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
-import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
-import { BbbGameComponent } from './bbb-game/bbb-game.component';
-import { LastGamesComponent } from './last-games/last-games.component';
-import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
@@ -29,10 +21,7 @@ import { OnlineScoreCardComponent } from './online-score-card/online-score-card.
 import { OnlineRoundComponent } from './online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
 import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
-
-
-
-
+import { AppModule } from './app.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,16 +33,7 @@ const routes: Routes = [
   { path: 'round', component: RoundComponent, canActivate: [AuthGuard] },
   { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
-  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
-  { path: 'holeStakeSetup', component: HoleStakeSetupComponent, canActivate: [AuthGuard] },
-  { path: 'holeStakeRules', component: HoleStakeRulesComponent, canActivate: [AuthGuard] },
-  { path: 'holeStakeGame', component: HoleStakeGameComponent, canActivate: [AuthGuard] },
-  { path: 'bbbRules', component: BbbGameRulesComponent, canActivate: [AuthGuard] },
-  { path: 'bbbSetup', component: BbbGameSetupComponent, canActivate: [AuthGuard] },
-  { path: 'bbbGame', component: BbbGameComponent, canActivate: [AuthGuard] },
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
-  { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
-  { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] },
   { path: 'roundViewWHS', component: RoundViewWHSComponent, canActivate: [AuthGuard] },
   { path: 'tournaments', component: TournamentsComponent, canActivate: [AuthGuard] },
   { path: 'tournamentResults', component: TournamentResultsComponent, canActivate: [AuthGuard] },
@@ -64,8 +44,13 @@ const routes: Routes = [
   { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
 
+  { path: 'games', loadChildren: () => import('./games/games.module').then(m => m.GamesModule)},
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }
 ];
 
-export const appRoutingModule = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });
+export const routing: ModuleWithProviders<AppModule> = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });
+
+
+

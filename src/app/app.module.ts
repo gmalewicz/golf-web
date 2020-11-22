@@ -14,23 +14,14 @@ import { AddCourseComponent } from './add-course/add-course.component';
 import { RoundsComponent } from './rounds/rounds.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { RoundComponent } from './round/round.component';
-import { appRoutingModule } from './app.routing';
+import { routing } from './app.routing';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
-import { GamesComponent } from './games/games.component';
-import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
-import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
-import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
-import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
-import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
-import { BbbGameComponent } from './bbb-game/bbb-game.component';
-import { LastGamesComponent } from './last-games/last-games.component';
-import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -61,16 +52,7 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
     AlertComponent,
     RegistrationComponent,
     UpdatePlayerComponent,
-    GamesComponent,
-    HoleStakeSetupComponent,
-    HoleStakeGameComponent,
-    HoleStakeRulesComponent,
     ChangeLogComponent,
-    BbbGameRulesComponent,
-    BbbGameSetupComponent,
-    BbbGameComponent,
-    LastGamesComponent,
-    LastGamesDetailsComponent,
     ConfirmationDialogComponent,
     RoundViewWHSComponent,
     TournamentsComponent,
@@ -83,8 +65,10 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
     OnlineRoundDefComponent,
   ],
   imports: [
+    // GamesModule,
     BrowserModule,
-    appRoutingModule,
+    // appRoutingModule,
+    routing,
     HttpClientModule,
     ChartsModule,
     FontAwesomeModule,

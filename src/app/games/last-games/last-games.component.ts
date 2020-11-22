@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from '@/_models';
-import { HttpService, AuthenticationService, AlertService} from '@/_services';
+import { AuthenticationService, AlertService} from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { Game } from '../_models';
+import { ActivatedRoute } from '@angular/router';
+import { GameHttpService } from '../_services';
 
 @Component({
   selector: 'app-last-games',
@@ -16,10 +18,11 @@ export class LastGamesComponent implements OnInit {
 
   games: Game[];
 
-  constructor(private httpService: HttpService,
+  constructor(private gameHttpService: GameHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -33,7 +36,7 @@ export class LastGamesComponent implements OnInit {
   }
 
   private getGames() {
-    this.httpService.getGames(this.authenticationService.currentPlayerValue).subscribe(retGames => {
+    this.gameHttpService.getGames(this.authenticationService.currentPlayerValue).subscribe(retGames => {
       // console.log(retGames);
       this.games = retGames;
     },
@@ -48,6 +51,7 @@ export class LastGamesComponent implements OnInit {
     // this.gameService.setGame(game);
 
     this.router.navigate(['lastGamesDetails'], {
+        relativeTo: this.route.parent,
         state: {  data: { game } }
     });
   }

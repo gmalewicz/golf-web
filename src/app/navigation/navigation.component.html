@@ -17,7 +17,7 @@
   <div *ngIf="currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogIn">
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Games</a>
       </li>
       <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"

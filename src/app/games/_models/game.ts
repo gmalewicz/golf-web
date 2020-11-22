@@ -1,5 +1,4 @@
-import { Data } from '@angular/router';
-import { Player } from '.';
+import { Player } from '@/_models';
 
 export interface Game {
   id?: number;

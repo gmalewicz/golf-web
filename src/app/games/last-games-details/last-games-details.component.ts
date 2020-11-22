@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Game, GameSendData } from '@/_models';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
+import { AlertService, AuthenticationService } from '@/_services';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Game, GameSendData } from '../_models';
+import { GameHttpService } from '../_services';
 
 @Component({
   selector: 'app-last-games-details',
@@ -19,7 +20,7 @@ export class LastGamesDetailsComponent implements OnInit {
 
   public mailItForm: FormGroup;
 
-  constructor(private httpService: HttpService,
+  constructor(private gameHttpService: GameHttpService,
               private formBuilder: FormBuilder,
               private alertService: AlertService,
               private router: Router,
@@ -63,7 +64,7 @@ export class LastGamesDetailsComponent implements OnInit {
       email: this.f.email.value
     };
 
-    this.httpService.sendGame(gameSendData).subscribe(data => {
+    this.gameHttpService.sendGame(gameSendData).subscribe(data => {
       // console.log(data);
       this.alertService.success('The game data sent to ' + this.f.email.value, true);
       this.router.navigate(['/']);

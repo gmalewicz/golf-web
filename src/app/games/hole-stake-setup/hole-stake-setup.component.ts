@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService} from '@/_services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-bbb-game-setup',
-  templateUrl: './bbb-game-setup.component.html',
-  styleUrls: ['./bbb-game-setup.component.css']
+  selector: 'app-hole-stake-setup',
+  templateUrl: './hole-stake-setup.component.html',
+  styleUrls: ['./hole-stake-setup.component.css']
 })
-export class BbbGameSetupComponent implements OnInit {
+export class HoleStakeSetupComponent implements OnInit {
 
-  public bbbGameSetupForm: FormGroup;
+  public holeGameSetupForm: FormGroup;
   submitted: boolean;
   loading: boolean;
 
@@ -19,8 +20,8 @@ export class BbbGameSetupComponent implements OnInit {
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService
-  ) { }
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -29,17 +30,17 @@ export class BbbGameSetupComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
 
-      this.bbbGameSetupForm = this.formBuilder.group({
+      this.submitted = false;
+      this.loading = false;
+      this.players = 4;
+      this.stake = 3;
+
+      this.holeGameSetupForm = this.formBuilder.group({
         player1: [this.authenticationService.currentPlayerValue.nick, [Validators.required, Validators.maxLength(10)]],
         player2: ['P2', Validators.required],
         player3: ['P3', Validators.required],
         player4: ['P4', Validators.required]
       });
-
-      this.submitted = false;
-      this.loading = false;
-      this.players = 4;
-      this.stake = 0.3;
     }
   }
 
@@ -57,7 +58,7 @@ export class BbbGameSetupComponent implements OnInit {
     // console.log('start game');
     this.submitted = true;
 
-    if (this.bbbGameSetupForm.invalid) {
+    if (this.holeGameSetupForm.invalid) {
       return;
     }
 
@@ -72,14 +73,17 @@ export class BbbGameSetupComponent implements OnInit {
       playerNicks.push(this.f.player4.value);
     }
 
-    this.router.navigate(['bbbGame'], {
+    this.router.navigate(['holeStakeGame'], {
+      relativeTo: this.route.parent,
       state: {  data: { playersNo: this.players,
                         stake: this.stake,
                         players: playerNicks } }
     });
+
+
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.bbbGameSetupForm.controls; }
+  get f() { return this.holeGameSetupForm.controls; }
 
 }
