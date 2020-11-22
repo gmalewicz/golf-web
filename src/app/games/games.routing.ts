@@ -26,23 +26,7 @@ export const routs: Routes = [
   { path: 'bbbGame', component: BbbGameComponent, canActivate: [AuthGuard] },
   { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
   { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] },
-
-/*
-{ path: '', component: GamesComponent, canActivate: [AuthGuard] ,
-  children: [
-    { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
-    { path: 'holeStakeSetup', component: HoleStakeSetupComponent, canActivate: [AuthGuard] },
-    { path: 'holeStakeRules', component: HoleStakeRulesComponent, canActivate: [AuthGuard]},
-    { path: 'holeStakeGame', component: HoleStakeGameComponent, canActivate: [AuthGuard] },
-    { path: 'bbbRules', component: BbbGameRulesComponent, canActivate: [AuthGuard] },
-    { path: 'bbbSetup', component: BbbGameSetupComponent, canActivate: [AuthGuard] },
-    { path: 'bbbGame', component: BbbGameComponent, canActivate: [AuthGuard] },
-    { path: 'lastGames', component: LastGamesComponent, canActivate: [AuthGuard] },
-    { path: 'lastGamesDetails', component: LastGamesDetailsComponent, canActivate: [AuthGuard] }]
-
-}];
-*/
 ];
+
 export const routing: ModuleWithProviders<GamesModule> = RouterModule.forChild(routs);
-// export const GamesRouting: ModuleWithProviders = RouterModule.forChild(routes);
-// export const GamesRouting = RouterModule.forChild(gameRoutes);
+

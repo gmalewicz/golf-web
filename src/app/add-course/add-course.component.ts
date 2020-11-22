@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Hole, Course, Tee } from '@/_models';
-import { HttpService, AlertService, AuthenticationService} from '@/_services';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -28,9 +28,11 @@ export class AddCourseComponent implements OnInit {
   public barChartOptions: ChartOptions;
 
   public parButtons: number[];
-  public parSelectorActive: {active: boolean}[];
-  public holeSelectorActive: {active: boolean}[];
-  public siSelectorActive: {active: boolean}[];
+  public parSelectorActive: { active: boolean }[];
+  public holeSelectorActive: { active: boolean }[];
+  public siSelectorActive: { active: boolean }[];
+
+  public display: boolean;
 
   updatingHole: number;
   pars: number[];
@@ -59,24 +61,24 @@ export class AddCourseComponent implements OnInit {
         courseName: ['', Validators.required],
         coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
         tee: ['', Validators.required],
-        cr: ['', [, Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
-        sr: ['', [, Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
-        teeTypeDropDown: ['', [ Validators.required ]],
-        nbrHolesDropDown: ['', [ Validators.required ]]
+        cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
+        sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
+        teeTypeDropDown: ['', [Validators.required]],
+        nbrHolesDropDown: ['', [Validators.required]]
       });
 
       // initialize all buttons for net selected
-      this.parSelectorActive = Array(4).fill({active: false});
-      this.siSelectorActive = Array(18).fill({active: false});
-      this.holeSelectorActive = Array(18).fill({active: false});
+      this.parSelectorActive = Array(4).fill({ active: false });
+      this.siSelectorActive = Array(18).fill({ active: false });
+      this.holeSelectorActive = Array(18).fill({ active: false });
 
       // initialize tee types
-      this.teeTypes = [{label: '1-18', value: 0},
-                      {label: '1-9', value: 1},
-                      {label: '10-18', value: 2}];
+      this.teeTypes = [{ label: '1-18', value: 0 },
+                      { label: '1-9', value: 1 },
+                      { label: '10-18', value: 2 }];
 
-      this.nbrHoles = [{label: '18', value: 18},
-                        {label: '9', value: 9}];
+      this.nbrHoles = [{ label: '18', value: 18 },
+                      { label: '9', value: 9 }];
 
       this.updatingHole = 0;
       this.pars = [];
@@ -92,6 +94,10 @@ export class AddCourseComponent implements OnInit {
       this.parButtons = [3, 4, 5, 6];
 
       this.generateLabelsAndData();
+
+      this.display = true;
+
+
     }
   }
 
@@ -140,38 +146,38 @@ export class AddCourseComponent implements OnInit {
     this.updatingHole = hole;
 
     // clean up par, hole and si pressed buttons
-    this.holeSelectorActive.fill({active: false});
-    this.parSelectorActive.fill({active: false});
-    this.siSelectorActive.fill({active: false});
+    this.holeSelectorActive.fill({ active: false });
+    this.parSelectorActive.fill({ active: false });
+    this.siSelectorActive.fill({ active: false });
 
     // dispaly pressed button until another hole button is pressed
-    this.holeSelectorActive[this.updatingHole] =  ({active: true});
+    this.holeSelectorActive[this.updatingHole] = ({ active: true });
 
     // dispaly pressed button if par has been already marked for that hole
     if (this.pars[this.updatingHole] > 0) {
-      this.parSelectorActive[this.pars[this.updatingHole] - 3] =  ({active: true});
+      this.parSelectorActive[this.pars[this.updatingHole] - 3] = ({ active: true });
     }
 
     // dispaly pressed button if si has been already marked for that hole
     if (this.si[this.updatingHole] > 0) {
-      this.siSelectorActive[this.si[this.updatingHole] - 1] =  ({active: true});
+      this.siSelectorActive[this.si[this.updatingHole] - 1] = ({ active: true });
     }
   }
 
   selectPar(par: number) {
 
-   // console.log('Selected par: ' + par);
+    // console.log('Selected par: ' + par);
 
-   // clear error
-   this.alertService.clear();
+    // clear error
+    this.alertService.clear();
 
-   // save selected par
-   this.pars[this.updatingHole] = par;
+    // save selected par
+    this.pars[this.updatingHole] = par;
 
-   // recreate bar data for refresh purposes
-   // note that data canot be updated, it needs to be recreated
-   this.barChartData[0].data = null;
-   this.barChartData[0].data = Array(18).fill(0).map((x, i) => this.pars[i]);
+    // recreate bar data for refresh purposes
+    // note that data canot be updated, it needs to be recreated
+    this.barChartData[0].data = null;
+    this.barChartData[0].data = Array(18).fill(0).map((x, i) => this.pars[i]);
   }
 
   selectSi(si: number) {
@@ -191,10 +197,10 @@ export class AddCourseComponent implements OnInit {
     this.si[this.updatingHole] = si + 1;
 
     // clean up par, hole and si pressed buttons
-    this.siSelectorActive.fill({active: false});
+    this.siSelectorActive.fill({ active: false });
 
     // dispaly pressed button until another hole button is pressed
-    this.siSelectorActive[this.updatingHole] =  ({active: true});
+    this.siSelectorActive[this.updatingHole] = ({ active: true });
 
     // updated label: in case of label recreation is not needed - lable can be just updated
     this.barChartLabels[this.updatingHole] = '' + (this.updatingHole + 1) + '(' + (si + 1) + ')';
@@ -217,8 +223,8 @@ export class AddCourseComponent implements OnInit {
 
     // create Hole object array
     const newHoles: Hole[] = [];
-    for (let hole = 0; hole < 18;  hole++) {
-      newHoles.push({par:  this.pars[hole], number:  hole + 1, si: this.si[hole]});
+    for (let hole = 0; hole < 18; hole++) {
+      newHoles.push({ par: this.pars[hole], number: hole + 1, si: this.si[hole] });
     }
 
     // create Course object
@@ -236,10 +242,10 @@ export class AddCourseComponent implements OnInit {
       this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
       this.router.navigate(['/']);
     },
-    (error: HttpErrorResponse) => {
-      this.alertService.error(error.error.error + ' ' + error.error.message, true);
-      this.loading = false;
-    });
+      (error: HttpErrorResponse) => {
+        this.alertService.error(error.error.error + ' ' + error.error.message, true);
+        this.loading = false;
+      });
 
 
   }
@@ -256,9 +262,9 @@ export class AddCourseComponent implements OnInit {
 
 
     // clear button selections
-    this.siSelectorActive.fill({active: false});
-    this.parSelectorActive.fill({active: false});
-    this.holeSelectorActive.fill({active: false});
+    this.siSelectorActive.fill({ active: false });
+    this.parSelectorActive.fill({ active: false });
+    this.holeSelectorActive.fill({ active: false });
 
     // clear choosen pars, si and chart data
     this.si.fill(0);
@@ -269,7 +275,7 @@ export class AddCourseComponent implements OnInit {
 
     // set first hole as an active one
     this.updatingHole = 0;
-    this.holeSelectorActive[0] =  ({active: true});
+    this.holeSelectorActive[0] = ({ active: true });
 
     // clear tees
     this.tees = [];
@@ -312,8 +318,10 @@ export class AddCourseComponent implements OnInit {
     }
 
     // save tee
-    this.tees.push({tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value,
-        teeType: this.f.teeTypeDropDown.value});
+    this.tees.push({
+      tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value,
+      teeType: this.f.teeTypeDropDown.value
+    });
 
     // clare submit flag to be ready for the next tee
     this.addTeeSubmitted = false;

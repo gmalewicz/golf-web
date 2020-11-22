@@ -32,10 +32,11 @@ import { TournamentResultsComponent } from './tournament-results/tournament-resu
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 import { AddTournamentComponent } from './add-tournament/add-tournament.component';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
-import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
-import { OnlineRoundComponent } from './online-round/online-round.component';
-import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
-import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
+import { FormsModule } from '@angular/forms';
+// import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
+// import { OnlineRoundComponent } from './online-round/online-round.component';
+// import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
+// import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
 
 @NgModule({
   declarations: [
@@ -59,10 +60,7 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
     TournamentResultsComponent,
     TournamentRoundsComponent,
     AddTournamentComponent,
-    OnlineScoreCardComponent,
-    OnlineRoundComponent,
-    OnlineScoreCardViewComponent,
-    OnlineRoundDefComponent,
+
   ],
   imports: [
     // GamesModule,
@@ -72,7 +70,7 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
     HttpClientModule,
     ChartsModule,
     FontAwesomeModule,
-    // FormsModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,

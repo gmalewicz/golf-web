@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { OnlineScoreCard } from '@/_models/onlineScoreCard';
 import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Tournament, TournamentResult, TournamentRound } from '@/_models';
-import { OnlineRound } from '@/_models/onlineRound';
+
 
 @Injectable()
 export class HttpService {
@@ -118,7 +117,7 @@ export class HttpService {
   getTournamentResultRounds(resultId: number): Observable<Array<TournamentRound>> {
     return this.http.get<Array<TournamentRound>>('rest/TournamentResultRound/' + resultId);
   }
-
+/*
   addOnlineRound(onlineRound: OnlineRound): Observable<OnlineRound> {
 
     return this.http.post<OnlineRound>('rest/OnlineRound', onlineRound);
@@ -144,11 +143,11 @@ export class HttpService {
   getOnlineRoundsForCourse(courseId: number): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRoundCourse/' + courseId);
   }
-
+*/
   getPlayerForNick(nick: string): Observable<Player> {
     return this.http.get<Player>('rest/Player/' + nick);
   }
-
+/*
   addOnlineRounds(onlineRounds: Array<OnlineRound>): Observable<Array<OnlineRound>> {
 
     return this.http.post<Array<OnlineRound>>('rest/OnlineRounds', onlineRounds);
@@ -162,7 +161,7 @@ export class HttpService {
 
     return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds/', ownerId);
   }
-
+*/
   getFavouriteCourses(playerId: number): Observable<Array<Course>> {
     return this.http.get<Array<Course>>('rest/FavouriteCourses/' + playerId);
   }

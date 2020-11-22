@@ -1,3 +1,4 @@
+<div *ngIf="display">
 <div class="container">
 <form [formGroup]="newCourseForm">
   <div class="form-row">
@@ -31,17 +32,19 @@
     </div>
 
     <div class="form-group col">
+
       <p-dropdown
         formControlName="nbrHolesDropDown"
         [options]="nbrHoles"
         [ngClass]="{ 'is-invalid': submitted && f.nbrHolesDropDown.errors }"
         placeholder="number of holes">
       </p-dropdown>
+
       <div *ngIf="submitted && f.nbrHolesDropDown.errors" class="invalid-feedback">
         <div *ngIf="f.nbrHolesDropDown.errors.required">Number of holes is required</div>
       </div>
-    </div>
 
+    </div>
   </div>
   <div>
     <canvas
@@ -152,6 +155,7 @@
         <div *ngIf="f.cr.errors.pattern">Course CR must be in range: 20 to 89.9</div>
       </div>
     </div>
+
     <div class="form-group col">
       <input
         type="text"
@@ -202,4 +206,4 @@
   </div>
 </form>
 </div>
-
+</div>

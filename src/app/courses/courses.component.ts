@@ -94,7 +94,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onClickFavourite(course: Course) {
-    console.log('click favourites');
+    // console.log('click favourites');
     if (this.favourites === false) {
       // course.favourite = true;
       if (!this.isInFavourites(course)) {

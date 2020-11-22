@@ -1,11 +1,11 @@
-import { Course } from './../_models/course';
-import { WebSocketAPI } from '@/_helpers/web.socekt.api';
-import { OnlineRound } from '@/_models/onlineRound';
-import { OnlineScoreCard } from '@/_models/onlineScoreCard';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { Router } from '@angular/router';
+import { OnlineRound, OnlineScoreCard } from '../_models';
+import { Course } from '@/_models';
+import { WebSocketAPI } from '../_helpers';
+import { ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -22,6 +22,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   webSocketAPI: WebSocketAPI;
 
   constructor(private httpService: HttpService,
+              private scorecardHttpService: ScorecardHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router) { }
@@ -60,7 +61,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   showRound() {
 
-    combineLatest([this.httpService.getOnlineScoreCard(
+    combineLatest([this.scorecardHttpService.getOnlineScoreCard(
       this.onlineRounds[0].id), this.httpService.getHoles(this.onlineRounds[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
 
         const onlineScoreCards: OnlineScoreCard[] = Array(18);
@@ -94,7 +95,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
   showCourse() {
-    combineLatest([this.httpService.getOnlineRoundsForCourse(
+    combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
       this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
 
         this.course.holes = retHoles;

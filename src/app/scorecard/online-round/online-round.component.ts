@@ -1,18 +1,17 @@
 import { OnlineScoreCard } from './../_models/onlineScoreCard';
-import { teeTypes } from './../_models/tee';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { WebSocketAPI } from '@/_helpers/web.socekt.api';
-import { Course} from '@/_models';
-import { OnlineRound } from '@/_models/onlineRound';
+import { Course, teeTypes} from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs/internal/Observable';
+import { OnlineRound } from '../_models';
+import { WebSocketAPI } from '../_helpers';
+import { ScorecardHttpService } from '../_services';
 
 
 @Component({
@@ -57,9 +56,8 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
   lostConnection: boolean;
 
   constructor(private httpService: HttpService,
-              private route: ActivatedRoute,
+              private scorecardHttpService: ScorecardHttpService,
               private alertService: AlertService,
-              private formBuilder: FormBuilder,
               private dialog: MatDialog,
               private authenticationService: AuthenticationService,
               private router: Router) {
@@ -128,7 +126,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
     // console.log(calls);
     for (let i = 0; i < this.onlineRounds.length; i++) {
       // console.log(i);
-      calls[i] = this.httpService.getOnlineScoreCard(this.onlineRounds[i].id);
+      calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRounds[i].id);
     }
     // calls[0] = this.httpService.getOnlineScoreCard(this.onlineRounds[0].id);
     // console.log(calls);
@@ -253,7 +251,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        this.httpService.deleteOnlineRoundForOwner(this.authenticationService.currentPlayerValue.id).subscribe(onlineRoundId => {
+        this.scorecardHttpService.deleteOnlineRoundForOwner(this.authenticationService.currentPlayerValue.id).subscribe(onlineRoundId => {
           // console.log('deleted course id: ' + onlineRoundId);
           this.alertService.success('This score card has been successfully deleted', false);
 
@@ -282,7 +280,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        this.httpService.finalizeOnlineOwnerRound(this.authenticationService.currentPlayerValue.id).subscribe(data => {
+        this.scorecardHttpService.finalizeOnlineOwnerRound(this.authenticationService.currentPlayerValue.id).subscribe(data => {
           // console.log('deleted course id: ' + onlineRoundId);
           this.alertService.success('The round has been successfuly saved', false);
 

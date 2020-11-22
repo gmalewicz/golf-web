@@ -1,5 +1,5 @@
-import { Player } from '.';
-import { OnlineRound } from './onlineRound';
+
+import { Player } from '@/_models';
 
 export interface OnlineScoreCard {
   id?: number;

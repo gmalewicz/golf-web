@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
+import { ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-round-def',
@@ -28,6 +29,7 @@ export class OnlineRoundDefComponent implements OnInit {
   faCheckCircle: IconDefinition;
 
   constructor(private httpService: HttpService,
+              private scorecardHttpService: ScorecardHttpService,
               private formBuilder: FormBuilder,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
@@ -158,10 +160,10 @@ export class OnlineRoundDefComponent implements OnInit {
       counter++;
     }
 
-    this.httpService.addOnlineRounds(onlineRounds).subscribe(
+    this.scorecardHttpService.addOnlineRounds(onlineRounds).subscribe(
       data => {
         this.loading = false;
-        this.router.navigate(['/onlineRound'], {
+        this.router.navigate(['/scorecard/onlineRound'], {
           state: { data: { onlineRounds: data, course: this.course} }
         });
       },

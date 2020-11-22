@@ -1,6 +1,5 @@
-import { Course, Player, Tee } from '.';
+import { Course, Player, Tee } from '@/_models';
 import { OnlineScoreCard } from './onlineScoreCard';
-
 
 export interface OnlineRound {
   id?: number;

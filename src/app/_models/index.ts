@@ -3,8 +3,6 @@ export * from './hole';
 export * from './player';
 export * from './round';
 export * from './scoreCard';
-// export * from '../game/_models/gameSetup';
-// export * from './game';
 export * from './tee';
 export * from './playerRoundDetails';
 export * from './tournament';

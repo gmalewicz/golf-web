@@ -14,7 +14,7 @@
         <td>
           <a
             href="#"
-            routerLink="/onlineScoreCardView"
+            routerLink="onlineScoreCardView"
             [state]="{ data: { onlineRound: round } }"
           >
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
@@ -24,7 +24,7 @@
         <td>
           <a
             href="#"
-            routerLink="/onlineScoreCardView"
+            routerLink="onlineScoreCardView"
             [state]="{ data: { course: round.course } }"
           >
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
@@ -60,7 +60,7 @@
     <button
       type="button"
       class="btn btn-success"
-      [routerLink]="['/onlineRound']"
+      [routerLink]="['onlineRound']"
       [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
     >
       Continue Round
