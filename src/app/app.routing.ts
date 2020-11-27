@@ -13,10 +13,6 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
-import { TournamentsComponent } from './tournaments/tournaments.component';
-import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
-import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
-import { AddTournamentComponent } from './add-tournament/add-tournament.component';
 import { AppModule } from './app.module';
 
 const routes: Routes = [
@@ -31,11 +27,8 @@ const routes: Routes = [
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
   { path: 'roundViewWHS', component: RoundViewWHSComponent, canActivate: [AuthGuard] },
-  { path: 'tournaments', component: TournamentsComponent, canActivate: [AuthGuard] },
-  { path: 'tournamentResults', component: TournamentResultsComponent, canActivate: [AuthGuard] },
-  { path: 'tournamentRounds', component: TournamentRoundsComponent, canActivate: [AuthGuard] },
-  { path: 'addTournament', component: AddTournamentComponent, canActivate: [AuthGuard] },
 
+  { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},
   { path: 'games', loadChildren: () => import('./games/games.module').then(m => m.GamesModule)},
 

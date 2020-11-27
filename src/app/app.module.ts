@@ -27,16 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DropdownModule} from 'primeng/dropdown';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
-import { TournamentsComponent } from './tournaments/tournaments.component';
-import { TournamentResultsComponent } from './tournament-results/tournament-results.component';
-import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
-import { AddTournamentComponent } from './add-tournament/add-tournament.component';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
-// import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
-// import { OnlineRoundComponent } from './online-round/online-round.component';
-// import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
-// import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
 
 @NgModule({
   declarations: [
@@ -56,11 +48,6 @@ import { FormsModule } from '@angular/forms';
     ChangeLogComponent,
     ConfirmationDialogComponent,
     RoundViewWHSComponent,
-    TournamentsComponent,
-    TournamentResultsComponent,
-    TournamentRoundsComponent,
-    AddTournamentComponent,
-
   ],
   imports: [
     // GamesModule,

@@ -59,7 +59,7 @@ export class RoundsComponent implements OnInit {
 
   private getRounds(): void {
     this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.page).subscribe((retRounds: Round[]) => {
-      console.log(retRounds);
+      // console.log(retRounds);
       this.rounds = retRounds;
       this.display = true;
     },

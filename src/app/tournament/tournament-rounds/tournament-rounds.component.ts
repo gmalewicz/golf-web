@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Tournament, Round } from '@/_models';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
+import { AlertService, AuthenticationService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { TournamentHttpService } from '../_services';
 
 @Component({
   selector: 'app-tournament-rounds',
@@ -17,7 +18,7 @@ export class TournamentRoundsComponent implements OnInit {
   tournament: Tournament;
   rounds: Round[];
 
-  constructor(private httpService: HttpService,
+  constructor(private tournamentHttpService: TournamentHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router) {}
@@ -32,7 +33,7 @@ export class TournamentRoundsComponent implements OnInit {
       this.faSearchPlus = faSearchPlus;
       this.tournament = history.state.data.tournament;
 
-      this.httpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
+      this.tournamentHttpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
         // console.log('test');
         this.rounds = retRounds;
       },
@@ -44,7 +45,7 @@ export class TournamentRoundsComponent implements OnInit {
 
   addRound(round: Round) {
 
-    this.httpService.addRoundToTournament(round, this.tournament.id).subscribe(data => {
+    this.tournamentHttpService.addRoundToTournament(round, this.tournament.id).subscribe(data => {
       // console.log('adding round to tournament');
       this.alertService.success('Round successfully added to tournamnet', true);
       this.router.navigate(['/']);

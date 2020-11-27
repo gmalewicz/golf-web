@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentResult, Tournament, TournamentRound } from '@/_models';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
+import { AlertService, AuthenticationService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faSearchPlus, faSearchMinus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { TournamentHttpService } from '../_services';
 
 @Component({
   selector: 'app-tournament-results',
@@ -23,7 +24,7 @@ export class TournamentResultsComponent implements OnInit {
 
   tournamentRounds: Array<Array<TournamentRound>>;
 
-  constructor(private httpService: HttpService,
+  constructor(private tournamentHttpService: TournamentHttpService,
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router) {}
@@ -42,7 +43,7 @@ export class TournamentResultsComponent implements OnInit {
       this.playerId = this.authenticationService.currentPlayerValue.id;
 
 
-      this.httpService.getTournamentResults(this.tournament.id).subscribe((retTournamentResults: TournamentResult[]) => {
+      this.tournamentHttpService.getTournamentResults(this.tournament.id).subscribe((retTournamentResults: TournamentResult[]) => {
 
         this.tournamentResults = retTournamentResults;
         this.tournamentRounds = Array(this.tournamentResults.length);
@@ -59,7 +60,8 @@ export class TournamentResultsComponent implements OnInit {
 
     if (this.tournamentRounds[index] === undefined) {
 
-      this.httpService.getTournamentResultRounds(tournamentResult.id).subscribe((retTournamentResultRounds: TournamentRound[]) => {
+      this.tournamentHttpService.getTournamentResultRounds(tournamentResult.id).
+        subscribe((retTournamentResultRounds: TournamentRound[]) => {
 
         this.tournamentRounds[index] = retTournamentResultRounds;
       },

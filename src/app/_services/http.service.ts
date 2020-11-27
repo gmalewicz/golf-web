@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Tournament, TournamentResult, TournamentRound } from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails} from '@/_models';
 
 
 @Injectable()
@@ -82,86 +82,16 @@ export class HttpService {
     return this.http.get<PlayerRoundDetails>('rest/RoundPlayerDetails/' + playerId + '/' + roundId);
   }
 
-  // gets tournaments
-  getTournaments(): Observable<Array<Tournament>> {
-    return this.http.get<Array<Tournament>>('rest/Tournament');
-  }
-
-  // gets tournament results
-  getTournamentResults(tournamentId: number): Observable<Array<TournamentResult>> {
-    return this.http.get<Array<TournamentResult>>('rest/TournamentResult/' + tournamentId);
-  }
-
-  // gets rounds that can be added to tournament
-  getTournamentRounds(tournamentId: number): Observable<Array<Round>> {
-    return this.http.get<Array<Round>>('rest/TournamentRounds/' + tournamentId);
-  }
-
-  addRoundToTournament(round: Round, tournamentId: number): Observable<void> {
-
-    return this.http.post<void>('rest/TournamentRound/' + tournamentId, round);
-  }
-
-  addTournament(tournament: Tournament): Observable<void> {
-
-    return this.http.post<void>('rest/Tournament', tournament);
-  }
-
   // reset password
   resetPassword(adminId: number, player: Player): Observable<HttpResponse<null>> {
 
     return this.http.patch<HttpResponse<null>>('rest/ResetPassword/' + adminId, player);
   }
 
-  // gets tournamnet rounds
-  getTournamentResultRounds(resultId: number): Observable<Array<TournamentRound>> {
-    return this.http.get<Array<TournamentRound>>('rest/TournamentResultRound/' + resultId);
-  }
-/*
-  addOnlineRound(onlineRound: OnlineRound): Observable<OnlineRound> {
-
-    return this.http.post<OnlineRound>('rest/OnlineRound', onlineRound);
-  }
-
-  getOnlineRounds(): Observable<Array<OnlineRound>> {
-    return this.http.get<Array<OnlineRound>>('rest/OnlineRound');
-  }
-
-  getOnlineScoreCard(onlineRoundId: number): Observable<Array<OnlineScoreCard>> {
-    return this.http.get<Array<OnlineScoreCard>>('rest/OnlineScoreCard/'  + onlineRoundId);
-  }
-
-  deleteOnlineRound(id: number) {
-    return this.http.delete('rest/OnlineRound/' + id);
-  }
-
-  finalizeOnlineRound(onlineRoundId: number): Observable<Round> {
-
-    return this.http.post<Round>('rest/FinalizeOnlineRound/' + onlineRoundId, null);
-  }
-
-  getOnlineRoundsForCourse(courseId: number): Observable<Array<OnlineRound>> {
-    return this.http.get<Array<OnlineRound>>('rest/OnlineRoundCourse/' + courseId);
-  }
-*/
   getPlayerForNick(nick: string): Observable<Player> {
     return this.http.get<Player>('rest/Player/' + nick);
   }
-/*
-  addOnlineRounds(onlineRounds: Array<OnlineRound>): Observable<Array<OnlineRound>> {
 
-    return this.http.post<Array<OnlineRound>>('rest/OnlineRounds', onlineRounds);
-  }
-
-  deleteOnlineRoundForOwner(ownerId: number) {
-    return this.http.delete('rest/OnlineRoundForOwner/' + ownerId);
-  }
-
-  finalizeOnlineOwnerRound(ownerId: number): Observable<HttpResponse<null>> {
-
-    return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds/', ownerId);
-  }
-*/
   getFavouriteCourses(playerId: number): Observable<Array<Course>> {
     return this.http.get<Array<Course>>('rest/FavouriteCourses/' + playerId);
   }

@@ -12,7 +12,7 @@
   <tbody>
     <tr *ngFor="let tournament of tournaments">
       <td>
-        <a href="#"  routerLink ="/tournamentResults" [state]="{data: {tournament: tournament}}">
+        <a href="#"  routerLink ="tournamentResults" [state]="{data: {tournament: tournament}}">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
@@ -28,7 +28,7 @@
     Cancel
   </button>
   &nbsp;
-  <button type="button" class="btn btn-success" routerLink="/addTournament">
+  <button type="button" class="btn btn-success" routerLink="addTournament">
     Add
   </button>
 </div>

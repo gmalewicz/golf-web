@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Tournament } from '@/_models';
-import { AuthenticationService, HttpService, AlertService } from '@/_services';
+import { AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TournamentHttpService } from '../_services';
 
 @Component({
   selector: 'app-add-tournament',
@@ -18,7 +19,7 @@ export class AddTournamentComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
-              private httpService: HttpService,
+              private tournamentHttpService: TournamentHttpService,
               private alertService: AlertService,
               private router: Router) { }
 
@@ -68,7 +69,7 @@ export class AddTournamentComponent implements OnInit {
       return;
     }
 
-    this.httpService.addTournament(tournament).subscribe(data => {
+    this.tournamentHttpService.addTournament(tournament).subscribe(data => {
 
       this.alertService.success('Tournament successfully created', true);
       this.loading = false;

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Tournament } from '@/_models';
-import { HttpService, AuthenticationService, AlertService } from '@/_services';
+import { AuthenticationService, AlertService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TournamentHttpService } from '../_services';
 
 @Component({
   selector: 'app-tournaments',
@@ -15,7 +16,7 @@ export class TournamentsComponent implements OnInit {
   faSearchPlus: IconDefinition;
   tournaments: Array<Tournament>;
 
-  constructor(private httpService: HttpService,
+  constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
               private alertService: AlertService,
               private router: Router) {}
@@ -28,7 +29,7 @@ export class TournamentsComponent implements OnInit {
     } else {
 
       this.faSearchPlus = faSearchPlus;
-      this.httpService.getTournaments().subscribe((retTournaments: Tournament[]) => {
+      this.tournamentHttpService.getTournaments().subscribe((retTournaments: Tournament[]) => {
         this.tournaments = retTournaments;
       },
         (error: HttpErrorResponse) => {
