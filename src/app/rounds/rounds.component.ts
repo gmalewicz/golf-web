@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Round } from '@/_models';
-import { HttpService, AuthenticationService, AlertService} from '@/_services';
+import { HttpService, AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rounds',
@@ -58,14 +59,13 @@ export class RoundsComponent implements OnInit {
   }
 
   private getRounds(): void {
-    this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.page).subscribe((retRounds: Round[]) => {
-      // console.log(retRounds);
-      this.rounds = retRounds;
-      this.display = true;
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, true);
-        this.router.navigate(['/']);
-    });
+    this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.page).pipe(
+      tap(
+        r => {
+          this.rounds = r;
+          this.display = true;
+        })
+    ).subscribe();
   }
 }
+

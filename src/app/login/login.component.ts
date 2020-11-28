@@ -24,14 +24,14 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   ngOnInit() {
 
     // console.log('logging out');
     // redirect to home if already logged in
     if (this.authenticationService.currentPlayerValue) {
-        this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
 
     this.loading = false;
@@ -69,18 +69,14 @@ export class LoginComponent implements OnInit {
         data => {
           this.alertService.success('Welcome ' + this.f.username.value + '. Your WHS is ' +
             data.whs + '. Make sure it is up to date before adding the round.', true);
-          this.router.navigate([this.returnUrl]);
-        },
-        (error: HttpErrorResponse) => {
-
-          if (error.status === 404) {
-            this.alertService.error('Your user name was not found', false);
-          } else if (error.status === 401) {
-            this.alertService.error('You are not authorized to log in', false);
-          } else {
-            this.alertService.error('Server error', false);
-          }
           this.loading = false;
-        });
+          this.router.navigate([this.returnUrl]);
+        }
+
+        , (error: HttpErrorResponse) => {
+          this.loading = false;
+        }
+
+      );
   }
 }

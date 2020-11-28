@@ -1,17 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { AuthenticationService } from '@/_services';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) {}
+    constructor(private authenticationService: AuthenticationService,
+                private router: Router) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
         // console.log('attempt to set JWT token');
         const currentPlayer = this.authenticationService.currentPlayerValue;
+
+        // skip urls tha does not need security
+        if (request.url === 'rest/Authenticate' || request.url === 'rest/AddPlayer') {
+          return next.handle(request);
+        }
+
+        // add token if exists else throw an error and logout
         if (currentPlayer && currentPlayer.token) {
             // console.log('setting JWT token');
             request = request.clone({
@@ -19,6 +28,10 @@ export class JwtInterceptor implements HttpInterceptor {
                     Authorization: `Bearer ${currentPlayer.token}`
                 }
             });
+        } else {
+          this.authenticationService.logout();
+          this.router.navigate(['/']);
+          return throwError({error: {error: 0, message: 'Session expired, pleease log in'}});
         }
 
         return next.handle(request);

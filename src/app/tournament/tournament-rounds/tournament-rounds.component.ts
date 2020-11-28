@@ -36,9 +36,9 @@ export class TournamentRoundsComponent implements OnInit {
       this.tournamentHttpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
         // console.log('test');
         this.rounds = retRounds;
-      },
-        (error: HttpErrorResponse) => {
-          this.alertService.error(error.error.message, false);
+      // },
+      //  (error: HttpErrorResponse) => {
+      //    // this.alertService.error(error.error.message, false);
       });
     }
   }
@@ -49,10 +49,15 @@ export class TournamentRoundsComponent implements OnInit {
       // console.log('adding round to tournament');
       this.alertService.success('Round successfully added to tournamnet', true);
       this.router.navigate(['/']);
-    },
+    }
+    /*
+    ,
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, true);
         this.router.navigate(['/']);
-    });
+    }
+    */
+    );
+
   }
 }
