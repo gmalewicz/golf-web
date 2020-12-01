@@ -15,3 +15,8 @@
   background-color: white;
   color: black;
 }
+
+.buttonWidth {
+  width: 40px;
+  display: inline-block;
+}

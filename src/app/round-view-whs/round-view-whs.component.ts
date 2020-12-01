@@ -27,6 +27,10 @@ export class RoundViewWHSComponent implements OnInit {
   last9StbBrutto: number;
   first9CorScorBrutto: number;
   last9CorScorBrutto: number;
+  first9Putt: number;
+  last9Putt: number;
+  first9Penalty: number;
+  last9Penalty: number;
   scoreBruttoClass: string[];
   scoreNettoClass: string[];
 
@@ -63,6 +67,14 @@ export class RoundViewWHSComponent implements OnInit {
       // create player score for each 9
       this.first9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
       this.last9score = this.round.scoreCard.map(s => s.stroke).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+      // create player putt for each 9
+      this.first9Putt = this.round.scoreCard.map(s => s.pats).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      this.last9Putt = this.round.scoreCard.map(s => s.pats).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
+      // create player penalty for each 9
+      this.first9Penalty =
+        this.round.scoreCard.map(s => s.penalty).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      this.last9Penalty =
+        this.round.scoreCard.map(s => s.penalty).reduce((p, n, i) => { if (i >= 9) { return p + n; } else { return 0; } });
 
       this.scoreBruttoClass.forEach((v, i) => {
 

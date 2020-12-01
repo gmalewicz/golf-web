@@ -8,17 +8,21 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService,
-                private router: Router,
-                private alertService: AlertService) {}
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router,
+              private alertService: AlertService) { }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(catchError(err => {
 
-          this.alertService.error(err.error.error + ': ' + err.error.message, true);
-          this.router.navigate(['/']);
+      if (err.status === 504) {
+        err.error = { message: 'Server unavailable' };
+      }
 
-          return throwError(err);
-        }));
-    }
+      this.alertService.error(err.error.message, true);
+      this.router.navigate(['/']);
+
+      return throwError(err);
+    }));
+  }
 }

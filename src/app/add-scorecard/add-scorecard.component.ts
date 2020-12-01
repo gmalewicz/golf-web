@@ -281,7 +281,7 @@ export class AddScorecardComponent implements OnInit {
     for (let hole = 0; hole < 18; hole++) {
 
       if (this.round == null) {
-        scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole]});
+        scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole], penalty: 0});
       } else {
         this.round.scoreCard[hole].stroke = this.strokes[hole];
         this.round.scoreCard[hole].pats = this.putts[hole];

@@ -7,18 +7,11 @@
   <div>
     <div >
       <div>
-        <!--
-        <span>
-          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="changePlayer()"></fa-icon>
-        </span>
-        {{onlineRounds[curPayerIdx].player.nick}}
-        &nbsp;
-        -->
         <button type="button" class="btn btn-success" (click)="onDecrease()">
           &lt;
         </button>
         &nbsp;
-        {{curHoleStrokes[curPayerIdx]}}
+        {{curHoleStrokes[curPlayerIdx]}}
         &nbsp;
         <button type="button" class="btn btn-success" (click)="onIncrease()">
           &gt;
@@ -31,6 +24,33 @@
         <button type="button" class="btn btn-success" (click)="selectHole(curHoleIdx + 1)">
           Next Hole
         </button>
+      </div>
+    </div>
+    <br/>
+    <div class="row" *ngIf="onlineRounds[0].putts">
+      <div class="col-sm-1">
+        Putts:
+      </div>
+      <div>
+        <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+          <label *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="puttSelectorActive[i]">
+            <input type="radio" (click)="selectPutt(i)"> {{i}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <br/>
+
+    <div class="row" *ngIf="onlineRounds[0].penalties">
+      <div class="col-sm-1">
+        Penalt.:
+      </div>
+      <div>
+        <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+          <label *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="penaltySelectorActive[i]">
+            <input type="radio" (click)="selectPenalty(i)"> {{i}}
+          </label>
+        </div>
       </div>
     </div>
     <br/>
@@ -57,20 +77,44 @@
               <span *ngIf="curHoleStrokes[0] > 0">
                 {{curHoleStrokes[0]}}
               </span>
+              <span *ngIf="onlineRounds[0].putts">
+                - {{curHolePutts[0]}}
+              </span>
+              <span *ngIf="onlineRounds[0].penalties">
+                - {{curHolePenalties[0]}}
+              </span>
             </td>
             <td *ngIf="onlineRounds.length > 1" [ngClass]="calculateStyle(1)">
               <span *ngIf="curHoleStrokes[1] > 0">
                 {{curHoleStrokes[1]}}
+              </span>
+              <span *ngIf="onlineRounds[0].putts">
+                - {{curHolePutts[1]}}
+              </span>
+              <span *ngIf="onlineRounds[0].penalties">
+                - {{curHolePenalties[1]}}
               </span>
             </td>
             <td *ngIf="onlineRounds.length > 2" [ngClass]="calculateStyle(2)">
               <span *ngIf="curHoleStrokes[2] > 0">
                 {{curHoleStrokes[2]}}
               </span>
+              <span *ngIf="onlineRounds[0].putts">
+                - {{curHolePutts[2]}}
+              </span>
+              <span *ngIf="onlineRounds[0].penalties">
+                - {{curHolePenalties[2]}}
+              </span>
             </td>
             <td *ngIf="onlineRounds.length > 3" [ngClass]="calculateStyle(3)">
               <span *ngIf="curHoleStrokes[3] > 0">
                 {{curHoleStrokes[3]}}
+              </span>
+              <span *ngIf="onlineRounds[0].putts">
+                - {{curHolePutts[3]}}
+              </span>
+              <span *ngIf="onlineRounds[0].penalties">
+                - {{curHolePenalties[3]}}
               </span>
             </td>
             <td>
@@ -124,20 +168,44 @@
               <span *ngIf="stroke[0] > 0">
                 {{stroke[0]}}
               </span>
+              <span *ngIf="stroke[0] > 0 && onlineRounds[0].putts">
+                - {{putts[i][0]}}
+              </span>
+              <span *ngIf="stroke[0] > 0 && onlineRounds[0].penalties">
+                - {{penalties[i][0]}}
+              </span>
             </td>
             <td *ngIf="onlineRounds.length > 1">
               <span *ngIf="stroke[1] > 0">
                 {{stroke[1]}}
+              </span>
+              <span *ngIf="stroke[1] > 0 && onlineRounds[0].putts">
+                - {{putts[i][1]}}
+              </span>
+              <span *ngIf="stroke[1] > 0 && onlineRounds[0].penalties">
+                - {{penalties[i][1]}}
               </span>
             </td>
             <td *ngIf="onlineRounds.length > 2">
               <span *ngIf="stroke[2] > 0">
                 {{stroke[2]}}
               </span>
+              <span *ngIf="stroke[2] > 0 && onlineRounds[0].putts">
+                - {{putts[i][2]}}
+              </span>
+              <span *ngIf="stroke[2] > 0 && onlineRounds[0].penalties">
+                - {{penalties[i][2]}}
+              </span>
             </td>
             <td *ngIf="onlineRounds.length > 3">
               <span *ngIf="stroke[3] > 0">
                 {{stroke[3]}}
+              </span>
+              <span *ngIf="stroke[3] > 0 && onlineRounds[0].putts">
+                - {{putts[i][3]}}
+              </span>
+              <span *ngIf="stroke[3] > 0 && onlineRounds[0].penalties">
+                - {{penalties[i][3]}}
               </span>
             </td>
             <td>

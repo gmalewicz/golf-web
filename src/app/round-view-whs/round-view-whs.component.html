@@ -140,6 +140,30 @@
       <th class="center" [ngStyle]="{'background-color': calculateStyle(10)}">{{last9StbBrutto}}</th>
       <th class="center">{{first9StbBrutto + last9StbBrutto}}</th>
     </tr>
+    <tr>
+      <th>Putts</th>
+      <td *ngFor="let i = index of counter(9)" class="center" [ngStyle]="{'background-color': calculateStyle(i)}">
+         {{round.scoreCard[i].pats}}
+      </td>
+      <th class="center" [ngStyle]="{'background-color': calculateStyle(0)}"> {{first9Putt}}</th>
+      <td *ngFor="let i = index of counter(9)" class="center" [ngStyle]="{'background-color': calculateStyle(i + 9)}">
+        {{round.scoreCard[i + 9].pats}}
+      </td>
+      <th class="center" [ngStyle]="{'background-color': calculateStyle(10)}">{{last9Putt}}</th>
+      <th class="center">{{first9Putt + last9Putt}}</th>
+    </tr>
+    <tr>
+      <th>Penalties</th>
+      <td *ngFor="let i = index of counter(9)" class="center" [ngStyle]="{'background-color': calculateStyle(i)}">
+         {{round.scoreCard[i].penalty}}
+      </td>
+      <th class="center" [ngStyle]="{'background-color': calculateStyle(0)}">{{first9Penalty}}</th>
+      <td *ngFor="let i = index of counter(9)" class="center" [ngStyle]="{'background-color': calculateStyle(i + 9)}">
+        {{round.scoreCard[i + 9].penalty}}
+      </td>
+      <th class="center" [ngStyle]="{'background-color': calculateStyle(10)}">{{last9Penalty}}</th>
+      <th class="center">{{first9Penalty + last9Penalty}}</th>
+    </tr>
   </tbody>
 </table>
 </div>

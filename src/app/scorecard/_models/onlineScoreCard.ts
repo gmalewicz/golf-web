@@ -8,4 +8,6 @@ export interface OnlineScoreCard {
   player: Player;
   onlineRoundId: number;
   update?: boolean;
+  putt: number;
+  penalty: number;
 }

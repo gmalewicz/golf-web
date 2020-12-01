@@ -5,7 +5,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { tap } from 'rxjs/internal/operators/tap';
+
 import { ScorecardHttpService } from '../_services';
 
 @Component({
@@ -44,16 +46,16 @@ export class OnlineRoundDefComponent implements OnInit {
     } else {
 
       // initialization
-    this.display = false;
-    this.submitted = false;
-    this.loading = false;
-    this.noOfPlayers = 1;
-    this.players = Array(4);
-    this.tees = Array(4);
-    this.faSearchPlus = faSearchPlus;
-    this.faCheckCircle = faCheckCircle;
+      this.display = false;
+      this.submitted = false;
+      this.loading = false;
+      this.noOfPlayers = 1;
+      this.players = Array(4);
+      this.tees = Array(4);
+      this.faSearchPlus = faSearchPlus;
+      this.faCheckCircle = faCheckCircle;
 
-    this.getCourseData();
+      this.getCourseData();
     }
   }
 
@@ -75,7 +77,9 @@ export class OnlineRoundDefComponent implements OnInit {
       nick1: [this.authenticationService.currentPlayerValue.nick, [Validators.required, Validators.maxLength(10)]],
       nick2: ['', [Validators.required, Validators.maxLength(10)]],
       nick3: ['', [Validators.required, Validators.maxLength(10)]],
-      nick4: ['', [Validators.required, Validators.maxLength(10)]]
+      nick4: ['', [Validators.required, Validators.maxLength(10)]],
+      putts: [false],
+      penalties: [false]
     });
 
     // clean up all controls;
@@ -94,10 +98,10 @@ export class OnlineRoundDefComponent implements OnInit {
       retTees.forEach((t, i) => this.teeOptions.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
 
       this.display = true;
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, false);
-      });
+      // },
+      //  (error: HttpErrorResponse) => {
+      //    this.alertService.error(error.error.message, false);
+    });
   }
 
   // convenience getter for easy access to form fields
@@ -153,25 +157,25 @@ export class OnlineRoundDefComponent implements OnInit {
         player: this.players[counter],
         tee: this.tees[counter],
         owner: this.players[0].id,
-        finalized: false
+        finalized: false,
+        putts: this.f.putts.value,
+        penalties: this.f.penalties.value
       };
 
       onlineRounds[counter] = onlineRound;
       counter++;
     }
 
-    this.scorecardHttpService.addOnlineRounds(onlineRounds).subscribe(
-      data => {
+
+    this.scorecardHttpService.addOnlineRounds(onlineRounds).pipe(tap(
+      or => {
         this.loading = false;
         this.router.navigate(['/scorecard/onlineRound'], {
-          state: { data: { onlineRounds: data, course: this.course} }
+          state: { data: { onlineRounds: or, course: this.course } }
         });
-      },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, true);
-        this.loading = false;
-        this.router.navigate(['/']);
-      });
+      })
+    ).subscribe();
+
   }
 
   onPlayers(players: number) {
@@ -256,24 +260,23 @@ export class OnlineRoundDefComponent implements OnInit {
 
   private searchPlayer(nick: string, playerIdx: number) {
 
-    this.httpService.getPlayerForNick(nick).subscribe(player => {
+    this.httpService.getPlayerForNick(nick).pipe(tap(
+      player => {
 
-      if (player != null) {
-        this.players[playerIdx] = player;
+        if (player != null) {
+          this.players[playerIdx] = player;
 
-        if (playerIdx === 1) {
-          this.f.nick2.disable();
-        } else if (playerIdx === 2) {
-          this.f.nick3.disable();
-        } else if (playerIdx === 3) {
-          this.f.nick4.disable();
+          if (playerIdx === 1) {
+            this.f.nick2.disable();
+          } else if (playerIdx === 2) {
+            this.f.nick3.disable();
+          } else if (playerIdx === 3) {
+            this.f.nick4.disable();
+          }
+        } else {
+          this.alertService.error('Player: ' + nick + ' not found', false);
         }
-      } else {
-        this.alertService.error('Player: ' + nick + ' not found', false);
-      }
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error('Error searching player', false);
-      });
+      })
+    ).subscribe();
   }
 }

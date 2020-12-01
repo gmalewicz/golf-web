@@ -12,4 +12,6 @@ export interface OnlineRound {
   last9score?: number;
   owner?: number;
   finalized?: boolean;
+  putts: boolean;
+  penalties: boolean;
 }
