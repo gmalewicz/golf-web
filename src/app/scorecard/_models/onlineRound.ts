@@ -14,4 +14,6 @@ export interface OnlineRound {
   finalized?: boolean;
   putts: boolean;
   penalties: boolean;
+  matchPlay: boolean;
+  courseHCP?: number;
 }

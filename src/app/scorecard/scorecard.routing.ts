@@ -7,6 +7,7 @@ import { ScorecardModule } from './scorecard.module';
 import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
 import { OnlineRoundComponent } from './online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
+import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
 
 export const routs: Routes = [
 
@@ -15,6 +16,7 @@ export const routs: Routes = [
   { path: 'onlineRound', component: OnlineRoundComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
+  { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },
 
 ];
 export const routing: ModuleWithProviders<ScorecardModule> = RouterModule.forChild(routs);

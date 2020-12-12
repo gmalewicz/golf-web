@@ -1,0 +1,22 @@
+.golf-green {
+  color: #28a745;
+}
+
+.golf-gray {
+  color: gray;
+}
+
+.edit {
+  background-color: #28a745;
+  color: white;
+}
+
+.no-edit {
+  background-color: white;
+  color: black;
+}
+
+.buttonWidth {
+  width: 40px;
+  display: inline-block;
+}

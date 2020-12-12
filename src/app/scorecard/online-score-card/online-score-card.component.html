@@ -56,11 +56,21 @@
     Start Round
   </button>
   </span>
-  <span  *ngIf="display && myOnlineRounds.length > 0">
+  <span  *ngIf="display && myOnlineRounds.length > 0 && !myOnlineRounds[0].matchPlay">
     <button
       type="button"
       class="btn btn-success"
       [routerLink]="['onlineRound']"
+      [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
+    >
+      Continue Round
+    </button>
+  </span>
+  <span  *ngIf="display && myOnlineRounds.length > 0 && myOnlineRounds[0].matchPlay">
+    <button
+      type="button"
+      class="btn btn-success"
+      [routerLink]="['onlineMatchplay']"
       [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
     >
       Continue Round

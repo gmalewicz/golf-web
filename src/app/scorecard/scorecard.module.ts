@@ -11,6 +11,7 @@ import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { ScorecardHttpService } from './_services/scorecardHttp.service';
 import { routing } from './scorecard.routing';
 import { DropdownModule } from 'primeng/dropdown';
+import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
 
 
 
@@ -20,6 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
     OnlineRoundComponent,
     OnlineScoreCardViewComponent,
     OnlineRoundDefComponent,
+    OnlineMatchplayComponent
   ],
   imports: [
     routing,

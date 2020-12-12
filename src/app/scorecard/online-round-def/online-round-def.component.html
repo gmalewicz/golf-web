@@ -18,19 +18,24 @@
         </div>
       </span>
     </div>
+    <div class="custom-control custom-checkbox custom-checkbox-green">
+      <input type="checkbox" class="custom-control-input custom-control-input-green" id="matchPlay" formControlName="matchPlay"
+        (ngModelChange)="onMatchPlayChange($event)">
+      <label class="custom-control-label" for="matchPlay">Match Play Round</label>
+    </div>
     <br />
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-outline-success active">
-        <input type="radio" name="players" id="player" autocomplete="off" checked (click)="onPlayers(1)"> 1 player
+      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}">
+        <input type="radio" name="players" id="player1" autocomplete="off" checked (click)="onPlayers(1)"> 1 player
       </label>
-      <label class="btn btn-outline-success">
-        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(2)"> 2 players
+      <label class="btn btn-outline-success" [ngClass]="{active: noOfPlayers === 2}">
+        <input type="radio" name="players" id="player2" autocomplete="off" (click)="onPlayers(2)"> 2 players
       </label>
-      <label class="btn btn-outline-success">
-        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(3)"> 3 players
+      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}">
+        <input type="radio" name="players" id="player3" autocomplete="off" (click)="onPlayers(3)"> 3 players
       </label>
-      <label class="btn btn-outline-success">
-        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(4)"> 4 players
+      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}">
+        <input type="radio" name="players" id="player4" autocomplete="off" (click)="onPlayers(4)"> 4 players
       </label>
     </div>
     <br />

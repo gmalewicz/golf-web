@@ -79,7 +79,8 @@ export class OnlineRoundDefComponent implements OnInit {
       nick3: ['', [Validators.required, Validators.maxLength(10)]],
       nick4: ['', [Validators.required, Validators.maxLength(10)]],
       putts: [false],
-      penalties: [false]
+      penalties: [false],
+      matchPlay: [false],
     });
 
     // clean up all controls;
@@ -159,20 +160,26 @@ export class OnlineRoundDefComponent implements OnInit {
         owner: this.players[0].id,
         finalized: false,
         putts: this.f.putts.value,
-        penalties: this.f.penalties.value
+        penalties: this.f.penalties.value,
+        matchPlay: this.f.matchPlay.value
       };
 
       onlineRounds[counter] = onlineRound;
       counter++;
     }
 
-
     this.scorecardHttpService.addOnlineRounds(onlineRounds).pipe(tap(
       or => {
         this.loading = false;
-        this.router.navigate(['/scorecard/onlineRound'], {
-          state: { data: { onlineRounds: or, course: this.course } }
-        });
+        if  (this.f.matchPlay.value) {
+          this.router.navigate(['/scorecard/onlineMatchplay'], {
+            state: { data: { onlineRounds: or, course: this.course } }
+          });
+        } else {
+          this.router.navigate(['/scorecard/onlineRound'], {
+            state: { data: { onlineRounds: or, course: this.course } }
+          });
+        }
       })
     ).subscribe();
 
@@ -278,5 +285,12 @@ export class OnlineRoundDefComponent implements OnInit {
         }
       })
     ).subscribe();
+  }
+
+  onMatchPlayChange(e) {
+      if (e) {
+        this.onPlayers(2);
+        this.noOfPlayers = 2;
+      }
   }
 }
