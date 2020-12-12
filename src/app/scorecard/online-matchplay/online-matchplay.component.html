@@ -21,7 +21,6 @@
         </button>
       </div>
     </div>
-    <br/>
     <div class="row" *ngIf="onlineRounds[0].putts">
       <div class="col-sm-1">
         Putts:
@@ -56,6 +55,7 @@
             <th>Hole</th>
             <th>{{onlineRounds[0].player.nick}}</th>
             <th>{{onlineRounds[1].player.nick}}</th>
+            <th>Result</th>
             <th>Par</th>
             <th>Si</th>
           </tr>
@@ -86,6 +86,17 @@
               </span>
               <span *ngIf="onlineRounds[0].penalties">
                 - {{curHolePenalties[1]}}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === -1">
+                {{onlineRounds[0].player.nick}}
+              </span>
+              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === 1">
+                {{onlineRounds[1].player.nick}}
+              </span>
+              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === 0">
+                tie
               </span>
             </td>
             <td>
