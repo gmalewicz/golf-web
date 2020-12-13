@@ -92,7 +92,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
 
       // get passed data
       this.onlineRounds = history.state.data.onlineRounds;
-      console.log(this.onlineRounds);
+      // console.log(this.onlineRounds);
       this.course = history.state.data.course;
       // initialize variables
       this.curPlayerIdx = 0;
@@ -154,7 +154,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
       tap(
         retHoles => {
           this.course.holes = retHoles;
-          console.log(retHoles);
+          // console.log(retHoles);
           this.loadScoreCards();
         })
     ).subscribe();
@@ -268,9 +268,9 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
       hcpIncMaxHole = this.onlineRounds[index].courseHCP - (hcpAll * 9);
     }
 
-    console.log('course HCP: ' + this.onlineRounds[index].courseHCP);
-    console.log('hcpAll: ' + hcpAll);
-    console.log('hcpIncMaxHole: ' + hcpIncMaxHole);
+    // console.log('course HCP: ' + this.onlineRounds[index].courseHCP);
+    // console.log('hcpAll: ' + hcpAll);
+    // console.log('hcpIncMaxHole: ' + hcpIncMaxHole);
 
 
     switch (this.onlineRounds[index].tee.teeType) {
@@ -396,7 +396,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
 
   private updateMpResult(strokeIdx: number) {
 
-    console.log('p1: ' + this.mpScore[strokeIdx]);
+    // console.log('p1: ' + this.mpScore[strokeIdx]);
 
 
 
@@ -404,7 +404,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
     if (this.strokes[strokeIdx][0] > 0 && this.strokes[strokeIdx][1] > 0) {
       const result = this.strokes[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokes[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
 
-      console.log('result: ' + result);
+      // console.log('result: ' + result);
 
       if (result < 0) {
         this.mpScore[strokeIdx] = -1;
@@ -418,14 +418,14 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
 
   private updateMpTotal() {
 
-    console.log('mscore: ' + this.mpScore);
-    console.log('updMPTotal called: ' + this.mpTotal[0]);
+    // console.log('mscore: ' + this.mpScore);
+    // console.log('updMPTotal called: ' + this.mpTotal[0]);
 
     this.mpTotal[0] = this.mpScore.reduce((p, c) => {if (c === -1) {return p + 1; } else {return p; }}, 0);
     this.mpTotal[1] = this.mpScore.reduce((p, c) => {if (c === 1) {return p + 1; } else {return p; }}, 0);
 
-    console.log('updMPTotal called: ' + this.mpTotal[0]);
-    console.log('updMPTotal called: ' + this.mpTotal[1]);
+    // console.log('updMPTotal called: ' + this.mpTotal[0]);
+    // console.log('updMPTotal called: ' + this.mpTotal[1]);
 
   }
 

@@ -14,7 +14,7 @@ export function calculateCourseHCP(teeType: number,
     courseHCP = Math.round((playerWHS / 2) * sr / 113 + cr - par);
   }
 
-  console.log('course hcp: ' + courseHCP);
+  // console.log('course hcp: ' + courseHCP);
 
   return courseHCP;
 }

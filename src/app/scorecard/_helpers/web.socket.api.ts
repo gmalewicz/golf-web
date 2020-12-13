@@ -11,6 +11,7 @@ export class WebSocketAPI {
     lostConnection: boolean;
     acceptMessage: boolean;
     reconnect: boolean;
+    wsEndpointStr: string;
 
     constructor(appComponent: any,
                 private alertService: AlertService,
@@ -23,12 +24,26 @@ export class WebSocketAPI {
         this.reconnect = reconnect;
 
         // console.log(appComponent);
+
+        if (document.location.protocol === 'http:') {
+          console.log('detected: ' + document.location.protocol);
+          this.wsEndpointStr = 'http://' + environment.WS_ENDPOINT;
+
+        } else {
+          console.log('detected: ' + document.location.protocol);
+          this.wsEndpointStr = 'https://' + environment.WS_ENDPOINT;
+        }
+
+        console.log('WS endoint: ' + this.wsEndpointStr);
     }
 
     _connect(listen: boolean) {
 
+
+
+
       // console.log('Initialize WebSocket Connection: ' + environment.WS_ENDPOINT);
-      const ws = new SockJS(environment.WS_ENDPOINT + this.authenticationService.currentPlayerValue.token);
+      const ws = new SockJS(this.wsEndpointStr + this.authenticationService.currentPlayerValue.token);
       this.stompClient = Stomp.over(ws);
 
       // tslint:disable-next-line: variable-name
