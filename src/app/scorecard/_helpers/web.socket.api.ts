@@ -26,15 +26,15 @@ export class WebSocketAPI {
         // console.log(appComponent);
 
         if (document.location.protocol === 'http:') {
-          console.log('detected: ' + document.location.protocol);
+          // console.log('detected: ' + document.location.protocol);
           this.wsEndpointStr = 'http://' + environment.WS_ENDPOINT;
 
         } else {
-          console.log('detected: ' + document.location.protocol);
+          // console.log('detected: ' + document.location.protocol);
           this.wsEndpointStr = 'https://' + environment.WS_ENDPOINT;
         }
 
-        console.log('WS endoint: ' + this.wsEndpointStr);
+        // console.log('WS endoint: ' + this.wsEndpointStr);
     }
 
     _connect(listen: boolean) {

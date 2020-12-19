@@ -1,6 +1,6 @@
 import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { Course, Hole, teeTypes} from '@/_models';
+import { Course, teeTypes} from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -13,7 +13,7 @@ import { OnlineRound } from '../_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
 import { tap } from 'rxjs/internal/operators/tap';
-import { calculateCourseHCP, getFirst9Par } from '@/_helpers';
+import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
 
 @Component({
   selector: 'app-online-matchplay',
@@ -166,29 +166,19 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
     // console.log(calls);
     for (let i = 0; i < this.onlineRounds.length; i++) {
       // calculate course HCP for each player
-      let par = 0;
-      switch (this.onlineRounds[i].tee.teeType) {
-        case teeTypes.TEE_TYPE_FIRST_9: {
-          par = getFirst9Par(this.course.holes);
-          break;
-        }
-        case teeTypes.TEE_TYPE_LAST_9: {
-          par = this.course.par - getFirst9Par(this.course.holes);
-          break;
-        }
-        default: {
-          par = this.course.par;
-          break;
-        }
-      }
+      const par = getPlayedCoursePar(this.course.holes, this.onlineRounds[i].tee.teeType, this.course.par);
+
       this.onlineRounds[i].courseHCP = calculateCourseHCP(this.onlineRounds[i].tee.teeType,
                                                           this.onlineRounds[i].player.whs,
                                                           this.onlineRounds[i].tee.sr,
                                                           this.onlineRounds[i].tee.cr,
                                                           par);
 
-
-      this.calculateHoleHCP(i);
+      calculateHoleHCP( i,
+                        this.onlineRounds[i].tee.teeType,
+                        this.onlineRounds[i].courseHCP,
+                        this.holeHCP,
+                        this.course);
 
       calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRounds[i].id);
     }
@@ -253,76 +243,6 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
     });
-  }
-
-  calculateHoleHCP(index: number) {
-
-    let hcpAll: number;
-    let hcpIncMaxHole: number;
-    // calculate hole hcp for player and save it in score card
-    if (this.onlineRounds[index].tee.teeType === teeTypes.TEE_TYPE_18) {
-      hcpAll = Math.floor(this.onlineRounds[index].courseHCP / 18);
-      hcpIncMaxHole = this.onlineRounds[index].courseHCP - (hcpAll * 18);
-    } else {
-      hcpAll = Math.floor(this.onlineRounds[index].courseHCP / 9);
-      hcpIncMaxHole = this.onlineRounds[index].courseHCP - (hcpAll * 9);
-    }
-
-    // console.log('course HCP: ' + this.onlineRounds[index].courseHCP);
-    // console.log('hcpAll: ' + hcpAll);
-    // console.log('hcpIncMaxHole: ' + hcpIncMaxHole);
-
-
-    switch (this.onlineRounds[index].tee.teeType) {
-
-      case teeTypes.TEE_TYPE_18: {
-
-        this.holeHCP[index].fill(hcpAll);
-
-        this.holeHCP[index].forEach((hcp, i) => {
-          if (hcpIncMaxHole > 0 && this.course.holes[i].si <= (hcpIncMaxHole - 1) ) {
-            // if some holes needs hcp update increase them
-            this.holeHCP[index][i] += 1;
-          }
-        });
-        break;
-      }
-
-      case teeTypes.TEE_TYPE_FIRST_9: {
-
-        this.holeHCP[index].fill(hcpAll, 0, 9);
-
-        const holesUpd: Hole[]  = this.course.holes.slice(0, 9).sort((a, b) => a.si - b.si);
-
-        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
-
-        this.holeHCP[index].forEach((s, i) => {
-
-          if (i < 9 && this.course.holes[i].si <= maxHoleSiForUpd) {
-            this.holeHCP[index][i]++;
-          }
-        });
-        break;
-      }
-
-      case teeTypes.TEE_TYPE_LAST_9: {
-
-        this.holeHCP[index].fill(hcpAll, 9, 18);
-
-        const holesUpd: Hole[]  = this.course.holes.slice(9, 18).sort((a, b) => a.si - b.si);
-
-        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
-
-        this.holeHCP[index].forEach((s, i) => {
-
-          if (i >= 9 && this.course.holes[i].si <= maxHoleSiForUpd) {
-            this.holeHCP[index][i]++;
-          }
-
-        });
-        break;
-      }
-    }
   }
 
   addScore() {
@@ -397,8 +317,6 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
   private updateMpResult(strokeIdx: number) {
 
     // console.log('p1: ' + this.mpScore[strokeIdx]);
-
-
 
     // update mp score if score enetered for both players
     if (this.strokes[strokeIdx][0] > 0 && this.strokes[strokeIdx][1] > 0) {

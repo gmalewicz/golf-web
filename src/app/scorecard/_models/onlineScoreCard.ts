@@ -10,4 +10,5 @@ export interface OnlineScoreCard {
   update?: boolean;
   putt: number;
   penalty: number;
+  mpResult?: number;
 }

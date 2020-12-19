@@ -50,6 +50,10 @@ export class ScorecardHttpService {
 
     return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds/', ownerId);
   }
+
+  getOnlineRoundsForOwner(ownerId: number): Observable<Array<OnlineRound>> {
+    return this.http.get<Array<OnlineRound>>('rest/OnlineRoundOwner/' + ownerId);
+  }
 }
 
 

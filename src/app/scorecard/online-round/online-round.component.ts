@@ -84,7 +84,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
       // get passed data
       this.onlineRounds = history.state.data.onlineRounds;
-      console.log(this.onlineRounds);
+      // console.log(this.onlineRounds);
       this.course = history.state.data.course;
       // initialize variables
       this.curPlayerIdx = 0;

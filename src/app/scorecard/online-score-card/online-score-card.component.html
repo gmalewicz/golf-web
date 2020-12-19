@@ -6,6 +6,7 @@
         <th>Nick</th>
         <th>Course</th>
         <th>Tee Time</th>
+        <th>Type</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -32,6 +33,17 @@
           {{ round.course.name }}
         </td>
         <td>{{ round.teeTime }}</td>
+        <td *ngIf="round.matchPlay === true">
+          <a
+            href="#"
+            routerLink="onlineScoreCardView"
+            [state]="{ data: { owner: round.owner, course: round.course} }"
+          >
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+          MP
+        </td>
+        <td *ngIf="round.matchPlay === false">SP</td>
         <td *ngIf="round.finalized === true">
           Finished
         </td>

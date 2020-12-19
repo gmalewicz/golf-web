@@ -1,6 +1,5 @@
 import { Course, Player, Tee } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -145,6 +144,13 @@ export class OnlineRoundDefComponent implements OnInit {
       return;
     }
 
+    // stop here if players where not verified in database
+    if (!this.isAllNicksSet()) {
+      this.alertService.
+        error('Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.');
+      return;
+    }
+
     this.loading = true;
 
     const onlineRounds = Array(this.noOfPlayers);
@@ -183,6 +189,11 @@ export class OnlineRoundDefComponent implements OnInit {
       })
     ).subscribe();
 
+  }
+
+  private isAllNicksSet(): boolean {
+
+    return !this.players.slice(0, this.noOfPlayers).includes(undefined);
   }
 
   onPlayers(players: number) {

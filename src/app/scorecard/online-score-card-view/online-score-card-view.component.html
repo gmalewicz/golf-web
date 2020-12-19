@@ -43,21 +43,38 @@
       <th></th>
       <th></th>
     </tr>
-    <tr *ngFor="let onlineRound of onlineRounds" class="center">
-      <th>{{onlineRound.player.nick}}</th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-          {{onlineRound.scoreCardAPI[i].stroke}}
-        </span>
-      </td>
-      <th class="center">{{onlineRound.first9score}}</th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-          {{onlineRound.scoreCardAPI[i + 9].stroke}}
-        </span>
-      </td>
-      <th class="center">{{onlineRound.last9score}}</th>
-      <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+    <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
+        <th>{{onlineRound.player.nick}}</th>
+        <ng-container *ngIf="owner === undefined">
+          <td *ngFor="let i = index of counter(9)" class="center">
+            <span *ngIf="onlineRound.scoreCardAPI[i] != null">
+              {{onlineRound.scoreCardAPI[i].stroke}}
+            </span>
+          </td>
+          <th class="center">{{onlineRound.first9score}}</th>
+          <td *ngFor="let i = index of counter(9)" class="center">
+            <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
+              {{onlineRound.scoreCardAPI[i + 9].stroke}}
+            </span>
+          </td>
+          <th class="center">{{onlineRound.last9score}}</th>
+          <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+        </ng-container>
+        <ng-container *ngIf="owner != undefined">
+          <td *ngFor="let i = index of counter(9)" class="center">
+            <span *ngIf="onlineRound.scoreCardAPI[i] != null">
+              {{onlineRound.scoreCardAPI[i].mpResult}}
+            </span>
+          </td>
+          <th class="center">{{onlineRound.first9score}}</th>
+          <td *ngFor="let i = index of counter(9)" class="center">
+            <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
+              {{onlineRound.scoreCardAPI[i + 9].mpResult}}
+            </span>
+          </td>
+          <th class="center">{{onlineRound.last9score}}</th>
+          <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+      </ng-container>
     </tr>
   </tbody>
   </table>
