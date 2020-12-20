@@ -147,11 +147,6 @@ export class RoundViewWHSComponent implements OnInit {
             this.ninesFull = -1;
         }
 
-        // console.log('this.playerRoundDetails.whs ' + this.playerRoundDetails.whs);
-        // console.log('this.playerRoundDetails.sr ' + this.playerRoundDetails.sr);
-        // console.log('this.playerRoundDetails.cr ' + this.playerRoundDetails.cr);
-        // console.log('this.first9par ' + this.first9par);
-
         // calculate course HCP
         switch (this.ninesFull) {
           // first nine is full
@@ -187,13 +182,6 @@ export class RoundViewWHSComponent implements OnInit {
           hcpAll = Math.floor(this.courseHCP / 9);
           hcpIncMaxHole = this.courseHCP - (hcpAll * 9);
         }
-
-
-
-        // const hcpAll = Math.floor(this.courseHCP / 18);
-        // const hcpIncMaxHole = this.courseHCP - (hcpAll * 18);
-        // console.log('hcpAll ' + hcpAll);
-        // console.log('hcpIncMaxHole ' + hcpIncMaxHole);
 
         // fill all holes with hcpAll value or initialize it with 0 if hcpAll is 0
         this.round.scoreCard.forEach((s, i) => s.hcp = hcpAll);
@@ -287,10 +275,10 @@ export class RoundViewWHSComponent implements OnInit {
           this.scoreDiff = (113 / this.playerRoundDetails.sr) *
             ((this.first9CorScorBrutto +  this.last9CorScorBrutto) - this.playerRoundDetails.cr);
         } else {
-          this.scoreDiff = (113 / this.playerRoundDetails.sr) *
-          ((this.first9CorScorBrutto +  this.last9CorScorBrutto) - (2 * this.playerRoundDetails.cr));
-        }
 
+          this.scoreDiff = (113 / this.playerRoundDetails.sr) *
+            ((this.first9CorScorBrutto +  this.last9CorScorBrutto) - (2 * this.playerRoundDetails.cr));
+        }
       },
         (error: HttpErrorResponse) => {
           this.alertService.error(error.error.message, false);
@@ -305,26 +293,26 @@ export class RoundViewWHSComponent implements OnInit {
 
   private updFor9(hcpIncMaxHole: number) {
 
+    console.log(hcpIncMaxHole);
+
     // break if nothing for upd
-    if (hcpIncMaxHole <= 0) {
-      return;
-    }
 
     if (this.ninesFull === 1) {
 
       // first update hcp
+      if (hcpIncMaxHole > 0) {
 
-      const holesUpd: Hole[]  = this.round.course.holes.slice(0, 9).sort((a, b) => a.si - b.si);
+        const holesUpd: Hole[]  = this.round.course.holes.slice(0, 9).sort((a, b) => a.si - b.si);
 
-      const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
+        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
 
-      this.round.scoreCard.forEach((s, i) => {
+        this.round.scoreCard.forEach((s, i) => {
 
-        if (i < 9 && this.round.course.holes[i].si <= maxHoleSiForUpd) {
-          this.round.scoreCard[i].hcp++;
-        }
-      });
-
+          if (i < 9 && this.round.course.holes[i].si <= maxHoleSiForUpd) {
+            this.round.scoreCard[i].hcp++;
+          }
+        });
+      }
       // then
 
       for (let i = 9; i < 18; i++) {
@@ -351,18 +339,21 @@ export class RoundViewWHSComponent implements OnInit {
 
     if (this.ninesFull === 2) {
 
-      const holesUpd: Hole[]  = this.round.course.holes.slice(9, 18).sort((a, b) => a.si - b.si);
+      // first update hcp
+      if (hcpIncMaxHole > 0) {
 
-      const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
+        const holesUpd: Hole[]  = this.round.course.holes.slice(9, 18).sort((a, b) => a.si - b.si);
 
-      this.round.scoreCard.forEach((s, i) => {
+        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
 
-        if (i >= 9 && this.round.course.holes[i].si <= maxHoleSiForUpd) {
-          this.round.scoreCard[i].hcp++;
-        }
+        this.round.scoreCard.forEach((s, i) => {
 
-      });
+          if (i >= 9 && this.round.course.holes[i].si <= maxHoleSiForUpd) {
+            this.round.scoreCard[i].hcp++;
+          }
 
+        });
+      }
       // then
 
       for (let i = 0; i < 9; i++) {

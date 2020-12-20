@@ -296,10 +296,15 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
     // move to the next player
     this.editClass[this.curPlayerIdx] = 'no-edit';
     // increase current player index is not last or set to 0 if last
+     // update mp score if score enetered for both players
+    this.updateMpResult(this.curHoleIdx);
+    this.updateMpTotal();
+
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
       this.curPlayerIdx++;
     } else {
       this.curPlayerIdx = 0;
+      this.selectHole(this.curHoleIdx + 1);
     }
     this.editClass[this.curPlayerIdx] = 'edit';
 
@@ -308,9 +313,6 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
 
-    // update mp score if score enetered for both players
-    this.updateMpResult(this.curHoleIdx);
-    this.updateMpTotal();
     // console.log('curPlayerIdx: ' + this.curPayerIdx);
   }
 

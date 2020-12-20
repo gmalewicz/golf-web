@@ -269,6 +269,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
       this.curPlayerIdx++;
     } else {
       this.curPlayerIdx = 0;
+      this.selectHole(this.curHoleIdx + 1);
     }
     this.editClass[this.curPlayerIdx] = 'edit';
 

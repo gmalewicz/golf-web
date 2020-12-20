@@ -15,14 +15,10 @@
         <button type="button" class="btn btn-success" (click)="addScore()">
           Save
         </button>
-        &nbsp;
-        <button type="button" class="btn btn-success" (click)="selectHole(curHoleIdx + 1)">
-          Next Hole
-        </button>
       </div>
     </div>
-    <br/>
     <div *ngIf="onlineRounds[0].putts">
+      <br/>
       <div>
         Putts:
       </div>
@@ -34,9 +30,8 @@
         </div>
       </div>
     </div>
-    <br/>
-
     <div *ngIf="onlineRounds[0].penalties">
+      <br/>
       <div>
         Penalties:
       </div>

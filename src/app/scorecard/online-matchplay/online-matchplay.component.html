@@ -15,14 +15,10 @@
         <button type="button" class="btn btn-success" (click)="addScore()">
           Save
         </button>
-        &nbsp;
-        <button type="button" class="btn btn-success" (click)="selectHole(curHoleIdx + 1)">
-          Next Hole
-        </button>
       </div>
     </div>
-    <br/>
     <div *ngIf="onlineRounds[0].putts">
+      <br/>
       <div>
         Putts:
       </div>
@@ -34,9 +30,8 @@
         </div>
       </div>
     </div>
-    <br/>
-
     <div *ngIf="onlineRounds[0].penalties">
+      <br/>
       <div>
         Penalties:
       </div>
@@ -56,7 +51,6 @@
             <th>Hole</th>
             <th>{{onlineRounds[0].player.nick}}</th>
             <th>{{onlineRounds[1].player.nick}}</th>
-            <th>Winner</th>
             <th>Par</th>
             <th>Si</th>
           </tr>
@@ -76,17 +70,6 @@
               <span *ngIf="curHoleStrokes[1] > 0">{{curHoleStrokes[1]}}</span>
               <span *ngIf="onlineRounds[0].putts">-{{curHolePutts[1]}}</span>
               <span *ngIf="onlineRounds[0].penalties">-{{curHolePenalties[1]}}</span>
-            </td>
-            <td>
-              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === -1">
-                {{onlineRounds[0].player.nick}}
-              </span>
-              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === 1">
-                {{onlineRounds[1].player.nick}}
-              </span>
-              <span *ngIf="mpScore[curHoleIdx] != undefined && mpScore[curHoleIdx] === 0">
-                tie
-              </span>
             </td>
             <td>
               {{course.holes[curHoleIdx].par}}
