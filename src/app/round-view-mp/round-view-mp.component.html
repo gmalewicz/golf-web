@@ -1,0 +1,67 @@
+<div *ngIf="display">
+  <h2>{{ round.course.name }}
+  </h2>
+  <br/>
+  <div class="table-responsive">
+  <table id="holeStake-tbl" class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Hole</th>
+      <th *ngFor="let i = index of counter(9)" class="w-5">
+        {{i + 1}}
+      </th>
+      <th>OUT</th>
+      <th *ngFor="let i = index of counter(9)" class="w-5">
+        {{i + 10}}
+      </th>
+      <th>IN</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PAR</th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{round.course.holes[i].par}}
+      </td>
+      <th class="center">{{first9par}}</th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{round.course.holes[i + 9].par}}
+      </td>
+      <th class="center">{{last9par}}</th>
+      <th class="center">{{first9par + last9par}}</th>
+    </tr>
+    <tr>
+      <th>SI</th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{round.course.holes[i].si}}
+      </td>
+      <th></th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{round.course.holes[i + 9].si}}
+      </td>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let idx =index of counter(2)" class="center">
+      <th>{{round.player[idx].nick}}</th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{holeMpResult[idx][i]}}
+      </td>
+      <th class="center">{{mpTotals[idx][0]}}</th>
+      <td *ngFor="let i = index of counter(9)" class="center">
+        {{holeMpResult[idx][i + 9]}}
+      </td>
+      <th class="center">{{mpTotals[idx][1]}}</th>
+      <th class="center">{{mpTotals[idx][0] + mpTotals[idx][1]}}</th>
+    </tr>
+  </tbody>
+  </table>
+  </div>
+  <div>
+</div>
+<br />
+<button type="button" class="btn btn-success" routerLink="">
+  Cancel
+</button>
+</div>

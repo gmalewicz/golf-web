@@ -7,4 +7,5 @@ export interface Round {
   roundDate: string;
   player?: Player[];
   scoreCard?: ScoreCard[];
+  matchPlay: boolean;
 }

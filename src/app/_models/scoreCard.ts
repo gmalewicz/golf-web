@@ -12,4 +12,5 @@ export interface ScoreCard {
   stbBrutto?: number;
   corScoreBrutto?: number;
   penalty?: number;
+  mpResult?: number;
 }

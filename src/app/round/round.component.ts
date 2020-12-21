@@ -302,17 +302,6 @@ export class RoundComponent implements OnInit {
 
   onViewWHS() {
 
-    // skip if at least one hole has 0 strokes
-    // let zeroHoleFound = false;
-    // this.scoreCards.forEach((s, i) => {if (s.player.id === this.authenticationService.currentPlayerValue.id && s.stroke === 0) {
-    //  zeroHoleFound = true;
-    //  return;
-    // }});
-    // if (zeroHoleFound) {
-    //  this.alertService.error('Functionality (currently) available only if 18 holes are played', false);
-    //  return;
-    // }
-
     // prepare data to pass to ad-scorecard module
     this.round.course.holes = this.holes;
     // set current player
@@ -321,6 +310,15 @@ export class RoundComponent implements OnInit {
     // remove rounds for all other players
     this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
     this.router.navigate(['/roundViewWHS'], {
+      state: { data: { round: this.round } }
+    });
+  }
+
+  onViewMP() {
+    // prepare data to pass to ad-scorecard module
+    this.round.course.holes = this.holes;
+    this.round.scoreCard = this.scoreCards;
+    this.router.navigate(['/roundViewMP'], {
       state: { data: { round: this.round } }
     });
   }

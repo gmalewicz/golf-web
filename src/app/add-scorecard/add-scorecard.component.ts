@@ -294,7 +294,8 @@ export class AddScorecardComponent implements OnInit {
         course: this.course,
         roundDate: this.f.date.value + ' ' + this.f.teeTime.value,
         player: [this.authenticationService.currentPlayerValue],
-        scoreCard
+        scoreCard,
+        matchPlay: false
       };
       // only selected tee shall be sent, so replace entire list with selected tee
       round.course.tees = round.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value);

@@ -7,6 +7,7 @@
         <th>Date</th>
         <th>Tee Time</th>
         <th>Course</th>
+        <th>Type</th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +20,8 @@
         <td>{{ round.roundDate | date: "mediumDate" }}</td>
         <td>{{ round.roundDate | date: "H:mm"}}</td>
         <td>{{ round.course.name }}</td>
+        <td *ngIf="round.matchPlay">MP</td>
+        <td *ngIf="!round.matchPlay">SP</td>
       </tr>
     </tbody>
   </table>

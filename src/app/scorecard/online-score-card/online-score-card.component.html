@@ -1,58 +1,119 @@
 <div *ngIf="display && onlineRounds.length > 0">
-  <h2>Active score cards:</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nick</th>
-        <th>Course</th>
-        <th>Tee Time</th>
-        <th>Type</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let round of onlineRounds">
-        <td>
-          <a
-            href="#"
-            routerLink="onlineScoreCardView"
-            [state]="{ data: { onlineRound: round } }"
-          >
-            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
-          {{ round.player.nick }}
-        </td>
-        <td>
-          <a
-            href="#"
-            routerLink="onlineScoreCardView"
-            [state]="{ data: { course: round.course } }"
-          >
-            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
-          {{ round.course.name }}
-        </td>
-        <td>{{ round.teeTime }}</td>
-        <td *ngIf="round.matchPlay === true">
-          <a
-            href="#"
-            routerLink="onlineScoreCardView"
-            [state]="{ data: { owner: round.owner, course: round.course} }"
-          >
-            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
-          MP
-        </td>
-        <td *ngIf="round.matchPlay === false">SP</td>
-        <td *ngIf="round.finalized === true">
-          Finished
-        </td>
-        <td *ngIf="round.finalized === false">
-          Open
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <h2>Today's score cards:</h2>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="true">Courses</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="players-tab" data-toggle="tab" href="#players" role="tab" aria-controls="players" aria-selected="false">Players</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="MProunds-tab" data-toggle="tab" href="#MProunds" role="tab" aria-controls="MProunds" aria-selected="false">MP Rounds</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Course</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of courses | keyvalue">
+            <td>
+              <a
+                href="#"
+                routerLink="onlineScoreCardView"
+                [state]="{ data: { course: entry.value } }"
+              >
+                <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+              </a>
+              {{ entry.value.name}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nick</th>
+            <th>Course</th>
+            <th>Tee Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let round of onlineRounds">
+            <tr *ngIf="!round.matchPlay">
+              <td>
+                <a
+                  href="#"
+                  routerLink="onlineScoreCardView"
+                  [state]="{ data: { onlineRound: round } }"
+                >
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+                {{ round.player.nick }}
+              </td>
+              <td>
+                {{ round.course.name }}
+              </td>
+              <td>{{ round.teeTime }}</td>
+              <td *ngIf="round.finalized === true">
+                Finished
+              </td>
+              <td *ngIf="round.finalized === false">
+                Open
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="tab-pane fade" id="MProunds" role="tabpanel" aria-labelledby="MProunds-tab">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Players</th>
+            <th>Course</th>
+            <th>Tee Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let round of onlineRounds">
+            <tr *ngIf="round.matchPlay && round.player.nick != round.nick2">
+              <td>
+                <a
+                  href="#"
+                  routerLink="onlineScoreCardView"
+                  [state]="{ data: { owner: round.owner, course: round.course} }"
+                >
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+                {{ round.player.nick }}-{{ round.nick2 }}
+              </td>
+              <td>
+                {{ round.course.name }}
+              </td>
+              <td>{{ round.teeTime }}</td>
+              <td *ngIf="round.finalized === true">
+                Finished
+              </td>
+              <td *ngIf="round.finalized === false">
+                Open
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <div *ngIf="display && onlineRounds.length === 0">
   <h2>No active score cards</h2>

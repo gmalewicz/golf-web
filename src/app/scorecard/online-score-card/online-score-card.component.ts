@@ -1,3 +1,5 @@
+
+import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,6 +18,7 @@ export class OnlineScoreCardComponent implements OnInit {
   onlineRounds: OnlineRound[];
   faSearchPlus: IconDefinition;
   myOnlineRounds: OnlineRound[];
+  courses: Map<number, Course>;
 
   constructor(private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
@@ -45,6 +48,11 @@ export class OnlineScoreCardComponent implements OnInit {
         this.onlineRounds = retOnlineRounds.filter(v => v.owner !==
           this.authenticationService.currentPlayerValue.id || v.finalized === true);
         // console.log(this.onlineRounds);
+
+        this.courses = new Map();
+        for (const or of this.onlineRounds) {
+          this.courses.set(or.course.id , or.course);
+        }
 
         this.display = true;
       });

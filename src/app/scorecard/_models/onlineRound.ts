@@ -16,4 +16,5 @@ export interface OnlineRound {
   penalties: boolean;
   matchPlay: boolean;
   courseHCP?: number;
+  nick2?: string;
 }

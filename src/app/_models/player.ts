@@ -1,3 +1,4 @@
+import { PlayerRoundDetails } from './playerRoundDetails';
 export interface Player {
   id?: number;
   nick?: string;
@@ -6,4 +7,5 @@ export interface Player {
   whs?: number;
   captcha?: string;
   role?: number;
+  roundDetails?: PlayerRoundDetails;
 }

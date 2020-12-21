@@ -5,4 +5,6 @@ export interface PlayerRoundDetails {
   tee: string;
   teeId: number;
   teeType: number;
+  playerId?: number;
+  courseHCP?: number;
 }

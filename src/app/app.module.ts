@@ -28,6 +28,7 @@ import { DropdownModule} from 'primeng/dropdown';
 import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
+import { RoundViewMPComponent } from './round-view-mp/round-view-mp.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FormsModule } from '@angular/forms';
     ChangeLogComponent,
     ConfirmationDialogComponent,
     RoundViewWHSComponent,
+    RoundViewMPComponent,
   ],
   imports: [
     // GamesModule,

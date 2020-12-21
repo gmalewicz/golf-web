@@ -82,6 +82,11 @@ export class HttpService {
     return this.http.get<PlayerRoundDetails>('rest/RoundPlayerDetails/' + playerId + '/' + roundId);
   }
 
+  // gets player round details
+  getPlayersRoundDetails(roundId: number): Observable<Array<PlayerRoundDetails>> {
+    return this.http.get<Array<PlayerRoundDetails>>('rest/RoundPlayersDetails/'  + roundId);
+  }
+
   // reset password
   resetPassword(adminId: number, player: Player): Observable<HttpResponse<null>> {
 

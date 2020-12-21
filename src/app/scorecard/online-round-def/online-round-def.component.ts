@@ -167,8 +167,15 @@ export class OnlineRoundDefComponent implements OnInit {
         finalized: false,
         putts: this.f.putts.value,
         penalties: this.f.penalties.value,
-        matchPlay: this.f.matchPlay.value
+        matchPlay: this.f.matchPlay.value,
+        // required not to filter on frontend on view page
+        nick2: ''
       };
+
+      if (this.f.matchPlay.value) {
+        onlineRound.nick2 = this.players[1].nick;
+      }
+
 
       onlineRounds[counter] = onlineRound;
       counter++;
