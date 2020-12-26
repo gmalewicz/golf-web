@@ -7,4 +7,5 @@ export interface PlayerRoundDetails {
   teeType: number;
   playerId?: number;
   courseHCP?: number;
+  ninesFull?: number;
 }

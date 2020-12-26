@@ -12,9 +12,7 @@ import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
-import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 import { AppModule } from './app.module';
-import { RoundViewMPComponent } from './round-view-mp/round-view-mp.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,9 +25,6 @@ const routes: Routes = [
   { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
-  { path: 'roundViewWHS', component: RoundViewWHSComponent, canActivate: [AuthGuard] },
-  { path: 'roundViewMP', component: RoundViewMPComponent, canActivate: [AuthGuard] },
-
 
   { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},

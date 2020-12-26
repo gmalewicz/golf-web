@@ -42,7 +42,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.role = 0;
       this.updateForm = this.formBuilder.group({
         password: ['', Validators.minLength(6)],
-        whs: ['', [Validators.required, Validators.pattern('-?[1-5]?[0-9][.][0-9]?'), Validators.min(-5), Validators.max(54)]]
+        whs: ['', [Validators.pattern('-?[1-5]?[0-9][.][0-9]?'), Validators.min(-5), Validators.max(54)]]
       });
 
       this.resetPasswordForm = this.formBuilder.group({

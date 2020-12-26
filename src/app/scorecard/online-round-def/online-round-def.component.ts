@@ -151,6 +151,10 @@ export class OnlineRoundDefComponent implements OnInit {
       return;
     }
 
+    if (this.f.matchPlay.value && !this.isMpTeeTypeCorrect()) {
+      return;
+    }
+
     this.loading = true;
 
     const onlineRounds = Array(this.noOfPlayers);
@@ -310,5 +314,13 @@ export class OnlineRoundDefComponent implements OnInit {
         this.onPlayers(2);
         this.noOfPlayers = 2;
       }
+  }
+
+  private isMpTeeTypeCorrect(): boolean {
+    if (this.tees[0].teeType !== this.tees[1].teeType) {
+      this.alertService.error('Tee types (number of holes) for both players must be the same in case of MP round', false);
+      return false;
+    }
+    return true;
   }
 }

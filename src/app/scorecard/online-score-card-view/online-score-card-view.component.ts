@@ -7,6 +7,7 @@ import { Course} from '@/_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
+import { nextTick } from 'process';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -24,6 +25,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   webSocketAPI: WebSocketAPI;
   // matchPlayResults: number[][];
   holeHCP: number[][];
+  finalized: boolean;
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
@@ -59,6 +61,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.showRound();
       } else if (this.owner != null) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
+        this.finalized = history.state.data.finalized;
         this.showMatch();
       } else {
         this.showCourse();
@@ -75,21 +78,25 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         this.course.holes = retHoles;
 
+        // the assumption is that only idots play more than 2 match play a day
+        retOnlineRounds = retOnlineRounds.filter(or => or.finalized === this.finalized);
+
         retOnlineRounds.forEach((or, index) => {
 
-          or.courseHCP = calculateCourseHCP(or.tee.teeType,
-            or.player.whs,
-            or.tee.sr,
-            or.tee.cr,
-            getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
+            or.courseHCP = calculateCourseHCP(or.tee.teeType,
+              or.player.whs,
+              or.tee.sr,
+              or.tee.cr,
+              getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
 
-          calculateHoleHCP( index,
-                              or.tee.teeType,
-                              or.courseHCP,
-                              this.holeHCP,
-                              this.course);
+            calculateHoleHCP( index,
+                                or.tee.teeType,
+                                or.courseHCP,
+                                this.holeHCP,
+                                this.course);
 
-          this.updateStartingHole(or);
+            this.updateStartingHole(or);
+
         });
 
         // update for match play
