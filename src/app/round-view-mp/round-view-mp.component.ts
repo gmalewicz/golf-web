@@ -2,7 +2,8 @@ import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_hel
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { tap } from 'rxjs/internal/operators/tap';
+import { tap } from 'rxjs/operators';
+
 
 
 @Component({
@@ -14,7 +15,6 @@ export class RoundViewMPComponent implements OnInit {
 
   @Input() round: Round;
 
-  // round: Round;
   holeHCP: number[][];
   holeMpResult: number[][];
   mpTotals: number[][];
@@ -34,7 +34,7 @@ export class RoundViewMPComponent implements OnInit {
 
   private calculateResults() {
 
-    console.log(this.round.player);
+    // console.log(this.round.player);
 
     if (this.round.player[0].roundDetails === undefined) {
 
@@ -73,7 +73,7 @@ export class RoundViewMPComponent implements OnInit {
                                                                         this.round.course.par));
       }
 
-      console.log(pl.roundDetails.courseHCP);
+      // console.log(pl.roundDetails.courseHCP);
 
       calculateHoleHCP( index,
                         pl.roundDetails.teeType,
@@ -82,7 +82,7 @@ export class RoundViewMPComponent implements OnInit {
                         this.round.course);
     });
 
-    console.log(this.holeHCP);
+    // console.log(this.holeHCP);
 
     this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
 

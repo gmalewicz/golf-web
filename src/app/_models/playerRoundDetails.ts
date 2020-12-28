@@ -8,4 +8,5 @@ export interface PlayerRoundDetails {
   playerId?: number;
   courseHCP?: number;
   ninesFull?: number;
+  scoreDiff?: number;
 }

@@ -1,0 +1,42 @@
+<div *ngIf="display">
+  <br/>
+  <div class="table-responsive">
+    <table id="holeStake-tbl" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>WHS</th>
+          <th>Course HCP</th>
+          <th>Score</th>
+          <th>Corr. score</th>
+          <th>Score Net</th>
+          <th>STB Net</th>
+          <th>STB</th>
+          <th>Score diff</th>
+          <th>Putts</th>
+          <th>Penalties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pl of round.player; let i = index">
+          <th>{{pl.nick}}</th>
+          <td>{{pl.roundDetails.whs}}</td>
+          <td *ngIf="ninesFull[i] !== -1">{{pl.roundDetails.courseHCP}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td>{{score[i]}}</td>
+          <td *ngIf="ninesFull[i] !== -1">{{corScore[i]}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td *ngIf="ninesFull[i] !== -1">{{netScore[i]}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td *ngIf="ninesFull[i] !== -1">{{stbNet[i]}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td *ngIf="ninesFull[i] !== -1">{{stbGross[i]}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td *ngIf="ninesFull[i] !== -1">{{pl.roundDetails.scoreDiff | number: '1.0-1'}}</td>
+          <td *ngIf="ninesFull[i] === -1"></td>
+          <td>{{putts[i]}}</td>
+          <td>{{penalties[i]}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -35,7 +35,7 @@ export class RoundViewWHSComponent implements OnInit {
   scoreBruttoClass: string[];
   scoreNettoClass: string[];
 
-  scoreDiff: number;
+  // scoreDiff: number;
 
   // -1 noone full
   // 0 - both full
@@ -47,6 +47,8 @@ export class RoundViewWHSComponent implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit(): void {
+
+    // console.log(this.playerOffset);
 
     this.display = false;
     this.ninesFull = -1;
@@ -140,7 +142,7 @@ export class RoundViewWHSComponent implements OnInit {
       } while ( i < this.round.scoreCard.length);
     }
 
-    // grab data fron backend if not available
+    // grab data from backend if not available
     if (this.round.player[0].roundDetails === undefined) {
       this.getPlayerRoundDetails();
     } else {
@@ -172,7 +174,9 @@ export class RoundViewWHSComponent implements OnInit {
     // not allow to see WHS statistic if 18 holes tee chosen for 9 holes played
     if (this.round.player[this.playerOffset].roundDetails.teeType === 0 && this.ninesFull !== 0)  {
       this.ninesFull = -1;
-    } else {
+    }
+
+    if (this.ninesFull !== -1 && this.round.player[this.playerOffset].roundDetails.scoreDiff === undefined) {
 
       this.round.player[this.playerOffset].roundDetails.courseHCP =
                        calculateCourseHCP(this.round.player[this.playerOffset].roundDetails.teeType,
@@ -183,55 +187,53 @@ export class RoundViewWHSComponent implements OnInit {
                                                             this.round.player[this.playerOffset].roundDetails.teeType,
                                                             this.round.course.par));
 
-    }
+      const holeHcp: number[][] = Array(1).fill(0).map(() => new Array(18).fill(0));
 
-    const holeHcp: number[][] = Array(1).fill(0).map(() => new Array(18).fill(0));
+      calculateHoleHCP( 0,
+                        this.round.player[this.playerOffset].roundDetails.teeType,
+                        this.round.player[this.playerOffset].roundDetails.courseHCP,
+                        holeHcp,
+                        this.round.course);
 
-    calculateHoleHCP( 0,
-                      this.round.player[this.playerOffset].roundDetails.teeType,
-                      this.round.player[this.playerOffset].roundDetails.courseHCP,
-                      holeHcp,
-                      this.round.course);
+      holeHcp[0].forEach((h, i) => this.round.scoreCard[i + (this.playerOffset * 18)].hcp = h);
 
-    holeHcp[0].forEach((h, i) => this.round.scoreCard[i + (this.playerOffset * 18)].hcp = h);
-
-    // for 9 holes round remapping of si for played 9 is required
-    if (this.ninesFull === 1 || this.ninesFull === 2) {
-      this.updFor9();
-    }
-
-    this.round.course.holes.forEach((h, i) => {
-      // update score netto
-      this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto = this.round.scoreCard[i + (this.playerOffset * 18)].stroke -
-        this.round.scoreCard[i + (this.playerOffset * 18)].hcp;
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto < 0) {
-        this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto = 0;
+      // for 9 holes round remapping of si for played 9 is required
+      if (this.ninesFull === 1 || this.ninesFull === 2) {
+        this.updFor9();
       }
+      this.round.course.holes.forEach((h, i) => {
+        // update score netto
+        this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto = this.round.scoreCard[i + (this.playerOffset * 18)].stroke -
+          this.round.scoreCard[i + (this.playerOffset * 18)].hcp;
+        if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto < 0) {
+          this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto = 0;
+        }
 
-      // update STB netto
-      this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto = this.round.course.holes[i].par -
-        this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto + 2;
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto < 0 || this.round.scoreCard[i +
+        // update STB netto
+        this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto = this.round.course.holes[i].par -
+          this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto + 2;
+        if (this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto < 0 || this.round.scoreCard[i +
+            (this.playerOffset * 18)].stroke === 0) {
+          this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto = 0;
+        }
+        // update STB brutto
+        this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto = this.round.course.holes[i].par -
+          this.round.scoreCard[i + (this.playerOffset * 18)].stroke + 2;
+        if (this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto < 0 || this.round.scoreCard[i +
           (this.playerOffset * 18)].stroke === 0) {
-        this.round.scoreCard[i + (this.playerOffset * 18)].stbNetto = 0;
-      }
-      // update STB brutto
-      this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto = this.round.course.holes[i].par -
-        this.round.scoreCard[i + (this.playerOffset * 18)].stroke + 2;
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto < 0 || this.round.scoreCard[i +
-        (this.playerOffset * 18)].stroke === 0) {
-        this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto = 0;
-      }
-      // update corrected score brutto
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].hcp + 2 + h.par < this.round.scoreCard[i + (this.playerOffset * 18)].stroke) {
-        this.round.scoreCard[i + (this.playerOffset * 18)].corScoreBrutto = this.round.scoreCard[i +
-          (this.playerOffset * 18)].hcp + 2 + h.par;
-      } else {
-        this.round.scoreCard[i + (this.playerOffset * 18)].corScoreBrutto = this.round.scoreCard[i + (this.playerOffset * 18)].stroke;
-      }
-    });
+          this.round.scoreCard[i + (this.playerOffset * 18)].stbBrutto = 0;
+        }
+        // update corrected score brutto
+        if (this.round.scoreCard[i + (this.playerOffset * 18)].
+          hcp + 2 + h.par < this.round.scoreCard[i + (this.playerOffset * 18)].stroke) {
+          this.round.scoreCard[i + (this.playerOffset * 18)].corScoreBrutto = this.round.scoreCard[i +
+            (this.playerOffset * 18)].hcp + 2 + h.par;
+        } else {
+          this.round.scoreCard[i + (this.playerOffset * 18)].corScoreBrutto = this.round.scoreCard[i + (this.playerOffset * 18)].stroke;
+        }
+      });
+    }
 
-    // his.scoreNettoClass = Array(18).fill('');
     this.scoreNettoClass.forEach((v, i) => {
 
       if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === 0) {
@@ -281,16 +283,20 @@ export class RoundViewWHSComponent implements OnInit {
       .map(s => s.corScoreBrutto).reduce((p, n) => p + n);
 
     // calculate score differntial
-    if (this.ninesFull === 0) {
-      this.scoreDiff = calculateScoreDifferential(this.round.player[this.playerOffset].roundDetails.sr,
-                                                  this.first9CorScorBrutto +  this.last9CorScorBrutto,
-                                                  this.round.player[this.playerOffset].roundDetails.cr,
-                                                  true);
-    } else {
-      this.scoreDiff = calculateScoreDifferential(this.round.player[this.playerOffset].roundDetails.sr,
-                                                  this.first9CorScorBrutto +  this.last9CorScorBrutto,
-                                                  this.round.player[this.playerOffset].roundDetails.cr,
-                                                  false);
+    if (this.round.player[this.playerOffset].roundDetails.scoreDiff === undefined) {
+      if (this.ninesFull === 0) {
+        this.round.player[this.playerOffset].roundDetails.scoreDiff =
+                        calculateScoreDifferential(this.round.player[this.playerOffset].roundDetails.sr,
+                                                    this.first9CorScorBrutto +  this.last9CorScorBrutto,
+                                                    this.round.player[this.playerOffset].roundDetails.cr,
+                                                    true);
+      } else {
+        this.round.player[this.playerOffset].roundDetails.scoreDiff =
+                        calculateScoreDifferential(this.round.player[this.playerOffset].roundDetails.sr,
+                                                    this.first9CorScorBrutto +  this.last9CorScorBrutto,
+                                                    this.round.player[this.playerOffset].roundDetails.cr,
+                                                    false);
+      }
     }
     this.display = true;
   }

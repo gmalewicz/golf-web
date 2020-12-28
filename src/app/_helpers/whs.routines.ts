@@ -14,6 +14,7 @@ export function calculateScoreDifferential( sr: number,
   }
 
   return scoreDiff;
+
 }
 
 export function calculateCourseHCP(teeType: number,

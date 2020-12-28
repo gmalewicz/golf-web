@@ -2,7 +2,7 @@
   <br/>
   <p *ngIf="ninesFull >= 0">
     Course HCP: &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
-    &nbsp; Score Differential: &nbsp; {{ scoreDiff | number: '1.0-1'}}
+    &nbsp; Score Differential: &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
   </p>
   <div class="table-responsive">
     <table id="holeStake-tbl" class="table table-bordered">

@@ -30,6 +30,7 @@ import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
 import { RoundViewMPComponent } from './round-view-mp/round-view-mp.component';
 import { RoundViewComponent } from './round-view/round-view.component';
+import { RoundSummaryComponent } from './round-summary/round-summary.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { RoundViewComponent } from './round-view/round-view.component';
     RoundViewWHSComponent,
     RoundViewMPComponent,
     RoundViewComponent,
+    RoundSummaryComponent,
   ],
   imports: [
     // GamesModule,
