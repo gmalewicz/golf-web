@@ -8,8 +8,8 @@
           <th>WHS</th>
           <th>Course HCP</th>
           <th>Score</th>
-          <th>Corr. score</th>
-          <th>Score Net</th>
+          <th>Cor. Score</th>
+          <th>Net Score</th>
           <th>STB Net</th>
           <th>STB</th>
           <th>Score diff</th>
@@ -21,19 +21,24 @@
         <tr *ngFor="let pl of round.player; let i = index">
           <th>{{pl.nick}}</th>
           <td>{{pl.roundDetails.whs}}</td>
-          <td *ngIf="ninesFull[i] !== -1">{{pl.roundDetails.courseHCP}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
-          <td>{{score[i]}}</td>
-          <td *ngIf="ninesFull[i] !== -1">{{corScore[i]}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
-          <td *ngIf="ninesFull[i] !== -1">{{netScore[i]}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
-          <td *ngIf="ninesFull[i] !== -1">{{stbNet[i]}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
-          <td *ngIf="ninesFull[i] !== -1">{{stbGross[i]}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
-          <td *ngIf="ninesFull[i] !== -1">{{pl.roundDetails.scoreDiff | number: '1.0-1'}}</td>
-          <td *ngIf="ninesFull[i] === -1"></td>
+          <ng-container *ngIf="round.player[i].roundDetails.ninesFull !== -1">
+            <td>{{pl.roundDetails.courseHCP}}</td>
+            <td>{{score[i]}}</td>
+            <td>{{corScore[i]}}</td>
+            <td>{{netScore[i]}}</td>
+            <td>{{stbNet[i]}}</td>
+            <td>{{stbGross[i]}}</td>
+            <td>{{pl.roundDetails.scoreDiff | number: '1.0-1'}}</td>
+          </ng-container>
+          <ng-container *ngIf="round.player[i].roundDetails.ninesFull == -1">
+            <td></td>
+            <td>{{score[i]}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </ng-container>
           <td>{{putts[i]}}</td>
           <td>{{penalties[i]}}</td>
         </tr>

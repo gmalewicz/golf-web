@@ -6,7 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-round-view',
@@ -62,27 +61,14 @@ export class RoundViewComponent implements OnInit {
     this.barChartLabels = [];
     this.loading = false;
     this.display = false;
-    this.showRound();
-  }
+    // this.showRound();
+    this.players = this.round.player;
+    this.dipslayPlayers.fill(true, 0, this.round.player.length);
 
-  showRound() {
+    this.generateLabelsAndData(1, 18);
+    this.generateRoundResults();
+    this.display = true;
 
-    // console.log('strokes: ' + this.strokes);
-    // console.log('pats: ' + this.pats);
-    // console.log('par: ' + this.par);
-
-    this.httpService.getHoles(this.round.course.id).pipe(tap(
-      (retHoles) => {
-
-        this.round.course.holes = retHoles;
-        this.players = this.round.player;
-        this.dipslayPlayers.fill(true, 0, this.round.player.length);
-
-        this.generateLabelsAndData(1, 18);
-        this.generateRoundResults();
-        this.display = true;
-      })
-    ).subscribe();
   }
 
   generateLabelsAndData(startHole: number, endHole: number) {

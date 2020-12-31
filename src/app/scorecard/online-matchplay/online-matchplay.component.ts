@@ -12,8 +12,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { OnlineRound } from '../_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
-import { tap } from 'rxjs/internal/operators/tap';
 import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-online-matchplay',

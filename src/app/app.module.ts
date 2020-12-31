@@ -2,11 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
-import { CoursesComponent } from './courses/courses.component';
+import { CoursesComponent } from './courses/courses/courses.component';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
-import { CourseComponent } from './course/course.component';
 import { ChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddCourseComponent } from './add-course/add-course.component';
@@ -31,6 +30,8 @@ import { FormsModule } from '@angular/forms';
 import { RoundViewMPComponent } from './round-view-mp/round-view-mp.component';
 import { RoundViewComponent } from './round-view/round-view.component';
 import { RoundSummaryComponent } from './round-summary/round-summary.component';
+import { CourseComponent } from './course/course.component';
+import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { RoundSummaryComponent } from './round-summary/round-summary.component';
     RoundViewMPComponent,
     RoundViewComponent,
     RoundSummaryComponent,
+    ListCoursesComponent,
   ],
   imports: [
     // GamesModule,

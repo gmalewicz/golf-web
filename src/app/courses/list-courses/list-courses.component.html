@@ -1,10 +1,3 @@
-<div *ngIf="parent === 'courses'">
-  <h2 *ngIf="favourites">Favourite courses</h2>
-  <h2 *ngIf="!favourites">List of all courses</h2>
-</div>
-<div *ngIf="parent === 'addRound'">
-  <h2>Select course for round</h2>
-</div>
 <table id="courses-tbl" class="table table-striped">
   <thead>
     <tr>
@@ -15,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of courses">
+    <tr *ngFor="let row of courseLst">
       <td *ngIf="parent === 'courses'">
         <a [routerLink]="['/course']" [state]="{data: {course: row}}">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
@@ -43,24 +36,3 @@
     </tr>
   </tbody>
 </table>
-<div>
-  <br />
-  <button type="button" class="btn btn-success" routerLink="">
-    Cancel
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-success" (click)="onToggleAllFavourites()">
-    <span *ngIf="favourites">
-      All
-    </span>
-    <span *ngIf="!favourites">
-      Favourites
-    </span>
-  </button>
-  <span *ngIf="parent === 'courses'">
-    &nbsp;
-    <button type="button" class="btn btn-success" routerLink="/addCourse">
-      Add
-    </button>
-  </span>
-

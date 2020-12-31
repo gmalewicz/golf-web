@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { tap } from 'rxjs/internal/operators/tap';
+import { combineLatest } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { ScorecardHttpService } from '../_services';
 

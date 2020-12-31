@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { CoursesComponent } from './courses/courses.component';
+import { CoursesComponent } from './courses/courses/courses.component';
 import { RoundsComponent } from './rounds/rounds.component';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { CourseComponent } from './course/course.component';

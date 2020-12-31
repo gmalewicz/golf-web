@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { OnlineRound } from '../_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
-import { tap } from 'rxjs/internal/operators/tap';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-online-round',

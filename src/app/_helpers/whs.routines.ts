@@ -3,19 +3,28 @@ import { Course, Hole, teeTypes } from '@/_models';
 export function calculateScoreDifferential( sr: number,
                                             corScoreBrutto: number,
                                             cr: number,
-                                            fullCourse: boolean): number {
+                                            fullCourse: boolean,
+                                            par: number,
+                                            whs: number): number {
 
   let scoreDiff = 0;
 
   if (fullCourse) {
     scoreDiff = (113 / sr) * (corScoreBrutto - cr);
   } else {
-    scoreDiff = (113 / sr) * (corScoreBrutto - (2 * cr));
+
+    // calculate artificilal 18 course HCP from mapped 9 holes
+    const courseHcp = calculateCourseHCP(teeTypes.TEE_TYPE_18, whs, sr, cr * 2, par * 2);
+
+    // console.log(courseHcp);
+
+    scoreDiff = (113 / sr) * (Math.floor(corScoreBrutto + par + (courseHcp / 2 + 1)) - 2 * cr);
+
   }
 
   return scoreDiff;
-
 }
+
 
 export function calculateCourseHCP(teeType: number,
                                    playerWHS: number,
