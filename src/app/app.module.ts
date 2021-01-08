@@ -9,9 +9,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddCourseComponent } from './add-course/add-course.component';
-import { RoundsComponent } from './rounds/rounds.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
-import { RoundComponent } from './round/round.component';
 import { routing } from './app.routing';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -24,14 +22,17 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DropdownModule} from 'primeng/dropdown';
-import { RoundViewWHSComponent } from './round-view-whs/round-view-whs.component';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
-import { RoundViewMPComponent } from './round-view-mp/round-view-mp.component';
-import { RoundViewComponent } from './round-view/round-view.component';
-import { RoundSummaryComponent } from './round-summary/round-summary.component';
 import { CourseComponent } from './course/course.component';
 import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
+import { RoundComponent } from './round/round/round.component';
+import { RoundViewWHSComponent } from './round/round-view-whs/round-view-whs.component';
+import { RoundViewMPComponent } from './round/round-view-mp/round-view-mp.component';
+import { RoundViewComponent } from './round/round-view/round-view.component';
+import { RoundSummaryComponent } from './round/round-summary/round-summary.component';
+import { RoundsComponent } from './rounds/rounds/rounds.component';
+import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ListCoursesComponent } from './courses/list-courses/list-courses.compon
     RoundViewComponent,
     RoundSummaryComponent,
     ListCoursesComponent,
+    ListRoundsComponent
   ],
   imports: [
     // GamesModule,

@@ -2,10 +2,8 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses/courses.component';
-import { RoundsComponent } from './rounds/rounds.component';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { CourseComponent } from './course/course.component';
-import { RoundComponent } from './round/round.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
@@ -13,6 +11,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { AppModule } from './app.module';
+import { RoundComponent } from './round/round/round.component';
+import { RoundsComponent } from './rounds/rounds/rounds.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

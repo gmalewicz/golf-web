@@ -59,12 +59,12 @@
       Cancel
     </button>
     &nbsp;
-    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()">
+    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" *ngIf="!viewOnly">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Edit
     </button>
     &nbsp;
-    <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
+    <button [disabled]="loading" class="btn btn-success" (click)="onDelete()" *ngIf="!viewOnly">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Delete
     </button>

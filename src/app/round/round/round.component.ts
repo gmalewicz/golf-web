@@ -22,6 +22,7 @@ export class RoundComponent implements OnInit {
   loading: boolean;
   display: boolean;
   round: Round;
+  viewOnly: boolean;
 
   selectedTab: number;
 
@@ -41,6 +42,7 @@ export class RoundComponent implements OnInit {
     } else {
 
       this.round = history.state.data.round;
+      this.viewOnly = true;
 
       combineLatest([this.httpService.getScoreCards(this.round.id),
                      this.httpService.getPlayersRoundDetails(this.round.id),
@@ -53,6 +55,8 @@ export class RoundComponent implements OnInit {
           for (let idx = 0; idx < retScoreCards.length; idx += 18) {
             this.round.player.push(retScoreCards[idx].player);
           }
+
+          this.viewOnlyCheck();
 
           playerRoundsDetails.forEach((pr, idx) => this.round.player[idx].roundDetails = pr);
 
@@ -77,6 +81,16 @@ export class RoundComponent implements OnInit {
         })
       ).subscribe();
     }
+  }
+
+  private viewOnlyCheck() {
+
+    this.round.player.forEach(pl => {
+      if (pl.id === this.authenticationService.currentPlayerValue.id) {
+        this.viewOnly = false;
+      }
+    });
+
   }
 
   onDelete() {

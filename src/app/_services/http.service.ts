@@ -30,6 +30,10 @@ export class HttpService {
     return this.http.get<Array<Round>>('rest/Rounds/' + playerId + '/' + pageId);
   }
 
+  getRecentRounds(pageId: number): Observable<Array<Round>> {
+    return this.http.get<Array<Round>>('rest/RecentRounds/' + pageId);
+  }
+
   // add round
   addRound(round: Round): Observable<any> {
 

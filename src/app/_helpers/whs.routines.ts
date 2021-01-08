@@ -10,17 +10,17 @@ export function calculateScoreDifferential( sr: number,
   let scoreDiff = 0;
 
   if (fullCourse) {
+
     scoreDiff = (113 / sr) * (corScoreBrutto - cr);
+
   } else {
 
     // calculate artificilal 18 course HCP from mapped 9 holes
     const courseHcp = calculateCourseHCP(teeTypes.TEE_TYPE_18, whs, sr, cr * 2, par * 2);
-
-    // console.log(courseHcp);
-
     scoreDiff = (113 / sr) * (Math.floor(corScoreBrutto + par + (courseHcp / 2 + 1)) - 2 * cr);
 
   }
+  scoreDiff =  Math.round((scoreDiff + Number.EPSILON) * 100) / 100;
 
   return scoreDiff;
 }
