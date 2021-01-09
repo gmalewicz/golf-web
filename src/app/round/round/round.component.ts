@@ -146,8 +146,8 @@ export class RoundComponent implements OnInit {
       first9full = false;
     }
     // check if second 9 is full
-    console.log(emptyHoles);
-    console.log(emptyHoles.lastIndexOf(0));
+    // console.log(emptyHoles);
+    // console.log(emptyHoles.lastIndexOf(0));
     if (emptyHoles.lastIndexOf(0) > 8) {
       second9full = false;
     }
@@ -162,7 +162,7 @@ export class RoundComponent implements OnInit {
       pl.roundDetails.ninesFull =  -1;
     }
 
-    console.log(pl.roundDetails.ninesFull);
+    // console.log(pl.roundDetails.ninesFull);
 
     // not allow to see WHS statistic if 18 holes tee chosen for 9 holes played
     if (pl.roundDetails.teeType === teeTypes.TEE_TYPE_18 && pl.roundDetails.ninesFull !== 0)  {

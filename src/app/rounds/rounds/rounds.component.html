@@ -30,7 +30,7 @@
       Previous
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="rounds.length < pageSize">
+    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="rounds != undefined && rounds.length < pageSize">
       Next
     </button>
     &nbsp;
