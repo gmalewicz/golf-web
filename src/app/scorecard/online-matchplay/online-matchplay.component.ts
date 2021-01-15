@@ -270,7 +270,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
         player: {
           id: this.onlineRounds[this.curPlayerIdx].player.id
         },
-        onlineRoundId: this.onlineRounds[this.curPlayerIdx].id,
+        orId: this.onlineRounds[this.curPlayerIdx].id,
         update: false,
       };
 
