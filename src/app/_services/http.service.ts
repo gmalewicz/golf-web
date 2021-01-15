@@ -18,8 +18,8 @@ export class HttpService {
     return this.http.get<Array<Hole>>('rest/Holes/' + id);
   }
 
-  addCourse(course: Course): Observable<Course> {
-    return this.http.post<Course>('rest/Course', course);
+  addCourse(course: Course): Observable<HttpResponse<null>> {
+    return this.http.post<HttpResponse<null>>('rest/Course', course);
   }
 
   deleteCourse(id: number) {
@@ -28,6 +28,10 @@ export class HttpService {
 
   getRounds(playerId: number, pageId: number): Observable<Array<Round>> {
     return this.http.get<Array<Round>>('rest/Rounds/' + playerId + '/' + pageId);
+  }
+
+  getRecentRounds(pageId: number): Observable<Array<Round>> {
+    return this.http.get<Array<Round>>('rest/RecentRounds/' + pageId);
   }
 
   // add round
@@ -58,7 +62,7 @@ export class HttpService {
   // update player
   updatePlayer(player: Player): Observable<Player> {
 
-    return this.http.patch<Player>('rest/PatchPlayer/' + player.id, player);
+    return this.http.patch<Player>('rest/PatchPlayer', player);
   }
 
   // delete round (scorecard)

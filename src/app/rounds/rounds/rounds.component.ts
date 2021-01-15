@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Round } from '@/_models';
 import { HttpService, AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -13,11 +11,16 @@ import { tap } from 'rxjs/operators';
 })
 export class RoundsComponent implements OnInit {
 
-  faSearchPlus: IconDefinition;
+  selectedTab: number;
+
   rounds: Array<Round>;
+  savedRounds: Array<Round>;
+
   display: boolean;
   page: number;
+  savedPage: number;
   pageSize: number;
+  // savedPageSize: number;
 
   constructor(private httpService: HttpService,
               private authenticationService: AuthenticationService,
@@ -34,31 +37,33 @@ export class RoundsComponent implements OnInit {
 
       // initialize the current page
       this.page = 0;
+      this.savedPage = 0;
       this.pageSize = 5;
+      this.selectedTab = 0;
       this.display = false;
 
-      this.faSearchPlus = faSearchPlus;
       // console.log('rounds requested');
-
-      this.getRounds();
+      if (this.rounds === undefined) {
+        this.getMyRounds();
+      }
     }
   }
 
   onNext() {
     if (this.rounds.length === this.pageSize) {
       this.page++;
-      this.getRounds();
+      this.selectedTab === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }
 
   onPrevious() {
     if (this.page > 0) {
       this.page--;
-      this.getRounds();
+      this.selectedTab === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }
 
-  private getRounds(): void {
+  private getMyRounds(): void {
     this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.page).pipe(
       tap(
         r => {
@@ -66,6 +71,38 @@ export class RoundsComponent implements OnInit {
           this.display = true;
         })
     ).subscribe();
+  }
+
+  private getRecentRounds(): void {
+    this.httpService.getRecentRounds(this.page).pipe(
+      tap(
+        r => {
+          this.rounds = r;
+          this.display = true;
+        })
+    ).subscribe();
+  }
+
+  onTabClick(id: number) {
+    this.alertService.clear();
+    this.selectedTab = id;
+
+    const tempRounds = this.rounds;
+    this.rounds = this.savedRounds;
+    this.savedRounds = tempRounds;
+
+    const tempPage = this.page;
+    this.page = this.savedPage;
+    this.savedPage = tempPage;
+
+    // const tempPageSize = this.pageSize;
+    // this.pageSize = this.savedPageSize;
+    // this.savedPageSize = tempPageSize;
+
+    if (this.selectedTab === 1 && this.rounds === undefined) {
+      this.getRecentRounds();
+    }
+
   }
 }
 

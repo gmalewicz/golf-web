@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { tap } from 'rxjs/internal/operators/tap';
+import { combineLatest } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { ScorecardHttpService } from '../_services';
 
@@ -148,6 +148,10 @@ export class OnlineRoundDefComponent implements OnInit {
     if (!this.isAllNicksSet()) {
       this.alertService.
         error('Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.');
+      return;
+    }
+
+    if (this.f.matchPlay.value && !this.isMpTeeTypeCorrect()) {
       return;
     }
 
@@ -310,5 +314,13 @@ export class OnlineRoundDefComponent implements OnInit {
         this.onPlayers(2);
         this.noOfPlayers = 2;
       }
+  }
+
+  private isMpTeeTypeCorrect(): boolean {
+    if (this.tees[0].teeType !== this.tees[1].teeType) {
+      this.alertService.error('Tee types (number of holes) for both players must be the same in case of MP round', false);
+      return false;
+    }
+    return true;
   }
 }

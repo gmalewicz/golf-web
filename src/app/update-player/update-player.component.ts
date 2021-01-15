@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
-import { first } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-player',
@@ -42,7 +41,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.role = 0;
       this.updateForm = this.formBuilder.group({
         password: ['', Validators.minLength(6)],
-        whs: ['', [Validators.required, Validators.pattern('-?[1-5]?[0-9][.][0-9]?'), Validators.min(-5), Validators.max(54)]]
+        whs: ['', [Validators.pattern('-?[1-5]?[0-9][.][0-9]?'), Validators.min(-5), Validators.max(54)]]
       });
 
       this.resetPasswordForm = this.formBuilder.group({
@@ -81,10 +80,9 @@ export class UpdatePlayerComponent implements OnInit {
       whs: this.f.whs.value
     };
 
-    this.httpService.updatePlayer(player)
-      .pipe(first())
-      .subscribe(
-        data => {
+    this.httpService.updatePlayer(player).pipe(
+      tap(
+        () => {
           // log out if password changed
           if (this.f.password.value !== '') {
             this.authenticationService.logout();
@@ -92,12 +90,8 @@ export class UpdatePlayerComponent implements OnInit {
           this.alertService.success('Player successfully updated', true);
           this.loading = false;
           this.router.navigate(['/']);
-        },
-        (error: HttpErrorResponse) => {
-          this.alertService.error('Player update failed', true);
-          this.loading = false;
-          this.router.navigate(['/']);
-        });
+        })
+    ).subscribe();
   }
 
   onSubmitResetPassword() {
@@ -120,18 +114,14 @@ export class UpdatePlayerComponent implements OnInit {
       whs: 0
     };
 
-    this.httpService.resetPassword(this.authenticationService.currentPlayerValue.id, player)
-      .subscribe(
-        data => {
+    this.httpService.resetPassword(this.authenticationService.currentPlayerValue.id, player).pipe(
+      tap(
+        () => {
           this.alertService.success('Password successfully reset', true);
           this.loading = false;
           this.router.navigate(['/']);
-        },
-        (error: HttpErrorResponse) => {
-          this.alertService.error(error.error.message, true);
-          this.loading = false;
-          this.router.navigate(['/']);
-        });
+        })
+    ).subscribe();
   }
-
 }
+

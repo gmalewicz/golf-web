@@ -1,0 +1,67 @@
+<div *ngIf="display">
+  <br/>
+  <p>
+    <span *ngIf="dipslayPlayers[0]">{{ players[0].nick }}: &nbsp; {{dipslayPlayerResult[0]}}</span>
+    <span *ngIf="dipslayPlayers[1]">&nbsp; {{ players[1].nick }}: &nbsp; {{dipslayPlayerResult[1]}} </span>
+    <span *ngIf="dipslayPlayers[2]">&nbsp; {{ players[2].nick }}: &nbsp; {{dipslayPlayerResult[2]}}</span>
+    <span *ngIf="dipslayPlayers[3]">&nbsp; {{ players[3].nick }}: &nbsp; {{dipslayPlayerResult[3]}}</span>
+  </p>
+  <div style="display: block;">
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
+    >
+    </canvas>
+  </div>
+  <div>
+    <br />
+    <button type="button" class="btn btn-outline-success" (click)="onBoth9()">
+      Both 9
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-outline-success" (click)="onFirst9()">
+      First 9
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-outline-success" (click)="onLast9()">
+      Last 9
+    </button>
+    <br />
+    <br />
+    <div class="form-check-inline">
+      Show player: &nbsp;
+      <div class="custom-control custom-checkbox custom-checkbox-green ">
+        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player0" checked="checked"
+          (change)="onChecked($event, 0)">
+        <label class="custom-control-label" for="player0">{{ players[0].nick }}</label>
+      </div>
+      <div *ngIf="players.length > 1" class="custom-control custom-checkbox custom-checkbox-green ">
+        &nbsp;
+        &nbsp;
+        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player1" checked="checked"
+          (change)="onChecked($event, 1)">
+        <label class="custom-control-label" for="player1">{{ players[1].nick }}</label>
+      </div>
+      <div *ngIf="players.length > 2" class="custom-control custom-checkbox custom-checkbox-green ">
+        &nbsp;
+        &nbsp;
+        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player2" checked="checked"
+          (change)="onChecked($event, 2)">
+        <label class="custom-control-label" for="player2">{{ players[2].nick }}</label>
+      </div>
+      <div *ngIf="players.length > 3" class="custom-control custom-checkbox custom-checkbox-green ">
+        &nbsp;
+        &nbsp;
+        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player3" checked="checked"
+          (change)="onChecked($event, 3)">
+        <label class="custom-control-label" for="player3">{{ players[3].nick }}</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+

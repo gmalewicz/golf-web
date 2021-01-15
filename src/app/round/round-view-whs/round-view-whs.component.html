@@ -1,0 +1,201 @@
+<div *ngIf="display">
+  <br/>
+  <p *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+    Course HCP: &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
+    &nbsp; Score Differential: &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
+  </p>
+  <div class="table-responsive">
+    <table id="holeStake-tbl" class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="w-15">Hole</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <th *ngFor="let i = index of counter(9)" class="w-5">
+              {{round.scoreCard[i].hole}}
+            </th>
+            <th class="center w-10">OUT</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <th *ngFor="let i = index of counter(9)" class="w-5">
+              {{round.scoreCard[i + 9].hole}}
+            </th>
+            <th class="center w-10" >IN</th>
+          </ng-container>
+          <th class="center w-10">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>PAR</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.course.holes[i].par}}
+            </td>
+            <th class="center">{{first9par}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.course.holes[i + 9].par}}
+            </td>
+            <th class="center">{{last9par}}</th>
+          </ng-container>
+          <th class="center">{{first9par + last9par}}</th>
+        </tr>
+        <tr>
+          <th>SI</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+              {{round.course.holes[i].si}}
+            </td>
+            <th></th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+              {{round.course.holes[i + 9].si}}
+            </td>
+            <th></th>
+          </ng-container>
+          <th></th>
+        </tr>
+        <tr>
+          <th>Score</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center" class="center">
+              <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
+                {{round.scoreCard[i + (playerOffset * 18)].stroke}}
+              </span>
+            </td>
+            <th class="center">{{first9score}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i + 9]" class="center" class="center">
+              <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
+                {{round.scoreCard[i + (playerOffset * 18) + 9].stroke}}
+              </span>
+            </td>
+            <th class="center">{{last9score}}</th>
+          </ng-container>
+          <th class="center">{{first9score + last9score}}</th>
+        </tr>
+        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+          <th>HCP</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].hcp}}
+            </td>
+            <th></th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+                {{round.scoreCard[i + (playerOffset * 18) + 9].hcp}}
+            </td>
+            <th></th>
+          </ng-container>
+          <th></th>
+        </tr>
+        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+          <th>Net Score</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i]" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].scoreNetto}}
+            </td>
+            <th class="center">{{first9scoreNetto}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i + 9]" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].scoreNetto}}
+            </td>
+            <th class="center">{{last9scoreNetto}}</th>
+          </ng-container>
+          <th class="center">
+            {{first9scoreNetto + last9scoreNetto}}
+          </th>
+        </tr>
+        <tr  *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+          <th>Cor. Score</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].corScoreBrutto}}
+            </td>
+            <th class="center">{{first9CorScorBrutto}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].corScoreBrutto}}
+            </td>
+            <th class="center">{{last9CorScorBrutto}}</th>
+          </ng-container>
+          <th class="center">
+            {{first9CorScorBrutto + last9CorScorBrutto}}
+          </th>
+        </tr>
+        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+          <th>STB Net</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].stbNetto}}
+            </td>
+            <th class="center">{{first9StbNetto}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].stbNetto}}
+            </td>
+            <th class="center">{{last9StbNetto}}</th>
+          </ng-container>
+          <th class="center">
+            {{first9StbNetto + last9StbNetto}}
+          </th>
+        </tr>
+        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
+          <th>STB</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].stbBrutto}}
+            </td>
+            <th class="center">{{first9StbBrutto}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].stbBrutto}}
+            </td>
+            <th class="center">{{last9StbBrutto}}</th>
+          </ng-container>
+          <th class="center">{{first9StbBrutto + last9StbBrutto}}</th>
+        </tr>
+        <tr>
+          <th>Putts</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].pats}}
+            </td>
+            <th class="center"> {{first9Putt}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].pats}}
+            </td>
+            <th class="center">{{last9Putt}}</th>
+          </ng-container>
+          <th class="center">{{first9Putt + last9Putt}}</th>
+        </tr>
+        <tr>
+          <th>Penalties</th>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18)].penalty}}
+            </td>
+            <th class="center">{{first9Penalty}}</th>
+          </ng-container>
+          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
+            <td *ngFor="let i = index of counter(9)" class="center">
+              {{round.scoreCard[i + (playerOffset * 18) + 9].penalty}}
+            </td>
+            <th class="center">{{last9Penalty}}</th>
+          </ng-container>
+          <th class="center">{{first9Penalty + last9Penalty}}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -28,6 +28,14 @@
   text-align: center;
 }
 
+.w-15 {
+  width: 12% !important;
+}
+
+.w-10 {
+  width: 8% !important;
+}
+
 .center {
   text-align: center;
   vertical-align: middle;

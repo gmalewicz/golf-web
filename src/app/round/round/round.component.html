@@ -1,0 +1,73 @@
+<div *ngIf="display">
+  <h2>{{ round.course.name }} &nbsp; {{ round.roundDate }}</h2>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
+        aria-controls="overview" aria-selected="true" (click)="onTabClick(0)">Overview</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="summary-tab" data-toggle="tab" href="#summary" role="tab"
+        aria-controls="summary" aria-selected="false" (click)="onTabClick(1)">Summary</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p0" role="tab" aria-controls="p0" aria-selected="false"
+        (click)="onTabClick(2)">{{round.player[0].nick}}</a>
+    </li>
+    <li>
+      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p1" role="tab" aria-controls="p1" aria-selected="false" *ngIf="round.player.length > 1"
+        (click)="onTabClick(3)">{{round.player[1].nick}}</a>
+    </li>
+    <li>
+      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p2" role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 2"
+        (click)="onTabClick(4)">{{round.player[2].nick}}</a>
+    </li>
+    <li>
+      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p3" role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 3"
+        (click)="onTabClick(5)">{{round.player[3].nick}}</a>
+    </li>
+    <li class="nav-item" *ngIf="round.matchPlay && round.player.length === 2">
+      <a class="nav-link" id="mp-tab" data-toggle="tab" href="#mp" role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)">Match Play</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+      <app-round-view [round]='round'></app-round-view>
+    </div>
+    <div class="tab-pane fade" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+      <app-round-summary [round]='round' *ngIf="selectedTab == 1"></app-round-summary>
+    </div>
+    <div class="tab-pane fade" id="p0" role="tabpanel" aria-labelledby="p0-tab">
+      <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2' *ngIf="selectedTab == 2"></app-round-view-whs>
+    </div>
+    <div class="tab-pane fade" id="p1" role="tabpanel" aria-labelledby="p1-tab" *ngIf="round.player.length > 1">
+      <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2' *ngIf="selectedTab == 3"></app-round-view-whs>
+    </div>
+    <div class="tab-pane fade" id="p2" role="tabpanel" aria-labelledby="p2-tab" *ngIf="round.player.length > 2">
+      <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2' *ngIf="selectedTab == 4"></app-round-view-whs>
+    </div>
+    <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab" *ngIf="round.player.length > 3">
+      <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2' *ngIf="selectedTab == 5"></app-round-view-whs>
+    </div>
+    <div class="tab-pane fade" id="mp" role="tabpanel" aria-labelledby="mp-tab" *ngIf="round.matchPlay && selectedTab == 6">
+      <app-round-view-mp [round]='round'></app-round-view-mp>
+    </div>
+  </div>
+  <div>
+    <br />
+    <button type="button" class="btn btn-success" routerLink="">
+      Cancel
+    </button>
+    &nbsp;
+    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" *ngIf="!viewOnly">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Edit
+    </button>
+    &nbsp;
+    <button [disabled]="loading" class="btn btn-success" (click)="onDelete()" *ngIf="!viewOnly">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Delete
+    </button>
+  </div>
+</div>
+

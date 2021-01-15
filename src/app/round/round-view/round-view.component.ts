@@ -1,27 +1,26 @@
-import { Component, OnInit} from '@angular/core';
-import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
-import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Round, ScoreCard, Hole, Player } from '@/_models';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router} from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-
+import { Round, Player } from '@/_models';
+import { HttpService, AlertService, AuthenticationService } from '@/_services';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
 
 @Component({
-  selector: 'app-round',
-  templateUrl: './round.component.html',
-  styleUrls: ['./round.component.css']
+  selector: 'app-round-view',
+  templateUrl: './round-view.component.html',
+  styleUrls: ['./round-view.component.css']
 })
-export class RoundComponent implements OnInit {
+export class RoundViewComponent implements OnInit {
+
+  @Input() round: Round;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   loading: boolean;
   display: boolean;
-  round: Round;
-
+  // round: Round;
   public barChartType: ChartType;
   public barChartLegend: boolean;
   public barChartLabels: number[];
@@ -31,9 +30,6 @@ export class RoundComponent implements OnInit {
   strokes: Array<Array<number>>;
   pats: Array<Array<number>>;
   par: number[];
-
-  scoreCards: ScoreCard[];
-  holes: Hole[];
 
   players: Player[];
 
@@ -53,55 +49,31 @@ export class RoundComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
-      this.authenticationService.logout();
-      this.router.navigate(['/']);
-    } else {
+    this.display9 = 0;
+    this.players = [];
+    this.dipslayPlayers = [false, false, false, false];
+    this.dipslayPlayerResult = ['0/0', '0/0', '0/0', '0/0'];
+    this.strokes = [];
+    this.pats = [];
+    this.par = [];
+    this.barChartType = 'bar';
+    this.barChartLegend = true;
+    this.barChartLabels = [];
+    this.loading = false;
+    this.display = false;
+    // this.showRound();
+    this.players = this.round.player;
+    this.dipslayPlayers.fill(true, 0, this.round.player.length);
 
-      this.display9 = 0;
-      this.players = [];
-      this.dipslayPlayers = [false, false, false, false];
-      this.dipslayPlayerResult = ['0/0', '0/0', '0/0', '0/0'];
-      this.strokes = [];
-      this.pats = [];
-      this.par = [];
-      this.barChartType = 'bar';
-      this.barChartLegend = true;
-      this.barChartLabels = [];
-      this.loading = false;
-      this.display = false;
-      this.round = history.state.data.round;
-      this.showRound();
-    }
-  }
+    this.generateLabelsAndData(1, 18);
+    this.generateRoundResults();
+    this.display = true;
 
-  showRound() {
-
-    // console.log('strokes: ' + this.strokes);
-    // console.log('pats: ' + this.pats);
-    // console.log('par: ' + this.par);
-
-    combineLatest([this.httpService.getScoreCards(
-      this.round.id), this.httpService.getHoles(this.round.course.id)]).subscribe(([retScoreCards, retHoles]) => {
-        // console.log(retScoreCards.length);
-
-        this.scoreCards = retScoreCards;
-        this.holes = retHoles;
-
-        for (let idx = 0; idx < retScoreCards.length; idx += 18) {
-          this.players.push(retScoreCards[idx].player);
-          this.dipslayPlayers[Math.floor(idx / 18)] = true;
-        }
-
-        this.generateLabelsAndData(1, 18);
-        this.generateRoundResults();
-        this.display = true;
-      });
   }
 
   generateLabelsAndData(startHole: number, endHole: number) {
 
-    for (let score = 0; score < this.scoreCards.length; score++) {
+    for (let score = 0; score < this.round.scoreCard.length; score++) {
 
       if (score % 18 === 0) {
         // console.log('create set');
@@ -111,21 +83,21 @@ export class RoundComponent implements OnInit {
       // include first 9
       if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
         // console.log('first 9: ' + score);
-        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
-        this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
+        this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
+        this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
       }
       // include second 9
       if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
         // console.log('second 9: ' + score);
-        this.strokes[Math.floor(score / 18)].push(this.scoreCards[score].stroke - this.scoreCards[score].pats);
-        this.pats[Math.floor(score / 18)].push(this.scoreCards[score].pats);
+        this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
+        this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
       }
 
     }
 
     // console.log(this.holes);
     for (let hole = startHole - 1; hole < endHole; hole++) {
-      this.par.push(this.holes[hole].par);
+      this.par.push(this.round.course.holes[hole].par);
       this.barChartLabels.push(hole + 1);
     }
 
@@ -212,22 +184,6 @@ export class RoundComponent implements OnInit {
     });
   }
 
-  onEdit() {
-
-    // prepare data to pass to ad-scorecard module
-    this.round.course.holes = this.holes;
-    this.round.player = [];
-    this.round.player.push(this.authenticationService.currentPlayerValue);
-    // remove rounds for all other players
-    this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
-    this.router.navigate(['/addScorecard/' + this.round.course.id + '/' +
-      this.round.course.name + '/' +
-      this.round.course.par], {
-      state: { data: { round: this.round } }
-    });
-
-  }
-
   onFirst9() {
 
     this.display9 = 1;
@@ -298,28 +254,5 @@ export class RoundComponent implements OnInit {
       this.onLast9();
     }
 
-  }
-
-  onViewWHS() {
-
-    // prepare data to pass to ad-scorecard module
-    this.round.course.holes = this.holes;
-    // set current player
-    this.round.player = [];
-    this.round.player.push(this.authenticationService.currentPlayerValue);
-    // remove rounds for all other players
-    this.round.scoreCard = this.scoreCards.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
-    this.router.navigate(['/roundViewWHS'], {
-      state: { data: { round: this.round } }
-    });
-  }
-
-  onViewMP() {
-    // prepare data to pass to ad-scorecard module
-    this.round.course.holes = this.holes;
-    this.round.scoreCard = this.scoreCards;
-    this.router.navigate(['/roundViewMP'], {
-      state: { data: { round: this.round } }
-    });
   }
 }

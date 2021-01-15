@@ -237,7 +237,7 @@ export class AddCourseComponent implements OnInit {
     });
 
     // send Course to the server
-    this.httpService.addCourse(course).subscribe(newCourse => {
+    this.httpService.addCourse(course).subscribe(() => {
 
       this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
       this.router.navigate(['/']);
@@ -246,8 +246,6 @@ export class AddCourseComponent implements OnInit {
         this.alertService.error(error.error.error + ' ' + error.error.message, true);
         this.loading = false;
       });
-
-
   }
 
   clear() {

@@ -293,12 +293,16 @@ export class AddScorecardComponent implements OnInit {
       const round: Round = {
         course: this.course,
         roundDate: this.f.date.value + ' ' + this.f.teeTime.value,
-        player: [this.authenticationService.currentPlayerValue],
+        // prepare player with only required data
+        player: [{id: this.authenticationService.currentPlayerValue.id, whs: this.authenticationService.currentPlayerValue.whs}],
         scoreCard,
         matchPlay: false
       };
       // only selected tee shall be sent, so replace entire list with selected tee
       round.course.tees = round.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value);
+      // remove holes from the course not to send data to backend
+      round.course.holes = undefined;
+
 
       this.httpService.addRound(round).subscribe(data => {
         // console.log('round added');

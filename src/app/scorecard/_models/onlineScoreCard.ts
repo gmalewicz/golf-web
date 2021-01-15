@@ -6,7 +6,7 @@ export interface OnlineScoreCard {
   hole: number;
   stroke: number;
   player: Player;
-  onlineRoundId: number;
+  orId: number;
   update?: boolean;
   putt: number;
   penalty: number;
