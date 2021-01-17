@@ -1,0 +1,44 @@
+<div >
+  <div>
+    <button type="button" class="btn btn-success" (click)="onDecrease()">
+      &lt;
+    </button>
+    &nbsp;
+    {{curHoleStrokes[curPlayerIdx]}}
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="onIncrease()">
+      &gt;
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="addScore()">
+      Save
+    </button>
+  </div>
+</div>
+<div *ngIf="onlineRounds[0].putts">
+  <br/>
+  <div>
+    Putts:
+  </div>
+  <div>
+    <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+      <label *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="puttSelectorActive[i]">
+        <input type="radio" (click)="selectPutt(i)"> {{i}}
+      </label>
+    </div>
+  </div>
+</div>
+<div *ngIf="onlineRounds[0].penalties">
+  <br/>
+  <div>
+    Penalties:
+  </div>
+  <div>
+    <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+      <label *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="penaltySelectorActive[i]">
+        <input type="radio" (click)="selectPenalty(i)"> {{i}}
+      </label>
+    </div>
+  </div>
+</div>
+<br/>
