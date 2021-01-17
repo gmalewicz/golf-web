@@ -187,7 +187,7 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
 
     combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
 
-      for (const i of Object.keys(onlineScoreCards)) {
+      for (let i = 0; i < onlineScoreCards.length; i++) {
 
         // set lastPlayed hole
         if (onlineScoreCards.length > this.lastPlayed - 1) {
