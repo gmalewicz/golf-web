@@ -8,8 +8,7 @@ import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-round-view-mp',
-  templateUrl: './round-view-mp.component.html',
-  styleUrls: ['./round-view-mp.component.css']
+  templateUrl: './round-view-mp.component.html'
 })
 export class RoundViewMPComponent implements OnInit {
 

@@ -225,9 +225,10 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
       this.mpScore.forEach((result, idx) => this.updateMpResult(idx));
       this.updateMpTotal();
 
-      this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
+      // this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
       // in case if stroke is 0 load par instead
       this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+        s += this.strokes[this.curHoleIdx][idx];
         if (s === 0) {
           s = this.course.holes[this.curHoleIdx].par;
           // console.log('s: ' + s);
@@ -438,11 +439,11 @@ export class OnlineMatchplayComponent implements OnInit, OnDestroy {
 
     this.curHoleIdx = holeIdx;
     // copy strokes from stokes table
-    this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s = this.strokes[this.curHoleIdx][idx]);
-    this.curHolePutts =  this.curHolePutts.map((s, idx) => s = this.putts[this.curHoleIdx][idx]);
-    this.curHolePenalties =  this.curHolePenalties.map((s, idx) => s = this.penalties[this.curHoleIdx][idx]);
+    this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => this.strokes[this.curHoleIdx][idx]);
+    this.curHolePutts =  this.curHolePutts.map((s, idx) => this.putts[this.curHoleIdx][idx]);
+    this.curHolePenalties =  this.curHolePenalties.map((s, idx) => this.penalties[this.curHoleIdx][idx]);
     // in case if stroke is 0 load par instead
-    this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+    this.curHoleStrokes = this.curHoleStrokes.map((s) => {
       if (s === 0) {
         s = this.course.holes[holeIdx].par;
         // console.log('s: ' + s);

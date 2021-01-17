@@ -6,8 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hole-stake-setup',
-  templateUrl: './hole-stake-setup.component.html',
-  styleUrls: ['./hole-stake-setup.component.css']
+  templateUrl: './hole-stake-setup.component.html'
 })
 export class HoleStakeSetupComponent implements OnInit {
 

@@ -6,8 +6,7 @@ import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rounds',
-  templateUrl: './rounds.component.html',
-  styleUrls: ['./rounds.component.css']
+  templateUrl: './rounds.component.html'
 })
 export class RoundsComponent implements OnInit {
 

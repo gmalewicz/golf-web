@@ -1,13 +1,13 @@
 <p></p>
-<table class="table table-striped">
+<table class="table table-striped" aria-describedby="List of rounds">
   <thead>
     <tr>
-      <th></th>
-      <th>Date</th>
-      <th>Tee Time</th>
-      <th>Course</th>
-      <th *ngIf="selectedTab === 1">Players</th>
-      <th>Type</th>
+      <th id="select"></th>
+      <th id="date">Date</th>
+      <th id="teeTime">Tee Time</th>
+      <th id="course">Course</th>
+      <th id="players" *ngIf="selectedTab === 1">Players</th>
+      <th id="type">Type</th>
     </tr>
   </thead>
   <tbody>

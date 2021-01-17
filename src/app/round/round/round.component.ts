@@ -12,8 +12,7 @@ import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-round',
-  templateUrl: './round.component.html',
-  styleUrls: ['./round.component.css']
+  templateUrl: './round.component.html'
 })
 export class RoundComponent implements OnInit {
 

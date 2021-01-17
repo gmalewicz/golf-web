@@ -2,15 +2,15 @@
   <h3>Hole Stake: stake {{stake}}</h3>
 </div>
 <p></p>
-<table id="holeStake-tbl" class="table">
+<table id="holeStake-tbl" class="table" aria-describedby="Hole Stake game">
   <thead>
     <tr>
-      <th>Hole</th>
-      <th>{{playerNicks[0]}}</th>
-      <th>{{playerNicks[1]}}</th>
-      <th *ngIf="players > 2">{{playerNicks[2]}}</th>
-      <th *ngIf="players > 3">{{playerNicks[3]}}</th>
-      <th>Completed</th>
+      <th id="hole">Hole</th>
+      <th id="n1">{{playerNicks[0]}}</th>
+      <th id="n2">{{playerNicks[1]}}</th>
+      <th id="n3" *ngIf="players > 2">{{playerNicks[2]}}</th>
+      <th id="n4" *ngIf="players > 3">{{playerNicks[3]}}</th>
+      <th id="com">Completed</th>
     </tr>
   </thead>
   <tbody>

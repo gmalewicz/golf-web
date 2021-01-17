@@ -1,25 +1,25 @@
 <div *ngIf="display">
   <br/>
   <div class="table-responsive">
-    <table id="holeStake-tbl" class="table table-bordered">
+    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Round summary">
       <thead>
         <tr>
-          <th>Player</th>
-          <th>WHS</th>
-          <th>Course HCP</th>
-          <th>Score</th>
-          <th>Cor. Score</th>
-          <th>Net Score</th>
-          <th>STB Net</th>
-          <th>STB</th>
-          <th>Score diff</th>
-          <th>Putts</th>
-          <th>Penalties</th>
+          <th id="player">Player</th>
+          <th id="whs">WHS</th>
+          <th id="cHCP">Course HCP</th>
+          <th id="scor">Score</th>
+          <th id="cscor">Cor. Score</th>
+          <th id="nscor">Net Score</th>
+          <th id="sNet">STB Net</th>
+          <th id="stb">STB</th>
+          <th id="sDif">Score diff</th>
+          <th id="putts">Putts</th>
+          <th id="pen">Penalties</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let pl of round.player; let i = index">
-          <th>{{pl.nick}}</th>
+          <th id="nick">{{pl.nick}}</th>
           <td>{{pl.roundDetails.whs}}</td>
           <ng-container *ngIf="round.player[i].roundDetails.ninesFull !== -1">
             <td>{{pl.roundDetails.courseHCP}}</td>

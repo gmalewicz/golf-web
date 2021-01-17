@@ -45,16 +45,16 @@
     </div>
     <br/>
     <div>
-      <table id="holeStake-tbl" class="table table-bordered">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round hole result">
         <thead>
           <tr>
-            <th>Hole</th>
-            <th>{{onlineRounds[0].player.nick}}</th>
-            <th *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}}</th>
-            <th *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}}</th>
-            <th *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}}</th>
-            <th>Par</th>
-            <th>Si</th>
+            <th id="hole">Hole</th>
+            <th id="p1n">{{onlineRounds[0].player.nick}}</th>
+            <th id="p2n" *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}}</th>
+            <th id="p3n" *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}}</th>
+            <th id="p4n" *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}}</th>
+            <th id="par">Par</th>
+            <th id="si">Si</th>
           </tr>
         </thead>
 
@@ -101,17 +101,17 @@
           Score Card
         </h3>
       </div>
-      <table id="holeStake-tbl" class="table table-bordered">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round score card">
         <thead>
           <tr>
-            <th></th>
-            <th>Hole</th>
-            <th>{{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})</th>
-            <th *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})</th>
-            <th *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}} ({{totalStrokes[2]}})</th>
-            <th *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}} ({{totalStrokes[3]}})</th>
-            <th>Par</th>
-            <th>Si</th>
+            <th id="nav"></th>
+            <th id="hole">Hole</th>
+            <th id="p1str">{{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})</th>
+            <th id="p2str" *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})</th>
+            <th id="p3str" *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}} ({{totalStrokes[2]}})</th>
+            <th id="p4str" *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}} ({{totalStrokes[3]}})</th>
+            <th id="par">Par</th>
+            <th id="si">Si</th>
           </tr>
         </thead>
 

@@ -369,11 +369,11 @@ export class AddScorecardComponent implements OnInit {
     }
 
     const updatedStrokes = [];
-    const updatedPats = [];
+    // const updatedPats = [];
 
     for (let hole = 0; hole < 18; hole++) {
 
-      updatedPats.push(this.putts[hole]);
+      // updatedPats.push(this.putts[hole]);
       updatedStrokes.push(this.strokes[hole] - this.putts[hole]);
 
     }

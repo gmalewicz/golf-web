@@ -138,7 +138,7 @@ export class HoleStakeGameComponent implements OnInit {
           // console.log('looserAmout: ' + looserAmt);
         }
         // update scores
-        hole.map((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
+        hole.forEach((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
     });
   }
 

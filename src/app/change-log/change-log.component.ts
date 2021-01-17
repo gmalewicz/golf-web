@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-log',
-  templateUrl: './change-log.component.html',
-  styleUrls: ['./change-log.component.css']
+  templateUrl: './change-log.component.html'
 })
 export class ChangeLogComponent implements OnInit {
 

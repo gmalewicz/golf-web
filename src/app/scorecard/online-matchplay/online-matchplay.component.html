@@ -45,14 +45,14 @@
     </div>
     <br/>
     <div>
-      <table id="holeStake-tbl" class="table table-bordered">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Stroke play online round results">
         <thead>
           <tr>
-            <th>Hole</th>
-            <th>{{onlineRounds[0].player.nick}}</th>
-            <th>{{onlineRounds[1].player.nick}}</th>
-            <th>Par</th>
-            <th>Si</th>
+            <th id="hole">Hole</th>
+            <th id="p1">{{onlineRounds[0].player.nick}}</th>
+            <th id="p2">{{onlineRounds[1].player.nick}}</th>
+            <th id="par">Par</th>
+            <th id="si">Si</th>
           </tr>
         </thead>
 
@@ -88,16 +88,16 @@
           {{onlineRounds[0].player.nick}} : {{onlineRounds[1].player.nick}} &nbsp; {{mpTotal[0]}} : {{mpTotal[1]}}
         </h3>
       </div>
-      <table id="holeStake-tbl" class="table table-bordered">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="MatchPlay online round results">
         <thead>
           <tr>
-            <th></th>
-            <th>Hole</th>
-            <th>{{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})</th>
-            <th>{{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})</th>
-            <th>Winner</th>
-            <th>Par</th>
-            <th>Si</th>
+            <th id="empty"></th>
+            <th id="hole">Hole</th>
+            <th id="p1r">{{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})</th>
+            <th id="p2r">{{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})</th>
+            <th id="winner">Winner</th>
+            <th id="par">Par</th>
+            <th id="si">Si</th>
           </tr>
         </thead>
 

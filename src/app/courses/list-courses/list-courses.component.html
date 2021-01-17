@@ -1,11 +1,11 @@
 <p></p>
-<table id="courses-tbl" class="table table-striped">
+<table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
   <thead>
     <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Par</th>
-      <th *ngIf="parent === 'courses'"></th>
+      <th id="nav"></th>
+      <th id="name">Name</th>
+      <th id="par">Par</th>
+      <th id="parent" *ngIf="parent === 'courses'"></th>
     </tr>
   </thead>
   <tbody>
