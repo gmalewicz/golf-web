@@ -48,8 +48,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   // edit / no-edit class
   editClass: string[];
   submitted: boolean;
-  // putt and penalty buttons
-  public buttons: number[];
   // selectedPutt and penalty
   // selectedPutt: number;
   // selectedPenalty: number;
@@ -112,8 +110,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       this.lostConnection = true;
 
-      // console.log('strokes: ' + this.strokes);
-      this.buttons = [0, 1, 2, 3, 4, 5];
       // zero putts in case tracking is not required
       if (this.onlineRounds[0].putts) {
         this.curHolePutts = new Array(this.onlineRounds.length).fill(2);
@@ -150,24 +146,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   handleLostConnection(lost: boolean) {
     this.lostConnection = lost;
-  }
-
-  selectPutt(putts: number) {
-    this.curHolePutts[this.curPlayerIdx] = putts;
-  }
-
-  selectPenalty(penalties: number) {
-    this.curHolePenalties[this.curPlayerIdx] = penalties;
-  }
-
-  onIncrease() {
-
-    // number of strokes canot be greater than 15
-    if (this.curHoleStrokes[this.curPlayerIdx] === 15) {
-      return;
-    }
-    // this.strokes[this.currentHole]++;
-    this.curHoleStrokes[this.curPlayerIdx]++;
   }
 
   // helper function to provide verious arrays for html
@@ -223,15 +201,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
-  }
-
-  onDecrease() {
-    // number of strokes canot be lower than 1
-    if (this.curHoleStrokes[this.curPlayerIdx] === 1) {
-      return;
-    }
-    this.curHoleStrokes[this.curPlayerIdx]--;
-
   }
 
   onFinal() {

@@ -12,6 +12,7 @@ import { ScorecardHttpService } from './_services/scorecardHttp.service';
 import { routing } from './scorecard.routing';
 import { DropdownModule } from 'primeng/dropdown';
 import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
+import { OnlineNavComponent } from './online-nav/online-nav.component';
 
 
 
@@ -21,7 +22,8 @@ import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.co
     OnlineRoundComponent,
     OnlineScoreCardViewComponent,
     OnlineRoundDefComponent,
-    OnlineMatchplayComponent
+    OnlineMatchplayComponent,
+    OnlineNavComponent
   ],
   imports: [
     routing,

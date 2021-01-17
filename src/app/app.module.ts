@@ -56,7 +56,7 @@ import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component'
     RoundViewComponent,
     RoundSummaryComponent,
     ListCoursesComponent,
-    ListRoundsComponent
+    ListRoundsComponent,
   ],
   imports: [
     // GamesModule,
