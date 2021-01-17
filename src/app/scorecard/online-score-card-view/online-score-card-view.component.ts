@@ -7,12 +7,10 @@ import { Course} from '@/_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
-import { nextTick } from 'process';
 
 @Component({
   selector: 'app-online-score-card-view',
-  templateUrl: './online-score-card-view.component.html',
-  styleUrls: ['./online-score-card-view.component.css']
+  templateUrl: './online-score-card-view.component.html'
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 

@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bbb-game-rules',
-  templateUrl: './bbb-game-rules.component.html',
-  styleUrls: ['./bbb-game-rules.component.css']
+  templateUrl: './bbb-game-rules.component.html'
 })
 export class BbbGameRulesComponent implements OnInit {
 

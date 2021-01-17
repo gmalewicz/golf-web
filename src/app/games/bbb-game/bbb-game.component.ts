@@ -121,7 +121,7 @@ export class BbbGameComponent implements OnInit {
     this.score = Array(this.players).fill(0);
     this.gameResult.forEach((hole) => {
       // update scores
-      hole.map((x, i) => this.score[i] += x);
+      hole.forEach((x, i) => this.score[i] += x);
     });
 
     // the best score
@@ -131,13 +131,6 @@ export class BbbGameComponent implements OnInit {
       }
       return p;
     });
-    // how many the best score
-    const maxCnt = this.score.reduce((p, c) => {
-      if (c >= max) {
-        p++;
-      }
-      return p;
-    }, 0);
 
     // console.log('max: ' + max);
     // console.log('maxCnt: ' + maxCnt);

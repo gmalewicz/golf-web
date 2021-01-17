@@ -1,15 +1,15 @@
 <h2>{{tournament.name}} Tournament Results:</h2>
 <br/>
-<table class="table table-striped">
+<table class="table table-striped" aria-describedby="tournament result">
   <thead>
     <tr>
-      <th>Place</th>
-      <th>Player</th>
-      <th>Net STB</th>
-      <th>Gross STB</th>
-      <th>Gross Strokes</th>
-      <th>Net Strokes</th>
-      <th>Played Rounds</th>
+      <th id="place">Place</th>
+      <th id="player">Player</th>
+      <th id="nstb">Net STB</th>
+      <th id="gstb">Gross STB</th>
+      <th id="gstr">Gross Strokes</th>
+      <th id="nstr">Net Strokes</th>
+      <th id="prnd">Played Rounds</th>
     </tr>
   </thead>
   <tbody *ngFor="let tournamentResult of tournamentResults, let i = index">
@@ -35,16 +35,16 @@
 
       <ng-template #showDetails>
         <td colspan="7">
-          <table class="table table-striped">
+          <table class="table table-striped" aria-describedby="tournament details">
             <thead>
               <tr>
-                <th>No</th>
-                <th>Course</th>
-                <th>Net STB</th>
-                <th>Gross STB</th>
-                <th>Gross Strokes</th>
-                <th>Net Strokes</th>
-                <th>Score Differential</th>
+                <th id="no">No</th>
+                <th id="cour">Course</th>
+                <th id="nstb">Net STB</th>
+                <th id="gstb">Gross STB</th>
+                <th id="gstr">Gross Strokes</th>
+                <th id="nstr">Net Strokes</th>
+                <th id="sDiff">Score Differential</th>
               </tr>
             </thead>
             <tbody *ngFor="let tournamentRound of tournamentRounds[i],  let j = index">

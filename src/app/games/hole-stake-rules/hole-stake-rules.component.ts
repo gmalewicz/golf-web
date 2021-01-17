@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hole-stake-rules',
-  templateUrl: './hole-stake-rules.component.html',
-  styleUrls: ['./hole-stake-rules.component.css']
+  templateUrl: './hole-stake-rules.component.html'
 })
 export class HoleStakeRulesComponent implements OnInit {
 

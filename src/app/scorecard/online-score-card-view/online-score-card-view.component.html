@@ -3,62 +3,62 @@
   </h2>
   <br/>
   <div class="table-responsive">
-  <table id="holeStake-tbl" class="table table-bordered">
+  <table id="holeStake-tbl" class="table table-bordered" aria-describedby="online scorecard view">
   <thead>
     <tr>
-      <th>Hole</th>
-      <th *ngFor="let i = index of counter(9)" class="w-5">
+      <th id="hole">Hole</th>
+      <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
         {{i + 1}}
       </th>
-      <th>OUT</th>
-      <th *ngFor="let i = index of counter(9)" class="w-5">
+      <th id="out">OUT</th>
+      <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
         {{i + 10}}
       </th>
-      <th>IN</th>
-      <th>TOTAL</th>
+      <th id="in">IN</th>
+      <th id="total">TOTAL</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>PAR</th>
+      <th id="par">PAR</th>
       <td *ngFor="let i = index of counter(9)" class="center">
         {{course.holes[i].par}}
       </td>
-      <th class="center">{{first9par}}</th>
+      <th id="f9par" class="center">{{first9par}}</th>
       <td *ngFor="let i = index of counter(9)" class="center">
         {{course.holes[i + 9].par}}
       </td>
-      <th class="center">{{last9par}}</th>
-      <th class="center">{{first9par + last9par}}</th>
+      <th id="l9par" class="center">{{last9par}}</th>
+      <th id="b9par" class="center">{{first9par + last9par}}</th>
     </tr>
     <tr>
-      <th>SI</th>
+      <th id="si">SI</th>
       <td *ngFor="let i = index of counter(9)" class="center">
         {{course.holes[i].si}}
       </td>
-      <th></th>
+      <th id="empty"></th>
       <td *ngFor="let i = index of counter(9)" class="center">
         {{course.holes[i + 9].si}}
       </td>
-      <th></th>
-      <th></th>
+      <th id="empty"></th>
+      <th id="empty"></th>
     </tr>
     <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
-        <th>{{onlineRound.player.nick}}</th>
+        <th id="nick">{{onlineRound.player.nick}}</th>
         <ng-container *ngIf="owner === undefined">
           <td *ngFor="let i = index of counter(9)" class="center">
             <span *ngIf="onlineRound.scoreCardAPI[i] != null">
               {{onlineRound.scoreCardAPI[i].stroke}}
             </span>
           </td>
-          <th class="center">{{onlineRound.first9score}}</th>
+          <th id="f9s" class="center">{{onlineRound.first9score}}</th>
           <td *ngFor="let i = index of counter(9)" class="center">
             <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
               {{onlineRound.scoreCardAPI[i + 9].stroke}}
             </span>
           </td>
-          <th class="center">{{onlineRound.last9score}}</th>
-          <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+          <th id="l9s" class="center">{{onlineRound.last9score}}</th>
+          <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
         </ng-container>
         <ng-container *ngIf="owner != undefined">
           <td *ngFor="let i = index of counter(9)" class="center">
@@ -66,14 +66,14 @@
               {{onlineRound.scoreCardAPI[i].mpResult}}
             </span>
           </td>
-          <th class="center">{{onlineRound.first9score}}</th>
+          <th id="f9s" class="center">{{onlineRound.first9score}}</th>
           <td *ngFor="let i = index of counter(9)" class="center">
             <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
               {{onlineRound.scoreCardAPI[i + 9].mpResult}}
             </span>
           </td>
-          <th class="center">{{onlineRound.last9score}}</th>
-          <th class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+          <th id="l9s" class="center">{{onlineRound.last9score}}</th>
+          <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
       </ng-container>
     </tr>
   </tbody>

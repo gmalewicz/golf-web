@@ -8,8 +8,7 @@ import { TournamentHttpService } from '../_services';
 
 @Component({
   selector: 'app-add-tournament',
-  templateUrl: './add-tournament.component.html',
-  styleUrls: ['./add-tournament.component.css']
+  templateUrl: './add-tournament.component.html'
 })
 export class AddTournamentComponent implements OnInit {
 

@@ -7,8 +7,7 @@ import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-player',
-  templateUrl: './update-player.component.html',
-  styleUrls: ['./update-player.component.css']
+  templateUrl: './update-player.component.html'
 })
 export class UpdatePlayerComponent implements OnInit {
 

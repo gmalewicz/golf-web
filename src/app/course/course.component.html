@@ -5,12 +5,12 @@
     </canvas>
   </div>
   <div *ngIf="displayTees">
-    <table id="tee-tbl" class="table table-striped">
+    <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
       <thead>
         <tr>
-          <th>Tee</th>
-          <th>CR</th>
-          <th>SR</th>
+          <th id="tee">Tee</th>
+          <th id="cr">CR</th>
+          <th id="sr">SR</th>
         </tr>
       </thead>
       <tbody>
@@ -35,15 +35,6 @@
     <button type="button" class="btn btn-success" (click)="onShowTees()">
       {{showTeesLbl}}
     </button>
-
-
-    <!-- to be refactored
-    &nbsp;
-    <button [disabled]="loading" class="btn btn-success" (click)="delete()">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Delete
-    </button>
-    -->
   </div>
 </div>
 

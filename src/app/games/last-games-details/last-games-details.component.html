@@ -7,16 +7,16 @@
   </h3>
 </div>
 <p></p>
-<table id="game-tbl" class="table">
+<table id="game-tbl" class="table" aria-describedby="Last games details">
   <thead>
     <tr>
-      <th>Hole</th>
-      <th>{{ game.gameData.playerNicks[0] }}</th>
-      <th>{{ game.gameData.playerNicks[1] }}</th>
-      <th *ngIf="game.gameData.playerNicks.length > 2">
+      <th id="hole">Hole</th>
+      <th id="n1">{{ game.gameData.playerNicks[0] }}</th>
+      <th id="n2">{{ game.gameData.playerNicks[1] }}</th>
+      <th id="n3" *ngIf="game.gameData.playerNicks.length > 2">
         {{ game.gameData.playerNicks[2] }}
       </th>
-      <th *ngIf="game.gameData.playerNicks.length > 3">
+      <th id="n4" *ngIf="game.gameData.playerNicks.length > 3">
         {{ game.gameData.playerNicks[3] }}
       </th>
     </tr>

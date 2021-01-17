@@ -99,13 +99,13 @@
   </div>
   <br/>
   <div *ngIf="tees.length > 0">
-    <table id="tee-tbl" class="table table-striped">
+    <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
       <thead>
         <tr>
-          <th>Tee</th>
-          <th>CR</th>
-          <th>SR</th>
-          <th>Type</th>
+          <th id="tee">Tee</th>
+          <th id="cr">CR</th>
+          <th id="sr">SR</th>
+          <th id="type">Type</th>
         </tr>
       </thead>
       <tbody>
