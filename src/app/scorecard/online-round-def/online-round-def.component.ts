@@ -73,7 +73,7 @@ export class OnlineRoundDefComponent implements OnInit {
       teeDropDown2: ['', [Validators.required]],
       teeDropDown3: ['', [Validators.required]],
       teeDropDown4: ['', [Validators.required]],
-      nick1: [this.authenticationService.currentPlayerValue.nick, [Validators.required, Validators.maxLength(10)]],
+      nick1: [{value: this.authenticationService.currentPlayerValue.nick, disabled: true}],
       nick2: ['', [Validators.required, Validators.maxLength(10)]],
       nick3: ['', [Validators.required, Validators.maxLength(10)]],
       nick4: ['', [Validators.required, Validators.maxLength(10)]],
