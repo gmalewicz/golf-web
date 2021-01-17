@@ -160,7 +160,7 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
 
     combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
 
-      for (const i of Object.keys(onlineScoreCards)) {
+      for (let i = 0; i < onlineScoreCards.length; i++) {
 
         // set lastPlayed hole
         if (onlineScoreCards.length > this.lastPlayed - 1) {
@@ -194,9 +194,9 @@ export class OnlineRoundComponent implements OnInit, OnDestroy {
         this.roundCompleted = false;
       }
 
-      this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
       // in case if stroke is 0 load par instead
       this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+        s += this.strokes[this.curHoleIdx][idx];
         if (s === 0) {
           s = this.course.holes[this.curHoleIdx].par;
           // console.log('s: ' + s);

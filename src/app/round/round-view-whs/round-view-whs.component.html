@@ -123,7 +123,7 @@
             <td *ngFor="let i = index of counter(9)" class="center">
               {{round.scoreCard[i + (playerOffset * 18) + 9].corScoreBrutto}}
             </td>
-            <th class="center">{{last9CorScorBrutto}}</th>
+            <th id="l9b" class="center">{{last9CorScorBrutto}}</th>
           </ng-container>
           <th id="b9b" class="center">
             {{first9CorScorBrutto + last9CorScorBrutto}}
