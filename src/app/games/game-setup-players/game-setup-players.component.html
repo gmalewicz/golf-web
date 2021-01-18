@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-3">
+    Number of players:
+  </div>
+  <div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(2)"> 2 players
+      </label>
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(3)"> 3 players
+      </label>
+      <label class="btn btn-outline-success active">
+        <input type="radio" name="players" id="player" autocomplete="off" checked (click)="onPlayers(4)"> 4 players
+      </label>
+    </div>
+  </div>
+</div>
