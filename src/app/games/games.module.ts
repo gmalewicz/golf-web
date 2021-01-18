@@ -18,6 +18,7 @@ import { HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { GameSetupPlayersComponent } from './game-setup-players/game-setup-players.component';
+import { GameSetupNicksComponent } from './game-setup-nicks/game-setup-nicks.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { GameSetupPlayersComponent } from './game-setup-players/game-setup-playe
     BbbGameComponent,
     LastGamesComponent,
     LastGamesDetailsComponent,
-    GameSetupPlayersComponent
+    GameSetupPlayersComponent,
+    GameSetupNicksComponent
   ],
   imports: [
     // BrowserModule,
