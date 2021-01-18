@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GamesComponent } from './games/games.component';
 import { HoleStakeGameComponent } from './hole-stake-game/hole-stake-game.component';
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
-import { HoleStakeSetupComponent } from './hole-stake-setup/hole-stake-setup.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
-import { BbbGameSetupComponent } from './bbb-game-setup/bbb-game-setup.component';
 import { BbbGameComponent } from './bbb-game/bbb-game.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { LastGamesComponent } from './last-games/last-games.component';
@@ -17,22 +15,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
-import { GameSetupPlayersComponent } from './game-setup-players/game-setup-players.component';
-import { GameSetupNicksComponent } from './game-setup-nicks/game-setup-nicks.component';
+import { GameSetupComponent } from './game-setup/game-setup.component';
+
 
 @NgModule({
   declarations: [
     GamesComponent,
-    HoleStakeSetupComponent,
     HoleStakeGameComponent,
     HoleStakeRulesComponent,
     BbbGameRulesComponent,
-    BbbGameSetupComponent,
     BbbGameComponent,
     LastGamesComponent,
     LastGamesDetailsComponent,
-    GameSetupPlayersComponent,
-    GameSetupNicksComponent
+    GameSetupComponent
   ],
   imports: [
     // BrowserModule,
