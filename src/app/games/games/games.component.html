@@ -9,8 +9,8 @@
   <tbody>
     <tr>
       <td>
-        <a [routerLink]="['holeStakeSetup']">
-          <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
+        <a href="#" routerLink="gameSetup" [state]="{ data: { game: 1 } }">
+            <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
         </a>
       </td>
       <td>Hole Stake</td>
@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <td>
-        <a [routerLink]="['bbbSetup']">
+        <a href="#" routerLink="gameSetup" [state]="{ data: { game: 2 } }">
           <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
         </a>
       </td>

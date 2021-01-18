@@ -1,3 +1,45 @@
+<div>
+  <h2>{{gameTitle}}</h2>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-3">
+    Number of players:
+  </div>
+  <div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(2)"> 2 players
+      </label>
+      <label class="btn btn-outline-success">
+        <input type="radio" name="players" id="player" autocomplete="off" (click)="onPlayers(3)"> 3 players
+      </label>
+      <label class="btn btn-outline-success active">
+        <input type="radio" name="players" id="player" autocomplete="off" checked (click)="onPlayers(4)"> 4 players
+      </label>
+    </div>
+  </div>
+</div>
+<br />
+
+<div class="row">
+  <div class="col-sm-3">
+    Stake:
+  </div>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-outline-success active">
+      <input type="radio" name="stake" id="stake_3" autocomplete="off" checked (click)="onStake(0)">{{stakes[0]}}
+    </label>
+    <label class="btn btn-outline-success">
+      <input type="radio" name="stake" id="stake_6" autocomplete="off" (click)="onStake(1)">{{stakes[1]}}
+    </label>
+    <label class="btn btn-outline-success">
+      <input type="radio" name="stake" id="stake_9" autocomplete="off" (click)="onStake(2)">{{stakes[2]}}
+    </label>
+  </div>
+</div>
+<br/>
+
 <form [formGroup]="nickSetupForm">
   <div class="form-group">
     <label for="player1">Player 1 nick: </label>
