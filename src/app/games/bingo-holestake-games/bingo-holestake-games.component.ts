@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertService, AuthenticationService } from '@/_services';
-import { Router } from '@angular/router';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { AlertService, AuthenticationService } from '@/_services';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { Game } from '../_models';
 import { GameHttpService } from '../_services';
 
 @Component({
-  selector: 'app-bbb-game',
-  templateUrl: './bbb-game.component.html',
-  styleUrls: ['./bbb-game.component.css']
+  selector: 'app-bingo-holestake-games',
+  templateUrl: './bingo-holestake-games.component.html',
+  styleUrls: ['./bingo-holestake-games.component.css']
 })
-export class BbbGameComponent implements OnInit {
+export class BingoHolestakeGamesComponent implements OnInit {
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
@@ -28,6 +29,10 @@ export class BbbGameComponent implements OnInit {
   score: number[];
   playerNicks: string[];
   payment: number[];
+  // 1 - hole stake
+  // 2 - bingo bango bongo
+  gameType: number;
+  gameTile: string;
 
   constructor(private gameHttpService: GameHttpService,
               private alertService: AlertService,
@@ -42,33 +47,51 @@ export class BbbGameComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
-
+      this.loading = false;
       this.players = history.state.data.playersNo;
       this.stake = history.state.data.stake;
       this.playerNicks = history.state.data.players;
+      this.gameType = history.state.data.gameType;
       this.holes = Array(18).fill(0).map((x, i) => i + 1);
       this.currentHole = 1;
-      this.rowResult = Array(this.players).fill(0);
-      this.editResult = Array(this.players).fill(0);
-      this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(0));
       this.completedStatus = Array(18).fill('No');
       this.completedStatus[0] = 'Confirm';
       this.editHole = -1;
       this.score = Array(this.players).fill(0);
-      this.payment = Array(this.players).fill(0);
+      if (this.gameType === 1) {
+        this.rowResult = Array(this.players).fill(1);
+        this.editResult = Array(this.players).fill(1);
+        this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(1));
+        this.gameTile = 'Hole Stake game - stake:';
+      } else {
+        this.rowResult = Array(this.players).fill(0);
+        this.editResult = Array(this.players).fill(0);
+        this.gameResult = new Array(18).fill(new Array(this.players)).map((x) => x.fill(0));
+        this.payment = Array(this.players).fill(0);
+        this.gameTile = 'Bingo, Bango, Bongo game - stake:';
+      }
     }
   }
 
   onCompleted(holeIdx: number): void {
 
-    // not allow complete the hole without the winner
-    if (this.rowResult.reduce((p, n) => p + n) < 2 || this.rowResult.reduce((p, n) => p + n) > 3) {
-      return;
+    if (this.gameType === 1) {
+      // not allow complete the hole without the winner
+      if  (!this.rowResult.includes(1)) {
+        return;
+      }
+      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
+      // console.log(this.gameResult);
+      this.rowResult.fill(1);
+    } else {
+      if (this.rowResult.reduce((p, n) => p + n) < 2 || this.rowResult.reduce((p, n) => p + n) > 3) {
+        return;
+      }
+      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
+      // console.log(this.gameResult);
+      this.rowResult.fill(0);
     }
 
-    this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
-    // console.log(this.gameResult);
-    this.rowResult.fill(0);
     this.completedStatus[holeIdx] = 'Done';
 
     this.currentHole++;
@@ -76,21 +99,39 @@ export class BbbGameComponent implements OnInit {
       this.completedStatus[holeIdx + 1] = 'Confirm';
     }
 
-    this.calculateScoreAndPayment();
+    if (this.gameType === 1) {
+      this.calculateScore();
+    } else {
+      this.calculateScoreAndPayment();
+    }
   }
 
   onEdit(holeIdx: number): void {
 
     if (this.completedStatus[holeIdx] === 'Edit') {
 
-      // not allow complete the hole without the winner
-      if (this.editResult.reduce((p, n) => p + n) < 2 || this.editResult.reduce((p, n) => p + n) > 3) {
-        return;
+      if (this.gameType === 1) {
+
+        if  (!this.editResult.includes(1)) {
+          return;
+        }
+
+      } else {
+        // not allow complete the hole without the winner
+        if (this.editResult.reduce((p, n) => p + n) < 2 || this.editResult.reduce((p, n) => p + n) > 3) {
+          return;
+        }
       }
+
+
       this.completedStatus[holeIdx] = 'Done';
       this.editHole = -1;
       this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.editResult[i]);
-      this.calculateScoreAndPayment();
+      if (this.gameType === 1) {
+        this.calculateScore();
+      } else {
+        this.calculateScoreAndPayment();
+      }
     } else if (this.editHole === -1) {
       this.editResult = Array(this.players).fill(0).map((x, i) => this.gameResult[holeIdx][i]);
       // console.log(this.editResult);
@@ -109,12 +150,43 @@ export class BbbGameComponent implements OnInit {
     }
 
     // console.log('player: ' + player + ' current result: ' + updArray);
-
-    if (updArray[player] === 3) {
-      updArray[player] = 0;
+    if (this.gameType === 1) {
+      if (updArray[player] === this.players) {
+        updArray[player] = 1;
+      } else {
+        updArray[player]++;
+      }
     } else {
-      updArray[player]++;
+      if (updArray[player] === 3) {
+        updArray[player] = 0;
+      } else {
+        updArray[player]++;
+      }
     }
+  }
+
+  calculateScore() {
+    this.score = Array(this.players).fill(0);
+    this.gameResult.forEach((hole) => {
+        // first find number of winners
+        let winnersCnt = 0;
+        hole.forEach((plScore) => {if (plScore === 1) { winnersCnt++; }});
+        let winnerAmt = 0;
+        let looserAmt = 0;
+        // than calculate winner amount
+        if (winnersCnt < this.players) {
+          winnerAmt = this.stake / winnersCnt;
+        }
+        // console.log('winnerAmout: ' + winnerAmt);
+        // last calculate looser amount
+        if (this.players - winnersCnt > 0) {
+          looserAmt = -this.stake / (this.players - winnersCnt);
+          // console.log('looserAmout: ' + looserAmt);
+        }
+        // console.log('core: ' + this.score);
+        // update scores
+        hole.forEach((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
+    });
   }
 
   calculateScoreAndPayment() {
@@ -169,7 +241,7 @@ export class BbbGameComponent implements OnInit {
 
     const game: Game = {
 
-      gameId: 2,
+      gameId: this.gameType,
       stake: this.stake,
       player: this.authenticationService.currentPlayerValue,
       gameDate: new Date().toISOString(),
@@ -180,15 +252,14 @@ export class BbbGameComponent implements OnInit {
       }
     };
 
-    this.gameHttpService.addGame(game).subscribe(data => {
-      this.alertService.success('The game has been successfully saved', true);
-      this.router.navigate(['/']);
-    },
-      error => {
-        this.alertService.error('Saving game failed', true);
-        this.loading = false;
-        this.router.navigate(['/']);
-    });
+    this.gameHttpService.addGame(game).pipe(
+      tap(
+        () => {
+          this.alertService.success('The game has been successfully saved', true);
+          this.loading = false;
+          this.router.navigate(['/']);
+        })
+    ).subscribe();
   }
 
   onCancel() {
@@ -204,4 +275,5 @@ export class BbbGameComponent implements OnInit {
       this.dialogRef = null;
     });
   }
+
 }

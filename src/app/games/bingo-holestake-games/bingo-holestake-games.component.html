@@ -1,5 +1,5 @@
 <div>
-  <h3>Bingo, Bango, Bongo: stake {{stake}}</h3>
+  <h3>{{gameTile}}&nbsp;{{stake}}</h3>
 </div>
 <p></p>
 <table id="holeStake-tbl" class="table" aria-describedby="BBB game">
@@ -87,7 +87,7 @@
       <td *ngIf="players > 2">{{score[2]}}</td>
       <td *ngIf="players > 3">{{score[3]}}</td>
     </tr>
-    <tr [ngClass]="'score'">
+    <tr [ngClass]="'score'" *ngIf="gameType === 2">
       <td>Payement</td>
       <td *ngIf="payment[0] != 0">{{payment[0] | number: '1.1-2'}}</td>
       <td *ngIf="payment[0] === 0">WIN</td>
@@ -110,4 +110,5 @@
     Save
   </button>
 </div>
+
 

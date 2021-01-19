@@ -14,7 +14,7 @@ export class GameSetupComponent implements OnInit {
   // 1 - hole stake
   // 2 - bingo bango bongo
   game: number;
-  gameType: string;
+  gameType: number;
   gameTitle: string;
   stakes: number[];
 
@@ -36,11 +36,11 @@ export class GameSetupComponent implements OnInit {
 
       this.game = history.state.data.game;
       if (this.game === 1) {
-        this.gameType = 'holeStakeGame';
+        this.gameType = 1;
         this.gameTitle = 'Hole Stake Game Set Up';
         this.stakes = [3, 6, 9];
       } else {
-        this.gameType = 'bbbGame';
+        this.gameType = 2;
         this.gameTitle = 'Bingo, Bango, Bongo Set Up';
         this.stakes = [0.3, 0.6, 0.9];
 
@@ -89,11 +89,12 @@ export class GameSetupComponent implements OnInit {
       playerNicks.push(this.f.player4.value);
     }
 
-    this.router.navigate([this.gameType], {
+    this.router.navigate(['bingoHolestakeGames'], {
       relativeTo: this.route.parent,
       state: {  data: { playersNo: this.players,
                         stake: this.stake,
-                        players: playerNicks } }
+                        players: playerNicks,
+                        gameType: this.gameType } }
     });
   }
 
