@@ -9,8 +9,7 @@ import { GameHttpService } from '../_services';
 
 @Component({
   selector: 'app-bingo-holestake-games',
-  templateUrl: './bingo-holestake-games.component.html',
-  styleUrls: ['./bingo-holestake-games.component.css']
+  templateUrl: './bingo-holestake-games.component.html'
 })
 export class BingoHolestakeGamesComponent implements OnInit {
 
