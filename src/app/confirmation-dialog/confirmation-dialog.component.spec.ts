@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+
+
+
 
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
@@ -8,7 +13,17 @@ describe('ConfirmationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationDialogComponent ]
+      declarations: [ ConfirmationDialogComponent ],
+      imports: [
+        MatDialogModule,
+        ReactiveFormsModule,
+      ],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {}
+        }
+     ],
     })
     .compileComponents();
   }));

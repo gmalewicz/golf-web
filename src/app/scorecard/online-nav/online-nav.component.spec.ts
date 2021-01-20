@@ -16,6 +16,9 @@ describe('OnlineNavComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OnlineNavComponent);
     component = fixture.componentInstance;
+    component.curHoleStrokes = [1];
+    component.curPlayerIdx = 0;
+    component.onlineRounds = [{putts: false, penalties: false, matchPlay: false}];
     fixture.detectChanges();
   });
 

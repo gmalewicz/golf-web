@@ -14,7 +14,6 @@ import { HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { GameSetupComponent } from './game-setup/game-setup.component';
-import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-holestake-games.component';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-hole
     LastGamesComponent,
     LastGamesDetailsComponent,
     GameSetupComponent,
-    BingoHolestakeGamesComponent
   ],
   imports: [
     // BrowserModule,

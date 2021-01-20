@@ -17,6 +17,7 @@ export class LastGamesDetailsComponent implements OnInit {
   mailIt: boolean;
   submitted: boolean;
   loading: boolean;
+  display: boolean;
 
   public mailItForm: FormGroup;
 
@@ -35,10 +36,10 @@ export class LastGamesDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+      this.display = false;
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
-
       this.mailIt = false;
       this.submitted = false;
       this.loading = false;
@@ -46,6 +47,7 @@ export class LastGamesDetailsComponent implements OnInit {
       this.mailItForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]]
       });
+      this.display = true;
     }
   }
 

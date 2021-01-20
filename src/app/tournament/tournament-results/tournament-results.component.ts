@@ -42,9 +42,7 @@ export class TournamentResultsComponent implements OnInit {
       this.tournament = history.state.data.tournament;
       this.playerId = this.authenticationService.currentPlayerValue.id;
 
-
       this.tournamentHttpService.getTournamentResults(this.tournament.id).subscribe((retTournamentResults: TournamentResult[]) => {
-
         this.tournamentResults = retTournamentResults;
         this.tournamentRounds = Array(this.tournamentResults.length);
         this.displayRound = Array(this.tournamentResults.length).fill(false);
