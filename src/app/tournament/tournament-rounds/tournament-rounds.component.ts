@@ -33,11 +33,7 @@ export class TournamentRoundsComponent implements OnInit {
       this.tournament = history.state.data.tournament;
 
       this.tournamentHttpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
-        // console.log('test');
         this.rounds = retRounds;
-      // },
-      //  (error: HttpErrorResponse) => {
-      //    // this.alertService.error(error.error.message, false);
       });
     }
   }

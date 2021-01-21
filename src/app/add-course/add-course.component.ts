@@ -66,7 +66,7 @@ export class AddCourseComponent implements OnInit {
         teeTypeDropDown: ['', [Validators.required]],
         nbrHolesDropDown: ['', [Validators.required]]
       });
-
+      console.log('dupa');
       // initialize all buttons for net selected
       this.parSelectorActive = Array(4).fill({ active: false });
       this.siSelectorActive = Array(18).fill({ active: false });

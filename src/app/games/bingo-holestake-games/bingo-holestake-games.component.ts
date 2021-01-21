@@ -35,18 +35,18 @@ export class BingoHolestakeGamesComponent implements OnInit {
 
   constructor(private gameHttpService: GameHttpService,
               private alertService: AlertService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private router: Router,
               public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-
+    console.log(this.authenticationService.currentPlayerValue);
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
-      this.loading = false;
+      console.log(history.state.data);
       this.players = history.state.data.playersNo;
       this.stake = history.state.data.stake;
       this.playerNicks = history.state.data.players;

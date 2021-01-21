@@ -80,7 +80,6 @@ export class RoundViewMPComponent implements OnInit {
                         this.holeHCP,
                         this.round.course);
     });
-
     // console.log(this.holeHCP);
 
     this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
