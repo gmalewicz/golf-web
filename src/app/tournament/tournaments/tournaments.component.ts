@@ -17,7 +17,7 @@ export class TournamentsComponent implements OnInit {
   tournaments: Tournament[];
 
   constructor(private tournamentHttpService: TournamentHttpService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private router: Router) {}
 
   ngOnInit(): void {
@@ -26,7 +26,6 @@ export class TournamentsComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
-      console.log(1);
       this.faSearchPlus = faSearchPlus;
       this.tournamentHttpService.getTournaments().pipe(
         tap(

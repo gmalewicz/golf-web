@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GamesComponent } from './games/games.component';
 import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.component';
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
@@ -13,7 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
+import { CommonModule } from '@angular/common';
 import { GameSetupComponent } from './game-setup/game-setup.component';
+import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-holestake-games.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { GameSetupComponent } from './game-setup/game-setup.component';
     LastGamesComponent,
     LastGamesDetailsComponent,
     GameSetupComponent,
+    BingoHolestakeGamesComponent
   ],
   imports: [
     // BrowserModule,

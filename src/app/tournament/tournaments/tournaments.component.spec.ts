@@ -1,11 +1,10 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
-
 import { TournamentsComponent } from './tournaments.component';
 
 describe('TournamentsComponent', () => {
@@ -18,25 +17,41 @@ describe('TournamentsComponent', () => {
       imports: [
         HttpClientModule,
         routing,
+        FontAwesomeModule
       ],
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        TournamentHttpService
+        TournamentHttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    //localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1}]));
     fixture = TestBed.createComponent(TournamentsComponent);
     component = fixture.componentInstance;
-    component.tournaments = [{id: 1, name: 'test', startDate: '2020/10/10', endDate: '2020/10/10'}];
+    spyOnProperty(component.authenticationService , 'currentPlayerValue').and.returnValue({nick: 'test', id: 1});
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should verify first table row ', (done) => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      expect(tableRows.length).toBe(7);
+      // Header row
+      const headerRow = tableRows[0];
+      expect(headerRow.cells[1].innerHTML).toBe('Name');
+      expect(headerRow.cells[2].innerHTML).toBe('Start Date');
+      expect(headerRow.cells[3].innerHTML).toBe('End Date');
+      // Data rows
+      const row1 = tableRows[1];
+      expect(row1.cells[1].innerHTML).toBe('Elkner Cup');
+      expect(row1.cells[2].innerHTML).toBe('Jun 10, 2020');
+      expect(row1.cells[3].innerHTML).toBe('Jun 15, 2020');
+      // Test more rows here..
+      done();
+    });
   });
 });

@@ -1,5 +1,3 @@
-import { AuthenticationService } from './../../_services/authentication.service';
-/* tslint:disable:no-unused-variable */
 import { routing } from '@/app.routing';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
