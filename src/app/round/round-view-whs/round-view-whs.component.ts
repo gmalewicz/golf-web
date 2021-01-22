@@ -1,6 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { Round } from '@/_models';
-import { HttpService} from '@/_services';
 
 @Component({
   selector: 'app-round-view-whs',
@@ -33,7 +32,7 @@ export class RoundViewWHSComponent implements OnInit {
 
   display: boolean;
 
-  constructor(private httpService: HttpService) { }
+  constructor() { }
 
   ngOnInit(): void {
 
@@ -156,19 +155,4 @@ export class RoundViewWHSComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
-
-  /*
-  calculateStyle(i: number) {
-
-    if (i >= 9 && this.round.player[this.playerOffset].roundDetails.ninesFull === 1) {
-        return 'grey';
-    }
-
-    if (i < 9 && this.round.player[this.playerOffset].roundDetails.ninesFull === 2) {
-      return 'grey';
-    }
-
-    return '';
-  }
-  */
 }
