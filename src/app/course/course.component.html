@@ -32,8 +32,12 @@
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onShowTees()">
+    <button type="button" class="btn btn-success btn-showTees" (click)="onShowTees()">
       {{showTeesLbl}}
+    </button>
+    &nbsp;
+    <button *ngIf="authenticationService.currentPlayerValue.role === 0" type="button" class="btn btn-success btn-delete" (click)="delete()">
+      Delete
     </button>
   </div>
 </div>

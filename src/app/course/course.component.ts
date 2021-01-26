@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Hole, Tee, Course } from '@/_models';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService, AuthenticationService } from '@/_services';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-course',
@@ -30,7 +30,7 @@ export class CourseComponent implements OnInit {
 
   constructor(private httpService: HttpService,
               private alertService: AlertService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -111,15 +111,12 @@ export class CourseComponent implements OnInit {
 
     if (this.displayTees && this.tee.length === 0) {
 
-      this.httpService.getTees(this.course.id).subscribe(tee => {
-        // console.log(tee);
-        this.tee = tee;
-      },
-        error => {
-          this.alertService.error('Cannot get course tees', false);
-          this.loading = false;
-          this.router.navigate(['/']);
-        });
+      this.httpService.getTees(this.course.id).pipe(
+        tap(
+          (tee) => {
+            this.tee = tee;
+          })
+      ).subscribe();
     }
 
     if (this.displayTees) {
@@ -133,16 +130,13 @@ export class CourseComponent implements OnInit {
 
     this.loading = true;
 
-    this.httpService.deleteCourse(this.course.id).subscribe(courseId => {
-      // console.log('deleted course id: ' + courseId);
-      this.alertService.success('The course has been successfully deleted', true);
-
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error('Deleting the course failed', true);
-        this.loading = false;
-      });
-    this.router.navigate(['/']);
+    this.httpService.deleteCourse(this.course.id).pipe(
+      tap(
+        () => {
+          this.alertService.success('The course has been successfully deleted', true);
+          this.router.navigate(['/']);
+        })
+    ).subscribe();
   }
 
 }

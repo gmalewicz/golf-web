@@ -1,3 +1,4 @@
+import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { teeTypes } from '@/_models/tee';
 
@@ -5,7 +6,8 @@ export function getTestRound(): Round {
 
   return {
     course: {
-      name: 'Lisia Polana', par: 72, holes: [{ par: 4, number: 1, si: 1 },
+      id: 1, name: 'Lisia Polana', par: 72, holes: [
+      { par: 4, number: 1, si: 1 },
       { par: 4, number: 2, si: 2 },
       { par: 4, number: 3, si: 3 },
       { par: 4, number: 4, si: 4 },
@@ -44,23 +46,28 @@ export function getTestRound(): Round {
     { hole: 16, stroke: 1, pats: 0 },
     { hole: 17, stroke: 1, pats: 0 },
     { hole: 18, stroke: 1, pats: 0 },
-    {hole: 1, stroke: 1, pats: 0},
-    {hole: 2, stroke: 1, pats: 0},
-    {hole: 3, stroke: 1, pats: 0},
-    {hole: 4, stroke: 1, pats: 0},
-    {hole: 5, stroke: 1, pats: 0},
-    {hole: 6, stroke: 1, pats: 0},
-    {hole: 7, stroke: 1, pats: 0},
-    {hole: 8, stroke: 1, pats: 0},
-    {hole: 9, stroke: 1, pats: 0},
-    {hole: 10, stroke: 1, pats: 0},
-    {hole: 11, stroke: 1, pats: 0},
-    {hole: 12, stroke: 1, pats: 0},
-    {hole: 13, stroke: 1, pats: 0},
-    {hole: 14, stroke: 1, pats: 0},
-    {hole: 15, stroke: 1, pats: 0},
-    {hole: 16, stroke: 1, pats: 0},
-    {hole: 17, stroke: 1, pats: 0},
-    {hole: 18, stroke: 1, pats: 0}]
+    {hole: 1, stroke: 2, pats: 0},
+    {hole: 2, stroke: 2, pats: 0},
+    {hole: 3, stroke: 2, pats: 0},
+    {hole: 4, stroke: 2, pats: 0},
+    {hole: 5, stroke: 2, pats: 0},
+    {hole: 6, stroke: 2, pats: 0},
+    {hole: 7, stroke: 2, pats: 0},
+    {hole: 8, stroke: 2, pats: 0},
+    {hole: 9, stroke: 2, pats: 0},
+    {hole: 10, stroke: 2, pats: 0},
+    {hole: 11, stroke: 2, pats: 0},
+    {hole: 12, stroke: 2, pats: 0},
+    {hole: 13, stroke: 2, pats: 0},
+    {hole: 14, stroke: 2, pats: 0},
+    {hole: 15, stroke: 2, pats: 0},
+    {hole: 16, stroke: 2, pats: 0},
+    {hole: 17, stroke: 2, pats: 0},
+    {hole: 18, stroke: 2, pats: 0}]
   };
+}
+
+export function getTestCourse(): Course {
+
+  return getTestRound().course;
 }
