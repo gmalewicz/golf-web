@@ -46,7 +46,7 @@ export class AddCourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private alertService: AlertService) {
   }
 
@@ -66,7 +66,6 @@ export class AddCourseComponent implements OnInit {
         teeTypeDropDown: ['', [Validators.required]],
         nbrHolesDropDown: ['', [Validators.required]]
       });
-      console.log('dupa');
       // initialize all buttons for net selected
       this.parSelectorActive = Array(4).fill({ active: false });
       this.siSelectorActive = Array(18).fill({ active: false });
@@ -96,7 +95,6 @@ export class AddCourseComponent implements OnInit {
       this.generateLabelsAndData();
 
       this.display = true;
-
 
     }
   }
@@ -166,7 +164,7 @@ export class AddCourseComponent implements OnInit {
 
   selectPar(par: number) {
 
-    // console.log('Selected par: ' + par);
+    console.log('Selected par: ' + par);
 
     // clear error
     this.alertService.clear();
@@ -250,6 +248,7 @@ export class AddCourseComponent implements OnInit {
 
   clear() {
 
+    console.log(this.f.courseName.value);
     // clear error
     this.alertService.clear();
 
@@ -283,7 +282,7 @@ export class AddCourseComponent implements OnInit {
     this.f.teeTypeDropDown.reset();
   }
 
-  allDataSet(): boolean {
+  private allDataSet(): boolean {
 
     // verify if all pars are set
     if (this.pars.includes(0)) {

@@ -5,6 +5,12 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    files: [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css",
+      "node_modules/jquery/dist/jquery.min.js",
+      "node_modules/primeng/resources/themes/nova/theme.css",
+      "node_modules/primeng/resources/primeng.min.css"
+    ],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),

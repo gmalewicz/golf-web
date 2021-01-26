@@ -66,7 +66,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
-          <input type="radio" (click)="selectHole(i)"> {{ i + 1 }}
+          <input class="input-hole" type="radio" (click)="selectHole(i)"> {{ i + 1 }}
         </label>
       </div>
     </div>
@@ -79,7 +79,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="parSelectorActive[i]">
-          <input type="radio" value= {{par}} (click)="selectPar(par)"> {{ par }}
+          <input class="input-par" type="radio" value= {{par}} (click)="selectPar(par)"> {{ par }}
         </label>
       </div>
     </div>
@@ -92,7 +92,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="siSelectorActive[i]">
-          <input type="radio" autocomplete="off" (click)="selectSi(i)"> {{ i + 1 }}
+          <input class="input-si" type="radio" autocomplete="off" (click)="selectSi(i)"> {{ i + 1 }}
         </label>
       </div>
     </div>
@@ -182,7 +182,7 @@
       </div>
     </div>
     <div class="form-group">
-      <button type="button" class="btn btn-success" (click)="addTee()">
+      <button type="button" class="btn btn-success btn-tee" (click)="addTee()">
         Add Tee
       </button>
       </div>
@@ -194,11 +194,11 @@
         Cancel
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success" (click)="clear()">
+      <button type="button" class="btn btn-success btn-clear" (click)="clear()">
         Clear
       </button>
       &nbsp;
-      <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
+      <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Save
       </button>
