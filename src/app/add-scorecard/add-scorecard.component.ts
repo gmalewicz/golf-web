@@ -9,6 +9,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -35,7 +36,7 @@ export class AddScorecardComponent implements OnInit {
   public barChartData: ChartDataSets[];
   public barChartOptions: ChartOptions;
 
-  updatingHhole: number;
+  updatingHole: number;
   public strokeButtons: number[];
   public patButtons: number[];
 
@@ -56,16 +57,18 @@ export class AddScorecardComponent implements OnInit {
               private formBuilder: FormBuilder,
               private router: Router,
               private alertService: AlertService,
-              public dialog: MatDialog) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
 
     if (this.authenticationService.currentPlayerValue === null) {
+
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
 
+      // console.log(this.authenticationService.currentPlayerValue);
       this.addScorecardForm = this.formBuilder.group({
         date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
         teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
@@ -91,7 +94,7 @@ export class AddScorecardComponent implements OnInit {
       this.barChartType = 'bar';
       this.barChartLegend = true;
       this.barChartLabels = [];
-      this.updatingHhole = 0;
+      this.updatingHole = 0;
       this.strokeButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
       this.patButtons = [0, 1, 2, 3, 4, 5];
       this.strokes = [];
@@ -120,6 +123,7 @@ export class AddScorecardComponent implements OnInit {
       barData.push(this.course.holes[hole - 1].par);
       // in case of edit score card
       if (this.round != null) {
+        console.log('dupa');
         this.strokes.push(this.round.scoreCard[hole - 1].stroke );
         this.putts.push(this.round.scoreCard[hole - 1].pats);
         updatedPats.push(this.putts[hole - 1]);
@@ -181,31 +185,29 @@ export class AddScorecardComponent implements OnInit {
 
   getRoundData() {
 
-  // get list of holes and tees and update course object using received data
-  combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
-    this.httpService.getTees(this.route.snapshot.params.courseId)]).subscribe(([retHoles, retTees]) => {
+    // get list of holes and tees and update course object using received data
+    combineLatest([this.httpService.getHoles(this.route.snapshot.params.courseId),
+      this.httpService.getTees(this.route.snapshot.params.courseId)]).pipe(tap(
+        ([retHoles, retTees]) => {
 
-      this.course = {
-        id: this.route.snapshot.params.courseId,
-        name: this.route.snapshot.params.courseName,
-        par: this.route.snapshot.params.coursePar,
-        holes: retHoles,
-        tees: retTees
-      };
+        this.course = {
+          id: this.route.snapshot.params.courseId,
+          name: this.route.snapshot.params.courseName,
+          par: this.route.snapshot.params.coursePar,
+          holes: retHoles,
+          tees: retTees
+        };
 
-      this.first9Par = this.course.holes.filter((h) => {if (h.number <= 9) { return h.par; }})
-              .map(h => h.par ).reduce((p, c) => p + c);
+        this.first9Par = this.course.holes.filter((h) => {if (h.number <= 9) { return h.par; }})
+                .map(h => h.par ).reduce((p, c) => p + c);
 
-      // create tee labels
-      const teeType = ['1-18', '1-9', '10-18'];
-      retTees.forEach((t, i) => this.teeOptions.push({label: t.tee + ' ' + teeType[t.teeType], value: t.id}));
-
-      this.generateLabelsAndData();
-      this.display = true;
-    },
-    (error: HttpErrorResponse) => {
-      this.alertService.error(error.error.message, false);
-    });
+        // create tee labels
+        const teeType = ['1-18', '1-9', '10-18'];
+        retTees.forEach((t, i) => this.teeOptions.push({label: t.tee + ' ' + teeType[t.teeType], value: t.id}));
+        this.generateLabelsAndData();
+        this.display = true;
+      })
+    ).subscribe();
   }
 
   clear() {
@@ -304,31 +306,26 @@ export class AddScorecardComponent implements OnInit {
       round.course.holes = undefined;
 
 
-      this.httpService.addRound(round).subscribe(data => {
-        // console.log('round added');
-        this.display = false;
-        this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
-        this.router.navigate(['/']);
-      },
-      (error: HttpErrorResponse) => {
-        // console.log(error.error.message);
-        this.alertService.error(error.error.message, true);
-        this.loading = false;
-      });
+      this.httpService.addRound(round).pipe(tap(
+        () => {
+          // console.log('round added');
+          this.display = false;
+          this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
+          this.router.navigate(['/']);
+        })
+      ).subscribe();
     } else {
       this.round.roundDate = this.f.date.value + ' ' + this.f.teeTime.value;
       // this.round.scoreCard = scoreCard;
 
-      this.httpService.updateRound(this.round).subscribe(data => {
-        // console.log('round updated');
-        this.display = false;
-        this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
-        this.router.navigate(['/']);
-      },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, true);
-        this.loading = false;
-      });
+      this.httpService.updateRound(this.round).pipe(tap(
+        () => {
+          // console.log('round updated');
+          this.display = false;
+          this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
+          this.router.navigate(['/']);
+        })
+      ).subscribe();
     }
   }
 
@@ -337,7 +334,7 @@ export class AddScorecardComponent implements OnInit {
     this.alertService.clear();
 
     // console.log('selected hole: ' + hole);
-    this.updatingHhole = hole;
+    this.updatingHole = hole;
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
 
@@ -363,7 +360,7 @@ export class AddScorecardComponent implements OnInit {
     // console.log('selected stroke: ' + stroke);
 
      // number of pats cannot be greater than number of strokes
-    if (stroke < this.putts[this.updatingHhole - 1]) {
+    if (stroke < this.putts[this.updatingHole - 1]) {
       this.alertService.error('Number of putts cannot be greater than number of strokes', false);
       return;
     }
@@ -379,8 +376,9 @@ export class AddScorecardComponent implements OnInit {
     }
     // console.log('updated strokes: ' + updatedStrokes);
 
-    this.strokes[this.updatingHhole - 1] = stroke;
-    updatedStrokes[this.updatingHhole - 1] = stroke - this.putts[this.updatingHhole - 1];
+    this.strokes[this.updatingHole - 1] = stroke;
+
+    updatedStrokes[this.updatingHole - 1] = stroke - this.putts[this.updatingHole - 1];
 
     this.barChartData[1].data = updatedStrokes;
 
@@ -419,7 +417,7 @@ export class AddScorecardComponent implements OnInit {
     // console.log('selected pat: ' + pat);
 
     // number of pats cannot be greater than number of strokes
-    if (pat > this.strokes[this.updatingHhole - 1]) {
+    if (pat > this.strokes[this.updatingHole - 1]) {
       this.alertService.error('Number of pats cannot be greater than number of strokes', false);
       return;
     }
@@ -435,10 +433,10 @@ export class AddScorecardComponent implements OnInit {
 
     }
 
-    this.putts[this.updatingHhole - 1] = pat;
-    updatedPats[this.updatingHhole - 1] = pat;
+    this.putts[this.updatingHole - 1] = pat;
+    updatedPats[this.updatingHole - 1] = pat;
 
-    updatedStrokes[this.updatingHhole - 1] = this.strokes[this.updatingHhole - 1] - pat;
+    updatedStrokes[this.updatingHole - 1] = this.strokes[this.updatingHole - 1] - pat;
 
     this.barChartData[1].data = updatedStrokes;
     this.barChartData[2].data = updatedPats;

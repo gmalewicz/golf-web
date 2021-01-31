@@ -65,7 +65,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
-          <input type="radio" (click)="selectHole(hole)"> {{ hole }}
+          <input type="radio" class="radio-hole" (click)="selectHole(hole)"> {{ hole }}
         </label>
       </div>
     </div>
@@ -78,7 +78,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[i]">
-          <input type="radio" (click)="selectStroke(stroke)"> {{ stroke }}
+          <input type="radio" class="radio-stroke" (click)="selectStroke(stroke)"> {{ stroke }}
         </label>
       </div>
     </div>
@@ -91,7 +91,7 @@
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         <label *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="patSelectorActive[i]">
-          <input type="radio" (click)="selectPat(pat)"> {{ pat }}
+          <input type="radio" class="radio-put" (click)="selectPat(pat)"> {{ pat }}
         </label>
       </div>
     </div>
@@ -99,16 +99,16 @@
   <div>
     <br />
     <div class="form-group">
-    <button [disabled]="loading" class="btn btn-success" (click)="onSubmit()">
+    <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Save
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="clear()">
+    <button type="button" class="btn btn-success btn-clear" (click)="clear()">
       Clear
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onCancel()">
+    <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()">
       Cancel
     </button>
     </div>
