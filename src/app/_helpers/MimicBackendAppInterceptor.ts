@@ -45,6 +45,16 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
+    } else if (req.url.endsWith('rest/Round') && (req.method === 'POST')) {
+      return new Observable<any> (observer => {
+        observer.next(new HttpResponse<any>({status: 200}));
+        observer.complete();
+      });
+    } else if (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH')) {
+      return new Observable<any> (observer => {
+        observer.next(new HttpResponse<any>({status: 200}));
+        observer.complete();
+      });
     }
     // pass through other requests.
     return next.handle(req);

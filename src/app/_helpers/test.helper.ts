@@ -1,6 +1,8 @@
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { teeTypes } from '@/_models/tee';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { of } from 'rxjs';
 
 export function getTestRound(): Round {
 
@@ -70,4 +72,20 @@ export function getTestRound(): Round {
 export function getTestCourse(): Course {
 
   return getTestRound().course;
+}
+
+export let authenticationServiceStub: Partial<AuthenticationService>;
+
+authenticationServiceStub = {
+  currentPlayerValue: {nick: 'test', id: 1}
+};
+
+export class MatDialogMock {
+
+    open() {
+        return {
+            afterClosed: () => of({ name: 'some object' }),
+            componentInstance: {confirmMessage: ''}
+        };
+    }
 }
