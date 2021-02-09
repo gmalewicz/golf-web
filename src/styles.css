@@ -3,3 +3,38 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.blackDot {
+  height: 7px;
+  width: 7px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.redDot {
+  height: 7px;
+  width: 7px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dotSeparator {
+
+  width: 2px;
+  height: 2px;
+  display: inline-block;
+}
+
+.supsub {position: absolute}
+.subscript {display:block; position:relative; left:2px; top: -20px}
+.superscript {display:block; position:relative; left:2px; top: -5px}
+
+.centerImg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+

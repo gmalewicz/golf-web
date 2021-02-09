@@ -113,12 +113,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       // zero putts in case tracking is not required
       if (this.onlineRounds[0].putts) {
         this.curHolePutts = new Array(this.onlineRounds.length).fill(2);
-        this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(2));
         this.puttSelectorActive[2] = ({ active: true });
       } else {
         this.curHolePutts = new Array(this.onlineRounds.length).fill(0);
-        this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
       }
+      this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
 
       this.getRoundData();
       // open web socket
@@ -186,9 +185,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.curHolePutts =  this.curHolePutts.map((s, idx) => this.putts[this.curHoleIdx][idx]);
     this.curHolePenalties =  this.curHolePenalties.map((s, idx) => this.penalties[this.curHoleIdx][idx]);
     // in case if stroke is 0 load par instead
-    this.curHoleStrokes = this.curHoleStrokes.map((s) => {
+    this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
         s = this.course.holes[holeIdx].par;
+        this.curHolePutts[idx] =  2;
         // console.log('s: ' + s);
       }
       return s;
@@ -395,6 +395,17 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         if (s === 0) {
           s = this.course.holes[this.curHoleIdx].par;
           // console.log('s: ' + s);
+        } else {
+          this.curHolePutts[idx] = this.putts[this.curHoleIdx][idx];
+          this.curHolePenalties[idx] = this.penalties[this.curHoleIdx][idx];
+
+          if (idx === 0) {
+            this.puttSelectorActive[2] = ({ active: false });
+            this.puttSelectorActive[this.curHolePutts[0]] = ({ active: true });
+            this.penaltySelectorActive[0] = ({ active: false });
+            this.penaltySelectorActive[this.curHolePenalties[0]] = ({ active: true });
+          }
+
         }
         return s;
       });
