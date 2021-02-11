@@ -15,10 +15,11 @@
     </button>
   </div>
 </div>
-<div *ngIf="onlineRounds[0].putts">
+<div *ngIf="onlineRounds[0].putts" class="">
   <br/>
   <div>
-    Putts:
+    Putts
+    <span class="blackDot"></span>
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
@@ -31,7 +32,8 @@
 <div *ngIf="onlineRounds[0].penalties">
   <br/>
   <div>
-    Penalties:
+    Penalties
+    <span class="redDot"></span>
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">

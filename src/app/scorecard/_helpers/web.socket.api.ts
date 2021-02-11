@@ -45,6 +45,8 @@ export class WebSocketAPI {
       // console.log('Initialize WebSocket Connection: ' + environment.WS_ENDPOINT);
       const ws = new SockJS(this.wsEndpointStr + this.authenticationService.currentPlayerValue.token);
       this.stompClient = Stomp.over(ws);
+      // turn off debug messages to console
+      this.stompClient.debug = null;
 
       // tslint:disable-next-line: variable-name
       const _this = this;

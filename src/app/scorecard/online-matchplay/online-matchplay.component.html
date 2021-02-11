@@ -27,13 +27,41 @@
           </td>
           <td [ngClass]="calculateStyle(0)">
             <span *ngIf="curHoleStrokes[0] > 0">{{curHoleStrokes[0]}}</span>
-            <span *ngIf="onlineRounds[0].putts">-{{curHolePutts[0]}}</span>
-            <span *ngIf="onlineRounds[0].penalties">-{{curHolePenalties[0]}}</span>
+            <span class="supsub">
+              <span class="superscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(curHolePutts[0])">
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+              <span class="subscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(curHolePenalties[0])">
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+            </span>
           </td>
           <td [ngClass]="calculateStyle(1)">
             <span *ngIf="curHoleStrokes[1] > 0">{{curHoleStrokes[1]}}</span>
-            <span *ngIf="onlineRounds[0].putts">-{{curHolePutts[1]}}</span>
-            <span *ngIf="onlineRounds[0].penalties">-{{curHolePenalties[1]}}</span>
+            <span class="supsub">
+              <span class="superscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(curHolePutts[1])">
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+              <span class="subscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(curHolePenalties[1])">
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+            </span>
           </td>
           <td>
             {{course.holes[curHoleIdx].par}}
@@ -81,12 +109,45 @@
             {{i + 1}}
           </td>
           <td>
-            <span *ngIf="stroke[0] > 0">{{stroke[0]}}-</span>({{holeHCP[0][i]}})<span *ngIf="stroke[0] > 0 && onlineRounds[0].putts">-{{putts[i][0]}}</span>
-            <span *ngIf="stroke[0] > 0 && onlineRounds[0].penalties">-{{penalties[i][0]}}</span>
+            <span *ngIf="stroke[0] > 0">
+              {{stroke[0]}}({{holeHCP[0][i]}})
+            </span>
+            <span class="supsub">
+              <span class="superscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(putts[i][0])">
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+              <span class="subscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(penalties[i][0])">
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+            </span>
           </td>
           <td>
-            <span *ngIf="stroke[1] > 0">{{stroke[1]}}-</span>({{holeHCP[1][i]}})<span *ngIf="stroke[1] > 0 && onlineRounds[0].putts">-{{putts[i][1]}}</span>
-            <span *ngIf="stroke[1] > 0 && onlineRounds[0].penalties">-{{penalties[i][1]}}
+            <span *ngIf="stroke[1] > 0">
+              {{stroke[1]}}({{holeHCP[1][i]}})
+            </span>
+            <span class="supsub">
+              <span class="superscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(putts[i][1])">
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
+              <span class="subscript">
+                <span class="dotSeparator"></span>
+                <span *ngFor="let i = index of counter(penalties[i][1])">
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              </span>
             </span>
           </td>
           <td>

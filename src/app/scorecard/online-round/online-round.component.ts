@@ -20,4 +20,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
               protected router: Router) {
     super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router);
   }
+
+  // helper function to provide verious arrays for html
+  counter(i: number) {
+    return new Array(i);
+  }
 }
