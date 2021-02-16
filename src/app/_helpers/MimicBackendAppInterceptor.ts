@@ -46,12 +46,27 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         observer.complete();
       });
     } else if ((req.url.endsWith('rest/Round') && (req.method === 'POST')) ||
-               (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH'))) {
+               (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH')) ||
+               (req.url.endsWith('rest/DeleteFavouriteCourse/1') && (req.method === 'POST'))
+               ) {
       return new Observable<any> (observer => {
         observer.next(new HttpResponse<any>({status: 200}));
         observer.complete();
       });
-    } 
+    } else if ((req.url.endsWith('rest/FavouriteCourses/1') && (req.method === 'GET')) ||
+               (req.url.endsWith('rest/SearchForCourse') && (req.method === 'POST')) ||
+               (req.url.endsWith('rest/FavouriteCourses/1') && (req.method === 'POST'))){
+      return new Observable(observer => {
+        observer.next(new HttpResponse<Array<any>>({body:
+
+          [
+            {id: 2, name: 'Lisia Polana', par: 72, holeNbr: 18}
+          ]
+
+        , status: 200}));
+        observer.complete();
+      });
+    }
     // pass through other requests.
     return next.handle(req);
   }

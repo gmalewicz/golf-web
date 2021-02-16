@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Courses } from '@/_models/courses';
 import { AlertService } from '@/_services/alert.service';
+import { FormBuilder, FormGroup} from '@angular/forms';
+import { HttpService } from '@/_services';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
   selector: 'app-courses',
@@ -20,9 +23,17 @@ export class CoursesComponent implements OnInit {
 
   courses: Courses;
 
-  constructor(private authenticationService: AuthenticationService,
+  loading: boolean;
+
+  public searchCourseForm: FormGroup;
+  // submitted: boolean;
+  // loading: boolean;
+
+  constructor(public authenticationService: AuthenticationService,
               private router: Router,
-              private alertService: AlertService) {
+              private formBuilder: FormBuilder,
+              private alertService: AlertService,
+              private httpService: HttpService) {
   }
 
   ngOnInit(): void {
@@ -34,12 +45,36 @@ export class CoursesComponent implements OnInit {
       this.parent = history.state.data.parent;
       this.selectedTab = 0;
       this.courses = {};
+      this.loading = false;
+
+      this.searchCourseForm = this.formBuilder.group({
+        courseName: ['']
+      });
     }
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.searchCourseForm.controls; }
 
   onTabClick(id: number) {
     this.alertService.clear();
     // console.log(id);
     this.selectedTab = id;
   }
+
+  onKey(event: any) {
+
+    // only if at least 3 letters have been provided
+    if (this.searchCourseForm.invalid || this.f.courseName.value.length < 3) {
+      return;
+    }
+    this.loading = true;
+    this.httpService.searchForCourse(this.f.courseName.value).pipe(
+      tap(
+        courses => {
+          this.loading = false;
+          this.courses.searchRes = courses;
+        })
+    ).subscribe();
+}
 }

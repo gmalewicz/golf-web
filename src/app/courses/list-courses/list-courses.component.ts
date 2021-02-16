@@ -46,8 +46,9 @@ export class ListCoursesComponent implements OnInit {
             this.courseLst = retCourses;
           })
       ).subscribe();
-    } else if  (this.selectedTab === 1 && this.courses.all === undefined) {
-
+    } else if  (this.selectedTab === 1) {
+      this.courseLst = this.courses.searchRes;
+    } else if  (this.selectedTab === 2 && this.courses.all === undefined) {
       this.httpService.getCourses().pipe(
         tap(
           retCourses => {

@@ -112,6 +112,11 @@ export class HttpService {
   deleteFromFavourites(course: Course, playerId: number): Observable<HttpResponse<null>> {
     return this.http.post<HttpResponse<null>>('rest/DeleteFavouriteCourse/' + playerId, course);
   }
+
+  searchForCourse(courseName: string): Observable<Array<Course>> {
+
+    return this.http.post<Array<Course>>('rest/SearchForCourse', {name: courseName});
+  }
 }
 
 
