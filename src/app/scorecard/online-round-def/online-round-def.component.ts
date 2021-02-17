@@ -1,6 +1,6 @@
 import { Course, Player, Tee } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { Component, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';

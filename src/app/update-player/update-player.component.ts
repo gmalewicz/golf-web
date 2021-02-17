@@ -48,7 +48,6 @@ export class UpdatePlayerComponent implements OnInit {
         password: ['', Validators.minLength(6)]
       });
 
-      // console.log('initialization');
       this.role = this.authenticationService.currentPlayerValue.role;
     }
   }

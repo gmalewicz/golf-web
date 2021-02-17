@@ -26,8 +26,6 @@ export class CoursesComponent implements OnInit {
   loading: boolean;
 
   public searchCourseForm: FormGroup;
-  // submitted: boolean;
-  // loading: boolean;
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
@@ -58,7 +56,6 @@ export class CoursesComponent implements OnInit {
 
   onTabClick(id: number) {
     this.alertService.clear();
-    // console.log(id);
     this.selectedTab = id;
   }
 

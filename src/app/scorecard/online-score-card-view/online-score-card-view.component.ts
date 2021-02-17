@@ -32,7 +32,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnDestroy(): void {
-    // console.log('destroy');
     if (this.webSocketAPI != null) {
       this.webSocketAPI._disconnect();
     }
@@ -131,12 +130,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
 
-          // console.log(sc);
-
           // calculate mp result
           if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
 
-            // console.log('inside: ' + sc.stroke);
             const result = sc.stroke - this.holeHCP[0][index] -
             (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
 
@@ -183,7 +179,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     onlineRound.last9score = 0;
 
     retScoreCardAPI.forEach(scoreCardAPI => {
-      // console.log(scoreCardAPI.hole - 1);
       onlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
       if (scoreCardAPI.hole < 10) {
         onlineRound.first9score += scoreCardAPI.stroke;
@@ -218,7 +213,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           idx--;
         }
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
-        // console.log(this.onlineScoreCard);
 
         // create pars for first and last 9
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
@@ -238,15 +232,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         retOnlineRounds.forEach(retOnlineRound => {
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
-          // const onlineScoreCards = Array(18).fill(null);
           retOnlineRound.scoreCardAPI = Array(18).fill(null);
-          // console.log('retScoreCardAPIs ' + retScoreCardAPI);
-          // console.log('retScoreCardAPI ' + retOnlineRound.scoreCardAPI);
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
           retScoreCardAPI.forEach(scoreCardAPI => {
-            // console.log(scoreCardAPI.hole - 1);
             retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
             if (scoreCardAPI.hole < 10) {
               retOnlineRound.first9score += scoreCardAPI.stroke;
@@ -323,16 +313,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
       this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole < 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p0 first 9 total: ' + this.onlineRounds[0].first9score);
       this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole < 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p1 first 9 total: ' + this.onlineRounds[1].first9score);
       this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p0 last 9 total: ' + this.onlineRounds[0].last9score);
       this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
       .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p1 last 9 total: ' + this.onlineRounds[1].last9score);
     }
   }
 
@@ -366,7 +352,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   handleLostConnection(lost: boolean) {
 
-    // console.log('Handling lost connection');
     this.router.navigate(['/']);
 
   }

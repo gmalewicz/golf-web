@@ -61,7 +61,6 @@ export class ListCoursesComponent implements OnInit {
     } else {
       this.courseLst = this.courses.all;
     }
-    // console.log(this.courseLst);
   }
 
   getIcon() {
@@ -81,7 +80,6 @@ export class ListCoursesComponent implements OnInit {
   onClickFavourite(course: Course) {
 
     if (this.selectedTab === 1) {
-      // course.favourite = true;
       if (!this.isInFavourites(course)) {
         this.httpService.addToFavouriteCourses(course, this.authenticationService.currentPlayerValue.id).pipe(
           tap(
@@ -100,7 +98,6 @@ export class ListCoursesComponent implements OnInit {
             this.alertService.success(course.name + ' removed from favourites.', true);
             this.courses.favourites = this.courses.favourites.filter(c => c.id !== course.id);
             this.courseLst = this.courses.favourites;
-            // console.log(this.favouriteCourses);
           })
       ).subscribe();
     }

@@ -33,8 +33,6 @@ export class RoundViewMPComponent implements OnInit {
 
   private calculateResults() {
 
-    // console.log(this.round.player);
-
     if (this.round.player[0].roundDetails === undefined) {
 
       this.httpService.getPlayersRoundDetails(this.round.id).pipe(tap(
@@ -71,15 +69,8 @@ export class RoundViewMPComponent implements OnInit {
                                                                         pl.roundDetails.teeType,
                                                                         this.round.course.par));
       }
-
-      // console.log(pl.roundDetails.courseHCP);
-     // calculateHoleHCP( index,
-     //                   pl.roundDetails.teeType,
-     //                   pl.roundDetails.courseHCP,
-     //                   this.holeHCP,
-     //                   this.round.course);
     });
-    // console.log(this.holeHCP);
+
     const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
     if (hcpDiff >= 0) {
       this.round.player[0].roundDetails.courseHCP = hcpDiff;
