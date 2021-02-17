@@ -31,6 +31,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   curPlayerIdx: number;
   curHoleIdx: number;
 
+
   // strokes, putts, penalties for the current hole
   curHoleStrokes: number[];
   curHolePutts: number[];
@@ -64,7 +65,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   // lost connection indicator
   lostConnection: boolean;
-
 
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
@@ -188,7 +188,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
         s = this.course.holes[holeIdx].par;
-        this.curHolePutts[idx] =  2;
+        if (this.onlineRounds[idx].putts) {
+          this.curHolePutts[idx] =  2;
+        }
         // console.log('s: ' + s);
       }
       return s;
@@ -336,6 +338,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   protected updateMPresults() {}
 
+  protected calculateMPHoleHCP() {}
+
   loadScoreCards() {
 
     const calls: Observable<OnlineScoreCard[]>[] = Array(this.onlineRounds.length);
@@ -343,9 +347,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     for (let i = 0; i < this.onlineRounds.length; i++) {
       // calculate course HCP for each player
       this.calculateHCP(i);
-
       calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRounds[i].id);
     }
+    this.calculateMPHoleHCP();
     // calls[0] = this.httpService.getOnlineScoreCard(this.onlineRounds[0].id);
     // console.log(calls);
 

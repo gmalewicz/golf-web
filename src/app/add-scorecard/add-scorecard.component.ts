@@ -123,7 +123,6 @@ export class AddScorecardComponent implements OnInit {
       barData.push(this.course.holes[hole - 1].par);
       // in case of edit score card
       if (this.round != null) {
-        console.log('dupa');
         this.strokes.push(this.round.scoreCard[hole - 1].stroke );
         this.putts.push(this.round.scoreCard[hole - 1].pats);
         updatedPats.push(this.putts[hole - 1]);

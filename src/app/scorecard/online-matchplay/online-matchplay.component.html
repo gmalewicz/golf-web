@@ -27,6 +27,7 @@
           </td>
           <td [ngClass]="calculateStyle(0)">
             <span *ngIf="curHoleStrokes[0] > 0">{{curHoleStrokes[0]}}</span>
+            <span *ngIf="curHoleStrokes[0] > 0 && holeHCP[0][curHoleIdx] > 0">({{holeHCP[0][curHoleIdx]}})</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -46,6 +47,7 @@
           </td>
           <td [ngClass]="calculateStyle(1)">
             <span *ngIf="curHoleStrokes[1] > 0">{{curHoleStrokes[1]}}</span>
+            <span *ngIf="curHoleStrokes[1] > 0 && holeHCP[1][curHoleIdx] > 0">({{holeHCP[1][curHoleIdx]}})</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -85,8 +87,14 @@
         <tr>
           <th id="empty"></th>
           <th id="hole">Hole</th>
-          <th id="p1r">{{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})</th>
-          <th id="p2r">{{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})</th>
+          <th id="p1r">
+            {{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})
+            <span *ngIf="hcpDiff > 0">&nbsp;+{{hcpDiff}} </span>
+          </th>
+          <th id="p2r">
+            {{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})
+            <span *ngIf="hcpDiff < 0">&nbsp;+{{hcpDiff}} </span>
+          </th>
           <th id="winner">Winner</th>
           <th id="par">Par</th>
           <th id="si">Si</th>
@@ -109,9 +117,8 @@
             {{i + 1}}
           </td>
           <td>
-            <span *ngIf="stroke[0] > 0">
-              {{stroke[0]}}({{holeHCP[0][i]}})
-            </span>
+            <span *ngIf="stroke[0] > 0">{{stroke[0]}}</span>
+            <span *ngIf="stroke[0] > 0 && holeHCP[0][i] > 0">({{holeHCP[0][i]}})</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -130,9 +137,8 @@
             </span>
           </td>
           <td>
-            <span *ngIf="stroke[1] > 0">
-              {{stroke[1]}}({{holeHCP[1][i]}})
-            </span>
+            <span *ngIf="stroke[1] > 0">{{stroke[1]}}</span>
+            <span *ngIf="stroke[1] > 0 && holeHCP[1][i] > 0">({{holeHCP[1][i]}})</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>

@@ -21,6 +21,9 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   mpScore: number[];
   mpTotal: number[];
 
+  // if greater than 0, the first player has additional strokes
+  hcpDiff: number;
+
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -29,7 +32,6 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
               protected router: Router) {
     super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router);
   }
-
 
   ngOnInit(): void {
 
@@ -55,11 +57,50 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
                                                          this.onlineRounds[i].tee.cr,
                                                          par);
 
-     calculateHoleHCP( i,
-                       this.onlineRounds[i].tee.teeType,
-                       this.onlineRounds[i].courseHCP,
+     // calculateHoleHCP( i,
+     //                  this.onlineRounds[i].tee.teeType,
+     //                  this.onlineRounds[i].courseHCP,
+     //                  this.holeHCP,
+     //                  this.course);
+  }
+
+  protected calculateMPHoleHCP() {
+
+    // console.log('the first player hcp: ' + this.onlineRounds[0].player.whs);
+    // console.log('the second player hcp: ' + this.onlineRounds[1].player.whs);
+
+
+    // console.log('the first player courseHCP: ' + this.onlineRounds[0].courseHCP);
+    // console.log('the second player courseHCP: ' + this.onlineRounds[1].courseHCP);
+
+    // set the better player to be scratch
+    this.hcpDiff = this.onlineRounds[0].courseHCP - this.onlineRounds[1].courseHCP;
+    if (this.hcpDiff >= 0) {
+      this.onlineRounds[0].courseHCP = this.hcpDiff;
+      this.onlineRounds[1].courseHCP = 0;
+    } else {
+      this.onlineRounds[0].courseHCP = 0;
+      this.onlineRounds[1].courseHCP = Math.abs(this.hcpDiff);
+    }
+
+    // console.log('the first player courseHCP after update: ' + this.onlineRounds[0].courseHCP);
+    // console.log('the second player courseHCP after update: ' + this.onlineRounds[1].courseHCP);
+
+    calculateHoleHCP( 0,
+                      this.onlineRounds[0].tee.teeType,
+                      this.onlineRounds[0].courseHCP,
                        this.holeHCP,
                        this.course);
+
+    calculateHoleHCP( 1,
+                      this.onlineRounds[1].tee.teeType,
+                      this.onlineRounds[1].courseHCP,
+                      this.holeHCP,
+                      this.course);
+
+    // console.log('the first player holeHCP: ' + this.holeHCP[0]);
+    // console.log('the second player holeHCP: ' + this.holeHCP[1]);
+
   }
 
   protected updateMPresults() {

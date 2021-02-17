@@ -86,6 +86,7 @@ export class UpdatePlayerComponent implements OnInit {
           if (this.f.password.value !== '') {
             this.authenticationService.logout();
           }
+          this.authenticationService.currentPlayerValue.whs = this.f.whs.value;
           this.alertService.success('Player successfully updated', true);
           this.loading = false;
           this.router.navigate(['/']);

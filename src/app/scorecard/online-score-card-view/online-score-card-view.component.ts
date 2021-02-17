@@ -49,7 +49,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       const onlineRound: OnlineRound = history.state.data.onlineRound;
       // get course from state
       this.course = history.state.data.course;
-      // get owner in case of patch play online score card
+      // get owner in case of match play online score card
       this.owner = history.state.data.owner;
 
       if (onlineRound != null) {
@@ -87,15 +87,41 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               or.tee.cr,
               getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
 
-            calculateHoleHCP( index,
-                                or.tee.teeType,
-                                or.courseHCP,
-                                this.holeHCP,
-                                this.course);
+            // for all than MP round
+            if (this.owner === null) {
+                calculateHoleHCP( index,
+                                    or.tee.teeType,
+                                    or.courseHCP,
+                                    this.holeHCP,
+                                    this.course);
+            }
 
             this.updateStartingHole(or);
 
         });
+
+        if (this.owner != null) {
+          const hcpDiff = retOnlineRounds[0].courseHCP - retOnlineRounds[1].courseHCP;
+          if (hcpDiff >= 0) {
+            retOnlineRounds[0].courseHCP = hcpDiff;
+            retOnlineRounds[1].courseHCP = 0;
+          } else {
+            retOnlineRounds[0].courseHCP = 0;
+            retOnlineRounds[1].courseHCP = Math.abs(hcpDiff);
+          }
+
+          calculateHoleHCP( 0,
+            retOnlineRounds[0].tee.teeType,
+            retOnlineRounds[0].courseHCP,
+             this.holeHCP,
+             this.course);
+
+          calculateHoleHCP( 1,
+            retOnlineRounds[1].tee.teeType,
+            retOnlineRounds[1].courseHCP,
+            this.holeHCP,
+            this.course);
+        }
 
         // update for match play
         retOnlineRounds[0].first9score = 0;
@@ -105,12 +131,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
 
-          console.log(sc);
+          // console.log(sc);
 
           // calculate mp result
           if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
 
-            console.log('inside: ' + sc.stroke);
+            // console.log('inside: ' + sc.stroke);
             const result = sc.stroke - this.holeHCP[0][index] -
             (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
 

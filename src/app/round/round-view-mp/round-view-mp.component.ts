@@ -73,14 +73,33 @@ export class RoundViewMPComponent implements OnInit {
       }
 
       // console.log(pl.roundDetails.courseHCP);
-
-      calculateHoleHCP( index,
-                        pl.roundDetails.teeType,
-                        pl.roundDetails.courseHCP,
-                        this.holeHCP,
-                        this.round.course);
+     // calculateHoleHCP( index,
+     //                   pl.roundDetails.teeType,
+     //                   pl.roundDetails.courseHCP,
+     //                   this.holeHCP,
+     //                   this.round.course);
     });
     // console.log(this.holeHCP);
+    const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
+    if (hcpDiff >= 0) {
+      this.round.player[0].roundDetails.courseHCP = hcpDiff;
+      this.round.player[1].roundDetails.courseHCP = 0;
+    } else {
+      this.round.player[0].roundDetails.courseHCP = 0;
+      this.round.player[1].roundDetails.courseHCP = Math.abs(hcpDiff);
+    }
+
+    calculateHoleHCP( 0,
+      this.round.player[0].roundDetails.teeType,
+      this.round.player[0].roundDetails.courseHCP,
+       this.holeHCP,
+       this.round.course);
+
+    calculateHoleHCP( 1,
+      this.round.player[1].roundDetails.teeType,
+      this.round.player[1].roundDetails.courseHCP,
+      this.holeHCP,
+      this.round.course);
 
     this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
 
