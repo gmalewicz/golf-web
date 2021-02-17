@@ -72,6 +72,7 @@ export class RoundViewMPComponent implements OnInit {
     });
 
     const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
+
     if (hcpDiff >= 0) {
       this.round.player[0].roundDetails.courseHCP = hcpDiff;
       this.round.player[1].roundDetails.courseHCP = 0;
@@ -100,18 +101,10 @@ export class RoundViewMPComponent implements OnInit {
 
       if (result < 0) {
         this.holeMpResult[0][index] = 1;
-        if (sc.hole < 9) {
-          this.mpTotals[0][0]++;
-        } else {
-          this.mpTotals[0][1]++;
-        }
+        sc.hole < 9 ? this.mpTotals[0][0]++ : this.mpTotals[0][1]++;
       } else if (result > 0) {
         this.holeMpResult[1][index] = 1;
-        if (sc.hole < 9) {
-          this.mpTotals[1][0]++;
-        } else {
-          this.mpTotals[1][1]++;
-        }
+        sc.hole < 9 ? this.mpTotals[1][0]++ : this.mpTotals[1][1]++;
       }
     });
     this.first9par = this.round.course.holes.map(h => h.par).
