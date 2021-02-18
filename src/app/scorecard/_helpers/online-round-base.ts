@@ -368,26 +368,14 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           this.totalStrokes[i] += sc.stroke;
         });
       }
-      // initialize the current hole inedex (assumed all players will play the same number of holes)
-      if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
-        this.curHoleIdx = 9;
-      } else if (onlineScoreCards[0].length === 0) {
-        this.curHoleIdx = 0;
-      } else {
-        this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
-      }
 
-      // check if round is completed completed
-      if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
-        this.roundCompleted = true;
-      } else {
-        this.roundCompleted = false;
-      }
+      this.initCurHoleIdx(onlineScoreCards);
+
+      this.checkifRoundCompleted();
 
       // update mp results
       this.updateMPresults();
 
-      // this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
       // in case if stroke is 0 load par instead
       this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
         s += this.strokes[this.curHoleIdx][idx];
@@ -416,5 +404,25 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
     });
+  }
+
+  private initCurHoleIdx(onlineScoreCards: OnlineScoreCard[][]) {
+     // initialize the current hole inedex (assumed all players will play the same number of holes)
+     if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
+      this.curHoleIdx = 9;
+    } else if (onlineScoreCards[0].length === 0) {
+      this.curHoleIdx = 0;
+    } else {
+      this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
+    }
+  }
+
+  private checkifRoundCompleted() {
+    // check if round is completed completed
+    if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
+      this.roundCompleted = true;
+    } else {
+      this.roundCompleted = false;
+    }
   }
 }
