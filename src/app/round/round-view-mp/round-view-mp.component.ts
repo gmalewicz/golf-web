@@ -4,8 +4,6 @@ import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { tap } from 'rxjs/operators';
 
-
-
 @Component({
   selector: 'app-round-view-mp',
   templateUrl: './round-view-mp.component.html'
@@ -93,6 +91,15 @@ export class RoundViewMPComponent implements OnInit {
       this.holeHCP,
       this.round.course);
 
+    this.calculateMpResult();
+
+    this.first9par = this.round.course.holes.map(h => h.par).
+            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+    this.last9par = this.round.course.par - this.first9par;
+  }
+
+  private calculateMpResult() {
+
     this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
 
       // calculate mp result
@@ -107,14 +114,10 @@ export class RoundViewMPComponent implements OnInit {
         sc.hole < 9 ? this.mpTotals[1][0]++ : this.mpTotals[1][1]++;
       }
     });
-    this.first9par = this.round.course.holes.map(h => h.par).
-            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-    this.last9par = this.round.course.par - this.first9par;
   }
 
   // helper function to provide verious arrays for html
   counter(i: number) {
     return new Array(i);
   }
-
 }
