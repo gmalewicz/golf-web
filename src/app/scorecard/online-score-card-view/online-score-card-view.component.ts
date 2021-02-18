@@ -128,36 +128,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         retOnlineRounds[0].last9score = 0;
         retOnlineRounds[1].last9score = 0;
 
-        retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
-
-          // calculate mp result
-          if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
-
-            const result = sc.stroke - this.holeHCP[0][index] -
-            (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
-
-            if (result < 0) {
-              sc.mpResult = 1;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-              if (sc.hole < 9) {
-                retOnlineRounds[0].first9score++;
-              } else {
-                retOnlineRounds[0].last9score++;
-              }
-            } else if (result === 0) {
-              sc.mpResult = 0;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-            } else {
-              sc.mpResult = 0;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
-              if (sc.hole < 9) {
-                retOnlineRounds[1].first9score++;
-              } else {
-                retOnlineRounds[1].last9score++;
-              }
-            }
-          }
-        });
+        this.calculateMpResult(retOnlineRounds);
 
         this.onlineRounds = retOnlineRounds;
 
@@ -166,6 +137,31 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.webSocketAPI._connect(true);
         this.display = true;
+    });
+  }
+
+  private calculateMpResult(retOnlineRounds: OnlineRound[]) {
+    retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
+
+      // calculate mp result
+      if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
+
+        const result = sc.stroke - this.holeHCP[0][index] -
+        (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
+
+        if (result < 0) {
+          sc.mpResult = 1;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
+          sc.hole < 9 ? retOnlineRounds[0].first9score++ : retOnlineRounds[0].last9score++;
+        } else if (result === 0) {
+          sc.mpResult = 0;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
+        } else {
+          sc.mpResult = 0;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
+          sc.hole < 9 ? retOnlineRounds[1].first9score++ : retOnlineRounds[1].last9score++;
+        }
+      }
     });
   }
 
