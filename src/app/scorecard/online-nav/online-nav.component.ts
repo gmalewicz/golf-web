@@ -18,7 +18,9 @@ export class OnlineNavComponent implements OnInit {
 
   public buttons: number[];
 
-  constructor() { }
+  constructor() {
+    // This is intentional
+  }
 
   ngOnInit(): void {
     this.buttons = [0, 1, 2, 3, 4, 5];
@@ -39,7 +41,6 @@ export class OnlineNavComponent implements OnInit {
     if (this.curHoleStrokes[this.curPlayerIdx] === 15) {
       return;
     }
-    // this.strokes[this.currentHole]++;
     this.curHoleStrokes[this.curPlayerIdx]++;
   }
 

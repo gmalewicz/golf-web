@@ -32,11 +32,11 @@ export class RoundViewWHSComponent implements OnInit {
 
   display: boolean;
 
-  constructor() { }
+  constructor() {
+    // This is intentional
+  }
 
   ngOnInit(): void {
-
-    // console.log(this.playerOffset);
 
     this.display = false;
 

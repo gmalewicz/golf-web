@@ -4,8 +4,6 @@ import { map } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
 
-// import { User } from '@/_models';
-
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentPlayerSubject: BehaviorSubject<Player>;
@@ -21,7 +19,7 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    // console.log('log in requested');
+
     return this.httpService.authenticate(username, password)
       .pipe(map(response => {
         const player: Player = response.body;

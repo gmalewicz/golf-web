@@ -64,12 +64,6 @@ export class RoundComponent implements OnInit {
           this.round.player.forEach((pl, idx) => {
             this.setNinesFull(pl, idx);
             this.calculateCourseAndHoleHcp(pl, idx);
-
-            // for 9 holes round remapping of si for played 9 is required
-            if (pl.roundDetails.ninesFull === 1 || pl.roundDetails.ninesFull === 2) {
-              // this.updFor9(pl);
-            }
-
             this.calculateHoleResult(idx);
             this.calculateScoreDiff(pl, idx);
 
@@ -93,7 +87,7 @@ export class RoundComponent implements OnInit {
   }
 
   onDelete() {
-    // console.log('delete executed');
+
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -160,8 +154,6 @@ export class RoundComponent implements OnInit {
     } else {
       pl.roundDetails.ninesFull =  -1;
     }
-
-    // console.log(pl.roundDetails.ninesFull);
 
     // not allow to see WHS statistic if 18 holes tee chosen for 9 holes played
     if (pl.roundDetails.teeType === teeTypes.TEE_TYPE_18 && pl.roundDetails.ninesFull !== 0)  {

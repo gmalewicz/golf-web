@@ -59,7 +59,6 @@ export class CourseComponent implements OnInit {
 
   getHoles() {
     this.httpService.getHoles(this.course.id).subscribe(retHoles => {
-      // console.log(retHoles);
       this.holes = retHoles;
       this.generateLabelsAndData();
       this.display = true;
@@ -68,17 +67,12 @@ export class CourseComponent implements OnInit {
 
   generateLabelsAndData() {
 
-    // console.log(this.holes);
-
     for (const hole of this.holes) {
       this.barChartLabels.push(hole.number + '(' + hole.si + ')');
       this.barData.push(hole.par);
     }
 
     this.barChartData = [{ data: this.barData, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
-
-    // console.log(this.barChartLabels);
-    // console.log(this.barChartData);
 
     this.barChartOptions = {
       responsive: true,

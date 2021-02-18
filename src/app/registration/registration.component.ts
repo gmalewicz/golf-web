@@ -3,9 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
-import { first } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-// import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registration',
@@ -57,9 +55,6 @@ export class RegistrationComponent implements OnInit {
           return;
       }
 
-      // console.log(this.f.recaptchaReactive.value);
-
-
       this.loading = true;
 
       const player: Player = {nick: this.f.nick.value,
@@ -67,20 +62,12 @@ export class RegistrationComponent implements OnInit {
                               whs: this.f.whs.value,
                               captcha: this.f.recaptchaReactive.value};
 
-      this.httpService.addPlayer(player)
-          .pipe(first())
-          .subscribe(
-              data => {
-                  this.alertService.success('Registration successful. Please log in', true);
-                  this.router.navigate(['/']);
-              },
-              (error: HttpErrorResponse) => {
-                  this.alertService.error(error.error.message, false);
-                  this.loading = false;
-              });
+      this.httpService.addPlayer(player).pipe(
+      tap(
+        () => {
+          this.alertService.success('Registration successful. Please log in', true);
+          this.router.navigate(['/']);
+        })
+    ).subscribe();
   }
-
-  // resolved(captchaResponse: string) {
-  //  console.log(`Resolved captcha with response: ${captchaResponse}`);
-  // }
 }

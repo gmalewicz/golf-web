@@ -15,7 +15,9 @@ export class ListRoundsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
 
-  constructor() { }
+  constructor() {
+     // This is intentional
+  }
 
   ngOnInit(): void {
 

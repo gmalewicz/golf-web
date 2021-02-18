@@ -14,9 +14,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AddCourseComponent implements OnInit {
 
   loading: boolean;
-
-  // selectedPar = null;
-
   public newCourseForm: FormGroup;
   submitted: boolean;
   addTeeSubmitted: boolean;
@@ -135,7 +132,6 @@ export class AddCourseComponent implements OnInit {
   }
 
   selectHole(hole: number) {
-    // console.log('selected hole: ' + hole);
 
     // clear error
     this.alertService.clear();
@@ -164,8 +160,6 @@ export class AddCourseComponent implements OnInit {
 
   selectPar(par: number) {
 
-    console.log('Selected par: ' + par);
-
     // clear error
     this.alertService.clear();
 
@@ -179,8 +173,6 @@ export class AddCourseComponent implements OnInit {
   }
 
   selectSi(si: number) {
-
-    // console.log('Selected si: ' + si);
 
     // clear error
     this.alertService.clear();
@@ -212,7 +204,6 @@ export class AddCourseComponent implements OnInit {
 
     // verify form data and other entries
     if (this.f.courseName.invalid || this.f.coursePar.invalid || !this.allDataSet()) {
-      // console.log('all data set');
       return;
     }
 
@@ -248,7 +239,6 @@ export class AddCourseComponent implements OnInit {
 
   clear() {
 
-    console.log(this.f.courseName.value);
     // clear error
     this.alertService.clear();
 

@@ -41,7 +41,6 @@ export class RoundsComponent implements OnInit {
       this.selectedTab = 0;
       this.display = false;
 
-      // console.log('rounds requested');
       if (this.rounds === undefined) {
         this.getMyRounds();
       }
@@ -93,10 +92,6 @@ export class RoundsComponent implements OnInit {
     const tempPage = this.page;
     this.page = this.savedPage;
     this.savedPage = tempPage;
-
-    // const tempPageSize = this.pageSize;
-    // this.pageSize = this.savedPageSize;
-    // this.savedPageSize = tempPageSize;
 
     if (this.selectedTab === 1 && this.rounds === undefined) {
       this.getRecentRounds();

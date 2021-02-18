@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearchPlus, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@/_services';
-import { ActivatedRoute } from '@angular/router';
-
 
 @Component({
   selector: 'app-games',

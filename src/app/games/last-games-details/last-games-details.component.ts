@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Game, GameSendData } from '../_models';
 import { GameHttpService } from '../_services';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-last-games-details',
@@ -66,18 +66,12 @@ export class LastGamesDetailsComponent implements OnInit {
       email: this.f.email.value
     };
 
-    this.gameHttpService.sendGame(gameSendData).subscribe(data => {
-      // console.log(data);
-      this.alertService.success('The game data sent to ' + this.f.email.value, true);
-      this.router.navigate(['/']);
-    },
-    (error: HttpErrorResponse) => {
-      // console.log(error.error.message);
-      this.alertService.error(error.error.message, true);
-      this.loading = false;
-      this.router.navigate(['/']);
-    });
-
+    this.gameHttpService.sendGame(gameSendData).pipe(
+      tap(
+        () => {
+          this.alertService.success('The game data sent to ' + this.f.email.value, true);
+          this.router.navigate(['/']);
+        })
+    ).subscribe();
   }
-
 }

@@ -62,17 +62,14 @@ export class GameSetupComponent implements OnInit {
   get f() { return this.nickSetupForm.controls; }
 
   onPlayers(players: number): void {
-    // console.log('players: ' + players);
     this.players = players;
   }
 
   onStake(stake: number): void {
-    // console.log('stake: ' + stake);
     this.stake = this.stakes[stake];
   }
 
   onSubmit(): void {
-    // console.log('start game');
     this.submitted = true;
 
     if (this.nickSetupForm.invalid) {

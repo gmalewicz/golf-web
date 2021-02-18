@@ -4,7 +4,6 @@ import { AlertService, AuthenticationService } from '@/_services';
 import { environment } from 'environments/environment';
 export class WebSocketAPI {
 
-   // WS_ENDPOINT = environment.WS_ENDPOINT +  '?token=';
     topic = '/topic';
     stompClient: any;
     appComponent: any;
@@ -23,32 +22,23 @@ export class WebSocketAPI {
         this.lostConnection = false;
         this.reconnect = reconnect;
 
-        // console.log(appComponent);
-
         if (document.location.protocol === 'http:') {
-          // console.log('detected: ' + document.location.protocol);
+
           this.wsEndpointStr = 'http://' + environment.WS_ENDPOINT;
 
         } else {
-          // console.log('detected: ' + document.location.protocol);
+
           this.wsEndpointStr = 'https://' + environment.WS_ENDPOINT;
         }
-
-        // console.log('WS endoint: ' + this.wsEndpointStr);
     }
 
     _connect(listen: boolean) {
 
-
-
-
-      // console.log('Initialize WebSocket Connection: ' + environment.WS_ENDPOINT);
       const ws = new SockJS(this.wsEndpointStr + this.authenticationService.currentPlayerValue.token);
       this.stompClient = Stomp.over(ws);
       // turn off debug messages to console
       this.stompClient.debug = null;
 
-      // tslint:disable-next-line: variable-name
       const _this = this;
       _this.stompClient.connect({}, function connectCallback(frame: any) {
 
@@ -56,9 +46,7 @@ export class WebSocketAPI {
         if (_this.lostConnection) {
           _this.alertService.clear();
           _this.lostConnection = false;
-          // console.log(this.appComponent);
           _this.appComponent.handleLostConnection(false);
-          // _this.alertService.success('Connection to the server established', false);
         }
 
         if (listen) {
@@ -68,7 +56,6 @@ export class WebSocketAPI {
           _this.stompClient.reconnect_delay = 2000;
         }
       }, (error: any) => {
-        // console.log('errorCallBack -> ' + error);
         this.lostConnection = true;
         this.alertService.error('Lost connection to the server', false);
         this.appComponent.handleLostConnection(true);
@@ -84,17 +71,13 @@ export class WebSocketAPI {
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
         }
-        // console.log('Disconnected');
     }
 
     _send(message: any) {
-        // console.log('api via web socket');
         this.stompClient.send('/app/hole', {}, JSON.stringify(message));
     }
 
     onMessageReceived(message: any) {
-        // console.log('Message Recieved from Server :: ' + message);
-        // this.appComponent.handleMessage(JSON.stringify(message.body));
         if (this.acceptMessage) {
           this.appComponent.handleMessage(JSON.parse(message.body));
         }
