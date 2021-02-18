@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  // URL_STR: 'http://localhost:8080/rest/',
-  // WS_ENDPOINT: 'http://localhost:8080/websocket/onlinescorecard?token=',
   WS_ENDPOINT: 'localhost:8080/websocket/onlinescorecard?token=',
   reconnectInterval: 2000
 };
@@ -17,4 +15,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+

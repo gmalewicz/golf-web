@@ -12,7 +12,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        // console.log('attempt to set JWT token');
         const currentPlayer = this.authenticationService.currentPlayerValue;
 
         // skip urls tha does not need security

@@ -1,11 +1,11 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Round, Player } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-round-view',
@@ -61,7 +61,6 @@ export class RoundViewComponent implements OnInit {
     this.barChartLabels = [];
     this.loading = false;
     this.display = false;
-    // this.showRound();
     this.players = this.round.player;
     this.dipslayPlayers.fill(true, 0, this.round.player.length);
 
@@ -71,40 +70,37 @@ export class RoundViewComponent implements OnInit {
 
   }
 
-  generateLabelsAndData(startHole: number, endHole: number) {
-
+  private generateStrokesAndPutts(startHole: number, endHole: number) {
     for (let score = 0; score < this.round.scoreCard.length; score++) {
 
       if (score % 18 === 0) {
-        // console.log('create set');
         this.strokes.push([]);
         this.pats.push([]);
       }
       // include first 9
       if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
-        // console.log('first 9: ' + score);
         this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
         this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
       }
       // include second 9
       if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
-        // console.log('second 9: ' + score);
         this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
         this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
       }
 
     }
+  }
 
-    // console.log(this.holes);
+  generateLabelsAndData(startHole: number, endHole: number) {
+
+    this.generateStrokesAndPutts(startHole, endHole);
+
     for (let hole = startHole - 1; hole < endHole; hole++) {
       this.par.push(this.round.course.holes[hole].par);
       this.barChartLabels.push(hole + 1);
     }
 
-    // console.log(this.strokes);
-    // console.log(this.strokes);
     this.barChartData = [{ stack: 'Stack 0', label: 'Par', data: this.par, backgroundColor: 'purple', borderWidth: 1 }];
-    // console.log(this.strokes.length);
     if (this.strokes.length > 0 && this.dipslayPlayers[0]) {
       this.barChartData.push({
         stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
@@ -134,9 +130,6 @@ export class RoundViewComponent implements OnInit {
       this.barChartData.push({ stack: 'Stack 4', label: 'Putts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
     }
 
-    // console.log(this.barChartLabels);
-    // console.log(this.barChartData);
-
     this.barChartOptions = {
       responsive: true,
       scales: {
@@ -157,7 +150,6 @@ export class RoundViewComponent implements OnInit {
   }
 
   onDelete() {
-    // console.log('delete executed');
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -168,17 +160,13 @@ export class RoundViewComponent implements OnInit {
 
         this.loading = true;
 
-        this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(roundId => {
-
-          // console.log('deleted scorecard for round id: ' + roundId);
-          this.alertService.success('The scorecard has been successfully deleted', false);
-
-        },
-          (error: HttpErrorResponse) => {
-            this.alertService.error('Deleting the scorecard failed', false);
-            this.loading = false;
-          });
-        this.router.navigate(['/']);
+        this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(
+          tap(
+            () => {
+              this.alertService.success('The scorecard has been successfully deleted', false);
+              this.router.navigate(['/']);
+            })
+        ).subscribe();
       }
       this.dialogRef = null;
     });
@@ -241,8 +229,6 @@ export class RoundViewComponent implements OnInit {
   }
 
   onChecked($event, playerIdx) {
-    // console.log($event.target.checked); // {}, true || false
-    // console.log($event); // {}, true || false
 
     this.dipslayPlayers[playerIdx] = $event.target.checked;
 

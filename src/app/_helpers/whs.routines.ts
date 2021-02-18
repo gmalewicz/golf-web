@@ -40,8 +40,6 @@ export function calculateCourseHCP(teeType: number,
     courseHCP = Math.round((playerWHS / 2) * sr / 113 + cr - par);
   }
 
-  // console.log('course hcp: ' + courseHCP);
-
   return courseHCP;
 }
 
@@ -85,60 +83,86 @@ export function calculateHoleHCP(index: number,
   switch (teeType) {
 
     case teeTypes.TEE_TYPE_18: {
-
-      holeHCP[index].fill(hcpAll);
-
-      if (hcpIncMaxHole > 0) {
-
-        holeHCP[index].forEach((hcp, i) => {
-          if (course.holes[i].si <= hcpIncMaxHole) {
-            // if some holes needs hcp update increase them
-            holeHCP[index][i] += 1;
-          }
-        });
-      }
+      holeHCP18(index, hcpAll, hcpIncMaxHole, holeHCP, course)
       break;
     }
 
     case teeTypes.TEE_TYPE_FIRST_9: {
 
-      holeHCP[index].fill(hcpAll, 0, 9);
-
-      if (hcpIncMaxHole > 0 ) {
-
-        const holesUpd: Hole[] = course.holes.slice(0, 9).sort((a, b) => a.si - b.si);
-
-        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
-
-        holeHCP[index].forEach((s, i) => {
-
-          if (i < 9 && course.holes[i].si <= maxHoleSiForUpd) {
-            holeHCP[index][i]++;
-          }
-        });
-      }
+      holeHCPFirst9(index, hcpAll, hcpIncMaxHole, holeHCP, course)
       break;
     }
 
     case teeTypes.TEE_TYPE_LAST_9: {
 
-      holeHCP[index].fill(hcpAll, 9, 18);
-
-      if (hcpIncMaxHole > 0 ) {
-
-        const holesUpd: Hole[] = course.holes.slice(9, 18).sort((a, b) => a.si - b.si);
-
-        const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
-
-        holeHCP[index].forEach((s, i) => {
-
-          if (i >= 9 && course.holes[i].si <= maxHoleSiForUpd) {
-            holeHCP[index][i]++;
-          }
-
-        });
-        break;
-      }
+      holeHCPLast9(index, hcpAll, hcpIncMaxHole, holeHCP, course)
+      break;
     }
+  }
+}
+
+function holeHCP18(index: number,
+                   hcpAll: number,
+                   hcpIncMaxHole: number,
+                   holeHCP: number[][],
+                   course: Course) {
+
+  holeHCP[index].fill(hcpAll);
+
+  if (hcpIncMaxHole > 0) {
+
+    holeHCP[index].forEach((hcp, i) => {
+      if (course.holes[i].si <= hcpIncMaxHole) {
+        // if some holes needs hcp update increase them
+        holeHCP[index][i] += 1;
+      }
+    });
+  }
+}
+
+function holeHCPLast9(index: number,
+                      hcpAll: number,
+                      hcpIncMaxHole: number,
+                      holeHCP: number[][],
+                      course: Course) {
+
+  holeHCP[index].fill(hcpAll, 9, 18);
+
+  if (hcpIncMaxHole > 0 ) {
+
+    const holesUpd: Hole[] = course.holes.slice(9, 18).sort((a, b) => a.si - b.si);
+
+    const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
+
+    holeHCP[index].forEach((s, i) => {
+
+      if (i >= 9 && course.holes[i].si <= maxHoleSiForUpd) {
+        holeHCP[index][i]++;
+      }
+
+    });
+  }
+}
+
+function holeHCPFirst9(index: number,
+                      hcpAll: number,
+                      hcpIncMaxHole: number,
+                      holeHCP: number[][],
+                      course: Course) {
+
+  holeHCP[index].fill(hcpAll, 0, 9);
+
+  if (hcpIncMaxHole > 0 ) {
+
+    const holesUpd: Hole[] = course.holes.slice(0, 9).sort((a, b) => a.si - b.si);
+
+    const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
+
+    holeHCP[index].forEach((s, i) => {
+
+      if (i < 9 && course.holes[i].si <= maxHoleSiForUpd) {
+        holeHCP[index][i]++;
+      }
+    });
   }
 }

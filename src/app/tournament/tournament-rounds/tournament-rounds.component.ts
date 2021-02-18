@@ -4,6 +4,7 @@ import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tournament-rounds',
@@ -40,19 +41,12 @@ export class TournamentRoundsComponent implements OnInit {
 
   addRound(round: Round) {
 
-    this.tournamentHttpService.addRoundToTournament(round, this.tournament.id).subscribe(data => {
-      // console.log('adding round to tournament');
-      this.alertService.success('Round successfully added to tournamnet', true);
-      this.router.navigate(['/']);
-    }
-    /*
-    ,
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, true);
-        this.router.navigate(['/']);
-    }
-    */
-    );
-
+    this.tournamentHttpService.addRoundToTournament(round, this.tournament.id).pipe(
+      tap(
+        () => {
+          this.alertService.success('Round successfully added to tournamnet', true);
+          this.router.navigate(['/']);
+        })
+    ).subscribe();
   }
 }

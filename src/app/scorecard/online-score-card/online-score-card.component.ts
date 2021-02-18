@@ -42,12 +42,9 @@ export class OnlineScoreCardComponent implements OnInit {
         this.myOnlineRounds = retOnlineRounds.filter(v => v.owner ===
           this.authenticationService.currentPlayerValue.id && v.finalized === false);
 
-        // console.log(this.myOnlineRounds);
-
         // set all rounds except the open one for this player
         this.onlineRounds = retOnlineRounds.filter(v => v.owner !==
           this.authenticationService.currentPlayerValue.id || v.finalized === true);
-        // console.log(this.onlineRounds);
 
         this.courses = new Map();
         for (const or of this.onlineRounds) {

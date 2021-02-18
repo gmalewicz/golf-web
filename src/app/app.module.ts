@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses/courses.component';
 import { HttpService } from '@/_services';
@@ -23,7 +23,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DropdownModule} from 'primeng/dropdown';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
-import { FormsModule } from '@angular/forms';
 import { CourseComponent } from './course/course.component';
 import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
 import { RoundComponent } from './round/round/round.component';
@@ -59,9 +58,7 @@ import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component'
     ListRoundsComponent,
   ],
   imports: [
-    // GamesModule,
     BrowserModule,
-    // appRoutingModule,
     routing,
     HttpClientModule,
     ChartsModule,
@@ -74,10 +71,6 @@ import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component'
     RecaptchaModule,
     RecaptchaFormsModule,
     HttpClientXsrfModule
-    // HttpClientXsrfModule.withOptions({
-    //  cookieName: 'My-Xsrf-Cookie', // this is optional
-    //  headerName: 'My-Xsrf-Header' // this is optional
-    // })
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

@@ -80,14 +80,11 @@ export class BingoHolestakeGamesComponent implements OnInit {
         return;
       }
       this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
-      // console.log(this.gameResult);
-      this.rowResult.fill(1);
     } else {
       if (this.rowResult.reduce((p, n) => p + n) < 2 || this.rowResult.reduce((p, n) => p + n) > 3) {
         return;
       }
       this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
-      // console.log(this.gameResult);
       this.rowResult.fill(0);
     }
 
@@ -133,7 +130,6 @@ export class BingoHolestakeGamesComponent implements OnInit {
       }
     } else if (this.editHole === -1) {
       this.editResult = Array(this.players).fill(0).map((x, i) => this.gameResult[holeIdx][i]);
-      // console.log(this.editResult);
       this.editHole = holeIdx;
       this.completedStatus[holeIdx] = 'Edit';
     }
@@ -148,7 +144,6 @@ export class BingoHolestakeGamesComponent implements OnInit {
       updArray = this.rowResult;
     }
 
-    // console.log('player: ' + player + ' current result: ' + updArray);
     if (this.gameType === 1) {
       if (updArray[player] === this.players) {
         updArray[player] = 1;
@@ -176,13 +171,10 @@ export class BingoHolestakeGamesComponent implements OnInit {
         if (winnersCnt < this.players) {
           winnerAmt = this.stake / winnersCnt;
         }
-        // console.log('winnerAmout: ' + winnerAmt);
         // last calculate looser amount
         if (this.players - winnersCnt > 0) {
           looserAmt = -this.stake / (this.players - winnersCnt);
-          // console.log('looserAmout: ' + looserAmt);
         }
-        // console.log('core: ' + this.score);
         // update scores
         hole.forEach((x, i) => { if (x === 1) {this.score[i] += winnerAmt; } else {this.score[i] += looserAmt; }});
     });
@@ -203,21 +195,14 @@ export class BingoHolestakeGamesComponent implements OnInit {
       return p;
     });
 
-    // console.log('max: ' + max);
-    // console.log('maxCnt: ' + maxCnt);
-    // console.log('score: ' + this.score);
-
     this.score.forEach((v, i) => {
 
       if (v === max) {
          this.payment[i] = 0;
-         // this.payment[i] = (max - v) * this.stake;
       } else {
         this.payment[i] = (v - max) * this.stake;
       }
     });
-
-    // console.log('payment: ' + this.payment);
   }
 
   onSave() {

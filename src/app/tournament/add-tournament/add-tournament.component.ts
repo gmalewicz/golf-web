@@ -34,7 +34,6 @@ export class AddTournamentComponent implements OnInit {
         startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
         endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]]
       });
-      // console.log('initialization');
 
       this.submitted = false;
       this.loading = false;
