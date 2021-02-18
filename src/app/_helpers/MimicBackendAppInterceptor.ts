@@ -53,9 +53,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         observer.next(new HttpResponse<any>({status: 200}));
         observer.complete();
       });
-    } else if ((req.url.endsWith('rest/FavouriteCourses/1') && (req.method === 'GET')) ||
-               (req.url.endsWith('rest/SearchForCourse') && (req.method === 'POST')) ||
-               (req.url.endsWith('rest/FavouriteCourses/1') && (req.method === 'POST'))){
+    } else if (req.url.endsWith('rest/FavouriteCourses/1') || req.url.endsWith('rest/SearchForCourse')){
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<any>>({body:
 
