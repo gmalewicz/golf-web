@@ -31,6 +31,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   curPlayerIdx: number;
   curHoleIdx: number;
 
+
   // strokes, putts, penalties for the current hole
   curHoleStrokes: number[];
   curHolePutts: number[];
@@ -65,7 +66,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   // lost connection indicator
   lostConnection: boolean;
 
-
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -84,11 +84,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       // get passed data
       this.onlineRounds = history.state.data.onlineRounds;
-      // console.log(this.onlineRounds);
       this.course = history.state.data.course;
       // initialize variables
       this.curPlayerIdx = 0;
-      // this.curHoleIdx = 0;
       this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
       this.curHolePenalties = new Array(this.onlineRounds.length).fill(0);
       this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
@@ -161,8 +159,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   selectHole(holeIdx: number) {
 
-    // console.log('hole: ' + holeIdx);
-
     // check if it is not the last hole in the scorecard
     if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && holeIdx > 8) {
       this.curHoleIdx = 8;
@@ -188,8 +184,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
         s = this.course.holes[holeIdx].par;
-        this.curHolePutts[idx] =  2;
-        // console.log('s: ' + s);
+        if (this.onlineRounds[idx].putts) {
+          this.curHolePutts[idx] =  2;
+        }
       }
       return s;
     });
@@ -257,9 +254,13 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     });
   }
 
-  protected updateMpResult(strokeIdx: number) {}
+  protected updateMpResult(strokeIdx: number) {
+    // This is intentional
+  }
 
-  protected updateMpTotal() {}
+  protected updateMpTotal() {
+    // This is intentional
+  }
 
   addScore() {
 
@@ -267,10 +268,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     if (this.lostConnection) {
       return;
     }
-
-    // console.log('current hole strokes: ' + this.curHoleStrokes);
-    // console.log('current strokes: ' + this.strokes);
-    // console.log('stroke: ' + this.strokes[this.curHoleIdx][this.curPayerIdx]);
 
     // save only if anything has been changed
     if (this.curHoleStrokes[this.curPlayerIdx] !== this.strokes[this.curHoleIdx][this.curPlayerIdx] ||
@@ -312,7 +309,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // move to the next player
     this.editClass[this.curPlayerIdx] = 'no-edit';
     // increase current player index is not last or set to 0 if last
-     // update mp score if score enetered for both players
+    // update mp score if score enetered for both players
     this.updateMpResult(this.curHoleIdx);
     this.updateMpTotal();
 
@@ -328,26 +325,30 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
-
-    // console.log('curPlayerIdx: ' + this.curPayerIdx);
   }
 
-  protected calculateHCP(i: number) {}
+  protected calculateHCP(i: number) {
+    // This is intentional
+  }
 
-  protected updateMPresults() {}
+  protected updateMPresults() {
+    // This is intentional
+  }
+
+  protected calculateMPHoleHCP() {
+    // This is intentional
+  }
 
   loadScoreCards() {
 
     const calls: Observable<OnlineScoreCard[]>[] = Array(this.onlineRounds.length);
-    // console.log(calls);
+
     for (let i = 0; i < this.onlineRounds.length; i++) {
       // calculate course HCP for each player
       this.calculateHCP(i);
-
       calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRounds[i].id);
     }
-    // calls[0] = this.httpService.getOnlineScoreCard(this.onlineRounds[0].id);
-    // console.log(calls);
+    this.calculateMPHoleHCP();
 
     combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
 
@@ -358,7 +359,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           this.lastPlayed = onlineScoreCards.length;
         }
 
-        // this.onlineRounds[i].scoreCardAPI = onlineScoreCards[i];
         onlineScoreCards[i].forEach((sc: OnlineScoreCard) => {
           // initialize strokes per holes for display
           this.strokes[sc.hole - 1][i] = sc.stroke;
@@ -368,33 +368,19 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           this.totalStrokes[i] += sc.stroke;
         });
       }
-      // initialize the current hole inedex (assumed all players will play the same number of holes)
-      if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
-        this.curHoleIdx = 9;
-      } else if (onlineScoreCards[0].length === 0) {
-        this.curHoleIdx = 0;
-      } else {
-        this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
-      }
-      // console.log('current hole index: ' + this.curHoleIdx);
 
-      // check if round is completed completed
-      if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
-        this.roundCompleted = true;
-      } else {
-        this.roundCompleted = false;
-      }
+      this.initCurHoleIdx(onlineScoreCards);
+
+      this.checkifRoundCompleted();
 
       // update mp results
       this.updateMPresults();
 
-      // this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => s += this.strokes[this.curHoleIdx][idx]);
       // in case if stroke is 0 load par instead
       this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
         s += this.strokes[this.curHoleIdx][idx];
         if (s === 0) {
           s = this.course.holes[this.curHoleIdx].par;
-          // console.log('s: ' + s);
         } else {
           this.curHolePutts[idx] = this.putts[this.curHoleIdx][idx];
           this.curHolePenalties[idx] = this.penalties[this.curHoleIdx][idx];
@@ -418,5 +404,25 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.message, false);
     });
+  }
+
+  private initCurHoleIdx(onlineScoreCards: OnlineScoreCard[][]) {
+     // initialize the current hole inedex (assumed all players will play the same number of holes)
+     if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
+      this.curHoleIdx = 9;
+    } else if (onlineScoreCards[0].length === 0) {
+      this.curHoleIdx = 0;
+    } else {
+      this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
+    }
+  }
+
+  private checkifRoundCompleted() {
+    // check if round is completed completed
+    if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
+      this.roundCompleted = true;
+    } else {
+      this.roundCompleted = false;
+    }
   }
 }

@@ -110,6 +110,8 @@ export class OnlineRoundDefComponent implements OnInit {
   // change which 9 is available when tee has been changed
   teeChange(index: number) {
 
+    this.alertService.clear();
+
     // set up the tee for the player based on the drop down tee
     switch (index) {
       case 0: {
@@ -226,7 +228,9 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.disable();
         this.f.teeDropDown4.disable();
-        this.f.nick2.enable();
+        if (this.players[1] === undefined) {
+          this.f.nick2.enable();
+        }
         this.f.nick3.disable();
         this.f.nick4.disable();
         break;
@@ -236,8 +240,12 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.enable();
         this.f.teeDropDown4.disable();
-        this.f.nick2.enable();
-        this.f.nick3.enable();
+        if (this.players[1] === undefined) {
+          this.f.nick2.enable();
+        }
+        if (this.players[2] === undefined) {
+          this.f.nick3.enable();
+        }
         this.f.nick4.disable();
         break;
       }
@@ -246,9 +254,15 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.enable();
         this.f.teeDropDown4.enable();
-        this.f.nick2.enable();
-        this.f.nick3.enable();
-        this.f.nick4.enable();
+        if (this.players[1] === undefined) {
+          this.f.nick2.enable();
+        }
+        if (this.players[2] === undefined) {
+          this.f.nick3.enable();
+        }
+        if (this.players[3] === undefined) {
+          this.f.nick4.enable();
+        }
         break;
       }
     }
@@ -257,10 +271,12 @@ export class OnlineRoundDefComponent implements OnInit {
 
   onSearchPlayer(playerIdx: number) {
 
+    this.alertService.clear();
+
     switch (playerIdx) {
       case 1: {
 
-        if (this.f.nick2.valid) {
+        if (this.f.nick2.valid && !this.isNickDuplicated(this.f.nick2.value)) {
           this.searchPlayer(this.f.nick2.value, playerIdx);
         }
 
@@ -269,7 +285,7 @@ export class OnlineRoundDefComponent implements OnInit {
 
       case 2: {
 
-        if (this.f.nick3.valid) {
+        if (this.f.nick3.valid && !this.isNickDuplicated(this.f.nick3.value)) {
           this.searchPlayer(this.f.nick3.value, playerIdx);
         }
 
@@ -278,7 +294,7 @@ export class OnlineRoundDefComponent implements OnInit {
 
       case 3: {
 
-        if (this.f.nick4.valid) {
+        if (this.f.nick4.valid && !this.isNickDuplicated(this.f.nick4.value)) {
           this.searchPlayer(this.f.nick4.value, playerIdx);
         }
 
@@ -323,4 +339,20 @@ export class OnlineRoundDefComponent implements OnInit {
     }
     return true;
   }
+
+  private isNickDuplicated(nick: string): boolean {
+
+    let retVal = false;
+
+    for (const p of this.players) {
+      if (p !== undefined && nick === p.nick) {
+        this.alertService.error('Player must be unique in the single score card', false);
+        retVal = true;
+        break;
+      }
+    }
+
+    return retVal;
+  }
+
 }

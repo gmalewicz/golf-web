@@ -32,7 +32,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnDestroy(): void {
-    // console.log('destroy');
     if (this.webSocketAPI != null) {
       this.webSocketAPI._disconnect();
     }
@@ -49,7 +48,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       const onlineRound: OnlineRound = history.state.data.onlineRound;
       // get course from state
       this.course = history.state.data.course;
-      // get owner in case of patch play online score card
+      // get owner in case of match play online score card
       this.owner = history.state.data.owner;
 
       if (onlineRound != null) {
@@ -87,15 +86,41 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               or.tee.cr,
               getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
 
-            calculateHoleHCP( index,
-                                or.tee.teeType,
-                                or.courseHCP,
-                                this.holeHCP,
-                                this.course);
+            // for all than MP round
+            if (this.owner === null) {
+                calculateHoleHCP( index,
+                                    or.tee.teeType,
+                                    or.courseHCP,
+                                    this.holeHCP,
+                                    this.course);
+            }
 
             this.updateStartingHole(or);
 
         });
+
+        if (this.owner != null) {
+          const hcpDiff = retOnlineRounds[0].courseHCP - retOnlineRounds[1].courseHCP;
+          if (hcpDiff >= 0) {
+            retOnlineRounds[0].courseHCP = hcpDiff;
+            retOnlineRounds[1].courseHCP = 0;
+          } else {
+            retOnlineRounds[0].courseHCP = 0;
+            retOnlineRounds[1].courseHCP = Math.abs(hcpDiff);
+          }
+
+          calculateHoleHCP( 0,
+            retOnlineRounds[0].tee.teeType,
+            retOnlineRounds[0].courseHCP,
+             this.holeHCP,
+             this.course);
+
+          calculateHoleHCP( 1,
+            retOnlineRounds[1].tee.teeType,
+            retOnlineRounds[1].courseHCP,
+            this.holeHCP,
+            this.course);
+        }
 
         // update for match play
         retOnlineRounds[0].first9score = 0;
@@ -103,39 +128,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         retOnlineRounds[0].last9score = 0;
         retOnlineRounds[1].last9score = 0;
 
-        retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
-
-          console.log(sc);
-
-          // calculate mp result
-          if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
-
-            console.log('inside: ' + sc.stroke);
-            const result = sc.stroke - this.holeHCP[0][index] -
-            (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
-
-            if (result < 0) {
-              sc.mpResult = 1;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-              if (sc.hole < 9) {
-                retOnlineRounds[0].first9score++;
-              } else {
-                retOnlineRounds[0].last9score++;
-              }
-            } else if (result === 0) {
-              sc.mpResult = 0;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-            } else {
-              sc.mpResult = 0;
-              retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
-              if (sc.hole < 9) {
-                retOnlineRounds[1].first9score++;
-              } else {
-                retOnlineRounds[1].last9score++;
-              }
-            }
-          }
-        });
+        this.calculateMpResult(retOnlineRounds);
 
         this.onlineRounds = retOnlineRounds;
 
@@ -144,6 +137,31 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.webSocketAPI._connect(true);
         this.display = true;
+    });
+  }
+
+  private calculateMpResult(retOnlineRounds: OnlineRound[]) {
+    retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
+
+      // calculate mp result
+      if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
+
+        const result = sc.stroke - this.holeHCP[0][index] -
+        (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
+
+        if (result < 0) {
+          sc.mpResult = 1;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
+          sc.hole < 9 ? retOnlineRounds[0].first9score++ : retOnlineRounds[0].last9score++;
+        } else if (result === 0) {
+          sc.mpResult = 0;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
+        } else {
+          sc.mpResult = 0;
+          retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
+          sc.hole < 9 ? retOnlineRounds[1].first9score++ : retOnlineRounds[1].last9score++;
+        }
+      }
     });
   }
 
@@ -157,7 +175,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     onlineRound.last9score = 0;
 
     retScoreCardAPI.forEach(scoreCardAPI => {
-      // console.log(scoreCardAPI.hole - 1);
       onlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
       if (scoreCardAPI.hole < 10) {
         onlineRound.first9score += scoreCardAPI.stroke;
@@ -192,7 +209,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           idx--;
         }
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
-        // console.log(this.onlineScoreCard);
 
         // create pars for first and last 9
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
@@ -212,15 +228,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         retOnlineRounds.forEach(retOnlineRound => {
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
-          // const onlineScoreCards = Array(18).fill(null);
           retOnlineRound.scoreCardAPI = Array(18).fill(null);
-          // console.log('retScoreCardAPIs ' + retScoreCardAPI);
-          // console.log('retScoreCardAPI ' + retOnlineRound.scoreCardAPI);
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
           retScoreCardAPI.forEach(scoreCardAPI => {
-            // console.log(scoreCardAPI.hole - 1);
             retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
             if (scoreCardAPI.hole < 10) {
               retOnlineRound.first9score += scoreCardAPI.stroke;
@@ -297,16 +309,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
       this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole < 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p0 first 9 total: ' + this.onlineRounds[0].first9score);
       this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole < 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p1 first 9 total: ' + this.onlineRounds[1].first9score);
       this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p0 last 9 total: ' + this.onlineRounds[0].last9score);
       this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
       .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      // console.log('p1 last 9 total: ' + this.onlineRounds[1].last9score);
     }
   }
 
@@ -340,7 +348,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   handleLostConnection(lost: boolean) {
 
-    // console.log('Handling lost connection');
     this.router.navigate(['/']);
 
   }

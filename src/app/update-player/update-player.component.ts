@@ -48,7 +48,6 @@ export class UpdatePlayerComponent implements OnInit {
         password: ['', Validators.minLength(6)]
       });
 
-      // console.log('initialization');
       this.role = this.authenticationService.currentPlayerValue.role;
     }
   }
@@ -86,6 +85,7 @@ export class UpdatePlayerComponent implements OnInit {
           if (this.f.password.value !== '') {
             this.authenticationService.logout();
           }
+          this.authenticationService.currentPlayerValue.whs = this.f.whs.value;
           this.alertService.success('Player successfully updated', true);
           this.loading = false;
           this.router.navigate(['/']);

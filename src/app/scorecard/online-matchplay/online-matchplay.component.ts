@@ -21,6 +21,9 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   mpScore: number[];
   mpTotal: number[];
 
+  // if greater than 0, the first player has additional strokes
+  hcpDiff: number;
+
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -29,7 +32,6 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
               protected router: Router) {
     super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router);
   }
-
 
   ngOnInit(): void {
 
@@ -54,12 +56,32 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
                                                          this.onlineRounds[i].tee.sr,
                                                          this.onlineRounds[i].tee.cr,
                                                          par);
+  }
 
-     calculateHoleHCP( i,
-                       this.onlineRounds[i].tee.teeType,
-                       this.onlineRounds[i].courseHCP,
+  protected calculateMPHoleHCP() {
+
+    // set the better player to be scratch
+    this.hcpDiff = this.onlineRounds[0].courseHCP - this.onlineRounds[1].courseHCP;
+    if (this.hcpDiff >= 0) {
+      this.onlineRounds[0].courseHCP = this.hcpDiff;
+      this.onlineRounds[1].courseHCP = 0;
+    } else {
+      this.onlineRounds[0].courseHCP = 0;
+      this.onlineRounds[1].courseHCP = Math.abs(this.hcpDiff);
+    }
+
+    calculateHoleHCP( 0,
+                      this.onlineRounds[0].tee.teeType,
+                      this.onlineRounds[0].courseHCP,
                        this.holeHCP,
                        this.course);
+
+    calculateHoleHCP( 1,
+                      this.onlineRounds[1].tee.teeType,
+                      this.onlineRounds[1].courseHCP,
+                      this.holeHCP,
+                      this.course);
+
   }
 
   protected updateMPresults() {
@@ -69,13 +91,9 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected updateMpResult(strokeIdx: number) {
 
-    // console.log('p1: ' + this.mpScore[strokeIdx]);
-
     // update mp score if score enetered for both players
     if (this.strokes[strokeIdx][0] > 0 && this.strokes[strokeIdx][1] > 0) {
       const result = this.strokes[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokes[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
-
-      // console.log('result: ' + result);
 
       if (result < 0) {
         this.mpScore[strokeIdx] = -1;
@@ -89,14 +107,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected updateMpTotal() {
 
-    // console.log('mscore: ' + this.mpScore);
-    // console.log('updMPTotal called: ' + this.mpTotal[0]);
-
     this.mpTotal[0] = this.mpScore.reduce((p, c) => {if (c === -1) {return p + 1; } else {return p; }}, 0);
     this.mpTotal[1] = this.mpScore.reduce((p, c) => {if (c === 1) {return p + 1; } else {return p; }}, 0);
-
-    // console.log('updMPTotal called: ' + this.mpTotal[0]);
-    // console.log('updMPTotal called: ' + this.mpTotal[1]);
 
   }
 }

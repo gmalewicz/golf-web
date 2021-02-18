@@ -68,7 +68,6 @@ export class AddScorecardComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
 
-      // console.log(this.authenticationService.currentPlayerValue);
       this.addScorecardForm = this.formBuilder.group({
         date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
         teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
@@ -110,8 +109,6 @@ export class AddScorecardComponent implements OnInit {
 
   generateLabelsAndData() {
 
-    // console.log('generate labels & data');
-
     const barData: number[] = [];
     this.barChartLabels = [];
 
@@ -123,7 +120,6 @@ export class AddScorecardComponent implements OnInit {
       barData.push(this.course.holes[hole - 1].par);
       // in case of edit score card
       if (this.round != null) {
-        console.log('dupa');
         this.strokes.push(this.round.scoreCard[hole - 1].stroke );
         this.putts.push(this.round.scoreCard[hole - 1].pats);
         updatedPats.push(this.putts[hole - 1]);
@@ -137,9 +133,6 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData = [{stack: 'Stack 0', label: 'Par',  data: barData, backgroundColor: 'purple', borderWidth: 1 },
                          {stack: 'Stack 1', label: 'Strokes', data: this.strokes, backgroundColor : 'red', borderWidth : 1},
                          {stack: 'Stack 1', label: 'Putts', data: this.putts, backgroundColor : 'blue', borderWidth : 1}];
-
-    // console.log(this.barChartLabels);
-    // console.log(this.barChartData);
 
     if (this.round != null) {
       this.barChartData[1].data = updatedStrokes;
@@ -308,7 +301,6 @@ export class AddScorecardComponent implements OnInit {
 
       this.httpService.addRound(round).pipe(tap(
         () => {
-          // console.log('round added');
           this.display = false;
           this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
           this.router.navigate(['/']);
@@ -316,11 +308,9 @@ export class AddScorecardComponent implements OnInit {
       ).subscribe();
     } else {
       this.round.roundDate = this.f.date.value + ' ' + this.f.teeTime.value;
-      // this.round.scoreCard = scoreCard;
 
       this.httpService.updateRound(this.round).pipe(tap(
         () => {
-          // console.log('round updated');
           this.display = false;
           this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
           this.router.navigate(['/']);
@@ -333,7 +323,6 @@ export class AddScorecardComponent implements OnInit {
 
     this.alertService.clear();
 
-    // console.log('selected hole: ' + hole);
     this.updatingHole = hole;
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
@@ -357,8 +346,6 @@ export class AddScorecardComponent implements OnInit {
 
     this.alertService.clear();
 
-    // console.log('selected stroke: ' + stroke);
-
      // number of pats cannot be greater than number of strokes
     if (stroke < this.putts[this.updatingHole - 1]) {
       this.alertService.error('Number of putts cannot be greater than number of strokes', false);
@@ -366,15 +353,12 @@ export class AddScorecardComponent implements OnInit {
     }
 
     const updatedStrokes = [];
-    // const updatedPats = [];
 
     for (let hole = 0; hole < 18; hole++) {
 
-      // updatedPats.push(this.putts[hole]);
       updatedStrokes.push(this.strokes[hole] - this.putts[hole]);
 
     }
-    // console.log('updated strokes: ' + updatedStrokes);
 
     this.strokes[this.updatingHole - 1] = stroke;
 
@@ -413,8 +397,6 @@ export class AddScorecardComponent implements OnInit {
   selectPat(pat: number) {
 
     this.alertService.clear();
-
-    // console.log('selected pat: ' + pat);
 
     // number of pats cannot be greater than number of strokes
     if (pat > this.strokes[this.updatingHole - 1]) {
