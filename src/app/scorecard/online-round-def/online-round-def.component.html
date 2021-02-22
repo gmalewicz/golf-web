@@ -1,3 +1,6 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
 <div *ngIf="display">
   <form [formGroup]="defScoreCardForm">
     <div class="form-row">
@@ -40,12 +43,11 @@
     </div>
     <br />
     <br />
-
     <div>
       <label for="player1Lbl">Player 1 username:</label>
       <div class="form-row">
         <div class="form-group">
-          <input type="text" formControlName="nick1" class="form-control" value={{players[0].nick}}/>
+          <input type="text" formControlName="nick1" class="form-control" />
         </div>
         <span>
           &nbsp;
@@ -99,6 +101,8 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        &nbsp;
+        <span *ngIf="searchInProgress[1]" class="spinner-border text-success" role="status"></span>
       </div>
     </div>
 
@@ -134,6 +138,8 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        &nbsp;
+        <span *ngIf="searchInProgress[2]" class="spinner-border text-success" role="status"></span>
       </div>
     </div>
 
@@ -169,6 +175,8 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        &nbsp;
+        <span *ngIf="searchInProgress[3]" class="spinner-border text-success" role="status"></span>
       </div>
     </div>
     <div class="custom-control custom-checkbox custom-checkbox-green">

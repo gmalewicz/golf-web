@@ -1,40 +1,44 @@
 <p></p>
-<table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
-<thead>
-  <tr>
-    <th id="nav"></th>
-    <th id="name">Name</th>
-    <th id="par">Par</th>
-    <th id="parent" *ngIf="parent === 'courses'">Favourites</th>
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let row of courseLst">
-    <td *ngIf="parent === 'courses'">
-      <a [routerLink]="['/course']" [state]="{data: {course: row}}">
-        <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-      </a>
-    </td>
-    <td *ngIf="parent === 'addRound'">
-      <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
-        <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-      </a>
-    </td>
-    <td *ngIf="parent === 'addOnlineRound'">
-      <a routerLink="/scorecard/onlineRoundDef"
-        [state]="{ data: { course: row } }"
-      >
-        <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-      </a>
-    </td>
-    <td>{{ row.name }}</td>
-    <td>{{ row.par }}</td>
-    <td *ngIf="parent === 'courses'">
-      <a (click)="onClickFavourite(row)">
-        <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
-      </a>
-    </td>
-  </tr>
-</tbody>
-</table>
-
+<div *ngIf="dispProgress" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="!dispProgress">
+  <table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
+  <thead>
+    <tr>
+      <th id="nav"></th>
+      <th id="name">Name</th>
+      <th id="par">Par</th>
+      <th id="parent" *ngIf="parent === 'courses'">Favourites</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of courseLst">
+      <td *ngIf="parent === 'courses'">
+        <a [routerLink]="['/course']" [state]="{data: {course: row}}">
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
+      <td *ngIf="parent === 'addRound'">
+        <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
+      <td *ngIf="parent === 'addOnlineRound'">
+        <a routerLink="/scorecard/onlineRoundDef"
+          [state]="{ data: { course: row } }"
+        >
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
+      <td>{{ row.name }}</td>
+      <td>{{ row.par }}</td>
+      <td *ngIf="parent === 'courses'">
+        <a (click)="onClickFavourite(row)">
+          <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</div>

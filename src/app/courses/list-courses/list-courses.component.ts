@@ -21,6 +21,8 @@ export class ListCoursesComponent implements OnInit {
   @Input() courses: Courses;
   @Input() selectedTab: number;
 
+  dispProgress: boolean;
+
   courseLst: Course[];
 
   faSearchPlus: IconDefinition;
@@ -36,24 +38,31 @@ export class ListCoursesComponent implements OnInit {
     this.faSearchPlus = faSearchPlus;
     this.faPlusCircle = faPlusCircle;
     this.faMinusCircle = faMinusCircle;
+    this.dispProgress = false;
 
     if (this.selectedTab === 0 && this.courses.favourites === undefined) {
+
+      this.dispProgress = true;
 
       this.httpService.getFavouriteCourses(this.authenticationService.currentPlayerValue.id).pipe(
         tap(
           retCourses => {
             this.courses.favourites = retCourses;
             this.courseLst = retCourses;
+            this.dispProgress = false;
           })
       ).subscribe();
     } else if  (this.selectedTab === 1) {
       this.courseLst = this.courses.searchRes;
     } else if  (this.selectedTab === 2 && this.courses.all === undefined) {
+      this.dispProgress = true;
       this.httpService.getCourses().pipe(
         tap(
           retCourses => {
             this.courses.all = retCourses;
             this.courseLst = retCourses;
+
+            this.dispProgress = false;
           })
       ).subscribe();
     } else if (this.selectedTab === 0 ) {
