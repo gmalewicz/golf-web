@@ -21,7 +21,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
         // add token if exists else throw an error and logout
         if (currentPlayer && currentPlayer.token) {
-            // console.log('setting JWT token');
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${currentPlayer.token}`

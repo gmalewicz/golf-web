@@ -26,6 +26,8 @@ export class OnlineRoundDefComponent implements OnInit {
   players: Player[];
   tees: Tee[];
 
+  searchInProgress: boolean[];
+
   faSearchPlus: IconDefinition;
   faCheckCircle: IconDefinition;
 
@@ -53,6 +55,7 @@ export class OnlineRoundDefComponent implements OnInit {
       this.tees = Array(4);
       this.faSearchPlus = faSearchPlus;
       this.faCheckCircle = faCheckCircle;
+      this.searchInProgress = Array(4).fill(false);
 
       this.getCourseData();
     }
@@ -73,7 +76,8 @@ export class OnlineRoundDefComponent implements OnInit {
       teeDropDown2: ['', [Validators.required]],
       teeDropDown3: ['', [Validators.required]],
       teeDropDown4: ['', [Validators.required]],
-      nick1: [{value: this.authenticationService.currentPlayerValue.nick, disabled: true}],
+      nick1: [{value: this.authenticationService.currentPlayerValue.nick + ' ' +
+        this.authenticationService.currentPlayerValue.whs, disabled: true}],
       nick2: ['', [Validators.required, Validators.maxLength(10)]],
       nick3: ['', [Validators.required, Validators.maxLength(10)]],
       nick4: ['', [Validators.required, Validators.maxLength(10)]],
@@ -305,6 +309,8 @@ export class OnlineRoundDefComponent implements OnInit {
 
   private searchPlayer(nick: string, playerIdx: number) {
 
+    this.searchInProgress[playerIdx] = true;
+
     this.httpService.getPlayerForNick(nick).pipe(tap(
       player => {
 
@@ -313,14 +319,18 @@ export class OnlineRoundDefComponent implements OnInit {
 
           if (playerIdx === 1) {
             this.f.nick2.disable();
+            this.f.nick2.setValue(this.f.nick2.value + ' ' + this.players[1].whs);
           } else if (playerIdx === 2) {
             this.f.nick3.disable();
+            this.f.nick3.setValue(this.f.nick3.value + ' ' + this.players[2].whs);
           } else if (playerIdx === 3) {
             this.f.nick4.disable();
+            this.f.nick4.setValue(this.f.nick4.value + ' ' + this.players[3].whs);
           }
         } else {
           this.alertService.error('Player: ' + nick + ' not found', false);
         }
+        this.searchInProgress[playerIdx] = false;
       })
     ).subscribe();
   }

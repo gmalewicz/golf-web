@@ -102,7 +102,6 @@ describe('AddScorecardComponent', () => {
 
   it('should tee change', fakeAsync(() => {
     component.tee = {id: 4, teeType: 0};
-    // fixture.detectChanges();
     component.f.teeDropDown.setValue(4);
     component.teeChange(true);
     expect(component.tee.id).toBe(4);
@@ -112,7 +111,6 @@ describe('AddScorecardComponent', () => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
 
-    // component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
     tick();
     expect(component.f.teeTime.value).toMatch('');
@@ -126,8 +124,6 @@ describe('AddScorecardComponent', () => {
     component.f.teeTime.setValue('10:00');
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
-
-    // component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
     tick();
     expect(component.f.teeTime.value).toMatch('10:00');
@@ -143,8 +139,6 @@ describe('AddScorecardComponent', () => {
     component.f.teeTime.setValue('10:00');
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
-
-    // component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
     tick();
     expect(component.round).toBeDefined();
@@ -155,7 +149,6 @@ describe('AddScorecardComponent', () => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-cancel'));
 
-    // component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
     tick();
     expect(component.f.teeTime.value).toMatch('');

@@ -1,3 +1,6 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
 <div *ngIf="display">
   <app-online-nav [curHoleStrokes] = 'curHoleStrokes'
                   [curPlayerIdx] = 'curPlayerIdx'
@@ -93,7 +96,7 @@
           </th>
           <th id="p2r">
             {{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})
-            <span *ngIf="hcpDiff < 0">&nbsp;+{{hcpDiff}} </span>
+            <span *ngIf="hcpDiff < 0">&nbsp;+{{-hcpDiff}} </span>
           </th>
           <th id="winner">Winner</th>
           <th id="par">Par</th>
