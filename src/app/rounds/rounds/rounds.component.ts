@@ -15,7 +15,8 @@ export class RoundsComponent implements OnInit {
   rounds: Array<Round>;
   savedRounds: Array<Round>;
 
-  display: boolean;
+  dispMy: boolean;
+  dispRecent: boolean;
   page: number;
   savedPage: number;
   pageSize: number;
@@ -39,7 +40,8 @@ export class RoundsComponent implements OnInit {
       this.savedPage = 0;
       this.pageSize = 5;
       this.selectedTab = 0;
-      this.display = false;
+      this.dispMy = false;
+      this.dispRecent = false;
 
       if (this.rounds === undefined) {
         this.getMyRounds();
@@ -62,21 +64,23 @@ export class RoundsComponent implements OnInit {
   }
 
   private getMyRounds(): void {
+    this.dispMy = false;
     this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.page).pipe(
       tap(
         r => {
           this.rounds = r;
-          this.display = true;
+          this.dispMy = true;
         })
     ).subscribe();
   }
 
   private getRecentRounds(): void {
+    this.dispRecent = false;
     this.httpService.getRecentRounds(this.page).pipe(
       tap(
         r => {
           this.rounds = r;
-          this.display = true;
+          this.dispRecent = true;
         })
     ).subscribe();
   }

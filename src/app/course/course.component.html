@@ -36,10 +36,12 @@
     </button>
     &nbsp;
     <button type="button" class="btn btn-success btn-showTees" (click)="onShowTees()">
+      <span *ngIf="loadingTees" class="spinner-border spinner-border-sm mr-1"></span>
       {{showTeesLbl}}
     </button>
     &nbsp;
     <button *ngIf="authenticationService.currentPlayerValue.role === 0" type="button" class="btn btn-success btn-delete" (click)="delete()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Delete
     </button>
   </div>

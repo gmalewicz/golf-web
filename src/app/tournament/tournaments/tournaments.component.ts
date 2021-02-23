@@ -15,12 +15,15 @@ export class TournamentsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
   tournaments: Tournament[];
+  display: boolean;
 
   constructor(private tournamentHttpService: TournamentHttpService,
               public authenticationService: AuthenticationService,
               private router: Router) {}
 
   ngOnInit(): void {
+
+    this.display = false;
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
@@ -31,6 +34,7 @@ export class TournamentsComponent implements OnInit {
         tap(
           (retTournaments: Tournament[]) => {
             this.tournaments = retTournaments;
+            this.display = true;
         })
       ).subscribe();
     }

@@ -1,35 +1,40 @@
-<h2>List of tournaments:</h2>
-<br/>
-<table class="table table-striped" aria-describedby="Tournament list">
-  <thead>
-    <tr>
-      <th id="nav"></th>
-      <th id="name">Name</th>
-      <th id="sDate">Start Date</th>
-      <th id="eDate">End Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let tournament of tournaments">
-      <td>
-        <a href="#"  routerLink ="tournamentResults" [state]="{data: {tournament: tournament}}">
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td>{{ tournament.name }}</td>
-      <td>{{ tournament.startDate | date: "mediumDate" }}</td>
-      <td>{{ tournament.endDate | date: "mediumDate"}}</td>
-    </tr>
-  </tbody>
-</table>
-<div>
-  <br />
-  <button type="button" class="btn btn-success" routerLink="">
-    Cancel
-  </button>
-  &nbsp;
-  <button type="button" class="btn btn-success" routerLink="addTournament">
-    Add
-  </button>
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <h2>List of tournaments:</h2>
+  <br/>
+  <table class="table table-striped" aria-describedby="Tournament list">
+    <thead>
+      <tr>
+        <th id="nav"></th>
+        <th id="name">Name</th>
+        <th id="sDate">Start Date</th>
+        <th id="eDate">End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tournament of tournaments">
+        <td>
+          <a href="#"  routerLink ="tournamentResults" [state]="{data: {tournament: tournament}}">
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td>{{ tournament.name }}</td>
+        <td>{{ tournament.startDate | date: "mediumDate" }}</td>
+        <td>{{ tournament.endDate | date: "mediumDate"}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <br />
+    <button type="button" class="btn btn-success" routerLink="">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" routerLink="addTournament">
+      Add
+    </button>
+  </div>
 </div>
 

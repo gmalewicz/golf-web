@@ -188,10 +188,12 @@
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onDelete()">
+        <span *ngIf="loadingDel" class="spinner-border spinner-border-sm mr-1"></span>
         Delete
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onFinal()">
+        <span *ngIf="loadingFin" class="spinner-border spinner-border-sm mr-1"></span>
         Finalize
       </button>
     </div>
