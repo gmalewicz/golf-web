@@ -55,7 +55,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   public puttSelectorActive: { active: boolean }[];
   public penaltySelectorActive: { active: boolean }[];
 
-  loading: boolean;
+  loadingDel: boolean;
+  loadingFin: boolean;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
@@ -100,7 +101,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.penaltySelectorActive[0] = ({ active: true });
 
       this.submitted = false;
-      this.loading = false;
+      this.loadingDel = false;
+      this.loadingFin = false;
       this.display = false;
       this.roundCompleted = false;
 
@@ -211,16 +213,16 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       if (result) {
 
-        this.loading = true;
+        this.loadingFin = true;
 
         this.scorecardHttpService.finalizeOnlineOwnerRound(this.authenticationService.currentPlayerValue.id).pipe(
           tap(
             () => {
+              this.loadingFin = false;
               this.alertService.success('The round has been successfuly saved', false);
+              this.router.navigate(['/']);
             })
         ).subscribe();
-
-        this.router.navigate(['/']);
       }
       // do nothing if not
       this.dialogRef = null;
@@ -237,17 +239,16 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
-
-        this.loading = true;
+        this.loadingDel = true;
 
         this.scorecardHttpService.deleteOnlineRoundForOwner(this.authenticationService.currentPlayerValue.id).pipe(
           tap(
             () => {
+              this.loadingDel = false;
               this.alertService.success('This score card has been successfully deleted', false);
+              this.router.navigate(['/']);
             })
         ).subscribe();
-
-        this.router.navigate(['/']);
       }
       // do nothing if not
       this.dialogRef = null;

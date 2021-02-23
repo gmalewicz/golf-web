@@ -196,6 +196,7 @@
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onStartOnlineRound()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Start
       </button>
     </div>

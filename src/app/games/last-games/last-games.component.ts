@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 export class LastGamesComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
+  display: boolean;
 
   games: Game[];
 
@@ -30,16 +31,18 @@ export class LastGamesComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
       this.faSearchPlus = faSearchPlus;
+      this.display = false;
       this.getGames();
     }
   }
 
   private getGames() {
-
+    this.display = false;
     this.gameHttpService.getGames(this.authenticationService.currentPlayerValue).pipe(
       tap(
         (retGames) => {
           this.games = retGames;
+          this.display = true;
         })
     ).subscribe();
   }

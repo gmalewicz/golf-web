@@ -22,6 +22,7 @@ export class ListCoursesComponent implements OnInit {
   @Input() selectedTab: number;
 
   dispProgress: boolean;
+  loadingFav: boolean;
 
   courseLst: Course[];
 
@@ -39,6 +40,7 @@ export class ListCoursesComponent implements OnInit {
     this.faPlusCircle = faPlusCircle;
     this.faMinusCircle = faMinusCircle;
     this.dispProgress = false;
+    this.loadingFav = false;
 
     if (this.selectedTab === 0 && this.courses.favourites === undefined) {
 
@@ -87,18 +89,20 @@ export class ListCoursesComponent implements OnInit {
   }
 
   onClickFavourite(course: Course) {
-
-    if (this.selectedTab === 1) {
+    this.loadingFav = true;
+    if (this.selectedTab !== 0) {
       if (!this.isInFavourites(course)) {
         this.httpService.addToFavouriteCourses(course, this.authenticationService.currentPlayerValue.id).pipe(
           tap(
             () => {
               this.courses.favourites.push(course);
               this.alertService.success(course.name + ' added to favourites.', false);
+              this.loadingFav = false;
             })
         ).subscribe();
       } else {
         this.alertService.error(course.name + ' already added to favourites.', false);
+        this.loadingFav = false;
       }
     } else {
       this.httpService.deleteFromFavourites(course, this.authenticationService.currentPlayerValue.id).pipe(
@@ -107,6 +111,7 @@ export class ListCoursesComponent implements OnInit {
             this.alertService.success(course.name + ' removed from favourites.', true);
             this.courses.favourites = this.courses.favourites.filter(c => c.id !== course.id);
             this.courseLst = this.courses.favourites;
+            this.loadingFav = false;
           })
       ).subscribe();
     }

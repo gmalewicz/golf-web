@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 export class CourseComponent implements OnInit {
 
   loading: boolean;
+  loadingTees: boolean;
   display: boolean;
   displayTees: boolean;
   showTeesLbl: string;
@@ -42,6 +43,7 @@ export class CourseComponent implements OnInit {
 
       // initializaion
       this.loading = false;
+      this.loadingTees = false;
       this.display = false;
       this.displayTees = false;
       this.showTeesLbl = 'Show tees';
@@ -103,12 +105,15 @@ export class CourseComponent implements OnInit {
 
     this.displayTees = !this.displayTees;
 
+
     if (this.displayTees && this.tee.length === 0) {
 
+      this.loadingTees = true;
       this.httpService.getTees(this.course.id).pipe(
         tap(
           (tee) => {
             this.tee = tee;
+            this.loadingTees = false;
           })
       ).subscribe();
     }

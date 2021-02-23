@@ -1,7 +1,4 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
-</div>
-<div *ngIf="display">
+
   <h2 *ngIf="selectedTab === 0">My Rounds</h2>
   <h2 *ngIf="selectedTab === 1">Recently played rounds</h2>
   <br/>
@@ -17,10 +14,20 @@
   </ul>
   <div class="tab-content" id="roundsTabContent">
     <div class="tab-pane fade show active" id="myRounds" role="tabpanel" aria-labelledby="myRounds-tab">
-      <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 0"></app-list-rounds>
+      <div *ngIf="!dispMy" class="d-flex justify-content-center">
+        <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+      </div>
+      <div *ngIf="dispMy">
+        <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 0"></app-list-rounds>
+      </div>
     </div>
     <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
-      <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 1"></app-list-rounds>
+      <div *ngIf="!dispRecent" class="d-flex justify-content-center">
+        <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+      </div>
+      <div *ngIf="dispRecent">
+        <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 1"></app-list-rounds>
+      </div>
     </div>
   </div>
   <div>
@@ -45,4 +52,4 @@
       Add
     </button>
   </div>
-</div>
+

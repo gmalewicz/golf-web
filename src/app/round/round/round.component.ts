@@ -40,6 +40,7 @@ export class RoundComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
 
+      this.loading = false;
       this.round = history.state.data.round;
       this.viewOnly = true;
 
