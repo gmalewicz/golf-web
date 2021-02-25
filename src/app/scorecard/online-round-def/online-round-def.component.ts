@@ -69,9 +69,21 @@ export class OnlineRoundDefComponent implements OnInit {
     // initiate player with logged in player
     this.players[0] = this.authenticationService.currentPlayerValue;
 
+    // construct default tee time to be automatically assign for the round
+    let teeTime = '';
+    const dateTime = new Date();
+    const hours = dateTime.getHours();
+
+    if (hours < 10) {
+      teeTime  += '0' + hours;
+    } else {
+      teeTime  += hours;
+    }
+    teeTime += ':' + dateTime.getMinutes();
+
     // form definition
     this.defScoreCardForm = this.formBuilder.group({
-      teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
+      teeTime: [teeTime, [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
       teeDropDown1: ['', [Validators.required]],
       teeDropDown2: ['', [Validators.required]],
       teeDropDown3: ['', [Validators.required]],
