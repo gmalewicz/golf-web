@@ -68,10 +68,10 @@ export class TournamentResultsComponent implements OnInit {
           (retTournamentResultRounds: TournamentRound[]) => {
             this.tournamentRounds[index] = retTournamentResultRounds;
             this.rndSpinner[index] = false;
-            this.displayRound[index] = true;
           })
       ).subscribe();
     }
+    this.displayRound[index] = true;
   }
 
   hidePlayerDetails(index: number) {
