@@ -92,11 +92,11 @@
           <th id="hole">Hole</th>
           <th id="p1r">
             {{onlineRounds[0].player.nick}} ({{totalStrokes[0]}})
-            <span *ngIf="hcpDiff > 0">&nbsp;+{{hcpDiff}} </span>
+            <span *ngIf="hcpDiff > 0">+{{hcpDiff}} </span>
           </th>
           <th id="p2r">
             {{onlineRounds[1].player.nick}} ({{totalStrokes[1]}})
-            <span *ngIf="hcpDiff < 0">&nbsp;+{{-hcpDiff}} </span>
+            <span *ngIf="hcpDiff < 0">+{{-hcpDiff}} </span>
           </th>
           <th id="winner">Winner</th>
           <th id="par">Par</th>
@@ -119,40 +119,20 @@
           <td>
             {{i + 1}}
           </td>
-          <td>
-            <span *ngIf="stroke[0] > 0">{{stroke[0]}}</span>
-            <span *ngIf="stroke[0] > 0 && holeHCP[0][i] > 0">({{holeHCP[0][i]}})</span>
+          <td *ngFor="let pl = index of counter(2)">
+            <span *ngIf="stroke[pl] > 0">{{stroke[pl]}}</span>
+            <span *ngIf="stroke[pl] > 0 && holeHCP[pl][i] > 0">({{holeHCP[pl][i]}})</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(putts[i][0])">
+                <span *ngFor="let i = index of counter(putts[i][pl])">
                   <span class="blackDot"></span>
                   <span class="dotSeparator"></span>
                 </span>
               </span>
               <span class="subscript">
                 <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(penalties[i][0])">
-                  <span class="redDot"></span>
-                  <span class="dotSeparator"></span>
-                </span>
-              </span>
-            </span>
-          </td>
-          <td>
-            <span *ngIf="stroke[1] > 0">{{stroke[1]}}</span>
-            <span *ngIf="stroke[1] > 0 && holeHCP[1][i] > 0">({{holeHCP[1][i]}})</span>
-            <span class="supsub">
-              <span class="superscript">
-                <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(putts[i][1])">
-                  <span class="blackDot"></span>
-                  <span class="dotSeparator"></span>
-                </span>
-              </span>
-              <span class="subscript">
-                <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(penalties[i][1])">
+                <span *ngFor="let i = index of counter(penalties[i][pl])">
                   <span class="redDot"></span>
                   <span class="dotSeparator"></span>
                 </span>
@@ -199,4 +179,3 @@
     </div>
   </div>
 </div>
-

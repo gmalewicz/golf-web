@@ -73,13 +73,18 @@ export class OnlineRoundDefComponent implements OnInit {
     let teeTime = '';
     const dateTime = new Date();
     const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes()
 
     if (hours < 10) {
       teeTime  += '0' + hours;
     } else {
       teeTime  += hours;
     }
-    teeTime += ':' + dateTime.getMinutes();
+    if (minutes < 10) {
+      teeTime  += ':0' + minutes;
+    } else {
+      teeTime  += ':' + minutes;
+    }
 
     // form definition
     this.defScoreCardForm = this.formBuilder.group({

@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="parent === 'courses'">
   <h2 *ngIf="selectedTab === 0">Favourite courses</h2>
-  <h2 *ngIf="selectedTab === 1">Serach for a course</h2>
+  <h2 *ngIf="selectedTab === 1">Search for a course</h2>
   <h2 *ngIf="selectedTab === 2">List of all courses</h2>
 </div>
 <div *ngIf="parent === 'addOnlineRound'">
@@ -54,7 +54,7 @@
   <span *ngIf="parent === 'courses'">
     &nbsp;
     <button type="button" class="btn btn-success" routerLink="/addCourse">
-      Add
+      Add Course
     </button>
   </span>
 </div>
