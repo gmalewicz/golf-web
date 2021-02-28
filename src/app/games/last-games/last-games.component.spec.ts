@@ -1,14 +1,18 @@
 import { HttpService } from './../../_services/http.service';
 import { routing } from '@/app.routing';
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GameHttpService } from '../_services/gameHttp.service';
 
 import { LastGamesComponent } from './last-games.component';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { MimicBackendAppInterceptor } from '../_helpers/MimicBackendAppInterceptor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 describe('LastGamesComponent', () => {
+
   let component: LastGamesComponent;
   let fixture: ComponentFixture<LastGamesComponent>;
 
@@ -17,12 +21,13 @@ describe('LastGamesComponent', () => {
       declarations: [ LastGamesComponent ],
       imports: [
         HttpClientModule,
+        FontAwesomeModule,
         routing
       ],
       providers: [GameHttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        HttpService
+                  { provide: AuthenticationService, useValue: authenticationServiceStub },
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+                  HttpService
       ]
     })
     .compileComponents();
@@ -36,5 +41,9 @@ describe('LastGamesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

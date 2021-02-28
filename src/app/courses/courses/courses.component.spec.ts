@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 describe('CoursesComponent', () => {
+
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
 
@@ -67,4 +68,7 @@ describe('CoursesComponent', () => {
     expect(component.courses.searchRes.length).toBe(1);
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 });

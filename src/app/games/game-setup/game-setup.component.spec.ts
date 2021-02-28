@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GameSetupComponent } from './game-setup.component';
 
 describe('GameSetupComponent', () => {
+
   let component: GameSetupComponent;
   let fixture: ComponentFixture<GameSetupComponent>;
 
@@ -36,5 +37,9 @@ describe('GameSetupComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

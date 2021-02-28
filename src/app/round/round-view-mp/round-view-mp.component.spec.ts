@@ -8,6 +8,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RoundViewMPComponent } from './round-view-mp.component';
 
 describe('RoundViewMPComponent', () => {
+
   let component: RoundViewMPComponent;
   let fixture: ComponentFixture<RoundViewMPComponent>;
 
@@ -35,5 +36,9 @@ describe('RoundViewMPComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

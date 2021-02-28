@@ -46,4 +46,8 @@ describe('CourseComponent', () => {
     tick();
     expect(component.displayTees).toBeTruthy();
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 });

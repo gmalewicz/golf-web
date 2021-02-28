@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue) {
       this.router.navigate(['/']);
     }
-
     this.loading = false;
     this.submitted = false;
     this.alertService.clear();
