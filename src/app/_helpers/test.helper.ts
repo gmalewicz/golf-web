@@ -78,7 +78,9 @@ export let authenticationServiceStub: Partial<AuthenticationService>;
 
 authenticationServiceStub = {
   currentPlayerValue: {nick: 'test', id: 1},
-  logout(): void {}
+  logout(): void {
+    // This is intentional
+  }
 };
 
 export class MatDialogMock {
