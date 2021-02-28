@@ -8,6 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RoundsComponent } from './rounds.component';
 
 describe('RoundsComponent', () => {
+
   let component: RoundsComponent;
   let fixture: ComponentFixture<RoundsComponent>;
 
@@ -35,5 +36,9 @@ describe('RoundsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

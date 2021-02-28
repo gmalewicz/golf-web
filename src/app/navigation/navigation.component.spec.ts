@@ -8,6 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationComponent } from './navigation.component';
 
 describe('NavigationComponent', () => {
+
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
@@ -16,7 +17,6 @@ describe('NavigationComponent', () => {
       declarations: [ NavigationComponent ],
       imports: [
         HttpClientModule,
-        //ReactiveFormsModule,
         routing,
       ],
       providers: [HttpService,
@@ -34,5 +34,9 @@ describe('NavigationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

@@ -61,4 +61,8 @@ describe('ListCoursesComponent', () => {
     expect(component.courses.favourites.length).toBe(2);
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

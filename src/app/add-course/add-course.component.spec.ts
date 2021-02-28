@@ -151,4 +151,8 @@ describe('AddCourseComponent', () => {
 
   }));
 
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
+
 });

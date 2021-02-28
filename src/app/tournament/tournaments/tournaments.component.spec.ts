@@ -8,6 +8,7 @@ import { TournamentHttpService } from '../_services';
 import { TournamentsComponent } from './tournaments.component';
 
 describe('TournamentsComponent', () => {
+
   let component: TournamentsComponent;
   let fixture: ComponentFixture<TournamentsComponent>;
 
@@ -53,5 +54,9 @@ describe('TournamentsComponent', () => {
       // Test more rows here..
       done();
     });
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

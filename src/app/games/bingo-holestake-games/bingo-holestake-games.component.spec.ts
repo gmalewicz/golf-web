@@ -46,4 +46,8 @@ describe('BingoHolestakeGamesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 });

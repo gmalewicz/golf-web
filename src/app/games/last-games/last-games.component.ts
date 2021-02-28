@@ -19,7 +19,6 @@ export class LastGamesComponent implements OnInit {
   games: Game[];
 
   constructor(private gameHttpService: GameHttpService,
-              private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router,
               private route: ActivatedRoute) {

@@ -154,4 +154,8 @@ describe('AddScorecardComponent', () => {
     expect(component.f.teeTime.value).toMatch('');
 
   }));
+
+   afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 });

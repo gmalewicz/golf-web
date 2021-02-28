@@ -9,6 +9,7 @@ import { OnlineMatchplayComponent } from './online-matchplay.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 describe('OnlineMatchplayComponent', () => {
+
   let component: OnlineMatchplayComponent;
   let fixture: ComponentFixture<OnlineMatchplayComponent>;
 
@@ -42,5 +43,9 @@ describe('OnlineMatchplayComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

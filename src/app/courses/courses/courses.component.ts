@@ -57,6 +57,17 @@ export class CoursesComponent implements OnInit {
   onTabClick(id: number) {
     this.alertService.clear();
     this.selectedTab = id;
+    // initialize search result
+    if (id === 1 && this.courses.searchRes === undefined) {
+      this.loading = true;
+      this.httpService.getSortedCourses(0).pipe(
+        tap(
+          courses => {
+            this.loading = false;
+            this.courses.searchRes = courses;
+          })
+      ).subscribe();
+    }
   }
 
   onKey(event: any) {

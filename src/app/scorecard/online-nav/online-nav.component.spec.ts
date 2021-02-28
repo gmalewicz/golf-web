@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OnlineNavComponent } from './online-nav.component';
 
 describe('OnlineNavComponent', () => {
+
   let component: OnlineNavComponent;
   let fixture: ComponentFixture<OnlineNavComponent>;
 
@@ -24,5 +25,9 @@ describe('OnlineNavComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

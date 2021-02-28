@@ -8,6 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RoundViewWHSComponent } from './round-view-whs.component';
 
 describe('RoundViewWHSComponent', () => {
+
   let component: RoundViewWHSComponent;
   let fixture: ComponentFixture<RoundViewWHSComponent>;
 
@@ -36,5 +37,9 @@ describe('RoundViewWHSComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

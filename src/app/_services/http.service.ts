@@ -117,6 +117,11 @@ export class HttpService {
 
     return this.http.post<Array<Course>>('rest/SearchForCourse', {name: courseName});
   }
+
+  getSortedCourses(pageId: number): Observable<Array<Course>> {
+
+    return this.http.get<Array<Course>>('rest/SortedCourses/' +  pageId);
+  }
 }
 
 

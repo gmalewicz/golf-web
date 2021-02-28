@@ -29,7 +29,6 @@ export class TournamentRoundsComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/']);
     } else {
-
       this.faSearchPlus = faSearchPlus;
       this.tournament = history.state.data.tournament;
 

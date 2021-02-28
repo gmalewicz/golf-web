@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListRoundsComponent } from './list-rounds.component';
 
 describe('ListRoundsComponent', () => {
+
   let component: ListRoundsComponent;
   let fixture: ComponentFixture<ListRoundsComponent>;
 
@@ -21,5 +22,9 @@ describe('ListRoundsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });

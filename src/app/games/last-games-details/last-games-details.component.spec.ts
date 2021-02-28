@@ -10,6 +10,7 @@ import { GameHttpService } from '../_services/gameHttp.service';
 import { LastGamesDetailsComponent } from './last-games-details.component';
 
 describe('LastGamesDetailsComponent', () => {
+
   let component: LastGamesDetailsComponent;
   let fixture: ComponentFixture<LastGamesDetailsComponent>;
 
@@ -41,5 +42,9 @@ describe('LastGamesDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
   });
 });
