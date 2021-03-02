@@ -11,8 +11,7 @@ import { ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-round-def',
-  templateUrl: './online-round-def.component.html',
-  styleUrls: ['./online-round-def.component.css']
+  templateUrl: './online-round-def.component.html'
 })
 export class OnlineRoundDefComponent implements OnInit {
 

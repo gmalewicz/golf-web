@@ -8,4 +8,5 @@ export interface Player {
   captcha?: string;
   role?: number;
   roundDetails?: PlayerRoundDetails;
+  sex?: boolean;
 }

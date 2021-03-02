@@ -47,7 +47,8 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if ((req.url.endsWith('rest/Round') && (req.method === 'POST')) ||
                (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH')) ||
-               (req.url.endsWith('rest/DeleteFavouriteCourse/1') && (req.method === 'POST'))
+               (req.url.endsWith('rest/DeleteFavouriteCourse/1') && (req.method === 'POST')) ||
+               req.url.endsWith('rest/AddPlayer')
                ) {
       return new Observable<any> (observer => {
         observer.next(new HttpResponse<any>({status: 200}));

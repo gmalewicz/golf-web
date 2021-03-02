@@ -1,11 +1,10 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
+import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { By } from '@angular/platform-browser';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { RegistrationComponent } from './registration.component';
 
@@ -25,8 +24,7 @@ describe('RegistrationComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }]
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true }]
     })
     .compileComponents();
   }));
@@ -41,7 +39,25 @@ describe('RegistrationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  afterAll(() => {
-    TestBed.resetTestingModule();
-  });
+  it('should click save button with valid form', fakeAsync(() => {
+
+    component.f.nick.setValue('test');
+    component.f.password.setValue('welcome');
+    component.f.whs.setValue(12.5);
+    component.f.recaptchaReactive.setValue('asdsdasdaddasa');
+    component.f.female.setValue(false);
+
+    component.onSubmit();
+    expect(component.loading).toBeTruthy();
+
+  }));
+
+  it('should click sex button', fakeAsync(() => {
+
+    component.f.male.setValue(true);
+
+    component.sexClick(true);
+    expect(component.f.male.value).toBeFalsy();
+
+  }));
 });
