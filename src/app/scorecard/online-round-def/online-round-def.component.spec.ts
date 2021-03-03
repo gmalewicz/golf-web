@@ -26,7 +26,9 @@ describe('OnlineRoundDefComponent', () => {
     clear() {
       // This is intentional
     },
-    error(message: string, keepAfterRouteChange = false) {}
+    error(message: string, keepAfterRouteChange = false) {
+      // This is intentional
+    }
   };
 
   beforeEach(waitForAsync(() => {
