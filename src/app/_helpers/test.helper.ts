@@ -77,7 +77,7 @@ export function getTestCourse(): Course {
 export let authenticationServiceStub: Partial<AuthenticationService>;
 
 authenticationServiceStub = {
-  currentPlayerValue: {nick: 'test', id: 1},
+  currentPlayerValue: {nick: 'test', id: 1, whs: 10},
   logout(): void {
     // This is intentional
   }

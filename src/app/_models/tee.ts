@@ -4,6 +4,7 @@ export interface Tee {
   sr?: number;
   tee?: string;
   teeType?: number;
+  sex?: boolean;
 }
 
 export const teeTypes = {

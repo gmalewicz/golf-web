@@ -55,7 +55,7 @@
           &nbsp;
         </span>
         <div class="form-group">
-          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" [options]="teeOptions"
+          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" [options]="getTeeOptions(0)" class="teeDropDown1"
             [ngClass]="{ 'is-invalid': submitted && f.teeDropDown1.errors }" placeholder="tee">
           </p-dropdown>
           <div *ngIf="submitted && f.teeDropDown1.errors" class="invalid-feedback">
@@ -90,7 +90,7 @@
           &nbsp;
         </span>
         <div class="form-group">
-          <p-dropdown (onChange)="teeChange(1)" formControlName="teeDropDown2" [options]="teeOptions"
+          <p-dropdown (onChange)="teeChange(1)" formControlName="teeDropDown2" [options]="getTeeOptions(1)"
             [ngClass]="{ 'is-invalid': submitted && f.teeDropDown2.errors }" placeholder="tee">
           </p-dropdown>
           <div *ngIf="submitted && f.teeDropDown2.errors" class="invalid-feedback">
@@ -127,7 +127,7 @@
           &nbsp;
         </span>
         <div class="form-group">
-          <p-dropdown (onChange)="teeChange(2)" formControlName="teeDropDown3" [options]="teeOptions"
+          <p-dropdown (onChange)="teeChange(2)" formControlName="teeDropDown3" [options]="getTeeOptions(2)"
             [ngClass]="{ 'is-invalid': submitted && f.teeDropDown3.errors }" placeholder="tee">
           </p-dropdown>
           <div *ngIf="submitted && f.teeDropDown3.errors" class="invalid-feedback">
@@ -164,7 +164,7 @@
           &nbsp;
         </span>
         <div class="form-group">
-          <p-dropdown (onChange)="teeChange(3)" formControlName="teeDropDown4" [options]="teeOptions"
+          <p-dropdown (onChange)="teeChange(3)" formControlName="teeDropDown4" [options]="getTeeOptions(3)"
             [ngClass]="{ 'is-invalid': submitted && f.teeDropDown4.errors }" placeholder="tee">
           </p-dropdown>
           <div *ngIf="submitted && f.teeDropDown4.errors" class="invalid-feedback">

@@ -145,10 +145,10 @@ function holeHCPLast9(index: number,
 }
 
 function holeHCPFirst9(index: number,
-                      hcpAll: number,
-                      hcpIncMaxHole: number,
-                      holeHCP: number[][],
-                      course: Course) {
+                       hcpAll: number,
+                       hcpIncMaxHole: number,
+                       holeHCP: number[][],
+                       course: Course) {
 
   holeHCP[index].fill(hcpAll, 0, 9);
 
