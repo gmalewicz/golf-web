@@ -29,6 +29,19 @@
       <div *ngIf="f.whs.errors.pattern">Provide valid value with dot if needed</div>
     </div>
   </div>
+  <div class="form-row">
+    &nbsp;
+    <div class="form-group custom-control custom-checkbox custom-checkbox-green">
+      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck1" (click)="sexClick(true)" formControlName="female" >
+      <label class="custom-control-label" for="customCheck1">Female</label>
+    </div>
+    &nbsp;
+    &nbsp;
+    <div class="form-group custom-control custom-checkbox custom-checkbox-green">
+      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck2" (click)="sexClick(false)" formControlName="male">
+      <label class="custom-control-label" for="customCheck2">Male</label>
+    </div>
+  </div>
   <div class="form-group">
     <re-captcha formControlName="recaptchaReactive" siteKey="6Lf-66YZAAAAAJc3serwf1iRoJg6PgTPJazkfNWD"
       [ngClass]="{ 'is-invalid': submitted && f.recaptchaReactive.errors }"></re-captcha>
@@ -37,7 +50,7 @@
     </div>
   </div>
   <div>
-    <button [disabled]="loading" class="btn btn-success">
+    <button [disabled]="loading" class="btn btn-success btn-register">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
       Register
     </button>

@@ -18,7 +18,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of tee">
-          <td>{{ row.tee }}
+          <td>
+            {{ row.tee }}
+            <span *ngIf="row.sex">ladies</span>
+            <span *ngIf="!row.sex">men</span>
             <span *ngIf="row.teeType === 0">&nbsp;1-18</span>
             <span *ngIf="row.teeType === 1">&nbsp;1-9</span>
             <span *ngIf="row.teeType === 2">&nbsp;10-18</span>

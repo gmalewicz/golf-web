@@ -37,6 +37,8 @@ export class RegistrationComponent implements OnInit {
         nick: ['', [Validators.required, Validators.maxLength(10)]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]],
+        female: [false],
+        male: [true],
         recaptchaReactive: ['', [Validators.required]],
       });
   }
@@ -60,7 +62,8 @@ export class RegistrationComponent implements OnInit {
       const player: Player = {nick: this.f.nick.value,
                               password: this.f.password.value,
                               whs: this.f.whs.value,
-                              captcha: this.f.recaptchaReactive.value};
+                              captcha: this.f.recaptchaReactive.value,
+                              sex: this.f.female.value ? true : false};
 
       this.httpService.addPlayer(player).pipe(
       tap(
@@ -69,5 +72,13 @@ export class RegistrationComponent implements OnInit {
           this.router.navigate(['/']);
         })
     ).subscribe();
+  }
+
+  sexClick(sex: boolean) {
+    if (sex) {
+      this.f.male.setValue(false);
+    } else {
+      this.f.female.setValue(false);
+    }
   }
 }

@@ -40,6 +40,8 @@ export class AddCourseComponent implements OnInit {
 
   nbrHoles: { label: string; value: number; }[];
 
+  sex: { label: string; value: boolean; }[];
+
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
@@ -60,6 +62,7 @@ export class AddCourseComponent implements OnInit {
         tee: ['', Validators.required],
         cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
         sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
+        sexDropDown: ['', [Validators.required]],
         teeTypeDropDown: ['', [Validators.required]],
         nbrHolesDropDown: ['', [Validators.required]]
       });
@@ -75,6 +78,9 @@ export class AddCourseComponent implements OnInit {
 
       this.nbrHoles = [{ label: '18', value: 18 },
                       { label: '9', value: 9 }];
+
+      this.sex = [{ label: 'female', value: true },
+                      { label: 'male', value: false }];
 
       this.updatingHole = 0;
       this.pars = [];
@@ -300,14 +306,14 @@ export class AddCourseComponent implements OnInit {
     this.addTeeSubmitted = true;
 
     // display errors if any
-    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid) {
+    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid || this.f.tee.invalid) {
       return;
     }
 
     // save tee
     this.tees.push({
       tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value,
-      teeType: this.f.teeTypeDropDown.value
+      teeType: this.f.teeTypeDropDown.value, sex: this.f.sexDropDown.value
     });
 
     // clare submit flag to be ready for the next tee

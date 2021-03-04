@@ -11,14 +11,14 @@ import { ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-round-def',
-  templateUrl: './online-round-def.component.html',
-  styleUrls: ['./online-round-def.component.css']
+  templateUrl: './online-round-def.component.html'
 })
 export class OnlineRoundDefComponent implements OnInit {
 
   course: Course;
   defScoreCardForm: FormGroup;
-  teeOptions = [];
+  teeOptionsMale = [];
+  teeOptionsFemale = [];
   display: boolean;
   submitted: boolean;
   loading: boolean;
@@ -73,7 +73,7 @@ export class OnlineRoundDefComponent implements OnInit {
     let teeTime = '';
     const dateTime = new Date();
     const hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes()
+    const minutes = dateTime.getMinutes();
 
     if (hours < 10) {
       teeTime  += '0' + hours;
@@ -90,9 +90,9 @@ export class OnlineRoundDefComponent implements OnInit {
     this.defScoreCardForm = this.formBuilder.group({
       teeTime: [teeTime, [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
       teeDropDown1: ['', [Validators.required]],
-      teeDropDown2: ['', [Validators.required]],
-      teeDropDown3: ['', [Validators.required]],
-      teeDropDown4: ['', [Validators.required]],
+      teeDropDown2: [{value: '', disabled: true}, [Validators.required]],
+      teeDropDown3: [{value: '', disabled: true}, [Validators.required]],
+      teeDropDown4: [{value: '', disabled: true}, [Validators.required]],
       nick1: [{value: this.authenticationService.currentPlayerValue.nick + ' ' +
         this.authenticationService.currentPlayerValue.whs, disabled: true}],
       nick2: ['', [Validators.required, Validators.maxLength(10)]],
@@ -116,7 +116,8 @@ export class OnlineRoundDefComponent implements OnInit {
 
       // create tee labels
       const teeType = ['1-18', '1-9', '10-18'];
-      retTees.forEach((t, i) => this.teeOptions.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
+      retTees.filter(t => t.sex).forEach((t, i) => this.teeOptionsFemale.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
+      retTees.filter(t => !t.sex).forEach((t, i) => this.teeOptionsMale.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
 
       this.display = true;
       // },
@@ -222,7 +223,6 @@ export class OnlineRoundDefComponent implements OnInit {
         }
       })
     ).subscribe();
-
   }
 
   private isAllNicksSet(): boolean {
@@ -382,4 +382,9 @@ export class OnlineRoundDefComponent implements OnInit {
     return retVal;
   }
 
+  getTeeOptions(idx: number): any[] {
+    if (this.players[idx] !== undefined) {
+      return (this.players[idx].sex ? this.teeOptionsFemale : this.teeOptionsMale);
+    }
+  }
 }

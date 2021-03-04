@@ -114,9 +114,8 @@
       <tbody>
         <tr *ngFor="let row of tees">
           <td>{{ row.tee }}
-              <span *ngIf="row.teeType === 0">&nbsp;1-18</span>
-              <span *ngIf="row.teeType === 1">&nbsp;1-9</span>
-              <span *ngIf="row.teeType === 2">&nbsp;10-18</span>
+              <span *ngIf="row.sex">ladies</span>
+              <span *ngIf="!row.sex">men</span>
           </td>
           <td>{{ row.cr }}</td>
           <td>{{ row.sr }}</td>
@@ -136,7 +135,7 @@
         formControlName="tee"
         class="form-control"
         [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
-        placeholder="Tee"
+        placeholder="colour"
       />
       <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
         <div *ngIf="f.tee.errors.required">Tee name is required</div>
@@ -183,6 +182,18 @@
       </p-dropdown>
       <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
         <div *ngIf="f.teeTypeDropDown.errors.required">Tee is required</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <p-dropdown
+        formControlName="sexDropDown"
+        autoWidth="false" [style]="{'width':'100%'}"
+        [options]="sex"
+        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
+        placeholder="sex">
+      </p-dropdown>
+      <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
+        <div *ngIf="f.teeTypeDropDown.errors.required">Sex is required</div>
       </div>
     </div>
     <div class="form-group col">

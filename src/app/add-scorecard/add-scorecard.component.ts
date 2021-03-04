@@ -196,7 +196,8 @@ export class AddScorecardComponent implements OnInit {
 
         // create tee labels
         const teeType = ['1-18', '1-9', '10-18'];
-        retTees.forEach((t, i) => this.teeOptions.push({label: t.tee + ' ' + teeType[t.teeType], value: t.id}));
+        retTees.filter(t => t.sex === this.authenticationService.currentPlayerValue.sex).forEach((t) =>
+          this.teeOptions.push({label: t.tee  + ' ' + teeType[t.teeType], value: t.id}));
         this.generateLabelsAndData();
         this.display = true;
       })
