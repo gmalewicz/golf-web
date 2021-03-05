@@ -12,7 +12,6 @@
         formControlName="date"
         class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
-        placeholder="YYYY/MM/DD"
       />
       <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
         <div *ngIf="f.date.errors.required">Date is required</div>
@@ -27,7 +26,6 @@
         formControlName="teeTime"
         class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }"
-        placeholder="HH:MM"
       />
       <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
         <div *ngIf="f.teeTime.errors.required">Tee time is required</div>

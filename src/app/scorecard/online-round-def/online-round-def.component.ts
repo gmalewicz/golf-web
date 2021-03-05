@@ -1,3 +1,4 @@
+import { getDateAndTime } from '@/_helpers/common';
 import { Course, Player, Tee } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
@@ -69,26 +70,9 @@ export class OnlineRoundDefComponent implements OnInit {
     // initiate player with logged in player
     this.players[0] = this.authenticationService.currentPlayerValue;
 
-    // construct default tee time to be automatically assign for the round
-    let teeTime = '';
-    const dateTime = new Date();
-    const hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes();
-
-    if (hours < 10) {
-      teeTime  += '0' + hours;
-    } else {
-      teeTime  += hours;
-    }
-    if (minutes < 10) {
-      teeTime  += ':0' + minutes;
-    } else {
-      teeTime  += ':' + minutes;
-    }
-
     // form definition
     this.defScoreCardForm = this.formBuilder.group({
-      teeTime: [teeTime, [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
+      teeTime: [getDateAndTime()[1], [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
       teeDropDown1: ['', [Validators.required]],
       teeDropDown2: [{value: '', disabled: true}, [Validators.required]],
       teeDropDown3: [{value: '', disabled: true}, [Validators.required]],
