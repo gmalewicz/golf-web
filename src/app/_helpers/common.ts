@@ -1,5 +1,3 @@
-import { SystemJsNgModuleLoader } from "@angular/core";
-
 export function getDateAndTime(): string[] {
 
   // construct default teetime and tee date to be automatically assign for the round
