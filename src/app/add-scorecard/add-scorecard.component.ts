@@ -10,6 +10,7 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { getDateAndTime } from '@/_helpers/common';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -68,9 +69,11 @@ export class AddScorecardComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
 
+      const dateStr = getDateAndTime();
+
       this.addScorecardForm = this.formBuilder.group({
-        date: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-        teeTime: ['', [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
+        date: [dateStr[0], [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        teeTime: [dateStr[1], [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
         teeDropDown: ['', [ Validators.required ]]
       });
 

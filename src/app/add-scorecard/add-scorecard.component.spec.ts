@@ -155,7 +155,7 @@ describe('AddScorecardComponent', () => {
 
   }));
 
-   afterAll(() => {
+  afterAll(() => {
     TestBed.resetTestingModule();
   });
 });
