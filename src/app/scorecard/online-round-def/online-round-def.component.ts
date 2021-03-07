@@ -1,21 +1,26 @@
-import { getDateAndTime } from '@/_helpers/common';
-import { Course, Player, Tee } from '@/_models';
-import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { getDateAndTime } from "@/_helpers/common";
+import { Course, Player, Tee } from "@/_models";
+import { AlertService, AuthenticationService, HttpService } from "@/_services";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import {
+  faCheckCircle,
+  faSearchPlus,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
+import { combineLatest } from "rxjs";
+import { tap } from "rxjs/operators";
+import { RegisterPlayerDialogComponent } from "../register-player-dialog/register-player-dialog.component";
 
-import { ScorecardHttpService } from '../_services';
+import { ScorecardHttpService } from "../_services";
 
 @Component({
-  selector: 'app-online-round-def',
-  templateUrl: './online-round-def.component.html'
+  selector: "app-online-round-def",
+  templateUrl: "./online-round-def.component.html",
 })
 export class OnlineRoundDefComponent implements OnInit {
-
   course: Course;
   defScoreCardForm: FormGroup;
   teeOptionsMale = [];
@@ -32,21 +37,24 @@ export class OnlineRoundDefComponent implements OnInit {
   faSearchPlus: IconDefinition;
   faCheckCircle: IconDefinition;
 
-  constructor(private httpService: HttpService,
-              private scorecardHttpService: ScorecardHttpService,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService,
-              private authenticationService: AuthenticationService,
-              private router: Router) {
-  }
+  constructor(
+    private httpService: HttpService,
+    private scorecardHttpService: ScorecardHttpService,
+    private formBuilder: FormBuilder,
+    private alertService: AlertService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-
-    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+    if (
+      history.state.data === undefined ||
+      this.authenticationService.currentPlayerValue === null
+    ) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     } else {
-
       // initialization
       this.display = false;
       this.submitted = false;
@@ -63,7 +71,6 @@ export class OnlineRoundDefComponent implements OnInit {
   }
 
   private getCourseData() {
-
     // grab course from the history
     this.course = history.state.data.course;
 
@@ -72,16 +79,29 @@ export class OnlineRoundDefComponent implements OnInit {
 
     // form definition
     this.defScoreCardForm = this.formBuilder.group({
-      teeTime: [getDateAndTime()[1], [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
-      teeDropDown1: ['', [Validators.required]],
-      teeDropDown2: [{value: '', disabled: true}, [Validators.required]],
-      teeDropDown3: [{value: '', disabled: true}, [Validators.required]],
-      teeDropDown4: [{value: '', disabled: true}, [Validators.required]],
-      nick1: [{value: this.authenticationService.currentPlayerValue.nick + ' ' +
-        this.authenticationService.currentPlayerValue.whs, disabled: true}],
-      nick2: ['', [Validators.required, Validators.maxLength(10)]],
-      nick3: ['', [Validators.required, Validators.maxLength(10)]],
-      nick4: ['', [Validators.required, Validators.maxLength(10)]],
+      teeTime: [
+        getDateAndTime()[1],
+        [
+          Validators.required,
+          Validators.pattern("^([0-1][0-9]|[2][0-3]):([0-5][0-9])$"),
+        ],
+      ],
+      teeDropDown1: ["", [Validators.required]],
+      teeDropDown2: [{ value: "", disabled: true }, [Validators.required]],
+      teeDropDown3: [{ value: "", disabled: true }, [Validators.required]],
+      teeDropDown4: [{ value: "", disabled: true }, [Validators.required]],
+      nick1: [
+        {
+          value:
+            this.authenticationService.currentPlayerValue.nick +
+            " " +
+            this.authenticationService.currentPlayerValue.whs,
+          disabled: true,
+        },
+      ],
+      nick2: ["", [Validators.required, Validators.maxLength(10)]],
+      nick3: ["", [Validators.required, Validators.maxLength(10)]],
+      nick4: ["", [Validators.required, Validators.maxLength(10)]],
       putts: [false],
       penalties: [false],
       matchPlay: [false],
@@ -91,17 +111,32 @@ export class OnlineRoundDefComponent implements OnInit {
     this.onPlayers(1);
 
     // get course holes and available tees
-    combineLatest([this.httpService.getHoles(this.course.id),
-    this.httpService.getTees(this.course.id)]).subscribe(([retHoles, retTees]) => {
-
+    combineLatest([
+      this.httpService.getHoles(this.course.id),
+      this.httpService.getTees(this.course.id),
+    ]).subscribe(([retHoles, retTees]) => {
       // update teee with missing infromation about holes and tees
       this.course.holes = retHoles;
       this.course.tees = retTees;
 
       // create tee labels
-      const teeType = ['1-18', '1-9', '10-18'];
-      retTees.filter(t => t.sex).forEach((t, i) => this.teeOptionsFemale.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
-      retTees.filter(t => !t.sex).forEach((t, i) => this.teeOptionsMale.push({ label: t.tee + ' ' + teeType[t.teeType], value: t.id }));
+      const teeType = ["1-18", "1-9", "10-18"];
+      retTees
+        .filter((t) => t.sex)
+        .forEach((t, i) =>
+          this.teeOptionsFemale.push({
+            label: t.tee + " " + teeType[t.teeType],
+            value: t.id,
+          })
+        );
+      retTees
+        .filter((t) => !t.sex)
+        .forEach((t, i) =>
+          this.teeOptionsMale.push({
+            label: t.tee + " " + teeType[t.teeType],
+            value: t.id,
+          })
+        );
 
       this.display = true;
       // },
@@ -111,37 +146,44 @@ export class OnlineRoundDefComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.defScoreCardForm.controls; }
+  get f() {
+    return this.defScoreCardForm.controls;
+  }
 
   // change which 9 is available when tee has been changed
   teeChange(index: number) {
-
     this.alertService.clear();
 
     // set up the tee for the player based on the drop down tee
     switch (index) {
       case 0: {
-        this.tees[index] = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown1.value).pop();
+        this.tees[index] = this.course.tees
+          .filter((t, i) => t.id === this.f.teeDropDown1.value)
+          .pop();
         break;
       }
       case 1: {
-        this.tees[index] = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown2.value).pop();
+        this.tees[index] = this.course.tees
+          .filter((t, i) => t.id === this.f.teeDropDown2.value)
+          .pop();
         break;
       }
       case 2: {
-        this.tees[index] = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown3.value).pop();
+        this.tees[index] = this.course.tees
+          .filter((t, i) => t.id === this.f.teeDropDown3.value)
+          .pop();
         break;
       }
       default: {
-        this.tees[index] = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown4.value).pop();
+        this.tees[index] = this.course.tees
+          .filter((t, i) => t.id === this.f.teeDropDown4.value)
+          .pop();
         break;
       }
     }
   }
 
   onStartOnlineRound() {
-
-
     this.submitted = true;
 
     // reset alerts on submit
@@ -154,8 +196,9 @@ export class OnlineRoundDefComponent implements OnInit {
 
     // stop here if players where not verified in database
     if (!this.isAllNicksSet()) {
-      this.alertService.
-        error('Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.');
+      this.alertService.error(
+        "Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding."
+      );
       return;
     }
 
@@ -169,7 +212,6 @@ export class OnlineRoundDefComponent implements OnInit {
 
     let counter = 0;
     while (counter < this.noOfPlayers) {
-
       const onlineRound = {
         course: this.course,
         teeTime: this.f.teeTime.value,
@@ -181,36 +223,37 @@ export class OnlineRoundDefComponent implements OnInit {
         penalties: this.f.penalties.value,
         matchPlay: this.f.matchPlay.value,
         // required not to filter on frontend on view page
-        nick2: ''
+        nick2: "",
       };
 
       if (this.f.matchPlay.value) {
         onlineRound.nick2 = this.players[1].nick;
       }
 
-
       onlineRounds[counter] = onlineRound;
       counter++;
     }
 
-    this.scorecardHttpService.addOnlineRounds(onlineRounds).pipe(tap(
-      or => {
-        this.loading = false;
-        if  (this.f.matchPlay.value) {
-          this.router.navigate(['/scorecard/onlineMatchplay'], {
-            state: { data: { onlineRounds: or, course: this.course } }
-          });
-        } else {
-          this.router.navigate(['/scorecard/onlineRound'], {
-            state: { data: { onlineRounds: or, course: this.course } }
-          });
-        }
-      })
-    ).subscribe();
+    this.scorecardHttpService
+      .addOnlineRounds(onlineRounds)
+      .pipe(
+        tap((or) => {
+          this.loading = false;
+          if (this.f.matchPlay.value) {
+            this.router.navigate(["/scorecard/onlineMatchplay"], {
+              state: { data: { onlineRounds: or, course: this.course } },
+            });
+          } else {
+            this.router.navigate(["/scorecard/onlineRound"], {
+              state: { data: { onlineRounds: or, course: this.course } },
+            });
+          }
+        })
+      )
+      .subscribe();
   }
 
   private isAllNicksSet(): boolean {
-
     return !this.players.slice(0, this.noOfPlayers).includes(undefined);
   }
 
@@ -271,16 +314,13 @@ export class OnlineRoundDefComponent implements OnInit {
         break;
       }
     }
-
   }
 
   onSearchPlayer(playerIdx: number) {
-
     this.alertService.clear();
 
     switch (playerIdx) {
       case 1: {
-
         if (this.f.nick2.valid && !this.isNickDuplicated(this.f.nick2.value)) {
           this.searchPlayer(this.f.nick2.value, playerIdx);
         }
@@ -289,7 +329,6 @@ export class OnlineRoundDefComponent implements OnInit {
       }
 
       case 2: {
-
         if (this.f.nick3.valid && !this.isNickDuplicated(this.f.nick3.value)) {
           this.searchPlayer(this.f.nick3.value, playerIdx);
         }
@@ -298,7 +337,6 @@ export class OnlineRoundDefComponent implements OnInit {
       }
 
       case 3: {
-
         if (this.f.nick4.valid && !this.isNickDuplicated(this.f.nick4.value)) {
           this.searchPlayer(this.f.nick4.value, playerIdx);
         }
@@ -309,55 +347,110 @@ export class OnlineRoundDefComponent implements OnInit {
   }
 
   private searchPlayer(nick: string, playerIdx: number) {
-
     this.searchInProgress[playerIdx] = true;
 
-    this.httpService.getPlayerForNick(nick).pipe(tap(
-      player => {
-
-        if (player != null) {
-          this.players[playerIdx] = player;
-
-          if (playerIdx === 1) {
-            this.f.nick2.disable();
-            this.f.nick2.setValue(this.f.nick2.value + ' ' + this.players[1].whs);
-          } else if (playerIdx === 2) {
-            this.f.nick3.disable();
-            this.f.nick3.setValue(this.f.nick3.value + ' ' + this.players[2].whs);
-          } else if (playerIdx === 3) {
-            this.f.nick4.disable();
-            this.f.nick4.setValue(this.f.nick4.value + ' ' + this.players[3].whs);
+    this.httpService
+      .getPlayerForNick(nick)
+      .pipe(
+        tap((player) => {
+          if (player != null) {
+            this.updatePlayers(player, playerIdx);
+          } else {
+            // this.alertService.error('Player: ' + nick + ' not found', false);
+            this.processDialog(nick, playerIdx);
           }
-        } else {
-          this.alertService.error('Player: ' + nick + ' not found', false);
+          this.searchInProgress[playerIdx] = false;
+        })
+      )
+      .subscribe();
+  }
+
+  processDialog(nick: string, playerIdx: number) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      nick: nick,
+    };
+
+    const dialogRef = this.dialog.open(
+      RegisterPlayerDialogComponent,
+      dialogConfig
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result != undefined) {
+        const newPlayer: Player = {
+          nick: result.nick,
+          whs: result.whs,
+          sex: result.female.value ? true : false
         }
-        this.searchInProgress[playerIdx] = false;
-      })
-    ).subscribe();
+        this.searchInProgress[playerIdx] = true;
+        this.httpService
+        .addPlayerOnBehalf(newPlayer)
+        .pipe(
+          tap((player) => {
+            this.updatePlayers(player, playerIdx);
+            this.alertService.success("The new player has been successfully created", false);
+            this.searchInProgress[playerIdx] = false;
+          })
+        )
+        .subscribe();
+      }
+    });
+  }
+
+  private updatePlayers(player: Player, playerIdx: number) {
+    this.players[playerIdx] = player;
+
+      if (playerIdx === 1) {
+        this.f.nick2.disable();
+        this.f.nick2.setValue(
+          this.f.nick2.value + " " + this.players[1].whs
+        );
+      } else if (playerIdx === 2) {
+        this.f.nick3.disable();
+        this.f.nick3.setValue(
+          this.f.nick3.value + " " + this.players[2].whs
+        );
+      } else if (playerIdx === 3) {
+        this.f.nick4.disable();
+        this.f.nick4.setValue(
+          this.f.nick4.value + " " + this.players[3].whs
+        );
+      }
   }
 
   onMatchPlayChange(e) {
-      if (e) {
-        this.onPlayers(2);
-        this.noOfPlayers = 2;
-      }
+    if (e) {
+      this.onPlayers(2);
+      this.noOfPlayers = 2;
+    }
   }
 
   private isMpTeeTypeCorrect(): boolean {
     if (this.tees[0].teeType !== this.tees[1].teeType) {
-      this.alertService.error('Tee types (number of holes) for both players must be the same in case of MP round', false);
+      this.alertService.error(
+        "Tee types (number of holes) for both players must be the same in case of MP round",
+        false
+      );
       return false;
     }
     return true;
   }
 
   private isNickDuplicated(nick: string): boolean {
-
     let retVal = false;
 
     for (const p of this.players) {
       if (p !== undefined && nick === p.nick) {
-        this.alertService.error('Player must be unique in the single score card', false);
+        this.alertService.error(
+          "Player must be unique in the single score card",
+          false
+        );
         retVal = true;
         break;
       }
@@ -368,7 +461,9 @@ export class OnlineRoundDefComponent implements OnInit {
 
   getTeeOptions(idx: number): any[] {
     if (this.players[idx] !== undefined) {
-      return (this.players[idx].sex ? this.teeOptionsFemale : this.teeOptionsMale);
+      return this.players[idx].sex
+        ? this.teeOptionsFemale
+        : this.teeOptionsMale;
     }
   }
 }

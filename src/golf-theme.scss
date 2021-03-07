@@ -1,0 +1,23 @@
+// define 3 theme color
+// mat-palette accepts $palette-name, main, lighter and darker variants
+$mat-primary: (
+  main: #28a745,
+  lighter: #bfe5c7,
+  darker: #188c2e,
+  200: #28a745, // For slide toggle,
+  contrast : (
+    main: $light-primary-text,
+    lighter: $dark-primary-text,
+    darker: $light-primary-text,
+  )
+);
+$golf-theme-primary: mat-palette($mat-primary, main, lighter, darker);
+$golf-theme-accent: mat-palette($mat-primary, main, lighter, darker);
+$golf-theme-warn: mat-palette($mat-deep-orange);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$golf-theme: mat-light-theme(
+    $golf-theme-primary,
+    $golf-theme-accent,
+    $golf-theme-warn
+);

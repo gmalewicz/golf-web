@@ -1,12 +1,14 @@
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper';
+import { authenticationServiceStub, getTestCourse} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropdownModule } from 'primeng/dropdown';
+import { of } from 'rxjs';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 
@@ -31,6 +33,16 @@ describe('OnlineRoundDefComponent', () => {
     }
   };
 
+  class MatDialogMock {
+
+    open() {
+        return {
+            afterClosed: () => of(),
+            componentInstance: {confirmMessage: ''}
+        };
+    }
+  }
+
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
@@ -40,6 +52,7 @@ describe('OnlineRoundDefComponent', () => {
         FontAwesomeModule,
         DropdownModule,
         ReactiveFormsModule,
+        MatDialogModule
       ]
       ,
       providers: [HttpService,
@@ -48,6 +61,7 @@ describe('OnlineRoundDefComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: Router, useValue: routerStub },
         { provide: AlertService, useValue: alertServiceStub },
+        { provide: MatDialog, useClass: MatDialogMock},
         ScorecardHttpService,
         ]
     })
