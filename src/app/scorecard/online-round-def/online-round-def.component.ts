@@ -356,7 +356,6 @@ export class OnlineRoundDefComponent implements OnInit {
           if (player != null) {
             this.updatePlayers(player, playerIdx);
           } else {
-            // this.alertService.error('Player: ' + nick + ' not found', false);
             this.processDialog(nick, playerIdx);
           }
           this.searchInProgress[playerIdx] = false;

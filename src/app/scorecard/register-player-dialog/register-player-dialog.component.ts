@@ -31,7 +31,9 @@ export class RegisterPlayerDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+     // This is intentional
+  }
 
   // convenience getter for easy access to form fields
   get f() {
