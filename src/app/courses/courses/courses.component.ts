@@ -58,7 +58,6 @@ export class CoursesComponent implements OnInit {
     this.alertService.clear();
     this.selectedTab = id;
     // initialize search result
-    console.log('here');
 
     if (id === 1 && this.courses.searchRes === undefined) {
       this.loading = true;

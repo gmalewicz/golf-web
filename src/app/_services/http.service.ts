@@ -54,6 +54,11 @@ export class HttpService {
     return this.http.post<void>('rest/AddPlayer', player);
   }
 
+  addPlayerOnBehalf(player: Player): Observable<Player> {
+
+    return this.http.post<Player>('rest/AddPlayerOnBehalf', player);
+  }
+
   // delete round
   deleteRound(id: number) {
     return this.http.delete('rest/Round/' + id);
