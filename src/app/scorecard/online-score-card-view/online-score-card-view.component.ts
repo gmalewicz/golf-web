@@ -6,7 +6,7 @@ import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
-import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
+import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -24,6 +24,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // matchPlayResults: number[][];
   holeHCP: number[][];
   finalized: boolean;
+  // -2 not set
+  // -1 first player won
+  // 0 tie
+  // 1 second player won
+  mpScore: number[];
+  mpResult: string[];
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
@@ -59,6 +65,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       } else if (this.owner != null) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
         this.finalized = history.state.data.finalized;
+        this.mpScore = new Array(18).fill(-2);
+        this.mpResult = new Array(2);
         this.showMatch();
       } else {
         this.showCourse();
@@ -132,6 +140,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         this.onlineRounds = retOnlineRounds;
 
+        // calculate MP result texts
+        this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+
         this.first9par = this.course.holes.map(h => h.par).
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
@@ -151,15 +162,18 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         if (result < 0) {
           sc.mpResult = 1;
+          this.mpScore[index] = -1;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-          sc.hole < 9 ? retOnlineRounds[0].first9score++ : retOnlineRounds[0].last9score++;
+          sc.hole <= 9 ? retOnlineRounds[0].first9score++ : retOnlineRounds[0].last9score++;
         } else if (result === 0) {
           sc.mpResult = 0;
+          this.mpScore[index] = 0;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
         } else {
           sc.mpResult = 0;
+          this.mpScore[index] = 1;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
-          sc.hole < 9 ? retOnlineRounds[1].first9score++ : retOnlineRounds[1].last9score++;
+          sc.hole <= 9 ? retOnlineRounds[1].first9score++ : retOnlineRounds[1].last9score++;
         }
       }
     });
@@ -267,6 +281,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     if (this.owner) {
       this.handleMatchPlayMessage(onlineScoreCard);
+       // calculate MP result texts
+      this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
     } else {
       this.handleStrokeMessage(onlineScoreCard);
     }
@@ -299,21 +315,29 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       if (result < 0) {
         scPlayer0.mpResult = 1;
         scPlayer1.mpResult = 0;
+        this.mpScore[holeIdx] = -1;
       } else if (result === 0) {
         scPlayer0.mpResult = 0;
         scPlayer1.mpResult = 0;
+        this.mpScore[holeIdx] = 0;
       } else {
         scPlayer0.mpResult = 0;
         scPlayer1.mpResult = 1;
+        this.mpScore[holeIdx] = 1;
       }
 
-      this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole < 9)
+      this.first9par = this.course.holes.map(h => h.par).
+      reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+
+
+
+      this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole <= 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole < 9)
+      this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole <= 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
+      this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
         .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole >= 9)
+      this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
       .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
     }
   }

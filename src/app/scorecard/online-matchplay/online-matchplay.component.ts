@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
-import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers';
+import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 
 @Component({
@@ -19,7 +19,7 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   // 0 tie
   // 1 second player won
   mpScore: number[];
-  mpTotal: number[];
+  mpResult: string[];
 
   // if greater than 0, the first player has additional strokes
   hcpDiff: number;
@@ -36,7 +36,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   ngOnInit(): void {
 
     this.mpScore = new Array(18).fill(-2);
-    this.mpTotal = new Array(2).fill(0);
+    this.mpResult = new Array(2);
+    // this.mpTotal = new Array(2).fill(0);
     super.ngOnInit();
   }
 
@@ -86,7 +87,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected updateMPresults() {
     this.mpScore.forEach((result, idx) => this.updateMpResult(idx));
-    this.updateMpTotal();
+    // calculate MP result texts
+    this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
   }
 
   protected updateMpResult(strokeIdx: number) {
@@ -102,13 +104,14 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
       } else {
         this.mpScore[strokeIdx] = 1;
       }
+      this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
     }
   }
 
-  protected updateMpTotal() {
-
-    this.mpTotal[0] = this.mpScore.reduce((p, c) => {if (c === -1) {return p + 1; } else {return p; }}, 0);
-    this.mpTotal[1] = this.mpScore.reduce((p, c) => {if (c === 1) {return p + 1; } else {return p; }}, 0);
-
+  highlightHcp(hole: number, player: number) {
+    if (this.holeHCP[player][hole] > 0) {
+      return 'highlightHcp';
+    }
+    return 'no-edit';
   }
 }

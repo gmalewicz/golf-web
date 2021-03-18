@@ -1,3 +1,4 @@
+import { OnlineRound } from '@/scorecard/_models';
 import { Course, Hole, teeTypes } from '@/_models';
 
 export function calculateScoreDifferential( sr: number,
@@ -83,19 +84,19 @@ export function calculateHoleHCP(index: number,
   switch (teeType) {
 
     case teeTypes.TEE_TYPE_18: {
-      holeHCP18(index, hcpAll, hcpIncMaxHole, holeHCP, course)
+      holeHCP18(index, hcpAll, hcpIncMaxHole, holeHCP, course);
       break;
     }
 
     case teeTypes.TEE_TYPE_FIRST_9: {
 
-      holeHCPFirst9(index, hcpAll, hcpIncMaxHole, holeHCP, course)
+      holeHCPFirst9(index, hcpAll, hcpIncMaxHole, holeHCP, course);
       break;
     }
 
     case teeTypes.TEE_TYPE_LAST_9: {
 
-      holeHCPLast9(index, hcpAll, hcpIncMaxHole, holeHCP, course)
+      holeHCPLast9(index, hcpAll, hcpIncMaxHole, holeHCP, course);
       break;
     }
   }
@@ -166,3 +167,55 @@ function holeHCPFirst9(index: number,
     });
   }
 }
+
+// returns mpResTex at index 0
+  // returns finalResultText at index 1
+export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: number[]): string[] {
+
+    let finalResultText: string;
+    let mpResText: string;
+    const retVal: string[] =  new Array(2);
+
+    let mpResult = 0;
+    let mpScoreIdx = 0;
+    while (mpScore[mpScoreIdx] !== -2 && mpScoreIdx < 18) {
+      mpResult += mpScore[mpScoreIdx];
+      // verify if game is over
+      if (Math.abs(mpResult) > (17 - mpScoreIdx) || mpScoreIdx === 17) {
+        if (mpScoreIdx === 17 && mpResult < 0) {
+          finalResultText = 'Game Over: ' + p0Nick + ' ' + Math.abs(mpResult) + 'Up';
+          break;
+        } else if (mpScoreIdx === 17 && mpResult > 0) {
+          finalResultText = 'Game Over: ' + p1Nick + ' ' + Math.abs(mpResult) + 'Up';
+          break;
+        } else if (mpScoreIdx === 17 && mpResult === 0) {
+          finalResultText = 'Game Over: A/S';
+          break;
+        } else if (mpResult < 0) {
+          finalResultText = 'Game Over: ' + p0Nick + ' ' + Math.abs(mpResult) + ' & ' + (
+            17 - mpScoreIdx);
+          break;
+        } else {
+          finalResultText = 'Game Over: ' + p1Nick + ' ' + Math.abs(mpResult) + ' & ' + (
+            17 - mpScoreIdx);
+          break;
+        }
+      }
+
+      mpScoreIdx++;
+    }
+
+    if (mpResult === 0) {
+      mpResText = 'A/S';
+    } else if (mpResult < 0) {
+      mpResText = Math.abs(mpResult) + 'up : ' + Math.abs(mpResult) + 'down';
+    } else {
+      mpResText = Math.abs(mpResult) + 'down : ' + Math.abs(mpResult) + 'up';
+    }
+
+    retVal[0] = mpResText;
+    retVal[1] = finalResultText;
+
+    return retVal;
+
+  }
