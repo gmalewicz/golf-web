@@ -1,7 +1,7 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
+<div *ngIf="!display || lostConnection" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="display">
+<div *ngIf="display && !lostConnection">
   <app-online-nav [curHoleStrokes] = 'curHoleStrokes'
                   [curPlayerIdx] = 'curPlayerIdx'
                   [puttSelectorActive] = 'puttSelectorActive'
@@ -82,7 +82,7 @@
   <div>
     <div>
       <h3 *ngIf="mpResult[1] === undefined">
-        {{onlineRounds[0].player.nick}} : {{onlineRounds[1].player.nick}}&nbsp;&nbsp;{{mpResult[0]}}
+        {{mpResult[0]}}
       </h3>
       <h3 *ngIf="mpResult[1] !== undefined" style="color: red; font-weight: bold;">
         {{mpResult[1]}}

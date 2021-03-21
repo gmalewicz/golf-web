@@ -208,9 +208,11 @@ export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: numb
     if (mpResult === 0) {
       mpResText = 'A/S';
     } else if (mpResult < 0) {
-      mpResText = Math.abs(mpResult) + 'up : ' + Math.abs(mpResult) + 'down';
+      mpResText = p0Nick + ' ' + Math.abs(mpResult) + 'up';
+      // mpResText = Math.abs(mpResult) + 'up : ' + Math.abs(mpResult) + 'down';
     } else {
-      mpResText = Math.abs(mpResult) + 'down : ' + Math.abs(mpResult) + 'up';
+      mpResText = p1Nick + ' ' + Math.abs(mpResult) + 'up';
+      // mpResText = Math.abs(mpResult) + 'down : ' + Math.abs(mpResult) + 'up';
     }
 
     retVal[0] = mpResText;

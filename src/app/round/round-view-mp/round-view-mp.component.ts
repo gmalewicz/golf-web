@@ -63,39 +63,42 @@ export class RoundViewMPComponent implements OnInit {
 
   private updMPresults() {
 
-    this.round.player.forEach((pl, index) => {
+    this.round.player.forEach((pl) => {
 
-      if (pl.roundDetails.courseHCP === undefined) {
-
-        pl.roundDetails.courseHCP = calculateCourseHCP(pl.roundDetails.teeType,
-                                                      pl.roundDetails.whs,
-                                                      pl.roundDetails.sr,
-                                                      pl.roundDetails.cr,
-                                                      getPlayedCoursePar(this.round.course.holes ,
-                                                                        pl.roundDetails.teeType,
-                                                                        this.round.course.par));
-      }
+      pl.roundDetails.courseHCP = calculateCourseHCP(pl.roundDetails.teeType,
+                                                    pl.roundDetails.whs,
+                                                    pl.roundDetails.sr,
+                                                    pl.roundDetails.cr,
+                                                    getPlayedCoursePar(this.round.course.holes ,
+                                                                      pl.roundDetails.teeType,
+                                                                      this.round.course.par));
     });
 
     const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
+    let corHcpDiff = Math.abs(hcpDiff * this.round.mpFormat);
+    if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
+      corHcpDiff += 1;
+    } else {
+      corHcpDiff = Math.floor(corHcpDiff);
+    }
 
     if (hcpDiff >= 0) {
-      this.round.player[0].roundDetails.courseHCP = hcpDiff;
-      this.round.player[1].roundDetails.courseHCP = 0;
+      this.round.player[0].roundDetails.mpHCP = corHcpDiff;
+      this.round.player[1].roundDetails.mpHCP = 0;
     } else {
-      this.round.player[0].roundDetails.courseHCP = 0;
-      this.round.player[1].roundDetails.courseHCP = Math.abs(hcpDiff);
+      this.round.player[0].roundDetails.mpHCP = 0;
+      this.round.player[1].roundDetails.mpHCP = corHcpDiff;
     }
 
     calculateHoleHCP( 0,
       this.round.player[0].roundDetails.teeType,
-      this.round.player[0].roundDetails.courseHCP,
+      this.round.player[0].roundDetails.mpHCP,
        this.holeHCP,
        this.round.course);
 
     calculateHoleHCP( 1,
       this.round.player[1].roundDetails.teeType,
-      this.round.player[1].roundDetails.courseHCP,
+      this.round.player[1].roundDetails.mpHCP,
       this.holeHCP,
       this.round.course);
 

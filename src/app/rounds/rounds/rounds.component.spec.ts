@@ -1,8 +1,6 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RoundsComponent } from './rounds.component';
@@ -21,8 +19,6 @@ describe('RoundsComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         ]
     })
     .compileComponents();

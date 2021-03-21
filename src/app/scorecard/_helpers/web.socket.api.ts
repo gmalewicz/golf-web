@@ -57,7 +57,6 @@ export class WebSocketAPI {
         }
       }, (error: any) => {
         this.lostConnection = true;
-        this.alertService.error('Lost connection to the server', false);
         this.appComponent.handleLostConnection(true);
         if (this.reconnect) {
           setTimeout(() => {

@@ -61,14 +61,23 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected calculateMPHoleHCP() {
 
-    // set the better player to be scratch
     this.hcpDiff = this.onlineRounds[0].courseHCP - this.onlineRounds[1].courseHCP;
+    let corHcpDiff = Math.abs(this.hcpDiff * this.onlineRounds[0].mpFormat);
+
+    if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
+      corHcpDiff += 1;
+    } else {
+      corHcpDiff = Math.floor(corHcpDiff);
+    }
+
     if (this.hcpDiff >= 0) {
-      this.onlineRounds[0].courseHCP = this.hcpDiff;
+      this.hcpDiff = corHcpDiff;
+      this.onlineRounds[0].courseHCP = corHcpDiff;
       this.onlineRounds[1].courseHCP = 0;
     } else {
+      this.hcpDiff = -corHcpDiff;
       this.onlineRounds[0].courseHCP = 0;
-      this.onlineRounds[1].courseHCP = Math.abs(this.hcpDiff);
+      this.onlineRounds[1].courseHCP = corHcpDiff;
     }
 
     calculateHoleHCP( 0,

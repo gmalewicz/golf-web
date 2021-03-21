@@ -1,7 +1,12 @@
+import { OnlineMatchplayComponent } from '@/scorecard/online-matchplay/online-matchplay.component';
+import { OnlineRoundBaseComponent } from '@/scorecard/_helpers/online-round-base';
+import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { teeTypes } from '@/_models/tee';
+import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
+import { forwardRef, Inject } from '@angular/core';
 import { of } from 'rxjs';
 
 export function getTestRound(): Round {
@@ -27,10 +32,10 @@ export function getTestRound(): Round {
       { par: 4, number: 16, si: 16 },
       { par: 4, number: 17, si: 17 },
       { par: 4, number: 18, si: 18 }]
-    }, roundDate: '10/10/2020', matchPlay: false,
+    }, roundDate: '10/10/2020', matchPlay: false, mpFormat: 0.75,
      player: [{nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
               {nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
-    scoreCard: [{ hole: 1, stroke: 1, pats: 0 },
+    scoreCard: [{ hole: 1, stroke: 10, pats: 0 },
     { hole: 2, stroke: 1, pats: 0 },
     { hole: 3, stroke: 1, pats: 0 },
     { hole: 4, stroke: 1, pats: 0 },
@@ -49,7 +54,7 @@ export function getTestRound(): Round {
     { hole: 17, stroke: 1, pats: 0 },
     { hole: 18, stroke: 1, pats: 0 },
     {hole: 1, stroke: 2, pats: 0},
-    {hole: 2, stroke: 2, pats: 0},
+    {hole: 2, stroke: 20, pats: 0},
     {hole: 3, stroke: 2, pats: 0},
     {hole: 4, stroke: 2, pats: 0},
     {hole: 5, stroke: 2, pats: 0},
@@ -91,4 +96,57 @@ export class MatDialogMock {
             componentInstance: {confirmMessage: ''}
         };
     }
+}
+
+export class WebSocketAPIMock {
+
+  constructor(appComponent: any = null,
+              private alertService: any = null,
+              private authenticationService: any = null,
+              acceptMessage: boolean = false,
+              reconnect: boolean = false) {
+      // This is intentional
+    }
+
+
+
+  _connect(listen: boolean) {
+    // This is intentional
+  }
+  _disconnect() {
+    // This is intentional
+  }
+
+}
+
+export function getTestOnlineRound(): OnlineRound[] {
+
+  return [{
+    finalized: false,
+    putts: false,
+    penalties: false,
+    matchPlay: true,
+    course: {id: 5, name: null, par: null, holeNbr: null},
+    player: {id: 1, nick: 'Greg', sex: false, whs: 28.5, role: 0},
+    tee: {id: 5, tee: 'yellow', cr: 70.5, sr: 129, teeType: 0, sex: false},
+    teeTime: '12:46',
+    nick2: 'Gosia',
+    id: 164,
+    owner: 1,
+  },
+  {
+    course: {id: 6, name: null, par: null, holeNbr: null},
+    finalized: false,
+    id: 165,
+    matchPlay: true,
+    nick2: 'Gosia',
+    owner: 1,
+    penalties: false,
+    player: {id: 11, nick: 'Gosia', sex: true, whs: 34.3, role: 1},
+    putts: false,
+    tee: {id: 6, tee: 'red', cr: 70.2, sr: 129, teeType: 0, sex: true},
+    teeTime: '12:46'
+  }
+];
+
 }

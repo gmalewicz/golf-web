@@ -83,7 +83,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         this.course.holes = retHoles;
 
-        // the assumption is that only idots play more than 2 match play a day
+        // the assumption is that only idiots play more than 2 match play a day
         retOnlineRounds = retOnlineRounds.filter(or => or.finalized === this.finalized);
 
         retOnlineRounds.forEach((or, index) => {
@@ -108,13 +108,22 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         });
 
         if (this.owner != null) {
+
           const hcpDiff = retOnlineRounds[0].courseHCP - retOnlineRounds[1].courseHCP;
+          let corHcpDiff = Math.abs(hcpDiff * retOnlineRounds[0].mpFormat);
+
+          if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
+            corHcpDiff += 1;
+          } else {
+            corHcpDiff = Math.floor(corHcpDiff);
+          }
+
           if (hcpDiff >= 0) {
-            retOnlineRounds[0].courseHCP = hcpDiff;
+            retOnlineRounds[0].courseHCP = corHcpDiff;
             retOnlineRounds[1].courseHCP = 0;
           } else {
             retOnlineRounds[0].courseHCP = 0;
-            retOnlineRounds[1].courseHCP = Math.abs(hcpDiff);
+            retOnlineRounds[1].courseHCP = Math.abs(corHcpDiff);
           }
 
           calculateHoleHCP( 0,

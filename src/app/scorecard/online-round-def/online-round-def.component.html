@@ -26,7 +26,28 @@
         (ngModelChange)="onMatchPlayChange($event)">
       <label class="custom-control-label" for="matchPlay">Match Play Round</label>
     </div>
-    <br />
+    <div *ngIf="!f.matchPlay.value" class="form-group">
+      <br/>
+    </div>
+    <div *ngIf="f.matchPlay.value" class="form-group">
+      <br/>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" name="mpFormat" id="mpFormat1" value="1" formControlName="mpFormat"  class="custom-control-input">
+        <label class="custom-control-label green" for="mpFormat1">100%</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" name="mpFormat" id="mpFormat2" value="0.9" formControlName="mpFormat"  class="custom-control-input">
+        <label class="custom-control-label green" for="mpFormat2">90%</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" name="mpFormat" id="mpFormat3" value="0.75" formControlName="mpFormat"  class="custom-control-input" checked>
+        <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" name="mpFormat" id="mpFormat4" value="0.50" formControlName="mpFormat"  class="custom-control-input">
+        <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+      </div>
+    </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
       <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}">
         <input type="radio" name="players" id="player1" autocomplete="off" checked (click)="onPlayers(1)"> 1 player

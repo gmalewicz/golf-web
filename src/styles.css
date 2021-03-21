@@ -53,7 +53,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .custom-control-input-green:focus:not(:checked)~.custom-control-label::before {
-  border-color: #5bd778 !important;
+  border-color: #28a745 !important;
 }
 
 .custom-control-input-green:not(:disabled):active~.custom-control-label::before {
@@ -62,3 +62,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #7B1FA2;
+}
+
+.custom-control-input:checked~.custom-control-label.green::before {
+  background-color: #28a745;
+}

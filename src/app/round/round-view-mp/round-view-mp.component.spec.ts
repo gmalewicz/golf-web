@@ -1,8 +1,6 @@
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { getTestRound } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoundViewMPComponent } from './round-view-mp.component';
@@ -19,9 +17,7 @@ describe('RoundViewMPComponent', () => {
         HttpClientModule,
       ]
       ,
-      providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }]
+      providers: [HttpService]
 
     })
     .compileComponents();
@@ -42,3 +38,4 @@ describe('RoundViewMPComponent', () => {
     TestBed.resetTestingModule();
   });
 });
+

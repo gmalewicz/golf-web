@@ -1,3 +1,4 @@
+import { getTestRound } from '@/_helpers/test.helper';
 import { teeTypes } from '@/_models/tee';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -27,7 +28,29 @@ describe('RoundSummaryComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should test both nines full', () => {
+    component.round = getTestRound();
+    component.round.player[0].roundDetails.ninesFull = 0;
+    component.ngOnInit();
+    expect(component).toBeTruthy();
+  });
+
+  it('should test both first nine full', () => {
+    component.round = getTestRound();
+    component.round.player[0].roundDetails.ninesFull = 1;
+    component.ngOnInit();
+    expect(component).toBeTruthy();
+  });
+
+  it('should test both second nine full', () => {
+    component.round = getTestRound();
+    component.round.player[0].roundDetails.ninesFull = 2;
+    component.ngOnInit();
+    expect(component).toBeTruthy();
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
 });
+
