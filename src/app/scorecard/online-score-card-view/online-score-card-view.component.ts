@@ -335,20 +335,22 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.mpScore[holeIdx] = 1;
       }
 
-      this.first9par = this.course.holes.map(h => h.par).
-      reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-
-
-
-      this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole <= 9)
-        .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole <= 9)
-        .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
-        .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-      this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
-      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
+      this.createSummary();
     }
+  }
+
+  private createSummary() {
+
+    this.first9par = this.course.holes.map(h => h.par).
+    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+    this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole <= 9)
+      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
+    this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole <= 9)
+      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
+    this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
+      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
+    this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
+    .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {

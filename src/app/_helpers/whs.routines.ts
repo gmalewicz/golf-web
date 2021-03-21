@@ -1,4 +1,3 @@
-import { OnlineRound } from '@/scorecard/_models';
 import { Course, Hole, teeTypes } from '@/_models';
 
 export function calculateScoreDifferential( sr: number,
@@ -173,7 +172,6 @@ function holeHCPFirst9(index: number,
 export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: number[]): string[] {
 
     let finalResultText: string;
-    let mpResText: string;
     const retVal: string[] =  new Array(2);
 
     let mpResult = 0;
@@ -205,19 +203,23 @@ export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: numb
       mpScoreIdx++;
     }
 
-    if (mpResult === 0) {
-      mpResText = 'A/S';
-    } else if (mpResult < 0) {
-      mpResText = p0Nick + ' ' + Math.abs(mpResult) + 'up';
-      // mpResText = Math.abs(mpResult) + 'up : ' + Math.abs(mpResult) + 'down';
-    } else {
-      mpResText = p1Nick + ' ' + Math.abs(mpResult) + 'up';
-      // mpResText = Math.abs(mpResult) + 'down : ' + Math.abs(mpResult) + 'up';
-    }
-
-    retVal[0] = mpResText;
+    retVal[0] = claculatePartialMpResult(mpResult, p0Nick, p1Nick);
     retVal[1] = finalResultText;
 
     return retVal;
-
   }
+
+function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: string): string {
+
+  let mpResText = '';
+
+  if (mpResult === 0) {
+    mpResText = 'A/S';
+  } else if (mpResult < 0) {
+    mpResText = p0Nick + ' ' + Math.abs(mpResult) + 'up';
+  } else {
+    mpResText = p1Nick + ' ' + Math.abs(mpResult) + 'up';
+  }
+
+  return mpResText;
+}

@@ -37,7 +37,6 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
     this.mpScore = new Array(18).fill(-2);
     this.mpResult = new Array(2);
-    // this.mpTotal = new Array(2).fill(0);
     super.ngOnInit();
   }
 

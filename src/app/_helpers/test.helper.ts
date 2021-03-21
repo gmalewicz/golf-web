@@ -1,12 +1,8 @@
-import { OnlineMatchplayComponent } from '@/scorecard/online-matchplay/online-matchplay.component';
-import { OnlineRoundBaseComponent } from '@/scorecard/_helpers/online-round-base';
 import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { teeTypes } from '@/_models/tee';
-import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { forwardRef, Inject } from '@angular/core';
 import { of } from 'rxjs';
 
 export function getTestRound(): Round {
