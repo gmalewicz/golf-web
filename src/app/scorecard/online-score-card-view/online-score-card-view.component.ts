@@ -113,7 +113,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           let corHcpDiff = Math.abs(hcpDiff * retOnlineRounds[0].mpFormat);
 
           if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
-            corHcpDiff += 1;
+            corHcpDiff = Math.ceil(corHcpDiff);
           } else {
             corHcpDiff = Math.floor(corHcpDiff);
           }
