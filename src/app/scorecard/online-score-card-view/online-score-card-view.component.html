@@ -6,84 +6,91 @@
   </h2>
   <br/>
   <div class="table-responsive">
-  <table id="holeStake-tbl" class="table table-bordered" aria-describedby="online scorecard view">
-  <thead>
-    <tr>
-      <th id="hole">Hole</th>
-      <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
-        {{i + 1}}
-      </th>
-      <th id="out">OUT</th>
-      <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
-        {{i + 10}}
-      </th>
-      <th id="in">IN</th>
-      <th id="total">TOTAL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="par">PAR</th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        {{course.holes[i].par}}
-      </td>
-      <th id="f9par" class="center">{{first9par}}</th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        {{course.holes[i + 9].par}}
-      </td>
-      <th id="l9par" class="center">{{last9par}}</th>
-      <th id="b9par" class="center">{{first9par + last9par}}</th>
-    </tr>
-    <tr>
-      <th id="si">SI</th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        {{course.holes[i].si}}
-      </td>
-      <th id="empty"></th>
-      <td *ngFor="let i = index of counter(9)" class="center">
-        {{course.holes[i + 9].si}}
-      </td>
-      <th id="empty"></th>
-      <th id="empty"></th>
-    </tr>
-    <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
-        <th id="nick">{{onlineRound.player.nick}}</th>
-        <ng-container *ngIf="owner === undefined">
+    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="online scorecard view">
+      <thead>
+        <tr>
+          <th id="hole">Hole</th>
+          <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
+            {{i + 1}}
+          </th>
+          <th id="out">OUT</th>
+          <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
+            {{i + 10}}
+          </th>
+          <th id="in">IN</th>
+          <th id="total">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="par">PAR</th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-              {{onlineRound.scoreCardAPI[i].stroke}}
-            </span>
+            {{course.holes[i].par}}
           </td>
-          <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+          <th id="f9par" class="center">{{first9par}}</th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-              {{onlineRound.scoreCardAPI[i + 9].stroke}}
-            </span>
+            {{course.holes[i + 9].par}}
           </td>
-          <th id="l9s" class="center">{{onlineRound.last9score}}</th>
-          <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
-        </ng-container>
-        <ng-container *ngIf="owner != undefined">
+          <th id="l9par" class="center">{{last9par}}</th>
+          <th id="b9par" class="center">{{first9par + last9par}}</th>
+        </tr>
+        <tr>
+          <th id="si">SI</th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-              {{onlineRound.scoreCardAPI[i].mpResult}}
-            </span>
+            {{course.holes[i].si}}
           </td>
-          <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+          <th id="empty"></th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-              {{onlineRound.scoreCardAPI[i + 9].mpResult}}
-            </span>
+            {{course.holes[i + 9].si}}
           </td>
-          <th id="l9s" class="center">{{onlineRound.last9score}}</th>
-          <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
-      </ng-container>
-    </tr>
-  </tbody>
-  </table>
+          <th id="empty"></th>
+          <th id="empty"></th>
+        </tr>
+        <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
+            <th id="nick">{{onlineRound.player.nick}}</th>
+            <ng-container *ngIf="owner === undefined">
+              <td *ngFor="let i = index of counter(9)" class="center">
+                <span *ngIf="onlineRound.scoreCardAPI[i] != null">
+                  {{onlineRound.scoreCardAPI[i].stroke}}
+                </span>
+              </td>
+              <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+              <td *ngFor="let i = index of counter(9)" class="center">
+                <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
+                  {{onlineRound.scoreCardAPI[i + 9].stroke}}
+                </span>
+              </td>
+              <th id="l9s" class="center">{{onlineRound.last9score}}</th>
+              <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+            </ng-container>
+            <ng-container *ngIf="owner != undefined">
+              <td *ngFor="let i = index of counter(9)" class="center">
+                <span *ngIf="onlineRound.scoreCardAPI[i] != null">
+                  {{onlineRound.scoreCardAPI[i].mpResult}}
+                </span>
+              </td>
+              <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+              <td *ngFor="let i = index of counter(9)" class="center">
+                <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
+                  {{onlineRound.scoreCardAPI[i + 9].mpResult}}
+                </span>
+              </td>
+              <th id="l9s" class="center">{{onlineRound.last9score}}</th>
+              <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div>
-</div>
+  <div *ngIf="owner != undefined">
+    <br/>
+    <h3 *ngIf="mpResult[1] === undefined">
+      {{mpResult[0]}}
+    </h3>
+    <h3 *ngIf="mpResult[1] !== undefined" style="color: red; font-weight: bold;">
+      {{mpResult[1]}}
+    </h3>
+  </div>
 <br />
 <button type="button" class="btn btn-success" routerLink="">
   Cancel

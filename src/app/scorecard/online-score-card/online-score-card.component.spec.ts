@@ -1,8 +1,7 @@
 
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScorecardHttpService } from '../_services';
 
@@ -21,8 +20,6 @@ describe('OnlineScoreCardComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         ScorecardHttpService,
         ]
     })

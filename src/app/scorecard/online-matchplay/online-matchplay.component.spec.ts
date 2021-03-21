@@ -1,8 +1,7 @@
 import { ScorecardHttpService } from './../_services/scorecardHttp.service';
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OnlineMatchplayComponent } from './online-matchplay.component';
@@ -23,8 +22,6 @@ describe('OnlineMatchplayComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         ScorecardHttpService,
         {
           provide: MatDialogRef,
@@ -37,6 +34,7 @@ describe('OnlineMatchplayComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OnlineMatchplayComponent);
+    history.pushState({}, '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -48,4 +46,6 @@ describe('OnlineMatchplayComponent', () => {
   afterAll(() => {
     TestBed.resetTestingModule();
   });
+
 });
+

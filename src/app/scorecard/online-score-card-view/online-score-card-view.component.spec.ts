@@ -1,7 +1,7 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
-import { HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { AuthenticationService, HttpService } from '@/_services';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScorecardHttpService } from '../_services';
 
@@ -20,9 +20,8 @@ describe('OnlineScoreCardViewComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         ScorecardHttpService,
+        { provide: AuthenticationService, useValue: authenticationServiceStub }
         ]
     })
     .compileComponents();
@@ -30,6 +29,7 @@ describe('OnlineScoreCardViewComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
+    history.pushState({}, '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

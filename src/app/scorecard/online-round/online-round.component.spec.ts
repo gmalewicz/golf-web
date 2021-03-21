@@ -1,8 +1,7 @@
 
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
@@ -23,8 +22,6 @@ describe('OnlineRoundComponent', () => {
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         ScorecardHttpService,
         {
           provide: MatDialogRef,
@@ -38,6 +35,7 @@ describe('OnlineRoundComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
+    history.pushState({data: {}}, '');
     fixture.detectChanges();
   });
 

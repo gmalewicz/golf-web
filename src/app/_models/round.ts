@@ -8,4 +8,5 @@ export interface Round {
   player?: Player[];
   scoreCard?: ScoreCard[];
   matchPlay: boolean;
+  mpFormat?: number;
 }

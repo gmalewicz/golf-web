@@ -2,6 +2,7 @@ import { Course, Player, Tee } from '@/_models';
 import { OnlineScoreCard } from './onlineScoreCard';
 
 export interface OnlineRound {
+
   id?: number;
   course?: Course;
   teeTime?: string;
@@ -15,6 +16,7 @@ export interface OnlineRound {
   putts: boolean;
   penalties: boolean;
   matchPlay: boolean;
+  mpFormat?: number;
   courseHCP?: number;
   nick2?: string;
 }

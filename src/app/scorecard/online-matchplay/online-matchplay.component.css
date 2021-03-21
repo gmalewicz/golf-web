@@ -20,3 +20,7 @@
   width: 40px;
   display: inline-block;
 }
+
+.highlightHcp {
+  background-color: rgb(209, 207, 57);
+}
