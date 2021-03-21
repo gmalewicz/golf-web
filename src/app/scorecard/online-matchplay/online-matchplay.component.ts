@@ -64,7 +64,7 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
     let corHcpDiff = Math.abs(this.hcpDiff * this.onlineRounds[0].mpFormat);
 
     if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
-      corHcpDiff += 1;
+      corHcpDiff = Math.ceil(corHcpDiff);
     } else {
       corHcpDiff = Math.floor(corHcpDiff);
     }

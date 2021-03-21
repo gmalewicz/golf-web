@@ -77,7 +77,7 @@ export class RoundViewMPComponent implements OnInit {
     const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
     let corHcpDiff = Math.abs(hcpDiff * this.round.mpFormat);
     if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
-      corHcpDiff += 1;
+      corHcpDiff = Math.ceil(corHcpDiff);
     } else {
       corHcpDiff = Math.floor(corHcpDiff);
     }
