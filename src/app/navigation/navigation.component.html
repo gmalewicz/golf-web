@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
 
-  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls v1.9.1</a>
+  <a class="navbar-brand" href="#">DrunkGolfers & NiceGirls v1.9.2</a>
 
   <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
     data-target="#navbarToggleLogOut" aria-controls="navbarToggleExternalContent" aria-expanded="false"
@@ -17,14 +17,11 @@
   <div *ngIf="currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogIn">
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Games</a>
-      </li>
-      <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"
-          (click)="onClick()">Courses</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Rounds</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()">Start/View On-line Score Cards</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Historical Rounds</a></li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()">On-line Score Cards</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()">Courses</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Side Games</a></li>
       <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
       <li class="nav-item"><a class="nav-link" href="#" (click)="logout()">Logout</a></li>
       <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">

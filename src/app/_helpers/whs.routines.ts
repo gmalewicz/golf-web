@@ -203,13 +203,13 @@ export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: numb
       mpScoreIdx++;
     }
 
-    retVal[0] = claculatePartialMpResult(mpResult, p0Nick, p1Nick);
+    retVal[0] = claculatePartialMpResult(mpResult, p0Nick, p1Nick, mpScoreIdx);
     retVal[1] = finalResultText;
 
     return retVal;
   }
 
-function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: string): string {
+function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: string, mpScoreIdx: number): string {
 
   let mpResText = '';
 
@@ -220,6 +220,35 @@ function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: stri
   } else {
     mpResText = p1Nick + ' ' + Math.abs(mpResult) + 'up';
   }
+  console.log(mpScoreIdx);
+  console.log(mpResult);
+  if (mpScoreIdx < 18 && mpScoreIdx === (18 - mpResult)) {
+    mpResText += ' (dormie)';
+  }
 
   return mpResText;
+}
+
+export function createMPResultHistory(mpScore: number[]): string[][] {
+
+  let mpResultHistory: string[][] = new Array(2).fill('').map(() => new Array(18).fill(''));
+
+  let mpResult = 0;
+  let mpScoreIdx = 0;
+  while (mpScore[mpScoreIdx] !== -2 && mpScoreIdx < 18  && Math.abs(mpResult) <= (18 - mpScoreIdx))  {
+    mpResult += mpScore[mpScoreIdx];
+
+    if  (mpResult === 0) {
+      mpResultHistory[0][mpScoreIdx] = 'AS';
+      mpResultHistory[1][mpScoreIdx] = 'AS';
+    } else if (mpResult < 0) {
+      mpResultHistory[0][mpScoreIdx] = Math.abs(mpResult) + 'up';
+    } else {
+      mpResultHistory[1][mpScoreIdx] = Math.abs(mpResult) + 'up';
+    }
+
+    mpScoreIdx++;
+  }
+
+  return mpResultHistory;
 }

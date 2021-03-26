@@ -66,17 +66,17 @@
             <ng-container *ngIf="owner != undefined">
               <td *ngFor="let i = index of counter(9)" class="center">
                 <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-                  {{onlineRound.scoreCardAPI[i].mpResult}}
+                  {{mpResultHistory[idx][i]}}
                 </span>
               </td>
-              <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+              <th id="f9s" class="center"></th>
               <td *ngFor="let i = index of counter(9)" class="center">
                 <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-                  {{onlineRound.scoreCardAPI[i + 9].mpResult}}
+                  {{mpResultHistory[idx][i + 9]}}
                 </span>
               </td>
-              <th id="l9s" class="center">{{onlineRound.last9score}}</th>
-              <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+              <th id="l9s" class="center"></th>
+              <th id="b9s" class="center"></th>
           </ng-container>
         </tr>
       </tbody>
