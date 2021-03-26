@@ -14,8 +14,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
 import { OnlineNavComponent } from './online-nav/online-nav.component';
 
-
-
 @NgModule({
   declarations: [
     OnlineScoreCardComponent,

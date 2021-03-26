@@ -6,7 +6,7 @@ import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
 import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
-import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar} from '@/_helpers';
+import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -21,7 +21,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   first9par: number;
   last9par: number;
   webSocketAPI: WebSocketAPI;
-  // matchPlayResults: number[][];
   holeHCP: number[][];
   finalized: boolean;
   // -2 not set
@@ -30,6 +29,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // 1 second player won
   mpScore: number[];
   mpResult: string[];
+  mpResultHistory: string[][];
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
@@ -139,19 +139,14 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             this.course);
         }
 
-        // update for match play
-        retOnlineRounds[0].first9score = 0;
-        retOnlineRounds[1].first9score = 0;
-        retOnlineRounds[0].last9score = 0;
-        retOnlineRounds[1].last9score = 0;
-
         this.calculateMpResult(retOnlineRounds);
 
         this.onlineRounds = retOnlineRounds;
 
         // calculate MP result texts
         this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
-
+        // calculate MP result history
+        this.mpResultHistory = createMPResultHistory(this.mpScore);
         this.first9par = this.course.holes.map(h => h.par).
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
@@ -173,7 +168,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           sc.mpResult = 1;
           this.mpScore[index] = -1;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-          sc.hole <= 9 ? retOnlineRounds[0].first9score++ : retOnlineRounds[0].last9score++;
         } else if (result === 0) {
           sc.mpResult = 0;
           this.mpScore[index] = 0;
@@ -182,7 +176,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           sc.mpResult = 0;
           this.mpScore[index] = 1;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
-          sc.hole <= 9 ? retOnlineRounds[1].first9score++ : retOnlineRounds[1].last9score++;
         }
       }
     });
@@ -292,6 +285,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.handleMatchPlayMessage(onlineScoreCard);
        // calculate MP result texts
       this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+       // calculate MP result history
+      this.mpResultHistory = createMPResultHistory(this.mpScore);
     } else {
       this.handleStrokeMessage(onlineScoreCard);
     }
@@ -343,14 +338,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     this.first9par = this.course.holes.map(h => h.par).
     reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
-    this.onlineRounds[0].first9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole <= 9)
-      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-    this.onlineRounds[1].first9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null  && sc.hole <= 9)
-      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-    this.onlineRounds[0].last9score = this.onlineRounds[0].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
-      .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
-    this.onlineRounds[1].last9score = this.onlineRounds[1].scoreCardAPI.filter(sc => sc !== null && sc.hole > 9)
-    .map(sc => sc.mpResult).reduce((p, n) => p + n, 0);
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {

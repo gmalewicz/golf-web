@@ -47,14 +47,14 @@
         <tr *ngFor="let idx =index of counter(2)" class="center">
           <th  id="bck">{{round.player[idx].nick}}</th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            {{holeMpResult[idx][i]}}
+            {{mpResultHistory[idx][i]}}
           </td>
-          <th  id="mpr" class="center">{{mpTotals[idx][0]}}</th>
+          <th  id="mpr" class="center"></th>
           <td *ngFor="let i = index of counter(9)" class="center">
-            {{holeMpResult[idx][i + 9]}}
+            {{mpResultHistory[idx][i + 9]}}
           </td>
-          <th  id="mpt2" class="center">{{mpTotals[idx][1]}}</th>
-          <th  id="mp3" class="center">{{mpTotals[idx][0] + mpTotals[idx][1]}}</th>
+          <th  id="mpt2" class="center"></th>
+          <th  id="mp3" class="center"></th>
         </tr>
       </tbody>
     </table>

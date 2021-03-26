@@ -1,4 +1,4 @@
-import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -14,7 +14,6 @@ export class RoundViewMPComponent implements OnInit {
 
   holeHCP: number[][];
   holeMpResult: number[][];
-  mpTotals: number[][];
   display = false;
   first9par: number;
   last9par: number;
@@ -24,6 +23,7 @@ export class RoundViewMPComponent implements OnInit {
   // 1 second player won
   mpScore: number[];
   mpResult: string[];
+  mpResultHistory: string[][];
 
   constructor(private httpService: HttpService) { }
 
@@ -31,7 +31,6 @@ export class RoundViewMPComponent implements OnInit {
 
     this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
     this.holeMpResult = new Array(2).fill(0).map(() => new Array(18).fill(0));
-    this.mpTotals = new Array(2).fill(0).map(() => new Array(2).fill(0));
     this.mpScore = new Array(18).fill(-2);
     this.mpResult = new Array(2);
     this.calculateResults();
@@ -105,6 +104,8 @@ export class RoundViewMPComponent implements OnInit {
     this.calculateMpResult();
     // calculate MP result texts
     this.mpResult = createMPResultText(this.round.player[0].nick, this.round.player[1].nick, this.mpScore);
+    // calculate MP result history
+    this.mpResultHistory = createMPResultHistory(this.mpScore);
 
     this.first9par = this.round.course.holes.map(h => h.par).
             reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
@@ -121,11 +122,9 @@ export class RoundViewMPComponent implements OnInit {
 
       if (result < 0) {
         this.holeMpResult[0][index] = 1;
-        sc.hole <= 9 ? this.mpTotals[0][0]++ : this.mpTotals[0][1]++;
         this.mpScore[index] = -1;
       } else if (result > 0) {
         this.holeMpResult[1][index] = 1;
-        sc.hole <= 9 ? this.mpTotals[1][0]++ : this.mpTotals[1][1]++;
         this.mpScore[index] = 1;
       } else {
         this.mpScore[index] = 0;

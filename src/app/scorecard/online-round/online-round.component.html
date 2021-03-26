@@ -12,7 +12,7 @@
                   [addScore] = 'addScore.bind(this)'>
   </app-online-nav>
   <div>
-    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round hole result">
+    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round hole result" style="font-size: 18px;">
       <thead>
         <tr>
           <ng-template [ngTemplateOutlet]="TableHeader"></ng-template>
@@ -20,7 +20,7 @@
       </thead>
 
       <tbody>
-        <tr>
+        <tr style="font-weight: bold;">
           <td>
             {{curHoleIdx + 1}}
           </td>
@@ -168,10 +168,6 @@
   <div>
     <br />
     <div class="form-group">
-      <button type="button" class="btn btn-success" routerLink="">
-        Cancel
-      </button>
-      &nbsp;
       <button type="button" class="btn btn-success" (click)="onDelete()">
         <span *ngIf="loadingDel" class="spinner-border spinner-border-sm mr-1"></span>
         Delete
