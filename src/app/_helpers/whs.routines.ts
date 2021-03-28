@@ -220,9 +220,7 @@ function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: stri
   } else {
     mpResText = p1Nick + ' ' + Math.abs(mpResult) + 'up';
   }
-  console.log(mpScoreIdx);
-  console.log(mpResult);
-  if (mpScoreIdx < 18 && mpScoreIdx === (18 - mpResult)) {
+  if (mpScoreIdx < 18 && mpScoreIdx === (18 -  Math.abs(mpResult))) {
     mpResText += ' (dormie)';
   }
 

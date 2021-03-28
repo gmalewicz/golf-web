@@ -87,6 +87,12 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        <div class="form-group">
+          &nbsp;
+          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)">
+            WHS update
+          </button>
+        </div>
       </div>
     </div>
 
@@ -122,8 +128,15 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        <div class="form-group" *ngIf="players[1] != null">
+          &nbsp;
+          <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)">
+            WHS update
+          </button>
+        </div>
         &nbsp;
         <span *ngIf="searchInProgress[1]" class="spinner-border text-success" role="status"></span>
+
       </div>
     </div>
 
@@ -159,6 +172,12 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        <div class="form-group" *ngIf="players[2] != null">
+          &nbsp;
+          <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)">
+            WHS update
+          </button>
+        </div>
         &nbsp;
         <span *ngIf="searchInProgress[2]" class="spinner-border text-success" role="status"></span>
       </div>
@@ -196,6 +215,12 @@
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
+        <div class="form-group" *ngIf="players[3] != null">
+          &nbsp;
+          <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)">
+            WHS update
+          </button>
+        </div>
         &nbsp;
         <span *ngIf="searchInProgress[3]" class="spinner-border text-success" role="status"></span>
       </div>

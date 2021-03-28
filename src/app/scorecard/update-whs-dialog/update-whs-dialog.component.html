@@ -1,17 +1,6 @@
 <div class="golf-theme">
-  <h2 style="color: red" mat-dialog-title>Player not found!</h2>
+  <h2 style="color: red" mat-dialog-title>{{player.nick}}: Update WHS</h2>
 
-  <mat-dialog-content [formGroup]="form">
-    <mat-form-field>
-      <input matInput placeholder="Player nick" formControlName="nick" />
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.required"
-        >Nick is required</mat-error
-      >
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength"
-        >Nick can be up to 10 characters long</mat-error
-      >
-    </mat-form-field>
-  </mat-dialog-content>
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
       <input matInput placeholder="Player whs (X.X)" formControlName="whs" />
@@ -29,15 +18,6 @@
       >
     </mat-form-field>
   </mat-dialog-content>
-  <mat-dialog-content [formGroup]="form">
-    <mat-checkbox formControlName="female" (click)="sexClick(true)"
-      >Female</mat-checkbox
-    >
-    &nbsp;
-    <mat-checkbox formControlName="male" (click)="sexClick(false)"
-      >Male</mat-checkbox
-    >
-  </mat-dialog-content>
   <mat-dialog-actions>
     <button class="mat-raised-button mat-primary" (click)="close()">
       Cancel
@@ -45,10 +25,4 @@
     &nbsp;
     <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
   </mat-dialog-actions>
-  <br />
-  <p>
-    Create the new player or<br />
-    cancel and search again. The<br />
-    password will be 'welcome'.<br />
-  </p>
 </div>

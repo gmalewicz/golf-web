@@ -1,21 +1,22 @@
+import { Player } from '@/_models/player';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-register-player-dialog',
-  templateUrl: './register-player-dialog.component.html'
+  selector: 'app-update-whs-dialog',
+  templateUrl: './update-whs-dialog.component.html'
 })
-export class RegisterPlayerDialogComponent implements OnInit {
+export class UpdateWhsDialogComponent implements OnInit {
   form: FormGroup;
+  player: Player;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RegisterPlayerDialogComponent>,
+    private dialogRef: MatDialogRef<UpdateWhsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.form = this.fb.group({
-      nick: [data.nick, [Validators.required, Validators.maxLength(10)]],
       whs: [
         '',
         [
@@ -25,9 +26,8 @@ export class RegisterPlayerDialogComponent implements OnInit {
           Validators.max(54),
         ],
       ],
-      female: [false],
-      male: [true],
     });
+    this.player = data.player;
   }
 
   ngOnInit() {
@@ -37,14 +37,6 @@ export class RegisterPlayerDialogComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() {
     return this.form.controls;
-  }
-
-  sexClick(sex: boolean) {
-    if (sex) {
-      this.f.male.setValue(false);
-    } else {
-      this.f.female.setValue(false);
-    }
   }
 
   save() {

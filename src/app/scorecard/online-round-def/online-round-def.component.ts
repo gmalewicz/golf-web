@@ -13,6 +13,7 @@ import {
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { RegisterPlayerDialogComponent } from '../register-player-dialog/register-player-dialog.component';
+import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 
 import { ScorecardHttpService } from '../_services';
@@ -404,20 +405,24 @@ export class OnlineRoundDefComponent implements OnInit {
   private updatePlayers(player: Player, playerIdx: number) {
     this.players[playerIdx] = player;
 
-    if (playerIdx === 1) {
+    if (playerIdx === 0) {
+      this.f.nick1.setValue(
+        this.players[0].nick + ' ' + this.players[0].whs
+      );
+  } else if (playerIdx === 1) {
       this.f.nick2.disable();
       this.f.nick2.setValue(
-        this.f.nick2.value + ' ' + this.players[1].whs
+        this.players[1].nick + ' ' + this.players[1].whs
       );
     } else if (playerIdx === 2) {
       this.f.nick3.disable();
       this.f.nick3.setValue(
-        this.f.nick3.value + ' ' + this.players[2].whs
+        this.players[2].nick + ' ' + this.players[2].whs
       );
     } else if (playerIdx === 3) {
       this.f.nick4.disable();
       this.f.nick4.setValue(
-        this.f.nick4.value + ' ' + this.players[3].whs
+        this.players[3].nick + ' ' + this.players[3].whs
       );
     }
   }
@@ -463,5 +468,39 @@ export class OnlineRoundDefComponent implements OnInit {
         ? this.teeOptionsFemale
         : this.teeOptionsMale;
     }
+  }
+
+  updateWHS(playerIdx: number) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      player: this.players[playerIdx]
+    };
+
+    const dialogRef = this.dialog.open(
+      UpdateWhsDialogComponent,
+      dialogConfig
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        const player: Player = this.players[playerIdx];
+        player.whs = result.whs;
+        this.searchInProgress[playerIdx] = true;
+        this.httpService
+        .updatePlayer(player)
+        .pipe(
+          tap((player) => {
+            this.updatePlayers(player, playerIdx);
+            this.alertService.success('WHS for ' + player.nick + ' has been updated', false);
+            this.searchInProgress[playerIdx] = false;
+          })
+        )
+        .subscribe();
+      }
+    });
   }
 }
