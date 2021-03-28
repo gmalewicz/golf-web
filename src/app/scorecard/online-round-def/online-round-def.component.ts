@@ -493,8 +493,8 @@ export class OnlineRoundDefComponent implements OnInit {
         this.httpService
         .updatePlayer(player)
         .pipe(
-          tap((player) => {
-            this.updatePlayers(player, playerIdx);
+          tap((playerUpd) => {
+            this.updatePlayers(playerUpd, playerIdx);
             this.alertService.success('WHS for ' + player.nick + ' has been updated', false);
             this.searchInProgress[playerIdx] = false;
           })

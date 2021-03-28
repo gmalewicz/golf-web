@@ -4,7 +4,8 @@ import { Tournament } from '@/_models';
 import { AuthenticationService} from '@/_services';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
-import { tap } from 'rxjs/internal/operators/tap';
+import { tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-tournaments',
