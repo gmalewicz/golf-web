@@ -6,7 +6,7 @@ import { Courses } from '@/_models/courses';
 import { AlertService } from '@/_services/alert.service';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import { HttpService } from '@/_services';
-import { tap } from 'rxjs/internal/operators/tap';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-courses',

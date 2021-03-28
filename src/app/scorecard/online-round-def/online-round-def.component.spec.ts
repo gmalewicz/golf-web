@@ -1,5 +1,5 @@
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub, getTestCourse} from '@/_helpers/test.helper';
+import { authenticationServiceStub, getTee, getTestCourse} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
@@ -149,7 +149,26 @@ describe('OnlineRoundDefComponent', () => {
     expect(component.f.nick2.enabled).toBeFalsy();
   }));
 
+  it('should update WHS for the second player', fakeAsync(() => {
+
+    component.f.nick2.enable();
+    component.f.nick2.setValue('Other');
+    component.updateWHS(1);
+    expect(component.f.nick2.enabled).toBeTruthy();
+  }));
+
+  it('should tee change for the first player', fakeAsync(() => {
+
+    component.f.teeDropDown1.setValue(1);
+    component.course.tees.push(getTee());
+    component.teeChange(0);
+    expect(component.tees[0].id).toBe(1);
+  }));
+
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
+
 });
+

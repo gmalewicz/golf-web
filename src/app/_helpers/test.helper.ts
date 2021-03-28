@@ -1,7 +1,7 @@
 import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
-import { teeTypes } from '@/_models/tee';
+import { Tee, teeTypes } from '@/_models/tee';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { of } from 'rxjs';
 
@@ -73,6 +73,11 @@ export function getTestRound(): Round {
 export function getTestCourse(): Course {
 
   return getTestRound().course;
+}
+
+export function getTee(): Tee {
+
+  return {id: 1, cr: 68, sr: 133, tee: 'test', teeType: teeTypes.TEE_TYPE_18, sex: false};
 }
 
 export let authenticationServiceStub: Partial<AuthenticationService>;

@@ -35,6 +35,7 @@ import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component'
 import { RegisterPlayerDialogComponent } from './scorecard/register-player-dialog/register-player-dialog.component';
 import { MatInputModule } from "@angular/material/input";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { UpdateWhsDialogComponent } from './scorecard/update-whs-dialog/update-whs-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     RoundSummaryComponent,
     ListCoursesComponent,
     ListRoundsComponent,
-    RegisterPlayerDialogComponent
+    RegisterPlayerDialogComponent,
+    UpdateWhsDialogComponent
   ],
   imports: [
     BrowserModule,
