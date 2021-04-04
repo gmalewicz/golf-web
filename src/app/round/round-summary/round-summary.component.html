@@ -26,9 +26,17 @@
           <td>{{pl.roundDetails.whs}}</td>
           <ng-container *ngIf="round.player[i].roundDetails.ninesFull !== -1">
             <td>{{pl.roundDetails.courseHCP}}</td>
-            <td>{{score[i]}}</td>
+            <td>
+              <span *ngIf="!ballPickedUp[i]">
+                {{score[i]}}
+              </span>
+            </td>
             <td>{{corScore[i]}}</td>
-            <td>{{netScore[i]}}</td>
+            <td>
+              <span *ngIf="!ballPickedUp[i]">
+                {{netScore[i]}}
+              </span>
+            </td>
             <td>{{stbNet[i]}}</td>
             <td>{{stbGross[i]}}</td>
             <td>{{pl.roundDetails.scoreDiff | number: '1.1-1'}}</td>

@@ -16,8 +16,22 @@
       <thead>
         <tr>
           <th id="hole">Hole</th>
-          <th id="p1">{{onlineRounds[0].player.nick}}</th>
-          <th id="p2">{{onlineRounds[1].player.nick}}</th>
+          <th id="p1">{{onlineRounds[0].player.nick}}
+            <span *ngIf="ballPickedUp[0]">
+              (x)
+            </span>
+            <span *ngIf="!ballPickedUp[0]">
+              ({{totalStrokes[0]}})
+            </span>
+          </th>
+          <th id="p2">{{onlineRounds[1].player.nick}}
+            <span *ngIf="ballPickedUp[1]">
+              (x)
+            </span>
+            <span *ngIf="!ballPickedUp[1]">
+              ({{totalStrokes[1]}})
+            </span>
+          </th>
           <th id="par">Par</th>
           <th id="si">Si</th>
         </tr>
@@ -29,8 +43,8 @@
             {{curHoleIdx + 1}}
           </td>
           <td [ngClass]="calculateStyle(0)">
-            <span *ngIf="curHoleStrokes[0] > 0">{{curHoleStrokes[0]}}</span>
-            <span *ngIf="curHoleStrokes[0] > 0 && holeHCP[0][curHoleIdx] > 0">({{holeHCP[0][curHoleIdx]}})</span>
+            <span *ngIf="curHoleStrokes[0] > 0 && curHoleStrokes[0] < 16">{{curHoleStrokes[0]}}</span>
+            <span *ngIf="curHoleStrokes[0] === 16">x</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -49,8 +63,8 @@
             </span>
           </td>
           <td [ngClass]="calculateStyle(1)">
-            <span *ngIf="curHoleStrokes[1] > 0">{{curHoleStrokes[1]}}</span>
-            <span *ngIf="curHoleStrokes[1] > 0 && holeHCP[1][curHoleIdx] > 0">({{holeHCP[1][curHoleIdx]}})</span>
+            <span *ngIf="curHoleStrokes[1] > 0 && curHoleStrokes[1] < 16">{{curHoleStrokes[1]}}</span>
+            <span *ngIf="curHoleStrokes[1] === 16">x</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -96,12 +110,10 @@
           <th id="p1r">
             {{onlineRounds[0].player.nick}}
             <span *ngIf="hcpDiff > 0">({{hcpDiff}}) </span>
-            {{totalStrokes[0]}}
           </th>
           <th id="p2r">
             {{onlineRounds[1].player.nick}}
             <span *ngIf="hcpDiff < 0"> ({{-hcpDiff}}) </span>
-            {{totalStrokes[1]}}
           </th>
           <th id="winner">Winner</th>
           <th id="par">Par</th>
@@ -125,8 +137,8 @@
             {{i + 1}}
           </td>
           <td *ngFor="let pl = index of counter(2)" [ngClass]="highlightHcp(i, pl)">
-            <span *ngIf="stroke[pl] > 0">{{stroke[pl]}}</span>
-            <span *ngIf="stroke[pl] > 0 && holeHCP[pl][i] > 0">({{holeHCP[pl][i]}})</span>
+            <span *ngIf="stroke[pl] > 0 && stroke[pl] < 16">{{stroke[pl]}}</span>
+            <span *ngIf="stroke[pl] === 16">x</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>

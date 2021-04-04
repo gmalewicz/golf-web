@@ -1,4 +1,5 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { ballPickedUpStrokes } from '@/_helpers/common';
 import { Course } from '@/_models/course';
 import { teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
@@ -21,6 +22,8 @@ import { WebSocketAPI } from './web.socket.api';
   template: ''
 })
 export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
+
+  ballPickedUp: boolean[];
 
   faPlay = faPlay;
   faSearchPlus = faSearchPlus;
@@ -107,6 +110,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.roundCompleted = false;
 
       this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
+      this.ballPickedUp = new Array(this.onlineRounds.length).fill(false);
 
       this.lostConnection = true;
 
@@ -301,8 +305,22 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       // update total strokes by substracting current value and adding the new one
       this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
       this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
+
       // udate strokes for display
       this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
+
+      // verify if at least for one hole the ball has been picked up
+      for  (let idx = 0; idx < 18; idx++) {
+
+        if (this.strokes[idx][this.curPlayerIdx] === ballPickedUpStrokes) {
+          this.ballPickedUp[this.curPlayerIdx] = true;
+          break;
+        }
+        if (idx === 17) {
+          this.ballPickedUp[this.curPlayerIdx] = false;
+        }
+      }
+
       this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
       this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
     }
@@ -366,7 +384,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           this.putts[sc.hole - 1][i] = sc.putt;
           this.penalties[sc.hole - 1][i] = sc.penalty;
           // initialize total strokes per player
-          this.totalStrokes[i] += sc.stroke;
+          if (!this.ballPickedUp[i] && sc.stroke < ballPickedUpStrokes) {
+            this.totalStrokes[i] += sc.stroke;
+          } else {
+            this.ballPickedUp[i] = true;
+          }
         });
       }
 

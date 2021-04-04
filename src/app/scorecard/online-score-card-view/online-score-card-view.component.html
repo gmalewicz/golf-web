@@ -51,17 +51,39 @@
             <ng-container *ngIf="owner === undefined">
               <td *ngFor="let i = index of counter(9)" class="center">
                 <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-                  {{onlineRound.scoreCardAPI[i].stroke}}
+                  <span *ngIf="onlineRound.scoreCardAPI[i].stroke === 16">
+                    x
+                  </span>
+                  <span *ngIf="onlineRound.scoreCardAPI[i].stroke < 16">
+                    {{onlineRound.scoreCardAPI[i].stroke}}
+                  </span>
                 </span>
               </td>
-              <th id="f9s" class="center">{{onlineRound.first9score}}</th>
+              <th id="f9s" class="center">
+                <span *ngIf="!ballPickedUp[idx]">
+                  {{onlineRound.first9score}}
+                </span>
+              </th>
               <td *ngFor="let i = index of counter(9)" class="center">
                 <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-                  {{onlineRound.scoreCardAPI[i + 9].stroke}}
+                  <span *ngIf="onlineRound.scoreCardAPI[i + 9].stroke === 16">
+                    x
+                  </span>
+                  <span *ngIf="onlineRound.scoreCardAPI[i + 9].stroke < 16">
+                    {{onlineRound.scoreCardAPI[i + 9].stroke}}
+                  </span>
                 </span>
               </td>
-              <th id="l9s" class="center">{{onlineRound.last9score}}</th>
-              <th id="b9s" class="center">{{onlineRound.first9score + onlineRound.last9score}}</th>
+              <th id="l9s" class="center">
+                <span *ngIf="!ballPickedUp[idx]">
+                  {{onlineRound.last9score}}
+                </span>
+              </th>
+              <th id="b9s" class="center">
+                <span *ngIf="!ballPickedUp[idx]">
+                  {{onlineRound.first9score + onlineRound.last9score}}
+                </span>
+              </th>
             </ng-container>
             <ng-container *ngIf="owner != undefined">
               <td *ngFor="let i = index of counter(9)" class="center">

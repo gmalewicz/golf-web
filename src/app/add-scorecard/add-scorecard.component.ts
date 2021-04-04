@@ -79,7 +79,7 @@ export class AddScorecardComponent implements OnInit {
 
       // initialize buttons and set them not to be marked
       this.holeSelectorActive = Array(18).fill({disabled: true, active: false});
-      this.strokeSelectorActive = Array(15).fill({disabled: true, active: false});
+      this.strokeSelectorActive = Array(16).fill({disabled: true, active: false});
       this.patSelectorActive = Array(6).fill({disabled: true, active: false});
 
       // get round from state in case of edit
