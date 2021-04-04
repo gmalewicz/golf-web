@@ -1,5 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { Round } from '@/_models';
+import { ballPickedUpStrokes } from '@/_helpers/common';
 
 @Component({
   selector: 'app-round-view-whs',
@@ -29,6 +30,7 @@ export class RoundViewWHSComponent implements OnInit {
   last9Penalty: number;
   scoreBruttoClass: string[];
   scoreNettoClass: string[];
+  ballPickedUp: boolean;
 
   display: boolean;
 
@@ -42,6 +44,10 @@ export class RoundViewWHSComponent implements OnInit {
 
     this.scoreBruttoClass = Array(18).fill('');
     this.scoreNettoClass = Array(18).fill('');
+
+
+    // check if at least for one hole the ball was picked up
+    this.ballPickedUp = this.round.scoreCard.some((v => v != null && v.stroke === ballPickedUpStrokes));
 
     // create pars for first and last 9
     this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });

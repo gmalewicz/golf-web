@@ -81,6 +81,9 @@
         <label *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[i]">
           <input type="radio" class="radio-stroke" (click)="selectStroke(stroke)"> {{ stroke }}
         </label>
+        <label class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[15]">
+          <input type="radio" class="radio-stroke" (click)="selectStroke(16)"> x
+        </label>
       </div>
     </div>
   </div>

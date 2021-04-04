@@ -6,3 +6,5 @@ export function getDateAndTime(): string[] {
   const teeDate = dateTime.toISOString().substr(0, 10).replace(/-/gi, '/');
   return [teeDate, teeTime];
 }
+
+export const ballPickedUpStrokes = 16;

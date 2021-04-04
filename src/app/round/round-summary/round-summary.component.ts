@@ -1,3 +1,4 @@
+import { ballPickedUpStrokes } from '@/_helpers/common';
 import { Round } from '@/_models/round';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -17,6 +18,8 @@ export class RoundSummaryComponent implements OnInit {
   putts: number[];
   penalties: number[];
 
+  ballPickedUp: boolean[];
+
   display: boolean;
 
   constructor() {
@@ -34,6 +37,7 @@ export class RoundSummaryComponent implements OnInit {
     this.stbGross = Array(this.round.player.length).fill(0);
     this.putts = Array(this.round.player.length).fill(0);
     this.penalties = Array(this.round.player.length).fill(0);
+    this.ballPickedUp = Array(this.round.player.length).fill(false);
 
     this.calculateSummary();
   }
@@ -41,6 +45,10 @@ export class RoundSummaryComponent implements OnInit {
   private calculateSummary() {
 
     this.round.player.forEach((pl, idx) => {
+
+      // check if at least for one hole the ball was picked up
+      this.ballPickedUp[idx] =
+        this.round.scoreCard.slice(idx * 18, (idx * 18) + 18).some((v => v != null && v.stroke === ballPickedUpStrokes));
 
       // both full
       if (pl.roundDetails.ninesFull === 0) {

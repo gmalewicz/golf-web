@@ -26,6 +26,11 @@ export class OnlineNavComponent implements OnInit {
     this.buttons = [0, 1, 2, 3, 4, 5];
   }
 
+  onPickUp() {
+    // 16 is agreed number of pick up hole
+    this.curHoleStrokes[this.curPlayerIdx] = 16;
+  }
+
   onDecrease() {
     // number of strokes canot be lower than 1
     if (this.curHoleStrokes[this.curPlayerIdx] === 1) {
@@ -38,7 +43,7 @@ export class OnlineNavComponent implements OnInit {
   onIncrease() {
 
     // number of strokes canot be greater than 15
-    if (this.curHoleStrokes[this.curPlayerIdx] === 15) {
+    if (this.curHoleStrokes[this.curPlayerIdx] >= 15) {
       return;
     }
     this.curHoleStrokes[this.curPlayerIdx]++;

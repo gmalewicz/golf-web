@@ -1,10 +1,21 @@
 <div >
   <div>
+    <button type="button" class="btn btn-success" (click)="onPickUp()">
+      x
+    </button>
+    &nbsp;
+    &nbsp;
+    &nbsp;
     <button type="button" class="btn btn-success" (click)="onDecrease()">
       &lt;
     </button>
     &nbsp;
-    {{curHoleStrokes[curPlayerIdx]}}
+    <span *ngIf="curHoleStrokes[curPlayerIdx] === 16">
+      x
+    </span>
+    <span *ngIf="curHoleStrokes[curPlayerIdx] !== 16">
+      {{curHoleStrokes[curPlayerIdx]}}
+      </span>
     &nbsp;
     <button type="button" class="btn btn-success" (click)="onIncrease()">
       &gt;

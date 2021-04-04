@@ -65,20 +65,44 @@
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
-                {{round.scoreCard[i + (playerOffset * 18)].stroke}}
+                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke === 16">
+                  x
+                </span>
+                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke < 16">
+                  {{round.scoreCard[i + (playerOffset * 18)].stroke}}
+                </span>
               </span>
             </td>
-            <th id="f9" class="center">{{first9score}}</th>
+            <th id="f9" class="center">
+              <span *ngIf="!ballPickedUp">
+                {{first9score}}
+              </span>
+            </th>
           </ng-container>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i + 9]" class="center" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
-                {{round.scoreCard[i + (playerOffset * 18) + 9].stroke}}
+                <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
+                  <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke === 16">
+                    x
+                  </span>
+                  <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16">
+                    {{round.scoreCard[i + (playerOffset * 18) + 9].stroke}}
+                  </span>
+                </span>
               </span>
             </td>
-            <th id="l9" class="center">{{last9score}}</th>
+            <th id="l9" class="center">
+              <span *ngIf="!ballPickedUp">
+                {{last9score}}
+              </span>
+            </th>
           </ng-container>
-          <th id="b9" class="center">{{first9score + last9score}}</th>
+          <th id="b9" class="center">
+            <span *ngIf="!ballPickedUp">
+              {{first9score + last9score}}
+            </span>
+          </th>
         </tr>
         <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
           <th id="hcp">HCP</th>
@@ -100,18 +124,36 @@
           <th id="ns">Net Score</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i]" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].scoreNetto}}
+              <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
+                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke < 16">
+                  {{round.scoreCard[i + (playerOffset * 18)].scoreNetto}}
+                </span>
+              </span>
             </td>
-            <th id="f9n" class="center">{{first9scoreNetto}}</th>
+            <th id="f9n" class="center">
+              <span *ngIf="!ballPickedUp">
+                {{first9scoreNetto}}
+              </span>
+            </th>
           </ng-container>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i + 9]" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].scoreNetto}}
+              <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
+                <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16">
+                  {{round.scoreCard[i + (playerOffset * 18) + 9].scoreNetto}}
+                </span>
+              </span>
             </td>
-            <th id="l9n" class="center">{{last9scoreNetto}}</th>
+            <th id="l9n" class="center">
+              <span *ngIf="!ballPickedUp">
+                {{last9scoreNetto}}
+              </span>
+            </th>
           </ng-container>
           <th id="b9t" class="center">
-            {{first9scoreNetto + last9scoreNetto}}
+            <span *ngIf="!ballPickedUp">
+              {{first9scoreNetto + last9scoreNetto}}
+            </span>
           </th>
         </tr>
         <tr  *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
