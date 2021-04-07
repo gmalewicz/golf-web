@@ -32,10 +32,6 @@ import { RoundViewComponent } from './round/round-view/round-view.component';
 import { RoundSummaryComponent } from './round/round-summary/round-summary.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
 import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component';
-import { RegisterPlayerDialogComponent } from './scorecard/register-player-dialog/register-player-dialog.component';
-import { MatInputModule } from "@angular/material/input";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { UpdateWhsDialogComponent } from './scorecard/update-whs-dialog/update-whs-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,8 +56,6 @@ import { UpdateWhsDialogComponent } from './scorecard/update-whs-dialog/update-w
     RoundSummaryComponent,
     ListCoursesComponent,
     ListRoundsComponent,
-    RegisterPlayerDialogComponent,
-    UpdateWhsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,16 +70,13 @@ import { UpdateWhsDialogComponent } from './scorecard/update-whs-dialog/update-w
     DropdownModule,
     RecaptchaModule,
     RecaptchaFormsModule,
-    HttpClientXsrfModule,
-    MatInputModule,
-    MatCheckboxModule
+    HttpClientXsrfModule
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent,
-                    RegisterPlayerDialogComponent]
+  entryComponents: [ConfirmationDialogComponent]
 })
 export class AppModule { }

@@ -310,16 +310,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
 
       // verify if at least for one hole the ball has been picked up
-      for  (let idx = 0; idx < 18; idx++) {
-
-        if (this.strokes[idx][this.curPlayerIdx] === ballPickedUpStrokes) {
-          this.ballPickedUp[this.curPlayerIdx] = true;
-          break;
-        }
-        if (idx === 17) {
-          this.ballPickedUp[this.curPlayerIdx] = false;
-        }
-      }
+      this.setBallPickUp();
 
       this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
       this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
@@ -344,6 +335,20 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
+  }
+
+  private setBallPickUp() {
+
+    for  (let idx = 0; idx < 18; idx++) {
+
+      if (this.strokes[idx][this.curPlayerIdx] === ballPickedUpStrokes) {
+        this.ballPickedUp[this.curPlayerIdx] = true;
+        break;
+      }
+      if (idx === 17) {
+        this.ballPickedUp[this.curPlayerIdx] = false;
+      }
+    }
   }
 
   protected calculateHCP(i: number) {
@@ -371,30 +376,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
     combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
 
-      for (let i = 0; i < onlineScoreCards.length; i++) {
-
-        // set lastPlayed hole
-        if (onlineScoreCards.length > this.lastPlayed - 1) {
-          this.lastPlayed = onlineScoreCards.length;
-        }
-
-        onlineScoreCards[i].forEach((sc: OnlineScoreCard) => {
-          // initialize strokes per holes for display
-          this.strokes[sc.hole - 1][i] = sc.stroke;
-          this.putts[sc.hole - 1][i] = sc.putt;
-          this.penalties[sc.hole - 1][i] = sc.penalty;
-          // initialize total strokes per player
-          if (!this.ballPickedUp[i] && sc.stroke < ballPickedUpStrokes) {
-            this.totalStrokes[i] += sc.stroke;
-          } else {
-            this.ballPickedUp[i] = true;
-          }
-        });
-      }
+      this.processOnlineScoreCards(onlineScoreCards);
 
       this.initCurHoleIdx(onlineScoreCards);
 
-      this.checkifRoundCompleted();
+      this.checkIfRoundCompleted();
 
       // update mp results
       this.updateMPresults();
@@ -429,6 +415,30 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     });
   }
 
+  private processOnlineScoreCards(onlineScoreCards: OnlineScoreCard[][]) {
+
+    for (let i = 0; i < onlineScoreCards.length; i++) {
+
+      // set lastPlayed hole
+      if (onlineScoreCards.length > this.lastPlayed - 1) {
+        this.lastPlayed = onlineScoreCards.length;
+      }
+
+      onlineScoreCards[i].forEach((sc: OnlineScoreCard) => {
+        // initialize strokes per holes for display
+        this.strokes[sc.hole - 1][i] = sc.stroke;
+        this.putts[sc.hole - 1][i] = sc.putt;
+        this.penalties[sc.hole - 1][i] = sc.penalty;
+        // initialize total strokes per player
+        if (!this.ballPickedUp[i] && sc.stroke < ballPickedUpStrokes) {
+          this.totalStrokes[i] += sc.stroke;
+        } else {
+          this.ballPickedUp[i] = true;
+        }
+      });
+    }
+  }
+
   private initCurHoleIdx(onlineScoreCards: OnlineScoreCard[][]) {
      // initialize the current hole inedex (assumed all players will play the same number of holes)
      if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
@@ -440,7 +450,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     }
   }
 
-  private checkifRoundCompleted() {
+  private checkIfRoundCompleted() {
     // check if round is completed completed
     if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
       this.roundCompleted = true;

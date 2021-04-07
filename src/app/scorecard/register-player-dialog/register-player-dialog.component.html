@@ -12,23 +12,7 @@
       >
     </mat-form-field>
   </mat-dialog-content>
-  <mat-dialog-content [formGroup]="form">
-    <mat-form-field>
-      <input matInput placeholder="Player whs (X.X)" formControlName="whs" />
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.required"
-        >WHS is required</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.max"
-        >WHS is caannot be higer than 54</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.min"
-        >WHS is caannot be lower than -5</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.pattern"
-        >Provide valid value</mat-error
-      >
-    </mat-form-field>
-  </mat-dialog-content>
+  <app-common-dialog [form] = 'form'></app-common-dialog>
   <mat-dialog-content [formGroup]="form">
     <mat-checkbox formControlName="female" (click)="sexClick(true)"
       >Female</mat-checkbox

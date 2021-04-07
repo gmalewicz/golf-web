@@ -1,23 +1,6 @@
 <div class="golf-theme">
   <h2 style="color: red" mat-dialog-title>{{player.nick}}: Update WHS</h2>
-
-  <mat-dialog-content [formGroup]="form">
-    <mat-form-field>
-      <input matInput placeholder="Player whs (X.X)" formControlName="whs" />
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.required"
-        >WHS is required</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.max"
-        >WHS is caannot be higer than 54</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.min"
-        >WHS is caannot be lower than -5</mat-error
-      >
-      <mat-error *ngIf="f.whs.errors && f.whs.errors.pattern"
-        >Provide valid value</mat-error
-      >
-    </mat-form-field>
-  </mat-dialog-content>
+  <app-common-dialog [form] = 'form'></app-common-dialog>
   <mat-dialog-actions>
     <button class="mat-raised-button mat-primary" (click)="close()">
       Cancel
