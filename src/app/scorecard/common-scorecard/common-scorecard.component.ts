@@ -147,8 +147,6 @@ export class CommonScorecardComponent implements OnInit {
   @Input() public counter: (i: number) => number[];
   @Input() public calculateStyle: (i: number) => string;
 
-  // tableHeader = 'TableHeader';
-
   constructor() {
      // This is intentional
   }
