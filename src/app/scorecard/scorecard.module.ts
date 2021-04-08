@@ -1,3 +1,4 @@
+import { CommonScorecardComponent } from './common-scorecard/common-scorecard.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
@@ -13,6 +14,12 @@ import { routing } from './scorecard.routing';
 import { DropdownModule } from 'primeng/dropdown';
 import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
 import { OnlineNavComponent } from './online-nav/online-nav.component';
+import { RegisterPlayerDialogComponent } from './register-player-dialog/register-player-dialog.component';
+import { UpdateWhsDialogComponent } from './update-whs-dialog/update-whs-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CommonDialogComponent } from './common-dialog/common-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +28,11 @@ import { OnlineNavComponent } from './online-nav/online-nav.component';
     OnlineScoreCardViewComponent,
     OnlineRoundDefComponent,
     OnlineMatchplayComponent,
-    OnlineNavComponent
+    OnlineNavComponent,
+    RegisterPlayerDialogComponent,
+    UpdateWhsDialogComponent,
+    CommonDialogComponent,
+    CommonScorecardComponent
   ],
   imports: [
     routing,
@@ -30,12 +41,16 @@ import { OnlineNavComponent } from './online-nav/online-nav.component';
     ReactiveFormsModule,
     FontAwesomeModule,
     HttpClientModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDialogModule,
   ],
   providers: [ScorecardHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
-  exports: []
+  exports: [],
+  entryComponents: [RegisterPlayerDialogComponent, UpdateWhsDialogComponent]
 })
 export class ScorecardModule { }

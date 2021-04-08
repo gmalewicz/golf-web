@@ -380,8 +380,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // check if at least for one hole the ball was picked up
         this.ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes));
-        console.log(this.ballPickedUp[idx]);
-
       }
     });
   }

@@ -47,13 +47,13 @@
         <tr>
           <th id="si">SI</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+            <td *ngFor="let i = index of counter(9)" class="center">
               {{round.course.holes[i].si}}
             </td>
             <th id="empty"></th>
           </ng-container>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+            <td *ngFor="let i = index of counter(9)" class="center">
               {{round.course.holes[i + 9].si}}
             </td>
             <th id="empty"></th>
@@ -63,7 +63,7 @@
         <tr>
           <th id="score">Score</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center" class="center">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
                 <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke === 16">
                   x
@@ -80,7 +80,7 @@
             </th>
           </ng-container>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i + 9]" class="center" class="center">
+            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i + 9]" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
                 <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
                   <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke === 16">
@@ -107,7 +107,7 @@
         <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
           <th id="hcp">HCP</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center" class="center">
+            <td *ngFor="let i = index of counter(9)" class="center">
               {{round.scoreCard[i + (playerOffset * 18)].hcp}}
             </td>
             <th id="empty"></th>
