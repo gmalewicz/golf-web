@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-common-dialog',
@@ -27,9 +27,12 @@ export class CommonDialogComponent implements OnInit {
 
   @Input() form: FormGroup;
 
-  constructor() { }
+  constructor() {
+    // This is intentional
+  }
 
   ngOnInit(): void {
+    // This is intentional
   }
 }
 

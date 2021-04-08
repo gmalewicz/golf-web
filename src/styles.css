@@ -70,3 +70,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .custom-control-input:checked~.custom-control-label.green::before {
   background-color: #28a745;
 }
+
+.edit {
+  background-color: #28a745;
+  color: white;
+}
+
+.no-edit {
+  background-color: white;
+  color: black;
+}

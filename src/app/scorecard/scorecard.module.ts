@@ -1,3 +1,4 @@
+import { CommonScorecardComponent } from './common-scorecard/common-scorecard.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnlineRoundDefComponent } from './online-round-def/online-round-def.component';
@@ -30,7 +31,8 @@ import { CommonDialogComponent } from './common-dialog/common-dialog.component';
     OnlineNavComponent,
     RegisterPlayerDialogComponent,
     UpdateWhsDialogComponent,
-    CommonDialogComponent
+    CommonDialogComponent,
+    CommonScorecardComponent
   ],
   imports: [
     routing,
