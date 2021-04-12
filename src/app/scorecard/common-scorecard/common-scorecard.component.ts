@@ -35,7 +35,7 @@ import { OnlineRound } from '../_models/onlineRound';
           </span>
         </span>
       </td>
-      <td *ngIf="onlineRounds.length > 1" [ngClass]="calculateStyle(1)">
+      <td *ngIf="rounds.length > 1" [ngClass]="calculateStyle(1)">
         <span *ngIf="curHoleStrokes[1] > 0 && curHoleStrokes[1] < 16">{{curHoleStrokes[1]}}</span>
         <span *ngIf="curHoleStrokes[1] === 16">x</span>
         <span class="supsub">
@@ -55,7 +55,7 @@ import { OnlineRound } from '../_models/onlineRound';
           </span>
         </span>
       </td>
-      <td *ngIf="onlineRounds.length > 2" [ngClass]="calculateStyle(2)">
+      <td *ngIf="rounds.length > 2" [ngClass]="calculateStyle(2)">
         <span *ngIf="curHoleStrokes[2] > 0 && curHoleStrokes[2] < 16">{{curHoleStrokes[2]}}</span>
         <span *ngIf="curHoleStrokes[2] === 16">x</span>
         <span class="supsub">
@@ -75,7 +75,7 @@ import { OnlineRound } from '../_models/onlineRound';
           </span>
         </span>
       </td>
-      <td *ngIf="onlineRounds.length > 3" [ngClass]="calculateStyle(3)">
+      <td *ngIf="rounds.length > 3" [ngClass]="calculateStyle(3)">
         <span *ngIf="curHoleStrokes[3] > 0 && curHoleStrokes[3] < 16">{{curHoleStrokes[3]}}</span>
         <span *ngIf="curHoleStrokes[3] === 16">x</span>
         <span class="supsub">
@@ -100,7 +100,7 @@ import { OnlineRound } from '../_models/onlineRound';
 </table>
 <ng-template #TableHeader >
   <th id="hole">Hole</th>
-  <th id="p1str">{{onlineRounds[0].player.nick}}
+  <th id="p1str">{{rounds[0].player.nick}}
     <span *ngIf="ballPickedUp[0]">
       (x)
     </span>
@@ -108,7 +108,7 @@ import { OnlineRound } from '../_models/onlineRound';
       ({{totalStrokes[0]}})
     </span>
   </th>
-  <th id="p2str" *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}}
+  <th id="p2str" *ngIf="rounds.length > 1">{{rounds[1].player.nick}}
     <span *ngIf="ballPickedUp[1]">
       (x)
     </span>
@@ -116,7 +116,7 @@ import { OnlineRound } from '../_models/onlineRound';
       ({{totalStrokes[1]}})
     </span>
   </th>
-  <th id="p3str" *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}}
+  <th id="p3str" *ngIf="rounds.length > 2">{{rounds[2].player.nick}}
     <span *ngIf="ballPickedUp[2]">
       (x)
     </span>
@@ -124,7 +124,7 @@ import { OnlineRound } from '../_models/onlineRound';
       ({{totalStrokes[2]}})
     </span>
   </th>
-  <th id="p4str" *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}}
+  <th id="p4str" *ngIf="rounds.length > 3">{{rounds[3].player.nick}}
     <span *ngIf="ballPickedUp[3]">
       (x)
     </span>
@@ -141,7 +141,7 @@ export class CommonScorecardComponent implements OnInit {
   @Input() curHoleStrokes: number[];
   @Input() curHolePutts: number[];
   @Input() curHolePenalties: number[];
-  @Input() onlineRounds: OnlineRound[];
+  @Input() rounds: OnlineRound[];
   @Input() ballPickedUp: boolean;
   @Input() totalStrokes: number[];
   @Input() public counter: (i: number) => number[];
@@ -154,9 +154,4 @@ export class CommonScorecardComponent implements OnInit {
   ngOnInit() {
      // This is intentional
   }
-
-  tableHeader() {
-    return 'TableHeader';
-  }
-
 }

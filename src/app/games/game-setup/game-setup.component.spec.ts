@@ -1,6 +1,8 @@
 import { routing } from '@/app.routing';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
+import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -24,6 +26,7 @@ describe('GameSetupComponent', () => {
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
         ]
     })
     .compileComponents();
@@ -31,6 +34,7 @@ describe('GameSetupComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GameSetupComponent);
+    history.pushState({data: {game: 1}}, '');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faSearchPlus, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@/_services';
 
@@ -10,9 +9,6 @@ import { AuthenticationService } from '@/_services';
 })
 export class GamesComponent implements OnInit {
 
-  faSearchPlus: IconDefinition;
-  faPlay: IconDefinition;
-
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute) { }
@@ -21,9 +17,6 @@ export class GamesComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/']);
-    } else {
-      this.faSearchPlus = faSearchPlus;
-      this.faPlay = faPlay;
     }
   }
 

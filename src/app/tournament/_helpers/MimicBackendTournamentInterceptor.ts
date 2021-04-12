@@ -28,6 +28,13 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
+    } else if (req.url.endsWith('rest/TournamentResult/1')) {
+        return new Observable<any> (observer => {
+          observer.next(new HttpResponse<Array<any>>({body:
+            []
+          , status: 200}));
+          observer.complete();
+        });
     }
     // pass through other requests.
     return next.handle(req);

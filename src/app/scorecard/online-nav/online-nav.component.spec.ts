@@ -19,7 +19,7 @@ describe('OnlineNavComponent', () => {
     component = fixture.componentInstance;
     component.curHoleStrokes = [1];
     component.curPlayerIdx = 0;
-    component.onlineRounds = [{putts: false, penalties: false, matchPlay: false}];
+    component.rounds = [{putts: false, penalties: false, matchPlay: false}];
     fixture.detectChanges();
   });
 

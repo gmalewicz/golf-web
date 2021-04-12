@@ -10,7 +10,7 @@ export class OnlineNavComponent implements OnInit {
   @Input() curHoleStrokes: number[];
   @Input() curPlayerIdx: number;
   @Input() puttSelectorActive: { active: boolean }[];
-  @Input() onlineRounds: OnlineRound[];
+  @Input() rounds: OnlineRound[];
   @Input() curHolePutts: number[];
   @Input() curHolePenalties: number[];
   @Input() penaltySelectorActive: { active: boolean }[];

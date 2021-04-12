@@ -4,7 +4,6 @@ import { HoleStakeRulesComponent } from './hole-stake-rules/hole-stake-rules.com
 import { BbbGameRulesComponent } from './bbb-game-rules/bbb-game-rules.component';
 import { LastGamesDetailsComponent } from './last-games-details/last-games-details.component';
 import { LastGamesComponent } from './last-games/last-games.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { routing } from './games.routing';
 import { GameHttpService } from './_services';
@@ -13,7 +12,7 @@ import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { CommonModule } from '@angular/common';
 import { GameSetupComponent } from './game-setup/game-setup.component';
 import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-holestake-games.component';
-
+import { IconsModule } from './_helpers/icons.module';
 
 @NgModule({
   declarations: [
@@ -26,13 +25,12 @@ import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-hole
     BingoHolestakeGamesComponent
   ],
   imports: [
-    // BrowserModule,
     routing,
     CommonModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     HttpClientModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    IconsModule
   ],
   providers: [GameHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
@@ -40,4 +38,5 @@ import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-hole
   ],
   exports: []
 })
-export class GamesModule { }
+export class GamesModule {
+}
