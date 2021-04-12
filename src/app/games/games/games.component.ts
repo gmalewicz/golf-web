@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faSearchPlus, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@/_services';
 

@@ -21,9 +21,12 @@ export class CommonScorecardTopComponent implements OnInit {
   @Input() curPlayerIdx: number;
   @Input() puttSelectorActive: { active: boolean }[];
 
-  constructor() { }
+  constructor() {
+    // This is intentional
+  }
 
   ngOnInit() {
+    // This is intentional
   }
 
 }

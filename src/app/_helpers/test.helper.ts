@@ -2,9 +2,8 @@ import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
-import { AlertService } from '@/_services';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 export function getTestRound(): Round {
 
