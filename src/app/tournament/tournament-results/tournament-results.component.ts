@@ -45,7 +45,6 @@ export class TournamentResultsComponent implements OnInit {
 
       this.tournament = history.state.data.tournament;
       this.playerId = this.authenticationService.currentPlayerValue.id;
-
       this.tournamentHttpService.getTournamentResults(this.tournament.id).pipe(
         tap(
           (retTournamentResults: TournamentResult[]) => {

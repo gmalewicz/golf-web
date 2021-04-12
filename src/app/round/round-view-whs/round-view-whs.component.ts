@@ -47,7 +47,8 @@ export class RoundViewWHSComponent implements OnInit {
 
 
     // check if at least for one hole the ball was picked up
-    this.ballPickedUp = this.round.scoreCard.some((v => v != null && v.stroke === ballPickedUpStrokes));
+    this.ballPickedUp = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 18)
+      .some(v => v != null && v.stroke === ballPickedUpStrokes);
 
     // create pars for first and last 9
     this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });

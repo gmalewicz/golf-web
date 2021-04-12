@@ -2,28 +2,20 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display && !lostConnection">
-  <app-online-nav [curHoleStrokes] = 'curHoleStrokes'
-                  [curPlayerIdx] = 'curPlayerIdx'
-                  [puttSelectorActive] = 'puttSelectorActive'
-                  [onlineRounds] = 'onlineRounds'
-                  [curHolePutts] = 'curHolePutts'
-                  [penaltySelectorActive] = 'penaltySelectorActive'
-                  [curHolePenalties] = 'curHolePenalties'
-                  [addScore] = 'addScore.bind(this)'>
-  </app-online-nav>
-  <div>
-    <app-common-scorecard [curHoleIdx] = 'curHoleIdx'
-                          [curHoleStrokes] = 'curHoleStrokes'
-                          [curHolePutts] = 'curHolePutts'
-                          [curHolePenalties] = 'curHolePenalties'
-                          [onlineRounds] = 'onlineRounds'
-                          [ballPickedUp] = 'ballPickedUp'
-                          [totalStrokes] = 'totalStrokes'
-                          [counter] = 'counter.bind(this)'
-                          [calculateStyle] = 'calculateStyle.bind(this)'>
-    </app-common-scorecard>
-  </div>
-  <br/>
+  <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
+                            [curPlayerIdx] = 'curPlayerIdx'
+                            [puttSelectorActive] = 'puttSelectorActive'
+                            [rounds] = 'onlineRounds'
+                            [curHolePutts] = 'curHolePutts'
+                            [penaltySelectorActive] = 'penaltySelectorActive'
+                            [curHolePenalties] = 'curHolePenalties'
+                            [addScore] = 'addScore.bind(this)'
+                            [curHoleIdx] = 'curHoleIdx'
+                            [ballPickedUp] = 'ballPickedUp'
+                            [totalStrokes] = 'totalStrokes'
+                            [counter] = 'counter.bind(this)'
+                            [calculateStyle] = 'calculateStyle.bind(this)'>
+  </app-common-scorecard-top>
   <div>
     <div>
       <h3 *ngIf="mpResult[1] === undefined">

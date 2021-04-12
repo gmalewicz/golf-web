@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonDialogComponent } from './common-dialog/common-dialog.component';
+import { CommonScorecardTopComponent } from './common-scorecard-top/common-scorecard-top.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CommonDialogComponent } from './common-dialog/common-dialog.component';
     RegisterPlayerDialogComponent,
     UpdateWhsDialogComponent,
     CommonDialogComponent,
-    CommonScorecardComponent
+    CommonScorecardComponent,
+    CommonScorecardTopComponent
   ],
   imports: [
     routing,

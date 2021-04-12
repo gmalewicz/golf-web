@@ -16,6 +16,15 @@ describe('CommonScorecardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CommonScorecardComponent);
     component = fixture.componentInstance;
+    component.calculateStyle = () => 'edit';
+    component.rounds = [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}];
+    component.curHoleIdx = 0;
+    component.curHoleStrokes = [1];
+    component.ballPickedUp = false;
+    component.totalStrokes = [1];
+    component.counter = (i: number) => [1];
+    component.curHolePutts = [1];
+    component.curHolePenalties = [1];
     fixture.detectChanges();
   });
 

@@ -1,0 +1,22 @@
+<app-online-nav [curHoleStrokes] = 'curHoleStrokes'
+                  [curPlayerIdx] = 'curPlayerIdx'
+                  [puttSelectorActive] = 'puttSelectorActive'
+                  [rounds] = 'rounds'
+                  [curHolePutts] = 'curHolePutts'
+                  [penaltySelectorActive] = 'penaltySelectorActive'
+                  [curHolePenalties] = 'curHolePenalties'
+                  [addScore] = 'addScore.bind(this)'>
+</app-online-nav>
+<div>
+  <app-common-scorecard [curHoleIdx] = 'curHoleIdx'
+                        [curHoleStrokes] = 'curHoleStrokes'
+                        [curHolePutts] = 'curHolePutts'
+                        [curHolePenalties] = 'curHolePenalties'
+                        [rounds] = 'rounds'
+                        [ballPickedUp] = 'ballPickedUp'
+                        [totalStrokes] = 'totalStrokes'
+                        [counter] = 'counter.bind(this)'
+                        [calculateStyle] = 'calculateStyle.bind(this)'>
+  </app-common-scorecard>
+</div>
+<br/>

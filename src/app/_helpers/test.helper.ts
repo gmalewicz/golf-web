@@ -2,8 +2,9 @@ import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
+import { AlertService } from '@/_services';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export function getTestRound(): Round {
 
@@ -28,9 +29,9 @@ export function getTestRound(): Round {
       { par: 4, number: 16, si: 16 },
       { par: 4, number: 17, si: 17 },
       { par: 4, number: 18, si: 18 }]
-    }, roundDate: '10/10/2020', matchPlay: false, mpFormat: 0.75,
-     player: [{nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
-              {nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
+    }, roundDate: '10/10/2020', matchPlay: false, mpFormat: 0.75, id: 1,
+     player: [{id: 1, nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
+              {id: 2, nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
     scoreCard: [{ hole: 1, stroke: 10, pats: 0 },
     { hole: 2, stroke: 1, pats: 0 },
     { hole: 3, stroke: 1, pats: 0 },

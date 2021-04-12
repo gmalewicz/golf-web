@@ -10,9 +10,6 @@ import { AuthenticationService } from '@/_services';
 })
 export class GamesComponent implements OnInit {
 
-  faSearchPlus: IconDefinition;
-  faPlay: IconDefinition;
-
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute) { }
@@ -21,9 +18,6 @@ export class GamesComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/']);
-    } else {
-      this.faSearchPlus = faSearchPlus;
-      this.faPlay = faPlay;
     }
   }
 

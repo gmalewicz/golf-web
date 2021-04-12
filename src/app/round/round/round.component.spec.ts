@@ -1,12 +1,14 @@
+import { RoundViewComponent } from './../round-view/round-view.component';
 import { routing } from '@/app.routing';
+import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub, getTestRound } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-
 import { RoundComponent } from './round.component';
+import { ChartsModule } from 'ng2-charts';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -14,19 +16,18 @@ describe('RoundComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundComponent ],
+      declarations: [ RoundComponent, RoundViewComponent ],
       imports: [
         HttpClientModule,
         routing,
         MatDialogModule,
+        ChartsModule,
       ]
       ,
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        {
-          provide: MatDialogRef,
-          useValue: {}
-        }]
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: MatDialogRef, useValue: {} }]
     })
     .compileComponents();
   }));
