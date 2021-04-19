@@ -1,0 +1,6 @@
+{
+  "screenshotsFolder": "output/e2e/screenshots",
+  "videosFolder": "output/e2es/videos",
+  "baseUrl": "http://localhost:4200"
+}
+
