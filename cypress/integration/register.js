@@ -1,4 +1,4 @@
-describe('Login Test', () => {
+describe('Register Test', () => {
 
   context('Form submission', () => {
 
@@ -35,15 +35,6 @@ describe('Login Test', () => {
       cy.get('input[formcontrolname=password]').type('123')
       cy.get('form').submit()
       cy.contains('Password must be at least 6 characters')
-
-    })
-
-    it('tries to register without captcha marked', function () {
-      cy.get('input[formcontrolname=nick]').type('golfer')
-      // password must be at least 6 charatcers
-      cy.get('input[formcontrolname=password]').type('welcome')
-      cy.get('form').submit()
-      cy.contains('Please mark the checkbox')
 
     })
 
