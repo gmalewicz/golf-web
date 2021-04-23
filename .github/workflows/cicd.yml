@@ -1,17 +1,17 @@
-name: CI for golf-web 
+name: CI for golf-web
 
 on:
   push:
     branches: [ master ]
     tags:
-     - '**' 
+     - '**'
   pull_request:
     branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
 
@@ -22,17 +22,17 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-            
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
-        
+
       - name: npm install and npm run build
         run: |
           npm i
           npm run build:prod
-          
+
       - name: Set up Google Cloud SDK
         if: startsWith(github.ref, 'refs/tags/')
         #if: always()
@@ -40,7 +40,7 @@ jobs:
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      
+
       - name: Copy build file to Google Cloud Storage
         if: startsWith(github.ref, 'refs/tags/')
         #if: always()
@@ -48,3 +48,15 @@ jobs:
         with:
           path:   /home/runner/work/golf-web/golf-web/dist/golf-web
           destination: drungolfersweb
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm start

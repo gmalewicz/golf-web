@@ -75,7 +75,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.showCourse();
       }
 
-      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, false);
+      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, true);
     }
   }
 
@@ -387,7 +387,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   handleLostConnection(lost: boolean) {
 
-    this.router.navigate(['/']);
+    if (lost) {
+      this.display = false;
+    } else {
+      this.display = true;
+    }
 
   }
 }
