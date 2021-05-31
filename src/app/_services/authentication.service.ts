@@ -25,7 +25,7 @@ export class AuthenticationService {
         const player: Player = response.body;
         player.token =  response.headers.get('Jwt');
 
-        localStorage.setItem('currentPlayer', JSON.stringify([player]));
+        localStorage.setItem('currentPlayer', JSON.stringify(player));
         this.currentPlayerSubject.next(player);
         return player;
       }));

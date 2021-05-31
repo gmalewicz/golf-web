@@ -21,7 +21,7 @@ export class UpdateWhsDialogComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'),
+          Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'),
           Validators.min(-5),
           Validators.max(54),
         ],

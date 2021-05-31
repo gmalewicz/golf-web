@@ -11,26 +11,12 @@ export class ScorecardHttpService {
 
   constructor(private http: HttpClient) { }
 
-  addOnlineRound(onlineRound: OnlineRound): Observable<OnlineRound> {
-
-    return this.http.post<OnlineRound>('rest/OnlineRound', onlineRound);
-  }
-
   getOnlineRounds(): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRound');
   }
 
   getOnlineScoreCard(onlineRoundId: number): Observable<Array<OnlineScoreCard>> {
     return this.http.get<Array<OnlineScoreCard>>('rest/OnlineScoreCard/'  + onlineRoundId);
-  }
-
-  deleteOnlineRound(id: number) {
-    return this.http.delete('rest/OnlineRound/' + id);
-  }
-
-  finalizeOnlineRound(onlineRoundId: number): Observable<Round> {
-
-    return this.http.post<Round>('rest/FinalizeOnlineRound/' + onlineRoundId, null);
   }
 
   getOnlineRoundsForCourse(courseId: number): Observable<Array<OnlineRound>> {

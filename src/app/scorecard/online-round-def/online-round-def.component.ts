@@ -382,9 +382,13 @@ export class OnlineRoundDefComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
+
+        let whs: string = result.whs;
+        whs = whs.replace(/,/gi, '.');
+
         const newPlayer: Player = {
           nick: result.nick,
-          whs: result.whs,
+          whs: +whs,
           sex: result.female.value ? true : false
         };
         this.searchInProgress[playerIdx] = true;
@@ -488,7 +492,11 @@ export class OnlineRoundDefComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         const player: Player = this.players[playerIdx];
-        player.whs = result.whs;
+
+        let whs: string = result.whs;
+        whs = whs.replace(/,/gi, '.');
+
+        player.whs = +whs;
         this.searchInProgress[playerIdx] = true;
         this.httpService
         .updatePlayer(player)
