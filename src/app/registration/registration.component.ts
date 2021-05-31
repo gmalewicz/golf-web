@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
         nick: ['', [Validators.required, Validators.maxLength(10)]],
         password: ['', [Validators.required, Validators.minLength(6)]],
-        whs: ['', [Validators.required, Validators.pattern('-?[1-5][0-9]?.?[0-9]?$'), Validators.min(-5), Validators.max(54)]],
+        whs: ['', [Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]],
         female: [false],
         male: [true],
         recaptchaReactive: ['', [Validators.required]],
@@ -59,9 +59,12 @@ export class RegistrationComponent implements OnInit {
 
       this.loading = true;
 
+      let whs: string = this.f.whs.value;
+      whs = whs.replace(/,/gi, '.');
+
       const player: Player = {nick: this.f.nick.value,
                               password: this.f.password.value,
-                              whs: this.f.whs.value,
+                              whs: +whs,
                               captcha: this.f.recaptchaReactive.value,
                               sex: this.f.female.value ? true : false};
 

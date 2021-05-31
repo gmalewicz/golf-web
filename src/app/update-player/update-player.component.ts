@@ -40,7 +40,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.role = 0;
       this.updateForm = this.formBuilder.group({
         password: ['', Validators.minLength(6)],
-        whs: ['', [Validators.pattern('-?[1-5]?[0-9][.][0-9]?'), Validators.min(-5), Validators.max(54)]]
+        whs: ['', [Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]]
       });
 
       this.resetPasswordForm = this.formBuilder.group({
@@ -69,13 +69,25 @@ export class UpdatePlayerComponent implements OnInit {
       return;
     }
 
+    // if nothing is provided show error
+    if (this.f.whs.value === '' && this.f.password.value === '') {
+      this.alertService.error('WHS or password must be provided', false);
+      return;
+    }
+
     this.loading = true;
+
+    let whs = this.f.whs.value;
+    if (whs !== '') {
+      console.log('heer');
+      whs = whs.replace(/,/gi, '.');
+    }
 
     const player: Player = {
       id: this.authenticationService.currentPlayerValue.id,
       nick: this.authenticationService.currentPlayerValue.nick,
       password: this.f.password.value,
-      whs: this.f.whs.value
+      whs: whs === '' ? this.authenticationService.currentPlayerValue.whs : +whs
     };
 
     this.httpService.updatePlayer(player).pipe(
@@ -85,7 +97,7 @@ export class UpdatePlayerComponent implements OnInit {
           if (this.f.password.value !== '') {
             this.authenticationService.logout();
           } else {
-            this.authenticationService.currentPlayerValue.whs = this.f.whs.value;
+            this.authenticationService.currentPlayerValue.whs = whs;
           }
           this.alertService.success('Player successfully updated', true);
           this.loading = false;

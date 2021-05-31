@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   template: `
   <mat-dialog-content [formGroup]="form">
   <mat-form-field>
-    <input matInput placeholder="Player whs (X.X)" formControlName="whs" />
+    <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
     <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required"
       >WHS is required</mat-error
     >
