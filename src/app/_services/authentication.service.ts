@@ -24,6 +24,7 @@ export class AuthenticationService {
       .pipe(map(response => {
         const player: Player = response.body;
         player.token =  response.headers.get('Jwt');
+        player.refreshToken = response.headers.get('Refresh');
 
         localStorage.setItem('currentPlayer', JSON.stringify(player));
         this.currentPlayerSubject.next(player);

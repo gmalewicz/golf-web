@@ -49,6 +49,11 @@ export class HttpService {
     return this.http.post<any>('rest/Authenticate', {nick, password}, {observe: 'response'});
   }
 
+  refresh(playerId: number):  Observable<HttpResponse<any>>  {
+
+    return this.http.get<HttpResponse<any>>('rest/Refresh/' + playerId, {observe: 'response'});
+  }
+
   addPlayer(player: Player): Observable<void> {
 
     return this.http.post<void>('rest/AddPlayer', player);

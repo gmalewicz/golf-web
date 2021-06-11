@@ -101,7 +101,7 @@ export class RoundComponent implements OnInit {
           () => {
             this.loading = false;
             this.alertService.success('The scorecard has been successfully deleted', true);
-            this.router.navigate(['/']);
+            this.router.navigate(['/home']);
           })
         ).subscribe();
       }

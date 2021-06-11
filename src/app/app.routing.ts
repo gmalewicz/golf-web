@@ -15,8 +15,9 @@ import { RoundComponent } from './round/round/round.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   // navigation main manu in navigation component or during round adding
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
   { path: 'rounds', component: RoundsComponent, canActivate: [AuthGuard] },
   { path: 'addCourse', component: AddCourseComponent, canActivate: [AuthGuard] },

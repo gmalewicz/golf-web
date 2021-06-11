@@ -10,6 +10,7 @@ import { TournamentResultsComponent } from './tournament-results/tournament-resu
 import { TournamentRoundsComponent } from './tournament-rounds/tournament-rounds.component';
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { routing } from './tournament.routing';
+import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { routing } from './tournament.routing';
   ],
   providers: [TournamentHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
   ],
 })
 export class TournamentModule { }

@@ -40,6 +40,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.role = 0;
       this.updateForm = this.formBuilder.group({
         password: ['', Validators.minLength(6)],
+        // tslint:disable-next-line: max-line-length
         whs: ['', [Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]]
       });
 
@@ -79,7 +80,6 @@ export class UpdatePlayerComponent implements OnInit {
 
     let whs = this.f.whs.value;
     if (whs !== '') {
-      console.log('heer');
       whs = whs.replace(/,/gi, '.');
     }
 
@@ -101,7 +101,7 @@ export class UpdatePlayerComponent implements OnInit {
           }
           this.alertService.success('Player successfully updated', true);
           this.loading = false;
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }
@@ -131,7 +131,7 @@ export class UpdatePlayerComponent implements OnInit {
         () => {
           this.alertService.success('Password successfully reset', true);
           this.loading = false;
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }

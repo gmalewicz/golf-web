@@ -256,7 +256,7 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // go to min page if cancel
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       }
       // do nthing if not
       this.dialogRef = null;
@@ -307,7 +307,7 @@ export class AddScorecardComponent implements OnInit {
         () => {
           this.display = false;
           this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
       ).subscribe();
     } else {
@@ -317,7 +317,7 @@ export class AddScorecardComponent implements OnInit {
         () => {
           this.display = false;
           this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
       ).subscribe();
     }

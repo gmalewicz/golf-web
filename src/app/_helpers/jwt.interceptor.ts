@@ -26,6 +26,15 @@ export class JwtInterceptor implements HttpInterceptor {
                     Authorization: `Bearer ${currentPlayer.token}`
                 }
             });
+
+            if (request.url.startsWith('rest/Refresh')) {
+              request = request.clone({
+                setHeaders: {
+                    Refresh: `${currentPlayer.refreshToken}`
+                }
+              });
+            }
+
         } else {
           this.authenticationService.logout();
           this.router.navigate(['/']);

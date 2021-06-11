@@ -70,7 +70,7 @@ export class LastGamesDetailsComponent implements OnInit {
       tap(
         () => {
           this.alertService.success('The game data sent to ' + this.f.email.value, true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }

@@ -32,6 +32,7 @@ import { RoundViewComponent } from './round/round-view/round-view.component';
 import { RoundSummaryComponent } from './round/round-summary/round-summary.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
 import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component';
+import { SessionRecoveryInterceptor } from './_helpers/session.interceptor';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component'
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-              { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+              { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationDialogComponent]
