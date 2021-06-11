@@ -21,10 +21,6 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
 
   private refreshSubject: Subject<any> = new Subject<any>();
 
-  private _refresh() {
-
-  }
-
   private _ifTokenExpired() {
     this.refreshSubject.subscribe({
       complete: () => {
