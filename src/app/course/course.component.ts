@@ -133,7 +133,7 @@ export class CourseComponent implements OnInit {
       tap(
         () => {
           this.alertService.success('The course has been successfully deleted', true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }

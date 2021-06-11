@@ -235,7 +235,7 @@ export class AddCourseComponent implements OnInit {
     this.httpService.addCourse(course).subscribe(() => {
 
       this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     },
       (error: HttpErrorResponse) => {
         this.alertService.error(error.error.error + ' ' + error.error.message, true);

@@ -39,6 +39,7 @@ export class WebSocketAPI {
       // turn off debug messages to console
       this.stompClient.debug = null;
 
+      // tslint:disable-next-line: variable-name
       const _this = this;
       _this.stompClient.connect({}, function connectCallback(frame: any) {
 

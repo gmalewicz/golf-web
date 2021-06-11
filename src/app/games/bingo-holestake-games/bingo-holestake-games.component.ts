@@ -239,7 +239,7 @@ export class BingoHolestakeGamesComponent implements OnInit {
         () => {
           this.alertService.success('The game has been successfully saved', true);
           this.loading = false;
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }
@@ -252,7 +252,7 @@ export class BingoHolestakeGamesComponent implements OnInit {
     this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to cancel the game?';
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       }
       this.dialogRef = null;
     });

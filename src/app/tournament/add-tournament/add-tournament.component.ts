@@ -71,12 +71,12 @@ export class AddTournamentComponent implements OnInit {
 
       this.alertService.success('Tournament successfully created', true);
       this.loading = false;
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     },
       (error: HttpErrorResponse) => {
         this.alertService.error('Tournament creation failed', true);
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       });
   }
 }

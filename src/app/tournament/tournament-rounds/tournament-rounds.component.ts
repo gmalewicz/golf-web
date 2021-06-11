@@ -44,7 +44,7 @@ export class TournamentRoundsComponent implements OnInit {
       tap(
         () => {
           this.alertService.success('Round successfully added to tournamnet', true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
   }

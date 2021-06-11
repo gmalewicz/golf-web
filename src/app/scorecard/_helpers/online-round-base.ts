@@ -224,7 +224,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
             () => {
               this.loadingFin = false;
               this.alertService.success('The round has been successfuly saved', true);
-              this.router.navigate(['/']);
+              this.router.navigate(['/home']);
             })
         ).subscribe();
       }
@@ -250,7 +250,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
             () => {
               this.loadingDel = false;
               this.alertService.success('This score card has been successfully deleted', false);
-              this.router.navigate(['/']);
+              this.router.navigate(['/home']);
             })
         ).subscribe();
       }

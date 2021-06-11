@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { GameSetupComponent } from './game-setup/game-setup.component';
 import { BingoHolestakeGamesComponent } from './bingo-holestake-games/bingo-holestake-games.component';
 import { IconsModule } from './_helpers/icons.module';
+import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { IconsModule } from './_helpers/icons.module';
   ],
   providers: [GameHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
   ],
   exports: []
 })
