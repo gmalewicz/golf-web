@@ -66,7 +66,7 @@ export class AddScorecardComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue === null) {
 
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
 
       const dateStr = getDateAndTime();

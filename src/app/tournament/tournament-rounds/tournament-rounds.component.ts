@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tournament, Round } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
-import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { tap } from 'rxjs/operators';
 })
 export class TournamentRoundsComponent implements OnInit {
 
-  faSearchPlus: IconDefinition;
+  faPlusCircle: IconDefinition;
 
   tournament: Tournament;
   rounds: Round[];
@@ -27,9 +28,9 @@ export class TournamentRoundsComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
-      this.faSearchPlus = faSearchPlus;
+      this.faPlusCircle = faPlusCircle;
       this.tournament = history.state.data.tournament;
 
       this.tournamentHttpService.getTournamentRounds(this.tournament.id).subscribe((retRounds: Round[]) => {
@@ -43,8 +44,9 @@ export class TournamentRoundsComponent implements OnInit {
     this.tournamentHttpService.addRoundToTournament(round, this.tournament.id).pipe(
       tap(
         () => {
-          this.alertService.success('Round successfully added to tournamnet', true);
-          this.router.navigate(['/home']);
+          this.alertService.success('Round successfully added to tournamnet', false);
+          // remove that round from the list
+          this.rounds = this.rounds.filter(r => r.id !== round.id);
         })
     ).subscribe();
   }

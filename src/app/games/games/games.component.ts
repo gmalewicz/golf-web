@@ -16,7 +16,7 @@ export class GamesComponent implements OnInit {
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     }
   }
 

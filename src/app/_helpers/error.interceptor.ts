@@ -20,14 +20,14 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       if (err.status !== 401) {
         this.alertService.error(err.error.message, true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
 
         return throwError(err);
       }
 
       if (err.status === 401 && err.error.message !== 'Token Expired') {
         this.alertService.error(err.error.message, true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
 
         return throwError(err);
       }

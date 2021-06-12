@@ -51,7 +51,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
       // get round from state
       const onlineRound: OnlineRound = history.state.data.onlineRound;
