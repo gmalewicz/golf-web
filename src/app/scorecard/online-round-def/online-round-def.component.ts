@@ -55,7 +55,7 @@ export class OnlineRoundDefComponent implements OnInit {
       this.authenticationService.currentPlayerValue === null
     ) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
       // initialization
       this.display = false;

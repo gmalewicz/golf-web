@@ -38,7 +38,7 @@ export class LastGamesDetailsComponent implements OnInit {
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.display = false;
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
       this.mailIt = false;
       this.submitted = false;

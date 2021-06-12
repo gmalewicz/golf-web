@@ -53,7 +53,7 @@ export class AddCourseComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     } else {
 
       this.newCourseForm = this.formBuilder.group({

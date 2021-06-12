@@ -13,7 +13,7 @@
     <tr *ngFor="let round of rounds">
       <td>
         <a (click)="addRound(round)">
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
         </a>
       </td>
       <td>{{ round.roundDate | date: "mediumDate" }}</td>
