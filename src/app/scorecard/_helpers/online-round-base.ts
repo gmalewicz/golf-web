@@ -224,7 +224,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
             () => {
               this.loadingFin = false;
               this.alertService.success('The round has been successfuly saved', true);
-              this.router.navigate(['/home']);
+              this.router.navigate(['/rounds']);
             })
         ).subscribe();
       }

@@ -5,7 +5,7 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule} from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 
 import { TournamentHttpService } from '../_services';
 
@@ -35,7 +35,7 @@ describe('TournamentRoundsComponent', () => {
     fixture = TestBed.createComponent(TournamentRoundsComponent);
     history.pushState({test: {}}, '');
     component = fixture.componentInstance;
-    component.faSearchPlus = faSearchPlus;
+    component.faPlusCircle = faPlusCircle;
     component.tournament = {id: 1, name: 'test', startDate: '2020/10/10', endDate: '2020/10/10'};
     component.rounds = [{course: {name: 'Lisia Polana', par: 72}, roundDate: '10/10/2020',
     matchPlay: false, player: [{nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],

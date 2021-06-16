@@ -34,6 +34,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   ballPickedUp: boolean[];
 
+  teeTime: string;
+
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
               private alertService: AlertService,
@@ -70,6 +72,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.finalized = history.state.data.finalized;
         this.mpScore = new Array(18).fill(-2);
         this.mpResult = new Array(2);
+        this.teeTime  = history.state.data.teeTime;
         this.showMatch();
       } else {
         this.showCourse();
@@ -86,8 +89,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         this.course.holes = retHoles;
 
-        // the assumption is that only idiots play more than 2 match play a day
-        retOnlineRounds = retOnlineRounds.filter(or => or.finalized === this.finalized);
+        retOnlineRounds = retOnlineRounds.filter(or => or.matchPlay === true && or.teeTime === this.teeTime);
 
         retOnlineRounds.forEach((or, index) => {
 
