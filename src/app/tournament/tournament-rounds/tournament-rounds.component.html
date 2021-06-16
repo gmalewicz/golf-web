@@ -7,6 +7,7 @@
       <th id="date">Date</th>
       <th id="tTime">Tee Time</th>
       <th id="cour">Course</th>
+      <th id="players">Players</th>
     </tr>
   </thead>
   <tbody>
@@ -19,6 +20,11 @@
       <td>{{ round.roundDate | date: "mediumDate" }}</td>
       <td>{{ round.roundDate | date: "H:mm"}}</td>
       <td>{{ round.course.name }}</td>
+      <td>
+        <span *ngFor="let player of round.player">
+          {{player.nick}}<br/>
+        </span>
+      </td>
     </tr>
   </tbody>
 </table>
