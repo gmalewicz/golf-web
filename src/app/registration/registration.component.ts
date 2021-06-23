@@ -37,7 +37,7 @@ export class RegistrationComponent implements OnInit {
         nick: ['', [Validators.required, Validators.maxLength(10)]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         // tslint:disable-next-line: max-line-length
-        whs: ['', [Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]],
+        whs: ['', [Validators.required, Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]],
         female: [false],
         male: [true],
         recaptchaReactive: ['', [Validators.required]],

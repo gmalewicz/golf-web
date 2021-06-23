@@ -49,7 +49,7 @@ export class HttpService {
     return this.http.post<any>('rest/Authenticate', {nick, password}, {observe: 'response'});
   }
 
-  refresh(playerId: number):  Observable<HttpResponse<any>>  {
+  refresh(playerId: number): Observable<HttpResponse<any>>  {
 
     return this.http.get<HttpResponse<any>>('rest/Refresh/' + playerId, {observe: 'response'});
   }
@@ -97,9 +97,9 @@ export class HttpService {
   }
 
   // reset password
-  resetPassword(adminId: number, player: Player): Observable<HttpResponse<null>> {
+  resetPassword(player: Player): Observable<HttpResponse<null>> {
 
-    return this.http.patch<HttpResponse<null>>('rest/ResetPassword/' + adminId, player);
+    return this.http.patch<HttpResponse<null>>('rest/ResetPassword', player);
   }
 
   getPlayerForNick(nick: string): Observable<Player> {
@@ -126,6 +126,10 @@ export class HttpService {
   getSortedCourses(pageId: number): Observable<Array<Course>> {
 
     return this.http.get<Array<Course>>('rest/SortedCourses/' +  pageId);
+  }
+
+  purgeCourse(courseId: number): Observable<HttpResponse<null>> {
+    return this.http.post<HttpResponse<null>>('/rest/MoveToHistoryCourse/' + courseId, null);
   }
 }
 
