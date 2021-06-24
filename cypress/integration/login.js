@@ -3,7 +3,7 @@ describe('Login Test', () => {
   context('Unauthorized', () => {
     it('should try to access courses page without authorization', () => {
       cy.visit('/courses');
-      cy.contains('You are not authorized to view this page');
+      cy.contains('Login');
     })
   })
 
@@ -42,7 +42,7 @@ describe('Login Test', () => {
 
     })
 
-    it('tries to login with to short password', function () {
+    it('tries to login with too short password', function () {
       cy.get('input[formcontrolname=username]').type('golfer')
       cy.get('input[formcontrolname=password]').type('12')
       cy.get('form').submit()
@@ -54,12 +54,12 @@ describe('Login Test', () => {
 
       cy.intercept('/rest/Authenticate', (req) => {
 
-        req.reply(401, {error: 14, message: 'Incorrect user name or password'})
+        req.reply(401, {error: '14', message: 'Incorrect user name or password'})
 
       })
 
       cy.get('input[formcontrolname=username]').type('golfer')
-      cy.get('input[formcontrolname=password]').type('welcome')
+      cy.get('input[formcontrolname=password]').type('incorrect')
       cy.get('form').submit()
       cy.contains('Incorrect user name or password')
 

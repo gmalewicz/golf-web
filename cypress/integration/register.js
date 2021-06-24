@@ -50,7 +50,7 @@ describe('Register Test', () => {
       cy.get('input[formcontrolname=password]').type('welcome')
       cy.get('input[formcontrolname=whs]').type('a')
       cy.get('form').submit()
-      cy.contains('Provide valid value with dot if needed')
+      cy.contains('Provide valid value')
     })
 
     it('tries to register with too big WHS', function () {
