@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golf-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golf-web
+  template:
+    metadata:
+      labels:
+        app: golf-web
+    spec:
+      volumes:
+      - name: cert-storage
+        persistentVolumeClaim:
+          claimName:  golf-web-pvc
+      containers:
+      - name: myweb
+        image: <IMAGE>
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+         - containerPort: 80
+           name: http
+         - containerPort: 443
+           name: https
+        env:
+        - name: GOLF_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: golf-web-configmap
+              key: app_url
+        - name: CERT
+          value: /cert
+        volumeMounts:
+        - mountPath: "/cert"
+          name: cert-storage
