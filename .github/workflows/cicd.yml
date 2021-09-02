@@ -39,22 +39,37 @@ jobs:
           npm run build:prod
 
       - name: Set up version
-        if: always()
-        #if: startsWith(github.ref, 'refs/tags/')
+        #if: always()
+        if: startsWith(github.ref, 'refs/tags/')
         run: echo "VERSION=$($VERSION_EXP)" >> $GITHUB_ENV
 
-      - name: Assemble image
-        if: always()
-        #if: startsWith(github.ref, 'refs/tags/')
-        run: docker build -t $IMAGE:$VERSION -t $IMAGE:latest .
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
 
-      - name: Publish image
-        #if: startsWith(github.ref, 'refs/tags/')
-        if: always()
-        run: |
-          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u $ORGANIZATION --password-stdin
-          docker push $IMAGE:$VERSION
-          docker push $IMAGE:latest
+      - name: Build container image
+        run: docker build -t registry.digitalocean.com/golf/golf-web:$(echo $GITHUB_SHA | head -c7) .
+
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push registry.digitalocean.com/golf/golf-web:$(echo $GITHUB_SHA | head -c7)
+
+
+#      - name: Assemble image
+#        #if: always()
+#        if: startsWith(github.ref, 'refs/tags/')
+#        run: docker build -t $IMAGE:$VERSION -t $IMAGE:latest .
+
+#      - name: Publish image
+#        if: startsWith(github.ref, 'refs/tags/')
+#        #if: always()
+#        run: |
+#          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u $ORGANIZATION --password-stdin
+#          docker push $IMAGE:$VERSION
+#          docker push $IMAGE:latest
 
 #      - name: Set up Google Cloud SDK
 #        if: startsWith(github.ref, 'refs/tags/')
