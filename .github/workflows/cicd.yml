@@ -11,6 +11,7 @@ on:
 env:
   IMAGE: ${{ github.repository_owner }}/${{ github.event.repository.name }}
   ORGANIZATION: ${{ github.repository_owner }}
+  VERSION_EXP: git describe --tags --always --first-parent --dirty
 
 jobs:
   build:
@@ -36,6 +37,11 @@ jobs:
         run: |
           npm i
           npm run build:prod
+
+      - name: Set up version
+        if: always()
+        #if: startsWith(github.ref, 'refs/tags/')
+        run: echo "VERSION=$($VERSION_EXP)" >> $GITHUB_ENV
 
       - name: Assemble image
         if: always()
