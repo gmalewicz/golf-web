@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { AlertService } from '@/_services';
 import { Router } from '@angular/router';
 
@@ -20,26 +19,24 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       if (err.status !== 401) {
         this.alertService.error(err.error.message, true);
-        this.router.navigate(['/home']);
+        this.router.navigate(['']);
 
         return throwError(err);
       }
 
       if (err.status === 401 && err.error !== undefined && err.error.error === '14') {
-        this.alertService.error(err.error.message, false);
-        this.router.navigate(['/login']);
+        this.alertService.error(err.error.message, true);
+        this.router.navigate(['']);
 
         return throwError(err);
       }
 
       if (err.status === 401 && err.error.message !== 'Token Expired') {
         this.alertService.error(err.error.message, true);
-        this.router.navigate(['/home']);
+        this.router.navigate(['']);
 
         return throwError(err);
       }
-
-
 
     }));
   }
