@@ -73,7 +73,7 @@ export class RegistrationComponent implements OnInit {
       tap(
         () => {
           this.alertService.success('Registration successful. Please log in', true);
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         })
     ).subscribe();
   }
