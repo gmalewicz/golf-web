@@ -11,7 +11,8 @@ import { ballPickedUpStrokes } from '@/_helpers/common';
 
 @Component({
   selector: 'app-online-score-card-view',
-  templateUrl: './online-score-card-view.component.html'
+  templateUrl: './online-score-card-view.component.html',
+  styleUrls: ['./online-score-card-view.component.css']
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
@@ -35,6 +36,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   ballPickedUp: boolean[];
 
   teeTime: string;
+
+  scoreBruttoClass: string[][];
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
@@ -208,6 +211,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   showRound() {
 
+    // initialize colour display class for results
+    this.scoreBruttoClass = new Array(1).fill('').map(() => new Array(18).fill(''));
+
     combineLatest([this.scorecardHttpService.getOnlineScoreCard(
       this.onlineRounds[0].id), this.httpService.getHoles(this.onlineRounds[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
 
@@ -233,6 +239,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           } else {
             this.onlineRounds[0].last9score += retScoreCards[idx - 1].stroke;
           }
+          // create colour
+          this.scoreBruttoClass[0][idx - 1] =
+            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[idx - 1].par);
           idx--;
         }
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
@@ -253,6 +262,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.course.holes = retHoles;
 
+        // initialize colour display class for results
+        this.scoreBruttoClass = new Array(retOnlineRounds.length).fill('').map(() => new Array(18).fill(''));
+
         retOnlineRounds.forEach((retOnlineRound, idx) => {
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
@@ -260,7 +272,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
-          retScoreCardAPI.forEach(scoreCardAPI => {
+          retScoreCardAPI.forEach((scoreCardAPI, idx2) => {
             // set ball picked up for a player
             if (scoreCardAPI.stroke === ballPickedUpStrokes) {
               this.ballPickedUp[idx] = true;
@@ -271,6 +283,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             } else {
               retOnlineRound.last9score += scoreCardAPI.stroke;
             }
+
+            // create colour
+            this.scoreBruttoClass[idx][idx2] =
+              this.prepareColoursForResults(scoreCardAPI.stroke, this.course.holes[idx2].par);
 
           });
 
@@ -380,6 +396,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         }
         onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] = onlineScoreCard;
 
+        // create colour
+        this.scoreBruttoClass[idx][onlineScoreCard.hole - 1] =
+          this.prepareColoursForResults(onlineScoreCard.stroke, this.course.holes[onlineScoreCard.hole - 1].par);
+
         // check if at least for one hole the ball was picked up
         this.ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes));
       }
@@ -395,5 +415,29 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.display = true;
     }
 
+  }
+
+  prepareColoursForResults(stroke: number, par: number): string {
+
+    let retVal = '';
+
+    switch (par - stroke) {
+      case 0:
+        retVal = 'par';
+        break;
+      case -1:
+        retVal = 'boggey';
+        break;
+      case 1:
+        retVal = 'birdie';
+        break;
+      case 2:
+        retVal = 'eagle';
+        break;
+      default:
+        retVal = 'doubleBoggey';
+        break;
+      }
+    return retVal;
   }
 }
