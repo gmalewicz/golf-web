@@ -49,7 +49,7 @@
         <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
             <th id="nick">{{onlineRound.player.nick}}</th>
             <ng-container *ngIf="owner === undefined">
-              <td *ngFor="let i = index of counter(9)" class="center">
+              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="scoreBruttoClass[idx][i]">
                 <span *ngIf="onlineRound.scoreCardAPI[i] != null">
                   <span *ngIf="onlineRound.scoreCardAPI[i].stroke === 16">
                     x
@@ -64,7 +64,7 @@
                   {{onlineRound.first9score}}
                 </span>
               </th>
-              <td *ngFor="let i = index of counter(9)" class="center">
+              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="scoreBruttoClass[idx][i + 9]">
                 <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
                   <span *ngIf="onlineRound.scoreCardAPI[i + 9].stroke === 16">
                     x
