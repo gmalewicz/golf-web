@@ -33,6 +33,7 @@ describe('CourseComponent', () => {
     history.pushState({data: {course: getTestCourse()}}, '');
     component = fixture.componentInstance;
     spyOnProperty(component.authenticationService , 'currentPlayerValue').and.returnValue({nick: 'test', id: 1});
+    spyOnProperty(component.authenticationService , 'playerRole').and.returnValue('PLAYER');
     fixture.detectChanges();
   });
 

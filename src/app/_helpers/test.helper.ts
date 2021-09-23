@@ -84,6 +84,7 @@ export let authenticationServiceStub: Partial<AuthenticationService>;
 
 authenticationServiceStub = {
   currentPlayerValue: {nick: 'test', id: 1, whs: 10},
+  playerRole: 'PLAYER',
   logout(): void {
     // This is intentional
   }
@@ -128,7 +129,7 @@ export function getTestOnlineRound(): OnlineRound[] {
     penalties: false,
     matchPlay: true,
     course: {id: 5, name: null, par: null, holeNbr: null},
-    player: {id: 1, nick: 'Greg', sex: false, whs: 28.5, role: 0},
+    player: {id: 1, nick: 'Greg', sex: false, whs: 28.5},
     tee: {id: 5, tee: 'yellow', cr: 70.5, sr: 129, teeType: 0, sex: false},
     teeTime: '12:46',
     nick2: 'Gosia',
@@ -143,7 +144,7 @@ export function getTestOnlineRound(): OnlineRound[] {
     nick2: 'Gosia',
     owner: 1,
     penalties: false,
-    player: {id: 11, nick: 'Gosia', sex: true, whs: 34.3, role: 1},
+    player: {id: 11, nick: 'Gosia', sex: true, whs: 34.3},
     putts: false,
     tee: {id: 6, tee: 'red', cr: 70.2, sr: 129, teeType: 0, sex: true},
     teeTime: '12:46'

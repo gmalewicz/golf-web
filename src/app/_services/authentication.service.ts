@@ -26,10 +26,10 @@ export class AuthenticationService {
   public get playerRole(): string {
 
     if (this.currentPlayerValue === null) {
-      return "";
+      return '';
     }
 
-    return (<MyJwtPayload>jwt_decode(this.currentPlayerSubject.value.token)).roles;
+    return (jwt_decode(this.currentPlayerSubject.value.token) as MyJwtPayload).roles;
   }
 
 
