@@ -33,6 +33,7 @@ import { RoundSummaryComponent } from './round/round-summary/round-summary.compo
 import { RoundsComponent } from './rounds/rounds/rounds.component';
 import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component';
 import { SessionRecoveryInterceptor } from './_helpers/session.interceptor';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { SessionRecoveryInterceptor } from './_helpers/session.interceptor';
     RoundSummaryComponent,
     ListCoursesComponent,
     ListRoundsComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { RoleGuard } from './_helpers/role.guard';
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +14,7 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { AppModule } from './app.module';
 import { RoundComponent } from './round/round/round.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
+import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +28,7 @@ const routes: Routes = [
   { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [AuthGuard] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [AuthGuard] },
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, RoleGuard], data: {role: 'ADMIN'} },
 
   { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},

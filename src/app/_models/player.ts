@@ -6,7 +6,6 @@ export interface Player {
   token?: string;
   whs?: number;
   captcha?: string;
-  role?: number;
   roundDetails?: PlayerRoundDetails;
   sex?: boolean;
   refreshToken?: string;

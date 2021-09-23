@@ -91,7 +91,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       // 2.0.0 - adding sort of the array to have always the same sequence of players even
       // if retreiving from backend
-      this.onlineRounds = this.onlineRounds.sort((or1, or2) => or1.player.id - or2.player.id);
+      this.onlineRounds.sort((or1, or2) => or1.player.id - or2.player.id);
 
       this.course = history.state.data.course;
       // initialize variables
