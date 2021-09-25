@@ -1,0 +1,82 @@
+
+<h2>Reset password for player:</h2>
+
+<form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmitResetPassword()">
+  <div class="form-group">
+    <label for="nick">Nick</label>
+    <input
+      type="text"
+      formControlName="nick"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submittedReset && fReset.nick.errors }"
+    />
+    <div
+      *ngIf="submittedReset && fReset.nick.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="fReset.nick.errors.required">Nick is required</div>
+      <div *ngIf="fReset.nick.errors.maxlength">
+        Nick can be up to 10 characters long
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      autocomplete="new-password"
+      type="password"
+      formControlName="password"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submittedReset && fReset.password.errors }"
+    />
+    <div
+      *ngIf="submittedReset && fReset.password.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="fReset.password.errors.minlength">
+        Password must be at least 6 characters
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="resetLoading" class="btn btn-success">
+      <span
+        *ngIf="resetLoading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Reset
+    </button>
+    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+  </div>
+</form>
+<h2>Move course to history:</h2>
+<form [formGroup]="moveCourseForm" (ngSubmit)="onSubmitMoveCourse()">
+  <div class="form-group">
+    <label for="courseId">Course id</label>
+    <input
+      type="text"
+      formControlName="courseId"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submittedMoveCourse && fMove.courseId.errors }"
+    />
+    <div
+      *ngIf="submittedMoveCourse && fMove.courseId.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="fMove.courseId.errors.required">Course id is required</div>
+      <div *ngIf="fMove.courseId.errors.pattern">
+        Course id can be up to 10 digits long and can not start from 0
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="moveLoading" class="btn btn-success">
+      <span
+        *ngIf="moveLoading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Move
+    </button>
+    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+  </div>
+</form>

@@ -28,6 +28,7 @@
     "bootstrap": "^4.5.3",
     "chart.js": "^2.9.4",
     "jquery": "^3.6.0",
+    "jwt-decode": "^3.1.2",
     "net": "^1.0.2",
     "ng-recaptcha": "^7.0.2",
     "ng2-charts": "^2.4.3",

@@ -3,6 +3,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
+
+interface MyJwtPayload extends JwtPayload {
+    roles: string
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -17,6 +22,16 @@ export class AuthenticationService {
   public get currentPlayerValue(): Player {
     return this.currentPlayerSubject.value;
   }
+
+  public get playerRole(): string {
+
+    if (this.currentPlayerValue === null) {
+      return '';
+    }
+
+    return (jwt_decode(this.currentPlayerSubject.value.token) as MyJwtPayload).roles;
+  }
+
 
   login(username: string, password: string) {
 
