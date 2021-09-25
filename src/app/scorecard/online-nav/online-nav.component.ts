@@ -33,7 +33,7 @@ export class OnlineNavComponent implements OnInit {
 
   onDecrease() {
     // number of strokes canot be lower than 1
-    if (this.curHoleStrokes[this.curPlayerIdx] === 1) {
+    if (this.curHoleStrokes[this.curPlayerIdx] === 0) {
       return;
     }
     this.curHoleStrokes[this.curPlayerIdx]--;
