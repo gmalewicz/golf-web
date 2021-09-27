@@ -240,8 +240,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             this.onlineRounds[0].last9score += retScoreCards[idx - 1].stroke;
           }
           // create colour
-          this.scoreBruttoClass[0][idx - 1] =
-            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[idx - 1].par);
+          this.scoreBruttoClass[0][retScoreCards[idx - 1].hole - 1] =
+            this.prepareColoursForResults
+              (retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
           idx--;
         }
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
@@ -285,8 +286,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             }
 
             // create colour
-            this.scoreBruttoClass[idx][idx2] =
-              this.prepareColoursForResults(scoreCardAPI.stroke, this.course.holes[idx2].par);
+            this.scoreBruttoClass[idx][scoreCardAPI.hole - 1] =
+              this.prepareColoursForResults(scoreCardAPI.stroke, this.course.holes[scoreCardAPI.hole - 1].par);
 
           });
 
