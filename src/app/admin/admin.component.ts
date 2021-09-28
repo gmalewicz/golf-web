@@ -1,11 +1,6 @@
-import { Player } from '@/_models/player';
-import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { HttpService } from '@/_services/http.service';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ComponentFactoryResolver, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -13,19 +8,13 @@ import { tap } from 'rxjs/operators';
 })
 export class AdminComponent implements OnInit {
 
-  moveLoading: boolean;
-  resetLoading: boolean;
-  submittedReset: boolean;
-  submittedMoveCourse: boolean;
-  resetPasswordForm: FormGroup;
-  moveCourseForm: FormGroup;
+  @ViewChild('adminContainer', {read: ViewContainerRef}) adminContainerRef: ViewContainerRef;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private crf: ComponentFactoryResolver,
+    private injector: Injector,
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private alertService: AlertService,
-    private httpService: HttpService
+    private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -34,76 +23,24 @@ export class AdminComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
-
-      this.resetPasswordForm = this.formBuilder.group({
-        nick: ['', [Validators.required, Validators.maxLength(10)]],
-        password: ['', Validators.minLength(6)]
-      });
-
-      this.moveCourseForm = this.formBuilder.group({
-        courseId: ['', [Validators.required, Validators.pattern('[1-9]\\d{0,9}')]],
-      });
+      this.loadComponent(0);
     }
   }
 
-  // convenience getter for easy access to form fields
-  get fReset() { return this.resetPasswordForm.controls; }
+  async loadComponent(comp: number) {
 
-  // convenience getter for easy access to form fields
-  get fMove() { return this.moveCourseForm.controls; }
-
-  onSubmitResetPassword() {
-
-    this.submittedReset = true;
-
-    // reset alerts on submit
-    this.alertService.clear();
-
-    // stop here if form is invalid
-    if (this.resetPasswordForm.invalid) {
-      return;
+    if (this.adminContainerRef !== undefined) {
+      this.adminContainerRef.clear();
     }
 
-    this.resetLoading = true;
-
-    const player: Player = {
-      nick: this.fReset.nick.value,
-      password: this.fReset.password.value,
-      whs: 0
-    };
-
-    this.httpService.resetPassword(player).pipe(
-      tap(
-        () => {
-          this.alertService.success('Password successfully reset', true);
-          this.resetLoading = false;
-          this.router.navigate(['/home']);
-        })
-    ).subscribe();
-  }
-
-  onSubmitMoveCourse() {
-
-    this.submittedMoveCourse = true;
-
-    // reset alerts on submit
-    this.alertService.clear();
-
-    // stop here if form is invalid
-    if (this.moveCourseForm.invalid) {
-      return;
+    if (comp === 0) {
+      const {ResetPasswordComponent} = await import('./reset-password/reset-password.component');
+      const adminPasswordFactory = this.crf.resolveComponentFactory(ResetPasswordComponent);
+      this.adminContainerRef.createComponent(adminPasswordFactory, null, this.injector);
+    } else if (comp === 1){
+      const {MoveCourseComponent} = await import('./move-course/move-course.component');
+      const adminPasswordFactory = this.crf.resolveComponentFactory(MoveCourseComponent);
+      this.adminContainerRef.createComponent(adminPasswordFactory, null, this.injector);
     }
-
-    this.moveLoading = true;
-
-    this.httpService.purgeCourse(this.fMove.courseId.value).pipe(
-      tap(
-        () => {
-          this.alertService.success('Course has been moved to history', true);
-          this.moveLoading = false;
-          this.router.navigate(['/home']);
-        })
-    ).subscribe();
   }
-
 }

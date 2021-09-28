@@ -4,9 +4,8 @@ import { HttpService } from '@/_services/http.service';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class SessionRecoveryInterceptor implements HttpInterceptor {
