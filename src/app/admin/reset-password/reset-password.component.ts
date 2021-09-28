@@ -3,17 +3,9 @@ import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
-import { ChartsModule } from 'ng2-charts';
-import { DropdownModule } from 'primeng/dropdown';
 import { tap } from 'rxjs/operators';
 
 @Component({
