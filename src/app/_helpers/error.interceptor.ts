@@ -44,6 +44,13 @@ export class ErrorInterceptor implements HttpInterceptor {
         return throwError(err);
       }
 
+      if (err.status === 401) {
+        this.alertService.error('Please log out and log in', true);
+        this.router.navigate(['']);
+
+        return throwError(err);
+      }
+
     }));
   }
 }

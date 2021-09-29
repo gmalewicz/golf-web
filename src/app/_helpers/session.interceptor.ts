@@ -49,11 +49,11 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   }
 
   private _checkTokenExpiryErr(error: HttpErrorResponse): boolean {
+
     return (
-      error.status &&
-      error.status === 401 &&
       error.error &&
-      error.error.message === 'Token Expired'
+      error.error.status &&
+      error.error.status === 999
     );
   }
 
