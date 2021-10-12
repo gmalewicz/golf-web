@@ -6,7 +6,7 @@ import { HttpService } from './http.service';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 interface MyJwtPayload extends JwtPayload {
-    roles: string
+    roles: string;
 }
 
 @Injectable({ providedIn: 'root' })
