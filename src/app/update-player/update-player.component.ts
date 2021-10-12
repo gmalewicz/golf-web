@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { tap } from 'rxjs/operators';
+import { displayPartsToString } from 'typescript';
 
 @Component({
   selector: 'app-update-player',
@@ -14,6 +15,7 @@ export class UpdatePlayerComponent implements OnInit {
   updateForm: FormGroup;
   loading: boolean;
   submitted: boolean;
+  display: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,7 +31,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
-
+      this.display = true;
       this.loading = false;
       this.submitted = false;
       this.updateForm = this.formBuilder.group({
@@ -73,7 +75,6 @@ export class UpdatePlayerComponent implements OnInit {
       password: this.f.password.value,
       whs: whs === '' ? this.authenticationService.currentPlayerValue.whs : +whs
     };
-
     this.httpService.updatePlayer(player).pipe(
       tap(
         () => {

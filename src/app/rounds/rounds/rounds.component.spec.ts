@@ -1,4 +1,6 @@
 import { routing } from '@/app.routing';
+import { authenticationServiceStub, getTestRound } from '@/_helpers/test.helper';
+import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -19,6 +21,7 @@ describe('RoundsComponent', () => {
       ]
       ,
       providers: [HttpService,
+                  { provide: AuthenticationService, useValue: authenticationServiceStub }
         ]
     })
     .compileComponents();
@@ -27,6 +30,7 @@ describe('RoundsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoundsComponent);
     component = fixture.componentInstance;
+    component.rounds = [getTestRound()];
     fixture.detectChanges();
   });
 

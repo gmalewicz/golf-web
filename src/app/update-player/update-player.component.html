@@ -1,47 +1,49 @@
-<h2>Modify your data:</h2>
-<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      autocomplete="new-password"
-      type="password"
-      formControlName="password"
-      class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-    />
-    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.minlength">
-        Password must be at least 6 characters
+<div *ngIf="display">
+  <h2>Modify your data:</h2>
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        autocomplete="new-password"
+        type="password"
+        formControlName="password"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+      />
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.minlength">
+          Password must be at least 6 characters
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <label for="whs">WHS (handicap)</label>
-    <input
-      type="text"
-      formControlName="whs"
-      class="form-control"
-      maxlength="4"
-      [ngClass]="{ 'is-invalid': submitted && f.whs.errors }"
-      placeholder="X.X"
-    />
-    <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
-      <div *ngIf="f.whs.errors.required">WHS is required</div>
-      <div *ngIf="f.whs.errors.max">WHS is caannot be higer than 54</div>
-      <div *ngIf="f.whs.errors.min">WHS is caannot be lower than -5</div>
-      <div *ngIf="f.whs.errors.pattern">
-        Provide valid value with the follwoing format: X.X
+    <div class="form-group">
+      <label for="whs">WHS (handicap)</label>
+      <input
+        type="text"
+        formControlName="whs"
+        class="form-control"
+        maxlength="4"
+        [ngClass]="{ 'is-invalid': submitted && f.whs.errors }"
+        placeholder="X.X"
+      />
+      <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
+        <div *ngIf="f.whs.errors.required">WHS is required</div>
+        <div *ngIf="f.whs.errors.max">WHS is caannot be higer than 54</div>
+        <div *ngIf="f.whs.errors.min">WHS is caannot be lower than -5</div>
+        <div *ngIf="f.whs.errors.pattern">
+          Provide valid value with the follwoing format: X.X
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <button [disabled]="loading" class="btn btn-success">
-      <span
-        *ngIf="loading"
-        class="spinner-border spinner-border-sm mr-1"
-      ></span>
-      Update
-    </button>
-    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
-  </div>
-</form>
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-success">
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm mr-1"
+        ></span>
+        Update
+      </button>
+      <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+    </div>
+  </form>
+</div>

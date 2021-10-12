@@ -1,9 +1,10 @@
+import { AuthenticationService } from './../_services/authentication.service';
 import { routing } from '@/app.routing';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
@@ -11,6 +12,7 @@ import { AdminComponent } from './admin.component';
 describe('AdminComponent', () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
+  let authenticationService: AuthenticationService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -23,6 +25,7 @@ describe('AdminComponent', () => {
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        AuthenticationService
         ]
     })
     .compileComponents();
@@ -36,6 +39,25 @@ describe('AdminComponent', () => {
   });
 
   it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('call loadComponent for moveCourse', fakeAsync(() => {
+
+    fixture.whenStable().then(() => {
+      component.loadComponent(1).then(() => {
+        expect(component.adminContainerRef.length).toMatch('1');
+      });
+    });
+    expect().nothing();
+  }));
+
+  it('should create but player does not exists', () => {
+    authenticationService = TestBed.inject(AuthenticationService);
+    authenticationService.logout();
+    fixture = TestBed.createComponent(AdminComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
