@@ -4,7 +4,7 @@ import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';

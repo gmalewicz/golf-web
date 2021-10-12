@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { tap } from 'rxjs/operators';
-import { displayPartsToString } from 'typescript';
 
 @Component({
   selector: 'app-update-player',
