@@ -1,6 +1,6 @@
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
@@ -39,6 +39,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   scoreBruttoClass: string[][];
 
+  elapsed: TimeSpan;
+  subscription: Subscription;
+
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
               private alertService: AlertService,
@@ -48,6 +51,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.webSocketAPI != null) {
       this.webSocketAPI._disconnect();
+    }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -64,6 +70,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.course = history.state.data.course;
       // get owner in case of match play online score card
       this.owner = history.state.data.owner;
+
+      this.resetCounter();
 
       if (onlineRound != null) {
         this.onlineRounds = new Array(1);
@@ -337,34 +345,37 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] = onlineScoreCard;
         holeIdx = onlineScoreCard.hole - 1;
+
+        // calculate mp result
+        const scPlayer0 = this.onlineRounds[0].scoreCardAPI[holeIdx];
+        const scPlayer1 = this.onlineRounds[1].scoreCardAPI[holeIdx];
+
+        if (holeIdx !== -1 &&  scPlayer0 !== null && scPlayer1 !== null) {
+
+          this.resetCounter();
+
+          const result = scPlayer0.stroke - this.holeHCP[0][holeIdx] -
+          (scPlayer1.stroke - this.holeHCP[1][holeIdx]);
+
+          if (result < 0) {
+            scPlayer0.mpResult = 1;
+            scPlayer1.mpResult = 0;
+            this.mpScore[holeIdx] = -1;
+          } else if (result === 0) {
+            scPlayer0.mpResult = 0;
+            scPlayer1.mpResult = 0;
+            this.mpScore[holeIdx] = 0;
+          } else {
+            scPlayer0.mpResult = 0;
+            scPlayer1.mpResult = 1;
+            this.mpScore[holeIdx] = 1;
+          }
+
+          this.createSummary();
+        }
       }
     });
 
-    // calculate mp result
-    const scPlayer0 = this.onlineRounds[0].scoreCardAPI[holeIdx];
-    const scPlayer1 = this.onlineRounds[1].scoreCardAPI[holeIdx];
-
-    if (holeIdx !== -1 &&  scPlayer0 !== null && scPlayer1 !== null) {
-
-      const result = scPlayer0.stroke - this.holeHCP[0][holeIdx] -
-      (scPlayer1.stroke - this.holeHCP[1][holeIdx]);
-
-      if (result < 0) {
-        scPlayer0.mpResult = 1;
-        scPlayer1.mpResult = 0;
-        this.mpScore[holeIdx] = -1;
-      } else if (result === 0) {
-        scPlayer0.mpResult = 0;
-        scPlayer1.mpResult = 0;
-        this.mpScore[holeIdx] = 0;
-      } else {
-        scPlayer0.mpResult = 0;
-        scPlayer1.mpResult = 1;
-        this.mpScore[holeIdx] = 1;
-      }
-
-      this.createSummary();
-    }
   }
 
   private createSummary() {
@@ -379,6 +390,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
       // update if applicable for that card
       if (onlineRound.player.id === onlineScoreCard.player.id) {
+
+        this.resetCounter();
 
         // update score total
         if (onlineScoreCard.hole < 10) {
@@ -441,4 +454,50 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       }
     return retVal;
   }
+
+  private resetCounter() {
+
+    const startDate = new Date();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = timer(0, 1000)
+    .subscribe(() => {
+      this.elapsed = this.getElapsedTime(startDate);
+    });
+  }
+
+ private  getElapsedTime(entry: Date): TimeSpan {
+    let totalSeconds = Math.floor((new Date().getTime() - entry.getTime()) / 1000);
+
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    if (totalSeconds >= 3600) {
+      hours = Math.floor(totalSeconds / 3600);
+      totalSeconds -= 3600 * hours;
+    }
+
+    if (totalSeconds >= 60) {
+      minutes = Math.floor(totalSeconds / 60);
+      totalSeconds -= 60 * minutes;
+    }
+
+    seconds = totalSeconds;
+
+    return {
+      hours,
+      minutes,
+      seconds
+    };
+  }
+}
+
+interface TimeSpan {
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
