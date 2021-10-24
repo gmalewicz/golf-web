@@ -5,7 +5,4 @@ export * from './round';
 export * from './scoreCard';
 export * from './tee';
 export * from './playerRoundDetails';
-export * from './tournament';
-export * from './tournamentResult';
-export * from './tournamentRound';
 export * from './courses';

@@ -1,4 +1,5 @@
-import { Round, TournamentResult, Player } from '.';
+import { Player, Round } from '@/_models';
+import { TournamentResult } from '.';
 
 export interface Tournament {
   id?: number;

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Round, Tournament, TournamentResult, TournamentRound } from '@/_models';
+import { Round } from '@/_models';
+import { Tournament, TournamentResult, TournamentRound } from '../_models';
 
 
 @Injectable()
