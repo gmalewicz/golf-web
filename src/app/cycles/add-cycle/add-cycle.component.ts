@@ -3,7 +3,8 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Cycle, cycleRule, cycleStatus } from '../_models/cycle';
+import { tap } from 'rxjs/operators';
+import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
 
 @Component({
@@ -15,7 +16,6 @@ export class AddCycleComponent implements OnInit {
   addCycleForm: FormGroup;
   submitted: boolean;
   loading: boolean;
-  rule: { label: string; value: number; }[];
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -30,12 +30,10 @@ export class AddCycleComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
 
-      this.rule = [{ label: 'STB netto sum', value:  cycleRule.RULE_STANDARD},
-                   { label: 'Volvo 2021', value:  cycleRule.RULE_VOLVO_2021 }];
-
       this.addCycleForm = this.formBuilder.group({
-        name: ['', [Validators.required,Validators.minLength(3)]],
-        ruleDropDown: ['', [Validators.required]]
+        name: ['', [Validators.required, Validators.minLength(3)]],
+        bestRounds: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
+        maxWhs: ['54.0', [Validators.required, Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]]
       });
 
       this.submitted = false;
@@ -61,21 +59,17 @@ export class AddCycleComponent implements OnInit {
                nick: this.authenticationService.currentPlayerValue.nick,
                whs: this.authenticationService.currentPlayerValue.whs},
       name: this.f.name.value,
-      rule: this.f.ruleDropDown.value,
-      status: cycleStatus.STATUS_OPEN
+      status: CycleStatus.STATUS_OPEN,
+      bestRounds: this.f.bestRounds.value,
+      maxWhs: this.f.maxWhs.value,
     };
 
-    this.cycleHttpService.addCycle(cycle).subscribe(() => {
-
-      this.alertService.success('Cycle successfully created', true);
-      this.loading = false;
-      this.router.navigate(['/home']);
-    },
+    this.cycleHttpService.addCycle(cycle).pipe(tap(
       () => {
-        this.alertService.error('Cycle creation failed', true);
+        this.alertService.success('Cycle successfully created', true);
         this.loading = false;
         this.router.navigate(['/home']);
-      });
+      })
+    ).subscribe();
   }
-
 }

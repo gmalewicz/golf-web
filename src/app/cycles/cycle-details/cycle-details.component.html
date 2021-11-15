@@ -16,10 +16,10 @@
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
-      <app-cycle-results></app-cycle-results>
+      <app-cycle-results [cycle]='cycle' [cycleResults]='cycleResults' [cycleTournaments]='cycleTournaments'></app-cycle-results>
     </div>
     <div class="tab-pane fade" id="tournaments" role="tabpanel" aria-labelledby="tournaments-tab">
-      <app-cycle-tournament [cycle]='cycle'></app-cycle-tournament>
+      <app-cycle-tournament [cycle]='cycle' [cycleTournaments]='cycleTournaments'></app-cycle-tournament>
     </div>
   </div>
   <div>

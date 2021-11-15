@@ -4,16 +4,14 @@ export interface Cycle {
   id?: number;
   name: string;
   status: boolean;
-  rule: number;
   player?: Player;
+  // 0 - all rounds are applicable
+  // if not 0: number of best rounds from cycle to be included in the result
+  bestRounds: number;
+  maxWhs: number;
 }
 
-export const cycleRule = {
-  RULE_STANDARD: 0,
-  RULE_VOLVO_2021: 1
-};
-
-export const cycleStatus = {
+export const CycleStatus = {
   STATUS_OPEN: false,
   STATUS_CLOSE: true
 };

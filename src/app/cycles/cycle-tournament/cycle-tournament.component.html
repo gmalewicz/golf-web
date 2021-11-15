@@ -1,8 +1,8 @@
+<br/>
 <div *ngIf="!display" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <br/>
   <table class="table table-striped" aria-describedby="Tournament list">
     <thead>
       <tr>
@@ -15,7 +15,8 @@
       <tr *ngFor="let cycleTournament of cycleTournaments">
         <td>{{ cycleTournament.name }}</td>
         <td>{{ cycleTournament.rounds }}</td>
-        <td>{{ cycleTournament.bestOf }}</td>
+        <td *ngIf="cycleTournament.bestOf">Yes</td>
+        <td *ngIf="!cycleTournament.bestOf">No</td>
       </tr>
     </tbody>
   </table>

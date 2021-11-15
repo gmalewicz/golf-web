@@ -15,6 +15,9 @@ import { CycleDetailsComponent } from './cycle-details/cycle-details.component';
 import { CycleResultsComponent } from './cycle-results/cycle-results.component';
 import { CycleTournamentComponent } from './cycle-tournament/cycle-tournament.component';
 import { AddTournamentDialogComponent } from './add-tournament-dialog/add-tournament-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { AddTournamentDialogComponent } from './add-tournament-dialog/add-tourna
     ReactiveFormsModule,
     DropdownModule,
     HttpClientModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDialogModule,
   ],
   providers: [CycleHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

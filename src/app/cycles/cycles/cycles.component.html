@@ -9,6 +9,8 @@
       <tr>
         <th id="nav"></th>
         <th id="name">Name</th>
+        <th id="name">Best results</th>
+        <th id="handicap">Max. handicap</th>
         <th id="sDate">Status</th>
       </tr>
     </thead>
@@ -20,6 +22,9 @@
           </a>
         </td>
         <td>{{ cycle.name }}</td>
+        <td *ngIf="cycle.bestRounds === 0">All</td>
+        <td *ngIf="cycle.bestRounds !== 0">{{cycle.bestRounds}}</td>
+        <td>{{cycle.maxWhs}}</td>
         <td *ngIf="cycle.status === statusOpen">Open</td>
         <td *ngIf="cycle.status === statusClose">Close</td>
       </tr>

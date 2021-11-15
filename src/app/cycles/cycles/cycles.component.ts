@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus';
 import { tap } from 'rxjs/operators';
-import { Cycle, cycleStatus } from '../_models/cycle';
+import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
 
 @Component({
@@ -17,8 +17,8 @@ export class CyclesComponent implements OnInit {
   faSearchPlus: IconDefinition;
   cycles: Cycle[];
   display: boolean;
-  statusOpen: boolean = cycleStatus.STATUS_OPEN;
-  statusClose: boolean = cycleStatus.STATUS_CLOSE;
+  statusOpen: boolean = CycleStatus.STATUS_OPEN;
+  statusClose: boolean = CycleStatus.STATUS_CLOSE;
 
 
   constructor(private cycleHttpService: CycleHttpService,
@@ -44,5 +44,4 @@ export class CyclesComponent implements OnInit {
       ).subscribe();
     }
   }
-
 }

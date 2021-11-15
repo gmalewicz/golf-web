@@ -1,1 +1,58 @@
-<p>add-tournament-dialog works!</p>
+<div class="golf-theme">
+  <h2 mat-dialog-title>Add the new cycle tournament</h2>
+
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field style="width: 250px;">
+      <input matInput placeholder="Tournament name" formControlName="name" />
+      <mat-error *ngIf="f.name.errors && f.name.errors.required"
+        >Tournament name is required</mat-error
+      >
+      <mat-error *ngIf="f.name.errors && f.name.errors.maxlength"
+        >Tournament name can be up to 30 characters long</mat-error
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field style="width: 250px;">
+      <input matInput placeholder="Number of rounds" formControlName="rounds"/>
+      <mat-error *ngIf="f.rounds.errors && f.rounds.errors.required"
+        >No. of rounds is required</mat-error
+      >
+      <mat-error *ngIf="f.rounds.errors && f.rounds.errors.min"
+        >No. of rounds cannot be lower than 1</mat-error
+      >
+      <mat-error *ngIf="f.rounds.errors && f.rounds.errors.max"
+      >No. of rounds cannot be greater than 4</mat-error
+    >
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-content [formGroup]="form">
+    <mat-checkbox formControlName="bestOf">Best of</mat-checkbox>
+  </mat-dialog-content>
+
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field style="width: 250px;">
+      <input matInput placeholder="Tournament no." formControlName="tournamentNo"/>
+      <mat-error *ngIf="f.tournamentNo.errors && f.tournamentNo.errors.required"
+        >Tournament no. is required</mat-error
+      >
+      <mat-error *ngIf="f.tournamentNo.errors && f.tournamentNo.errors.pattern"
+        >Tournament no. must be 4 or 5 digits long</mat-error
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button class="mat-raised-button mat-primary" (click)="close()">
+      Cancel
+    </button>
+    &nbsp;
+    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+  </mat-dialog-actions>
+  <br />
+  <p>
+    Find tournamnet no.<br />
+    in Eagle<br />
+  </p>
+</div>
