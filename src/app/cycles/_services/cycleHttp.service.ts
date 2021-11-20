@@ -29,8 +29,7 @@ export class CycleHttpService {
   // gets eagle results
   getEagleResults(tournamentNo: number): Observable<any> {
 
-    return this.http.get
-      ('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=0');
+    return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=0');
   }
 
   // push eagle results for calculation

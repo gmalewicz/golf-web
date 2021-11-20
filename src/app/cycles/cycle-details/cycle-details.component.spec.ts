@@ -14,7 +14,6 @@ import { CycleDetailsComponent } from './cycle-details.component';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, of } from 'rxjs';
 
 describe('CycleDetailsComponent', () => {
   let component: CycleDetailsComponent;

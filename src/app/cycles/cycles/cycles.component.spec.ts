@@ -6,8 +6,6 @@ import { CycleHttpService } from '../_services/cycleHttp.service';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
 import { CyclesComponent } from './cycles.component';
 import { HttpService } from '@/_services/http.service';
-import { AuthenticationService } from '@/_services/authentication.service';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
 
 describe('CyclesComponent', () => {
   let component: CyclesComponent;

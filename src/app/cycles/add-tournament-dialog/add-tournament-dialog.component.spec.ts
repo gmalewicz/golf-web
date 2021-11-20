@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AddTournamentDialogComponent } from './add-tournament-dialog.component';
@@ -23,7 +22,9 @@ describe('AddTournamentDialogComponent', () => {
       ],
       declarations: [ AddTournamentDialogComponent ],
       providers: [
-        {provide: MatDialogRef, useValue: {close(): void {}}},
+        {provide: MatDialogRef, useValue: {close(): void {
+          // This is intentional
+        }}},
         {provide: MAT_DIALOG_DATA, useValue: []}
       ],
     })

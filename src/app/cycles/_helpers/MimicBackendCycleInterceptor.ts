@@ -19,7 +19,7 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/Cycle')) {
+    } else if (req.url.endsWith('rest/Cycle') || req.url.endsWith('rest/CycleTournament')) {
       return new Observable<any> (observer => {
       observer.next(new HttpResponse<any>({status: 200}));
       observer.complete();
@@ -66,11 +66,6 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
 
         , status: 200}));
         observer.complete();
-      });
-    } else if (req.url.endsWith('rest/CycleTournament')) {
-      return new Observable<any> (observer => {
-      observer.next(new HttpResponse<any>({status: 200}));
-      observer.complete();
       });
     }
     // pass through other requests.
