@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Tournament } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TournamentHttpService } from '../_services';
+import { Tournament } from '../_models/tournament';
 
 @Component({
   selector: 'app-add-tournament',

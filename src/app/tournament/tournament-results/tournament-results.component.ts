@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TournamentResult, Tournament, TournamentRound } from '@/_models';
 import { AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
+import { Tournament, TournamentResult, TournamentRound } from '../_models';
 
 @Component({
   selector: 'app-tournament-results',

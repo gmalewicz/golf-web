@@ -1,0 +1,35 @@
+<br/>
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <div class="table-responsive">
+    <table id="result-tbl" class="table table-striped" aria-describedby="result view">
+      <thead>
+        <tr>
+          <th id="hno">No.</th>
+          <th id="hname">Name</th>
+          <th id="hr23" *ngFor="let i = index of counter(rounds.length)" class="w-5">
+            <tr style="font-size:x-small;">
+              {{cycleTournaments[names[i]].name}}
+            </tr>
+            <tr id="hr">
+              R{{i + 1}}
+            </tr>
+          </th>
+          <th id="hresult">RESULT</th>
+          <th class="golf-green" id="htotal">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let cycleResult of cycleResults, let idx = index">
+          <td id="no">{{ idx + 1 }}</td>
+          <td id="name">{{ cycleResult.name }}</td>
+          <td id="r" *ngFor="let i = index of counter(rounds.length)" class="w-5">{{cycleResults[idx].r[rounds[i]]}}</td>
+          <th id="result">{{ cycleResult.cycleResult }}</th>
+          <th class="golf-green" id="total">{{ cycleResult.total }}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

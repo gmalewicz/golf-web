@@ -1,0 +1,28 @@
+<br/>
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <table class="table table-striped" aria-describedby="Tournament list">
+    <thead>
+      <tr>
+        <th id="noh">No.</th>
+        <th id="nameh">Name</th>
+        <th id="roundsh">Rounds</th>
+        <th id="bRoundsh">Best Round</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cycleTournament of cycleTournaments, let idx = index">
+        <td id="no">{{ idx + 1 }}</td>
+        <td id="name">{{ cycleTournament.name }}</td>
+        <td id="rounds">{{ cycleTournament.rounds }}</td>
+        <td id="bRounds" *ngIf="cycleTournament.bestOf">Yes</td>
+        <td id="bRounds"*ngIf="!cycleTournament.bestOf">No</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
