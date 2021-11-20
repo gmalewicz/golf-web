@@ -9,11 +9,16 @@
         <tr>
           <th id="hno">No.</th>
           <th id="hname">Name</th>
-          <th id="hr" *ngFor="let i = index of counter(rounds.length)" class="w-5">
-            R{{i + 1}}
+          <th id="hr23" *ngFor="let i = index of counter(rounds.length)" class="w-5">
+            <tr style="font-size:x-small;">
+              {{cycleTournaments[names[i]].name}}
+            </tr>
+            <tr id="hr">
+              R{{i + 1}}
+            </tr>
           </th>
           <th id="hresult">RESULT</th>
-          <th id="htotal">TOTAL</th>
+          <th class="golf-green" id="htotal">TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +27,7 @@
           <td id="name">{{ cycleResult.name }}</td>
           <td id="r" *ngFor="let i = index of counter(rounds.length)" class="w-5">{{cycleResults[idx].r[rounds[i]]}}</td>
           <th id="result">{{ cycleResult.cycleResult }}</th>
-          <th id="total">{{ cycleResult.total }}</th>
+          <th class="golf-green" id="total">{{ cycleResult.total }}</th>
         </tr>
       </tbody>
     </table>

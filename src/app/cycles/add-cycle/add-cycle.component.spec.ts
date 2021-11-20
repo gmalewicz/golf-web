@@ -32,34 +32,40 @@ describe('AddCycleComponent', () => {
       .compileComponents();
   }));
 
-  beforeEach(() => {
-    localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
+  it('should create without player ', () => {
+
+    localStorage.removeItem('currentPlayer');
+
     fixture = TestBed.createComponent(AddCycleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should test addCycle', fakeAsync(() => {
 
+    localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
+    fixture = TestBed.createComponent(AddCycleComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     const buttonElement = fixture.debugElement.query(By.css('.btn-success'));
     // Trigger click event after spyOn
     component.f.name.setValue('test cycle');
-    component.f.ruleDropDown.setValue(0);
+    component.f.bestRounds.setValue(0);
 
     buttonElement.nativeElement.click();
 
     tick();
     expect(component.loading).toBeFalsy();
 
-
   }));
 
   it('should test addCycle with invalid form', fakeAsync(() => {
 
+    localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
+    fixture = TestBed.createComponent(AddCycleComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     const buttonElement = fixture.debugElement.query(By.css('.btn-success'));
     // Trigger click event after spyOn
     buttonElement.nativeElement.click();

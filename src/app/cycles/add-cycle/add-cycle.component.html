@@ -1,42 +1,46 @@
-<h2 class="col">Add the new cycle:</h2>
-<form [formGroup]="addCycleForm" (ngSubmit)="onSubmit()">
-  <div class="form-group col">
-    <label for="name">Cycle name</label>
-    <input type="text" formControlName="name" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-      <div *ngIf="f.name.errors.required">Cycle name must be provided</div>
-      <div *ngIf="f.name.errors.minlength">Cycle name must be at least 3 characters long</div>
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <h2 class="col">Add the new cycle:</h2>
+  <form [formGroup]="addCycleForm" (ngSubmit)="onSubmit()">
+    <div class="form-group col">
+      <label for="name">Cycle name</label>
+      <input type="text" formControlName="name" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+        <div *ngIf="f.name.errors.required">Cycle name must be provided</div>
+        <div *ngIf="f.name.errors.minlength">Cycle name must be at least 3 characters long</div>
 
+      </div>
     </div>
-  </div>
-  <div class="form-group col">
-    <label for="bestRounds">No. of best rounds to be included (0 - all rounds)</label>
-    <input type="text" formControlName="bestRounds" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }" />
-    <div *ngIf="submitted && f.bestRounds.errors" class="invalid-feedback">
-      <div *ngIf="f.bestRounds.errors.required">No. of best rounds must be provided</div>
-      <div *ngIf="f.bestRounds.errors.min">No. of best rounds must be greater than 0</div>
-      <div *ngIf="f.bestRounds.errors.max">No. of best rounds must be lower than 20</div>
+    <div class="form-group col">
+      <label for="bestRounds">No. of best rounds to be included (0 - all rounds)</label>
+      <input type="text" formControlName="bestRounds" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }" />
+      <div *ngIf="submitted && f.bestRounds.errors" class="invalid-feedback">
+        <div *ngIf="f.bestRounds.errors.required">No. of best rounds must be provided</div>
+        <div *ngIf="f.bestRounds.errors.min">No. of best rounds must be greater than 0</div>
+        <div *ngIf="f.bestRounds.errors.max">No. of best rounds must be lower than 20</div>
+      </div>
     </div>
-  </div>
-  <div class="form-group col">
-    <label for="maxWhs">Max. handicap to be included</label>
-    <input type="text" formControlName="maxWhs" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.maxWhs.errors }" />
-    <div *ngIf="submitted && f.maxWhs.errors" class="invalid-feedback">
-      <div *ngIf="f.maxWhs.errors.required">Maximum handicap must be provided</div>
-      <div *ngIf="f.maxWhs.errors.min">Maximum handicap must be greater than -5</div>
-      <div *ngIf="f.maxWhs.errors.max">Maximum handicap must be lower or equal than 54</div>
-      <div *ngIf="f.maxWhs.errors.pattern">Provide valid value with the follwoing format: X.X</div>
+    <div class="form-group col">
+      <label for="maxWhs">Max. handicap to be included</label>
+      <input type="text" formControlName="maxWhs" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.maxWhs.errors }" />
+      <div *ngIf="submitted && f.maxWhs.errors" class="invalid-feedback">
+        <div *ngIf="f.maxWhs.errors.required">Maximum handicap must be provided</div>
+        <div *ngIf="f.maxWhs.errors.min">Maximum handicap must be greater than -5</div>
+        <div *ngIf="f.maxWhs.errors.max">Maximum handicap must be lower or equal than 54</div>
+        <div *ngIf="f.maxWhs.errors.pattern">Provide valid value with the follwoing format: X.X</div>
+      </div>
     </div>
-  </div>
-  <div class="form-group col">
-    <button [disabled]="loading" class="btn btn-success">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Create
-    </button>
-    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
-  </div>
-</form>
-
+    <div class="form-group col">
+      <button [disabled]="loading" class="btn btn-success">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Create
+      </button>
+      <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+    </div>
+  </form>
+</div>

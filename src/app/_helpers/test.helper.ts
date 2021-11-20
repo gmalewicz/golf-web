@@ -90,6 +90,18 @@ authenticationServiceStub = {
   }
 };
 
+export let authenticationServiceAdminStub: Partial<AuthenticationService>;
+
+authenticationServiceAdminStub = {
+  currentPlayerValue: {nick: 'test', id: 1, whs: 10},
+  playerRole: 'ADMIN',
+  logout(): void {
+    // This is intentional
+  }
+};
+
+
+
 export class MatDialogMock {
 
     open() {

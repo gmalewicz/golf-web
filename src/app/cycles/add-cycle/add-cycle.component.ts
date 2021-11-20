@@ -16,6 +16,7 @@ export class AddCycleComponent implements OnInit {
   addCycleForm: FormGroup;
   submitted: boolean;
   loading: boolean;
+  display: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -38,6 +39,7 @@ export class AddCycleComponent implements OnInit {
 
       this.submitted = false;
       this.loading = false;
+      this.display = true;
     }
   }
 

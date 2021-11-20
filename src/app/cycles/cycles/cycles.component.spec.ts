@@ -12,6 +12,7 @@ import { authenticationServiceStub } from '@/_helpers/test.helper';
 describe('CyclesComponent', () => {
   let component: CyclesComponent;
   let fixture: ComponentFixture<CyclesComponent>;
+  let currentPlayerValueSpy: jasmine.Spy<jasmine.Func>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -32,12 +33,19 @@ describe('CyclesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CyclesComponent);
     component = fixture.componentInstance;
-    spyOnProperty(component.authenticationService , 'currentPlayerValue').and.returnValue({nick: 'test', id: 1});
-    spyOnProperty(component.authenticationService , 'playerRole').and.returnValue('PLAYER');
-    fixture.detectChanges();
+    currentPlayerValueSpy = spyOnProperty(component.authenticationService , 'currentPlayerValue');
   });
 
   it('should create', () => {
+    spyOnProperty(component.authenticationService , 'playerRole').and.returnValue('PLAYER');
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should create but player does not exists', () => {
+    currentPlayerValueSpy.and.returnValue(null);
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

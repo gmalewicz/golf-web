@@ -81,7 +81,6 @@ export class CycleDetailsComponent implements OnInit {
               tournamentNo: result.tournamentNo,
               cycle: this.cycle,
             };
-
             reareEagleResultSet.items.forEach(element => {
 
               const eagleResult: EagleResult = {

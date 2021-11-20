@@ -7,8 +7,7 @@ import { CycleResult } from '../_models/cycleResult';
 
 @Component({
   selector: 'app-cycle-results',
-  templateUrl: './cycle-results.component.html',
-  styleUrls: ['./cycle-results.component.css']
+  templateUrl: './cycle-results.component.html'
 })
 export class CycleResultsComponent implements OnInit {
 
@@ -17,6 +16,7 @@ export class CycleResultsComponent implements OnInit {
   @Input() cycleTournaments: CycleTournament[];
   display: boolean;
   rounds: number[];
+  names: number[];
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router) { }
@@ -28,19 +28,20 @@ export class CycleResultsComponent implements OnInit {
     } else {
 
       this.rounds = [];
+      this.names = [];
       if (this.cycleTournaments.length > 0) {
 
         let offset = 0;
-        this.cycleTournaments.map(v => v.rounds).forEach(n => {
+        this.cycleTournaments.map(v => v.rounds).forEach((n, idx) => {
 
           for (let i = 0; i < n; i++) {
             this.rounds.push(offset + i);
+            this.names.push(idx);
           }
           offset += 4;
         });
 
       }
-      console.log(this.rounds);
       this.display = true;
     }
   }
