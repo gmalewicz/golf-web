@@ -2,7 +2,12 @@ describe('Login Test', () => {
 
   context('Unauthorized', () => {
     it('should try to access courses page without authorization', () => {
-      cy.visit('/courses');
+      cy.visit('/courses', {
+        headers: {
+        "Accept-Encoding": "gzip, deflate"
+        }
+      })
+
       cy.contains('Login');
     })
   })
@@ -10,7 +15,11 @@ describe('Login Test', () => {
   context('Form submission', () => {
 
     beforeEach(function () {
-      cy.visit('/login')
+      cy.visit('/login', {
+        headers: {
+        "Accept-Encoding": "gzip, deflate"
+        }
+      })
     })
 
     it('redirects to main page on success', function () {
