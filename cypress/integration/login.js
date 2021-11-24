@@ -3,7 +3,7 @@ describe('Login Test', () => {
   context('Unauthorized', () => {
     it('should try to access courses page without authorization', () => {
       cy.visit('/courses');
-      cy .error.contains('Login');
+      cy.contains('Login');
     })
   })
 
