@@ -1,4 +1,5 @@
 // define 3 theme color
+@use '~@angular/material' as mat;
 // mat-palette accepts $palette-name, main, lighter and darker variants
 $mat-primary: (
   main: #28a745,
@@ -11,12 +12,12 @@ $mat-primary: (
     darker: $light-primary-text,
   )
 );
-$golf-theme-primary: mat-palette($mat-primary, main, lighter, darker);
-$golf-theme-accent: mat-palette($mat-primary, main, lighter, darker);
-$golf-theme-warn: mat-palette($mat-deep-orange);
+$golf-theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
+$golf-theme-accent: mat.define-palette($mat-primary, main, lighter, darker);
+$golf-theme-warn: mat.define-palette(mat.$deep-orange-palette);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
-$golf-theme: mat-light-theme(
+$golf-theme: mat.define-light-theme(
     $golf-theme-primary,
     $golf-theme-accent,
     $golf-theme-warn
