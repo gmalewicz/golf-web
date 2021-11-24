@@ -2,6 +2,7 @@ describe('Login Test', () => {
 
   context('Unauthorized', () => {
     it('should try to access courses page without authorization', () => {
+
       cy.visit('/courses', {
         headers: {
         "Accept-Encoding": "gzip, deflate"
