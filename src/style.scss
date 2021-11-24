@@ -1,7 +1,8 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
 
 // always include only once per project
-@include mat-core();
+@include mat.core();
 
 // import our custom theme
 @import 'golf-theme.scss';
@@ -10,5 +11,5 @@
 .golf-theme {
 
   // use our theme with angular-material-theme mixin
-  @include angular-material-theme($golf-theme);
+  @include mat.all-component-themes($golf-theme);
 }
