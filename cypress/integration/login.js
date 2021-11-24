@@ -3,13 +3,7 @@ describe('Login Test', () => {
   context('Unauthorized', () => {
     it('should try to access courses page without authorization', () => {
 
-      cy.visit('/courses', {
-        headers: {
-        "Accept-Encoding": "gzip, deflate"
-        },
-        responseTimeout: 120000
-      })
-
+      cy.visit('/courses')
       cy.contains('Login');
     })
   })
@@ -17,11 +11,7 @@ describe('Login Test', () => {
   context('Form submission', () => {
 
     beforeEach(function () {
-      cy.visit('/login', {
-        headers: {
-        "Accept-Encoding": "gzip, deflate"
-        }
-      })
+      cy.visit('/login')
     })
 
     it('redirects to main page on success', function () {
