@@ -1,5 +1,5 @@
 // define 3 theme color
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 // mat-palette accepts $palette-name, main, lighter and darker variants
 $mat-primary: (
   main: #28a745,

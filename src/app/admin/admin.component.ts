@@ -35,12 +35,10 @@ export class AdminComponent implements OnInit {
 
     if (comp === 0) {
       const {ResetPasswordComponent} = await import('./reset-password/reset-password.component');
-      const adminPasswordFactory = this.crf.resolveComponentFactory(ResetPasswordComponent);
-      this.adminContainerRef.createComponent(adminPasswordFactory, null, this.injector);
+      this.adminContainerRef.createComponent(ResetPasswordComponent);
     } else if (comp === 1){
       const {MoveCourseComponent} = await import('./move-course/move-course.component');
-      const moveCourseFactory = this.crf.resolveComponentFactory(MoveCourseComponent);
-      this.adminContainerRef.createComponent(moveCourseFactory, null, this.injector);
+      this.adminContainerRef.createComponent(MoveCourseComponent);
     }
   }
 }
