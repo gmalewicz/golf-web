@@ -5,7 +5,8 @@ describe('Login Test', () => {
       cy.visit('/courses', {
         headers: {
         "Accept-Encoding": "gzip, deflate"
-        }
+        },
+        responseTimeout: 120000
       })
 
       cy.contains('Login');
