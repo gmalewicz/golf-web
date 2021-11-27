@@ -48,12 +48,13 @@ export class UpdRoundHcpComponent implements OnInit {
     this.updRoundHcpLoading = true;
 
     let whs = this.fupdRoundHcp.whs.value;
+
     if (whs !== '') {
       whs = whs.replace(/,/gi, '.');
     }
 
     this.httpService
-        .updatePlayerRoundWHS(this.fupdRoundHcp.playerId.value, this.fupdRoundHcp.roundId.value, this.fupdRoundHcp.whs.value).pipe(
+        .updatePlayerRoundWHS(this.fupdRoundHcp.playerId.value, this.fupdRoundHcp.roundId.value, whs).pipe(
       tap(
         () => {
           this.alertService.success('WHS for round successfully updated', true);
