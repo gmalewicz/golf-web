@@ -39,6 +39,9 @@ export class AdminComponent implements OnInit {
     } else if (comp === 1){
       const {MoveCourseComponent} = await import('./move-course/move-course.component');
       this.adminContainerRef.createComponent(MoveCourseComponent);
+    } else if (comp === 2) {
+      const {UpdRoundHcpComponent} = await import('./upd-round-hcp/upd-round-hcp.component');
+      this.adminContainerRef.createComponent(UpdRoundHcpComponent);
     }
   }
 }

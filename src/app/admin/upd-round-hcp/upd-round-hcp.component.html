@@ -1,0 +1,67 @@
+<form [formGroup]="updRoundHcpForm" (ngSubmit)="onSubmitUpdRoundHcp()">
+  <div class="form-group">
+    <label for="playrId">Player Id</label>
+    <input
+      type="text"
+      formControlName="playerId"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submittedUpdRoundHcp && fupdRoundHcp.playerId.errors }"
+    />
+    <div
+      *ngIf="submittedUpdRoundHcp && fupdRoundHcp.playerId.errors"
+      class="invalid-feedback"
+    >
+      <div *ngIf="fupdRoundHcp.playerId.errors.required">Player id is required</div>
+      <div *ngIf="fupdRoundHcp.playerId.errors.pattern">
+        Player id can be number to 6 characters long
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="roundId">Round id</label>
+    <input
+      type="text"
+      formControlName="roundId"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submittedUpdRoundHcp && fupdRoundHcp.roundId.errors }"
+    />
+    <div
+      *ngIf="submittedUpdRoundHcp && fupdRoundHcp.roundId.errors"
+      class="invalid-feedback"
+    >
+    <div *ngIf="fupdRoundHcp.roundId.errors.required">Round id is required</div>
+    <div *ngIf="fupdRoundHcp.roundId.errors.pattern">
+      Round id can be number to 6 characters long
+    </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="whs">WHS (handicap)</label>
+    <input
+      type="text"
+      formControlName="whs"
+      class="form-control"
+      maxlength="4"
+      [ngClass]="{ 'is-invalid': submittedUpdRoundHcp && fupdRoundHcp.whs.errors }"
+      placeholder="X.X"
+    />
+    <div *ngIf="submittedUpdRoundHcp && fupdRoundHcp.whs.errors" class="invalid-feedback">
+      <div *ngIf="fupdRoundHcp.whs.errors.required">WHS is required</div>
+      <div *ngIf="fupdRoundHcp.whs.errors.max">WHS is caannot be higer than 54</div>
+      <div *ngIf="fupdRoundHcp.whs.errors.min">WHS is caannot be lower than -5</div>
+      <div *ngIf="fupdRoundHcp.whs.errors.pattern">
+        Provide valid value with the follwoing format: X.X
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="updRoundHcpLoading" class="btn btn-success">
+      <span
+        *ngIf="updRoundHcpLoading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      Update
+    </button>
+    <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+  </div>
+</form>

@@ -60,4 +60,14 @@ describe('AdminComponent', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('call loadComponent for updRoundHcp', fakeAsync(() => {
+
+    fixture.whenStable().then(() => {
+      component.loadComponent(2).then(() => {
+        expect(component.adminContainerRef.length).toMatch('1');
+      });
+    });
+    expect().nothing();
+  }));
 });
