@@ -7,12 +7,19 @@
     <a class="nav-link" id="moveCourse-tab" data-toggle="tab" href="#moveCourse" role="tab"
       aria-controls="moveCourse" aria-selected="false" (click)="loadComponent(1)">Course to history</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" id="updHcp-tab" data-toggle="tab" href="#updHcp" role="tab"
+      aria-controls="updHcp" aria-selected="false" (click)="loadComponent(2)">Update Round HCP</a>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <p></p>
   <div class="tab-pane fade show active" id="resetPasword" role="tabpanel" aria-labelledby="resetPasword-tab"></div>
     <ng-container #adminContainer></ng-container>
   <div class="tab-pane fade" id="moveCourse" role="tabpanel" aria-labelledby="moveCourse-tab">
+    <ng-container #adminContainer></ng-container>
+  </div>
+  <div class="tab-pane fade" id="updHcp" role="tabpanel" aria-labelledby="updHcp-tab">
     <ng-container #adminContainer></ng-container>
   </div>
 </div>

@@ -58,7 +58,7 @@ import { AdminComponent } from './admin/admin.component';
     RoundSummaryComponent,
     ListCoursesComponent,
     ListRoundsComponent,
-    AdminComponent
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
