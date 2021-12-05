@@ -11,4 +11,5 @@ export interface OnlineScoreCard {
   putt: number;
   penalty: number;
   mpResult?: number;
+  time: string;
 }
