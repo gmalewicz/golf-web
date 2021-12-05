@@ -8,6 +8,7 @@ import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -74,6 +75,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       // get owner in case of match play online score card
       this.owner = history.state.data.owner;
 
+      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, true);
+
       if (onlineRound != null) {
         this.onlineRounds = new Array(1);
         this.onlineRounds[0] = onlineRound;
@@ -89,8 +92,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       } else {
         this.showCourse();
       }
-
-      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, true);
     }
   }
 
@@ -110,15 +111,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               or.tee.sr,
               or.tee.cr,
               getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
-
-            // for all than MP round
-            if (this.owner === null) {
-                calculateHoleHCP( index,
-                                    or.tee.teeType,
-                                    or.courseHCP,
-                                    this.holeHCP,
-                                    this.course);
-            }
 
             this.updateStartingHole(or);
 
@@ -168,7 +160,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.webSocketAPI._connect(true);
-        console.log('here');
         this.display = true;
     });
   }
@@ -274,8 +265,14 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
   showCourse() {
+
+    console.log('here');
+
+
     combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
       this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
+
+        console.log(retOnlineRounds);
 
         this.ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.course.holes = retHoles;
@@ -363,6 +360,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         // calculate mp result
         const scPlayer0 = this.onlineRounds[0].scoreCardAPI[holeIdx];
         const scPlayer1 = this.onlineRounds[1].scoreCardAPI[holeIdx];
+
+        console.log(scPlayer0);
+        console.log(scPlayer1);
+        console.log(this.holeHCP);
 
         if (holeIdx !== -1 &&  scPlayer0 !== null && scPlayer1 !== null) {
 
