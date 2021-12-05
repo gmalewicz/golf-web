@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/internal/operators/tap';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upd-round-hcp',
