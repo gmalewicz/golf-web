@@ -30,7 +30,7 @@
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
     "net": "^1.0.2",
-    "ng-recaptcha": "^7.0.2",
+    "ng-recaptcha": "^9.0.0",
     "ng2-charts": "^2.4.3",
     "popper.js": "^1.16.1",
     "primeicons": "^4.1.0",
