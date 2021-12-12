@@ -78,16 +78,19 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const buttonElement = fixture.debugElement.query(By.css('.add'));
+    let buttonElement = fixture.debugElement.query(By.css('.add'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
     tick();
 
-
+    buttonElement = fixture.debugElement.query(By.css('.cls'));
+    // Trigger click event after spyOn
+    buttonElement.triggerEventHandler('click',  {});
+    tick();
 
     expect(component).toBeTruthy();
   }));
-
+/*
   it('should close tournament',  fakeAsync(() => {
     fixture = TestBed.createComponent(CycleDetailsComponent);
     history.pushState({
@@ -108,4 +111,5 @@ describe('CycleDetailsComponent', () => {
 
     expect(component).toBeTruthy();
   }));
+  */
 });

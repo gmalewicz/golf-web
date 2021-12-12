@@ -5,7 +5,8 @@ import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropdownModule } from 'primeng/dropdown';
@@ -53,7 +54,8 @@ describe('OnlineRoundDefComponent', () => {
         FontAwesomeModule,
         DropdownModule,
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        BrowserAnimationsModule
       ]
       ,
       providers: [HttpService,
