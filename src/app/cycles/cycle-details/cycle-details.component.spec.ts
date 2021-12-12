@@ -90,26 +90,4 @@ describe('CycleDetailsComponent', () => {
 
     expect(component).toBeTruthy();
   }));
-/*
-  it('should close tournament',  fakeAsync(() => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
-    history.pushState({
-      data: {
-        cycle: {
-          id: 1, name: 'Test tournament 1', status: false, rule: 0,
-          player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
-        }
-      }
-    }, '');
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const buttonElement = fixture.debugElement.query(By.css('.cls'));
-    // Trigger click event after spyOn
-    buttonElement.triggerEventHandler('click',  {});
-    tick();
-
-    expect(component).toBeTruthy();
-  }));
-  */
 });
