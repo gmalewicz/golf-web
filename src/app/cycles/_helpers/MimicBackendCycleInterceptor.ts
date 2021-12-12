@@ -19,10 +19,11 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/Cycle') || req.url.endsWith('rest/CycleTournament')) {
+    } else if (req.url.endsWith('rest/Cycle') || req.url.endsWith('rest/CycleTournament') ||
+               req.url.startsWith('rest/CycleClose')) {
       return new Observable<any> (observer => {
-      observer.next(new HttpResponse<any>({status: 200}));
-      observer.complete();
+        observer.next(new HttpResponse<any>({status: 200}));
+        observer.complete();
       });
     } else if (req.url.startsWith('rest/CycleTournament') && (req.method === 'GET')) {
       return new Observable(observer => {

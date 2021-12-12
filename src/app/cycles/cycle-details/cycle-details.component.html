@@ -28,8 +28,13 @@
       Cancel
     </button>
     &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success add" (click)="addTournament()">
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN" type="button" class="btn btn-success add" (click)="addTournament()">
       Add tournament
+    </button>
+    &nbsp;
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN" type="button" class="btn btn-success cls" (click)="closeCycle()">
+      <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
+      Close tournament
     </button>
   </div>
 </div>

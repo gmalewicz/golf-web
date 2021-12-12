@@ -1,4 +1,5 @@
 import { Player } from '@/_models/player';
+import { Injectable } from '@angular/core';
 
 export interface Cycle {
   id?: number;

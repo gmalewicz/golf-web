@@ -1,8 +1,8 @@
-import { Cycle } from './../_models/cycle';
+import { Cycle, CycleStatus } from './../_models/cycle';
 import { EagleResult, EagleResultSet } from './../_models/eagleResult';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AddTournamentDialogComponent } from '../add-tournament-dialog/add-tournament-dialog.component';
@@ -11,6 +11,7 @@ import { AlertService } from '@/_services/alert.service';
 import { combineLatest } from 'rxjs';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleTournament } from '../_models/cycleTournament';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-cycle-details',
@@ -22,12 +23,15 @@ export class CycleDetailsComponent implements OnInit {
   cycle: Cycle;
   cycleResults: CycleResult[];
   cycleTournaments: CycleTournament[];
+  statusConst = CycleStatus;
+  loadingClose: boolean;
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
               private dialog: MatDialog,
               private cycleHttpService: CycleHttpService,
-              private alertService: AlertService) { }
+              private alertService: AlertService
+              ) { }
 
   ngOnInit(): void {
 
@@ -36,6 +40,7 @@ export class CycleDetailsComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
 
+      this.loadingClose = false;
       this.cycle = history.state.data.cycle;
       combineLatest([ this.cycleHttpService.getCycleResults(this.cycle.id),
         this.cycleHttpService.getCycleTournaments(this.cycle.id)]).subscribe(([retCycleResults, retCycleTournamnets]) => {
@@ -106,5 +111,26 @@ export class CycleDetailsComponent implements OnInit {
       }
     });
 
+  }
+
+  closeCycle(): void {
+
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = 'Are you sure you want to close cycle?';
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingClose = true;
+        this.cycleHttpService.closeCycle(this.cycle.id).pipe(tap(
+          () => {
+            this.alertService.success('Cycle successfully closed', true);
+            this.router.navigate(['/home']);
+          })
+        ).subscribe();
+      }
+    });
   }
 }
