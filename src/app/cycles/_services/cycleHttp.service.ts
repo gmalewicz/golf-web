@@ -43,6 +43,12 @@ export class CycleHttpService {
 
     return this.http.get<Array<CycleResult>>('rest/CycleResult/' + cycleId);
   }
+
+  // gets eagle results
+  closeCycle(cycleId: number): Observable<void> {
+
+    return this.http.patch<void>('rest/CycleClose/' + cycleId, null);
+  }
 }
 
 

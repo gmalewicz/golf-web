@@ -9,7 +9,6 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
 import { CycleHttpService } from '../_services/cycleHttp.service';
-
 import { CycleDetailsComponent } from './cycle-details.component';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +29,8 @@ describe('CycleDetailsComponent', () => {
               rounds: 1,
               bestOd: false,
               tournamentNo: 60
-            })
+            }),
+            componentInstance: {confirmMessage: ''}
         };
     }
   }
@@ -78,12 +78,15 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const buttonElement = fixture.debugElement.query(By.css('.add'));
+    let buttonElement = fixture.debugElement.query(By.css('.add'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
     tick();
 
-
+    buttonElement = fixture.debugElement.query(By.css('.cls'));
+    // Trigger click event after spyOn
+    buttonElement.triggerEventHandler('click',  {});
+    tick();
 
     expect(component).toBeTruthy();
   }));
