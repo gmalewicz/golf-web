@@ -1,3 +1,4 @@
+import { PlayerRndCnt } from './../_models/playerRndCnt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -134,6 +135,11 @@ export class HttpService {
 
   updatePlayerRoundWHS(playerId: number, roundId: number, whs: number): Observable<HttpResponse<null>> {
     return this.http.patch<HttpResponse<null>>('rest/UpdatePlayerRound', {playerId, roundId, whs});
+  }
+
+  getPlayerRoundCnt(): Observable<Array<PlayerRndCnt>> {
+
+    return this.http.get<Array<PlayerRndCnt>>('rest/PlayerRoundCnt');
   }
 }
 

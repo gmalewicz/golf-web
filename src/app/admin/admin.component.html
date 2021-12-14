@@ -11,6 +11,10 @@
     <a class="nav-link" id="updHcp-tab" data-toggle="tab" href="#updHcp" role="tab"
       aria-controls="updHcp" aria-selected="false" (click)="loadComponent(2)">Update Round HCP</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" id="plrRndCnt-tab" data-toggle="tab" href="#plrRndCnt" role="tab"
+      aria-controls="plrRndCnt" aria-selected="false" (click)="loadComponent(3)">Players</a>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <p></p>
@@ -20,6 +24,9 @@
     <ng-container #adminContainer></ng-container>
   </div>
   <div class="tab-pane fade" id="updHcp" role="tabpanel" aria-labelledby="updHcp-tab">
+    <ng-container #adminContainer></ng-container>
+  </div>
+  <div class="tab-pane fade" id="plrRndCnt" role="tabpanel" aria-labelledby="plrRndCnt-tab">
     <ng-container #adminContainer></ng-container>
   </div>
 </div>

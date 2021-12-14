@@ -1,6 +1,8 @@
+import { PlayerRndCnt } from '@/_models/playerRndCnt';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, ComponentFactoryResolver, Injector, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -8,11 +10,11 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
+  playerRound: PlayerRndCnt[];
+
   @ViewChild('adminContainer', {read: ViewContainerRef}) adminContainerRef: ViewContainerRef;
 
   constructor(
-    private crf: ComponentFactoryResolver,
-    private injector: Injector,
     private router: Router,
     private authenticationService: AuthenticationService
   ) {}
@@ -42,6 +44,20 @@ export class AdminComponent implements OnInit {
     } else if (comp === 2) {
       const {UpdRoundHcpComponent} = await import('./upd-round-hcp/upd-round-hcp.component');
       this.adminContainerRef.createComponent(UpdRoundHcpComponent);
+    } else if (comp === 3) {
+      const {PlayersComponent} = await import('./players/players.component');
+      const ref = this.adminContainerRef.createComponent(PlayersComponent);
+      const playerComponent = ref.instance;
+      if (this.playerRound !=  null) {
+        playerComponent.playerRound = this.playerRound;
+      }
+
+      playerComponent.playerRoundCntEmt.pipe(
+        tap(
+          pr => {
+            this.playerRound = pr;
+          })
+      ).subscribe();
     }
   }
 }
