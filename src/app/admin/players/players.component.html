@@ -1,0 +1,35 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<br/>
+<div *ngIf="display">
+  <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
+    <thead>
+      <tr>
+        <th id="nick">Nick</th>
+        <th id="sex">Sex</th>
+        <th id="whs">WHS</th>
+        <th id="role">Role</th>
+        <th id="roundCnt">Rounds</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of playerRound">
+        <td>{{ row.nick }}</td>
+        <td>
+          <span *ngIf="row.sex">F</span>
+          <span *ngIf="!row.sex">M</span>
+        </td>
+        <td>{{ row.whs }}</td>
+        <td>
+          <span *ngIf="row.role === 0">ADMIN</span>
+          <span *ngIf="row.role === 1">PLAYER</span>
+        </td>
+        <td>{{ row.roundCnt }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="form-group">
+    <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+  </div>
+</div>

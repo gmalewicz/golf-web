@@ -70,4 +70,14 @@ describe('AdminComponent', () => {
     });
     expect().nothing();
   }));
+
+  it('call loadComponent for playerRoundCnt', fakeAsync(() => {
+
+    fixture.whenStable().then(() => {
+      component.loadComponent(3).then(() => {
+        expect(component.adminContainerRef.length).toMatch('1');
+      });
+    });
+    expect().nothing();
+  }));
 });
