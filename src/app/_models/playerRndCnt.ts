@@ -1,4 +1,5 @@
 export interface PlayerRndCnt {
+  id: number;
   nick: string;
   sex: boolean;
   whs: number;
