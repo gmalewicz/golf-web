@@ -8,8 +8,11 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons/faMinusCircle';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { Player } from '@/_models/player';
+import { AlertService } from '@/_services/alert.service';
+import { UpdDialogComponent } from './upd-dialog/upd-dialog.component';
 
 @Component({
   selector: 'app-players',
@@ -25,10 +28,11 @@ export class PlayersComponent implements OnInit {
 
   faMinusCircle: IconDefinition;
 
-  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
+  // dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   constructor(private httpService: HttpService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
 
@@ -53,11 +57,11 @@ export class PlayersComponent implements OnInit {
   }
 
   onClickDelete(id: number) {
-    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete that player permanently. This operation cannot be reversed!';
-    this.dialogRef.afterClosed().subscribe(result => {
+    dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete that player permanently. This operation cannot be reversed!';
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do confirmation actions
         this.loading = true;
@@ -69,7 +73,46 @@ export class PlayersComponent implements OnInit {
           })
         ).subscribe();
       }
-      this.dialogRef = null;
+    });
+  }
+
+  onClickUpdate(id: number) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      nick: this.playerRound[id].nick,
+      whs: this.playerRound[id].whs,
+      sex: this.playerRound[id].sex,
+    };
+
+    const dialogRef = this.dialog.open(
+      UpdDialogComponent,
+      dialogConfig
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+
+        const whs = result.whs.toString().replace(/,/gi, '.');
+
+        const player: Player = {
+          id: this.playerRound[id].id,
+          whs: +whs,
+          nick: result.nick,
+          sex: result.female ? true : false
+        };
+        this.httpService.updatePlayerOnBehalf(player).pipe(tap(
+          () => {
+            this.playerRound[id].whs = +whs;
+            this.playerRound[id].sex = result.female;
+            this.playerRound[id].nick = result.nick;
+            this.alertService.success('The player ' +  this.playerRound[id].nick + ' has been successfully updated', false);
+          })
+        ).subscribe();
+      }
     });
   }
 }

@@ -1,0 +1,47 @@
+<div class="golf-theme">
+  <h2 style="color: red" mat-dialog-title>Update player: {{nick}}</h2>
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+      <input matInput placeholder="Player nick" formControlName="nick" />
+      <mat-error *ngIf="f.nick.errors && f.nick.errors.required"
+        >Nick is required</mat-error
+      >
+      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength"
+        >Nick can be up to 10 characters long</mat-error
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+      <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
+      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required"
+        >WHS is required</mat-error
+      >
+      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.max"
+        >WHS is caannot be higer than 54</mat-error
+      >
+      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min"
+        >WHS is caannot be lower than -5</mat-error
+      >
+      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern"
+        >Provide valid value</mat-error
+      >
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-content [formGroup]="form">
+    <mat-checkbox formControlName="female" (click)="sexClick(true)"
+      >Female</mat-checkbox
+    >
+    &nbsp;
+    <mat-checkbox formControlName="male" (click)="sexClick(false)"
+      >Male</mat-checkbox
+    >
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button class="mat-raised-button mat-primary" (click)="close()">
+      Cancel
+    </button>
+    &nbsp;
+    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>

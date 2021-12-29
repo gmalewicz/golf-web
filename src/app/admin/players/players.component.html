@@ -16,14 +16,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of playerRound">
-        <td>{{ row.nick }}</td>
-        <td>
+      <tr *ngFor="let row of playerRound, let idx = index">
+        <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
+        <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.sex">F</span>
           <span *ngIf="!row.sex">M</span>
         </td>
-        <td>{{ row.whs }}</td>
-        <td>
+        <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
+        <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.role === 0">ADMIN</span>
           <span *ngIf="row.role === 1">PLAYER</span>
         </td>

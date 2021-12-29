@@ -34,6 +34,10 @@ import { RoundsComponent } from './rounds/rounds/rounds.component';
 import { ListRoundsComponent } from './rounds/list-rounds/list-rounds.component';
 import { SessionRecoveryInterceptor } from './_helpers/session.interceptor';
 import { AdminComponent } from './admin/admin.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -58,7 +62,8 @@ import { AdminComponent } from './admin/admin.component';
     RoundSummaryComponent,
     ListCoursesComponent,
     ListRoundsComponent,
-    AdminComponent
+    AdminComponent,
+    UpdDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,10 @@ import { AdminComponent } from './admin/admin.component';
     DropdownModule,
     RecaptchaModule,
     RecaptchaFormsModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    MatDialogModule,
+    MatInputModule,
+    MatCheckboxModule
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
