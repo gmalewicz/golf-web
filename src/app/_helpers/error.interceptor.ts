@@ -17,12 +17,11 @@ export class ErrorInterceptor implements HttpInterceptor {
         err.error = { message: 'Server unavailable' };
       }
 
-      if (err.status === 0) {
+      if (err.status === 0 || err.status === 404) {
         this.alertService.error('Application not available. Try to refresh browser then log out and log in.', true);
         this.router.navigate(['']);
         return throwError(err);
       }
-
 
       if (err.status !== 401) {
         this.alertService.error(err.error.message, true);

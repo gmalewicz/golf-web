@@ -1,6 +1,7 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
+<div *ngIf="!display || loading" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
+
 <br/>
 <div *ngIf="display">
   <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
@@ -11,21 +12,29 @@
         <th id="whs">WHS</th>
         <th id="role">Role</th>
         <th id="roundCnt">Rounds</th>
+        <th id="roundCnt">Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of playerRound">
-        <td>{{ row.nick }}</td>
-        <td>
+      <tr *ngFor="let row of playerRound, let idx = index">
+        <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
+        <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.sex">F</span>
           <span *ngIf="!row.sex">M</span>
         </td>
-        <td>{{ row.whs }}</td>
-        <td>
+        <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
+        <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.role === 0">ADMIN</span>
           <span *ngIf="row.role === 1">PLAYER</span>
         </td>
         <td>{{ row.roundCnt }}</td>
+        <td *ngIf="row.roundCnt === 0">
+          <a (click)="onClickDelete(row.id)">
+            <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td *ngIf="row.roundCnt > 0">
+        </td>
       </tr>
     </tbody>
   </table>

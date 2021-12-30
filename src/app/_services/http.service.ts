@@ -141,6 +141,14 @@ export class HttpService {
 
     return this.http.get<Array<PlayerRndCnt>>('rest/PlayerRoundCnt');
   }
+
+  deletePlayer(playerId: number): Observable<HttpResponse<null>> {
+    return this.http.post<HttpResponse<null>>('rest/DeletePlayer', {id: playerId});
+  }
+
+  updatePlayerOnBehalf(player: Player): Observable<HttpResponse<null>> {
+    return this.http.patch<HttpResponse<null>>('rest/UpdatePlayerOnBehalf', player);
+  }
 }
 
 

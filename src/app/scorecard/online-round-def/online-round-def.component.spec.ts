@@ -55,7 +55,7 @@ describe('OnlineRoundDefComponent', () => {
         DropdownModule,
         ReactiveFormsModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
       ]
       ,
       providers: [HttpService,
