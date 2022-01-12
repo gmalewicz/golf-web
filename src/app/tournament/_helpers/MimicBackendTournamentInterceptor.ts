@@ -28,7 +28,9 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/TournamentResult/1')) {
+    } else if (req.url.endsWith('rest/TournamentResult/1') ||
+               req.url.startsWith('rest/TournamentResultRound') ||
+               req.url.startsWith('rest/TournamentRound')) {
         return new Observable<any> (observer => {
           observer.next(new HttpResponse<Array<any>>({body:
             []

@@ -1,3 +1,4 @@
+import { TournamentRound } from './tournamentRound';
 import { Player } from '@/_models';
 import { Tournament } from '.';
 
@@ -11,5 +12,6 @@ export interface TournamentResult {
   tournament?: Tournament;
   stbNet: number;
   stbGross: number;
+  tournamentRounds?: TournamentRound[]
 }
 

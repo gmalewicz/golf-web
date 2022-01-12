@@ -4,68 +4,91 @@
 <div *ngIf="display">
   <h2>{{tournament.name}} Tournament Results:</h2>
   <br/>
-  <table class="table table-striped" aria-describedby="tournament result">
-    <thead>
-      <tr>
-        <th id="place">Place</th>
-        <th id="player">Player</th>
-        <th id="nstb">Net STB</th>
-        <th id="gstb">Gross STB</th>
-        <th id="gstr">Gross Strokes</th>
-        <th id="nstr">Net Strokes</th>
-        <th id="prnd">Played Rounds</th>
-      </tr>
-    </thead>
-    <tbody *ngFor="let tournamentResult of tournamentResults, let i = index">
-        <tr>
-          <td *ngIf="displayRound[i] == false">
-            <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-            <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
-            &nbsp;
-            {{i + 1}}
-          </td>
-          <td *ngIf="displayRound[i] == true">
-            <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
-            &nbsp;
-            {{i + 1}}
-          </td>
-          <td>{{ tournamentResult.player.nick }}</td>
-          <td>{{ tournamentResult.stbNet}}</td>
-          <td>{{ tournamentResult.stbGross}}</td>
-          <td>{{ tournamentResult.strokesBrutto}}</td>
-          <td>{{ tournamentResult.strokesNetto}}</td>
-          <td>{{ tournamentResult.playedRounds}}</td>
-        </tr>
-        <tr *ngIf="tournamentRounds[i] != null && displayRound[i] == true then showDetails"></tr>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="stbNet-tab" data-toggle="tab" href="#all" role="tab"
+        aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)">STB Net</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="stb-tab" data-toggle="tab" href="#all" role="tab"
+        aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="strokes-tab" data-toggle="tab" href="#all" role="tab"
+        aria-controls="strokes" aria-selected="false" (click)="updateSort(2)">Strokes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="netStroke-tab" data-toggle="tab" href="#all" role="tab"
+        aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)">Strokes Net</a>
+    </li>
+  </ul>
+  <br/>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="overview-tab">
+      <table class="table table-striped" aria-describedby="tournament result">
+        <thead>
+          <tr>
+            <th id="place">Place</th>
+            <th id="player">Player</th>
+            <th id="nstb">Net STB</th>
+            <th id="gstb">Gross STB</th>
+            <th id="gstr">Gross Strokes</th>
+            <th id="nstr">Net Strokes</th>
+            <th id="prnd">Played Rounds</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let tournamentResult of tournamentResults, let i = index">
+            <tr>
+              <td *ngIf="displayRound[i] == false">
+                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td *ngIf="displayRound[i] == true">
+                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td>{{ tournamentResult.player.nick }}</td>
+              <td>{{ tournamentResult.stbNet}}</td>
+              <td>{{ tournamentResult.stbGross}}</td>
+              <td>{{ tournamentResult.strokesBrutto}}</td>
+              <td>{{ tournamentResult.strokesNetto}}</td>
+              <td>{{ tournamentResult.playedRounds}}</td>
+            </tr>
+            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails"></tr>
 
-        <ng-template #showDetails>
-          <td colspan="7">
-            <table class="table table-striped" aria-describedby="tournament details">
-              <thead>
-                <tr>
-                  <th id="no">No</th>
-                  <th id="cour">Course</th>
-                  <th id="nstb">Net STB</th>
-                  <th id="gstb">Gross STB</th>
-                  <th id="gstr">Gross Strokes</th>
-                  <th id="nstr">Net Strokes</th>
-                  <th id="sDiff">Score Differential</th>
-                </tr>
-              </thead>
-              <tbody *ngFor="let tournamentRound of tournamentRounds[i],  let j = index">
-                <td>{{j + 1}}</td>
-                <td>{{tournamentRound.courseName}}</td>
-                <td>{{tournamentRound.stbNet}}</td>
-                <td>{{tournamentRound.stbGross}}</td>
-                <td>{{tournamentRound.strokesBrutto}}</td>
-                <td>{{tournamentRound.strokesNetto}}</td>
-                <td>{{tournamentRound.scrDiff}}</td>
-              </tbody>
-            </table>
-          </td>
-        </ng-template>
-    </tbody>
-  </table>
+            <ng-template #showDetails>
+              <td colspan="7">
+                <table class="table table-striped" aria-describedby="tournament details">
+                  <thead>
+                    <tr>
+                      <th id="no">No</th>
+                      <th id="cour">Course</th>
+                      <th id="nstb">Net STB</th>
+                      <th id="gstb">Gross STB</th>
+                      <th id="gstr">Gross Strokes</th>
+                      <th id="nstr">Net Strokes</th>
+                      <th id="sDiff">Score Differential</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let tournamentRound of tournamentResult.tournamentRounds,  let j = index">
+                    <td>{{j + 1}}</td>
+                    <td>{{tournamentRound.courseName}}</td>
+                    <td>{{tournamentRound.stbNet}}</td>
+                    <td>{{tournamentRound.stbGross}}</td>
+                    <td>{{tournamentRound.strokesBrutto}}</td>
+                    <td>{{tournamentRound.strokesNetto}}</td>
+                    <td>{{tournamentRound.scrDiff}}</td>
+                  </tbody>
+                </table>
+              </td>
+            </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div>
     <br />
     <button type="button" class="btn btn-success" routerLink="/home">
@@ -79,6 +102,5 @@
     </span>
   </div>
 </div>
-
 
 

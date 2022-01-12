@@ -1,8 +1,9 @@
+import { TournamentResult } from './../_models/tournamentResult';
 import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
@@ -13,6 +14,26 @@ describe('TournamentResultsComponent', () => {
 
   let component: TournamentResultsComponent;
   let fixture: ComponentFixture<TournamentResultsComponent>;
+
+  const tournamentResult1: TournamentResult = {
+    id: 1,
+    playedRounds: 1,
+    player: {id: 1},
+    strokesBrutto: 1,
+    strokesNetto: 1,
+    stbNet: 1,
+    stbGross: 1
+  }
+
+  const tournamentResult2: TournamentResult = {
+    id: 2,
+    playedRounds: 1,
+    player: {id: 1},
+    strokesBrutto: 2,
+    strokesNetto: 2,
+    stbNet: 2,
+    stbGross: 2
+  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -38,9 +59,71 @@ describe('TournamentResultsComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create without player ', () => {
+
+    fixture = TestBed.createComponent(TournamentResultsComponent);
+    history.pushState({data: undefined}, '');
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should test show Player details with undefined rounds', fakeAsync(() => {
+
+    component.showPlayerDetails(tournamentResult1, 0);
+    expect(component.displayRound[0]).toBeTruthy();
+
+  }));
+
+  it('should test hied player details', fakeAsync(() => {
+
+    component.displayRound[0] = true;
+    component.hidePlayerDetails(0);
+    expect(component.displayRound[0]).toBeFalsy();
+
+  }));
+
+  it('should test updateSort with stb net', fakeAsync(() => {
+
+    component.tournamentResults.push(tournamentResult1);
+    component.tournamentResults.push(tournamentResult2);
+    component.updateSort(0);
+    expect(component.tournamentResults[0].id).toEqual(2);
+
+  }));
+
+
+  it('should test updateSort with stb gross', fakeAsync(() => {
+
+    component.tournamentResults.push(tournamentResult1);
+    component.tournamentResults.push(tournamentResult2);
+    component.updateSort(1);
+    expect(component.tournamentResults[0].id).toEqual(2);
+
+  }));
+
+  it('should test updateSort with strokes', fakeAsync(() => {
+
+    component.tournamentResults.push(tournamentResult1);
+    component.tournamentResults.push(tournamentResult2);
+    fixture.detectChanges();
+    component.updateSort(2);
+    expect(component.tournamentResults[0].id).toEqual(1);
+
+  }));
+
+  it('should test updateSort with strokes net', fakeAsync(() => {
+
+    component.tournamentResults.push(tournamentResult1);
+    component.tournamentResults.push(tournamentResult2);
+    fixture.detectChanges();
+    component.updateSort(3);
+    expect(component.tournamentResults[0].id).toEqual(1);
+
+  }));
 
   afterAll(() => {
     TestBed.resetTestingModule();
