@@ -25,8 +25,6 @@ export class TournamentResultsComponent implements OnInit {
 
   tournamentResults: Array<TournamentResult>;
 
-  tournamentRounds: Array<Array<TournamentRound>>;
-
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
               private router: Router) {}
@@ -49,7 +47,6 @@ export class TournamentResultsComponent implements OnInit {
         tap(
           (retTournamentResults: TournamentResult[]) => {
             this.tournamentResults = retTournamentResults;
-            this.tournamentRounds = Array(this.tournamentResults.length);
             this.displayRound = Array(this.tournamentResults.length).fill(false);
             this.rndSpinner = Array(this.tournamentResults.length).fill(false);
             this.display = true;
@@ -60,12 +57,12 @@ export class TournamentResultsComponent implements OnInit {
 
   showPlayerDetails(tournamentResult: TournamentResult, index: number) {
 
-    if (this.tournamentRounds[index] === undefined) {
+    if (tournamentResult.tournamentRounds === undefined) {
       this.rndSpinner[index] = true;
       this.tournamentHttpService.getTournamentResultRounds(tournamentResult.id).pipe(
         tap(
           (retTournamentResultRounds: TournamentRound[]) => {
-            this.tournamentRounds[index] = retTournamentResultRounds;
+            tournamentResult.tournamentRounds = retTournamentResultRounds;
             this.rndSpinner[index] = false;
           })
       ).subscribe();
@@ -76,5 +73,27 @@ export class TournamentResultsComponent implements OnInit {
   hidePlayerDetails(index: number) {
 
     this.displayRound[index] = false;
+  }
+
+  updateSort(action: number) {
+
+    this.displayRound.fill(false);
+
+    switch (action) {
+      case 0: // stb net
+        this.tournamentResults.sort((a, b) => b.stbNet - a.stbNet);
+        break;
+      case 1: // stb
+        this.tournamentResults.sort((a, b) => b.stbGross - a.stbGross);
+        break;
+      case 2: //strokes
+        this.tournamentResults.sort((a, b) => a.strokesBrutto - b.strokesBrutto);
+        break;
+      case 3: // net strokes
+        this.tournamentResults.sort((a, b) => a.strokesNetto - b.strokesNetto);
+        break;
+    }
+    this.tournamentResults.sort((a, b) => b.playedRounds - a.playedRounds);
+
   }
 }
