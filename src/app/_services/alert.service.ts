@@ -38,6 +38,6 @@ export class AlertService {
 
     clear() {
         // clear by calling subject.next() without parameters
-        this.subject.next();
+        this.subject.next(null);
     }
 }
