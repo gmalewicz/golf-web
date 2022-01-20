@@ -1,7 +1,7 @@
 import { HttpService } from '../_services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Hole, Tee, Course } from '@/_models';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
 import { AlertService, AuthenticationService } from '@/_services';
 import { tap } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class CourseComponent implements OnInit {
   barChartType: ChartType;
   barChartLegend: boolean;
   barChartLabels: string[];
-  barChartData: ChartDataSets[];
+  barChartData: ChartDataset[];
   barChartOptions: ChartOptions;
   barData: number[];
 
@@ -78,25 +78,28 @@ export class CourseComponent implements OnInit {
 
     this.barChartOptions = {
       responsive: true,
+
       scales: {
-        yAxes: [{
-          ticks: {
+        y: {
             min: 2,
             max: 6,
-            stepSize: 1
-          }
-        }]
-      },
-      title: {
-        display: true,
-        text: this.course.name + '  - Par: ' + this.course.par,
-        position: 'bottom'
-      },
-      tooltips: {
-        callbacks: {
-          title: (tooltipItem: { xLabel: string; }[]) => 'Hole: ' + tooltipItem[0].xLabel
+            ticks: {
+              stepSize: 1
+            }
         }
-      }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: this.course.name + '  - Par: ' + this.course.par,
+        position: 'bottom'
+        },
+        tooltip: {
+          callbacks: {
+            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+          }
+        }
+      },
     };
 
   }

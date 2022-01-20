@@ -1,6 +1,6 @@
 {
   "name": "golf-web",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -26,12 +26,12 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fullcalendar/core": "^5.9.0",
     "bootstrap": "^4.5.3",
-    "chart.js": "^2.9.4",
+    "chart.js": "^3.7.0",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
     "net": "^1.0.2",
     "ng-recaptcha": "^9.0.0",
-    "ng2-charts": "^2.4.3",
+    "ng2-charts": "^3.0.8",
     "popper.js": "^1.16.1",
     "primeicons": "^5.0.0",
     "primeng": "^13.0.1",

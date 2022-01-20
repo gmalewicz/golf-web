@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Hole, Course, Tee } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-add-course',
@@ -12,6 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./add-course.component.css']
 })
 export class AddCourseComponent implements OnInit {
+
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   loading: boolean;
   public newCourseForm: FormGroup;
@@ -21,7 +24,7 @@ export class AddCourseComponent implements OnInit {
   public barChartType: ChartType;
   public barChartLegend;
   public barChartLabels: string[];
-  public barChartData: ChartDataSets[];
+  public barChartData: ChartDataset[];
   public barChartOptions: ChartOptions;
 
   public parButtons: number[];
@@ -108,29 +111,30 @@ export class AddCourseComponent implements OnInit {
   generateLabelsAndData() {
 
     // initialize data
-    const chartPars = Array(18).fill(0);
     this.pars = Array(18).fill(0);
     this.si = Array(18).fill(0);
     this.barChartLabels = Array(18).fill(0).map((x, i) => '' + (i + 1));
 
     // set bar chart data
-    this.barChartData = [{ data: chartPars, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
+    this.barChartData = [{ data: this.pars, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
 
     // set bar chart options
     this.barChartOptions = {
       responsive: true,
       scales: {
-        yAxes: [{
+        y: {
+          min: 2,
+          max: 6,
           ticks: {
-            min: 2,
-            max: 6,
             stepSize: 1
           }
-        }]
+        }
       },
-      tooltips: {
-        callbacks: {
-          title: (tooltipItem: { xLabel: string; }[]) => 'Hole: ' + tooltipItem[0].xLabel
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+          }
         }
       }
     };
@@ -172,10 +176,7 @@ export class AddCourseComponent implements OnInit {
     // save selected par
     this.pars[this.updatingHole] = par;
 
-    // recreate bar data for refresh purposes
-    // note that data canot be updated, it needs to be recreated
-    this.barChartData[0].data = null;
-    this.barChartData[0].data = Array(18).fill(0).map((x, i) => this.pars[i]);
+    this.chart.chart.update();
   }
 
   selectSi(si: number) {
@@ -200,6 +201,8 @@ export class AddCourseComponent implements OnInit {
 
     // updated label: in case of label recreation is not needed - lable can be just updated
     this.barChartLabels[this.updatingHole] = '' + (this.updatingHole + 1) + '(' + (si + 1) + ')';
+
+    this.chart.chart.update();
 
   }
 
