@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { DropdownModule } from 'primeng/dropdown';
 import { AddScorecardComponent } from './add-scorecard.component';
 
@@ -34,7 +34,7 @@ describe('AddScorecardComponent', () => {
         routing,
         MatDialogModule,
         DropdownModule,
-        ChartsModule,
+        NgChartsModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([])
       ],

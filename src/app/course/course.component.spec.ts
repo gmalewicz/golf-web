@@ -5,7 +5,7 @@ import { HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 
 import { CourseComponent } from './course.component';
 
@@ -19,7 +19,7 @@ describe('CourseComponent', () => {
       imports: [
         HttpClientModule,
         routing,
-        ChartsModule,
+        NgChartsModule,
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },

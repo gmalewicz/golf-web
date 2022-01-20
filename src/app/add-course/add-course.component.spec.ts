@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { DropdownModule } from 'primeng/dropdown';
 
 
@@ -21,7 +21,7 @@ describe('AddCourseComponent', () => {
       imports: [
         HttpClientModule,
         ReactiveFormsModule,
-        ChartsModule,
+        NgChartsModule,
         DropdownModule,
         routing,
       ],
