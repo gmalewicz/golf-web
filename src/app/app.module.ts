@@ -6,7 +6,7 @@ import { CoursesComponent } from './courses/courses/courses.component';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
@@ -69,7 +69,7 @@ import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.compon
     BrowserModule,
     routing,
     HttpClientModule,
-    ChartsModule,
+    NgChartsModule,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,

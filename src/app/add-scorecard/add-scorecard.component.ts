@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { HttpService } from '../_services/http.service';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Course, ScoreCard, Round, Tee } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
@@ -11,6 +11,7 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { getDateAndTime } from '@/_helpers/common';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-add-scorecard',
@@ -18,6 +19,8 @@ import { getDateAndTime } from '@/_helpers/common';
   styleUrls: ['./add-scorecard.component.css']
 })
 export class AddScorecardComponent implements OnInit {
+
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
   round: Round;
@@ -34,7 +37,7 @@ export class AddScorecardComponent implements OnInit {
   public barChartType: ChartType;
   public barChartLegend: boolean;
   public barChartLabels: number[] ;
-  public barChartData: ChartDataSets[];
+  public barChartData: ChartDataset[];
   public barChartOptions: ChartOptions;
 
   updatingHole: number;
@@ -162,21 +165,22 @@ export class AddScorecardComponent implements OnInit {
     this.barChartOptions = {
       responsive: true,
       scales: {
-        yAxes: [{
+        y: {
+          min: 0,
+          max: 10,
           ticks: {
-            min: 0,
-            max: 10,
             stepSize: 1
           }
-        }]
+        }
       },
-      tooltips: {
-        callbacks: {
-          title: (tooltipItem: { xLabel: string; }[]) => 'Hole: ' + tooltipItem[0].xLabel
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+          }
         }
       }
     };
-
   }
 
   getRoundData() {
@@ -371,6 +375,8 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[1].data = updatedStrokes;
 
     this.calculateResult();
+
+    this.chart.chart.update();
   }
 
   private calculateResult() {
@@ -426,6 +432,8 @@ export class AddScorecardComponent implements OnInit {
 
     this.barChartData[1].data = updatedStrokes;
     this.barChartData[2].data = updatedPats;
+
+    this.chart.chart.update();
 
   }
 

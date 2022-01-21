@@ -4,7 +4,7 @@ import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ChartType, ChartDataSets, ChartOptions } from 'chart.js';
+import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -24,7 +24,7 @@ export class RoundViewComponent implements OnInit {
   public barChartType: ChartType;
   public barChartLegend: boolean;
   public barChartLabels: number[];
-  public barChartData: ChartDataSets[];
+  public barChartData: ChartDataset[];
   public barChartOptions: ChartOptions;
 
   strokes: Array<Array<number>>;
@@ -133,17 +133,19 @@ export class RoundViewComponent implements OnInit {
     this.barChartOptions = {
       responsive: true,
       scales: {
-        yAxes: [{
-          ticks: {
+        y: {
             min: 0,
             max: 10,
-            stepSize: 1
-          }
-        }]
+            ticks: {
+              stepSize: 1
+            }
+        }
       },
-      tooltips: {
-        callbacks: {
-          title: (tooltipItem: { xLabel: string; }[]) => 'Hole: ' + tooltipItem[0].xLabel
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+          }
         }
       }
     };

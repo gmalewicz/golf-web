@@ -3,8 +3,7 @@
 </div>
 <div *ngIf="display">
   <div>
-    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true"
-      [chartType]="barChartType">
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
     </canvas>
   </div>
   <div *ngIf="displayTees">
