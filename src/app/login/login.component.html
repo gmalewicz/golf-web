@@ -23,4 +23,13 @@
         <a routerLink="/register" class="btn btn-link text-success">Register</a>
     </div>
 </form>
+<!-- <a href="/oauth2/authorization/facebook">Facebook</a>
+  <button type="button" class="btn btn-success" (click)="processSocialLogin('200')">Facebook</button> -->
+<form ngNoForm  [action]="url" method="POST">
+  <button type="submit">Submit</button>
+</form>
+
+
+
+<!-- <button class="btn btn-success" (click)="facebookLogin()">Login with Facebook</button>-->
 <img src="./assets/img/logo.png" alt="Royal Golf Club Wilanów" class="centerImg">

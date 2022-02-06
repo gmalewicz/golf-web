@@ -1,9 +1,10 @@
+import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AlertService, AuthenticationService } from '@/_services';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Player } from '@/_models';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,16 @@ export class LoginComponent implements OnInit {
   submitted: boolean;
   returnUrl: string;
 
+  //url = 'http://localhost:8080/signin/facebook';
+  url = 'http://localhost:8080/oauth2/authorization/facebook';
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private httpService: HttpService
   ) { }
 
   ngOnInit() {
@@ -29,6 +34,12 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue) {
       this.router.navigate(['/login']);
     }
+    // process social log in
+    if (this.route.snapshot.queryParams.token !== undefined) {
+
+      this.processSocialLogin(this.route.snapshot.queryParams.token);
+    }
+
     this.loading = false;
     this.submitted = false;
     this.alertService.clear();
@@ -56,20 +67,32 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
+    this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(
+      tap(
+        (data) => {
           this.alertService.success('Welcome ' + this.f.username.value + '. Your WHS is ' +
-            data.whs + '. Make sure it is up to date before adding the round.', true);
+          data.whs + '. Make sure it is up to date before adding the round.', true);
           this.loading = false;
           this.router.navigate([this.returnUrl]);
-        }
+        })
+    ).subscribe();
 
-        , (error: HttpErrorResponse) => {
+  }
+
+  processSocialLogin(token: string) {
+
+    this.httpService.getSocialPlayer(token).pipe(
+      map(
+        (response) => {
+          const player: Player = response.body;
+          player.refreshToken = response.headers.get('refresh');
+          player.token =  token;
+          this.authenticationService.loginSocial(player);
+          this.alertService.success('Welcome ' + player.nick + '. Your WHS is ' +
+          player.whs + '. Make sure it is up to date before adding the round.', true);
           this.loading = false;
-        }
-
-      );
+          this.router.navigate([this.returnUrl]);
+        })
+    ).subscribe();
   }
 }

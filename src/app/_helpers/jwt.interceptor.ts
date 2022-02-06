@@ -15,7 +15,9 @@ export class JwtInterceptor implements HttpInterceptor {
         const currentPlayer = this.authenticationService.currentPlayerValue;
 
         // skip urls tha does not need security
-        if (request.url === 'rest/Authenticate' || request.url === 'rest/AddPlayer') {
+        if (request.url === 'rest/Authenticate' || request.url === 'rest/AddPlayer' || request.url.startsWith('signin') ||
+            request.url.startsWith('rest/GetSocialPlayer'))
+        {
           return next.handle(request);
         }
 
