@@ -5,6 +5,7 @@ import { HttpService } from '@/_services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { LoginComponent } from './login.component';
 
@@ -20,6 +21,7 @@ describe('LoginComponent', () => {
         HttpClientModule,
         ReactiveFormsModule,
         routing,
+        MatDialogModule,
       ],
       providers: [HttpService,
                   { provide: AuthenticationService, useValue: authenticationServiceStub }]

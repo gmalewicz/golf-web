@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   WS_ENDPOINT: 'localhost:8080/websocket/onlinescorecard?token=',
-  reconnectInterval: 2000
+  reconnectInterval: 2000,
+  URL_STR: 'http://localhost:8080/'
 };
 
 /*

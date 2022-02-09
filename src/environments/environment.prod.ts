@@ -3,5 +3,6 @@ export const environment = {
   // URL_STR: 'http://dgng.pl/rest/',
 
   WS_ENDPOINT: 'www.dgng.pl/websocket/onlinescorecard?token=',
-  reconnectInterval: 2000
+  reconnectInterval: 2000,
+  URL_STR: 'https://www.dgng.pl/'
 };
