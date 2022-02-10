@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   socialLoading: boolean;
   submitted: boolean;
-  returnUrl: string;
 
   url = environment.URL_STR + 'oauth2/authorization/facebook';
 
@@ -38,10 +37,13 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue) {
       this.router.navigate(['/login']);
     }
-    // process social log in
+    // process social log in if authenticated correctly
     if (this.route.snapshot.queryParams.token !== undefined) {
-
       this.processSocialLogin(this.route.snapshot.queryParams.token);
+    }
+    // process social log in if authentication failed
+    if (this.route.snapshot.queryParams.error !== undefined) {
+      this.processSocialLoginError(this.route.snapshot.queryParams.error);
     }
 
     this.socialLoading = false;
@@ -52,8 +54,6 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   // convenience getter for easy access to form fields
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
           this.alertService.success('Welcome ' + this.f.username.value + '. Your WHS is ' +
           data.whs + '. Make sure it is up to date before adding the round.', true);
           this.loading = false;
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/home']);
         })
     ).subscribe();
 
@@ -96,8 +96,6 @@ export class LoginComponent implements OnInit {
           // process additional details for a new player
           if (this.route.snapshot.queryParams.new_player !== undefined &&
               this.route.snapshot.queryParams.new_player === 'true') {
-
-            console.log('Processing additional info for the new player');
 
             const dialogConfig = new MatDialogConfig();
 
@@ -142,10 +140,21 @@ export class LoginComponent implements OnInit {
   private finalizeSocialLogin(player: Player) {
     this.alertService.success('Welcome ' + player.nick + '. Your WHS is ' + player.whs + '. Make sure it is up to date before adding the round.', true);
     this.loading = false;
-    this.router.navigate([this.returnUrl]);
+    this.router.navigate(['/home']);
   }
 
   startSocialLoading() {
     this.socialLoading = true;
+  }
+
+  private processSocialLoginError(error: string) {
+
+    if (error === 'authFailed') {
+      this.alertService.error('Unable to authenticate player via social media', true);
+    } else if (error === 'playerType') {
+      this.alertService.error('Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.', true);
+    }
+    this.loading = false;
+    this.router.navigate(['/home']);
   }
 }

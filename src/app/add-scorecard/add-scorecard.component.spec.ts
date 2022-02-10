@@ -20,7 +20,7 @@ describe('AddScorecardComponent', () => {
   let fixture: ComponentFixture<AddScorecardComponent>;
   let route: ActivatedRoute;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async() => {
 
     TestBed.configureTestingModule({
       declarations: [ AddScorecardComponent ],
@@ -50,7 +50,7 @@ describe('AddScorecardComponent', () => {
     TestBed.inject(AuthenticationService);
     route.snapshot.params.courseId = 1;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
 
@@ -63,7 +63,7 @@ describe('AddScorecardComponent', () => {
 
     component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
@@ -73,32 +73,32 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.radio-hole'));
 
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.updatingHole).toBe(1);
 
   }));
 
-  it('should click put', fakeAsync(() => {
+  it('should click put', () => {
 
     const buttonElement = fixture.debugElement.query(By.css('.radio-put'));
 
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.putts[0]).toBe(0);
 
-  }));
+  });
 
-  it('should click stroke', fakeAsync(() => {
+  it('should click stroke', () => {
 
     component.updatingHole = 1;
     component.tee = {id: 4, teeType: 0};
     const buttonElement = fixture.debugElement.query(By.css('.radio-stroke'));
 
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.strokes[0]).toBe(1);
 
-  }));
+  });
 
   it('should tee change', fakeAsync(() => {
     component.tee = {id: 4, teeType: 0};
@@ -112,7 +112,7 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
 
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
@@ -125,7 +125,7 @@ describe('AddScorecardComponent', () => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.f.teeTime.value).toMatch('10:00');
 
   }));
@@ -140,7 +140,7 @@ describe('AddScorecardComponent', () => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.round).toBeDefined();
 
   }));
@@ -150,7 +150,7 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.btn-cancel'));
 
     buttonElement.triggerEventHandler('click', null);
-    tick();
+    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
