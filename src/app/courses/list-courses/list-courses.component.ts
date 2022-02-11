@@ -4,10 +4,8 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle';
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons/faMinusCircle';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons/index';
+import { faMinusCircle, faPlusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
 import { tap } from 'rxjs/operators';
 
 @Component({

@@ -1,8 +1,7 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons/faSearchPlus';
+import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
