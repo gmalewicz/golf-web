@@ -19,30 +19,27 @@
             <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
         </div>
     </div>
-    <table style="height: 80px;">
-      <tbody>
-        <tr>
-          <td class="align-middle">
+    <div class ="row px-3">
+      <div class="row float-left">
+        <div class="col">
             <button [disabled]="loading" class="btn btn-success">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
               Login
           </button>
-          </td>
-          <td class="align-middle">
-            <a routerLink="/register" class="btn btn-link text-success">Register</a>
-          </td>
-          <td class="align-middle">
+        </div>
+        <div class="col px-0">
+          <a routerLink="/register" class="btn btn-link text-success">Register</a>
+        </div>
+        <div class="col mt-2 px-0">
             or
-            &nbsp;
-          </td>
-          <td class="align-middle">
-            <a (click)="startSocialLoading()" [href]="url" type="image">
-              <img src="./assets/img/f_logo_RGB-Blue_58.png" alt="Facebook login" width="45" height="45"/>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        </div>
+        <div class="col">
+          <a (click)="startSocialLoading()" [href]="url" type="image">
+            <img src="./assets/img/f_logo_RGB-Blue_58.png" alt="Facebook login" width="38" height="38"/>
+          </a>
+        </div>
+      </div>
+    </div>
   </form>
   <img src="./assets/img/logo.png" alt="Royal Golf Club Wilanów" class="centerImg">
 </div>

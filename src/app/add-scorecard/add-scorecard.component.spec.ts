@@ -3,7 +3,7 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { authenticationServiceStub, MatDialogMock, getTestRound } from '@/_helpers/test.helper';
 import { HttpService, AuthenticationService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -63,7 +63,6 @@ describe('AddScorecardComponent', () => {
 
     component.f.teeTime.setValue('10:00');
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
@@ -73,7 +72,6 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.radio-hole'));
 
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.updatingHole).toBe(1);
 
   }));
@@ -83,7 +81,6 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.radio-put'));
 
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.putts[0]).toBe(0);
 
   });
@@ -95,7 +92,6 @@ describe('AddScorecardComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.radio-stroke'));
 
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.strokes[0]).toBe(1);
 
   });
@@ -110,9 +106,7 @@ describe('AddScorecardComponent', () => {
   it('should click save button with invalid form', fakeAsync(() => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
-
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
@@ -122,10 +116,8 @@ describe('AddScorecardComponent', () => {
     component.f.teeDropDown.setValue(4);
     component.f.date.setValue('2020/10/10');
     component.f.teeTime.setValue('10:00');
-
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.f.teeTime.value).toMatch('10:00');
 
   }));
@@ -137,10 +129,8 @@ describe('AddScorecardComponent', () => {
     component.f.teeDropDown.setValue(4);
     component.f.date.setValue('2020/10/10');
     component.f.teeTime.setValue('10:00');
-
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.round).toBeDefined();
 
   }));
@@ -148,9 +138,7 @@ describe('AddScorecardComponent', () => {
   it('should click cancel button with valid form', fakeAsync(() => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-cancel'));
-
     buttonElement.triggerEventHandler('click', null);
-    //tick();
     expect(component.f.teeTime.value).toMatch('');
 
   }));
