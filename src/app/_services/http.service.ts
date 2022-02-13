@@ -1,6 +1,6 @@
 import { PlayerRndCnt } from './../_models/playerRndCnt';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails} from '@/_models';
 
@@ -148,6 +148,13 @@ export class HttpService {
 
   updatePlayerOnBehalf(player: Player): Observable<HttpResponse<null>> {
     return this.http.patch<HttpResponse<null>>('rest/UpdatePlayerOnBehalf', player);
+  }
+
+  getSocialPlayer(token: string): Observable<HttpResponse<Player>> {
+
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
+
+    return this.http.get<any>('rest/GetSocialPlayer', {headers, observe: 'response'});
   }
 }
 

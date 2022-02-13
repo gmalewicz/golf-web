@@ -11,8 +11,9 @@
         <th id="sex">Sex</th>
         <th id="whs">WHS</th>
         <th id="role">Role</th>
+        <th id="type">Type</th>
         <th id="roundCnt">Rounds</th>
-        <th id="roundCnt">Delete</th>
+        <th id="delete">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,10 @@
         <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.role === 0">ADMIN</span>
           <span *ngIf="row.role === 1">PLAYER</span>
+        </td>
+        <td>
+          <span *ngIf="row.type === 0">LOCAL</span>
+          <span *ngIf="row.type === 1">FACEBOOK</span>
         </td>
         <td>{{ row.roundCnt }}</td>
         <td *ngIf="row.roundCnt === 0">

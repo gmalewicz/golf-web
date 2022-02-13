@@ -37,6 +37,7 @@ import { AdminComponent } from './admin/admin.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.component';
+import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish-social-dialog.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.compon
     ListCoursesComponent,
     ListRoundsComponent,
     AdminComponent,
-    UpdDialogComponent
+    UpdDialogComponent,
+    FinishSocialDialogComponent
   ],
   imports: [
     BrowserModule,

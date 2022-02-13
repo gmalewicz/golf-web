@@ -3,20 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-upd-dialog',
-  templateUrl: './upd-dialog.component.html'
+  selector: 'app-finish-social-dialog',
+  templateUrl: './finish-social-dialog.component.html'
 })
-export class UpdDialogComponent implements OnInit {
+export class FinishSocialDialogComponent implements OnInit {
   form: FormGroup;
   nick: string;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<UpdDialogComponent>,
+    private dialogRef: MatDialogRef<FinishSocialDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.form = this.fb.group({
-      nick: [data.nick, [Validators.required, Validators.maxLength(20)]],
       whs: [
         data.whs,
         [
@@ -47,10 +46,6 @@ export class UpdDialogComponent implements OnInit {
     }
 
     this.dialogRef.close(this.form.value);
-  }
-
-  close() {
-    this.dialogRef.close();
   }
 
   sexClick(sex: boolean) {

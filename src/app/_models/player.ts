@@ -9,4 +9,5 @@ export interface Player {
   roundDetails?: PlayerRoundDetails;
   sex?: boolean;
   refreshToken?: string;
+  updateSocial?: boolean;
 }

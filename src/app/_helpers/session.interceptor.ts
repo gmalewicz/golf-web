@@ -60,7 +60,8 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url === 'rest/Authenticate' || req.url === 'rest/AddPlayer' || req.url.startsWith('rest/Refresh')) {
+    if (req.url === 'rest/Authenticate' || req.url === 'rest/AddPlayer' || req.url.startsWith('rest/Refresh')
+                                        || req.url.startsWith('signin') || req.url.startsWith('rest/GetSocialPlayer')) {
       return next.handle(req);
     } else {
       return next.handle(req).pipe(
@@ -82,7 +83,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
     }
   }
 
-  updateHeader(request: HttpRequest<any>): HttpRequest<any> {
+  private updateHeader(request: HttpRequest<any>): HttpRequest<any> {
 
     const currentPlayer: Player = this.authenticationService.currentPlayerValue;
 

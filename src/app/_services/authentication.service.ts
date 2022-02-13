@@ -47,6 +47,13 @@ export class AuthenticationService {
       }));
   }
 
+  loginSocial(player: Player) {
+
+    localStorage.setItem('currentPlayer', JSON.stringify(player));
+    this.currentPlayerSubject.next(player);
+
+  }
+
   logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem('currentPlayer');

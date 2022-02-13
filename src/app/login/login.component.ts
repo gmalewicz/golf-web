@@ -1,9 +1,13 @@
+import { environment } from 'environments/environment';
+import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AlertService, AuthenticationService } from '@/_services';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Player } from '@/_models';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { FinishSocialDialogComponent } from './finish-social-dialog/finish-social-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -12,15 +16,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   loading: boolean;
+  socialLoading: boolean;
   submitted: boolean;
-  returnUrl: string;
+
+  url = environment.URL_STR + 'oauth2/authorization/facebook';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private httpService: HttpService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -29,6 +37,16 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue) {
       this.router.navigate(['/login']);
     }
+    // process social log in if authenticated correctly
+    if (this.route.snapshot.queryParams.token !== undefined) {
+      this.processSocialLogin(this.route.snapshot.queryParams.token);
+    }
+    // process social log in if authentication failed
+    if (this.route.snapshot.queryParams.error !== undefined) {
+      this.processSocialLoginError(this.route.snapshot.queryParams.error);
+    }
+
+    this.socialLoading = false;
     this.loading = false;
     this.submitted = false;
     this.alertService.clear();
@@ -36,8 +54,6 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
   }
 
   // convenience getter for easy access to form fields
@@ -56,20 +72,87 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
+    this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(
+      tap(
+        (data) => {
           this.alertService.success('Welcome ' + this.f.username.value + '. Your WHS is ' +
-            data.whs + '. Make sure it is up to date before adding the round.', true);
+          data.whs + '. Make sure it is up to date before adding the round.', true);
           this.loading = false;
-          this.router.navigate([this.returnUrl]);
-        }
+          this.router.navigate(['/home']);
+        })
+    ).subscribe();
 
-        , (error: HttpErrorResponse) => {
-          this.loading = false;
-        }
+  }
 
-      );
+  processSocialLogin(token: string) {
+
+    this.httpService.getSocialPlayer(token).pipe(
+      map(
+        (response) => {
+          const player: Player = response.body;
+          player.refreshToken = response.headers.get('refresh');
+          player.token =  token;
+
+          // process additional details for a new player
+          if (this.route.snapshot.queryParams.new_player !== undefined &&
+              this.route.snapshot.queryParams.new_player === 'true') {
+
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.data = {
+              nick: player.nick,
+              whs: player.whs,
+              sex: player.sex,
+            };
+
+            const dialogRef = this.dialog.open(
+              FinishSocialDialogComponent,
+              dialogConfig
+            );
+
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result !== undefined) {
+
+                const whs = result.whs.toString().replace(/,/gi, '.');
+                player.whs = +whs;
+                player.sex = result.female ? true : false;
+                player.updateSocial = true;
+                this.authenticationService.loginSocial(player);
+                this.httpService.updatePlayerOnBehalf(player).pipe(tap(
+                  () => {
+                    this.finalizeSocialLogin(player);
+                  })
+                ).subscribe();
+              }
+            });
+          } else {
+            this.authenticationService.loginSocial(player);
+            this.finalizeSocialLogin(player);
+          }
+        })
+    ).subscribe();
+  }
+
+  private finalizeSocialLogin(player: Player) {
+    this.alertService.success('Welcome ' + player.nick + '. Your WHS is ' + player.whs + '. Make sure it is up to date before adding the round.', true);
+    this.loading = false;
+    this.router.navigate(['/home']);
+  }
+
+  startSocialLoading() {
+    this.socialLoading = true;
+  }
+
+  private processSocialLoginError(error: string) {
+
+    if (error === 'authFailed') {
+      this.alertService.error('Unable to authenticate player via social media', true);
+    } else if (error === 'playerType') {
+      this.alertService.error('Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.', true);
+    }
+    this.loading = false;
+    this.router.navigate(['/home']);
   }
 }

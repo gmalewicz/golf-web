@@ -5,4 +5,5 @@ export interface PlayerRndCnt {
   whs: number;
   role: number;
   roundCnt: number;
+  type: number;
 }

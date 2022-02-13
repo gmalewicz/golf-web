@@ -1,9 +1,10 @@
 import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
+import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export function getTestRound(): Round {
 
@@ -87,6 +88,12 @@ authenticationServiceStub = {
   playerRole: 'PLAYER',
   logout(): void {
     // This is intentional
+  },
+  loginSocial(): void {
+    // This is intentional
+  },
+  login(username: string, password: string): Observable<Player> {
+    return of({whs: 11.1});
   }
 };
 
