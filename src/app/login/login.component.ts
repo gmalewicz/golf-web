@@ -131,8 +131,6 @@ export class LoginComponent implements OnInit {
             this.authenticationService.loginSocial(player);
             this.finalizeSocialLogin(player);
           }
-
-
         })
     ).subscribe();
   }
