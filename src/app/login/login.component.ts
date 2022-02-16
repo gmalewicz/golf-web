@@ -33,6 +33,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
+    this.socialLoading = false;
+    this.loading = false;
+    this.submitted = false;
+    this.alertService.clear();
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
     // redirect to home if already logged in
     if (this.authenticationService.currentPlayerValue) {
       this.router.navigate(['/login']);
@@ -44,16 +53,8 @@ export class LoginComponent implements OnInit {
     // process social log in if authentication failed
     if (this.route.snapshot.queryParams.error !== undefined) {
       this.processSocialLoginError(this.route.snapshot.queryParams.error);
+      return;
     }
-
-    this.socialLoading = false;
-    this.loading = false;
-    this.submitted = false;
-    this.alertService.clear();
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
   }
 
   // convenience getter for easy access to form fields
@@ -148,11 +149,10 @@ export class LoginComponent implements OnInit {
   private processSocialLoginError(error: string) {
 
     if (error === 'authFailed') {
-      this.alertService.error('Unable to authenticate player via social media', true);
+      this.alertService.error('Unable to authenticate player via social media', false);
     } else if (error === 'playerType') {
-      this.alertService.error('Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.', true);
+      this.alertService.error('Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.', false);
     }
     this.loading = false;
-    this.router.navigate(['/home']);
   }
 }
