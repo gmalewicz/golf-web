@@ -17,7 +17,7 @@ export class FinishSocialDialogComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       whs: [
-        data.whs,
+        54.0,
         [
           Validators.required,
           Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'),

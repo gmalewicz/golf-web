@@ -104,7 +104,6 @@ export class LoginComponent implements OnInit {
             dialogConfig.autoFocus = true;
             dialogConfig.data = {
               nick: player.nick,
-              whs: player.whs,
               sex: player.sex,
             };
 
@@ -156,3 +155,5 @@ export class LoginComponent implements OnInit {
     this.loading = false;
   }
 }
+
+

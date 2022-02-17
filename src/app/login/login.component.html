@@ -22,9 +22,9 @@
     <div class ="row px-3">
       <div class="row float-left">
         <div class="col">
-            <button [disabled]="loading" class="btn btn-success">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              Login
+          <button [disabled]="loading" class="btn btn-success">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!loading">Login</span>
           </button>
         </div>
         <div class="col px-0">
