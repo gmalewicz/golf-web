@@ -1,7 +1,7 @@
-<div *ngIf="socialLoading" class="d-flex justify-content-center">
+<div *ngIf="socialLoading || loading" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="!socialLoading">
+<div *ngIf="!socialLoading && !loading">
   <h2>Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -22,9 +22,8 @@
     <div class ="row px-3">
       <div class="row float-left">
         <div class="col">
-            <button [disabled]="loading" class="btn btn-success">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              Login
+          <button [disabled]="loading" class="btn btn-success">
+            Login
           </button>
         </div>
         <div class="col px-0">

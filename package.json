@@ -1,6 +1,6 @@
 {
   "name": "golf-web",
-  "version": "2.11.0",
+  "version": "2.11.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
