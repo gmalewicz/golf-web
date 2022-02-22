@@ -12,6 +12,7 @@ export interface TournamentResult {
   tournament?: Tournament;
   stbNet: number;
   stbGross: number;
-  tournamentRounds?: TournamentRound[]
+  tournamentRounds?: TournamentRound[];
+  strokeRounds: number;
 }
 

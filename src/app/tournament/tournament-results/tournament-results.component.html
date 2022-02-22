@@ -2,7 +2,10 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2>{{tournament.name}} Tournament Results:</h2>
+  <h2>{{tournament.name}} Tournament Results
+    <span *ngIf="tournament.bestRounds > 0"> - best {{tournament.bestRounds}} rounds</span>
+  </h2>
+
   <br/>
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -53,8 +56,10 @@
               <td>{{ tournamentResult.player.nick }}</td>
               <td>{{ tournamentResult.stbNet}}</td>
               <td>{{ tournamentResult.stbGross}}</td>
-              <td>{{ tournamentResult.strokesBrutto}}</td>
-              <td>{{ tournamentResult.strokesNetto}}</td>
+              <td *ngIf="tournamentResult.strokesBrutto === 0">x</td>
+              <td *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
+              <td *ngIf="tournamentResult.strokesNetto === 0">x</td>
+              <td *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
               <td>{{ tournamentResult.playedRounds}}</td>
             </tr>
             <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails"></tr>
@@ -78,8 +83,10 @@
                     <td>{{tournamentRound.courseName}}</td>
                     <td>{{tournamentRound.stbNet}}</td>
                     <td>{{tournamentRound.stbGross}}</td>
-                    <td>{{tournamentRound.strokesBrutto}}</td>
-                    <td>{{tournamentRound.strokesNetto}}</td>
+                    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>
+                    <td *ngIf="!tournamentRound.strokes">x</td>
+                    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesNetto}}</td>
+                    <td *ngIf="!tournamentRound.strokes">x</td>
                     <td>{{tournamentRound.scrDiff}}</td>
                   </tbody>
                 </table>

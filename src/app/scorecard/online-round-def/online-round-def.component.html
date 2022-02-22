@@ -104,6 +104,7 @@
             [ngClass]="{ 'is-invalid': submitted && f.nick2.errors }" />
           <div *ngIf="submitted && f.nick2.errors" class="invalid-feedback">
             <div *ngIf="f.nick2.errors.required">Player nick is required</div>
+            <div *ngIf="f.nick2.errors.maxlength">Nick cannot be longer than 20 characters</div>
           </div>
         </div>
         <span>
@@ -148,6 +149,7 @@
             [ngClass]="{ 'is-invalid': submitted && f.nick3.errors }" />
           <div *ngIf="submitted && f.nick3.errors" class="invalid-feedback">
             <div *ngIf="f.nick3.errors.required">Player nick is required</div>
+            <div *ngIf="f.nick3.errors.maxlength">Nick cannot be longer than 20 characters</div>
           </div>
         </div>
         <span>
@@ -191,6 +193,7 @@
             [ngClass]="{ 'is-invalid': submitted && f.nick4.errors }" />
           <div *ngIf="submitted && f.nick4.errors" class="invalid-feedback">
             <div *ngIf="f.nick4.errors.required">Player nick is required</div>
+            <div *ngIf="f.nick4.errors.maxlength">Nick cannot be longer than 20 characters</div>
           </div>
         </div>
         <span>

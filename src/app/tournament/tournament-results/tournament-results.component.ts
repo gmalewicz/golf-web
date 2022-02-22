@@ -86,14 +86,21 @@ export class TournamentResultsComponent implements OnInit {
       case 1: // stb
         this.tournamentResults.sort((a, b) => b.stbGross - a.stbGross);
         break;
-      case 2: //strokes
+      case 2: // strokes
         this.tournamentResults.sort((a, b) => a.strokesBrutto - b.strokesBrutto);
         break;
       case 3: // net strokes
         this.tournamentResults.sort((a, b) => a.strokesNetto - b.strokesNetto);
         break;
     }
-    this.tournamentResults.sort((a, b) => b.playedRounds - a.playedRounds);
 
+    if  (this.tournament.bestRounds === 0) {
+      this.tournamentResults.sort((a, b) => b.strokeRounds - a.strokeRounds);
+    } else if (action === 2 || action === 3) {
+      const tempLst = this.tournamentResults.filter(r => r.strokeRounds >= this.tournament.bestRounds);
+      this.tournamentResults =
+        tempLst.concat((this.tournamentResults
+          .filter(r => r.strokeRounds < this.tournament.bestRounds)).sort((a, b) => b.strokeRounds - a.strokeRounds));
+    }
   }
 }

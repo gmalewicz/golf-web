@@ -30,9 +30,10 @@ export class AddTournamentComponent implements OnInit {
     } else {
 
       this.addTournamentForm = this.formBuilder.group({
-        name: ['', Validators.minLength(3)],
+        name: ['', [Validators.required, Validators.minLength(3)]],
         startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-        endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]]
+        endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        bestRounds: ['1', [Validators.required,  Validators.min(0), Validators.max(10)]]
       });
 
       this.submitted = false;
@@ -59,7 +60,8 @@ export class AddTournamentComponent implements OnInit {
                whs: this.authenticationService.currentPlayerValue.whs},
       name: this.f.name.value,
       startDate: this.f.startDate.value,
-      endDate: this.f.endDate.value
+      endDate: this.f.endDate.value,
+      bestRounds: this.f.bestRounds.value
     };
 
     if (tournament.startDate > tournament.endDate) {

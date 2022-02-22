@@ -9,5 +9,6 @@ export interface Tournament {
   player?: Player;
   rounds?: Round[];
   tournamentResults?: TournamentResult[];
+  bestRounds?: number;
 }
 

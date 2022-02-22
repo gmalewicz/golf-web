@@ -5,6 +5,7 @@
     <input type="text" formControlName="name" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
     <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+      <div *ngIf="f.name.errors.required">Name is required</div>
       <div *ngIf="f.name.errors.minlength">Tournament name must be at least 3 characters</div>
     </div>
   </div>
@@ -24,6 +25,16 @@
     <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
       <div *ngIf="f.endDate.errors.required">Date is required</div>
       <div *ngIf="f.endDate.errors.pattern">Provide the date in the YYYY/MM/DD format</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name">No. of best rounds (or 0 if all rounds shall be included)</label>
+    <input type="text" maxlength="10" formControlName="bestRounds" class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }"/>
+    <div *ngIf="submitted && f.bestRounds.errors" class="invalid-feedback">
+      <div *ngIf="f.bestRounds.errors.required">No. of best rounds is required</div>
+      <div *ngIf="f.bestRounds.errors.min">No. of best rounds must be greater or equal 0</div>
+      <div *ngIf="f.bestRounds.errors.max">No. of best rounds must be lower or equal 10</div>
     </div>
   </div>
   <div class="form-group">
