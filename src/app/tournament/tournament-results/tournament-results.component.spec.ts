@@ -22,8 +22,9 @@ describe('TournamentResultsComponent', () => {
     strokesBrutto: 1,
     strokesNetto: 1,
     stbNet: 1,
-    stbGross: 1
-  }
+    stbGross: 1,
+    strokeRounds: 1,
+  };
 
   const tournamentResult2: TournamentResult = {
     id: 2,
@@ -32,8 +33,9 @@ describe('TournamentResultsComponent', () => {
     strokesBrutto: 2,
     strokesNetto: 2,
     stbNet: 2,
-    stbGross: 2
-  }
+    stbGross: 2,
+    strokeRounds: 1
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -53,7 +55,8 @@ describe('TournamentResultsComponent', () => {
   }));
 
   beforeEach(() => {
-    history.pushState({data: {tournament: {id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', player: {id: 1}}}}, '');
+    history.pushState({data:
+        {tournament: {id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, player: {id: 1}}}}, '');
     fixture = TestBed.createComponent(TournamentResultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -117,6 +120,17 @@ describe('TournamentResultsComponent', () => {
 
   it('should test updateSort with strokes net', fakeAsync(() => {
 
+    component.tournamentResults.push(tournamentResult1);
+    component.tournamentResults.push(tournamentResult2);
+    fixture.detectChanges();
+    component.updateSort(3);
+    expect(component.tournamentResults[0].id).toEqual(1);
+
+  }));
+
+  it('should test updateSort with strokes net and best round = 1', fakeAsync(() => {
+
+    component.tournament.bestRounds = 1;
     component.tournamentResults.push(tournamentResult1);
     component.tournamentResults.push(tournamentResult2);
     fixture.detectChanges();
