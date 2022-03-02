@@ -6,5 +6,6 @@ export interface TournamentRound {
   stbNet: number;
   strokesBrutto: number;
   strokesNetto: number;
+  strokes: boolean;
 }
 

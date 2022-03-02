@@ -11,6 +11,7 @@
         <th id="name">Name</th>
         <th id="sDate">Start Date</th>
         <th id="eDate">End Date</th>
+        <th id="bResults">Best rounds</th>
       </tr>
     </thead>
     <tbody>
@@ -23,6 +24,8 @@
         <td>{{ tournament.name }}</td>
         <td>{{ tournament.startDate | date: "mediumDate" }}</td>
         <td>{{ tournament.endDate | date: "mediumDate"}}</td>
+        <td *ngIf="tournament.bestRounds === 0">All</td>
+        <td *ngIf="tournament.bestRounds !== 0">{{tournament.bestRounds}}</td>
       </tr>
     </tbody>
   </table>
