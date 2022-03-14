@@ -9,31 +9,38 @@
       <th id="nav"></th>
       <th id="name">Name</th>
       <th id="par">Par</th>
-      <th id="parent" *ngIf="parent === 'courses'">Favourites</th>
+      <th id="parent" *ngIf="data.parent === 'courses'">Favourites</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of courseLst">
-      <td *ngIf="parent === 'courses'">
+      <td *ngIf="data.parent === 'courses'">
         <a [routerLink]="['/course']" [state]="{data: {course: row}}">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
-      <td *ngIf="parent === 'addRound'">
+      <td *ngIf="data.parent === 'addRound'">
         <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
-      <td *ngIf="parent === 'addOnlineRound'">
+      <td *ngIf="data.parent === 'addOnlineRound'">
         <a routerLink="/scorecard/onlineRoundDef"
           [state]="{ data: { course: row } }"
         >
           <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
         </a>
       </td>
+      <td *ngIf="data.parent === 'roundOnBehalf'">
+        <a routerLink="/tournaments/addRound"
+          [state]="{ data: { course: row, tournament: data.tournament } }"
+        >
+          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+        </a>
+      </td>
       <td>{{ row.name }}</td>
       <td>{{ row.par }}</td>
-      <td *ngIf="parent === 'courses'">
+      <td *ngIf="data.parent === 'courses'">
         <a (click)="onClickFavourite(row)">
           <span *ngIf="loadingFav" class="spinner-border spinner-border-sm mr-1"></span>
           <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
