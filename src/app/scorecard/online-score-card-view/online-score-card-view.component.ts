@@ -33,7 +33,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   mpResult: string[];
   mpResultHistory: string[][];
 
-  ballPickedUp: boolean[];
+  // ballPickedUp: boolean[];
+  first9ballPickedUp: boolean[];
+  last9ballPickedUp: boolean[];
 
   teeTime: string;
 
@@ -220,7 +222,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     combineLatest([this.scorecardHttpService.getOnlineScoreCard(
       this.onlineRounds[0].id), this.httpService.getHoles(this.onlineRounds[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
 
-        this.ballPickedUp = Array(this.onlineRounds.length).fill(false);
+        this.first9ballPickedUp = Array(this.onlineRounds.length).fill(false);
+        this.last9ballPickedUp = Array(this.onlineRounds.length).fill(false);
 
         const onlineScoreCards: OnlineScoreCard[] = Array(18);
 
@@ -233,9 +236,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
 
           // set ball picked up for a player
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes) {
-            this.ballPickedUp[idx] = true;
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= 9) {
+            this.first9ballPickedUp[0] = true;
           }
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > 9) {
+            this.last9ballPickedUp[0] = true;
+          }
+
           // initiate first and last 9 total strokes
           if (retScoreCards[idx - 1].hole < 10) {
             this.onlineRounds[0].first9score += retScoreCards[idx - 1].stroke;
@@ -268,7 +275,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
       this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
 
-        this.ballPickedUp = Array(retOnlineRounds.length).fill(false);
+        this.first9ballPickedUp = Array(retOnlineRounds.length).fill(false);
+        this.last9ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.course.holes = retHoles;
 
         // initialize colour display class for results
@@ -281,11 +289,15 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
-          retScoreCardAPI.forEach((scoreCardAPI, idx2) => {
+          retScoreCardAPI.forEach((scoreCardAPI) => {
             // set ball picked up for a player
-            if (scoreCardAPI.stroke === ballPickedUpStrokes) {
-              this.ballPickedUp[idx] = true;
+            if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= 9) {
+              this.first9ballPickedUp[idx] = true;
             }
+            if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > 9) {
+              this.last9ballPickedUp[idx] = true;
+            }
+
             retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
             if (scoreCardAPI.hole < 10) {
               retOnlineRound.first9score += scoreCardAPI.stroke;
@@ -408,6 +420,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             onlineRound.first9score -= onlineRound.scoreCardAPI[onlineScoreCard.hole - 1].stroke;
           }
           onlineRound.first9score += onlineScoreCard.stroke;
+
         } else {
           // for update
           if (onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] != null) {
@@ -421,8 +434,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.scoreBruttoClass[idx][onlineScoreCard.hole - 1] =
           this.prepareColoursForResults(onlineScoreCard.stroke, this.course.holes[onlineScoreCard.hole - 1].par);
 
-        // check if at least for one hole the ball was picked up
-        this.ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes));
+        // check if at least for one hole the ball was picked up for each 9
+        this.first9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= 9));
+        this.last9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > 9));
       }
     });
   }
