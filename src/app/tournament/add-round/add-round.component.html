@@ -5,18 +5,17 @@
 <div *ngIf="display">
   <h2>Add round for tournament: {{tournament.name}}</h2>
   <br/>
-  <label for="player2Lbl">Player nick:</label>
   <form [formGroup]="defRoundForm">
     <div class="form-row">
       <div class="form-group" style="margin-left: 6px;">
-        <input type="text" formControlName="nick" class="form-control"
+        <input type="text" formControlName="nick" class="form-control" placeholder="Player nick"
           [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
         <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
           <div *ngIf="f.nick.errors.required">Player nick is required</div>
           <div *ngIf="f.nick.errors.maxlength">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
-      <span>
+      <span class="search">
         &nbsp;
         <span *ngIf="player == null">
           <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
@@ -34,7 +33,7 @@
           <div *ngIf="f.teeDropDown.errors.required">Tee is required</div>
         </div>
       </div>
-      <span *ngIf="tee != null">
+      <span *ngIf="tee != null" class="search">
         &nbsp;
         <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
       </span>
@@ -120,13 +119,20 @@
   <div>
     <br />
     <div class="form-group">
-      <button type="button" class="btn btn-success btn-clear" (click)="clear()">
+      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()">
         Clear
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success btn-submit" (click)="addRound()">
-        Add
-      </button>
+      <span *ngIf="stoppedCounter" >
+        <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()">
+          Add
+        </button>
+      </span>
+      <span *ngIf="!stoppedCounter" >
+        <button type="button" class="btn btn-success btn-submit w-80" disabled>
+          00:{{60 - seconds | number:'2.0'}}
+        </button>
+      </span>
     </div>
   </div>
   <div *ngIf="tournamentRounds.length > 0">

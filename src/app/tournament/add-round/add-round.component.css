@@ -15,3 +15,12 @@
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
+
+.w-80 {
+
+  width: 80px;
+}
+
+.search {
+  margin-top: 5px;
+}

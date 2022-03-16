@@ -10,11 +10,12 @@ import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription, timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '../_models/tournament';
 import { getDateAndTime } from '@/_helpers/common';
 import { Hole } from '@/_models/hole';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-round',
@@ -55,53 +56,65 @@ export class AddRoundComponent implements OnInit {
   teeHour: number;
   teeMinute: number;
 
+  subscription: Subscription;
+  seconds: number;
+  stoppedCounter: boolean;
+
   constructor(private formBuilder: FormBuilder,
               private alertService: AlertService,
               private httpService: HttpService,
-              private tournamentHttpService: TournamentHttpService) { }
+              private tournamentHttpService: TournamentHttpService,
+              private router: Router) { }
 
   ngOnInit(): void {
 
-    this.display = false;
+    if (history.state.data === undefined || history.state.data.tournament === undefined || history.state.data.course === undefined) {
+      this.router.navigate(['/home']);
+    } else {
 
-    this.faSearchPlus = faSearchPlus;
-    this.faCheckCircle = faCheckCircle;
-    this.tournament = history.state.data.tournament;
-    this.course = history.state.data.course;
+      this.display = false;
 
-    this.defRoundForm = this.formBuilder.group({
-      teeDropDown: ['', [Validators.required]],
-      nick: ['', [Validators.required, Validators.maxLength(20)]]
-    });
+      this.faSearchPlus = faSearchPlus;
+      this.faCheckCircle = faCheckCircle;
+      this.tournament = history.state.data.tournament;
+      this.course = history.state.data.course;
+      this.stoppedCounter = true;
+      this.seconds = 0;
 
-    this.clear();
+      this.defRoundForm = this.formBuilder.group({
+        teeDropDown: ['', [Validators.required]],
+        nick: ['', [Validators.required, Validators.maxLength(20)]]
+      });
 
-    combineLatest([this.httpService.getHoles(this.course.id),
-                   this.httpService.getTees(this.course.id)]).pipe(tap(
-      ([retHoles, retTees]) => {
-        // update teee with missing infromation about holes and tees
-        this.holes = retHoles;
-        this.tees = retTees;
+      this.clear();
 
-        retTees
-          .filter((t) => t.sex && t.teeType === teeTypes.TEE_TYPE_18)
-          .forEach(t =>
-            this.teeOptionsFemale.push({
-              label: t.tee,
-              value: t.id,
-            })
-          );
-        retTees
-          .filter((t) => !t.sex && t.teeType === teeTypes.TEE_TYPE_18)
-          .forEach(t =>
-            this.teeOptionsMale.push({
-              label: t.tee,
-              value: t.id,
-            })
-          );
-        this.display = true;
-      })
-    ).subscribe();
+      combineLatest([this.httpService.getHoles(this.course.id),
+                    this.httpService.getTees(this.course.id)]).pipe(tap(
+        ([retHoles, retTees]) => {
+          // update teee with missing infromation about holes and tees
+          this.holes = retHoles;
+          this.tees = retTees;
+
+          retTees
+            .filter((t) => t.sex && t.teeType === teeTypes.TEE_TYPE_18)
+            .forEach(t =>
+              this.teeOptionsFemale.push({
+                label: t.tee,
+                value: t.id,
+              })
+            );
+          retTees
+            .filter((t) => !t.sex && t.teeType === teeTypes.TEE_TYPE_18)
+            .forEach(t =>
+              this.teeOptionsMale.push({
+                label: t.tee,
+                value: t.id,
+              })
+            );
+          this.display = true;
+        })
+      ).subscribe();
+    }
   }
 
    // convenience getter for easy access to form fields
@@ -251,9 +264,27 @@ export class AddRoundComponent implements OnInit {
 
         this.tournamentRounds.push(tournamentRound);
         this.clear();
+        this.resetCounter();
+        this.stoppedCounter = false;
       })
     ).subscribe();
   }
-}
 
+  private resetCounter() {
+
+    const startDate = new Date();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = timer(0, 1000)
+    .subscribe(() => {
+      this.seconds = Math.floor((new Date().getTime() - startDate.getTime()) / 1000);
+      if (this.seconds >= 60) {
+        this.stoppedCounter = true;
+      }
+    });
+  }
+}
 

@@ -521,8 +521,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 }
 
-
-
 interface TimeSpan {
   hours: number;
   minutes: number;
