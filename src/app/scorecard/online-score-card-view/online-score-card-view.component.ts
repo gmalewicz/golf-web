@@ -33,7 +33,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   mpResult: string[];
   mpResultHistory: string[][];
 
-  // ballPickedUp: boolean[];
   first9ballPickedUp: boolean[];
   last9ballPickedUp: boolean[];
 

@@ -36,7 +36,7 @@ describe('ListCoursesComponent', () => {
     fixture = TestBed.createComponent(ListCoursesComponent);
     component = fixture.componentInstance;
     component.courses = {favourites: [course]};
-    component.parent = 'courses';
+    component.data = {parent: 'courses'};
     component.selectedTab = 0;
 
     fixture.detectChanges();

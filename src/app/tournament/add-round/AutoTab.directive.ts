@@ -7,7 +7,9 @@ export class AutoTabDirective {
 
   @Input() appAutoTab: string;
 
-  constructor() {}
+  constructor() {
+    // This is intentional
+  }
 
   @HostListener('input', ['$event.target']) onInput(input: { value: string; }) {
 
