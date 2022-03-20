@@ -40,6 +40,12 @@ export class TournamentHttpService {
     return this.http.get<Array<TournamentRound>>('rest/TournamentResultRound/' + resultId);
   }
 
+  // add round on behalf
+  addRoundonBehalf(round: Round, tournamentId: number): Observable<TournamentRound> {
+
+    return this.http.post<TournamentRound>('rest/TournamentRoundOnBehalf/' + tournamentId, round);
+  }
+
 }
 
 

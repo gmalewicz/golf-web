@@ -106,8 +106,10 @@
       <button type="button" class="btn btn-success"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: tournament}}">
         Add Round
       </button>
+      &nbsp;
+      <button type="button" class="btn btn-success"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: tournament}}">
+        Add Rounds on Behalf
+      </button>
     </span>
   </div>
 </div>
-
-

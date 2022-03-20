@@ -66,7 +66,7 @@
                 </span>
               </td>
               <th id="f9s" class="center">
-                <span *ngIf="!ballPickedUp[idx]">
+                <span *ngIf="!first9ballPickedUp[idx]">
                   {{onlineRound.first9score}}
                 </span>
               </th>
@@ -81,12 +81,12 @@
                 </span>
               </td>
               <th id="l9s" class="center">
-                <span *ngIf="!ballPickedUp[idx]">
+                <span *ngIf="!last9ballPickedUp[idx]">
                   {{onlineRound.last9score}}
                 </span>
               </th>
               <th id="b9s" class="center">
-                <span *ngIf="!ballPickedUp[idx]">
+                <span *ngIf="!first9ballPickedUp[idx] && !last9ballPickedUp[idx]">
                   {{onlineRound.first9score + onlineRound.last9score}}
                 </span>
               </th>

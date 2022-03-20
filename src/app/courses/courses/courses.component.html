@@ -1,12 +1,12 @@
-<div *ngIf="parent === 'addRound'">
+<div *ngIf="data.parent === 'addRound'">
   <h2>Select course for round</h2>
 </div>
-<div *ngIf="parent === 'courses'">
+<div *ngIf="data.parent === 'courses'">
   <h2 *ngIf="selectedTab === 0">Favourite courses</h2>
   <h2 *ngIf="selectedTab === 1">Search for a course</h2>
   <h2 *ngIf="selectedTab === 2">List of all courses</h2>
 </div>
-<div *ngIf="parent === 'addOnlineRound'">
+<div *ngIf="data.parent === 'addOnlineRound'">
   <h2>Select course for online round</h2>
 </div>
 <br/>
@@ -26,7 +26,7 @@
 </ul>
 <div class="tab-content" id="coursesTabContent">
   <div class="tab-pane fade show active" id="favourites" role="tabpanel" aria-labelledby="favourites-tab">
-    <app-list-courses [courses]='courses' [parent]='parent' [selectedTab]='selectedTab' *ngIf="selectedTab == 0"></app-list-courses>
+    <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab' *ngIf="selectedTab == 0"></app-list-courses>
   </div>
   <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
     <br/>
@@ -40,10 +40,10 @@
     <div *ngIf="loading" class="d-flex justify-content-center">
       <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
     </div>
-    <app-list-courses *ngIf="!loading && selectedTab == 1" [courses]='courses' [parent]='parent' [selectedTab]='selectedTab'></app-list-courses>
+    <app-list-courses *ngIf="!loading && selectedTab == 1" [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
   </div>
   <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
-    <app-list-courses [courses]='courses' [parent]='parent' [selectedTab]='selectedTab' *ngIf="selectedTab == 2"></app-list-courses>
+    <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab' *ngIf="selectedTab == 2"></app-list-courses>
   </div>
 </div>
 <div>
@@ -51,7 +51,7 @@
   <button type="button" class="btn btn-success" routerLink="/home">
     Cancel
   </button>
-  <span *ngIf="parent === 'courses'">
+  <span *ngIf="data.parent === 'courses'">
     &nbsp;
     <button type="button" class="btn btn-success" routerLink="/addCourse">
       Add Course

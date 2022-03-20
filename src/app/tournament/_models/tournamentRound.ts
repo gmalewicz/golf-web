@@ -7,5 +7,6 @@ export interface TournamentRound {
   strokesBrutto: number;
   strokesNetto: number;
   strokes: boolean;
+  nick?: string;
 }
 

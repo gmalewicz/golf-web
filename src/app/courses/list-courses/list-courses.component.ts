@@ -15,7 +15,7 @@ import { tap } from 'rxjs/operators';
 })
 export class ListCoursesComponent implements OnInit {
 
-  @Input() parent: string;
+  @Input() data: any;
   @Input() courses: Courses;
   @Input() selectedTab: number;
 

@@ -1,0 +1,26 @@
+.input {
+  background-color: #28a745;
+  color: white;
+  max-width: 30px;
+  text-align: center;
+  border: solid transparent;
+}
+.w-5 {
+
+  text-align: center;
+}
+
+.table td, .table th {
+  padding: 0.3rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.w-80 {
+
+  width: 80px;
+}
+
+.search {
+  margin-top: 5px;
+}

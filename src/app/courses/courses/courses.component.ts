@@ -7,6 +7,7 @@ import { AlertService } from '@/_services/alert.service';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import { HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
+import { Tournament } from '@/tournament/_models/tournament';
 
 @Component({
   selector: 'app-courses',
@@ -17,8 +18,8 @@ export class CoursesComponent implements OnInit {
 
   favouriteCourses: Array<Course>;
 
-  // parent who call me
-  parent: string;
+  // parent data who call me
+  data: {parent: string, tournament?: Tournament};
   selectedTab: number;
 
   courses: Courses;
@@ -40,7 +41,7 @@ export class CoursesComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
-      this.parent = history.state.data.parent;
+      this.data = history.state.data;
       this.selectedTab = 0;
       this.courses = {};
       this.loading = false;
