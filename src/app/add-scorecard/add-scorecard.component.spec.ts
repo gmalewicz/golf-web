@@ -20,7 +20,7 @@ describe('AddScorecardComponent', () => {
   let fixture: ComponentFixture<AddScorecardComponent>;
   let route: ActivatedRoute;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
 
     TestBed.configureTestingModule({
       declarations: [ AddScorecardComponent ],

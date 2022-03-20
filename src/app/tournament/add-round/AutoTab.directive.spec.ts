@@ -7,4 +7,19 @@ describe('Directive: AutoTab', () => {
     const directive = new AutoTabDirective();
     expect(directive).toBeTruthy();
   });
+
+  it('should verify input with incorrect string', () => {
+    const directive = new AutoTabDirective();
+    directive.onInput( {value: 't'});
+
+    expect(directive).toBeTruthy();
+  });
+
+  it('should verify input with correct string', () => {
+    const directive = new AutoTabDirective();
+    directive.onInput( {value: 'x'});
+
+    expect(directive).toBeTruthy();
+  });
+
 });

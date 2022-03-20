@@ -71,7 +71,6 @@ export class AddRoundComponent implements OnInit {
     if (history.state.data === undefined || history.state.data.tournament === undefined || history.state.data.course === undefined) {
       this.router.navigate(['/home']);
     } else {
-
       this.display = false;
 
       this.faSearchPlus = faSearchPlus;
