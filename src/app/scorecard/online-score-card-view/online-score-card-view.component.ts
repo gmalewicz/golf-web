@@ -33,6 +33,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   mpResult: string[];
   mpResultHistory: string[][];
 
+  // ballPickedUp: boolean[];
   first9ballPickedUp: boolean[];
   last9ballPickedUp: boolean[];
 
@@ -482,8 +483,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     }
 
     const startDate = new Date();
-    startDate.setHours(+this.lstUpdTime.substr(0, 2));
-    startDate.setMinutes(+this.lstUpdTime.substr(3, 2));
+    startDate.setHours(+this.lstUpdTime.substring(0, 2));
+    startDate.setMinutes(+this.lstUpdTime.substring(3, 5));
 
     if (this.subscription) {
       this.subscription.unsubscribe();

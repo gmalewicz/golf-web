@@ -8,10 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropdownModule } from 'primeng/dropdown';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-
 import { AddRoundComponent } from './add-round.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
-import { timer } from 'rxjs';
 
 describe('AddRoundComponent', () => {
   let component: AddRoundComponent;
