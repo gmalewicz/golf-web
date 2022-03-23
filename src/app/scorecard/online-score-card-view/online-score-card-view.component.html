@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="display">
   <h2>{{ course.name }}
-    <span style="color: red;">
+    <span *ngIf="!finalized" style="color: red;">
       {{elapsed.hours | number:'2.0'}}:{{elapsed.minutes | number:'2.0'}}:{{elapsed.seconds | number:'2.0'}}
     </span>
   </h2>
@@ -119,8 +119,8 @@
       {{mpResult[1]}}
     </h3>
   </div>
-<br />
-<button type="button" class="btn btn-success" routerLink="/home">
-  Cancel
-</button>
+  <br />
+  <button type="button" class="btn btn-success" routerLink="/home">
+    Cancel
+  </button>
 </div>
