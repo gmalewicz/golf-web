@@ -44,6 +44,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   elapsed: TimeSpan;
   subscription: Subscription;
 
+  refreshSubscription: Subscription;
+  refreshPossible: boolean;
+
   lstUpdTime: string;
 
   constructor(private httpService: HttpService,
@@ -59,6 +62,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
 
@@ -68,6 +74,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
+      this.refreshPossible = false;
       this.elapsed = {hours: 0, minutes: 0, seconds: 0};
       // get round from state
       const onlineRound: OnlineRound = history.state.data.onlineRound;
@@ -82,6 +89,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds = new Array(1);
         this.onlineRounds[0] = onlineRound;
         this.course = onlineRound.course;
+        this.finalized = onlineRound.finalized;
         this.showRound();
       } else if (this.owner != null) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
@@ -105,7 +113,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         retOnlineRounds = retOnlineRounds.filter(or => or.matchPlay === true && or.teeTime === this.teeTime);
 
-        retOnlineRounds.forEach((or, index) => {
+        retOnlineRounds.forEach(or => {
 
             or.courseHCP = calculateCourseHCP(or.tee.teeType,
               or.player.whs,
@@ -190,6 +198,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         }
         this.lstUpdTime = this.compareTime(this.lstUpdTime, sc.time);
         this.resetCounter();
+        this.resetRefreshCounter();
       }
     });
   }
@@ -258,6 +267,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           idx--;
         }
         this.resetCounter();
+        this.resetRefreshCounter();
 
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
 
@@ -282,7 +292,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         // initialize colour display class for results
         this.scoreBruttoClass = new Array(retOnlineRounds.length).fill('').map(() => new Array(18).fill(''));
 
+        this.finalized = true;
+
         retOnlineRounds.forEach((retOnlineRound, idx) => {
+
+          if (!retOnlineRound.finalized) {
+            this.finalized = false;
+          }
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
           retOnlineRound.scoreCardAPI = Array(18).fill(null);
@@ -311,6 +327,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
             this.lstUpdTime = this.compareTime(this.lstUpdTime, scoreCardAPI.time);
             this.resetCounter();
+            this.resetRefreshCounter();
 
           });
 
@@ -476,6 +493,22 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     return retVal;
   }
 
+  private resetRefreshCounter() {
+
+    const startDate = new Date();
+
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
+
+    this.refreshSubscription = timer(0, 1000)
+    .subscribe((sec) => {
+      if (sec >= 60 * 5 && !this.finalized) {
+        this.onRefresh();
+      }
+    });
+  }
+
   private resetCounter() {
 
     if (typeof this.lstUpdTime === 'undefined') {
@@ -532,6 +565,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     const secondNum: number  = +second.replace(':', '');
 
     return firstNum > secondNum ? first : second;
+  }
+
+  onRefresh() {
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 }
 

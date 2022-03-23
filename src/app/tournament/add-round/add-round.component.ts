@@ -7,7 +7,7 @@ import { ScoreCard } from '@/_models/scoreCard';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, Subscription, timer } from 'rxjs';
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-round.component.html',
   styleUrls: ['./add-round.component.css']
 })
-export class AddRoundComponent implements OnInit {
+export class AddRoundComponent implements OnInit, OnDestroy  {
 
   // parent data who call me
   data: {course: Course, tournament: Tournament};
@@ -113,6 +113,12 @@ export class AddRoundComponent implements OnInit {
           this.display = true;
         })
       ).subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
