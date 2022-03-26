@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
     // process social log in if authentication failed
     if (this.route.snapshot.queryParams.error !== undefined) {
       this.processSocialLoginError(this.route.snapshot.queryParams.error);
-      return;
     }
   }
 

@@ -143,9 +143,9 @@ export class AddScorecardComponent implements OnInit {
     if (this.round != null) {
       this.barChartData[1].data = updatedStrokes;
       this.barChartData[2].data = updatedPats;
-      this.f.date.setValue(this.round.roundDate.substr(0, 10));
+      this.f.date.setValue(this.round.roundDate.substring(0, 10));
       this.f.date.disable();
-      this.f.teeTime.setValue(this.round.roundDate.substr(11, 5));
+      this.f.teeTime.setValue(this.round.roundDate.substring(11, 16));
       this.f.teeTime.disable();
 
       // get tee which was played
