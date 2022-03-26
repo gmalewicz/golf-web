@@ -307,12 +307,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
           retScoreCardAPI.forEach((scoreCardAPI) => {
             // set ball picked up for a player
-            if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= 9) {
-              this.first9ballPickedUp[idx] = true;
-            }
-            if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > 9) {
-              this.last9ballPickedUp[idx] = true;
-            }
+            this.setBallPickUp(scoreCardAPI, idx);
 
             retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
             if (scoreCardAPI.hole < 10) {
@@ -343,6 +338,16 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.webSocketAPI._connect(true);
         this.display = true;
     });
+  }
+
+  private setBallPickUp(scoreCardAPI: OnlineScoreCard, idx: number) {
+
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= 9) {
+      this.first9ballPickedUp[idx] = true;
+    }
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > 9) {
+      this.last9ballPickedUp[idx] = true;
+    }
   }
 
 
@@ -494,8 +499,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
   private resetRefreshCounter() {
-
-    const startDate = new Date();
 
     if (this.refreshSubscription) {
       this.refreshSubscription.unsubscribe();
