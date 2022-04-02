@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
   socialLoading: boolean;
   submitted: boolean;
 
-  url = environment.URL_STR + 'oauth2/authorization/facebook';
+  urlFacebook: string = environment.URL_STR + 'oauth2/authorization/facebook';
+  urlGoogle: string = environment.URL_STR + 'oauth2/authorization/google';
 
   constructor(
     private formBuilder: FormBuilder,
