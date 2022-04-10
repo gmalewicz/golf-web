@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 
 export class MimicBackendAppInterceptor implements HttpInterceptor{
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
+  // tslint:disable-next-line: variable-name
+  intercept(req: HttpRequest<any>, _next: HttpHandler):
     Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
 
     if (req.url.endsWith('rest/Game/1') && (req.method === 'GET')) {

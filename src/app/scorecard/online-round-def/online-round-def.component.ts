@@ -126,7 +126,8 @@ export class OnlineRoundDefComponent implements OnInit {
       const teeType = ['1-18', '1-9', '10-18'];
       retTees
         .filter((t) => t.sex)
-        .forEach((t, i) =>
+        // tslint:disable-next-line: variable-name
+        .forEach((t, _i) =>
           this.teeOptionsFemale.push({
             label: t.tee + ' ' + teeType[t.teeType],
             value: t.id,
@@ -134,7 +135,8 @@ export class OnlineRoundDefComponent implements OnInit {
         );
       retTees
         .filter((t) => !t.sex)
-        .forEach((t, i) =>
+        // tslint:disable-next-line: variable-name
+        .forEach((t, _i) =>
           this.teeOptionsMale.push({
             label: t.tee + ' ' + teeType[t.teeType],
             value: t.id,
@@ -158,7 +160,8 @@ export class OnlineRoundDefComponent implements OnInit {
     switch (index) {
       case 0: {
         this.tees[index] = this.course.tees
-          .filter((t, i) => t.id === this.f.teeDropDown1.value)
+          // tslint:disable-next-line: variable-name
+          .filter((t, _i) => t.id === this.f.teeDropDown1.value)
           .pop();
         break;
       }

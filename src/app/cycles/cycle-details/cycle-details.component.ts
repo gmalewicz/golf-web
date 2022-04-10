@@ -59,9 +59,6 @@ export class CycleDetailsComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      cycle: this.cycle
-    };
     dialogConfig.width = '300px';
 
 

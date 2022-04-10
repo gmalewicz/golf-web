@@ -20,7 +20,8 @@ describe('CommonScorecardTopComponent', () => {
     component.rounds = [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}];
     component.calculateStyle = () => 'edit';
     component.addScore = () => null;
-    component.counter = (i: number) => [1];
+    // tslint:disable-next-line: variable-name
+    component.counter = (_i: number) => [1];
     component.curHoleIdx = 0;
     component.curHoleStrokes = [1];
     component.ballPickedUp = false;

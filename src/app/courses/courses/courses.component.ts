@@ -72,7 +72,7 @@ export class CoursesComponent implements OnInit {
     }
   }
 
-  onKey(event: any) {
+  onKey() {
 
     // only if at least 3 letters have been provided
     if (this.searchCourseForm.invalid || this.f.courseName.value.length < 3) {

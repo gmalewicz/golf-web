@@ -57,14 +57,14 @@ describe('CoursesComponent', () => {
   it('should key up with less than 2 letters', fakeAsync(() => {
 
     component.f.courseName.setValue('li');
-    component.onKey(null);
+    component.onKey();
     expect(component.courses.searchRes).toBeUndefined();
   }));
 
   it('should key up with more than 2 letters', fakeAsync(() => {
 
     component.f.courseName.setValue('lis');
-    component.onKey(null);
+    component.onKey();
     expect(component.courses.searchRes.length).toBe(1);
   }));
 

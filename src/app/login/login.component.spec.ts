@@ -67,29 +67,29 @@ describe('LoginComponent', () => {
 
   it('should submit with proper data', () => {
     fixture.detectChanges();
-    component.f.username.setValue("test_user");
-    component.f.password.setValue("test_password");
+    component.f.username.setValue('test_user');
+    component.f.password.setValue('test_password');
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
   });
 
   it('should submit with wrong data', () => {
     fixture.detectChanges();
-    component.f.username.setValue("test_user");
+    component.f.username.setValue('test_user');
     component.onSubmit();
     expect(component.loginForm.invalid).toBeTruthy();
   });
 
   it('should process social login for known player', () => {
     routeStub.snapshot.queryParams = {token: 'test'};
-    component.url = null;
+    component.urlFacebook = null;
     fixture.detectChanges();
     expect(component.loginForm.invalid).toBeTruthy();
   });
 
   it('should process social login for unknown player', () => {
     routeStub.snapshot.queryParams = {token: 'test', new_player: 'true'};
-    component.url = null;
+    component.urlFacebook = null;
     fixture.detectChanges();
     expect(component.loginForm.invalid).toBeTruthy();
   });
@@ -102,14 +102,14 @@ describe('LoginComponent', () => {
 
   it('should process social login for with authorization failure', () => {
     routeStub.snapshot.queryParams = {error: 'authFailed'};
-    component.url = null;
+    component.urlFacebook = null;
     fixture.detectChanges();
     expect(component.loginForm.invalid).toBeTruthy();
   });
 
   it('should process social login for with incorrect log in', () => {
     routeStub.snapshot.queryParams = {error: 'playerType'};
-    component.url = null;
+    component.urlFacebook = null;
     fixture.detectChanges();
     expect(component.loginForm.invalid).toBeTruthy();
   });

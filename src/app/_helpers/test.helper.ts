@@ -92,7 +92,8 @@ authenticationServiceStub = {
   loginSocial(): void {
     // This is intentional
   },
-  login(username: string, password: string): Observable<Player> {
+  // tslint:disable-next-line: variable-name
+  login(_username: string, _password: string): Observable<Player> {
     return of({whs: 11.1});
   }
 };
@@ -121,17 +122,23 @@ export class MatDialogMock {
 
 export class WebSocketAPIMock {
 
-  constructor(appComponent: any = null,
-              private alertService: any = null,
-              private authenticationService: any = null,
-              acceptMessage: boolean = false,
-              reconnect: boolean = false) {
+  // tslint:disable-next-line: variable-name
+  constructor(_appComponent: any = null,
+              // tslint:disable-next-line: variable-name
+              private _alertService: any = null,
+              // tslint:disable-next-line: variable-name
+              private _authenticationService: any = null,
+              // tslint:disable-next-line: variable-name
+              _acceptMessage: boolean = false,
+              // tslint:disable-next-line: variable-name
+              _reconnect: boolean = false) {
       // This is intentional
     }
 
 
 
-  _connect(listen: boolean) {
+  // tslint:disable-next-line: variable-name
+  _connect(_listen: boolean) {
     // This is intentional
   }
   _disconnect() {
