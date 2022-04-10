@@ -31,6 +31,7 @@
         <td>
           <span *ngIf="row.type === 0">LOCAL</span>
           <span *ngIf="row.type === 1">FACEBOOK</span>
+          <span *ngIf="row.type === 2">GOOGLE</span>
         </td>
         <td>{{ row.roundCnt }}</td>
         <td *ngIf="row.roundCnt === 0">
