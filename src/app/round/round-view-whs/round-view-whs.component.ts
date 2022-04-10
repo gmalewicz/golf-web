@@ -74,7 +74,8 @@ export class RoundViewWHSComponent implements OnInit {
     this.last9Penalty = this.round.scoreCard.map(s => s.penalty).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
       .reduce((p, n) =>  p + n);
 
-    this.scoreBruttoClass.forEach((v, i) => {
+    // tslint:disable-next-line: variable-name
+    this.scoreBruttoClass.forEach((_v, i) => {
 
       if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === 0) {
 
@@ -107,7 +108,8 @@ export class RoundViewWHSComponent implements OnInit {
 
   private calculateWhsData() {
 
-    this.scoreNettoClass.forEach((v, i) => {
+    // tslint:disable-next-line: variable-name
+    this.scoreNettoClass.forEach((_v, i) => {
 
       if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === 0) {
 

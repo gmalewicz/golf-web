@@ -94,7 +94,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   }
 
   protected updateMPresults() {
-    this.mpScore.forEach((result, idx) => this.updateMpResult(idx));
+    // tslint:disable-next-line: variable-name
+    this.mpScore.forEach((_result, idx) => this.updateMpResult(idx));
     // calculate MP result texts
     this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
   }

@@ -41,7 +41,8 @@ export class WebSocketAPI {
 
       // tslint:disable-next-line: variable-name
       const _this = this;
-      _this.stompClient.connect({}, function connectCallback(frame: any) {
+      // tslint:disable-next-line: variable-name
+      _this.stompClient.connect({}, function connectCallback(_frame: any) {
 
 
         if (_this.lostConnection) {
@@ -56,7 +57,8 @@ export class WebSocketAPI {
           });
           _this.stompClient.reconnect_delay = 2000;
         }
-      }, (error: any) => {
+      // tslint:disable-next-line: variable-name
+      }, (_error: any) => {
         this.lostConnection = true;
         this.appComponent.handleLostConnection(true);
         if (this.reconnect) {

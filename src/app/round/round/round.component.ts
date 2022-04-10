@@ -116,7 +116,7 @@ export class RoundComponent implements OnInit {
     this.round.player = [];
     this.round.player.push(this.authenticationService.currentPlayerValue);
     // remove rounds for all other players
-    this.round.scoreCard = this.round.scoreCard.filter((s, i) => s.player.id === this.authenticationService.currentPlayerValue.id);
+    this.round.scoreCard = this.round.scoreCard.filter(s => s.player.id === this.authenticationService.currentPlayerValue.id);
     this.router.navigate(['/addScorecard/' + this.round.course.id + '/' +
       this.round.course.name + '/' +
       this.round.course.par], {

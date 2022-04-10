@@ -11,7 +11,8 @@ export class AuthGuard implements CanActivate {
         private alertService: AlertService
     ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    // tslint:disable-next-line: variable-name
+    canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
         const currentPlayer = this.authenticationService.currentPlayerValue;
         if (currentPlayer) {
             // authorised so return true
