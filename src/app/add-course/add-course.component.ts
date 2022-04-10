@@ -113,7 +113,8 @@ export class AddCourseComponent implements OnInit {
     // initialize data
     this.pars = Array(18).fill(0);
     this.si = Array(18).fill(0);
-    this.barChartLabels = Array(18).fill(0).map((x, i) => '' + (i + 1));
+    // tslint:disable-next-line: variable-name
+    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
 
     // set bar chart data
     this.barChartData = [{ data: this.pars, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
@@ -267,7 +268,8 @@ export class AddCourseComponent implements OnInit {
     this.pars.fill(0);
     this.barChartData[0].data = this.pars;
     // initialize chart labels
-    this.barChartLabels = Array(18).fill(0).map((x, i) => '' + (i + 1));
+    // tslint:disable-next-line: variable-name
+    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
 
     // set first hole as an active one
     this.updatingHole = 0;

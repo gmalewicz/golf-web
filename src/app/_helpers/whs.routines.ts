@@ -111,7 +111,8 @@ function holeHCP18(index: number,
 
   if (hcpIncMaxHole > 0) {
 
-    holeHCP[index].forEach((hcp, i) => {
+    // tslint:disable-next-line: variable-name
+    holeHCP[index].forEach((_hcp, i) => {
       if (course.holes[i].si <= hcpIncMaxHole) {
         // if some holes needs hcp update increase them
         holeHCP[index][i] += 1;
@@ -134,7 +135,8 @@ function holeHCPLast9(index: number,
 
     const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
 
-    holeHCP[index].forEach((s, i) => {
+    // tslint:disable-next-line: variable-name
+    holeHCP[index].forEach((_s, i) => {
 
       if (i >= 9 && course.holes[i].si <= maxHoleSiForUpd) {
         holeHCP[index][i]++;

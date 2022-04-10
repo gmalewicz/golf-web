@@ -22,7 +22,8 @@ describe('CommonScorecardComponent', () => {
     component.curHoleStrokes = [1];
     component.ballPickedUp = false;
     component.totalStrokes = [1];
-    component.counter = (i: number) => [1];
+    // tslint:disable-next-line: variable-name
+    component.counter = (_i: number) => [1];
     component.curHolePutts = [1];
     component.curHolePenalties = [1];
     fixture.detectChanges();

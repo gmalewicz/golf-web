@@ -69,13 +69,15 @@ export class AddTournamentComponent implements OnInit {
       return;
     }
 
-    this.tournamentHttpService.addTournament(tournament).subscribe(data => {
+    // tslint:disable-next-line: variable-name
+    this.tournamentHttpService.addTournament(tournament).subscribe(_data => {
 
       this.alertService.success('Tournament successfully created', true);
       this.loading = false;
       this.router.navigate(['/home']);
     },
-      (error: HttpErrorResponse) => {
+      // tslint:disable-next-line: variable-name
+      (_error: HttpErrorResponse) => {
         this.alertService.error('Tournament creation failed', true);
         this.loading = false;
         this.router.navigate(['/home']);

@@ -167,19 +167,22 @@ export class OnlineRoundDefComponent implements OnInit {
       }
       case 1: {
         this.tees[index] = this.course.tees
-          .filter((t, i) => t.id === this.f.teeDropDown2.value)
+          // tslint:disable-next-line: variable-name
+          .filter((t, _i) => t.id === this.f.teeDropDown2.value)
           .pop();
         break;
       }
       case 2: {
         this.tees[index] = this.course.tees
-          .filter((t, i) => t.id === this.f.teeDropDown3.value)
+          // tslint:disable-next-line: variable-name
+          .filter((t, _i) => t.id === this.f.teeDropDown3.value)
           .pop();
         break;
       }
       default: {
         this.tees[index] = this.course.tees
-          .filter((t, i) => t.id === this.f.teeDropDown4.value)
+          // tslint:disable-next-line: variable-name
+          .filter((t, _i) => t.id === this.f.teeDropDown4.value)
           .pop();
         break;
       }

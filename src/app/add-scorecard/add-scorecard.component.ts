@@ -302,7 +302,7 @@ export class AddScorecardComponent implements OnInit {
         matchPlay: false
       };
       // only selected tee shall be sent, so replace entire list with selected tee
-      round.course.tees = round.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value);
+      round.course.tees = round.course.tees.filter(t => t.id === this.f.teeDropDown.value);
       // remove holes from the course not to send data to backend
       round.course.holes = undefined;
 
@@ -441,7 +441,7 @@ export class AddScorecardComponent implements OnInit {
   teeChange(clearGraph: boolean) {
 
     // update available holes
-    this.tee = this.course.tees.filter((t, i) => t.id === this.f.teeDropDown.value).pop();
+    this.tee = this.course.tees.filter(t => t.id === this.f.teeDropDown.value).pop();
 
     if (this.tee.teeType === 1) {
       this.holeSelectorActive.fill({ disabled: true, active: false}, 9);
