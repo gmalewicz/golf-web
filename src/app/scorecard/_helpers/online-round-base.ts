@@ -189,9 +189,12 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
     this.curHoleIdx = holeIdx;
     // copy strokes from stokes table
-    this.curHoleStrokes =  this.curHoleStrokes.map((s, idx) => this.strokes[this.curHoleIdx][idx]);
-    this.curHolePutts =  this.curHolePutts.map((s, idx) => this.putts[this.curHoleIdx][idx]);
-    this.curHolePenalties =  this.curHolePenalties.map((s, idx) => this.penalties[this.curHoleIdx][idx]);
+    // tslint:disable-next-line: variable-name
+    this.curHoleStrokes =  this.curHoleStrokes.map((_s, idx) => this.strokes[this.curHoleIdx][idx]);
+    // tslint:disable-next-line: variable-name
+    this.curHolePutts =  this.curHolePutts.map((_s, idx) => this.putts[this.curHoleIdx][idx]);
+    // tslint:disable-next-line: variable-name
+    this.curHolePenalties =  this.curHolePenalties.map((_s, idx) => this.penalties[this.curHoleIdx][idx]);
     // in case if stroke is 0 load par instead
     this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
@@ -265,7 +268,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     });
   }
 
-  protected updateMpResult(strokeIdx: number) {
+  // tslint:disable-next-line: variable-name
+  protected updateMpResult(_strokeIdx: number) {
     // This is intentional
   }
 
@@ -358,7 +362,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     }
   }
 
-  protected calculateHCP(i: number) {
+  // tslint:disable-next-line: variable-name
+  protected calculateHCP(_i: number) {
     // This is intentional
   }
 

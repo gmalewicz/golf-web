@@ -11,7 +11,8 @@ export class RoleGuard implements CanActivate {
         private alertService: AlertService
     ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    // tslint:disable-next-line: variable-name
+    canActivate(route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
 
       if (!!route.data.role) {
         const routeRole = route.data.role;

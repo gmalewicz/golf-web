@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-tournament-dialog',
@@ -13,7 +13,6 @@ export class AddTournamentDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddTournamentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(30)]],

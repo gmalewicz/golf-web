@@ -21,7 +21,8 @@ describe('OnlineRoundDefComponent', () => {
   let fixture: ComponentFixture<OnlineRoundDefComponent>;
 
   const routerStub: Partial<Router> = {
-    navigate(commands: any[]): Promise<boolean> {
+    // tslint:disable-next-line: variable-name
+    navigate(_commands: any[]): Promise<boolean> {
       return null;
     }
   };
@@ -30,7 +31,8 @@ describe('OnlineRoundDefComponent', () => {
     clear() {
       // This is intentional
     },
-    error(message: string, keepAfterRouteChange = false) {
+    // tslint:disable-next-line: variable-name
+    error(_message: string, _keepAfterRouteChange = false) {
       // This is intentional
     }
   };

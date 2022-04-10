@@ -49,7 +49,8 @@ export class BingoHolestakeGamesComponent implements OnInit {
       this.stake = history.state.data.stake;
       this.playerNicks = history.state.data.players;
       this.gameType = history.state.data.gameType;
-      this.holes = Array(18).fill(0).map((x, i) => i + 1);
+      // tslint:disable-next-line: variable-name
+      this.holes = Array(18).fill(0).map((_x, i) => i + 1);
       this.currentHole = 1;
       this.completedStatus = Array(18).fill('No');
       this.completedStatus[0] = 'Confirm';
@@ -77,12 +78,14 @@ export class BingoHolestakeGamesComponent implements OnInit {
       if  (!this.rowResult.includes(1)) {
         return;
       }
-      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) =>  this.rowResult[i]);
+      // tslint:disable-next-line: variable-name
+      this.gameResult[holeIdx] = Array(4).fill(0).map((_x, i) =>  this.rowResult[i]);
     } else {
       if (this.rowResult.reduce((p, n) => p + n) < 2 || this.rowResult.reduce((p, n) => p + n) > 3) {
         return;
       }
-      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.rowResult[i]);
+      // tslint:disable-next-line: variable-name
+      this.gameResult[holeIdx] = Array(4).fill(0).map((_x, i) => this.rowResult[i]);
       this.rowResult.fill(0);
     }
 
@@ -120,14 +123,16 @@ export class BingoHolestakeGamesComponent implements OnInit {
 
       this.completedStatus[holeIdx] = 'Done';
       this.editHole = -1;
-      this.gameResult[holeIdx] = Array(4).fill(0).map((x, i) => this.editResult[i]);
+      // tslint:disable-next-line: variable-name
+      this.gameResult[holeIdx] = Array(4).fill(0).map((_x, i) => this.editResult[i]);
       if (this.gameType === 1) {
         this.calculateScore();
       } else {
         this.calculateScoreAndPayment();
       }
     } else if (this.editHole === -1) {
-      this.editResult = Array(this.players).fill(0).map((x, i) => this.gameResult[holeIdx][i]);
+      // tslint:disable-next-line: variable-name
+      this.editResult = Array(this.players).fill(0).map((_x, i) => this.gameResult[holeIdx][i]);
       this.editHole = holeIdx;
       this.completedStatus[holeIdx] = 'Edit';
     }

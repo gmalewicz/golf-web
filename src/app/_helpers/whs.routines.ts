@@ -158,7 +158,8 @@ function holeHCPFirst9(index: number,
 
     const maxHoleSiForUpd: number = holesUpd[hcpIncMaxHole - 1].si;
 
-    holeHCP[index].forEach((s, i) => {
+    // tslint:disable-next-line: variable-name
+    holeHCP[index].forEach((_s, i) => {
 
       if (i < 9 && course.holes[i].si <= maxHoleSiForUpd) {
         holeHCP[index][i]++;

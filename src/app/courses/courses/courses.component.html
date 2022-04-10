@@ -30,7 +30,7 @@
   </div>
   <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
     <br/>
-    <form [formGroup]="searchCourseForm" (keyup)="onKey($event)">
+    <form [formGroup]="searchCourseForm" (keyup)="onKey()">
       <div class="form-group">
         <label for="courseName">Enter course Name:</label>
         <input type="text" formControlName="courseName" class="form-control"/>
