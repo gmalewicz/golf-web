@@ -4,8 +4,10 @@ import { Hole, Course, Tee } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { BaseChartDirective } from 'ng2-charts';
+import { tap } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-add-course',
@@ -63,7 +65,7 @@ export class AddCourseComponent implements OnInit {
         courseName: ['', Validators.required],
         coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
         tee: ['', Validators.required],
-        cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9].?[0-9]?')]],
+        cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9](,|\\.)?[0-9]?')]],
         sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
         sexDropDown: ['', [Validators.required]],
         teeTypeDropDown: ['', [Validators.required]],
@@ -236,15 +238,13 @@ export class AddCourseComponent implements OnInit {
     });
 
     // send Course to the server
-    this.httpService.addCourse(course).subscribe(() => {
-
-      this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
-      this.router.navigate(['/home']);
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.error + ' ' + error.error.message, true);
-        this.loading = false;
-      });
+    this.httpService.addCourse(course).pipe(
+      tap(
+        () => {
+          this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
+          this.router.navigate(['/home']);
+        })
+    ).subscribe();
   }
 
   clear() {
@@ -311,13 +311,13 @@ export class AddCourseComponent implements OnInit {
     this.addTeeSubmitted = true;
 
     // display errors if any
-    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid || this.f.tee.invalid) {
+    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid ) {
       return;
     }
 
     // save tee
     this.tees.push({
-      tee: this.f.tee.value, cr: this.f.cr.value, sr: this.f.sr.value,
+      tee: this.f.tee.value, cr: this.f.cr.value.toString().replace(/,/gi, '.'), sr: this.f.sr.value,
       teeType: this.f.teeTypeDropDown.value, sex: this.f.sexDropDown.value
     });
 

@@ -34,7 +34,7 @@ export class AddCycleComponent implements OnInit {
       this.addCycleForm = this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         bestRounds: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
-        maxWhs: ['54.0', [Validators.required, Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]]
+        maxWhs: ['54.0', [Validators.required,  Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'), Validators.min(-5), Validators.max(54)]]
       });
 
       this.submitted = false;
@@ -70,7 +70,7 @@ export class AddCycleComponent implements OnInit {
       () => {
         this.alertService.success('Cycle successfully created', true);
         this.loading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/cycles']);
       })
     ).subscribe();
   }

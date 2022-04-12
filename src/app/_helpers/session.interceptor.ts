@@ -51,8 +51,8 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   private _checkTokenExpiryErr(error: HttpErrorResponse): boolean {
 
     return (
-      error &&
-      error.status === 999
+      (error && error.status === 999) ||
+      (error && error.error && error.error.status === 999)
     );
   }
 
