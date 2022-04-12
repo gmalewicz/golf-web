@@ -36,7 +36,7 @@ export class UpdatePlayerComponent implements OnInit {
       this.updateForm = this.formBuilder.group({
         password: ['', Validators.minLength(6)],
         // tslint:disable-next-line: max-line-length
-        whs: ['', [Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'), Validators.min(-5), Validators.max(54)]]
+        whs: ['', [ Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'), Validators.min(-5), Validators.max(54)]]
       });
     }
   }

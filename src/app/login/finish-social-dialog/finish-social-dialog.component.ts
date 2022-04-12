@@ -20,7 +20,7 @@ export class FinishSocialDialogComponent implements OnInit {
         '54.0',
         [
           Validators.required,
-          Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)'),
+          Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'),
           Validators.min(-5),
           Validators.max(54),
         ],

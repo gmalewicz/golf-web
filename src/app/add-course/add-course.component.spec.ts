@@ -100,7 +100,7 @@ describe('AddCourseComponent', () => {
     const radioElement = fixture.debugElement.query(By.css('.btn-tee'));
     // Trigger click event after spyOn
     component.f.tee.setValue(0);
-    component.f.cr.setValue(62);
+    component.f.cr.setValue(62.1);
     component.f.sr.setValue(123);
 
     radioElement.triggerEventHandler('click',  null);
