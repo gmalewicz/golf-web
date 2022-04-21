@@ -220,13 +220,8 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.alertService.clear();
-        this.putts.fill(0);
-        this.strokes.fill(0);
-        this.barChartData[1].data = this.strokes;
-        this.barChartData[2].data = this.putts;
         this.holeSelectorActive.fill({active: false});
-        this.strokeSelectorActive.fill({active: false});
-        this.patSelectorActive.fill({active: false});
+        this.clearGraph();
         this.displayResult = '';
       }
       this.dialogRef = null;
@@ -468,6 +463,7 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[2].data = this.putts;
     this.strokes.fill(0);
     this.barChartData[1].data = this.strokes;
+    this.chart.chart.update();
 
     // clear strokes and putts
     this.strokeSelectorActive.fill({disabled: false, active: false});
