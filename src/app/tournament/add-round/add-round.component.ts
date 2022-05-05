@@ -235,10 +235,10 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
     for (let hole = 0; hole < 18; hole++) {
 
       let stroke: number;
-      if (this.score[0] === 'x') {
+      if (this.score[hole] === 'x') {
         stroke = 16;
       } else {
-        stroke = +this.score[0];
+        stroke = +this.score[hole];
       }
 
       scoreCard.push({hole: hole + 1, stroke, pats: 0, penalty: 0});
