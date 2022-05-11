@@ -42,7 +42,7 @@ describe('AddCycleComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should test addCycle', fakeAsync(() => {
+  it('should test addCycle', () => {
 
     localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
     fixture = TestBed.createComponent(AddCycleComponent);
@@ -55,10 +55,10 @@ describe('AddCycleComponent', () => {
 
     buttonElement.nativeElement.click();
 
-    tick();
+
     expect(component.loading).toBeFalsy();
 
-  }));
+  });
 
   it('should test addCycle with invalid form', fakeAsync(() => {
 

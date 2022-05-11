@@ -44,8 +44,18 @@ export class TournamentHttpService {
   addRoundonBehalf(round: Round, tournamentId: number): Observable<TournamentRound> {
 
     return this.http.post<TournamentRound>('rest/TournamentRoundOnBehalf/' + tournamentId, round);
+
   }
 
+  // gets round for given id
+  getRound(roundId: number): Observable<Round> {
+    return this.http.get<Round>('rest/Round/' + roundId);
+  }
+
+  // gets round for given id
+  deleteResult(resultId: number): Observable<void> {
+    return this.http.delete<void>('rest/TournamentResult/' + resultId);
+  }
 }
 
 

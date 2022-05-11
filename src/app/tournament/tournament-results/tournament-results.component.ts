@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@/_services';
-import { faSearchPlus, faSearchMinus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { AlertService, AuthenticationService } from '@/_services';
+import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
 import { Tournament, TournamentResult, TournamentRound } from '../_models';
+import { Round } from '@/_models';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-tournament-results',
@@ -15,6 +18,9 @@ export class TournamentResultsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
   faSearchMinus: IconDefinition;
+  faMinusCircle: IconDefinition;
+
+  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   tournament: Tournament;
   playerId: number;
@@ -27,7 +33,9 @@ export class TournamentResultsComponent implements OnInit {
 
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
-              private router: Router) {}
+              private router: Router,
+              private alertService: AlertService,
+              public dialog: MatDialog) {}
 
   ngOnInit(): void {
 
@@ -40,6 +48,7 @@ export class TournamentResultsComponent implements OnInit {
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
+      this.faMinusCircle = faMinusCircle;
 
       this.tournament = history.state.data.tournament;
       this.playerId = this.authenticationService.currentPlayerValue.id;
@@ -102,5 +111,37 @@ export class TournamentResultsComponent implements OnInit {
         tempLst.concat((this.tournamentResults
           .filter(r => r.strokeRounds < this.tournament.bestRounds)).sort((a, b) => b.strokeRounds - a.strokeRounds));
     }
+  }
+
+  showPlayerRound(roundId: number) {
+
+    this.tournamentHttpService.getRound(roundId).pipe(
+      tap(
+        (round: Round) => {
+          this.router.navigate(['/round/'], { state: { data: { round } }});
+        })
+    ).subscribe();
+
+  }
+
+  deleteResult(resultId: number) {
+
+    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete result?';
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // do confirmation actions
+        this.tournamentHttpService.deleteResult(resultId).pipe(
+          tap(
+            () => {
+              this.alertService.success('Result successfuly deleted', true);
+              this.router.navigate(['/tournament'], { state: { data: { tournament: this.tournament } }});
+            })
+        ).subscribe();
+      }
+      this.dialogRef = null;
+    });
   }
 }

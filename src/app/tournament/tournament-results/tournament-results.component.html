@@ -60,7 +60,12 @@
               <td *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
               <td *ngIf="tournamentResult.strokesNetto === 0">x</td>
               <td *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
-              <td>{{ tournamentResult.playedRounds}}</td>
+              <td>
+                {{ tournamentResult.playedRounds}}
+                <span *ngIf="tournament.player.id === playerId">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                </span>
+              </td>
             </tr>
             <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails"></tr>
 
@@ -80,7 +85,13 @@
                   </thead>
                   <tbody *ngFor="let tournamentRound of tournamentResult.tournamentRounds,  let j = index">
                     <td>{{j + 1}}</td>
-                    <td>{{tournamentRound.courseName}}</td>
+                    <td>
+                      <span *ngIf="tournamentRound.roundId !== null">
+                        <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerRound(tournamentRound.roundId)"></fa-icon>
+                        &nbsp;
+                      </span>
+                      {{tournamentRound.courseName}}
+                    </td>
                     <td>{{tournamentRound.stbNet}}</td>
                     <td>{{tournamentRound.stbGross}}</td>
                     <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>

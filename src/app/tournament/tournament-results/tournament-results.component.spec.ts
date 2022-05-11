@@ -139,6 +139,14 @@ describe('TournamentResultsComponent', () => {
 
   }));
 
+  it('should test redirection to the round', fakeAsync(() => {
+
+    fixture.detectChanges();
+    component.showPlayerRound(1);
+    expect(component).toBeTruthy();
+
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
