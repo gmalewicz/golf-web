@@ -6,7 +6,7 @@ import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
 import { Tournament, TournamentResult, TournamentRound } from '../_models';
 import { Round } from '@/_models';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
@@ -19,8 +19,6 @@ export class TournamentResultsComponent implements OnInit {
   faSearchPlus: IconDefinition;
   faSearchMinus: IconDefinition;
   faMinusCircle: IconDefinition;
-
-  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   tournament: Tournament;
   playerId: number;
@@ -35,7 +33,7 @@ export class TournamentResultsComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
-              public dialog: MatDialog) {}
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
 
@@ -126,22 +124,21 @@ export class TournamentResultsComponent implements OnInit {
 
   deleteResult(resultId: number) {
 
-    this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete result?';
-    this.dialogRef.afterClosed().subscribe(result => {
+    dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete result?';
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do confirmation actions
         this.tournamentHttpService.deleteResult(resultId).pipe(
           tap(
             () => {
-              this.alertService.success('Result successfuly deleted', true);
-              this.router.navigate(['/tournament'], { state: { data: { tournament: this.tournament } }});
+              this.alertService.success('Result successfuly deleted', false);
+              this.tournamentResults = this.tournamentResults.filter(rs => rs.id !== resultId);
             })
         ).subscribe();
       }
-      this.dialogRef = null;
     });
   }
 }
