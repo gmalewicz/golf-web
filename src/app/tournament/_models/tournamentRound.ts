@@ -8,5 +8,6 @@ export interface TournamentRound {
   strokesNetto: number;
   strokes: boolean;
   nick?: string;
+  roundId?: number;
 }
 

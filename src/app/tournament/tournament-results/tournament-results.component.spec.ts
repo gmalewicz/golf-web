@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TournamentResult } from './../_models/tournamentResult';
 import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
@@ -7,10 +8,22 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
-
 import { TournamentResultsComponent } from './tournament-results.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { of } from 'rxjs';
 
 describe('TournamentResultsComponent', () => {
+
+  class MatDialogMock {
+
+    open() {
+      return {
+        afterClosed: () => of(true),
+        componentInstance: {confirmMessage: ''}
+      };
+    }
+  }
 
   let component: TournamentResultsComponent;
   let fixture: ComponentFixture<TournamentResultsComponent>;
@@ -44,11 +57,15 @@ describe('TournamentResultsComponent', () => {
         HttpClientModule,
         routing,
         ReactiveFormsModule,
+        MatDialogModule,
+        FontAwesomeModule,
+        BrowserAnimationsModule
       ],
       providers: [HttpService,
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
                   TournamentHttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true }
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
+                  { provide: MatDialog, useClass: MatDialogMock}
         ]
     })
     .compileComponents();
@@ -136,6 +153,23 @@ describe('TournamentResultsComponent', () => {
     fixture.detectChanges();
     component.updateSort(3);
     expect(component.tournamentResults[0].id).toEqual(1);
+
+  }));
+
+  it('should test redirection to the round', fakeAsync(() => {
+
+    fixture.detectChanges();
+    component.showPlayerRound(1);
+    expect(component).toBeTruthy();
+
+  }));
+
+
+  it('should test delete result', fakeAsync(() => {
+
+    fixture.detectChanges();
+    component.deleteResult(1);
+    expect(component).toBeTruthy();
 
   }));
 
