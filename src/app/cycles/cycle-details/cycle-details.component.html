@@ -34,7 +34,7 @@
     &nbsp;
     <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN" type="button" class="btn btn-success cls" (click)="closeCycle()">
       <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
-      Close tournament
+      Close cycle
     </button>
   </div>
 </div>
