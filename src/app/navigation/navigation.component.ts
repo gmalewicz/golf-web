@@ -28,6 +28,7 @@ export class NavigationComponent implements OnInit {
     this.authenticationService.logout();
     this.alertService.success('Your have been logged out', true);
     this.router.navigate(['']);
+    this.display = false;
   }
 
   onClick() {

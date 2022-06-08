@@ -19,30 +19,32 @@
             <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
         </div>
     </div>
-    <div class ="row px-3">
+    <div>
       <div class="row float-left">
-        <div class="col">
+        <div class="col mt-2">
+        <span>
           <button [disabled]="loading" class="btn btn-success">
             Login
           </button>
-        </div>
-        <div class="col px-0">
+        </span>
+        <span>
           <a routerLink="/register" class="btn btn-link text-success">Register</a>
-        </div>
-        <div class="col mt-2 px-0">
+        </span>
+        <span class="btn ps-0 text-success" style="cursor: default;">
             or
-        </div>
-        <div class="col">
+        </span>
+        <span>
           <a (click)="startSocialLoading()" [href]="urlFacebook" type="image">
             <img src="./assets/img/f_logo_RGB-Blue_58.png" alt="Facebook login" width="38" height="38"/>
           </a>
-        </div>
-        <div>
+        </span>
+        <span>
           <a (click)="startSocialLoading()" [href]="urlGoogle" type="image">
             <img src="./assets/img/google.png" alt="Google login" height="38"/>
           </a>
-        </div>
+        </span>
       </div>
+    </div>
     </div>
   </form>
   <img src="./assets/img/logo.png" alt="Royal Golf Club Wilanów" class="centerImg">

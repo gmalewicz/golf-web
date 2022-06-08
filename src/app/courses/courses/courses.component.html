@@ -12,16 +12,16 @@
 <br/>
 <ul class="nav nav-tabs" id="coursesTab" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="favourites-tab" data-toggle="tab" href="#favourites" role="tab"
-      aria-controls="favourites" aria-selected="true" (click)="onTabClick(0)">Favourites</a>
+    <button class="nav-link active" id="favourites-tab" data-bs-toggle="tab" data-bs-target="#favourites" type="button"
+            role="tab" aria-controls="favourites" aria-selected="true"  (click)="onTabClick(0)">Favourites</button>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="search-tab" data-toggle="tab" href="#search" role="tab"
-      aria-controls="search" aria-selected="false" (click)="onTabClick(1)">Search</a>
+    <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button"
+            role="tab" aria-controls="search" aria-selected="false"  (click)="onTabClick(1)">Search</button>
   </li>
   <li *ngIf="authenticationService.playerRole.includes('ADMIN')" class="nav-item">
-    <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab"
-      aria-controls="all" aria-selected="false" (click)="onTabClick(2)">All courses</a>
+    <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+            role="tab" aria-controls="all" aria-selected="false"  (click)="onTabClick(2)">All courses</button>
   </li>
 </ul>
 <div class="tab-content" id="coursesTabContent">
