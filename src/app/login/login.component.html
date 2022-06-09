@@ -11,6 +11,7 @@
             <div *ngIf="f.username.errors.required">Username is required</div>
         </div>
     </div>
+    <br/>
     <div class="form-group">
         <label for="password">Password</label>
         <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
@@ -19,6 +20,7 @@
             <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
         </div>
     </div>
+    <br/>
     <div>
       <div class="row float-left">
         <div class="col mt-2">
