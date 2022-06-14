@@ -1,20 +1,9 @@
-.golf-green {
-  color: #28a745;
-}
+
 
 .golf-gray {
   color: gray;
 }
 
-.edit {
-  background-color: #28a745;
-  color: white;
-}
-
-.no-edit {
-  background-color: white;
-  color: black;
-}
 
 .buttonWidth {
   width: 40px;
@@ -22,5 +11,5 @@
 }
 
 .highlightHcp {
-  background-color: rgb(209, 207, 57);
+  background-color: #1bff0742;
 }

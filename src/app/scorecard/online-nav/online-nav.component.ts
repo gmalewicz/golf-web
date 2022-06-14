@@ -50,10 +50,13 @@ export class OnlineNavComponent implements OnInit {
   }
 
   selectPutt(putts: number) {
+    // clean up par, hole and si pressed buttons
+    this.puttSelectorActive.fill({ active: false });
     this.curHolePutts[this.curPlayerIdx] = putts;
   }
 
   selectPenalty(penalties: number) {
+    this.penaltySelectorActive.fill({ active: false });
     this.curHolePenalties[this.curPlayerIdx] = penalties;
   }
 }

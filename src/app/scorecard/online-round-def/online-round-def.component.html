@@ -3,14 +3,16 @@
 </div>
 <div *ngIf="display">
   <form [formGroup]="defScoreCardForm">
-    <div class="form-row">
+    <div>
       <h2>
         {{course.name}}
       </h2>
     </div>
-    <div class="form-group">
+    <div class="row">
       <label>Tee time:</label>
-      <span class="form-inline">
+    </div>
+    <div class="row">
+      <span class="col-4">
         <input type="text" maxlength="5" formControlName="teeTime" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }" placeholder="HH:MM" />
         <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
@@ -21,221 +23,218 @@
         </div>
       </span>
     </div>
-    <div class="custom-control custom-checkbox custom-checkbox-green">
-      <input type="checkbox" class="custom-control-input custom-control-input-green" id="matchPlay" formControlName="matchPlay"
+
+    <div class="golf-margin-top">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="matchPlay" formControlName="matchPlay"
         (ngModelChange)="onMatchPlayChange($event)">
-      <label class="custom-control-label" for="matchPlay">Match Play Round</label>
+      <label for="matchPlay">&nbsp; Match Play Round</label>
     </div>
-    <div *ngIf="!f.matchPlay.value" class="form-group">
-      <br/>
-    </div>
-    <div *ngIf="f.matchPlay.value" class="form-group">
-      <br/>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" name="mpFormat" id="mpFormat1" value="1" formControlName="mpFormat"  class="custom-control-input">
+
+    <div *ngIf="f.matchPlay.value" class="row golf-margin-top">
+      <div class="col">
+        <input type="radio" name="mpFormat" id="mpFormat1" value="1" formControlName="mpFormat"  class="form-check-input form-check-input-green">
         <label class="custom-control-label green" for="mpFormat1">100%</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" name="mpFormat" id="mpFormat2" value="0.9" formControlName="mpFormat"  class="custom-control-input">
+        &nbsp;
+        <input type="radio" name="mpFormat" id="mpFormat2" value="0.9" formControlName="mpFormat"  class="form-check-input form-check-input-green">
         <label class="custom-control-label green" for="mpFormat2">90%</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" name="mpFormat" id="mpFormat3" value="0.75" formControlName="mpFormat"  class="custom-control-input" checked>
+        &nbsp;
+        <input type="radio" name="mpFormat" id="mpFormat3" value="0.75" formControlName="mpFormat"  class="form-check-input form-check-input-green" checked>
         <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" name="mpFormat" id="mpFormat4" value="0.50" formControlName="mpFormat"  class="custom-control-input">
+        &nbsp;
+        <input type="radio" name="mpFormat" id="mpFormat4" value="0.50" formControlName="mpFormat"  class="form-check-input form-check-input-green">
         <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
       </div>
     </div>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}">
-        <input type="radio" name="players" id="player1" autocomplete="off" checked (click)="onPlayers(1)"> 1 player
-      </label>
-      <label class="btn btn-outline-success" [ngClass]="{active: noOfPlayers === 2}">
-        <input type="radio" name="players" id="player2" autocomplete="off" (click)="onPlayers(2)"> 2 players
-      </label>
-      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}">
-        <input type="radio" name="players" id="player3" autocomplete="off" (click)="onPlayers(3)"> 3 players
-      </label>
-      <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}">
-        <input type="radio" name="players" id="player4" autocomplete="off" (click)="onPlayers(4)"> 4 players
-      </label>
-    </div>
-    <br />
-    <br />
-    <div>
-      <label for="player1Lbl">Player 1 username:</label>
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" formControlName="nick1" class="form-control" />
-        </div>
-        <span>
-          &nbsp;
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-          &nbsp;
-        </span>
-        <div class="form-group">
-          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" [options]="getTeeOptions(0)" class="teeDropDown1"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown1.errors }" placeholder="tee">
-          </p-dropdown>
-          <div *ngIf="submitted && f.teeDropDown1.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown1.errors.required">Tee is required</div>
-          </div>
-        </div>
-        <span *ngIf="tees[0] != null">
-          &nbsp;
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-        <div class="form-group">
-          &nbsp;
-          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)">
-            WHS update
-          </button>
+
+    <div class="row golf-margin-top">
+      <div class="col">
+        <div class="btn-group" role="group" aria-label="Number of players">
+          <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)">
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}" (click)="onPlayers(1)">1 player</label>
+
+          <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)">
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}" (click)="onPlayers(2)">2 players</label>
+
+          <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)">
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}" (click)="onPlayers(3)">3 players</label>
+
+          <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)">
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}" (click)="onPlayers(4)">4 players</label>
         </div>
       </div>
     </div>
 
-    <div *ngIf="noOfPlayers > 1">
+    <div class="row golf-margin-top">
+
+        <label for="player1Lbl">Player 1 username:</label>
+
+        <div class="col-8">
+          <input type="text" formControlName="nick1" class="form-control" />
+        </div>
+
+        <div class="col-4 golf-padding">
+          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+        </div>
+
+        <div class="col-auto golf-padding">
+          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" [options]="getTeeOptions(0)" class="teeDropDown1"
+            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown1.errors }" placeholder="tee">
+          </p-dropdown>
+          &nbsp;
+          <div *ngIf="submitted && f.teeDropDown1.errors" class="invalid-feedback">
+            <div *ngIf="f.teeDropDown1.errors.required">Tee is required</div>
+          </div>
+
+          <span *ngIf="tees[0] != null">
+            <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            &nbsp;
+          </span>
+
+          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)">
+            HCP update
+          </button>
+        </div>
+    </div>
+
+    <div *ngIf="noOfPlayers > 1" class="row golf-margin-top">
       <label for="player2Lbl">Player 2 username:</label>
-      <div class="form-row">
-        <div class="form-group">
+
+      <div class="col-8">
           <input type="text" formControlName="nick2" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.nick2.errors }" />
           <div *ngIf="submitted && f.nick2.errors" class="invalid-feedback">
             <div *ngIf="f.nick2.errors.required">Player nick is required</div>
             <div *ngIf="f.nick2.errors.maxlength">Nick cannot be longer than 20 characters</div>
           </div>
-        </div>
-        <span>
-          &nbsp;
-          <span *ngIf="players[1] == null">
-            <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
-          </span>
-          <span *ngIf="players[1] != null">
-            <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-          </span>
-          &nbsp;
+      </div>
+
+      <div class="col-4 golf-padding">
+        <span *ngIf="players[1] == null">
+          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
         </span>
-        <div class="form-group">
-          <p-dropdown (onChange)="teeChange(1)" formControlName="teeDropDown2" [options]="getTeeOptions(1)"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown2.errors }" placeholder="tee">
-          </p-dropdown>
-          <div *ngIf="submitted && f.teeDropDown2.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown2.errors.required">Tee is required</div>
-          </div>
+        <span *ngIf="players[1] != null">
+          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+        </span>
+      </div>
+
+
+      <div class="col-auto golf-padding">
+        <p-dropdown (onChange)="teeChange(1)" formControlName="teeDropDown2" [options]="getTeeOptions(1)"
+          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown2.errors }" placeholder="tee">
+        </p-dropdown>
+        <div *ngIf="submitted && f.teeDropDown2.errors" class="invalid-feedback">
+          <div *ngIf="f.teeDropDown2.errors.required">Tee is required</div>
         </div>
         <span *ngIf="tees[1] != null">
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-        <div class="form-group" *ngIf="players[1] != null">
+        <span class="form-group" *ngIf="players[1] != null">
           &nbsp;
           <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)">
-            WHS update
+            HCP update
           </button>
-        </div>
+        </span>
         &nbsp;
         <span *ngIf="searchInProgress[1]" class="spinner-border text-success" role="status"></span>
-
       </div>
     </div>
 
-    <div *ngIf="noOfPlayers > 2">
+    <div *ngIf="noOfPlayers > 2" class="row golf-margin-top">
       <label for="player3Lbl">Player 3 username:</label>
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" formControlName="nick3" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.nick3.errors }" />
-          <div *ngIf="submitted && f.nick3.errors" class="invalid-feedback">
-            <div *ngIf="f.nick3.errors.required">Player nick is required</div>
-            <div *ngIf="f.nick3.errors.maxlength">Nick cannot be longer than 20 characters</div>
-          </div>
+
+      <div class="col-8">
+        <input type="text" formControlName="nick3" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.nick3.errors }" />
+        <div *ngIf="submitted && f.nick3.errors" class="invalid-feedback">
+          <div *ngIf="f.nick3.errors.required">Player nick is required</div>
+          <div *ngIf="f.nick3.errors.maxlength">Nick cannot be longer than 20 characters</div>
         </div>
-        <span>
-          &nbsp;
-          <span *ngIf="players[2] == null">
-            <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
-          </span>
-          <span *ngIf="players[2] != null">
-            <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-          </span>
-          &nbsp;
+      </div>
+
+      <div class="col-4 golf-padding">
+        <span *ngIf="players[2] == null">
+          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
         </span>
-        <div class="form-group">
-          <p-dropdown (onChange)="teeChange(2)" formControlName="teeDropDown3" [options]="getTeeOptions(2)"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown3.errors }" placeholder="tee">
-          </p-dropdown>
-          <div *ngIf="submitted && f.teeDropDown3.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown3.errors.required">Tee is required</div>
-          </div>
+        <span *ngIf="players[2] != null">
+          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+        </span>
+      </div>
+
+      <div  class="col-auto golf-padding">
+        <p-dropdown (onChange)="teeChange(2)" formControlName="teeDropDown3" [options]="getTeeOptions(2)"
+          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown3.errors }" placeholder="tee">
+        </p-dropdown>
+        <div *ngIf="submitted && f.teeDropDown3.errors" class="invalid-feedback">
+          <div *ngIf="f.teeDropDown3.errors.required">Tee is required</div>
         </div>
         <span *ngIf="tees[2] != null">
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-        <div class="form-group" *ngIf="players[2] != null">
+        <span class="form-group" *ngIf="players[2] != null">
           &nbsp;
           <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)">
-            WHS update
+            HCP update
           </button>
-        </div>
-        &nbsp;
+        </span>
         <span *ngIf="searchInProgress[2]" class="spinner-border text-success" role="status"></span>
       </div>
     </div>
 
-    <div *ngIf="noOfPlayers > 3">
+    <div *ngIf="noOfPlayers > 3" class="row golf-margin-top">
       <label for="player4Lbl">Player 4 username:</label>
-      <div class="form-row">
-        <div class="form-group">
-          <input type="text" formControlName="nick4" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.nick4.errors }" />
-          <div *ngIf="submitted && f.nick4.errors" class="invalid-feedback">
-            <div *ngIf="f.nick4.errors.required">Player nick is required</div>
-            <div *ngIf="f.nick4.errors.maxlength">Nick cannot be longer than 20 characters</div>
-          </div>
+
+      <div class="col-8">
+
+        <input type="text" formControlName="nick4" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.nick4.errors }" />
+        <div *ngIf="submitted && f.nick4.errors" class="invalid-feedback">
+          <div *ngIf="f.nick4.errors.required">Player nick is required</div>
+          <div *ngIf="f.nick4.errors.maxlength">Nick cannot be longer than 20 characters</div>
         </div>
-        <span>
-          &nbsp;
-          <span *ngIf="players[3] == null">
-            <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
-          </span>
-          <span *ngIf="players[3] != null">
-            <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-          </span>
-          &nbsp;
+      </div>
+
+      <div class="col-4 golf-padding">
+        <span *ngIf="players[3] == null">
+          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
         </span>
-        <div class="form-group">
-          <p-dropdown (onChange)="teeChange(3)" formControlName="teeDropDown4" [options]="getTeeOptions(3)"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown4.errors }" placeholder="tee">
-          </p-dropdown>
-          <div *ngIf="submitted && f.teeDropDown4.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown4.errors.required">Tee is required</div>
-          </div>
+        <span *ngIf="players[3] != null">
+          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+        </span>
+      </div>
+
+      <div class="col-auto golf-padding">
+        <p-dropdown (onChange)="teeChange(3)" formControlName="teeDropDown4" [options]="getTeeOptions(3)"
+          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown4.errors }" placeholder="tee">
+        </p-dropdown>
+        <div *ngIf="submitted && f.teeDropDown4.errors" class="invalid-feedback">
+          <div *ngIf="f.teeDropDown4.errors.required">Tee is required</div>
         </div>
         <span *ngIf="tees[3] != null">
           &nbsp;
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-        <div class="form-group" *ngIf="players[3] != null">
+        <span class="form-group" *ngIf="players[3] != null">
           &nbsp;
           <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)">
-            WHS update
+            HCP update
           </button>
-        </div>
+        </span>
         &nbsp;
         <span *ngIf="searchInProgress[3]" class="spinner-border text-success" role="status"></span>
       </div>
     </div>
-    <div class="custom-control custom-checkbox custom-checkbox-green">
-      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck1" formControlName="putts">
-      <label class="custom-control-label" for="customCheck1">Include putts</label>
+
+    <div class="golf-margin-top">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts">
+      <label for="customCheck1">&nbsp; Include putts (optional)</label>
     </div>
-    <div class="custom-control custom-checkbox custom-checkbox-green">
-      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck2" formControlName="penalties">
-      <label class="custom-control-label" for="customCheck2">Include penalties</label>
+    <div>
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties">
+      <label for="customCheck2">&nbsp; Include penalties (optional)</label>
     </div>
+
   </form>
   <div>
     <br />
