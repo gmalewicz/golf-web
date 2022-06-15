@@ -9,8 +9,7 @@ import { ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-score-card',
-  templateUrl: './online-score-card.component.html',
-  styleUrls: ['./online-score-card.component.css']
+  templateUrl: './online-score-card.component.html'
 })
 export class OnlineScoreCardComponent implements OnInit {
 

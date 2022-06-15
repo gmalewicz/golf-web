@@ -326,6 +326,10 @@ export class AddScorecardComponent implements OnInit {
 
     this.alertService.clear();
 
+    // initialize buttons and set them not to be marked
+    this.holeSelectorActive = Array(18).fill({active: false});
+    this.holeSelectorActive[hole - 1] = {active: true};
+
     this.updatingHole = hole;
     this.strokeSelectorActive.fill({active: false});
     this.patSelectorActive.fill({active: false});
@@ -354,6 +358,11 @@ export class AddScorecardComponent implements OnInit {
       this.alertService.error('Number of putts cannot be greater than number of strokes', false);
       return;
     }
+
+    // initialize buttons and set them not to be marked
+    this.strokeSelectorActive = Array(18).fill({active: false});
+    this.strokeSelectorActive[stroke - 1] = {active: true};
+
 
     const updatedStrokes = [];
 
@@ -409,6 +418,9 @@ export class AddScorecardComponent implements OnInit {
       return;
     }
 
+    // initialize buttons and set them not to be marked
+    this.patSelectorActive = Array(18).fill({active: false});
+    this.patSelectorActive[pat] = {active: true};
 
     const updatedPats = [];
     const updatedStrokes = [];
@@ -423,6 +435,7 @@ export class AddScorecardComponent implements OnInit {
     this.putts[this.updatingHole - 1] = pat;
     updatedPats[this.updatingHole - 1] = pat;
 
+    // dispaly pressed button until another hole button is pressed
     updatedStrokes[this.updatingHole - 1] = this.strokes[this.updatingHole - 1] - pat;
 
     this.barChartData[1].data = updatedStrokes;

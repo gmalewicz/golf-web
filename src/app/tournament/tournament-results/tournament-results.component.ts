@@ -11,8 +11,7 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 
 @Component({
   selector: 'app-tournament-results',
-  templateUrl: './tournament-results.component.html',
-  styleUrls: ['./tournament-results.component.css']
+  templateUrl: './tournament-results.component.html'
 })
 export class TournamentResultsComponent implements OnInit {
 

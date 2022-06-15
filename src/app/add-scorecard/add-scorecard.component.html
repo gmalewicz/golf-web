@@ -1,10 +1,10 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="display">
+<div *ngIf="display" class="container-float">
   <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
   <form [formGroup]="addScorecardForm">
-  <div class="form-row">
+  <div class="row">
     <div class="form-group col">
       <input
         type="text"
@@ -60,46 +60,42 @@
   <br />
 
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-sm-1 btn" style="cursor: default;">
       Hole:
     </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
-          <input type="radio" class="radio-hole" (click)="selectHole(hole)"> {{ hole }}
-        </label>
-      </div>
+    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+      <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
+        {{ hole }}
+      </label>
     </div>
   </div>
+
   <br />
+
   <div class="row">
-    <div class="col-sm-1">
+    <div  class="col-sm-1 btn" style="cursor: default;">
       Strokes:
     </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[i]">
-          <input type="radio" class="radio-stroke" (click)="selectStroke(stroke)"> {{ stroke }}
-        </label>
-        <label class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[15]">
-          <input type="radio" class="radio-stroke" (click)="selectStroke(16)"> x
-        </label>
-      </div>
+    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+      <label *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
+        {{ stroke }}
+      </label>
     </div>
   </div>
+
   <br />
+
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-sm-1 btn" style="cursor: default;">
       Putts:
     </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="patSelectorActive[i]">
-          <input type="radio" class="radio-put" (click)="selectPat(pat)"> {{ pat }}
-        </label>
-      </div>
+    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+      <label *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
+        {{ pat }}
+      </label>
     </div>
   </div>
+
   <div>
     <br />
     <div class="form-group">

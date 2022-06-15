@@ -60,7 +60,7 @@
             <div class="col-1 btn" style="cursor: default;">
               Hole:
             </div>
-            <div class=" col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+            <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
               <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
                 {{ i + 1 }}
               </label>

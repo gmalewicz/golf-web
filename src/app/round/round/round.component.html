@@ -6,31 +6,32 @@
 
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
-        aria-controls="overview" aria-selected="true" (click)="onTabClick(0)">Overview</a>
+      <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"
+        role="tab" aria-controls="overview" aria-selected="true" (click)="onTabClick(0)">Overview</button>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="summary-tab" data-toggle="tab" href="#summary" role="tab"
-        aria-controls="summary" aria-selected="false" (click)="onTabClick(1)">Summary</a>
+      <button class="nav-link" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button"
+        role="tab" aria-controls="summary" aria-selected="false" (click)="onTabClick(1)">Summary</button>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p0" role="tab" aria-controls="p0" aria-selected="false"
-        (click)="onTabClick(2)">{{round.player[0].nick}}</a>
+      <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p0" type="button"
+        role="tab" aria-controls="p0" aria-selected="false" (click)="onTabClick(2)">{{round.player[0].nick}}</button>
     </li>
     <li>
-      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p1" role="tab" aria-controls="p1" aria-selected="false" *ngIf="round.player.length > 1"
-        (click)="onTabClick(3)">{{round.player[1].nick}}</a>
+      <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p1" type="button"
+        role="tab" aria-controls="p1" aria-selected="false" *ngIf="round.player.length > 1" (click)="onTabClick(3)">{{round.player[1].nick}}</button>
     </li>
     <li>
-      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p2" role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 2"
-        (click)="onTabClick(4)">{{round.player[2].nick}}</a>
+      <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p2" type="button"
+        role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 2" (click)="onTabClick(4)">{{round.player[2].nick}}</button>
     </li>
     <li>
-      <a class="nav-link" id="whs-tab" data-toggle="tab" href="#p3" role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 3"
-        (click)="onTabClick(5)">{{round.player[3].nick}}</a>
+      <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p3" type="button"
+        role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 3" (click)="onTabClick(5)">{{round.player[3].nick}}</button>
     </li>
     <li class="nav-item" *ngIf="round.matchPlay && round.player.length === 2">
-      <a class="nav-link" id="mp-tab" data-toggle="tab" href="#mp" role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)">Match Play</a>
+      <button class="nav-link" id="mp-tab" data-bs-toggle="tab" data-bs-target="#mp" type="button"
+        role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)">Match Play</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
