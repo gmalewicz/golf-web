@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v2.15.1</a>
+    <a class="navbar-brand" href="#">DGNG v2.16</a>
 
     <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="logout"
       data-bs-target="#navbarToggleLogOut" (click)="onClick()"
@@ -22,7 +22,6 @@
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>
         <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()">Courses</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()">Cycles</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Side Games</a></li>
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()">Administration</a></li>
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
         <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout">Logout</a></li>

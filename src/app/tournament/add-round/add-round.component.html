@@ -6,8 +6,8 @@
   <h2>Add round for tournament: {{tournament.name}}</h2>
   <br/>
   <form [formGroup]="defRoundForm">
-    <div class="form-row">
-      <div class="form-group" style="margin-left: 6px;">
+    <div class="row">
+      <div class="form-group col">
         <input type="text" formControlName="nick" class="form-control" placeholder="Player nick"
           [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
         <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
@@ -15,17 +15,15 @@
           <div *ngIf="f.nick.errors.maxlength">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
-      <span class="search">
-        &nbsp;
+      <span class="search col-auto">
         <span *ngIf="player == null">
           <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
         </span>
         <span *ngIf="player != null">
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-        &nbsp;
       </span>
-      <div class="form-group">
+      <div class="form-group col">
         <p-dropdown (onChange)="teeChange()" formControlName="teeDropDown" [options]="getTeeOptions()"
           [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
         </p-dropdown>
