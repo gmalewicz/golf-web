@@ -99,6 +99,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          build: npm run build
+          build: npm run build --legacy-peer-deps
           start: npm start
           wait-on: 'http://localhost:4200'
