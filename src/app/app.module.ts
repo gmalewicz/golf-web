@@ -81,7 +81,6 @@ import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish
     RecaptchaModule,
     RecaptchaFormsModule,
     HttpClientXsrfModule,
-    MatDialogModule,
     MatInputModule,
     MatCheckboxModule
   ],

@@ -100,9 +100,9 @@ export class TournamentResultsComponent implements OnInit {
         break;
     }
 
-    if  (this.tournament.bestRounds === 0) {
+    if  (this.tournament.bestRounds === 0 && action > 1) {
       this.tournamentResults.sort((a, b) => b.strokeRounds - a.strokeRounds);
-    } else if (action === 2 || action === 3) {
+    } else if (this.tournament.bestRounds !== 0 &&  action > 1) {
       const tempLst = this.tournamentResults.filter(r => r.strokeRounds >= this.tournament.bestRounds);
       this.tournamentResults =
         tempLst.concat((this.tournamentResults

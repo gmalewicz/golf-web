@@ -8,6 +8,8 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 describe('AdminComponent', () => {
   let component: AdminComponent;
@@ -21,6 +23,8 @@ describe('AdminComponent', () => {
         HttpClientModule,
         routing,
         ReactiveFormsModule,
+        MatDialogModule,
+        CommonModule
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
@@ -80,4 +84,8 @@ describe('AdminComponent', () => {
     });
     expect().nothing();
   }));
+
+  afterAll(() => {
+    TestBed.resetTestingModule();
+  });
 });

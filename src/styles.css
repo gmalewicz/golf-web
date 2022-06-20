@@ -39,7 +39,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .golf-green {
-  color: #198754;
+  color: #198754 !important;
 }
 
 label {
