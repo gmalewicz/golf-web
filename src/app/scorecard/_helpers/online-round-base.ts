@@ -164,9 +164,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   calculateStyle(playerIdx: number) {
     if (playerIdx === this.curPlayerIdx) {
-      return 'edit';
+      return 'highlight';
     }
-    return 'no-edit';
+    return 'no-highlight';
   }
 
   selectHole(holeIdx: number) {

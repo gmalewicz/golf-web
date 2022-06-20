@@ -39,44 +39,44 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .golf-green {
-  color: #28a745;
+  color: #198754 !important;
 }
 
-.custom-control-input-green:focus~.custom-control-label::before {
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.golf-margin-top {
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.golf-padding {
+  padding: 6px;
+}
+
+
+.form-check-input-green:checked {
+  border-color: #198754 !important;
+  background-color: #198754 !important;
+}
+
+.form-check-input-green:not(:checked) {
   border-color: #28a745 !important;
+}
+
+.form-check-input-green:focus {
+  border-color: #198754 !important;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
 }
 
-.custom-control-input-green:checked~.custom-control-label::before {
-  border-color: #28a745 !important;
-  background-color: #28a745 !important;
-}
-
-.custom-control-input-green:focus:not(:checked)~.custom-control-label::before {
-  border-color: #28a745 !important;
-}
-
-.custom-control-input-green:not(:disabled):active~.custom-control-label::before {
-  background-color: #d6f5dd !important;
-  border-color: #d6f5dd !important;
-}
-
-
-.custom-control-input:checked ~ .custom-control-label::before {
-  color: #fff;
-  border-color: #7B1FA2;
-}
-
-.custom-control-input:checked~.custom-control-label.green::before {
-  background-color: #28a745;
-}
-
-.edit {
-  background-color: #28a745;
+.highlight {
+  background-color: #198754 !important;
   color: white;
 }
 
-.no-edit {
+.no-highlight {
   background-color: white;
   color: black;
 }

@@ -35,33 +35,35 @@
     </button>
     <br />
     <br />
-    <div class="form-check-inline">
-      Show player: &nbsp;
-      <div class="custom-control custom-checkbox custom-checkbox-green ">
-        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player0" checked="checked"
-          (change)="onChecked($event, 0)">
-        <label class="custom-control-label" for="player0">{{ players[0].nick }}</label>
-      </div>
-      <div *ngIf="players.length > 1" class="custom-control custom-checkbox custom-checkbox-green ">
+    <div class="row">
+      <div class="col-12">
+        Show player:
         &nbsp;
+        <input type="checkbox" class="form-check-input form-check-input-green" id="player0" checked="checked" (change)="onChecked($event, 0)">
         &nbsp;
-        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player1" checked="checked"
-          (change)="onChecked($event, 1)">
-        <label class="custom-control-label" for="player1">{{ players[1].nick }}</label>
-      </div>
-      <div *ngIf="players.length > 2" class="custom-control custom-checkbox custom-checkbox-green ">
-        &nbsp;
-        &nbsp;
-        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player2" checked="checked"
-          (change)="onChecked($event, 2)">
-        <label class="custom-control-label" for="player2">{{ players[2].nick }}</label>
-      </div>
-      <div *ngIf="players.length > 3" class="custom-control custom-checkbox custom-checkbox-green ">
-        &nbsp;
-        &nbsp;
-        <input type="checkbox" class="custom-control-input custom-control-input-green" id="player3" checked="checked"
-          (change)="onChecked($event, 3)">
-        <label class="custom-control-label" for="player3">{{ players[3].nick }}</label>
+        <label for="player0">{{ players[0].nick }}</label>
+
+        <span *ngIf="players.length > 1">
+          &nbsp;
+          &nbsp;
+          <input type="checkbox" class="form-check-input form-check-input-green" id="player1" checked="checked" (change)="onChecked($event, 1)">
+          &nbsp;
+          <label for="player1">{{ players[1].nick }}</label>
+        </span>
+        <span *ngIf="players.length > 2">
+          &nbsp;
+          &nbsp;
+          <input type="checkbox" class="form-check-input form-check-input-green" id="player2" checked="checked" (change)="onChecked($event, 2)">
+          &nbsp;
+          <label for="player2">{{ players[2].nick }}</label>
+        </span>
+        <span *ngIf="players.length > 3">
+          &nbsp;
+          &nbsp;
+          <input type="checkbox" class="form-check-input form-check-input-green" id="player3" checked="checked" (change)="onChecked($event, 3)">
+          &nbsp;
+          <label for="player3">{{ players[3].nick }}</label>
+        </span>
       </div>
     </div>
   </div>

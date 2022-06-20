@@ -9,8 +9,7 @@ import { Tournament } from '../_models';
 
 @Component({
   selector: 'app-tournaments',
-  templateUrl: './tournaments.component.html',
-  styleUrls: ['./tournaments.component.css']
+  templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {
 

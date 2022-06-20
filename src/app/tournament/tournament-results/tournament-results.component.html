@@ -9,25 +9,24 @@
   <br/>
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" id="stbNet-tab" data-toggle="tab" href="#all" role="tab"
-        aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)">STB Net</a>
+      <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+        role="tab" aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)">STB Net</button>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="stb-tab" data-toggle="tab" href="#all" role="tab"
-        aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</a>
+      <button class="nav-link" id="stb-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+        role="tab" aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</button>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="strokes-tab" data-toggle="tab" href="#all" role="tab"
-        aria-controls="strokes" aria-selected="false" (click)="updateSort(2)">Strokes</a>
+      <button class="nav-link" id="strokes-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+        role="tab" aria-controls="strokes" aria-selected="false" (click)="updateSort(2)">Strokes</button>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="netStroke-tab" data-toggle="tab" href="#all" role="tab"
-        aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)">Strokes Net</a>
+      <button class="nav-link" id="netStroke-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+        role="tab" aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)">Strokes Net</button>
     </li>
   </ul>
   <br/>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="overview-tab">
+
       <table class="table table-striped" aria-describedby="tournament result">
         <thead>
           <tr>
@@ -40,7 +39,8 @@
             <th id="prnd">Played Rounds</th>
           </tr>
         </thead>
-        <tbody *ngFor="let tournamentResult of tournamentResults, let i = index">
+        <tbody >
+          <ng-container *ngFor="let tournamentResult of tournamentResults, let i = index">
             <tr>
               <td *ngIf="displayRound[i] == false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
@@ -67,10 +67,11 @@
                 </span>
               </td>
             </tr>
-            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails"></tr>
+            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
 
             <ng-template #showDetails>
-              <td colspan="7">
+              <td colspan="6">
+                <div>
                 <table class="table table-striped" aria-describedby="tournament details">
                   <thead>
                     <tr>
@@ -101,12 +102,12 @@
                     <td>{{tournamentRound.scrDiff}}</td>
                   </tbody>
                 </table>
+                </div>
               </td>
             </ng-template>
+          </ng-container>
         </tbody>
       </table>
-    </div>
-  </div>
   <div>
     <br />
     <button type="button" class="btn btn-success" routerLink="/home">

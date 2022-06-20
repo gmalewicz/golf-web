@@ -1,5 +1,8 @@
 {
   "compileOnSave": false,
+  "include": [
+    "src/**/*.ts"
+  ],
   "compilerOptions": {
     // "baseUrl": "./",
     "baseUrl": "src",

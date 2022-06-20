@@ -1,43 +1,43 @@
 <nav class="navbar navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">DGNG v2.16</a>
 
-  <a class="navbar-brand" href="#">DGNG v2.15.1</a>
+    <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="logout"
+      data-bs-target="#navbarToggleLogOut" (click)="onClick()"
+      aria-controls="navbarToggleLogOut" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
-    data-target="#navbarToggleLogOut" aria-controls="navbarToggleExternalContent" aria-expanded="false"
-    aria-label="Toggle navigation" (click)="onClick()" data-test="hamburger">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <button *ngIf="currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="login"
+      data-bs-target="#navbarToggleLogIn" (click)="onClick()"
+      aria-controls="navbarToggleLogIn" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <button *ngIf="currentPlayer" class="navbar-toggler" type="button" data-toggle="collapse"
-    data-target="#navbarToggleLogIn" aria-controls="navbarToggleExternalContent" aria-expanded="false"
-    aria-label="Toggle navigation" (click)="onClick()" data-test="hamburger">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <div *ngIf="currentPlayer && display" class="navbar-collapse login p-4" id="navbarToggleLogIn">
 
-  <div *ngIf="currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogIn">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()">Start/View On-line Score Cards</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Historical Rounds</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()">Cycles</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()">Administration</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
+        <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout">Logout</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
+            <fa-icon [icon]="faCog"></fa-icon>
+          </a></li>
+      </ul>
+    </div>
 
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()">Start/View On-line Score Cards</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Historical Rounds</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()">Courses</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()">Cycles</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/games" (click)="onClick()">Side Games</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()">Administration</a></li>
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
-      <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout">Logout</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
-          <fa-icon [icon]="faCog"></fa-icon>
-        </a></li>
-    </ul>
+    <div *ngIf="!currentPlayer && display" class="navbar-collapse logout p-4" id="navbarToggleLogOut">
 
-  </div>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()">Login</a></li>
+      </ul>
 
-  <div *ngIf="!currentPlayer && display" class="collapse navbar-collapse" id="navbarToggleLogOut">
-
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()">Login</a></li>
-    </ul>
+    </div>
 
   </div>
 </nav>

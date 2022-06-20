@@ -10,8 +10,7 @@ import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-courses',
-  templateUrl: './list-courses.component.html',
-  styleUrls: ['./list-courses.component.css']
+  templateUrl: './list-courses.component.html'
 })
 export class ListCoursesComponent implements OnInit {
 

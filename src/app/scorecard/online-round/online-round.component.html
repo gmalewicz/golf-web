@@ -33,10 +33,10 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let stroke of strokes, let i = index">
+        <tr *ngFor="let stroke of strokes, let i = index" [ngClass]="i === curHoleIdx ? 'fw-bolder' : {}">
           <td *ngIf="i === curHoleIdx">
             <a>
-              <fa-icon [icon]="faPlay" class="golf-green"></fa-icon>
+              <fa-icon [icon]="faPlay" class="golf-green fa-xl"></fa-icon>
             </a>
           </td>
           <td *ngIf="i != curHoleIdx">

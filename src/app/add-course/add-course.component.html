@@ -2,223 +2,212 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-<div class="container">
-<form [formGroup]="newCourseForm">
-  <div class="form-row">
-    <div class="form-group col">
-      <input
-        type="text"
-        formControlName="courseName"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
-        placeholder="Course name"
-      />
-      <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
-        <div *ngIf="f.courseName.errors.required">Course name is required</div>
+  <div class="container-float">
+    <form [formGroup]="newCourseForm">
+      <div class="row">
+        <div class="form-group col">
+          <input
+            type="text"
+            formControlName="courseName"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
+            placeholder="Course name"
+          />
+          <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
+            <div *ngIf="f.courseName.errors.required">Course name is required</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <input
+            type="text"
+            maxlength="2"
+            formControlName="coursePar"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.coursePar.errors }"
+            placeholder="Course par"
+          />
+          <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
+            <div *ngIf="f.coursePar.errors.required">Course par is required</div>
+            <div *ngIf="f.coursePar.errors.pattern">Course par must be a number from 30 to 79</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <p-dropdown
+            formControlName="nbrHolesDropDown"
+            [options]="nbrHoles"
+            [ngClass]="{ 'is-invalid': submitted && f.nbrHolesDropDown.errors }"
+            placeholder="number of holes">
+          </p-dropdown>
+          <div *ngIf="submitted && f.nbrHolesDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.nbrHolesDropDown.errors.required">Number of holes is required</div>
+          </div>
+        </div>
       </div>
-    </div>
-    &nbsp;
+      <div>
+        <canvas
+          baseChart class="chart"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [type]="barChartType"
+        >
+        </canvas>
+      </div>
+      <br />
 
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="2"
-        formControlName="coursePar"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.coursePar.errors }"
-        placeholder="Course par"
-      />
-      <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
-        <div *ngIf="f.coursePar.errors.required">Course par is required</div>
-        <div *ngIf="f.coursePar.errors.pattern">Course par must be a number from 30 to 79</div>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col-1 btn" style="cursor: default;">
+              Hole:
+            </div>
+            <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+              <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
+                {{ i + 1 }}
+              </label>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-1 btn" style="cursor: default;">
+            Par:
+          </div>
+          <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+            <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par" [ngClass]="parSelectorActive[i]" (click)="selectPar(par)">
+              {{ par }}
+            </label>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-1 btn" style="cursor: default;">
+            SI:
+          </div>
+          <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+            <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si" [ngClass]="siSelectorActive[i]" (click)="selectSi(i)">
+              {{ i + 1 }}
+            </label>
+          </div>
+        </div>
 
-    <div class="form-group col">
 
-      <p-dropdown
-        formControlName="nbrHolesDropDown"
-        [options]="nbrHoles"
-        [ngClass]="{ 'is-invalid': submitted && f.nbrHolesDropDown.errors }"
-        placeholder="number of holes">
-      </p-dropdown>
+      <br/>
+      <div *ngIf="tees.length > 0">
+        <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
+          <thead>
+            <tr>
+              <th id="tee">Tee</th>
+              <th id="cr">CR</th>
+              <th id="sr">SR</th>
+              <th id="type">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of tees">
+              <td>{{ row.tee }}
+                  <span *ngIf="row.sex">ladies</span>
+                  <span *ngIf="!row.sex">men</span>
+              </td>
+              <td>{{ row.cr }}</td>
+              <td>{{ row.sr }}</td>
+              <td *ngIf="row.teeType === 0">1-18</td>
+              <td *ngIf="row.teeType === 1">1-9</td>
+              <td *ngIf="row.teeType === 2">10-18</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="form-group col">
+          <input
+            type="text"
+            maxlength="20"
+            formControlName="tee"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
+            placeholder="colour"
+          />
+          <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
+            <div *ngIf="f.tee.errors.required">Tee name is required</div>
+          </div>
+        </div>
 
-      <div *ngIf="submitted && f.nbrHolesDropDown.errors" class="invalid-feedback">
-        <div *ngIf="f.nbrHolesDropDown.errors.required">Number of holes is required</div>
-      </div>
+        <div class="form-group col">
+          <input
+            type="text"
+            maxlength="4"
+            formControlName="cr"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.cr.errors }"
+            placeholder="CR"
+          />
+          <div *ngIf="addTeeSubmitted && f.cr.errors" class="invalid-feedback">
+            <div *ngIf="f.cr.errors.required">Course CR is required</div>
+            <div *ngIf="f.cr.errors.pattern">Course CR must be in range: 20 to 89.9</div>
+          </div>
+        </div>
 
-    </div>
-  </div>
-  <div>
-    <canvas
-      baseChart class="chart"
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [legend]="barChartLegend"
-      [type]="barChartType"
-    >
-    </canvas>
-  </div>
-  <br />
-
-  <div class="row">
-    <div class="col-sm-1">
-      Hole:
-    </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="holeSelectorActive[i]">
-          <input class="input-hole" type="radio" (click)="selectHole(i)"> {{ i + 1 }}
-        </label>
+        <div class="form-group col">
+          <input
+            type="text"
+            maxlength="3"
+            formControlName="sr"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.sr.errors }"
+            placeholder="SR"
+          />
+          <div *ngIf="addTeeSubmitted && f.sr.errors" class="invalid-feedback">
+            <div *ngIf="f.sr.errors.required">Course SR is required</div>
+            <div *ngIf="f.sr.errors.pattern">Course SR must be in range: 10 to 299</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <p-dropdown
+            formControlName="teeTypeDropDown"
+            autoWidth="false" [style]="{'width':'100%'}"
+            [options]="teeTypes"
+            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
+            placeholder="tee type">
+          </p-dropdown>
+          <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.teeTypeDropDown.errors.required">Tee is required</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <p-dropdown
+            formControlName="sexDropDown"
+            autoWidth="false" [style]="{'width':'100%'}"
+            [options]="sex"
+            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
+            placeholder="sex">
+          </p-dropdown>
+          <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.teeTypeDropDown.errors.required">Sex is required</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <button type="button" class="btn btn-success btn-tee" (click)="addTee()">
+            Add Tee
+          </button>
+        </div>
       </div>
-    </div>
+      <div>
+        <br />
+        <div class="form-group">
+          <button type="button" class="btn btn-success" routerLink="/home">
+            Cancel
+          </button>
+          &nbsp;
+          <button type="button" class="btn btn-success btn-clear" (click)="clear()">
+            Clear
+          </button>
+          &nbsp;
+          <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  <br />
-  <div class="row">
-    <div class="col-sm-1">
-      Par:
-    </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="parSelectorActive[i]">
-          <input class="input-par" type="radio" value= {{par}} (click)="selectPar(par)"> {{ par }}
-        </label>
-      </div>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-sm-1">
-      SI:
-    </div>
-    <div>
-      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="siSelectorActive[i]">
-          <input class="input-si" type="radio" autocomplete="off" (click)="selectSi(i)"> {{ i + 1 }}
-        </label>
-      </div>
-    </div>
-  </div>
-  <br/>
-  <div *ngIf="tees.length > 0">
-    <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
-      <thead>
-        <tr>
-          <th id="tee">Tee</th>
-          <th id="cr">CR</th>
-          <th id="sr">SR</th>
-          <th id="type">Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of tees">
-          <td>{{ row.tee }}
-              <span *ngIf="row.sex">ladies</span>
-              <span *ngIf="!row.sex">men</span>
-          </td>
-          <td>{{ row.cr }}</td>
-          <td>{{ row.sr }}</td>
-          <td *ngIf="row.teeType === 0">1-18</td>
-          <td *ngIf="row.teeType === 1">1-9</td>
-          <td *ngIf="row.teeType === 2">10-18</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <br/>
-  <div class="form-row">
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="20"
-        formControlName="tee"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
-        placeholder="colour"
-      />
-      <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
-        <div *ngIf="f.tee.errors.required">Tee name is required</div>
-      </div>
-    </div>
-    &nbsp;
-
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="4"
-        formControlName="cr"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.cr.errors }"
-        placeholder="CR"
-      />
-      <div *ngIf="addTeeSubmitted && f.cr.errors" class="invalid-feedback">
-        <div *ngIf="f.cr.errors.required">Course CR is required</div>
-        <div *ngIf="f.cr.errors.pattern">Course CR must be in range: 20 to 89.9</div>
-      </div>
-    </div>
-
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="3"
-        formControlName="sr"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.sr.errors }"
-        placeholder="SR"
-      />
-      <div *ngIf="addTeeSubmitted && f.sr.errors" class="invalid-feedback">
-        <div *ngIf="f.sr.errors.required">Course SR is required</div>
-        <div *ngIf="f.sr.errors.pattern">Course SR must be in range: 10 to 299</div>
-      </div>
-    </div>
-    <div class="form-group col">
-      <p-dropdown
-        formControlName="teeTypeDropDown"
-        autoWidth="false" [style]="{'width':'100%'}"
-        [options]="teeTypes"
-        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
-        placeholder="tee type">
-      </p-dropdown>
-      <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-        <div *ngIf="f.teeTypeDropDown.errors.required">Tee is required</div>
-      </div>
-    </div>
-    <div class="form-group col">
-      <p-dropdown
-        formControlName="sexDropDown"
-        autoWidth="false" [style]="{'width':'100%'}"
-        [options]="sex"
-        [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
-        placeholder="sex">
-      </p-dropdown>
-      <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-        <div *ngIf="f.teeTypeDropDown.errors.required">Sex is required</div>
-      </div>
-    </div>
-    <div class="form-group col">
-      <button type="button" class="btn btn-success btn-tee" (click)="addTee()">
-        Add Tee
-      </button>
-    </div>
-  </div>
-  <div>
-    <br />
-    <div class="form-group">
-      <button type="button" class="btn btn-success" routerLink="/home">
-        Cancel
-      </button>
-      &nbsp;
-      <button type="button" class="btn btn-success btn-clear" (click)="clear()">
-        Clear
-      </button>
-      &nbsp;
-      <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Save
-      </button>
-    </div>
-  </div>
-</form>
-</div>
 </div>

@@ -4,8 +4,7 @@ import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-list-rounds',
-  templateUrl: './list-rounds.component.html',
-  styleUrls: ['./list-rounds.component.css']
+  templateUrl: './list-rounds.component.html'
 })
 export class ListRoundsComponent implements OnInit {
 

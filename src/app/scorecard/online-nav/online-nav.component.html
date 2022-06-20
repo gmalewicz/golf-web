@@ -1,32 +1,32 @@
 <div >
   <div>
-    <button type="button" class="btn btn-success" (click)="onPickUp()">
+    <button type="button" class="btn-lg btn-success fw-bolder" (click)="onPickUp()">
       x
     </button>
     &nbsp;
     &nbsp;
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onDecrease()">
+    <button type="button" class="btn-lg btn-success fw-bolder" (click)="onDecrease()">
       &lt;
     </button>
     &nbsp;
-    <span *ngIf="curHoleStrokes[curPlayerIdx] === 16">
+    <span class="fw-bolder fs-2" *ngIf="curHoleStrokes[curPlayerIdx] === 16">
       x
     </span>
-    <span *ngIf="curHoleStrokes[curPlayerIdx] !== 16">
+    <span class="fw-bolder fs-2" *ngIf="curHoleStrokes[curPlayerIdx] !== 16">
       {{curHoleStrokes[curPlayerIdx]}}
       </span>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onIncrease()">
+    <button type="button" class="btn-lg btn-success fw-bolder" (click)="onIncrease()">
       &gt;
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="addScore()">
+    <button type="button" class="btn-lg btn-success fw-bolder" (click)="addScore()">
       Save
     </button>
   </div>
 </div>
-<div *ngIf="rounds[0].putts" class="">
+<div *ngIf="rounds[0].putts">
   <br/>
   <div>
     Putts
@@ -34,22 +34,21 @@
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <label *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="puttSelectorActive[i]">
-        <input type="radio" (click)="selectPutt(i)"> {{i}}
+      <label *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success btn-lg" [ngClass]="puttSelectorActive[i]" (click)="selectPutt(i)">
+        {{i}}
       </label>
     </div>
   </div>
 </div>
 <div *ngIf="rounds[0].penalties">
-  <br/>
   <div>
     Penalties
     <span class="redDot"></span>
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <label *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success buttonWidth" [ngClass]="penaltySelectorActive[i]">
-        <input type="radio" (click)="selectPenalty(i)"> {{i}}
+      <label *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success btn-lg" [ngClass]="penaltySelectorActive[i]" (click)="selectPenalty(i)">
+        {{i}}
       </label>
     </div>
   </div>

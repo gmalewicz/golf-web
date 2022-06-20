@@ -179,6 +179,11 @@ export class AddCourseComponent implements OnInit {
     // save selected par
     this.pars[this.updatingHole] = par;
 
+
+    this.parSelectorActive.fill({ active: false });
+    this.parSelectorActive[this.pars[this.updatingHole] - 3] = ({ active: true });
+
+
     this.chart.chart.update();
   }
 
@@ -200,7 +205,7 @@ export class AddCourseComponent implements OnInit {
     this.siSelectorActive.fill({ active: false });
 
     // dispaly pressed button until another hole button is pressed
-    this.siSelectorActive[this.updatingHole] = ({ active: true });
+    this.siSelectorActive[si] = ({ active: true });
 
     // updated label: in case of label recreation is not needed - lable can be just updated
     this.barChartLabels[this.updatingHole] = '' + (this.updatingHole + 1) + '(' + (si + 1) + ')';
