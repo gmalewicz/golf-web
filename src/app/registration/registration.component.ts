@@ -72,7 +72,7 @@ export class RegistrationComponent implements OnInit {
       this.httpService.addPlayer(player).pipe(
       tap(
         () => {
-          this.alertService.success('Registration successful. Please log in', true);
+          this.alertService.success($localize`:@@registration-success:Registration successful. Please log in`, true);
           this.router.navigate(['']);
         })
     ).subscribe();

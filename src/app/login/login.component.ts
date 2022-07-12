@@ -76,8 +76,8 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value).pipe(
       tap(
         (data) => {
-          this.alertService.success('Welcome ' + this.f.username.value + '. Your WHS is ' +
-          data.whs + '. Make sure it is up to date before adding the round.', true);
+          this.alertService.success($localize`:@@login-welcome:Welcome ${this.f.username.value}. Your handicap is
+          ${data.whs} Make sure it is up to date before adding the round.`, true);
           this.loading = false;
           this.router.navigate(['/home']);
         })
@@ -136,7 +136,8 @@ export class LoginComponent implements OnInit {
   }
 
   private finalizeSocialLogin(player: Player) {
-    this.alertService.success('Welcome ' + player.nick + '. Your WHS is ' + player.whs + '. Make sure it is up to date before adding the round.', true);
+    this.alertService.success($localize`:@@login-welcome:Welcome ${player.nick}. Your handicap is
+          ${player.whs} Make sure it is up to date before adding the round.`, true);
     this.loading = false;
     this.router.navigate(['/home']);
   }
@@ -148,9 +149,9 @@ export class LoginComponent implements OnInit {
   private processSocialLoginError(error: string) {
 
     if (error === 'authFailed') {
-      this.alertService.error('Unable to authenticate player via social media', false);
+      this.alertService.error($localize`:@@login-socialFailure:Unable to authenticate player via social media`, false);
     } else if (error === 'playerType') {
-      this.alertService.error('Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.', false);
+      this.alertService.error($localize`:@@login-nickInUse:Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.`, false);
     }
     this.loading = false;
   }

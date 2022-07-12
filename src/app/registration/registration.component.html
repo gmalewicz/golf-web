@@ -1,59 +1,64 @@
-<h2>Registration of the new player</h2>
+<h2 i18n="@@registration-header">Registration of the new player</h2>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="nick">Nick</label>
+    <label for="nick" i18n="@@registration-nick">Nick</label>
     <input type="text" formControlName="nick" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
     <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
-      <div *ngIf="f.nick.errors.required">Nick is required</div>
-      <div *ngIf="f.nick.errors.maxlength">Nick can be up to 10 characters long</div>
+      <div *ngIf="f.nick.errors.required" i18n="@@registration-nick-required">Nick is required</div>
+      <div *ngIf="f.nick.errors.maxlength" i18n="@@registration-nick-short">Nick can be up to 10 characters long</div>
     </div>
   </div>
+  <div class="golf-margin-top"></div>
   <div class="form-group">
-    <label for="password">Password</label>
+    <label for="password" i18n="@@registration-password">Password</label>
     <input type="password" formControlName="password" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.required">Password is required</div>
-      <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="f.password.errors.required" i18n="@@registration-password-required">Password is required</div>
+      <div *ngIf="f.password.errors.minlength" i18n="@@registration-password-short">Password must be at least 6 characters</div>
     </div>
   </div>
+  <div class="golf-margin-top"></div>
   <div class="form-group">
-    <label for="whs">WHS (handicap)</label>
+    <label for="whs" i18n="@@registration-hcp">HCP (handicap)</label>
     <input type="text" formControlName="whs" class="form-control" maxlength="4"
       [ngClass]="{ 'is-invalid': submitted && f.whs.errors }" placeholder="X.X" />
     <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
-      <div *ngIf="f.whs.errors.required">WHS is required</div>
-      <div *ngIf="f.whs.errors.max">WHS is caannot be higer than 54</div>
-      <div *ngIf="f.whs.errors.min">WHS is caannot be lower than -5</div>
-      <div *ngIf="f.whs.errors.pattern">Provide valid value</div>
+      <div *ngIf="f.whs.errors.required" i18n="@@registration-hcp-required">HCP is required</div>
+      <div *ngIf="f.whs.errors.max" i18n="@@registration-hcp-high">HCP is caannot be higer than 54</div>
+      <div *ngIf="f.whs.errors.min" i18n="@@registration-hcp-low">HCP is caannot be lower than -5</div>
+      <div *ngIf="f.whs.errors.pattern" i18n="@@registration-hcp-pattern">Provide valid value</div>
     </div>
   </div>
-  <div class="form-row">
-    &nbsp;
-    <div class="form-group custom-control custom-checkbox custom-checkbox-green">
-      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck1" (click)="sexClick(true)" formControlName="female" >
-      <label class="custom-control-label" for="customCheck1">Female</label>
-    </div>
-    &nbsp;
-    &nbsp;
-    <div class="form-group custom-control custom-checkbox custom-checkbox-green">
-      <input type="checkbox" class="custom-control-input custom-control-input-green" id="customCheck2" (click)="sexClick(false)" formControlName="male">
-      <label class="custom-control-label" for="customCheck2">Male</label>
+  <div class="form-row golf-margin-top">
+    <div class="col">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" (click)="sexClick(true)" formControlName="female">
+      <label for="customCheck1">
+        <span>&nbsp;</span>
+        <span i18n="@@registration-female">Female</span>
+      </label>
+      &nbsp;
+      &nbsp;
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" (click)="sexClick(false)" formControlName="male">
+      <label for="customCheck2">
+        <span>&nbsp;</span>
+        <span i18n="@@registration-male">Male</span>
+      </label>
     </div>
   </div>
   <div class="form-group">
     <re-captcha formControlName="recaptchaReactive" siteKey="6Lf-66YZAAAAAJc3serwf1iRoJg6PgTPJazkfNWD"
       [ngClass]="{ 'is-invalid': submitted && f.recaptchaReactive.errors }"></re-captcha>
     <div *ngIf="submitted && f.recaptchaReactive.errors" class="invalid-feedback">
-      <div *ngIf="f.recaptchaReactive.errors.required">Please mark the checkbox</div>
+      <div *ngIf="f.recaptchaReactive.errors.required" i18n="@@registration-recaptcha">Please mark the checkbox</div>
     </div>
   </div>
-  <div>
+  <div class="golf-margin-top">
     <button [disabled]="loading" class="btn btn-success btn-register">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Register
+      <span i18n="@@registration-register">Register</span>
     </button>
-    <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+    <a routerLink="/" class="btn btn-link text-success" i18n="@@registration-cancel">Cancel</a>
   </div>
 </form>

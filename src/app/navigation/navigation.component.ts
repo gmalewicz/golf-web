@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
@@ -15,7 +15,15 @@ export class NavigationComponent implements OnInit {
   display: boolean;
   currentPlayer: Player;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router, private alertService: AlertService) {
+  locales = [
+    { code: 'en-US', name: 'English' },
+    { code: 'pl', name: 'Polski' },
+  ];
+
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router,
+              private alertService: AlertService,
+              @Inject(LOCALE_ID) public activeLocale: string) {
   }
 
   ngOnInit(): void {
@@ -26,12 +34,16 @@ export class NavigationComponent implements OnInit {
 
   logout(): void {
     this.authenticationService.logout();
-    this.alertService.success('Your have been logged out', true);
+    this.alertService.success($localize`:@@nav-logoutSuccess:Your have been logged out`, true);
     this.router.navigate(['']);
     this.display = false;
   }
 
   onClick() {
     this.display = !this.display;
+  }
+
+  onChange() {
+    window.location.href = `/${this.activeLocale}`;
   }
 }

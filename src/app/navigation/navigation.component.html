@@ -2,6 +2,12 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">DGNG v2.16.1</a>
 
+    <select class="navbar navbar-dark bg-success form-select" style="width:auto; height: 30px; line-height:10px; font-size:10px;" (change)="onChange()" [(ngModel)]="activeLocale">
+      <option *ngFor="let locale of locales" [value]="locale.code">
+        {{ locale.name }}
+      </option>
+    </select>
+
     <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="logout"
       data-bs-target="#navbarToggleLogOut" (click)="onClick()"
       aria-controls="navbarToggleLogOut" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,14 +23,14 @@
     <div *ngIf="currentPlayer && display" class="navbar-collapse login p-4" id="navbarToggleLogIn">
 
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()">Start/View On-line Score Cards</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()">Historical Rounds</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()">Tournaments</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()">Courses</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()">Cycles</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()">Administration</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()">Change Log</a></li>
-        <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout">Logout</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
+        <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
             <fa-icon [icon]="faCog"></fa-icon>
           </a></li>
@@ -34,7 +40,7 @@
     <div *ngIf="!currentPlayer && display" class="navbar-collapse logout p-4" id="navbarToggleLogOut">
 
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()" i18n="@@nav-login">Login</a></li>
       </ul>
 
     </div>
