@@ -2,6 +2,180 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="authGuard-notAuthorized" datatype="html">
+        <source>You are not authorized to view this page</source>
+        <target>Nie masz uprawnień do tej funkcjonalności.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/auth.guard.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="errorInterceptor-notAvailable" datatype="html">
+        <source>Application not available. Try to refresh browser then log out and log in.</source>
+        <target>Aplikacja niedostępna. Odświerz przeglądarkę, następnie wyloguj się i zaloguj się ponownie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/error.interceptor.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorInterceptor-logOutIn" datatype="html">
+        <source>Please log out and log in.</source>
+        <target>Wyloguj się i zaloguj ponownie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/error.interceptor.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="roleGuard-accessDenied" datatype="html">
+        <source>Access denied. You do not have role: <x id="PH" equiv-text="routeRole"/>.</source>
+        <target>Brak dostępu. Nie posiadasz roli: <x id="PH" equiv-text="routeRole"/>.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/role.guard.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="addCourse-name" datatype="html">
+        <source>Course name</source>
+        <target>Nazwa pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="courses-addRound" datatype="html">
+        <source>Select course for round</source>
+        <target>Wybierz pole</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-favourites" datatype="html">
+        <source>Favourite courses</source>
+        <target>Ulubione pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-search" datatype="html">
+        <source>Search for a course</source>
+        <target>Szukaj pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-list" datatype="html">
+        <source>List of all courses</source>
+        <target>Lista wszystkich pól</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-onLine" datatype="html">
+        <source>Select course for online round</source>
+        <target>Wybierz pole</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-favTab" datatype="html">
+        <source>Favourites</source>
+        <target>Ulubione</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-searchTab" datatype="html">
+        <source>Search</source>
+        <target>Szukaj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-allTab" datatype="html">
+        <source>All courses</source>
+        <target>Wszystkie pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-courseName" datatype="html">
+        <source>Enter course Name:</source>
+        <target>Podaj nazwę pola:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-cancel" datatype="html">
+        <source> Cancel </source>
+        <target>Wróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">51,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-add" datatype="html">
+        <source> Add Course </source>
+        <target>Dodaj pole</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="listCourses-name" datatype="html">
+        <source>Name</source>
+         <target>Nazwa</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-favourites" datatype="html">
+        <source>Favourites</source>
+         <target>Ulubione</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-addedFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> added to favourites.</source>
+        <target><x id="PH" equiv-text="course.name"/> dodano do ulubionych.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-alreadyAddedFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> already added to favourites.</source>
+        <target><x id="PH" equiv-text="course.name"/> już jest w ulubionych.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-removeFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> removed from favourites.</source>
+        <target><x id="PH" equiv-text="course.name"/> usunięto z ulubionych.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+
       <trans-unit id="login-welcome" datatype="html">
         <source>Welcome <x id="PH" equiv-text="this.f.username.value"/>. Your handicap is
           <x id="PH_1" equiv-text="data.whs"/> Make sure it is up to date before adding the round.</source>
@@ -445,6 +619,95 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
           <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="updatePlayer-header" datatype="html">
+        <source>Modify your data:</source>
+        <target>Modyfikuj swoje dane:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-password" datatype="html">
+        <source>Password</source>
+        <target>Hasło</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-passwordShort" datatype="html">
+        <source> Password must be at least 6 characters </source>
+        <target>Hasło musi mieć przynajmniej 6 znaków</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpRequired" datatype="html">
+        <source>Handicap is required</source>
+        <target>Handicap jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpHigh" datatype="html">
+        <source>Handicap caannot be higer than 54</source>
+        <target>Handicap nie może być większy niż 54</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpLow" datatype="html">
+        <source>Handicap caannot be lower than -5</source>
+        <target>Handicap nie może być mniejszy niż -5</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpPattern" datatype="html">
+        <source> Provide valid value with the follwoing format: X.X </source>
+        <target>Wartość musi być w formacie X.X</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-update" datatype="html">
+        <source> Update </source>
+        <target>Zmień</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">44,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Wróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-noData" datatype="html">
+        <source>Handicap or password must be provided</source>
+        <target>Handicap lub hasło musi zosstać wpisane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-success" datatype="html">
+        <source>Player successfully updated</source>
+        <target>Dane gracza zostały zmodyfikowane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.ts</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
     </body>

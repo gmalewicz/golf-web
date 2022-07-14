@@ -2,45 +2,45 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2 class="col">Add the new cycle:</h2>
+  <h2 class="col" i18n="@@addCycle-AddLbl">Add the new cycle:</h2>
   <form [formGroup]="addCycleForm" (ngSubmit)="onSubmit()">
     <div class="form-group col">
       <label for="name">Cycle name</label>
       <input type="text" formControlName="name" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
       <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-        <div *ngIf="f.name.errors.required">Cycle name must be provided</div>
-        <div *ngIf="f.name.errors.minlength">Cycle name must be at least 3 characters long</div>
+        <div *ngIf="f.name.errors.required" i18n="@@addCycle-CycleReq">Cycle name must be provided</div>
+        <div *ngIf="f.name.errors.minlength" i18n="@@addCycle-CycleLength">Cycle name must be at least 3 characters long</div>
 
       </div>
     </div>
     <div class="form-group col">
-      <label for="bestRounds">No. of best rounds to be included (0 - all rounds)</label>
+      <label for="bestRounds" i18n="@@addCycle-BestRnd">No. of best rounds to be included (0 - all rounds)</label>
       <input type="text" formControlName="bestRounds" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }" />
       <div *ngIf="submitted && f.bestRounds.errors" class="invalid-feedback">
-        <div *ngIf="f.bestRounds.errors.required">No. of best rounds must be provided</div>
-        <div *ngIf="f.bestRounds.errors.min">No. of best rounds must be greater than 0</div>
-        <div *ngIf="f.bestRounds.errors.max">No. of best rounds must be lower than 20</div>
+        <div *ngIf="f.bestRounds.errors.required" i18n="@@addCycle-BestRndReq">No. of best rounds must be provided</div>
+        <div *ngIf="f.bestRounds.errors.min" i18n="@@addCycle-BestRndGreater">No. of best rounds must be greater than 0</div>
+        <div *ngIf="f.bestRounds.errors.max" i18n="@@addCycle-BestRndLower">No. of best rounds must be lower than 20</div>
       </div>
     </div>
     <div class="form-group col">
-      <label for="maxWhs">Max. handicap to be included</label>
+      <label for="maxWhs" i18n="@@addCycle-MaxHcpLbl">Max. handicap to be included</label>
       <input type="text" formControlName="maxWhs" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.maxWhs.errors }" />
       <div *ngIf="submitted && f.maxWhs.errors" class="invalid-feedback">
-        <div *ngIf="f.maxWhs.errors.required">Maximum handicap must be provided</div>
-        <div *ngIf="f.maxWhs.errors.min">Maximum handicap must be greater than -5</div>
-        <div *ngIf="f.maxWhs.errors.max">Maximum handicap must be lower or equal than 54</div>
-        <div *ngIf="f.maxWhs.errors.pattern">Provide valid value with the follwoing format: X.X</div>
+        <div *ngIf="f.maxWhs.errors.required" i18n="@@addCycle-MaxHcpReq">Maximum handicap must be provided</div>
+        <div *ngIf="f.maxWhs.errors.min" i18n="@@addCycle-MaxHcpGreter">Maximum handicap must be greater than -5</div>
+        <div *ngIf="f.maxWhs.errors.max" i18n="@@addCycle-MaxHcpLower">Maximum handicap must be lower or equal than 54</div>
+        <div *ngIf="f.maxWhs.errors.pattern" i18n="@@addCycle-MaxHcpPattern">Provide valid value with the follwoing format: X.X</div>
       </div>
     </div>
     <div class="form-group col golf-margin-top">
       <button [disabled]="loading" class="btn btn-success">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Create
+        <span i18n="@@addCycle-create">Create</span>
       </button>
-      <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+      <a routerLink="/" class="btn btn-link text-success" i18n="@@addCycle-cancel">Cancel</a>
     </div>
   </form>
 </div>

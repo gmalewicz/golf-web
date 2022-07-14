@@ -137,8 +137,10 @@ export class AddScorecardComponent implements OnInit {
     }
 
     this.barChartData = [{stack: 'Stack 0', label: 'Par',  data: barData, backgroundColor: 'purple', borderWidth: 1 },
-                         {stack: 'Stack 1', label: 'Strokes', data: this.strokes, backgroundColor : 'red', borderWidth : 1},
-                         {stack: 'Stack 1', label: 'Putts', data: this.putts, backgroundColor : 'blue', borderWidth : 1}];
+                         {stack: 'Stack 1', label: $localize`:@@addScorecard-strokesChrt:Strokes`,
+                          data: this.strokes, backgroundColor : 'red', borderWidth : 1},
+                         {stack: 'Stack 1', label: $localize`:@@addScorecard-puttsChrt:Putts`,
+                          data: this.putts, backgroundColor : 'blue', borderWidth : 1}];
 
     if (this.round != null) {
       this.barChartData[1].data = updatedStrokes;
@@ -150,16 +152,15 @@ export class AddScorecardComponent implements OnInit {
 
       // get tee which was played
       this.httpService.getPlayerRoundDetails
-        (this.authenticationService.currentPlayerValue.id, this.round.id).subscribe(playerRoundDetails => {
+      (this.authenticationService.currentPlayerValue.id, this.round.id).pipe(tap(
+        (playerRoundDetails) => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
           this.f.teeDropDown.disable();
 
           // updaate availability of holes, strokes and putts
           this.teeChange(false);
-      },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, false);
-      });
+        })
+      ).subscribe();
     }
 
     this.barChartOptions = {
@@ -176,7 +177,7 @@ export class AddScorecardComponent implements OnInit {
       plugins: {
         tooltip: {
           callbacks: {
-            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+            title: (tooltipItem: { label: string; }[]) => $localize`:@@addScorecard-holeChrt:Hole: ` + tooltipItem[0].label
           }
         }
       }
@@ -216,7 +217,7 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to clear score card?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@addScorecard-clearConf:Are you sure you want to clear score card?`;
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.alertService.clear();
@@ -234,7 +235,7 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to save score card?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@addScorecard-saveConf:Are you sure you want to save score card?`;
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // save if accepted by player
@@ -251,7 +252,7 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to exit?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@addScorecard-cancelConf:Are you sure you want to exit?`;
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // go to min page if cancel
@@ -305,7 +306,7 @@ export class AddScorecardComponent implements OnInit {
       this.httpService.addRound(round).pipe(tap(
         () => {
           this.display = false;
-          this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully added', true);
+          this.alertService.success($localize`:@@addScorecard-successConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully added`, true);
           this.router.navigate(['/home']);
         })
       ).subscribe();
@@ -315,7 +316,7 @@ export class AddScorecardComponent implements OnInit {
       this.httpService.updateRound(this.round).pipe(tap(
         () => {
           this.display = false;
-          this.alertService.success('The round at ' + this.f.date.value + ' ' + this.f.teeTime.value + ' successfully updated', true);
+          this.alertService.success($localize`:@@addScorecard-addConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully updated`, true);
           this.router.navigate(['/home']);
         })
       ).subscribe();
@@ -355,7 +356,7 @@ export class AddScorecardComponent implements OnInit {
 
      // number of pats cannot be greater than number of strokes
     if (stroke < this.putts[this.updatingHole - 1]) {
-      this.alertService.error('Number of putts cannot be greater than number of strokes', false);
+      this.alertService.error($localize`:@@addScorecard-puttTooHigh:Number of putts cannot be greater than number of strokes`, false);
       return;
     }
 
@@ -414,7 +415,8 @@ export class AddScorecardComponent implements OnInit {
 
     // number of pats cannot be greater than number of strokes
     if (pat > this.strokes[this.updatingHole - 1]) {
-      this.alertService.error('Number of pats cannot be greater than number of strokes', false);
+      this.alertService
+        .error($localize`:@@addScorecard-puttsHigherStrokes:Number of putts cannot be greater than number of strokes`, false);
       return;
     }
 

@@ -18,36 +18,33 @@ export class ErrorInterceptor implements HttpInterceptor {
       }
 
       if (err.status === 0 || err.status === 404) {
-        this.alertService.error('Application not available. Try to refresh browser then log out and log in.', true);
+        this.alertService.error($localize`:@@errorInterceptor-notAvailable:Application not available. Try to refresh browser then log out and log in.`, true);
         this.router.navigate(['']);
-        return throwError(err);
+        return throwError(() => new Error(err.status));
       }
 
       if (err.status !== 401) {
         this.alertService.error(err.error.message, true);
         this.router.navigate(['']);
-        return throwError(err);
+        return throwError(() => new Error(err.status));
       }
 
       if (err.status === 401 && err.error !== undefined && err.error.error === '14') {
         this.alertService.error(err.error.message, true);
         this.router.navigate(['']);
-
-        return throwError(err);
+        return throwError(() => new Error(err.status));
       }
 
       if (err.status === 401 && err.error.message !== 'Token Expired') {
         this.alertService.error(err.error.message, true);
         this.router.navigate(['']);
-
-        return throwError(err);
+        return throwError(() => new Error(err.status));
       }
 
       if (err.status === 401) {
-        this.alertService.error('Please log out and log in', true);
+        this.alertService.error($localize`:@@errorInterceptor-logOutIn:Please log out and log in.`, true);
         this.router.navigate(['']);
-
-        return throwError(err);
+        return throwError(() => new Error(err.status));
       }
 
     }));

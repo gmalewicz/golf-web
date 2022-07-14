@@ -57,7 +57,7 @@ export class UpdatePlayerComponent implements OnInit {
 
     // if nothing is provided show error
     if (this.f.whs.value === '' && this.f.password.value === '') {
-      this.alertService.error('WHS or password must be provided', false);
+      this.alertService.success($localize`:@@updatePlayer-noData:Handicap or password must be provided`, false);
       return;
     }
 
@@ -83,7 +83,6 @@ export class UpdatePlayerComponent implements OnInit {
           } else {
             this.authenticationService.currentPlayerValue.whs = whs;
           }
-          this.alertService.success('Player successfully updated', true);
           this.loading = false;
           this.router.navigate(['/home']);
         })

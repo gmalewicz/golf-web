@@ -1,8 +1,8 @@
 <div *ngIf="display">
-  <h2>Modify your data:</h2>
+  <h2 i18n="@@updatePlayer-header">Modify your data:</h2>
   <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password" i18n="@@updatePlayer-password">Password</label>
       <input
         autocomplete="new-password"
         type="password"
@@ -11,13 +11,14 @@
         [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
       />
       <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-        <div *ngIf="f.password.errors.minlength">
+        <div *ngIf="f.password.errors.minlength" i18n="@@updatePlayer-passwordShort">
           Password must be at least 6 characters
         </div>
       </div>
     </div>
+    <br/>
     <div class="form-group">
-      <label for="whs">WHS (handicap)</label>
+      <label for="whs">HCP (handicap)</label>
       <input
         type="text"
         formControlName="whs"
@@ -27,23 +28,26 @@
         placeholder="X.X"
       />
       <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
-        <div *ngIf="f.whs.errors.required">WHS is required</div>
-        <div *ngIf="f.whs.errors.max">WHS is caannot be higer than 54</div>
-        <div *ngIf="f.whs.errors.min">WHS is caannot be lower than -5</div>
-        <div *ngIf="f.whs.errors.pattern">
+        <div *ngIf="f.whs.errors.required" i18n="@@updatePlayer-hcpRequired">Handicap is required</div>
+        <div *ngIf="f.whs.errors.max" i18n="@@updatePlayer-hcpHigh">Handicap caannot be higer than 54</div>
+        <div *ngIf="f.whs.errors.min" i18n="@@updatePlayer-hcpLow">Handicap caannot be lower than -5</div>
+        <div *ngIf="f.whs.errors.pattern" i18n="@@updatePlayer-hcpPattern">
           Provide valid value with the follwoing format: X.X
         </div>
       </div>
     </div>
+    <br/>
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-success">
         <span
           *ngIf="loading"
-          class="spinner-border spinner-border-sm mr-1"
-        ></span>
-        Update
+          class="spinner-border spinner-border-sm mr-1">
+        </span>
+        <span i18n="@@updatePlayer-update">
+          Update
+        </span>
       </button>
-      <a routerLink="/" class="btn btn-link text-success">Cancel</a>
+      <a routerLink="/" class="btn btn-link text-success" i18n="@@updatePlayer-cancel">Cancel</a>
     </div>
   </form>
 </div>

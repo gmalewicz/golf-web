@@ -14,8 +14,8 @@
         [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
       />
       <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
-        <div *ngIf="f.date.errors.required">Date is required</div>
-        <div *ngIf="f.date.errors.pattern">Provide the date in the YYYY/MM/DD format</div>
+        <div *ngIf="f.date.errors.required" i18n="@@addScorecard-dateReq">Date is required</div>
+        <div *ngIf="f.date.errors.pattern" i18n="@@addScorecard-dateFrmt">Provide the date in the YYYY/MM/DD format</div>
       </div>
     </div>
     &nbsp;
@@ -28,8 +28,8 @@
         [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }"
       />
       <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
-        <div *ngIf="f.teeTime.errors.required">Tee time is required</div>
-        <div *ngIf="f.teeTime.errors.pattern">Provide the valid tee time</div>
+        <div *ngIf="f.teeTime.errors.required" i18n="@@addScorecard-teeReq">Tee time is required</div>
+        <div *ngIf="f.teeTime.errors.pattern" i18n="@@addScorecard-teeValid">Provide the valid tee time</div>
       </div>
     </div>
     <div class="form-group col">
@@ -37,10 +37,11 @@
         formControlName="teeDropDown"
         [options]="teeOptions"
         [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }"
+        i18n-placeholder="@@addScorecard-tee"
         placeholder="tee">
       </p-dropdown>
       <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
-        <div *ngIf="f.teeDropDown.errors.required">Tee is required</div>
+        <div *ngIf="f.teeDropDown.errors.required" i18n="@@addScorecard-teeReq">Tee is required</div>
       </div>
     </div>
     <br />
@@ -60,7 +61,7 @@
   <br />
 
   <div class="row">
-    <div class="col-sm-1 btn" style="cursor: default;">
+    <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-hole">
       Hole:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
@@ -73,7 +74,7 @@
   <br />
 
   <div class="row">
-    <div  class="col-sm-1 btn" style="cursor: default;">
+    <div  class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-strokes">
       Strokes:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
@@ -86,7 +87,7 @@
   <br />
 
   <div class="row">
-    <div class="col-sm-1 btn" style="cursor: default;">
+    <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-putts">
       Putts:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
@@ -101,14 +102,14 @@
     <div class="form-group">
     <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Save
+      <span i18n="@@addScorecard-save">Save</span>
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success btn-clear" (click)="clear()">
+    <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addScorecard-clear">
       Clear
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()">
+    <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()" i18n="@@addScorecard-cancel">
       Cancel
     </button>
     </div>

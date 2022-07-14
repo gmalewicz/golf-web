@@ -68,7 +68,7 @@ export class AddCycleComponent implements OnInit {
 
     this.cycleHttpService.addCycle(cycle).pipe(tap(
       () => {
-        this.alertService.success('Cycle successfully created', true);
+        this.alertService.success($localize`:@@addCycle-cycleAddedMsg:Cycle successfully created`, true);
         this.loading = false;
         this.router.navigate(['/cycles']);
       })

@@ -46,7 +46,7 @@ export class CourseComponent implements OnInit {
       this.loadingTees = false;
       this.display = false;
       this.displayTees = false;
-      this.showTeesLbl = 'Show tees';
+      this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
       this.tee = [];
       this.barChartType = 'bar';
       this.barChartLegend = true;
@@ -96,7 +96,7 @@ export class CourseComponent implements OnInit {
         },
         tooltip: {
           callbacks: {
-            title: (tooltipItem: { label: string; }[]) => 'Hole: ' + tooltipItem[0].label
+            title: (tooltipItem: { label: string; }[]) => $localize`:@@course-hole:Hole ` + tooltipItem[0].label
           }
         }
       },
@@ -122,9 +122,9 @@ export class CourseComponent implements OnInit {
     }
 
     if (this.displayTees) {
-      this.showTeesLbl = 'Hide tees';
+      this.showTeesLbl = $localize`:@@course-hideTees:Hide tees`;
     } else {
-      this.showTeesLbl = 'Show tees';
+      this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
     }
   }
 
@@ -135,7 +135,7 @@ export class CourseComponent implements OnInit {
     this.httpService.deleteCourse(this.course.id).pipe(
       tap(
         () => {
-          this.alertService.success('The course has been successfully deleted', true);
+          this.alertService.success($localize`:@@course-DelMsg:The course has been successfully deleted`, true);
           this.router.navigate(['/home']);
         })
     ).subscribe();

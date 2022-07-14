@@ -194,7 +194,7 @@ export class AddCourseComponent implements OnInit {
 
     // check if that si has been already used
     if (this.si.includes(si + 1)) {
-      this.alertService.error('The same SI cannot be assigned twice to the same hole', false);
+      this.alertService.error($localize`:@@addCourse-wrongSI:The same SI cannot be assigned twice to the same hole`, false);
       return;
     }
 
@@ -246,7 +246,8 @@ export class AddCourseComponent implements OnInit {
     this.httpService.addCourse(course).pipe(
       tap(
         () => {
-          this.alertService.success('The course ' + this.f.courseName.value + ' successfully added', true);
+          this.alertService.success($localize`:@@addCourse-addedSuccess:The course ${this.f.courseName.value} successfully added`, true);
+
           this.router.navigate(['/home']);
         })
     ).subscribe();
@@ -292,18 +293,18 @@ export class AddCourseComponent implements OnInit {
 
     // verify if all pars are set
     if (this.pars.includes(0)) {
-      this.alertService.error('Pars are not set for all holes', false);
+      this.alertService.error($localize`:@@addCourse-ParNotSet:Pars are not set for all holes`, false);
       return false;
     }
     // verify if all SI are set
     if (this.si.includes(0)) {
-      this.alertService.error('SI are not set for all holes', false);
+      this.alertService.error($localize`:@@addCourse-SINotSet:SI are not set for all holes`, false);
       return false;
     }
 
     // verify if at least one tee is defined
     if (this.tees.length < 1) {
-      this.alertService.error('At least one tee must be defined', false);
+      this.alertService.error($localize`:@@addCourse-TeeNotSet:At least one tee must be defined`, false);
       return false;
     }
 

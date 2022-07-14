@@ -40,7 +40,7 @@ export class JwtInterceptor implements HttpInterceptor {
         } else {
           this.authenticationService.logout();
           this.router.navigate(['/login']);
-          return throwError({error: {message: 'Session expired, pleease log in'}});
+          return throwError(() => new Error('Session expired, pleease log in'));
         }
 
         return next.handle(request);

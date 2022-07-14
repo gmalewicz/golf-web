@@ -21,7 +21,7 @@ export class RoleGuard implements CanActivate {
         if (roles.includes(routeRole)) {
           return true;
         } else {
-          this.alertService.error('Access denied. You do not have role: ' + routeRole, false);
+          this.alertService.error($localize`:@@roleGuard-accessDenied:Access denied. You do not have role: ${routeRole}.`, false);
           this.router.navigate(['/home']);
         }
       }

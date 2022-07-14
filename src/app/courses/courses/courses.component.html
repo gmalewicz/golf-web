@@ -1,27 +1,27 @@
 <div *ngIf="data.parent === 'addRound'">
-  <h2>Select course for round</h2>
+  <h2 i18n="@@courses-addRound">Select course for round</h2>
 </div>
 <div *ngIf="data.parent === 'courses'">
-  <h2 *ngIf="selectedTab === 0">Favourite courses</h2>
-  <h2 *ngIf="selectedTab === 1">Search for a course</h2>
-  <h2 *ngIf="selectedTab === 2">List of all courses</h2>
+  <h2 *ngIf="selectedTab === 0" i18n="@@courses-favourites">Favourite courses</h2>
+  <h2 *ngIf="selectedTab === 1" i18n="@@courses-search">Search for a course</h2>
+  <h2 *ngIf="selectedTab === 2" i18n="@@courses-list">List of all courses</h2>
 </div>
 <div *ngIf="data.parent === 'addOnlineRound'">
-  <h2>Select course for online round</h2>
+  <h2 i18n="@@courses-onLine">Select course for online round</h2>
 </div>
 <br/>
 <ul class="nav nav-tabs" id="coursesTab" role="tablist">
   <li class="nav-item">
     <button class="nav-link active" id="favourites-tab" data-bs-toggle="tab" data-bs-target="#favourites" type="button"
-            role="tab" aria-controls="favourites" aria-selected="true"  (click)="onTabClick(0)">Favourites</button>
+            role="tab" aria-controls="favourites" aria-selected="true"  (click)="onTabClick(0)" i18n="@@courses-favTab">Favourites</button>
   </li>
   <li class="nav-item">
     <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button"
-            role="tab" aria-controls="search" aria-selected="false"  (click)="onTabClick(1)">Search</button>
+            role="tab" aria-controls="search" aria-selected="false"  (click)="onTabClick(1)" i18n="@@courses-searchTab">Search</button>
   </li>
   <li *ngIf="authenticationService.playerRole.includes('ADMIN')" class="nav-item">
     <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
-            role="tab" aria-controls="all" aria-selected="false"  (click)="onTabClick(2)">All courses</button>
+            role="tab" aria-controls="all" aria-selected="false"  (click)="onTabClick(2)" i18n="@@courses-allTab">All courses</button>
   </li>
 </ul>
 <div class="tab-content" id="coursesTabContent">
@@ -32,7 +32,7 @@
     <br/>
     <form [formGroup]="searchCourseForm" (keyup)="onKey()">
       <div class="form-group">
-        <label for="courseName">Enter course Name:</label>
+        <label for="courseName" i18n="@@courses-courseName">Enter course Name:</label>
         <input type="text" formControlName="courseName" class="form-control"/>
       </div>
     </form>
@@ -48,12 +48,12 @@
 </div>
 <div>
   <br />
-  <button type="button" class="btn btn-success" routerLink="/home">
+  <button type="button" class="btn btn-success" routerLink="/home" i18n="@@courses-cancel">
     Cancel
   </button>
   <span *ngIf="data.parent === 'courses'">
     &nbsp;
-    <button type="button" class="btn btn-success" routerLink="/addCourse">
+    <button type="button" class="btn btn-success" routerLink="/addCourse" i18n="@@courses-add">
       Add Course
     </button>
   </span>
