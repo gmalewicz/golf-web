@@ -16,10 +16,8 @@
         <input type="text" maxlength="5" formControlName="teeTime" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }" placeholder="HH:MM" />
         <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
-          <div *ngIf="f.teeTime.errors.required">Tee time is required</div>
-          <div *ngIf="f.teeTime.errors.pattern">
-            Provide the valid tee time
-          </div>
+          <div *ngIf="f.teeTime.errors.required" i18n="@@onlnRndDef-timReq">Tee time is required</div>
+          <div *ngIf="f.teeTime.errors.pattern" i18n="@@onlnRndDef-timPatt">Provide the valid tee time</div>
         </div>
       </span>
     </div>
@@ -27,7 +25,7 @@
     <div class="golf-margin-top">
       <input type="checkbox" class="form-check-input form-check-input-green" id="matchPlay" formControlName="matchPlay"
         (ngModelChange)="onMatchPlayChange($event)">
-      <label for="matchPlay">&nbsp; Match Play Round</label>
+      <label for="matchPlay">&nbsp; <span i18n="@@onlnRndDef-mpRnd">Match Play Round</span></label>
     </div>
 
     <div *ngIf="f.matchPlay.value" class="row golf-margin-top">
@@ -66,7 +64,7 @@
 
     <div class="row golf-margin-top">
 
-        <label for="player1Lbl">Player 1 username:</label>
+        <label for="player1Lbl" i18n="@@onlnRndDef-p1">Player 1 username:</label>
 
         <div class="col-8">
           <input type="text" formControlName="nick1" class="form-control" />
@@ -82,7 +80,7 @@
           </p-dropdown>
           &nbsp;
           <div *ngIf="submitted && f.teeDropDown1.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown1.errors.required">Tee is required</div>
+            <div *ngIf="f.teeDropDown1.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
           </div>
 
           <span *ngIf="tees[0] != null">
@@ -90,21 +88,21 @@
             &nbsp;
           </span>
 
-          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)">
+          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)" i18n="@@onlnRndDef-hcpUpd">
             HCP update
           </button>
         </div>
     </div>
 
     <div *ngIf="noOfPlayers > 1" class="row golf-margin-top">
-      <label for="player2Lbl">Player 2 username:</label>
+      <label for="player2Lbl" i18n="@@onlnRndDef-p2">Player 2 username:</label>
 
       <div class="col-8">
           <input type="text" formControlName="nick2" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.nick2.errors }" />
           <div *ngIf="submitted && f.nick2.errors" class="invalid-feedback">
-            <div *ngIf="f.nick2.errors.required">Player nick is required</div>
-            <div *ngIf="f.nick2.errors.maxlength">Nick cannot be longer than 20 characters</div>
+            <div *ngIf="f.nick2.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
+            <div *ngIf="f.nick2.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
           </div>
       </div>
 
@@ -123,7 +121,7 @@
           [ngClass]="{ 'is-invalid': submitted && f.teeDropDown2.errors }" placeholder="tee">
         </p-dropdown>
         <div *ngIf="submitted && f.teeDropDown2.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown2.errors.required">Tee is required</div>
+          <div *ngIf="f.teeDropDown2.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
         </div>
         <span *ngIf="tees[1] != null">
           &nbsp;
@@ -131,7 +129,7 @@
         </span>
         <span class="form-group" *ngIf="players[1] != null">
           &nbsp;
-          <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)">
+          <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)" i18n="@@onlnRndDef-hcpUpd">
             HCP update
           </button>
         </span>
@@ -141,14 +139,14 @@
     </div>
 
     <div *ngIf="noOfPlayers > 2" class="row golf-margin-top">
-      <label for="player3Lbl">Player 3 username:</label>
+      <label for="player3Lbl" i18n="@@onlnRndDef-p3">Player 3 username:</label>
 
       <div class="col-8">
         <input type="text" formControlName="nick3" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.nick3.errors }" />
         <div *ngIf="submitted && f.nick3.errors" class="invalid-feedback">
-          <div *ngIf="f.nick3.errors.required">Player nick is required</div>
-          <div *ngIf="f.nick3.errors.maxlength">Nick cannot be longer than 20 characters</div>
+          <div *ngIf="f.nick3.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
+          <div *ngIf="f.nick3.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
 
@@ -166,7 +164,7 @@
           [ngClass]="{ 'is-invalid': submitted && f.teeDropDown3.errors }" placeholder="tee">
         </p-dropdown>
         <div *ngIf="submitted && f.teeDropDown3.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown3.errors.required">Tee is required</div>
+          <div *ngIf="f.teeDropDown3.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
         </div>
         <span *ngIf="tees[2] != null">
           &nbsp;
@@ -174,7 +172,7 @@
         </span>
         <span class="form-group" *ngIf="players[2] != null">
           &nbsp;
-          <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)">
+          <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)" i18n="@@onlnRndDef-hcpUpd">
             HCP update
           </button>
         </span>
@@ -183,15 +181,15 @@
     </div>
 
     <div *ngIf="noOfPlayers > 3" class="row golf-margin-top">
-      <label for="player4Lbl">Player 4 username:</label>
+      <label for="player4Lbl" i18n="@@onlnRndDef-p4">Player 4 username:</label>
 
       <div class="col-8">
 
         <input type="text" formControlName="nick4" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.nick4.errors }" />
         <div *ngIf="submitted && f.nick4.errors" class="invalid-feedback">
-          <div *ngIf="f.nick4.errors.required">Player nick is required</div>
-          <div *ngIf="f.nick4.errors.maxlength">Nick cannot be longer than 20 characters</div>
+          <div *ngIf="f.nick4.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
+          <div *ngIf="f.nick4.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
 
@@ -209,7 +207,7 @@
           [ngClass]="{ 'is-invalid': submitted && f.teeDropDown4.errors }" placeholder="tee">
         </p-dropdown>
         <div *ngIf="submitted && f.teeDropDown4.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown4.errors.required">Tee is required</div>
+          <div *ngIf="f.teeDropDown4.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
         </div>
         <span *ngIf="tees[3] != null">
           &nbsp;
@@ -217,7 +215,7 @@
         </span>
         <span class="form-group" *ngIf="players[3] != null">
           &nbsp;
-          <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)">
+          <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)" i18n="@@onlnRndDef-hcpUpd">
             HCP update
           </button>
         </span>
@@ -228,26 +226,26 @@
 
     <div class="golf-margin-top">
       <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts">
-      <label for="customCheck1">&nbsp; Include putts (optional)</label>
+      <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span>></label>
     </div>
     <div>
       <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties">
-      <label for="customCheck2">&nbsp; Include penalties (optional)</label>
+      <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
     </div>
 
   </form>
   <div>
     <br />
     <div class="form-group">
-      <button type="button" class="btn btn-success" routerLink="/home">
+      <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlnRndDef-cancel">
         Cancel
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onStartOnlineRound()">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Start
+        <span i18n="@@onlnRndDef-start">Start</span>
       </button>
     </div>
-    Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader
+    <span i18n="@@onlnRndDef-note">Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</span>
   </div>
 </div>

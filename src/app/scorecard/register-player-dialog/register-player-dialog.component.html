@@ -1,38 +1,30 @@
 <div class="golf-theme">
-  <h2 style="color: red" mat-dialog-title>Player not found!</h2>
+  <h2 style="color: red" mat-dialog-title i18n="@@registerPlr-notFound">Player not found!</h2>
 
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
-      <input matInput placeholder="Player nick" formControlName="nick" />
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.required"
-        >Nick is required</mat-error
-      >
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength"
-        >Nick can be up to 10 characters long</mat-error
-      >
+      <input matInput i18n-placeholder="@@registerPlr-nick" placeholder="Player nick" formControlName="nick" />
+      <mat-error *ngIf="f.nick.errors && f.nick.errors.required" i18n="@@registerPlr-nickReq">Nick is required</mat-error>
+      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength" i18n="@@registerPlr-nickTooLng">Nick can be up to 10 characters long</mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <app-common-dialog [form] = 'form'></app-common-dialog>
   <mat-dialog-content [formGroup]="form">
-    <mat-checkbox formControlName="female" (click)="sexClick(true)"
-      >Female</mat-checkbox
-    >
+    <mat-checkbox formControlName="female" (click)="sexClick(true)" i18n="@@registerPlr-fem">Female</mat-checkbox>
     &nbsp;
-    <mat-checkbox formControlName="male" (click)="sexClick(false)"
-      >Male</mat-checkbox
-    >
+    <mat-checkbox formControlName="male" (click)="sexClick(false)" i18n="@@registerPlr-mal">Male</mat-checkbox>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button class="mat-raised-button mat-primary" (click)="close()">
+    <button class="mat-raised-button mat-primary" (click)="close()" i18n="@@registerPlr-cancel">
       Cancel
     </button>
     &nbsp;
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+    <button class="mat-raised-button mat-primary" (click)="save()" i18n="@@registerPlr-save">Save</button>
   </mat-dialog-actions>
   <br />
   <p>
-    Create the new player or<br />
-    cancel and search again. The<br />
-    password will be 'welcome'.<br />
+    <span i18n="@@registerPlr-msg1">Create the new player or</span><br />
+    <span i18n="@@registerPlr-msg2">cancel and search again. The</span><br />
+    <span i18n="@@registerPlr-msg3">password will be 'welcome'.</span><br />
   </p>
 </div>

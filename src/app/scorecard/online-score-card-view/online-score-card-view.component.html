@@ -8,7 +8,7 @@
     </span>
   </h2>
   <div>
-    Last update: {{lstUpdTime}}
+    <span i18n="@@onlnScorView-lstUpd">Last update:</span>> {{lstUpdTime}}
   </div>
   <br/>
   <div class="table-responsive">
@@ -24,7 +24,7 @@
             {{i + 10}}
           </th>
           <th id="in">IN</th>
-          <th id="total">TOTAL</th>
+          <th id="total" i18n="@@onlnScorView-total">TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -119,7 +119,7 @@
     </h3>
   </div>
   <br />
-  <button type="button" class="btn btn-success" routerLink="/home">
+  <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlnScorView-cancel">
     Cancel
   </button>
 </div>

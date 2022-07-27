@@ -155,7 +155,7 @@ export class RoundViewComponent implements OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete score card?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@roundView-delConf:Are you sure you want to delete score card?`;
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do confirmation actions
@@ -165,7 +165,7 @@ export class RoundViewComponent implements OnInit {
         this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(
           tap(
             () => {
-              this.alertService.success('The scorecard has been successfully deleted', false);
+              this.alertService.success($localize`:@@roundView-delConfSuccess:The scorecard has been successfully deleted`, false);
               this.router.navigate(['/home']);
             })
         ).subscribe();

@@ -4,14 +4,14 @@
 <div *ngIf="display">
   <br/>
   <p *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-    Course HCP: &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
-    &nbsp; Score Differential: &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
+    <span i18n="@@roundViewWhs-courseHcp">Course HCP:</span> &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
+    &nbsp; <span i18n="@@roundViewWhs-scorDiff">Score Differential:</span> &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
   </p>
   <div class="table-responsive">
     <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View stroke play round">
       <thead>
         <tr>
-          <th id="hole" class="w-15">Hole</th>
+          <th id="hole" class="w-15" i18n="@@roundViewWhs-hole">Hole</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
               {{round.scoreCard[i].hole}}
@@ -24,7 +24,7 @@
             </th>
             <th id="in" class="center w-10" >IN</th>
           </ng-container>
-          <th id="total" class="center w-10">TOTAL</th>
+          <th id="total" class="center w-10" i18n="@@roundViewWhs-total">TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -61,7 +61,7 @@
           <th id="empty"></th>
         </tr>
         <tr>
-          <th id="score">Score</th>
+          <th id="score" i18n="@@roundViewWhs-score">Score</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
@@ -121,7 +121,7 @@
           <th id="empty"></th>
         </tr>
         <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="ns">Net Score</th>
+          <th id="ns" i18n="@@roundViewWhs-netScore">Net Score</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i]" class="center">
               <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
@@ -209,7 +209,7 @@
           <th id="b9b" class="center">{{first9StbBrutto + last9StbBrutto}}</th>
         </tr>
         <tr>
-          <th id="pu">Putts</th>
+          <th id="pu" i18n="@@roundViewWhs-putts">Putts</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" class="center">
               {{round.scoreCard[i + (playerOffset * 18)].pats}}
@@ -225,7 +225,7 @@
           <th id="b9p" class="center">{{first9Putt + last9Putt}}</th>
         </tr>
         <tr>
-          <th id="pen">Penalties</th>
+          <th id="pen" i18n="@@roundViewWhs-penalt">Penalties</th>
           <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
             <td *ngFor="let i = index of counter(9)" class="center">
               {{round.scoreCard[i + (playerOffset * 18)].penalty}}

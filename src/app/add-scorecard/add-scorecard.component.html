@@ -28,7 +28,7 @@
         [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }"
       />
       <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
-        <div *ngIf="f.teeTime.errors.required" i18n="@@addScorecard-teeReq">Tee time is required</div>
+        <div *ngIf="f.teeTime.errors.required" i18n="@@addScorecard-teeTimeReq">Tee time is required</div>
         <div *ngIf="f.teeTime.errors.pattern" i18n="@@addScorecard-teeValid">Provide the valid tee time</div>
       </div>
     </div>

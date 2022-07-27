@@ -18,7 +18,7 @@
   </app-common-scorecard-top>
   <div>
     <div>
-      <h3>
+      <h3 i18n="@@onlnRnd-score">
         Score Card
       </h3>
     </div>
@@ -82,18 +82,18 @@
     <div class="form-group">
       <button type="button" class="btn btn-success" (click)="onDelete()">
         <span *ngIf="loadingDel" class="spinner-border spinner-border-sm mr-1"></span>
-        Delete
+        <span i18n="@@onlnRnd-delete">Delete</span>
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onFinal()">
         <span *ngIf="loadingFin" class="spinner-border spinner-border-sm mr-1"></span>
-        Finalize
+        <span i18n="@@onlnRnd-fin">Finalize</span>
       </button>
     </div>
   </div>
 </div>
 <ng-template #TableHeader >
-  <th id="hole">Hole</th>
+  <th id="hole" i18n="@@onlnRnd-hole">Hole</th>
   <th id="p1str">{{onlineRounds[0].player.nick}}
     <span *ngIf="ballPickedUp[0]">
       (x)

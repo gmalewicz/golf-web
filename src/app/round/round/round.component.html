@@ -7,11 +7,11 @@
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
       <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"
-        role="tab" aria-controls="overview" aria-selected="true" (click)="onTabClick(0)">Overview</button>
+        role="tab" aria-controls="overview" aria-selected="true" (click)="onTabClick(0)" i18n="@@round-over">Overview</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button"
-        role="tab" aria-controls="summary" aria-selected="false" (click)="onTabClick(1)">Summary</button>
+        role="tab" aria-controls="summary" aria-selected="false" (click)="onTabClick(1)" i18n="@@round-summary">Summary</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p0" type="button"
@@ -31,7 +31,7 @@
     </li>
     <li class="nav-item" *ngIf="round.matchPlay && round.player.length === 2">
       <button class="nav-link" id="mp-tab" data-bs-toggle="tab" data-bs-target="#mp" type="button"
-        role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)">Match Play</button>
+        role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -59,17 +59,17 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@round-cancel">
       Cancel
     </button>
     &nbsp;
-    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" *ngIf="!viewOnly">
+    <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" *ngIf="!viewOnly" i18n="@@round-edit">
       Edit
     </button>
     &nbsp;
     <button [disabled]="loading" class="btn btn-success" (click)="onDelete()" *ngIf="!viewOnly">
       <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      Delete
+      <span i18n="@@round-delete">Delete</span>
     </button>
   </div>
 </div>

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { TournamentHttpService } from '../_services';
 import { Tournament } from '../_models/tournament';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-tournament',
@@ -65,22 +65,17 @@ export class AddTournamentComponent implements OnInit {
     };
 
     if (tournament.startDate > tournament.endDate) {
-      this.alertService.error('Start date cannot be later than end date', false);
+      this.alertService.error($localize`:@@addTour-strtDat:Start date cannot be later than end date`, false);
       return;
     }
 
-    // tslint:disable-next-line: variable-name
-    this.tournamentHttpService.addTournament(tournament).subscribe(_data => {
-
-      this.alertService.success('Tournament successfully created', true);
-      this.loading = false;
-      this.router.navigate(['/home']);
-    },
-      // tslint:disable-next-line: variable-name
-      (_error: HttpErrorResponse) => {
-        this.alertService.error('Tournament creation failed', true);
-        this.loading = false;
-        this.router.navigate(['/home']);
-      });
+    this.tournamentHttpService.addTournament(tournament).pipe(
+      tap(
+        () => {
+          this.alertService.success($localize`:@@addTour-tourSucc:Tournament successfully created`, true);
+          this.loading = false;
+          this.router.navigate(['/home']);
+        })
+    ).subscribe();
   }
 }

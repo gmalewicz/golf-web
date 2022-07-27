@@ -7,8 +7,8 @@
     <table id="result-tbl" class="table table-striped" aria-describedby="result view">
       <thead>
         <tr>
-          <th id="hno">No.</th>
-          <th id="hname">Name</th>
+          <th id="hno" i18n="@@cycleResults-no">No.</th>
+          <th id="hname" i18n="@@cycleResults-name">Name</th>
           <th id="hr23" *ngFor="let i = index of counter(rounds.length)" class="w-5">
             <tr style="font-size:x-small;">
               {{cycleTournaments[names[i]].name}}
@@ -17,8 +17,8 @@
               R{{i + 1}}
             </tr>
           </th>
-          <th id="hresult">RESULT</th>
-          <th class="golf-green" id="htotal">TOTAL</th>
+          <th id="hresult" i18n="@@cycleResults-result">RESULT</th>
+          <th class="golf-green" id="htotal" i18n="@@cycleResults-total">TOTAL</th>
         </tr>
       </thead>
       <tbody>

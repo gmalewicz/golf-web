@@ -22,22 +22,22 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-outline-success both9" (click)="onBoth9()">
+    <button type="button" class="btn btn-outline-success both9" (click)="onBoth9()" i18n="@@roundView-both">
       Both 9
     </button>
     &nbsp;
-    <button type="button" class="btn btn-outline-success first9" (click)="onFirst9()">
+    <button type="button" class="btn btn-outline-success first9" (click)="onFirst9()" i18n="@@roundView-first">
       First 9
     </button>
     &nbsp;
-    <button type="button" class="btn btn-outline-success last9" (click)="onLast9()">
+    <button type="button" class="btn btn-outline-success last9" (click)="onLast9()" i18n="@@roundView-last">
       Last 9
     </button>
     <br />
     <br />
     <div class="row">
       <div class="col-12">
-        Show player:
+        <span i18n="@@roundView-showPlr">Show player:</span>
         &nbsp;
         <input type="checkbox" class="form-check-input form-check-input-green" id="player0" checked="checked" (change)="onChecked($event, 0)">
         &nbsp;

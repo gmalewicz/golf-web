@@ -98,7 +98,7 @@ export class CycleDetailsComponent implements OnInit {
 
             this.cycleHttpService.addCycleTournament(eagleResultSet).pipe(tap(
               () => {
-                this.alertService.success('Cycle tournamnet successfully added', true);
+                this.alertService.success($localize`:@@cycleDetails-tourAdded:Cycle tournamnet successfully added`, true);
                 this.router.navigate(['/home']);
               })
             ).subscribe();
@@ -117,13 +117,13 @@ export class CycleDetailsComponent implements OnInit {
       disableClose: false
     });
 
-    dialogRef.componentInstance.confirmMessage = 'Are you sure you want to close cycle?';
+    dialogRef.componentInstance.confirmMessage = $localize`:@@cycleDetails-CloseConf:Are you sure you want to close cycle?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadingClose = true;
         this.cycleHttpService.closeCycle(this.cycle.id).pipe(tap(
           () => {
-            this.alertService.success('Cycle successfully closed', true);
+            this.alertService.success($localize`:@@cycleDetails-CloseMsg:Cycle successfully closed`, true);
             this.router.navigate(['/home']);
           })
         ).subscribe();

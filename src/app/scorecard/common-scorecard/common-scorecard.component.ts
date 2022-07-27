@@ -99,7 +99,7 @@ import { OnlineRound } from '../_models/onlineRound';
   </tbody>
 </table>
 <ng-template #TableHeader >
-  <th id="hole">Hole</th>
+  <th id="hole" i18n="@@comScor-hole">Hole</th>
   <th id="p1str">{{rounds[0].player.nick}}
     <span *ngIf="ballPickedUp[0]">
       (x)

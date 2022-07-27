@@ -2,16 +2,16 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2>List of cycles:</h2>
+  <h2 i18n="@@cycles-list">List of cycles:</h2>
   <br/>
   <table class="table table-striped" aria-describedby="Tournament list">
     <thead>
       <tr>
         <th id="nav"></th>
-        <th id="name">Name</th>
-        <th id="name">Best results</th>
-        <th id="handicap">Max. handicap</th>
-        <th id="sDate">Status</th>
+        <th id="name" i18n="@@cycles-name">Name</th>
+        <th id="name" i18n="@@cycles-BestRes">Best results</th>
+        <th id="handicap" i18n="@@cycles-maxHcp">Max. handicap</th>
+        <th id="sDate" i18n="@@cycles-status">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -25,18 +25,18 @@
         <td *ngIf="cycle.bestRounds === 0">All</td>
         <td *ngIf="cycle.bestRounds !== 0">{{cycle.bestRounds}}</td>
         <td>{{cycle.maxWhs}}</td>
-        <td *ngIf="cycle.status === statusOpen">Open</td>
-        <td *ngIf="cycle.status === statusClose">Close</td>
+        <td *ngIf="cycle.status === statusOpen" i18n="@@cycles-open">Open</td>
+        <td *ngIf="cycle.status === statusClose" i18n="@@cycles-close">Close</td>
       </tr>
     </tbody>
   </table>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@cycles-cancel">
       Cancel
     </button>
     &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success" routerLink="addCycle">
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success" routerLink="addCycle" i18n="@@cycles-add">
       Add
     </button>
   </div>
