@@ -48,16 +48,20 @@
       <div class="col">
         <div class="btn-group" role="group" aria-label="Number of players">
           <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)">
-          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}" (click)="onPlayers(1)">1 player</label>
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
+            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</label>
 
           <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)">
-          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}" (click)="onPlayers(2)">2 players</label>
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
+            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</label>
 
           <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)">
-          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}" (click)="onPlayers(3)">3 players</label>
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
+            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</label>
 
           <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)">
-          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}" (click)="onPlayers(4)">4 players</label>
+          <label class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
+            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</label>
         </div>
       </div>
     </div>
@@ -225,11 +229,11 @@
     </div>
 
     <div class="golf-margin-top">
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts">
-      <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span>></label>
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts"/>
+      <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>
     </div>
     <div>
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties"/>
       <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
     </div>
 

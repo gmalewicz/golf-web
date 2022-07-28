@@ -2,12 +2,13 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2>{{tournament.name}}
-    <span i18n="@@tourRes-hdr">Tournament Results</span>
+  <h2>
+    <span i18n="@@tourRes-hdr">Tournament Results: </span>
+    {{tournament.name}}
     <span *ngIf="tournament.bestRounds > 0">
       <span i18n="@@tourRes-bst"> - best </span>
       {{tournament.bestRounds}}
-      <span i18n="@@tourRes-rnds"> rounds</span>
+      <span i18n="@@tourRes-rnds"> round(s)</span>
     </span>
   </h2>
 
@@ -83,7 +84,7 @@
                       <th id="no" i18n="@@tourRes-no">No</th>
                       <th id="cour" i18n="@@tourRes-course">Course</th>
                       <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-                      <th id="gstb" 18n="@@tourRes-stb">STB</th>
+                      <th id="gstb" i18n="@@tourRes-stb">STB</th>
                       <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
                       <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
                       <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
