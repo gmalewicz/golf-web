@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';

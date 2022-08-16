@@ -42,7 +42,7 @@ describe('Register Test', () => {
       cy.get('input[formcontrolname=nick]').type('golfer')
       cy.get('input[formcontrolname=password]').type('welcome')
       cy.get('form').submit()
-      cy.contains('WHS is required')
+      cy.contains('HCP is required')
     })
 
     it('tries to register with invalid WHS', function () {
@@ -58,7 +58,7 @@ describe('Register Test', () => {
       cy.get('input[formcontrolname=password]').type('welcome')
       cy.get('input[formcontrolname=whs]').type('222')
       cy.get('form').submit()
-      cy.contains('WHS is caannot be higer than 54')
+      cy.contains('HCP is caannot be higer than 54')
     })
 
     it('tries to register with incorrect captcha', function () {
