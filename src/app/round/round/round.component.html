@@ -29,9 +29,9 @@
       <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p3" type="button"
         role="tab" aria-controls="p3" aria-selected="false" *ngIf="round.player.length > 3" (click)="onTabClick(5)">{{round.player[3].nick}}</button>
     </li>
-    <li class="nav-item" *ngIf="round.matchPlay && round.player.length === 2">
+    <li>
       <button class="nav-link" id="mp-tab" data-bs-toggle="tab" data-bs-target="#mp" type="button"
-        role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
+        role="tab" aria-controls="mp" aria-selected="false" *ngIf="round.matchPlay && round.player.length === 2" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -53,8 +53,8 @@
     <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab" *ngIf="round.player.length > 3">
       <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2' *ngIf="selectedTab == 5"></app-round-view-whs>
     </div>
-    <div class="tab-pane fade" id="mp" role="tabpanel" aria-labelledby="mp-tab" *ngIf="round.matchPlay && selectedTab == 6">
-      <app-round-view-mp [round]='round'></app-round-view-mp>
+    <div class="tab-pane fade" id="mp" role="tabpanel" aria-labelledby="mp-tab">
+      <app-round-view-mp [round]='round' *ngIf="round.matchPlay && selectedTab == 6"></app-round-view-mp>
     </div>
   </div>
   <div>
