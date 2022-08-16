@@ -36,7 +36,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          ng build --localize
+          npm run build:prod-locale
 
       - name: Set up version
         #if: always()
