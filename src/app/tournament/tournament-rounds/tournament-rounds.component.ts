@@ -44,7 +44,7 @@ export class TournamentRoundsComponent implements OnInit {
     this.tournamentHttpService.addRoundToTournament(round, this.tournament.id).pipe(
       tap(
         () => {
-          this.alertService.success('Round successfully added to tournamnet', false);
+          this.alertService.success($localize`:@@tourRunds-succ:Round successfully added to tournamnet`, false);
           // remove that round from the list
           this.rounds = this.rounds.filter(r => r.id !== round.id);
         })

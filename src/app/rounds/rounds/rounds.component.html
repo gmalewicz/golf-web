@@ -1,15 +1,15 @@
 
-  <h2 *ngIf="selectedTab === 0">My Rounds</h2>
-  <h2 *ngIf="selectedTab === 1">Recently played rounds</h2>
+  <h2 *ngIf="selectedTab === 0" i18n="@@rounds-myRounds">My Rounds</h2>
+  <h2 *ngIf="selectedTab === 1" i18n="@@rounds-recPlayRounds">Recently played rounds</h2>
   <br/>
   <ul class="nav nav-tabs" id="roundsTab" role="tablist">
     <li class="nav-item">
       <button class="nav-link active" id="myRounds-tab" data-bs-toggle="tab" data-bs-target="#myRounds" type="button"
-        role="tab" aria-controls="myRounds" aria-selected="true" (click)="onTabClick(0)">My rounds</button>
+        role="tab" aria-controls="myRounds" aria-selected="true" (click)="onTabClick(0)" i18n="@@rounds-myRounds">My Rounds</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="recent-tab" data-bs-toggle="tab" data-bs-target="#recent" type="button"
-        role="tab" aria-controls="recent" aria-selected="false" (click)="onTabClick(1)">Recently played</button>
+        role="tab" aria-controls="recent" aria-selected="false" (click)="onTabClick(1)" i18n="@@rounds-recRounds">Recently played</button>
     </li>
   </ul>
   <div class="tab-content" id="roundsTabContent">
@@ -32,15 +32,15 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@rounds-cancel" i18n="@@rounds-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0">
+    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@rounds-previous">
       Previous
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="rounds != undefined && rounds.length < pageSize">
+    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="rounds != undefined && rounds.length < pageSize" i18n="@@rounds-next">
       Next
     </button>
     &nbsp;
@@ -48,6 +48,7 @@
       type="button"
       class="btn btn-success"
       routerLink= "/courses" [state]="{ data: { parent: 'addRound' } }"
+      i18n="@@rounds-add"
     >
       Add
     </button>

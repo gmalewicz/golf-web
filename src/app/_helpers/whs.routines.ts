@@ -232,7 +232,7 @@ function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: stri
 
 export function createMPResultHistory(mpScore: number[]): string[][] {
 
-  let mpResultHistory: string[][] = new Array(2).fill('').map(() => new Array(18).fill(''));
+  const mpResultHistory: string[][] = new Array(2).fill('').map(() => new Array(18).fill(''));
 
   let mpResult = 0;
   let mpScoreIdx = 0;

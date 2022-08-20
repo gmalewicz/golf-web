@@ -9,6 +9,13 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "locales": {
+          "pl": {
+            "translation": "src/translate/messages.pl.xlf"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -69,6 +76,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "pl": {
+              "optimization": false,
+              "namedChunks": true,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "localize": ["pl"]
             }
           },
           "defaultConfiguration": ""
@@ -82,6 +98,9 @@
           "configurations": {
             "production": {
               "browserTarget": "golf-web:build:production"
+            },
+            "pl" : {
+              "browserTarget": "golf-web:build:pl"
             }
           }
         },

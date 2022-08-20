@@ -126,14 +126,14 @@ export class TournamentResultsComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete result?';
+    dialogRef.componentInstance.confirmMessage = $localize`:@@tourRes-delConf:Are you sure you want to delete result?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do confirmation actions
         this.tournamentHttpService.deleteResult(resultId).pipe(
           tap(
             () => {
-              this.alertService.success('Result successfuly deleted', false);
+              this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
               this.tournamentResults = this.tournamentResults.filter(rs => rs.id !== resultId);
             })
         ).subscribe();

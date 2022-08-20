@@ -21,7 +21,7 @@
       &gt;
     </button>
     &nbsp;
-    <button type="button" class="btn-lg btn-success fw-bolder" (click)="addScore()">
+    <button type="button" class="btn-lg btn-success fw-bolder" (click)="addScore()" i18n="@@onlnNav-save">
       Save
     </button>
   </div>
@@ -29,7 +29,7 @@
 <div *ngIf="rounds[0].putts">
   <br/>
   <div>
-    Putts
+    <span i18n="@@onlnNav-putts">Putts</span>
     <span class="blackDot"></span>
   </div>
   <div>
@@ -42,7 +42,7 @@
 </div>
 <div *ngIf="rounds[0].penalties">
   <div>
-    Penalties
+    <span i18n="@@onlnNav-pnlt">Penalties</span>
     <span class="redDot"></span>
   </div>
   <div>

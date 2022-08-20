@@ -11,10 +11,11 @@
             formControlName="courseName"
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
+            i18n-placeholder="@@addCourse-name"
             placeholder="Course name"
           />
           <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
-            <div *ngIf="f.courseName.errors.required">Course name is required</div>
+            <div *ngIf="f.courseName.errors.required" i18n="@@addCourse-courseReq">Course name is required</div>
           </div>
         </div>
         <div class="form-group col">
@@ -24,11 +25,12 @@
             formControlName="coursePar"
             class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.coursePar.errors }"
+            i18n-placeholder="@@addCourse-coursePar"
             placeholder="Course par"
           />
           <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
-            <div *ngIf="f.coursePar.errors.required">Course par is required</div>
-            <div *ngIf="f.coursePar.errors.pattern">Course par must be a number from 30 to 79</div>
+            <div *ngIf="f.coursePar.errors.required" i18n="@@addCourse-courseParReq">Course par is required</div>
+            <div *ngIf="f.coursePar.errors.pattern" i18n="@@addCourse-courseParRange">Course par must be a number from 30 to 79</div>
           </div>
         </div>
         <div class="form-group col">
@@ -36,10 +38,11 @@
             formControlName="nbrHolesDropDown"
             [options]="nbrHoles"
             [ngClass]="{ 'is-invalid': submitted && f.nbrHolesDropDown.errors }"
+            i18n-placeholder="@@addCourse-noHoles"
             placeholder="number of holes">
           </p-dropdown>
           <div *ngIf="submitted && f.nbrHolesDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.nbrHolesDropDown.errors.required">Number of holes is required</div>
+            <div *ngIf="f.nbrHolesDropDown.errors.required" i18n="@@addCourse-holesReq">Number of holes is required</div>
           </div>
         </div>
       </div>
@@ -57,7 +60,7 @@
       <br />
 
         <div class="row">
-            <div class="col-1 btn" style="cursor: default;">
+            <div class="col-1 btn" style="cursor: default;" i18n="@@addCourse-hole">
               Hole:
             </div>
             <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
@@ -98,14 +101,14 @@
               <th id="tee">Tee</th>
               <th id="cr">CR</th>
               <th id="sr">SR</th>
-              <th id="type">Type</th>
+              <th id="type" i18n="@@addCourse-type">Type</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of tees">
               <td>{{ row.tee }}
-                  <span *ngIf="row.sex">ladies</span>
-                  <span *ngIf="!row.sex">men</span>
+                  <span *ngIf="row.sex" i18n="@@addCourse-ladies">ladies</span>
+                  <span *ngIf="!row.sex" i18n="@@addCourse-men">men</span>
               </td>
               <td>{{ row.cr }}</td>
               <td>{{ row.sr }}</td>
@@ -125,10 +128,11 @@
             formControlName="tee"
             class="form-control"
             [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
+            i18n-placeholder="@@addCourse-colour"
             placeholder="colour"
           />
           <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
-            <div *ngIf="f.tee.errors.required">Tee name is required</div>
+            <div *ngIf="f.tee.errors.required" i18n="@@addCourse-colourReq">Tee colour is required</div>
           </div>
         </div>
 
@@ -142,8 +146,8 @@
             placeholder="CR"
           />
           <div *ngIf="addTeeSubmitted && f.cr.errors" class="invalid-feedback">
-            <div *ngIf="f.cr.errors.required">Course CR is required</div>
-            <div *ngIf="f.cr.errors.pattern">Course CR must be in range: 20 to 89.9</div>
+            <div *ngIf="f.cr.errors.required" i18n="@@addCourse-crReq">Course CR is required</div>
+            <div *ngIf="f.cr.errors.pattern" i18n="@@addCourse-crRange">Course CR must be in range: 20 to 89.9</div>
           </div>
         </div>
 
@@ -157,8 +161,8 @@
             placeholder="SR"
           />
           <div *ngIf="addTeeSubmitted && f.sr.errors" class="invalid-feedback">
-            <div *ngIf="f.sr.errors.required">Course SR is required</div>
-            <div *ngIf="f.sr.errors.pattern">Course SR must be in range: 10 to 299</div>
+            <div *ngIf="f.sr.errors.required" i18n="@@addCourse-srReq">Course SR is required</div>
+            <div *ngIf="f.sr.errors.pattern" i18n="@@addCourse-srRange">Course SR must be in range: 10 to 299</div>
           </div>
         </div>
         <div class="form-group col">
@@ -167,10 +171,11 @@
             autoWidth="false" [style]="{'width':'100%'}"
             [options]="teeTypes"
             [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
+            i18n-placeholder="@@addCourse-teeType"
             placeholder="tee type">
           </p-dropdown>
           <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.teeTypeDropDown.errors.required">Tee is required</div>
+            <div *ngIf="f.teeTypeDropDown.errors.required" i18n="@@addCourse-teeReq">Tee is required</div>
           </div>
         </div>
         <div class="form-group col">
@@ -179,14 +184,15 @@
             autoWidth="false" [style]="{'width':'100%'}"
             [options]="sex"
             [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
+            i18n-placeholder="@@addCourse-sex"
             placeholder="sex">
           </p-dropdown>
           <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.teeTypeDropDown.errors.required">Sex is required</div>
+            <div *ngIf="f.teeTypeDropDown.errors.required" i18n="@@addCourse-sexReq">Sex is required</div>
           </div>
         </div>
         <div class="form-group col">
-          <button type="button" class="btn btn-success btn-tee" (click)="addTee()">
+          <button type="button" class="btn btn-success btn-tee" (click)="addTee()" i18n="@@addCourse-add">
             Add Tee
           </button>
         </div>
@@ -194,17 +200,17 @@
       <div>
         <br />
         <div class="form-group">
-          <button type="button" class="btn btn-success" routerLink="/home">
+          <button type="button" class="btn btn-success" routerLink="/home" i18n="@@addCourse-cancel">
             Cancel
           </button>
           &nbsp;
-          <button type="button" class="btn btn-success btn-clear" (click)="clear()">
+          <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addCourse-clear">
             Clear
           </button>
           &nbsp;
           <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Save
+            <span i18n="@@addCourse-save">Save</span>
           </button>
         </div>
       </div>

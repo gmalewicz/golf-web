@@ -221,7 +221,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to finish the round?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@onLineRndBse-finRndCnf:Are you sure you want to finish the round?`;
     this.dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
@@ -232,7 +232,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           tap(
             () => {
               this.loadingFin = false;
-              this.alertService.success('The round has been successfuly saved', true);
+              this.alertService.success($localize`:@@onLineRndBse-finRndMsg:The round has been successfuly saved`, true);
               this.router.navigate(['/rounds']);
             })
         ).subscribe();
@@ -248,7 +248,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete this scorecard permanently?';
+    this.dialogRef.componentInstance.confirmMessage = $localize`:@@onLineRndBse-delRndCnf:Are you sure you want to delete this scorecard permanently?`;
     this.dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
@@ -258,7 +258,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           tap(
             () => {
               this.loadingDel = false;
-              this.alertService.success('This score card has been successfully deleted', false);
+              this.alertService.success($localize`:@@onLineRndBse-delRndMsg:This score card has been successfully deleted`, false);
               this.router.navigate(['/home']);
             })
         ).subscribe();

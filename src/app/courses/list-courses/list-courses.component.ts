@@ -93,19 +93,20 @@ export class ListCoursesComponent implements OnInit {
           tap(
             () => {
               this.courses.favourites.push(course);
-              this.alertService.success(course.name + ' added to favourites.', false);
+              this.alertService.success($localize`:@@listCourses-addedFavourites:${course.name} added to favourites.`, false);
+
               this.loadingFav = false;
             })
         ).subscribe();
       } else {
-        this.alertService.error(course.name + ' already added to favourites.', false);
+        this.alertService.success($localize`:@@listCourses-alreadyAddedFavourites:${course.name} already added to favourites.`, false);
         this.loadingFav = false;
       }
     } else {
       this.httpService.deleteFromFavourites(course, this.authenticationService.currentPlayerValue.id).pipe(
         tap(
           () => {
-            this.alertService.success(course.name + ' removed from favourites.', true);
+            this.alertService.success($localize`:@@listCourses-removeFavourites:${course.name} removed from favourites.`, false);
             this.courses.favourites = this.courses.favourites.filter(c => c.id !== course.id);
             this.courseLst = this.courses.favourites;
             this.loadingFav = false;

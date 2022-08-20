@@ -1,0 +1,2734 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="authGuard-notAuthorized" datatype="html">
+        <source>You are not authorized to view this page</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/auth.guard.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorInterceptor-notAvailable" datatype="html">
+        <source>Application not available. Try to refresh browser then log out and log in.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/error.interceptor.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorInterceptor-logOutIn" datatype="html">
+        <source>Please log out and log in.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/error.interceptor.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roleGuard-accessDenied" datatype="html">
+        <source>Access denied. You do not have role: <x id="PH" equiv-text="routeRole"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_helpers/role.guard.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-name" datatype="html">
+        <source>Course name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-courseReq" datatype="html">
+        <source>Course name is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-coursePar" datatype="html">
+        <source>Course par</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-courseParReq" datatype="html">
+        <source>Course par is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-courseParRange" datatype="html">
+        <source>Course par must be a number from 30 to 79</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-noHoles" datatype="html">
+        <source>number of holes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-holesReq" datatype="html">
+        <source>Number of holes is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-hole" datatype="html">
+        <source> Hole: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">63,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-type" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-ladies" datatype="html">
+        <source>ladies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-men" datatype="html">
+        <source>men</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-colour" datatype="html">
+        <source>colour</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-colourReq" datatype="html">
+        <source>Tee colour is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-crReq" datatype="html">
+        <source>Course CR is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-crRange" datatype="html">
+        <source>Course CR must be in range: 20 to 89.9</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-srReq" datatype="html">
+        <source>Course SR is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-srRange" datatype="html">
+        <source>Course SR must be in range: 10 to 299</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-teeType" datatype="html">
+        <source>tee type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-teeReq" datatype="html">
+        <source>Tee is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-sex" datatype="html">
+        <source>sex</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-sexReq" datatype="html">
+        <source>Sex is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-add" datatype="html">
+        <source> Add Tee </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">195,197</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">203,205</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-clear" datatype="html">
+        <source> Clear </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">207,209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.html</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-wrongSI" datatype="html">
+        <source>The same SI cannot be assigned twice to the same hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.ts</context>
+          <context context-type="linenumber">197</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-addedSuccess" datatype="html">
+        <source>The course <x id="PH" equiv-text="this.f.courseName.value"/> successfully added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.ts</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-ParNotSet" datatype="html">
+        <source>Pars are not set for all holes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.ts</context>
+          <context context-type="linenumber">296</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-SINotSet" datatype="html">
+        <source>SI are not set for all holes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.ts</context>
+          <context context-type="linenumber">301</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCourse-TeeNotSet" datatype="html">
+        <source>At least one tee must be defined</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-course/add-course.component.ts</context>
+          <context context-type="linenumber">307</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-dateReq" datatype="html">
+        <source>Date is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-dateFrmt" datatype="html">
+        <source>Provide the date in the YYYY/MM/DD format</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-teeTimeReq" datatype="html">
+        <source>Tee time is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-teeValid" datatype="html">
+        <source>Provide the valid tee time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-tee" datatype="html">
+        <source>tee</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-teeReq" datatype="html">
+        <source>Tee is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-hole" datatype="html">
+        <source> Hole: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">64,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-strokes" datatype="html">
+        <source> Strokes: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">77,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-putts" datatype="html">
+        <source> Putts: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">90,92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-clear" datatype="html">
+        <source> Clear </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">108,110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">112,114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-strokesChrt" datatype="html">
+        <source>Strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-puttsChrt" datatype="html">
+        <source>Putts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-holeChrt" datatype="html">
+        <source>Hole: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-clearConf" datatype="html">
+        <source>Are you sure you want to clear score card?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">220</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-saveConf" datatype="html">
+        <source>Are you sure you want to save score card?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">238</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-cancelConf" datatype="html">
+        <source>Are you sure you want to exit?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">255</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-successConf" datatype="html">
+        <source>The round at <x id="PH" equiv-text="this.f.date.value"/> <x id="PH_1" equiv-text="this.f.teeTime.value"/> successfully added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">309</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-addConf" datatype="html">
+        <source>The round at <x id="PH" equiv-text="this.f.date.value"/> <x id="PH_1" equiv-text="this.f.teeTime.value"/> successfully updated</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">319</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-puttTooHigh" datatype="html">
+        <source>Number of putts cannot be greater than number of strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">359</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addScorecard-puttsHigherStrokes" datatype="html">
+        <source>Number of putts cannot be greater than number of strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.ts</context>
+          <context context-type="linenumber">419</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmDlg-confirm" datatype="html">
+        <source> Confirm </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/confirmation-dialog/confirmation-dialog.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmDlg-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/confirmation-dialog/confirmation-dialog.component.html</context>
+          <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-ladies" datatype="html">
+        <source>ladies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-men" datatype="html">
+        <source>men</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-delete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-showTees" datatype="html">
+        <source>Show tees</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.ts</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-hole" datatype="html">
+        <source>Hole </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-hideTees" datatype="html">
+        <source>Hide tees</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-DelMsg" datatype="html">
+        <source>The course has been successfully deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.ts</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-addRound" datatype="html">
+        <source>Select course for round</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-favourites" datatype="html">
+        <source>Favourite courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-search" datatype="html">
+        <source>Search for a course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-list" datatype="html">
+        <source>List of all courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-onLine" datatype="html">
+        <source>Select course for online round</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-favTab" datatype="html">
+        <source>Favourites</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-searchTab" datatype="html">
+        <source>Search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-allTab" datatype="html">
+        <source>All courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-courseName" datatype="html">
+        <source>Enter course Name:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">51,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courses-add" datatype="html">
+        <source> Add Course </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/courses/courses.component.html</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-favourites" datatype="html">
+        <source>Favourites</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-addedFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> added to favourites.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-alreadyAddedFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> already added to favourites.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listCourses-removeFavourites" datatype="html">
+        <source><x id="PH" equiv-text="course.name"/> removed from favourites.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/courses/list-courses/list-courses.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-AddLbl" datatype="html">
+        <source>Add the new cycle:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-CycleReq" datatype="html">
+        <source>Cycle name must be provided</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-CycleLength" datatype="html">
+        <source>Cycle name must be at least 3 characters long</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-BestRnd" datatype="html">
+        <source>No. of best rounds to be included (0 - all rounds)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-BestRndReq" datatype="html">
+        <source>No. of best rounds must be provided</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-BestRndGreater" datatype="html">
+        <source>No. of best rounds must be greater than 0</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-BestRndLower" datatype="html">
+        <source>No. of best rounds must be lower than 20</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-MaxHcpLbl" datatype="html">
+        <source>Max. handicap to be included</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-MaxHcpReq" datatype="html">
+        <source>Maximum handicap must be provided</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-MaxHcpGreter" datatype="html">
+        <source>Maximum handicap must be greater than -5</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-MaxHcpLower" datatype="html">
+        <source>Maximum handicap must be lower or equal than 54</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-MaxHcpPattern" datatype="html">
+        <source>Provide valid value with the follwoing format: X.X</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-create" datatype="html">
+        <source>Create</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-cycleAddedMsg" datatype="html">
+        <source>Cycle successfully created</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-cycle/add-cycle.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-header" datatype="html">
+        <source>Add the new cycle tournament</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-tournamentName" datatype="html">
+        <source>Tournament name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-tournamentReq" datatype="html">
+        <source>Tournament name is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-tournamentTooLng" datatype="html">
+        <source>Tournament name can be up to 30 characters long</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-NoOfRounds" datatype="html">
+        <source>Number of rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-NoRndsReq" datatype="html">
+        <source>No. of rounds is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-NoRndsLow" datatype="html">
+        <source>No. of rounds cannot be lower than 1</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-NoRndBig" datatype="html">
+        <source>No. of rounds cannot be greater than 4</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-bestOff" datatype="html">
+        <source>Best of</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-TourNo" datatype="html">
+        <source>Tournament no.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-TourNoReq" datatype="html">
+        <source>Tournament no. is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-TourNoPattern" datatype="html">
+        <source>Tournament no. must be 4 or 5 digits long</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-Cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-Save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-Tip1" datatype="html">
+        <source>Find tournamnet no.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTournamentDialog-Tip2" datatype="html">
+        <source>in Eagle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-results" datatype="html">
+        <source>Results</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-tour" datatype="html">
+        <source>Tournaments</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-add" datatype="html">
+        <source> Add tournament </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-close" datatype="html">
+        <source>Close cycle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-tourAdded" datatype="html">
+        <source>Cycle tournamnet successfully added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-CloseConf" datatype="html">
+        <source>Are you sure you want to close cycle?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-CloseMsg" datatype="html">
+        <source>Cycle successfully closed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleResults-no" datatype="html">
+        <source>No.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-results/cycle-results.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleResults-name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-results/cycle-results.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleResults-result" datatype="html">
+        <source>RESULT</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-results/cycle-results.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleResults-total" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-results/cycle-results.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleTour-no" datatype="html">
+        <source>No.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-tournament/cycle-tournament.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleTour-name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-tournament/cycle-tournament.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleTour-rnd" datatype="html">
+        <source>Rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-tournament/cycle-tournament.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleTour-bestRnd" datatype="html">
+        <source>Best Round</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-tournament/cycle-tournament.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-list" datatype="html">
+        <source>List of cycles:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-BestRes" datatype="html">
+        <source>Best results</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-maxHcp" datatype="html">
+        <source>Max. handicap</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-status" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-open" datatype="html">
+        <source>Open</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-close" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycles-add" datatype="html">
+        <source> Add </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycles/cycles.component.html</context>
+          <context context-type="linenumber">39,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Login" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Username" datatype="html">
+        <source>Username</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Username-Required" datatype="html">
+        <source>Username is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Password" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Password-Required" datatype="html">
+        <source>Password is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Password-Length" datatype="html">
+        <source>Password must be at least 6 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Login-btn" datatype="html">
+        <source> Login </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">28,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-Register-lnk" datatype="html">
+        <source>Register</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-or" datatype="html">
+        <source> or </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-welcome" datatype="html">
+        <source>Welcome <x id="PH" equiv-text="this.f.username.value"/>. Your handicap is
+          <x id="PH_1" equiv-text="data.whs"/> Make sure it is up to date before adding the round.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.ts</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.ts</context>
+          <context context-type="linenumber">139,140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-socialFailure" datatype="html">
+        <source>Unable to authenticate player via social media</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.ts</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-nickInUse" datatype="html">
+        <source>Incorrect way of log in or nick in use. Login in the same way as you registered (e.g. Facebook) or create the new player.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.ts</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-scorecard" datatype="html">
+        <source>Start/View On-line Score Cards</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-rounds" datatype="html">
+        <source>Historical Rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-tournaments" datatype="html">
+        <source>Tournaments</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-courses" datatype="html">
+        <source>Courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-cycles" datatype="html">
+        <source>Cycles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-admin" datatype="html">
+        <source>Administration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-changes" datatype="html">
+        <source>Change Log</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-logout" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-login" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-logoutSuccess" datatype="html">
+        <source>Your have been logged out</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-header" datatype="html">
+        <source>Registration of the new player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-nick" datatype="html">
+        <source>Nick</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-nick-required" datatype="html">
+        <source>Nick is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-nick-short" datatype="html">
+        <source>Nick can be up to 10 characters long</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-password" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-password-required" datatype="html">
+        <source>Password is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-password-short" datatype="html">
+        <source>Password must be at least 6 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-hcp" datatype="html">
+        <source>HCP (handicap)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-hcp-required" datatype="html">
+        <source>HCP is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-hcp-high" datatype="html">
+        <source>HCP is caannot be higer than 54</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-hcp-low" datatype="html">
+        <source>HCP is caannot be lower than -5</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-hcp-pattern" datatype="html">
+        <source>Provide valid value</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-female" datatype="html">
+        <source>Female</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-male" datatype="html">
+        <source>Male</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-recaptcha" datatype="html">
+        <source>Please mark the checkbox</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-register" datatype="html">
+        <source>Register</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registration-success" datatype="html">
+        <source>Registration successful. Please log in</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/registration/registration.component.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-player" datatype="html">
+        <source>Player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-whs" datatype="html">
+        <source>WHS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-courseHcp" datatype="html">
+        <source>Course HCP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-scor" datatype="html">
+        <source>Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-corScor" datatype="html">
+        <source>Cor. Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-netScr" datatype="html">
+        <source>Net Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-STBNet" datatype="html">
+        <source>STB Net</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-STB" datatype="html">
+        <source>STB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-ScrDiff" datatype="html">
+        <source>Score diff</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-putts" datatype="html">
+        <source>Putts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundSummary-pen" datatype="html">
+        <source>Penalties</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-summary/round-summary.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewMp-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-mp/round-view-mp.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-courseHcp" datatype="html">
+        <source>Course HCP:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-scorDiff" datatype="html">
+        <source>Score Differential:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-total" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-score" datatype="html">
+        <source>Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-netScore" datatype="html">
+        <source>Net Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-putts" datatype="html">
+        <source>Putts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">212</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundViewWhs-penalt" datatype="html">
+        <source>Penalties</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view-whs/round-view-whs.component.html</context>
+          <context context-type="linenumber">228</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-both" datatype="html">
+        <source> Both 9 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.html</context>
+          <context context-type="linenumber">25,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-first" datatype="html">
+        <source> First 9 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-last" datatype="html">
+        <source> Last 9 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.html</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-showPlr" datatype="html">
+        <source>Show player:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-delConf" datatype="html">
+        <source>Are you sure you want to delete score card?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.ts</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="roundView-delConfSuccess" datatype="html">
+        <source>The scorecard has been successfully deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round-view/round-view.component.ts</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-over" datatype="html">
+        <source>Overview</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-summary" datatype="html">
+        <source>Summary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-match" datatype="html">
+        <source>Match Play</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">62,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-edit" datatype="html">
+        <source> Edit </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-delete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-deleteCnf" datatype="html">
+        <source>Are you sure you want to delete score card?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="round-deleteCnfSuccess" datatype="html">
+        <source>The scorecard has been successfully deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/round/round/round.component.ts</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listRounds-date" datatype="html">
+        <source>Date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/list-rounds/list-rounds.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listRounds-course" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/list-rounds/list-rounds.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listRounds-players" datatype="html">
+        <source>Players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/list-rounds/list-rounds.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="listRounds-type" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/list-rounds/list-rounds.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-myRounds" datatype="html">
+        <source>My Rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-recPlayRounds" datatype="html">
+        <source>Recently played rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-recRounds" datatype="html">
+        <source>Recently played</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-previous" datatype="html">
+        <source> Previous </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">39,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-next" datatype="html">
+        <source> Next </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">43,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rounds-add" datatype="html">
+        <source> Add </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/rounds/rounds/rounds.component.html</context>
+          <context context-type="linenumber">52,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onLineRndBse-finRndCnf" datatype="html">
+        <source>Are you sure you want to finish the round?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/_helpers/online-round-base.ts</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onLineRndBse-finRndMsg" datatype="html">
+        <source>The round has been successfuly saved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/_helpers/online-round-base.ts</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onLineRndBse-delRndCnf" datatype="html">
+        <source>Are you sure you want to delete this scorecard permanently?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/_helpers/online-round-base.ts</context>
+          <context context-type="linenumber">251</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onLineRndBse-delRndMsg" datatype="html">
+        <source>This score card has been successfully deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/_helpers/online-round-base.ts</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="scrComDlg-whs" datatype="html">
+        <source>Player whs (X.X)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-dialog/common-dialog.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="scrComDlg-whsReq" datatype="html">
+        <source>WHS is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-dialog/common-dialog.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="scrComDlg-whsTooHigh" datatype="html">
+        <source>WHS is caannot be higer than 54</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-dialog/common-dialog.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="scrComDlg-whsTooLow" datatype="html">
+        <source>WHS is caannot be lower than -5</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-dialog/common-dialog.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="scrComDlg-patrn" datatype="html">
+        <source>Provide valid value</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-dialog/common-dialog.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="comScor-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/common-scorecard/common-scorecard.component.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlMatch-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-matchplay/online-matchplay.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlMatch-winner" datatype="html">
+        <source>Winner</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-matchplay/online-matchplay.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlMatch-delete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-matchplay/online-matchplay.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlMatch-finalize" datatype="html">
+        <source>Finalize</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-matchplay/online-matchplay.component.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnNav-save" datatype="html">
+        <source> Save </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-nav/online-nav.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnNav-putts" datatype="html">
+        <source>Putts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-nav/online-nav.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnNav-pnlt" datatype="html">
+        <source>Penalties</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-nav/online-nav.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-timReq" datatype="html">
+        <source>Tee time is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-timPatt" datatype="html">
+        <source>Provide the valid tee time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-mpRnd" datatype="html">
+        <source>Match Play Round</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p1Btn" datatype="html">
+        <source>1 player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p2Btn" datatype="html">
+        <source>2 players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p3Btn" datatype="html">
+        <source>3 players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p4Btn" datatype="html">
+        <source>4 players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p1" datatype="html">
+        <source>Player 1 username:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-teeReq" datatype="html">
+        <source>Tee is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">214</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-hcpUpd" datatype="html">
+        <source> HCP update </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">95,97</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">136,138</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">179,181</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">222,224</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p2" datatype="html">
+        <source>Player 2 username:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-nickReq" datatype="html">
+        <source>Player nick is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-nickTooLenght" datatype="html">
+        <source>Nick cannot be longer than 20 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p3" datatype="html">
+        <source>Player 3 username:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-p4" datatype="html">
+        <source>Player 4 username:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-inclPutt" datatype="html">
+        <source>Include putts (optional)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">233</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-inclPen" datatype="html">
+        <source>Include penalties (optional)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">244,246</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-start" datatype="html">
+        <source>Start</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">250</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-note" datatype="html">
+        <source>Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
+          <context context-type="linenumber">253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-lookForPlrs" datatype="html">
+        <source>Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-addPlr" datatype="html">
+        <source>The new player has been successfully created</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
+          <context context-type="linenumber">406</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-holeNotRight" datatype="html">
+        <source>Tee types (number of holes) for both players must be the same in case of MP round</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
+          <context context-type="linenumber">450</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-PlrNotUnique" datatype="html">
+        <source>Player must be unique in the single score card</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
+          <context context-type="linenumber">464</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-hcpUpdated" datatype="html">
+        <source>HCP for <x id="PH" equiv-text="player.nick"/> has been updated</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
+          <context context-type="linenumber">512</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRnd-score" datatype="html">
+        <source> Score Card </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round/online-round.component.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRnd-delete" datatype="html">
+        <source>Delete</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round/online-round.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRnd-fin" datatype="html">
+        <source>Finalize</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round/online-round.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRnd-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round/online-round.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScorView-lstUpd" datatype="html">
+        <source>Last update:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScorView-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScorView-total" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScorView-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
+          <context context-type="linenumber">122,124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-cards" datatype="html">
+        <source>Today&apos;s score cards:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-courses" datatype="html">
+        <source>Courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-players" datatype="html">
+        <source>Players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-mp" datatype="html">
+        <source>MP Rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-course" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-nick" datatype="html">
+        <source>Nick</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScor-status" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-finished" datatype="html">
+        <source> Finished </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">75,77</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">114,116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-open" datatype="html">
+        <source> Open </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">78,80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">117,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-noCards" datatype="html">
+        <source>No active score cards</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-start" datatype="html">
+        <source> Start Round </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">138,140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-continue" datatype="html">
+        <source> Continue Round </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">149,151</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">160,162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlineScoreCard-cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card/online-score-card.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-notFound" datatype="html">
+        <source>Player not found!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-nick" datatype="html">
+        <source>Player nick</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-nickReq" datatype="html">
+        <source>Nick is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-nickTooLng" datatype="html">
+        <source>Nick can be up to 10 characters long</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-fem" datatype="html">
+        <source>Female</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-mal" datatype="html">
+        <source>Male</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-msg1" datatype="html">
+        <source>Create the new player or</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-msg2" datatype="html">
+        <source>cancel and search again. The</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerPlr-msg3" datatype="html">
+        <source>password will be &apos;welcome&apos;.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/register-player-dialog/register-player-dialog.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updateWhsDld-updateHcp" datatype="html">
+        <source>Update HCP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/update-whs-dialog/update-whs-dialog.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updateWhsDld-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/update-whs-dialog/update-whs-dialog.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updateWhsDld-save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/update-whs-dialog/update-whs-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-hdr" datatype="html">
+        <source>Add round for tournament: <x id="INTERPOLATION" equiv-text="{{tournament.name}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-nick" datatype="html">
+        <source>Player nick</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-nickReq" datatype="html">
+        <source>Player nick is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-nickTooLng" datatype="html">
+        <source>Nick cannot be longer than 20 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-teeReq" datatype="html">
+        <source>Tee is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-hole" datatype="html">
+        <source>Hole</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-total" datatype="html">
+        <source>TOTAL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-score" datatype="html">
+        <source>Score</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-clear" datatype="html">
+        <source> Clear </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">120,122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-add" datatype="html">
+        <source> Add </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">125,127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-no" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-plrs" datatype="html">
+        <source>Player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-course" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-netStb" datatype="html">
+        <source>Net STB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-strks" datatype="html">
+        <source>Strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-netStrks" datatype="html">
+        <source>Net Strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-scrDif" datatype="html">
+        <source>Score Differential</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-plrNotFnd" datatype="html">
+        <source>Player <x id="PH" equiv-text="this.f.nick.value"/> not found.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-allHls" datatype="html">
+        <source>All holes must be filled</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.ts</context>
+          <context context-type="linenumber">223</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addRound-noNck" datatype="html">
+        <source>Player nick and tee must be selected</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-round/add-round.component.ts</context>
+          <context context-type="linenumber">228</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-name" datatype="html">
+        <source>Tournament name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-nameReq" datatype="html">
+        <source>Name is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-TourTooShort" datatype="html">
+        <source>Tournament name must be at least 3 characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-dateReq" datatype="html">
+        <source>Date is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-datePattern" datatype="html">
+        <source>Provide the date in the YYYY/MM/DD format</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-noBestRnd" datatype="html">
+        <source>No. of best rounds (or 0 if all rounds shall be included)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-noBestRndReq" datatype="html">
+        <source>No. of best rounds is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-noBestRndTooShrt" datatype="html">
+        <source>No. of best rounds must be greater or equal 0</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-noBestRndTooBig" datatype="html">
+        <source>No. of best rounds must be lower or equal 10</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-create" datatype="html">
+        <source>Create</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-strtDat" datatype="html">
+        <source>Start date cannot be later than end date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-tourSucc" datatype="html">
+        <source>Tournament successfully created</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-hdr" datatype="html">
+        <source>Tournament Results: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-bst" datatype="html">
+        <source> - best </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-rnds" datatype="html">
+        <source> round(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-stbNet" datatype="html">
+        <source>STB Net</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-str" datatype="html">
+        <source>Strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-strNet" datatype="html">
+        <source>Strokes Net</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-place" datatype="html">
+        <source>Place</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-plr" datatype="html">
+        <source>Player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-stb" datatype="html">
+        <source>STB</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-strGross" datatype="html">
+        <source>Strokes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-plrRnds" datatype="html">
+        <source>Played Rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-no" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-course" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-scrDiff" datatype="html">
+        <source>Score Differential</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">119,121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-add" datatype="html">
+        <source> Add Round </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">124,126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-addBehf" datatype="html">
+        <source> Add Rounds on Behalf </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">128,130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-delConf" datatype="html">
+        <source>Are you sure you want to delete result?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.ts</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-delSucc" datatype="html">
+        <source>Result successfuly deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.ts</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-date" datatype="html">
+        <source>Date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-rounds/tournament-rounds.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-teeTime" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-rounds/tournament-rounds.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-players" datatype="html">
+        <source>Players</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-rounds/tournament-rounds.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-rounds/tournament-rounds.component.html</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-succ" datatype="html">
+        <source>Round successfully added to tournamnet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-rounds/tournament-rounds.component.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-lst" datatype="html">
+        <source>List of tournaments:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-startdDate" datatype="html">
+        <source>Start Date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-enddDate" datatype="html">
+        <source>End Date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-bestRnd" datatype="html">
+        <source>Best rounds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-cancel" datatype="html">
+        <source> Cancel </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-add" datatype="html">
+        <source> Add </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournaments/tournaments.component.html</context>
+          <context context-type="linenumber">38,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-header" datatype="html">
+        <source>Modify your data:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-password" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-passwordShort" datatype="html">
+        <source> Password must be at least 6 characters </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpRequired" datatype="html">
+        <source>Handicap is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpHigh" datatype="html">
+        <source>Handicap caannot be higer than 54</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpLow" datatype="html">
+        <source>Handicap caannot be lower than -5</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-hcpPattern" datatype="html">
+        <source> Provide valid value with the follwoing format: X.X </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-update" datatype="html">
+        <source> Update </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">46,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-cancel" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-noData" datatype="html">
+        <source>Handicap or password must be provided</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

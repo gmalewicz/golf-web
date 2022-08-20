@@ -3,20 +3,20 @@
 </div>
 <div *ngIf="display && onlineRounds.length > 0">
 
-  <h2>Today's score cards:</h2>
+  <h2 i18n="@@onlineScoreCard-cards" i18n="@@onlnScor-todScor">Today's score cards:</h2>
 
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
       <button class="nav-link active" id="course-tab" data-bs-toggle="tab" data-bs-target="#course" type="button"
-        role="tab" aria-controls="course" aria-selected="true">Courses</button>
+        role="tab" aria-controls="course" aria-selected="true" i18n="@@onlineScoreCard-courses" i18n="@@onlnScor-courses">Courses</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
-        role="tab" aria-controls="players" aria-selected="false">Players</button>
+        role="tab" aria-controls="players" aria-selected="false" i18n="@@onlineScoreCard-players" i18n="@@onlnScor-plrs">Players</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="MProunds-tab" data-bs-toggle="tab" data-bs-target="#MProunds" type="button"
-        role="tab" aria-controls="MProunds" aria-selected="false">MP Rounds</button>
+        role="tab" aria-controls="MProunds" aria-selected="false" i18n="@@onlineScoreCard-mp" i18n="@@onlnScor-mp">MP Rounds</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -25,7 +25,7 @@
       <table class="table table-striped" aria-describedby="Courses">
         <thead>
           <tr>
-            <th id="course">Course</th>
+            <th id="course" i18n="@@onlineScoreCard-course" i18n="@@onlnScor-course">Course</th>
           </tr>
         </thead>
         <tbody>
@@ -49,10 +49,10 @@
       <table class="table table-striped" aria-describedby="List of online rounds">
         <thead>
           <tr>
-            <th id="nick">Nick</th>
-            <th id="course">Course</th>
+            <th id="nick" i18n="@@onlineScoreCard-nick" i18n="@@onlnScor-nick">Nick</th>
+            <th id="course" i18n="@@onlineScoreCard-course" i18n="@@onlnScor-course">Course</th>
             <th id="teetime">Tee Time</th>
-            <th id="status">Status</th>
+            <th id="status" i18n="@@onlnScor-status">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -72,10 +72,10 @@
                 {{ round.course.name }}
               </td>
               <td>{{ round.teeTime }}</td>
-              <td *ngIf="round.finalized === true">
+              <td *ngIf="round.finalized === true" i18n="@@onlineScoreCard-finished" i18n="@@onlnScor-finished">
                 Finished
               </td>
-              <td *ngIf="round.finalized === false">
+              <td *ngIf="round.finalized === false" i18n="@@onlineScoreCard-open" i18n="@@onlnScor-open">
                 Open
               </td>
             </tr>
@@ -88,10 +88,10 @@
       <table class="table table-striped" aria-describedby="MatchPlay rounds">
         <thead>
           <tr>
-            <th id="players">Players</th>
-            <th id="course">Course</th>
+            <th id="players" i18n="@@onlineScoreCard-players" i18n="@@onlnScor-plrs">Players</th>
+            <th id="course" i18n="@@onlineScoreCard-course">Course</th>
             <th id="teeTime">Tee Time</th>
-            <th id="status">Status</th>
+            <th id="status" i18n="@@onlnScor-status">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -111,10 +111,10 @@
                 {{ round.course.name }}
               </td>
               <td>{{ round.teeTime }}</td>
-              <td *ngIf="round.finalized === true">
+              <td *ngIf="round.finalized === true" i18n="@@onlineScoreCard-finished">
                 Finished
               </td>
-              <td *ngIf="round.finalized === false">
+              <td *ngIf="round.finalized === false" i18n="@@onlineScoreCard-open">
                 Open
               </td>
             </tr>
@@ -125,7 +125,7 @@
   </div>
 </div>
 <div *ngIf="display && onlineRounds.length === 0">
-  <h2>No active score cards</h2>
+  <h2 i18n="@@onlineScoreCard-noCards">No active score cards</h2>
 </div>
 <div *ngIf="display">
   <br />
@@ -134,6 +134,7 @@
     type="button"
     class="btn btn-success"
     routerLink= "/courses" [state]="{ data: { parent: 'addOnlineRound' } }"
+    i18n="@@onlineScoreCard-start"
   >
     Start Round
   </button>
@@ -144,6 +145,7 @@
       class="btn btn-success"
       [routerLink]="['onlineRound']"
       [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
+      i18n="@@onlineScoreCard-continue"
     >
       Continue Round
     </button>
@@ -154,11 +156,12 @@
       class="btn btn-success"
       [routerLink]="['onlineMatchplay']"
       [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
+      i18n="@@onlineScoreCard-continue"
     >
       Continue Round
     </button>
   </span>
   &nbsp;
-  <button type="button" class="btn btn-success" routerLink="/home">Cancel</button>
+  <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlineScoreCard-cancel">Cancel</button>
 </div>
 

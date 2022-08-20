@@ -2,16 +2,16 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2>List of tournaments:</h2>
+  <h2 i18n="@@tour-lst">List of tournaments:</h2>
   <br/>
   <table class="table table-striped" aria-describedby="Tournament list">
     <thead>
       <tr>
         <th id="nav"></th>
-        <th id="name">Name</th>
-        <th id="sDate">Start Date</th>
-        <th id="eDate">End Date</th>
-        <th id="bResults">Best rounds</th>
+        <th id="name" i18n="@@tour-name">Name</th>
+        <th id="sDate" i18n="@@tour-startdDate">Start Date</th>
+        <th id="eDate" i18n="@@tour-enddDate">End Date</th>
+        <th id="bResults" i18n="@@tour-bestRnd">Best rounds</th>
       </tr>
     </thead>
     <tbody>
@@ -31,11 +31,11 @@
   </table>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@tour-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" routerLink="addTournament">
+    <button type="button" class="btn btn-success" routerLink="addTournament" i18n="@@tour-add">
       Add
     </button>
   </div>

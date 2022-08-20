@@ -142,7 +142,7 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
             this.f.nick.disable();
             this.player = player;
           } else {
-            this.alertService.error('Player ' + this.f.nick.value + ' not found.', false);
+            this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
           }
           this.searchInProgress = false;
         })
@@ -220,12 +220,12 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
   addRound() {
     // first check if all holes has been added
     if  (this.score.includes('')) {
-      this.alertService.error('All holes must be filled', false);
+      this.alertService.error($localize`:@@addRound-allHls:All holes must be filled`, false);
       return;
     }
 
     if  (this.player === undefined || this.tee === null) {
-      this.alertService.error('Player nick and tee must be selected', false);
+      this.alertService.error($localize`:@@addRound-noNck:Player nick and tee must be selected`, false);
       return;
     }
 

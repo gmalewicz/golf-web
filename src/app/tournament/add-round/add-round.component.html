@@ -3,16 +3,16 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2>Add round for tournament: {{tournament.name}}</h2>
+  <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
   <br/>
   <form [formGroup]="defRoundForm">
     <div class="row">
       <div class="form-group col">
-        <input type="text" formControlName="nick" class="form-control" placeholder="Player nick"
+        <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
           [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
         <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
-          <div *ngIf="f.nick.errors.required">Player nick is required</div>
-          <div *ngIf="f.nick.errors.maxlength">Nick cannot be longer than 20 characters</div>
+          <div *ngIf="f.nick.errors.required" i18n="@@addRound-nickReq">Player nick is required</div>
+          <div *ngIf="f.nick.errors.maxlength" i18n="@@addRound-nickTooLng">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
       <span class="search col-auto">
@@ -28,7 +28,7 @@
           [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
         </p-dropdown>
         <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown.errors.required">Tee is required</div>
+          <div *ngIf="f.teeDropDown.errors.required" i18n="@@addRound-teeReq">Tee is required</div>
         </div>
       </div>
       <span *ngIf="tee != null" class="search">
@@ -44,7 +44,7 @@
     <table id="holeStake-tbl" class="table" aria-describedby="View stroke play round">
       <thead>
         <tr>
-          <th id="hole" class="w-10">Hole</th>
+          <th id="hole" class="w-10" i18n="@@addRound-hole">Hole</th>
 
             <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
               {{i + 1}}
@@ -55,7 +55,7 @@
             </th>
             <th id="in" class="center w-10" >IN</th>
 
-          <th id="total" class="center w-10">TOTAL</th>
+          <th id="total" class="center w-10" i18n="@@addRound-total">TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +72,7 @@
           <th id="total" class="center w-10"></th>
         </tr>
         <tr>
-          <th id="hole" class="w-15">Score</th>
+          <th id="hole" class="w-15" i18n="@@addRound-score">Score</th>
           <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
             <input  #box
                     [id]="'hl' + i"
@@ -117,12 +117,12 @@
   <div>
     <br />
     <div class="form-group">
-      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()">
+      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addRound-clear">
         Clear
       </button>
       &nbsp;
       <span *ngIf="stoppedCounter" >
-        <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()">
+        <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
           Add
         </button>
       </span>
@@ -139,14 +139,14 @@
       <table class="table table-striped" aria-describedby="tournament details">
         <thead>
           <tr>
-            <th id="no">No</th>
-            <th id="plr">Player</th>
-            <th id="cour">Course</th>
-            <th id="nstb">Net STB</th>
-            <th id="gstb">Gross STB</th>
-            <th id="gstr">Gross Strokes</th>
-            <th id="nstr">Net Strokes</th>
-            <th id="sDiff">Score Differential</th>
+            <th id="no" i18n="@@addRound-no">No</th>
+            <th id="plr" i18n="@@addRound-plrs">Player</th>
+            <th id="cour" i18n="@@addRound-course">Course</th>
+            <th id="nstb" i18n="@@addRound-netStb">Net STB</th>
+            <th id="gstb">STB</th>
+            <th id="gstr" i18n="@@addRound-strks">Strokes</th>
+            <th id="nstr" i18n="@@addRound-netStrks">Net Strokes</th>
+            <th id="sDiff" i18n="@@addRound-scrDif">Score Differential</th>
           </tr>
         </thead>
         <tbody *ngFor="let tournamentRound of tournamentRounds,  let j = index">

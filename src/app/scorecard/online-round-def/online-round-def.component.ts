@@ -203,7 +203,7 @@ export class OnlineRoundDefComponent implements OnInit {
     // stop here if players where not verified in database
     if (!this.isAllNicksSet()) {
       this.alertService.error(
-        'Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.'
+        $localize`:@@onlnRndDef-lookForPlrs:Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.`, false
       );
       return;
     }
@@ -403,7 +403,7 @@ export class OnlineRoundDefComponent implements OnInit {
         .pipe(
           tap((player) => {
             this.updatePlayers(player, playerIdx);
-            this.alertService.success('The new player has been successfully created', false);
+            this.alertService.success($localize`:@@onlnRndDef-addPlr:The new player has been successfully created`, false);
             this.searchInProgress[playerIdx] = false;
           })
         )
@@ -447,7 +447,7 @@ export class OnlineRoundDefComponent implements OnInit {
   private isMpTeeTypeCorrect(): boolean {
     if (this.tees[0].teeType !== this.tees[1].teeType) {
       this.alertService.error(
-        'Tee types (number of holes) for both players must be the same in case of MP round',
+        $localize`:@@onlnRndDef-holeNotRight:Tee types (number of holes) for both players must be the same in case of MP round`,
         false
       );
       return false;
@@ -461,7 +461,7 @@ export class OnlineRoundDefComponent implements OnInit {
     for (const p of this.players) {
       if (p !== undefined && nick === p.nick) {
         this.alertService.error(
-          'Player must be unique in the single score card',
+          $localize`:@@onlnRndDef-PlrNotUnique:Player must be unique in the single score card`,
           false
         );
         retVal = true;
@@ -509,7 +509,7 @@ export class OnlineRoundDefComponent implements OnInit {
         .pipe(
           tap(() => {
             this.updatePlayers(player, playerIdx);
-            this.alertService.success('WHS for ' + player.nick + ' has been updated', false);
+            this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
             this.searchInProgress[playerIdx] = false;
           })
         )

@@ -1,0 +1,10 @@
+FROM httpd:2.4.54-alpine
+LABEL maintainer="Grzegorz Malewicz"
+ARG APP=./dist/golf-web/
+
+COPY ${APP} /usr/local/apache2/htdocs/
+
+COPY dev-httpd.conf /usr/local/apache2/conf/httpd.conf
+
+
+EXPOSE 80

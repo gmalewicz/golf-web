@@ -29,7 +29,7 @@
       <thead>
         <tr>
           <th id="empty"></th>
-          <th id="hole">Hole</th>
+          <th id="hole" i18n="@@onlMatch-hole">Hole</th>
           <th id="p1r">
             {{onlineRounds[0].player.nick}}
             <span *ngIf="hcpDiff > 0">({{hcpDiff}}) </span>
@@ -38,7 +38,7 @@
             {{onlineRounds[1].player.nick}}
             <span *ngIf="hcpDiff < 0"> ({{-hcpDiff}}) </span>
           </th>
-          <th id="winner">Winner</th>
+          <th id="winner" i18n="@@onlMatch-winner">Winner</th>
           <th id="par">Par</th>
           <th id="si">Si</th>
         </tr>
@@ -105,12 +105,12 @@
     <div class="form-group">
       <button type="button" class="btn btn-success" (click)="onDelete()">
         <span *ngIf="loadingDel" class="spinner-border spinner-border-sm mr-1"></span>
-        Delete
+        <span i18n="@@onlMatch-delete">Delete</span>
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onFinal()">
         <span *ngIf="loadingFin" class="spinner-border spinner-border-sm mr-1"></span>
-        Finalize
+        <span i18n="@@onlMatch-finalize">Finalize</span>
       </button>
     </div>
   </div>
