@@ -46,11 +46,11 @@
         </tr>
         <tr *ngFor="let idx =index of counter(2)" class="center">
           <th  id="bck">{{round.player[idx].nick}}</th>
-          <td *ngFor="let i = index of counter(9)" class="center">
+          <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
             {{mpResultHistory[idx][i]}}
           </td>
           <th  id="mpr" class="center"></th>
-          <td *ngFor="let i = index of counter(9)" class="center">
+          <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
             {{mpResultHistory[idx][i + 9]}}
           </td>
           <th  id="mpt2" class="center"></th>

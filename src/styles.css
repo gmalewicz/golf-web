@@ -80,3 +80,7 @@ label {
   background-color: white;
   color: black;
 }
+
+.highlightHcp {
+  background-color: #1bff0742 !important;
+}

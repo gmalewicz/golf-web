@@ -92,13 +92,13 @@
               </th>
             </ng-container>
             <ng-container *ngIf="owner != undefined">
-              <td *ngFor="let i = index of counter(9)" class="center">
+              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
                 <span *ngIf="onlineRound.scoreCardAPI[i] != null">
                   {{mpResultHistory[idx][i]}}
                 </span>
               </td>
               <th id="f9s" class="center"></th>
-              <td *ngFor="let i = index of counter(9)" class="center">
+              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
                 <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
                   {{mpResultHistory[idx][i + 9]}}
                 </span>
