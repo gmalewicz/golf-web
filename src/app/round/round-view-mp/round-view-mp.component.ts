@@ -136,4 +136,11 @@ export class RoundViewMPComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
+
+  highlightHcp(hole: number, player: number) {
+    if (this.holeHCP[player][hole] > 0) {
+      return 'highlightHcp';
+    }
+    return 'no-edit';
+  }
 }

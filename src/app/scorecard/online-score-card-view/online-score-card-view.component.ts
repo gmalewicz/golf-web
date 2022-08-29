@@ -574,6 +574,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     this.ngOnDestroy();
     this.ngOnInit();
   }
+
+  highlightHcp(hole: number, player: number) {
+    if (this.holeHCP[player][hole] > 0) {
+      return 'highlightHcp';
+    }
+    return 'no-edit';
+  }
 }
 
 interface TimeSpan {
