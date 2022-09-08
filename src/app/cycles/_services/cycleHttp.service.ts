@@ -49,6 +49,18 @@ export class CycleHttpService {
 
     return this.http.patch<void>('rest/CycleClose/' + cycleId, null);
   }
+
+  // delete the last tournament
+  deleteLastTournament(cycle: Cycle): Observable<void> {
+
+    return this.http.post<void>('/rest/DeleteCycleTournament', cycle);
+  }
+
+  // delete the last tournament
+  deleteCycle(cycleId: number): Observable<void> {
+
+    return this.http.delete<void>('/rest/Cycle/' + cycleId);
+  }
 }
 
 

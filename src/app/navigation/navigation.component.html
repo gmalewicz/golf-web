@@ -1,11 +1,11 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v2.18</a>
+    <a class="navbar-brand" href="#">DGNG v2.19</a>
 
-    <select class="navbar navbar-dark bg-success form-select" style="width: 60px; height: 30px; line-height:10px; font-size:10px;" (change)="onChange()" [(ngModel)]="activeLocale">
+    <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
       <option *ngFor="let locale of locales" [value]="locale.code">
         &nbsp;
-        {{ locale.name }}
+        {{locale.name}}
       </option>
     </select>
 

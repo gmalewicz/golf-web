@@ -7,11 +7,11 @@
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
       <button class="nav-link active" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button"
-        role="tab" aria-controls="results" aria-selected="true" i18n="@@cycleDetails-results">Results</button>
+        role="tab" aria-controls="results" aria-selected="true" i18n="@@cycleDetails-results" (click)="clearAlert()">Results</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="tournaments-tab" data-bs-toggle="tab" data-bs-target="#tournaments" type="button"
-        role="tab" aria-controls="tournaments" aria-selected="false" i18n="@@cycleDetails-tour">Tournaments</button>
+        role="tab" aria-controls="tournaments" aria-selected="false" i18n="@@cycleDetails-tour" (click)="clearAlert()">Tournaments</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -29,13 +29,25 @@
     </button>
     &nbsp;
     <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN"
-      type="button" class="btn btn-success add" (click)="addTournament()" i18n="@@cycleDetails-add">
-      Add tournament
+      type="button" class="btn btn-success add" (click)="addTournament()">
+      <span *ngIf="loadingAddTour" class="spinner-border spinner-border-sm mr-1"></span>
+      <span i18n="@@cycleDetails-add">Add tournament</span>
     </button>
     &nbsp;
     <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN" type="button" class="btn btn-success cls" (click)="closeCycle()">
       <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
       <span i18n="@@cycleDetails-close">Close cycle</span>
+    </button>
+    &nbsp;
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN && cycleTournaments.length > 0"
+          type="button" class="btn btn-success cls" (click)="deleteLast()">
+      <span *ngIf="loadingDeleteTour" class="spinner-border spinner-border-sm mr-1"></span>
+      <span i18n="@@cycleDetails-deletetLast">Delete last tournament</span>
+    </button>
+    &nbsp;
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success cls" (click)="deleteCycle()">
+      <span *ngIf="loadingDeleteCycle" class="spinner-border spinner-border-sm mr-1"></span>
+      <span i18n="@@cycleDetails-delCycle">Delete cycle</span>
     </button>
   </div>
 </div>
