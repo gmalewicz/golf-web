@@ -1,12 +1,13 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleTournament } from '../_models/cycleTournament';
 
 @Component({
   selector: 'app-cycle-tournament',
-  templateUrl: './cycle-tournament.component.html'
+  templateUrl: './cycle-tournament.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CycleTournamentComponent implements OnInit {
 
