@@ -950,6 +950,22 @@
           <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="cycleDetails-deletetLast" datatype="html">
+        <source>Delete last tournament</source>
+        <target>Usuń ostatni turniej</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-delCycle" datatype="html">
+        <source>Delete cycle</source>
+        <target>Usuń cykl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="cycleDetails-tourAdded" datatype="html">
         <source>Cycle tournamnet successfully added</source>
         <target>Turniej został poprawnie dodany do cyklu.</target>
@@ -972,6 +988,38 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
           <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-DeleteConf" datatype="html">
+        <source>Are you sure you want to delete the last tournament?</source>
+        <target>Czy na pewno chcesz usunąć ostatni turniej?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-CloseDelTourMsg" datatype="html">
+        <source>The last tournament successfully deleted</source>
+         <target>Ostatni turniej został usunięty</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="cycleDetails-DelCycleConf" datatype="html">
+        <source>Are you sure you want to delete the cycle?</source>
+        <target>Czy na pewno chcesz usunąć cykl?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">173</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-DelCycleMsg" datatype="html">
+        <source>Cycle successfully deleted</source>
+        <target>Cykl usunięty poprawnie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/cycles/cycle-details/cycle-details.component.ts</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cycleResults-no" datatype="html">

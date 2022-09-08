@@ -25,6 +25,9 @@ export class CycleDetailsComponent implements OnInit {
   cycleTournaments: CycleTournament[];
   statusConst = CycleStatus;
   loadingClose: boolean;
+  loadingDeleteTour: boolean;
+  loadingAddTour: boolean;
+  loadingDeleteCycle: boolean;
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
@@ -41,6 +44,9 @@ export class CycleDetailsComponent implements OnInit {
     } else {
 
       this.loadingClose = false;
+      this.loadingDeleteTour = false;
+      this.loadingDeleteCycle = false;
+      this.loadingAddTour = false;
       this.cycle = history.state.data.cycle;
       combineLatest([ this.cycleHttpService.getCycleResults(this.cycle.id),
         this.cycleHttpService.getCycleTournaments(this.cycle.id)]).subscribe(([retCycleResults, retCycleTournamnets]) => {
@@ -70,7 +76,7 @@ export class CycleDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
-
+        this.loadingAddTour = true;
         this.cycleHttpService.getEagleResults(result.tournamentNo)
         .pipe(
           tap((reareEagleResultSet: any) => {
@@ -98,8 +104,8 @@ export class CycleDetailsComponent implements OnInit {
 
             this.cycleHttpService.addCycleTournament(eagleResultSet).pipe(tap(
               () => {
-                this.alertService.success($localize`:@@cycleDetails-tourAdded:Cycle tournamnet successfully added`, true);
-                this.router.navigate(['/home']);
+                this.alertService.success($localize`:@@cycleDetails-tourAdded:Cycle tournamnet successfully added`, false);
+                this.ngOnInit();
               })
             ).subscribe();
           })
@@ -112,6 +118,7 @@ export class CycleDetailsComponent implements OnInit {
 
   closeCycle(): void {
 
+    this.clearAlert();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
@@ -123,11 +130,61 @@ export class CycleDetailsComponent implements OnInit {
         this.loadingClose = true;
         this.cycleHttpService.closeCycle(this.cycle.id).pipe(tap(
           () => {
-            this.alertService.success($localize`:@@cycleDetails-CloseMsg:Cycle successfully closed`, true);
-            this.router.navigate(['/home']);
+            this.cycle.status = CycleStatus.STATUS_CLOSE;
+            this.alertService.success($localize`:@@cycleDetails-CloseMsg:Cycle successfully closed`, false);
+            this.ngOnInit();
           })
         ).subscribe();
       }
     });
+  }
+
+  deleteLast(): void {
+
+    this.clearAlert();
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = $localize`:@@cycleDetails-DeleteConf:Are you sure you want to delete the last tournament?`;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingDeleteTour = true;
+        this.cycleHttpService.deleteLastTournament(this.cycle).pipe(tap(
+          () => {
+            this.alertService.success($localize`:@@cycleDetails-CloseDelTourMsg:The last tournament successfully deleted`, false);
+            this.ngOnInit();
+          })
+        ).subscribe();
+      }
+    });
+
+  }
+
+  deleteCycle(): void {
+
+    this.clearAlert();
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = $localize`:@@cycleDetails-DelCycleConf:Are you sure you want to delete the cycle?`;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingDeleteCycle = true;
+        this.cycleHttpService.deleteCycle(this.cycle.id).pipe(tap(
+          () => {
+            this.alertService.success($localize`:@@cycleDetails-DelCycleMsg:Cycle successfully deleted`, true);
+            this.router.navigate(['/cycles']);
+          })
+        ).subscribe();
+      }
+    });
+  }
+
+  clearAlert(): void {
+    this.alertService.clear();
   }
 }

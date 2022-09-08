@@ -313,18 +313,22 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       // send scorecard to server
       this.webSocketAPI._send(currentOnlineScoreCard);
-      // update total strokes by substracting current value and adding the new one
-      this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
-      this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
 
-      // udate strokes for display
-      this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
+      if (!this.lostConnection) {
 
-      // verify if at least for one hole the ball has been picked up
-      this.setBallPickUp();
+        // update total strokes by substracting current value and adding the new one
+        this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
+        this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
 
-      this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
-      this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
+        // udate strokes for display
+        this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
+
+        // verify if at least for one hole the ball has been picked up
+        this.setBallPickUp();
+
+        this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
+        this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
+      }
     }
 
     // move to the next player
