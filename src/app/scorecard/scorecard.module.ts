@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonDialogComponent } from './common-dialog/common-dialog.component';
 import { CommonScorecardTopComponent } from './common-scorecard-top/common-scorecard-top.component';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
+import { RxStompService } from '@stomp/ng2-stompjs';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+    RxStompService
   ],
   exports: [],
   entryComponents: [RegisterPlayerDialogComponent, UpdateWhsDialogComponent]

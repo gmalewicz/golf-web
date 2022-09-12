@@ -4,10 +4,10 @@ import { combineLatest, Subscription, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
-import { WebSocketAPI } from '../_helpers';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
+import { WebSocketAPI2 } from '../_helpers/web.socket.api_2';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -22,7 +22,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   display = false;
   first9par: number;
   last9par: number;
-  webSocketAPI: WebSocketAPI;
+  webSocketAPI: WebSocketAPI2;
   holeHCP: number[][];
   finalized: boolean;
   // -2 not set
@@ -49,6 +49,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   lstUpdTime: string;
 
+  queueSubscription: Subscription;
+
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
               private alertService: AlertService,
@@ -56,7 +58,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnDestroy(): void {
-    if (this.webSocketAPI != null) {
+    if (this.webSocketAPI !== undefined) {
       this.webSocketAPI._disconnect();
     }
     if (this.subscription) {
@@ -64,6 +66,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     }
     if (this.refreshSubscription) {
       this.refreshSubscription.unsubscribe();
+    }
+
+    if (this.queueSubscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -83,7 +89,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       // get owner in case of match play online score card
       this.owner = history.state.data.owner;
 
-      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, true, true);
+      this.webSocketAPI = new WebSocketAPI2(this.authenticationService);
 
       if (onlineRound != null) {
         this.onlineRounds = new Array(1);
@@ -102,6 +108,15 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.showCourse();
       }
     }
+  }
+
+  startLisenning() {
+
+    this.queueSubscription = this.webSocketAPI.messageQueue$.subscribe((message) => {
+
+        this.handleMessage(JSON.parse(message.body));
+
+    });
   }
 
   showMatch() {
@@ -169,6 +184,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.webSocketAPI._connect(true);
+        this.startLisenning();
         this.display = true;
     });
   }
@@ -276,6 +292,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.webSocketAPI._connect(true);
+        this.startLisenning();
         this.display = true;
     });
   }
@@ -336,6 +353,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.course.par - this.first9par;
         this.webSocketAPI._connect(true);
+        this.startLisenning();
         this.display = true;
     });
   }
