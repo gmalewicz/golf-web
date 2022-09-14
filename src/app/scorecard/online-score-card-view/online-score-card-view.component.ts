@@ -1,4 +1,4 @@
-import { AlertService, AuthenticationService, HttpService } from '@/_services';
+import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription, timer } from 'rxjs';
 import { Router } from '@angular/router';
@@ -53,7 +53,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
-              private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private router: Router) { }
 

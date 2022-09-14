@@ -35,34 +35,37 @@ export class WebSocketAPI2 {
       }
 
       this.rxStomp = new RxStompService();
-      this.rxStomp.configure({
-        brokerURL: this.wsEndpointStr + this.authenticationService.currentPlayerValue.token,
-        connectHeaders: {
-        },
-        heartbeatIncoming: 0,
-        heartbeatOutgoing: 20000,
-        reconnectDelay: 200,
-        /*
-        debug: (msg: string): void => {
-          console.log(new Date(), msg);
-        }
-        */
-      });
-      this.rxStomp.activate();
-
-      this.connectionStatus$ = this.rxStomp.connectionState$.pipe(
-        map(state => {
-          // convert numeric RxStompState to string
-          if (RxStompState[state] === 'OPEN') {
-            return true;
+      this.authenticationService.updateJWT().subscribe(() => {
+        this.rxStomp.configure({
+          brokerURL: this.wsEndpointStr + this.authenticationService.currentPlayerValue.token,
+          connectHeaders: {
+          },
+          heartbeatIncoming: 0,
+          heartbeatOutgoing: 20000,
+          reconnectDelay: 200,
+          /*
+          debug: (msg: string): void => {
+            console.log(new Date(), msg);
           }
-          return false;
-        })
-      );
+          */
+        });
 
-      if (listen) {
-        this.messageQueue$ = this.rxStomp.watch(this.topic);
-      }
+        this.rxStomp.activate();
+
+        this.connectionStatus$ = this.rxStomp.connectionState$.pipe(
+          map(state => {
+            // convert numeric RxStompState to string
+            if (RxStompState[state] === 'OPEN') {
+              return true;
+            }
+            return false;
+          })
+        );
+
+        if (listen) {
+          this.messageQueue$ = this.rxStomp.watch(this.topic);
+        }
+      });
     }
 
     _disconnect() {
