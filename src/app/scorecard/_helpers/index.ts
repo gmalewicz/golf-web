@@ -1,2 +1,2 @@
-﻿export * from './web.socket.api';
+﻿export * from './web.socket.api_2';
 

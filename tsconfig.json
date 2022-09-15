@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/scorecard/_helpers/web.socket.api_2ts"  ],
   "compilerOptions": {
     // "baseUrl": "./",
     "baseUrl": "src",

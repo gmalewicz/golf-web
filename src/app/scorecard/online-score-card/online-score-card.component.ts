@@ -1,4 +1,3 @@
-
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit } from '@angular/core';

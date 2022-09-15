@@ -11,13 +11,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { RxStompService } from '@stomp/ng2-stompjs';
 import { combineLatest } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
 import { OnlineRound } from '../_models/onlineRound';
 import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
-import { WebSocketAPI } from './web.socket.api';
+import { WebSocketAPI2 } from './web.socket.api_2';
 
 @Component({
   template: ''
@@ -66,7 +67,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   display: boolean;
 
-  webSocketAPI: WebSocketAPI;
+  webSocketAPI: WebSocketAPI2;
 
   // lost connection indicator
   lostConnection: boolean;
@@ -76,7 +77,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
-              protected router: Router) {
+              protected router: Router,
+              protected  rxStompService: RxStompService) {
   }
 
   ngOnInit(): void {
@@ -118,8 +120,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
       this.ballPickedUp = new Array(this.onlineRounds.length).fill(false);
 
-      this.lostConnection = true;
-
       // zero putts in case tracking is not required
       if (this.onlineRounds[0].putts) {
         this.curHolePutts = new Array(this.onlineRounds.length).fill(2);
@@ -130,8 +130,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
 
       this.getRoundData();
+
       // open web socket
-      this.webSocketAPI = new WebSocketAPI(this, this.alertService, this.authenticationService, false, true);
+      this.webSocketAPI = new WebSocketAPI2(this.authenticationService);
     }
   }
 
@@ -151,10 +152,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     if (this.webSocketAPI !== undefined) {
       this.webSocketAPI._disconnect();
     }
-  }
 
-  handleLostConnection(lost: boolean) {
-    this.lostConnection = lost;
   }
 
   // helper function to provide verious arrays for html
@@ -420,6 +418,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         }
         return s;
       });
+
+      // v2.20 update JWT not to break on-line round
+      //this.authenticationService.updateJWT();
+
 
       // establish connection to the server
       this.webSocketAPI._connect(false);

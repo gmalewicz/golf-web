@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { HttpResponse } from '@angular/common/http';
 
 interface MyJwtPayload extends JwtPayload {
     roles: string;
@@ -58,5 +59,18 @@ export class AuthenticationService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('currentPlayer');
     this.currentPlayerSubject.next(null);
+  }
+
+  // v2.20 update JWT not to break on-line round
+  updateJWT(): Observable<HttpResponse<any>> {
+    return this.httpService.refreshOnDemand(this.currentPlayerValue.id).pipe(
+      tap(
+        (response: HttpResponse<any>) => {
+          this.currentPlayerValue.token =  response.headers.get('Jwt');
+          this.currentPlayerValue.refreshToken =  response.headers.get('Refresh');
+          localStorage.setItem('currentPlayer', JSON.stringify(this.currentPlayerValue));
+          this.currentPlayerSubject.next(this.currentPlayerValue);
+        })
+    );
   }
 }
