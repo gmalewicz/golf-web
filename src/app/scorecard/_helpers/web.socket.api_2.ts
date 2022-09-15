@@ -35,6 +35,11 @@ export class WebSocketAPI2 {
       }
 
       this.rxStomp = new RxStompService();
+
+      if (listen) {
+        this.messageQueue$ = this.rxStomp.watch(this.topic);
+      }
+
       this.authenticationService.updateJWT().subscribe(() => {
         this.rxStomp.configure({
           brokerURL: this.wsEndpointStr + this.authenticationService.currentPlayerValue.token,
@@ -61,10 +66,6 @@ export class WebSocketAPI2 {
             return false;
           })
         );
-
-        if (listen) {
-          this.messageQueue$ = this.rxStomp.watch(this.topic);
-        }
       });
     }
 

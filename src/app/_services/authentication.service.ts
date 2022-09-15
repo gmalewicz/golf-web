@@ -70,7 +70,6 @@ export class AuthenticationService {
           this.currentPlayerValue.refreshToken =  response.headers.get('Refresh');
           localStorage.setItem('currentPlayer', JSON.stringify(this.currentPlayerValue));
           this.currentPlayerSubject.next(this.currentPlayerValue);
-          console.log('I am done with update');
         })
     );
   }

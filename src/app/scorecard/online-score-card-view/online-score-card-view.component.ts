@@ -343,7 +343,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           });
 
           this.onlineRounds = retOnlineRounds;
-
         });
 
         this.onlineRounds = retOnlineRounds;

@@ -50,7 +50,7 @@
             {{mpResultHistory[idx][i]}}
           </td>
           <th  id="mpr" class="center"></th>
-          <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
+          <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i + 9, idx)">
             {{mpResultHistory[idx][i + 9]}}
           </td>
           <th  id="mpt2" class="center"></th>
