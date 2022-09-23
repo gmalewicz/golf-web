@@ -44,9 +44,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   elapsed: TimeSpan;
   subscription: Subscription;
 
-  refreshSubscription: Subscription;
-  refreshPossible: boolean;
-
   lstUpdTime: string;
 
   queueSubscription: Subscription;
@@ -60,18 +57,15 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.webSocketAPI !== undefined) {
       this.webSocketAPI._disconnect();
     }
+
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
-    }
 
     if (this.queueSubscription) {
-      this.subscription.unsubscribe();
+      this.queueSubscription.unsubscribe();
     }
   }
-
 
   ngOnInit(): void {
 
@@ -79,7 +73,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
-      this.refreshPossible = false;
       this.elapsed = {hours: 0, minutes: 0, seconds: 0};
       // get round from state
       const onlineRound: OnlineRound = history.state.data.onlineRound;
@@ -213,7 +206,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         }
         this.lstUpdTime = this.compareTime(this.lstUpdTime, sc.time);
         this.resetCounter();
-        this.resetRefreshCounter();
       }
     });
   }
@@ -282,7 +274,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           idx--;
         }
         this.resetCounter();
-        this.resetRefreshCounter();
 
         this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
 
@@ -338,8 +329,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
             this.lstUpdTime = this.compareTime(this.lstUpdTime, scoreCardAPI.time);
             this.resetCounter();
-            this.resetRefreshCounter();
-
           });
 
           this.onlineRounds = retOnlineRounds;
@@ -397,6 +386,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       if (onlineRound.player.id === onlineScoreCard.player.id) {
 
         onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] = onlineScoreCard;
+        this.checkForReload(onlineRound, onlineScoreCard.hole - 1);
         holeIdx = onlineScoreCard.hole - 1;
 
         this.lstUpdTime = onlineScoreCard.time;
@@ -467,6 +457,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           onlineRound.last9score += onlineScoreCard.stroke;
         }
         onlineRound.scoreCardAPI[onlineScoreCard.hole - 1] = onlineScoreCard;
+        this.checkForReload(onlineRound, onlineScoreCard.hole - 1);
 
         // create colour
         this.scoreBruttoClass[idx][onlineScoreCard.hole - 1] =
@@ -479,16 +470,17 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  // reload if previous hole is not set
+  checkForReload(onlineRound: OnlineRound, hole: number) {
 
-  handleLostConnection(lost: boolean) {
-
-    if (lost) {
-      this.display = false;
-    } else {
-      this.display = true;
+    if (onlineRound.scoreCardAPI[hole - 1] === null) {
+      console.log('refresh triggered');
+      this.ngOnDestroy();
+      this.ngOnInit();
     }
 
   }
+
 
   prepareColoursForResults(stroke: number, par: number): string {
 
@@ -512,20 +504,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         break;
       }
     return retVal;
-  }
-
-  private resetRefreshCounter() {
-
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
-    }
-
-    this.refreshSubscription = timer(0, 1000)
-    .subscribe((sec) => {
-      if (sec >= 60 * 5 && !this.finalized) {
-        this.onRefresh();
-      }
-    });
   }
 
   private resetCounter() {
@@ -584,11 +562,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     const secondNum: number  = +second.replace(':', '');
 
     return firstNum > secondNum ? first : second;
-  }
-
-  onRefresh() {
-    this.ngOnDestroy();
-    this.ngOnInit();
   }
 
   highlightHcp(hole: number, player: number) {

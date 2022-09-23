@@ -98,7 +98,7 @@
                 </span>
               </td>
               <th id="f9s" class="center"></th>
-              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
+              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i + 9, idx)">
                 <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
                   {{mpResultHistory[idx][i + 9]}}
                 </span>
