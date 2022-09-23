@@ -1,7 +1,7 @@
-<div *ngIf="!display || lostConnection" class="d-flex justify-content-center">
+<div *ngIf="!display || (webSocketAPI.connectionStatus$ | async) === false" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="display && !lostConnection">
+<div *ngIf="display && (webSocketAPI.connectionStatus$ | async) === true">
   <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
                             [curPlayerIdx] = 'curPlayerIdx'
                             [puttSelectorActive] = 'puttSelectorActive'

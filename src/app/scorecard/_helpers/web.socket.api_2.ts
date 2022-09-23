@@ -45,14 +45,14 @@ export class WebSocketAPI2 {
           brokerURL: this.wsEndpointStr + this.authenticationService.currentPlayerValue.token,
           connectHeaders: {
           },
-          heartbeatIncoming: 0,
-          heartbeatOutgoing: 20000,
+          heartbeatIncoming: 4000,
+          heartbeatOutgoing: 0,
           reconnectDelay: 200,
-          /*
+
           debug: (msg: string): void => {
             console.log(new Date(), msg);
           }
-          */
+
         });
 
         this.rxStomp.activate();
@@ -68,6 +68,26 @@ export class WebSocketAPI2 {
         );
       });
     }
+
+    _reconnect() {
+
+      const prom = this.rxStomp.deactivate();
+
+      prom.then(() =>{
+        this.rxStomp.activate();
+
+        this.connectionStatus$ = this.rxStomp.connectionState$.pipe(
+          map(state => {
+            // convert numeric RxStompState to string
+            if (RxStompState[state] === 'OPEN') {
+              return true;
+            }
+            return false;
+          })
+        );
+      });
+    }
+
 
     _disconnect() {
         this.rxStomp.deactivate();

@@ -69,9 +69,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   webSocketAPI: WebSocketAPI2;
 
-  // lost connection indicator
-  lostConnection: boolean;
-
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -277,11 +274,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   addScore() {
 
-    // return where no connection to the server
-    if (this.lostConnection) {
-      return;
-    }
-
     // save only if anything has been changed
     if (this.curHoleStrokes[this.curPlayerIdx] !== this.strokes[this.curHoleIdx][this.curPlayerIdx] ||
       this.curHolePutts[this.curPlayerIdx] !== this.putts[this.curHoleIdx][this.curPlayerIdx] ||
@@ -312,21 +304,19 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       // send scorecard to server
       this.webSocketAPI._send(currentOnlineScoreCard);
 
-      if (!this.lostConnection) {
+      // update total strokes by substracting current value and adding the new one
+      this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
+      this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
 
-        // update total strokes by substracting current value and adding the new one
-        this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
-        this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
+      // udate strokes for display
+      this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
 
-        // udate strokes for display
-        this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
+      // verify if at least for one hole the ball has been picked up
+      this.setBallPickUp();
 
-        // verify if at least for one hole the ball has been picked up
-        this.setBallPickUp();
+      this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
+      this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
 
-        this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
-        this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
-      }
     }
 
     // move to the next player
@@ -419,13 +409,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         return s;
       });
 
-      // v2.20 update JWT not to break on-line round
-      //this.authenticationService.updateJWT();
-
-
       // establish connection to the server
       this.webSocketAPI._connect(false);
-      this.lostConnection = false;
       this.display = true;
     },
       (error: HttpErrorResponse) => {
