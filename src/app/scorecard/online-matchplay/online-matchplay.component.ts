@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
-import { RxStompService } from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-online-matchplay',
@@ -30,9 +29,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
-              protected router: Router,
-              protected rxStompService: RxStompService) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, rxStompService);
+              protected router: Router) {
+    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router);
   }
 
   ngOnInit(): void {

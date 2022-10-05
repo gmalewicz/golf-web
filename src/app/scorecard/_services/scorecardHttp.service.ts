@@ -39,6 +39,11 @@ export class ScorecardHttpService {
   getOnlineRoundsForOwner(ownerId: number): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRoundOwner/' + ownerId);
   }
+
+  syncOnlineScoreCards(onlineScoreCards: Array<OnlineScoreCard>): Observable<HttpResponse<null>> {
+
+    return this.http.post<HttpResponse<null>>('rest/OnlineScoreCard', onlineScoreCards);
+  }
 }
 
 
