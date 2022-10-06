@@ -48,11 +48,6 @@ export class WebSocketAPI2 {
           heartbeatIncoming: 4000,
           heartbeatOutgoing: 0,
           reconnectDelay: 200,
-
-          debug: (msg: string): void => {
-            console.log(new Date(), msg);
-          }
-
         });
 
         this.rxStomp.activate();

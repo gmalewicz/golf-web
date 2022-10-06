@@ -141,6 +141,11 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
+    } else if (req.url.includes('rest/RefreshToken/')) {
+      return new Observable(observer => {
+        observer.next(new HttpResponse<Array<any>>({ status: 200}));
+        observer.complete();
+      });
     }
     // pass through other requests.
     return next.handle(req);

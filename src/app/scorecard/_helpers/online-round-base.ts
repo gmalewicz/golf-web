@@ -11,7 +11,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
-import { RxStompService } from '@stomp/ng2-stompjs';
 import { combineLatest } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
@@ -74,8 +73,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
-              protected router: Router,
-              protected  rxStompService: RxStompService) {
+              protected router: Router) {
   }
 
   ngOnInit(): void {
@@ -200,7 +198,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       }
       return s;
     });
-    // set player index to 0 and update edit stye
+    // set player index to 0 and update edit style
     this.editClass[this.curPlayerIdx] = 'no-edit';
     this.curPlayerIdx = 0;
     this.editClass[this.curPlayerIdx] = 'edit';
@@ -208,6 +206,39 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
+  }
+
+  syncHole(curHoleIdx: number) {
+
+    const onlineScoreCards: OnlineScoreCard[] = [];
+
+    this.onlineRounds.forEach((or, idx) => {
+
+       // create new online score card
+       const currentOnlineScoreCard: OnlineScoreCard = {
+        hole: curHoleIdx + 1,
+        stroke: this.strokes[curHoleIdx][idx],
+        putt: this.putts[curHoleIdx][idx],
+        penalty: this.penalties[curHoleIdx][idx],
+        player: {
+          id: this.onlineRounds[idx].player.id
+        },
+        orId: this.onlineRounds[idx].id,
+        update: false,
+        time: formatDate(new Date(), 'HH:mm', 'en-US')
+      };
+
+       onlineScoreCards.push(currentOnlineScoreCard);
+    });
+
+    this.display = false;
+    this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
+      tap(
+        () => {
+          this.display = true;
+        })
+    ).subscribe();
+
   }
 
   onFinal() {
@@ -329,6 +360,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
       this.curPlayerIdx++;
     } else {
+
+      // synchronize hole reults
+      this.syncHole(this.curHoleIdx);
+
       this.curPlayerIdx = 0;
       this.selectHole(this.curHoleIdx + 1);
     }
