@@ -4,6 +4,7 @@ import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { NavigationComponent } from './navigation.component';
 
@@ -17,6 +18,7 @@ describe('NavigationComponent', () => {
       declarations: [ NavigationComponent ],
       imports: [
         HttpClientModule,
+        FormsModule,
         routing,
       ],
       providers: [HttpService,
