@@ -136,7 +136,7 @@ export class HttpService {
   }
 
   purgeCourse(courseId: number): Observable<HttpResponse<null>> {
-    return this.http.post<HttpResponse<null>>('/rest/MoveToHistoryCourse/' + courseId, null);
+    return this.http.post<HttpResponse<null>>('rest/MoveToHistoryCourse/' + courseId, null);
   }
 
   updatePlayerRoundWHS(playerId: number, roundId: number, whs: number): Observable<HttpResponse<null>> {
