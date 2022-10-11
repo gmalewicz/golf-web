@@ -17,7 +17,6 @@ import { tap } from 'rxjs/operators';
 import { OnlineRound } from '../_models/onlineRound';
 import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
-import { WebSocketAPI2 } from './web.socket.api_2';
 
 @Component({
   template: ''
@@ -65,8 +64,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
   display: boolean;
-
-  webSocketAPI: WebSocketAPI2;
 
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
@@ -125,9 +122,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
 
       this.getRoundData();
-
-      // open web socket
-      this.webSocketAPI = new WebSocketAPI2(this.authenticationService);
     }
   }
 
@@ -143,11 +137,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-
-    if (this.webSocketAPI !== undefined) {
-      this.webSocketAPI._disconnect();
-    }
-
   }
 
   // helper function to provide verious arrays for html
@@ -330,10 +319,21 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.curHolePenalties[this.curPlayerIdx] !== this.penalties[this.curHoleIdx][this.curPlayerIdx]) &&
         this.strokes[this.curHoleIdx][this.curPlayerIdx] !== 0) {
           currentOnlineScoreCard.update = true;
+
+          const onlineScoreCards: OnlineScoreCard[] = new Array();
+          onlineScoreCards.push(currentOnlineScoreCard);
+          this.display = false;
+
+          this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
+            tap(
+              () => {
+                this.display = true;
+              })
+          ).subscribe();
       }
 
       // send scorecard to server
-      this.webSocketAPI._send(currentOnlineScoreCard);
+      // this.webSocketAPI._send(currentOnlineScoreCard);
 
       // update total strokes by substracting current value and adding the new one
       this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
@@ -445,7 +445,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       });
 
       // establish connection to the server
-      this.webSocketAPI._connect(false);
       this.display = true;
     },
       (error: HttpErrorResponse) => {
