@@ -137,6 +137,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
+    // This is intentional
   }
 
   // helper function to provide verious arrays for html
