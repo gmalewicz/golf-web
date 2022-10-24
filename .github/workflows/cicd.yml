@@ -115,7 +115,6 @@ jobs:
         run: yarn
       - name: install Xvbf
         run: sudo apt-get install -y xvfb
-        displayName: 'Set display'
       - name: Test and coverage
         run: yarn test --code-coverage
       - name: SonarCloud Scan
