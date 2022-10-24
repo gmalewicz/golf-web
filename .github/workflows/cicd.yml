@@ -117,7 +117,11 @@ jobs:
         run: sudo apt-get -y install xvfb gtk2-engines-pixbuf
       - name: set up xvfb 2
         run: sudo apt-get -y install dbus-x11 xfonts-base xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable
-      - name: Test and coverage
+      - name: set up xvfb 3
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+      - name: set up xvfb 4
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+      - name: export DISPLAY=:99
         run: yarn test --code-coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
