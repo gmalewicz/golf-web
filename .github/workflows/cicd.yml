@@ -111,8 +111,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: yarn
+      - name: Install jest
+        run: npm install -g jest
       - name: test coverage
-        run: yarn test --code-coverage --watch=false
+        run: yarn jest --coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
