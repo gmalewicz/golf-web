@@ -113,6 +113,9 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         run: yarn
+      - script: |
+          Xvfb :10 -ac &
+        displayName: 'Set display'
       - name: Test and coverage
         run: yarn test --code-coverage
       - name: SonarCloud Scan
