@@ -112,7 +112,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: test coverage
-        run: yarn ./node_modules/.bin/jest --watch=false
+        run: yarn test --code-coverage --watch=false
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
