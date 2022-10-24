@@ -113,8 +113,10 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         run: yarn
-      - name: set up xvfb
-        run: sudo apt-get -y install xorg xvfb gtk2-engines-pixbuf & sudo apt-get -y install dbus-x11 xfonts-base xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable
+      - name: set up xvfb 1
+        run: sudo apt-get -y install xor xvfb gtk2-engines-pixbuf
+      - name: set up xvfb 2
+        run: sudo apt-get -y install dbus-x11 xfonts-base xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable
       - name: Test and coverage
         run: yarn test --code-coverage
       - name: SonarCloud Scan
