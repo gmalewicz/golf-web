@@ -128,7 +128,7 @@ jobs:
           npm i
 
       - name: test coverage
-        run: ng test --code-coverage
+        run: npm test --code-coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
