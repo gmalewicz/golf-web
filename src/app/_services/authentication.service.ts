@@ -30,7 +30,7 @@ export class AuthenticationService {
       return '';
     }
 
-    return (jwt_decode(this.currentPlayerSubject.value.token) as MyJwtPayload).roles;
+    return (jwt_decode<MyJwtPayload>(this.currentPlayerSubject.value.token)).roles;
   }
 
 

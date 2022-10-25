@@ -29,7 +29,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
         this.router.navigate(['']);
       }
     });
-    if (this.refreshSubject.observers.length === 1) {
+    if (this.refreshSubject.observed) {
 
       const currentPlayer: Player = this.authenticationService.currentPlayerValue;
       // Hit refresh-token API passing the refresh token stored into the request

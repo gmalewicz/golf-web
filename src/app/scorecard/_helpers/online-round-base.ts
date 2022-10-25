@@ -6,7 +6,6 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { formatDate } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -414,43 +413,40 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     }
     this.calculateMPHoleHCP();
 
-    combineLatest(calls).subscribe((onlineScoreCards: OnlineScoreCard[][]) => {
+    combineLatest(calls).pipe(tap(
+      (onlineScoreCards: OnlineScoreCard[][]) => {
 
-      this.processOnlineScoreCards(onlineScoreCards);
+        this.processOnlineScoreCards(onlineScoreCards);
 
-      this.initCurHoleIdx(onlineScoreCards);
+        this.initCurHoleIdx(onlineScoreCards);
 
-      this.checkIfRoundCompleted();
+        this.checkIfRoundCompleted();
 
-      // update mp results
-      this.updateMPresults();
+        // update mp results
+        this.updateMPresults();
 
-      // in case if stroke is 0 load par instead
-      this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
-        s += this.strokes[this.curHoleIdx][idx];
-        if (s === 0) {
-          s = this.course.holes[this.curHoleIdx].par;
-        } else {
-          this.curHolePutts[idx] = this.putts[this.curHoleIdx][idx];
-          this.curHolePenalties[idx] = this.penalties[this.curHoleIdx][idx];
+        // in case if stroke is 0 load par instead
+        this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
+          s += this.strokes[this.curHoleIdx][idx];
+          if (s === 0) {
+            s = this.course.holes[this.curHoleIdx].par;
+          } else {
+            this.curHolePutts[idx] = this.putts[this.curHoleIdx][idx];
+            this.curHolePenalties[idx] = this.penalties[this.curHoleIdx][idx];
 
-          if (idx === 0) {
-            this.puttSelectorActive[2] = ({ active: false });
-            this.puttSelectorActive[this.curHolePutts[0]] = ({ active: true });
-            this.penaltySelectorActive[0] = ({ active: false });
-            this.penaltySelectorActive[this.curHolePenalties[0]] = ({ active: true });
+            if (idx === 0) {
+              this.puttSelectorActive[2] = ({ active: false });
+              this.puttSelectorActive[this.curHolePutts[0]] = ({ active: true });
+              this.penaltySelectorActive[0] = ({ active: false });
+              this.penaltySelectorActive[this.curHolePenalties[0]] = ({ active: true });
+            }
+
           }
-
-        }
-        return s;
-      });
-
-      // establish connection to the server
-      this.display = true;
-    },
-      (error: HttpErrorResponse) => {
-        this.alertService.error(error.error.message, false);
-    });
+          return s;
+        });
+        this.display = true;
+      })
+    ).subscribe();
   }
 
   private processOnlineScoreCards(onlineScoreCards: OnlineScoreCard[][]) {
