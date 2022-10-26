@@ -15,7 +15,6 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      // require('karma-coverage-istanbul-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
@@ -25,18 +24,18 @@ module.exports = function (config) {
         random: false,
       }
     },
-    coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, './coverage/golf-web'),
-      reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
+    jasmineHtmlReporter: {
+      suppressAll: true // removes the duplicated traces
     },
-    reporters: ['progress', 'kjhtml', 'coverage'],
-    preprocessors: {
-      // source files, that you wanna generate coverage for
-      // do not include tests or libraries
-      // (these files will be instrumented by Istanbul)
-      'src/**/*.js': ['coverage']
+    coverageReporter: {
+      dir: require('path').join(__dirname, './coverage'),
+      subdir: '.',
+      reporters: [
+      { type: 'html', subdir: 'html-report' },
+      { type: 'lcov', subdir: 'lcov-report' }
+      ]
     },
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -50,10 +49,5 @@ module.exports = function (config) {
     },
     singleRun: false,
     restartOnFileChange: true,
-    // optionally, configure the reporter
-    coverageReporter: {
-      type : 'html',
-      dir : 'coverage/'
-    }
   });
 };
