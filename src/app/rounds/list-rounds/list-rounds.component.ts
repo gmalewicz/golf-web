@@ -1,4 +1,5 @@
 import { Round } from '@/_models/round';
+import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +14,7 @@ export class ListRoundsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
 
-  constructor() {
+  constructor(public authenticationService: AuthenticationService) {
      // This is intentional
   }
 

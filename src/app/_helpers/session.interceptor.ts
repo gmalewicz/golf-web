@@ -74,7 +74,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
                 })
               );
             } else {
-              return throwError(() => new Error(error.error));
+              return throwError(() => error);
             }
           }
           return caught;

@@ -15,6 +15,10 @@
     <button class="nav-link" id="plrRndCnt-tab" data-bs-toggle="tab" data-bs-target="#plrRndCnt" type="button"
       role="tab" aria-controls="plrRndCnt" aria-selected="false" (click)="loadComponent(3)">Player Management</button>
   </li>
+  <li class="nav-item">
+    <button class="nav-link" id="updPlayerRnd-tab" data-bs-toggle="tab" data-bs-target="#updPlrRnd" type="button"
+      role="tab" aria-controls="updPlrRnd" aria-selected="false" (click)="loadComponent(4)">Swap Round Player</button>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <p></p>
@@ -27,6 +31,9 @@
     <ng-container #adminContainer></ng-container>
   </div>
   <div class="tab-pane fade" id="plrRndCnt" role="tabpanel" aria-labelledby="plrRndCnt-tab">
+    <ng-container #adminContainer></ng-container>
+  </div>
+  <div class="tab-pane fade" id="updPlrRnd" role="tabpanel" aria-labelledby="updPlayerRnd-tab">
     <ng-container #adminContainer></ng-container>
   </div>
 </div>
