@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { UpdPlayerRndComponent } from './upd-player-rnd.component';
 
-describe('UpdRoundHcpComponent', () => {
+describe('UpdPlayerRndComponent', () => {
   let component: UpdPlayerRndComponent;
   let fixture: ComponentFixture<UpdPlayerRndComponent>;
 
@@ -57,6 +57,6 @@ describe('UpdRoundHcpComponent', () => {
     const btnElement = fixture.debugElement.query(By.css('.btn-success'));
     btnElement.nativeElement.click();
     tick();
-    expect(component.fupdPlrRnd.playerId.value).toMatch('1');
+    expect(component.fupdPlrRnd.oldPlrId.value).toMatch('1');
   }));
 });
