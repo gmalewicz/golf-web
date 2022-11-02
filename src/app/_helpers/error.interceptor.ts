@@ -13,11 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {
 
-      if (err.status === 504) {
-        // err.error = { message: 'Server unavailable' };
-      }
-
-      if (err.status === 0 || err.status === 404) {
+      if (err.status === 0 || err.status === 404 || err.status === 504) {
         this.alertService.error($localize`:@@errorInterceptor-notAvailable:Application not available. Try to refresh browser then log out and log in.`, true);
         this.router.navigate(['']);
         return throwError(() => new Error(err.status.toString()));

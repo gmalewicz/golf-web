@@ -1,6 +1,7 @@
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,7 +17,7 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let routeStub = {
+  const routeStub = {
     snapshot: {
       queryParams: {
       }
@@ -46,7 +47,8 @@ describe('LoginComponent', () => {
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
                   {provide: ActivatedRoute, useValue: routeStub},
                   {provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock}]
+                  { provide: MatDialog, useClass: MatDialogMock},
+                  AlertService]
     })
     .compileComponents();
   }));
@@ -55,14 +57,11 @@ describe('LoginComponent', () => {
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-
   });
 
   it('should create', () => {
       fixture.detectChanges();
       expect(component).toBeTruthy();
-
-
   });
 
   it('should submit with proper data', () => {

@@ -52,7 +52,6 @@ export class UpdPlayerRndComponent implements OnInit {
         () => {
           this.alertService.success('Player succesfully swapped for round', true);
           this.updPlrRndLoading = false;
-          // todo go to round if possible
           this.router.navigate(['/home']);
         })
     ).subscribe();

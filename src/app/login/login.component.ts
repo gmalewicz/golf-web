@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
     private httpService: HttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -79,7 +80,7 @@ export class LoginComponent implements OnInit {
           this.alertService.success($localize`:@@login-welcome:Welcome ${this.f.username.value}. Your handicap is
           ${data.whs} Make sure it is up to date before adding the round.`, true);
           this.loading = false;
-          this.router.navigate(['/home']);
+          this.ngZone.run(() => this.router.navigate(['/home'])).then();
         })
     ).subscribe();
 
