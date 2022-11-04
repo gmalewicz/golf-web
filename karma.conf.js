@@ -14,7 +14,6 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-spec-reporter'),
@@ -32,7 +31,6 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage'),
       subdir: '.',
       reporters: [
-      { type: 'html', subdir: 'html-report' },
       { type: 'lcov', subdir: 'lcov-report' }
       ]
     },
@@ -44,7 +42,7 @@ module.exports = function (config) {
       suppressSkipped: true,  // do not print information about skipped tests
       showSpecTiming: false // print the time elapsed for each spec
     },
-    reporters: ['progress', 'kjhtml', 'spec'],
+    reporters: ['spec'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

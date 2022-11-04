@@ -16,31 +16,26 @@ export class ErrorInterceptor implements HttpInterceptor {
       if (err.status === 0 || err.status === 404 || err.status === 504) {
         this.alertService.error($localize`:@@errorInterceptor-notAvailable:Application not available. Try to refresh browser then log out and log in.`, true);
         this.router.navigate(['']);
-        return throwError(() => new Error(err.status.toString()));
+        return throwError(() => new Error(err.statusText.toString()));
       }
 
       if (err.status !== 401) {
         this.alertService.error(err.error.message, true);
         this.router.navigate(['']);
-        return throwError(() => new Error(err.status.toString()));
+        return throwError(() => new Error(err.statusText.toString()));
       }
 
-      if (err.status === 401 && err.error !== undefined && err.error.error === '14') {
+      if ((err.status === 401 && err.error !== undefined && err.error.error === '14') ||
+        (err.status === 401 && err.error.message !== 'Token Expired')) {
         this.alertService.error(err.error.message, true);
         this.router.navigate(['']);
-        return throwError(() => new Error(err.status.toString()));
-      }
-
-      if (err.status === 401 && err.error.message !== 'Token Expired') {
-        this.alertService.error(err.error.message, true);
-        this.router.navigate(['']);
-        return throwError(() => new Error(err.status.toString()));
+        return throwError(() => new Error(err.statusText.toString()));
       }
 
       if (err.status === 401) {
         this.alertService.error($localize`:@@errorInterceptor-logOutIn:Please log out and log in.`, true);
         this.router.navigate(['']);
-        return throwError(() => new Error(err.status.toString()));
+        return throwError(() => new Error(err.statusText.toString()));
       }
 
     }));
