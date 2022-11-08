@@ -12,6 +12,7 @@
         <th id="whs">WHS</th>
         <th id="role">Role</th>
         <th id="type">Type</th>
+        <th id="id">ID</th>
         <th id="roundCnt">Rounds</th>
         <th id="delete">Delete</th>
       </tr>
@@ -32,6 +33,9 @@
           <span *ngIf="row.type === 0">LOCAL</span>
           <span *ngIf="row.type === 1">FACEBOOK</span>
           <span *ngIf="row.type === 2">GOOGLE</span>
+        </td>
+        <td>
+          {{row.id}}
         </td>
         <td>{{ row.roundCnt }}</td>
         <td *ngIf="row.roundCnt === 0">

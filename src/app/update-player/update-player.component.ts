@@ -70,10 +70,16 @@ export class UpdatePlayerComponent implements OnInit {
 
     const player: Player = {
       id: this.authenticationService.currentPlayerValue.id,
-      nick: this.authenticationService.currentPlayerValue.nick,
-      password: this.f.password.value,
-      whs: whs === '' ? this.authenticationService.currentPlayerValue.whs : +whs
     };
+
+    if (this.f.password.value !== '') {
+      player.password = this.f.password.value;
+    }
+
+    if (whs !== '') {
+      player.whs = this.authenticationService.currentPlayerValue.whs = +whs;
+    }
+
     this.httpService.updatePlayer(player).pipe(
       tap(
         () => {
@@ -82,6 +88,7 @@ export class UpdatePlayerComponent implements OnInit {
             this.authenticationService.logout();
           } else {
             this.authenticationService.currentPlayerValue.whs = whs;
+            this.authenticationService.updateStorage();
           }
           this.loading = false;
           this.router.navigate(['/home']);

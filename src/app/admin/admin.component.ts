@@ -58,6 +58,9 @@ export class AdminComponent implements OnInit {
             this.playerRound = pr;
           })
       ).subscribe();
+    } else if (comp === 4) {
+      const {UpdPlayerRndComponent} = await import('./upd-player-rnd/upd-player-rnd.component');
+      this.adminContainerRef.createComponent(UpdPlayerRndComponent);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
@@ -32,7 +32,8 @@ export class TournamentResultsComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private ngZone: NgZone) {}
 
   ngOnInit(): void {
 
@@ -115,7 +116,7 @@ export class TournamentResultsComponent implements OnInit {
     this.tournamentHttpService.getRound(roundId).pipe(
       tap(
         (round: Round) => {
-          this.router.navigate(['/round/'], { state: { data: { round } }});
+          this.ngZone.run(() => this.router.navigate(['/round/'], { state: { data: { round } }})).then();
         })
     ).subscribe();
 

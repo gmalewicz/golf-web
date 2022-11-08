@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
@@ -20,7 +20,8 @@ export class RegistrationComponent implements OnInit {
       private router: Router,
       private authenticationService: AuthenticationService,
       private alertService: AlertService,
-      private httpService: HttpService
+      private httpService: HttpService,
+      private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -73,7 +74,7 @@ export class RegistrationComponent implements OnInit {
       tap(
         () => {
           this.alertService.success($localize`:@@registration-success:Registration successful. Please log in`, true);
-          this.router.navigate(['']);
+          this.ngZone.run(() => this.router.navigate([''])).then();
         })
     ).subscribe();
   }

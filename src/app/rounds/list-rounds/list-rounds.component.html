@@ -8,6 +8,7 @@
       <th id="course" i18n="@@listRounds-course">Course</th>
       <th id="players" *ngIf="selectedTab === 1" i18n="@@listRounds-players">Players</th>
       <th id="type" i18n="@@listRounds-type">Type</th>
+      <th id="id" *ngIf="authenticationService.playerRole.includes('ADMIN')">ID</th>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +28,7 @@
       </td>
       <td *ngIf="round.matchPlay">MP</td>
       <td *ngIf="!round.matchPlay">SP</td>
+      <td *ngIf="authenticationService.playerRole.includes('ADMIN')">{{round.id}}</td>
     </tr>
   </tbody>
 </table>

@@ -73,4 +73,8 @@ export class AuthenticationService {
         })
     );
   }
+
+  updateStorage() {
+    localStorage.setItem('currentPlayer', JSON.stringify(this.currentPlayerValue));
+  }
 }
