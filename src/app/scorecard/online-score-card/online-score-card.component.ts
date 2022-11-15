@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +21,8 @@ export class OnlineScoreCardComponent implements OnInit {
 
   constructor(private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private navigationService: NavigationService) {
   }
 
   ngOnInit(): void {
@@ -52,5 +54,33 @@ export class OnlineScoreCardComponent implements OnInit {
         this.display = true;
       });
     }
+  }
+
+  continueRound(navigation: string) {
+    this.navigationService.setCourse(this.myOnlineRounds[0].course);
+    this.navigationService.setOnlineRounds(this.myOnlineRounds);
+    this.router.navigate(['/scorecard/' + navigation]);
+  }
+
+  viewRound(viewType: number, course: Course, onlineRound: OnlineRound) {
+
+    switch (viewType)  {
+      case 1: { // view for course
+        this.navigationService.setCourse(course);
+        break;
+      }
+      case 2: { // view for player
+        this.navigationService.setOnlineRounds([onlineRound]);
+        break;
+      }
+      case 3: { // view for MP round
+        this.navigationService.setOwner(onlineRound.owner);
+        this.navigationService.setCourse(course);
+        this.navigationService.setOnlineRounds([onlineRound]);
+        break;
+      }
+    }
+
+    this.router.navigate(['/scorecard/onlineScoreCardView']);
   }
 }

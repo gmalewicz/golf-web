@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Subscription, timer } from 'rxjs';
@@ -51,7 +52,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
-              private router: Router) { }
+              private router: Router,
+              private navigationService: NavigationService) { }
 
   ngOnDestroy(): void {
     if (this.webSocketAPI !== undefined) {
@@ -65,36 +67,43 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.queueSubscription) {
       this.queueSubscription.unsubscribe();
     }
+
+    this.navigationService.clear();
   }
 
   ngOnInit(): void {
 
-    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+    if (this.authenticationService.currentPlayerValue === null &&
+        this.navigationService.getCourse() === null && this.navigationService.getOnlineRounds() === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
+
       this.elapsed = {hours: 0, minutes: 0, seconds: 0};
       // get round from state
-      const onlineRound: OnlineRound = history.state.data.onlineRound;
+      let onlineRound: OnlineRound = null;
+      if (this.navigationService.getOnlineRounds() !== null) {
+        onlineRound = this.navigationService.getOnlineRounds()[0];
+      }
       // get course from state
-      this.course = history.state.data.course;
+      this.course = this.navigationService.getCourse();
       // get owner in case of match play online score card
-      this.owner = history.state.data.owner;
+      this.owner = this.navigationService.getOwner();
 
       this.webSocketAPI = new WebSocketAPI2(this.authenticationService);
 
-      if (onlineRound != null) {
+      if (onlineRound !== null && this.owner === null) {
         this.onlineRounds = new Array(1);
         this.onlineRounds[0] = onlineRound;
         this.course = onlineRound.course;
         this.finalized = onlineRound.finalized;
         this.showRound();
-      } else if (this.owner != null) {
+      } else if (this.owner !== null) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
-        this.finalized = history.state.data.finalized;
+        this.finalized = this.navigationService.getOnlineRounds()[0].finalized;
         this.mpScore = new Array(18).fill(-2);
         this.mpResult = new Array(2);
-        this.teeTime  = history.state.data.teeTime;
+        this.teeTime  = this.navigationService.getOnlineRounds()[0].teeTime;
         this.showMatch();
       } else {
         this.showCourse();
@@ -291,7 +300,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
       this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
-
+;
         this.first9ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.last9ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.course.holes = retHoles;
@@ -330,7 +339,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             this.lstUpdTime = this.compareTime(this.lstUpdTime, scoreCardAPI.time);
             this.resetCounter();
           });
-
           this.onlineRounds = retOnlineRounds;
         });
 
@@ -474,7 +482,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   checkForReload(onlineRound: OnlineRound, hole: number) {
 
     if (onlineRound.scoreCardAPI[hole - 1] === null) {
-      console.log('refresh triggered');
       this.ngOnDestroy();
       this.ngOnInit();
     }

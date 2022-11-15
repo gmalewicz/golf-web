@@ -4,6 +4,7 @@ import { MatDialog} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
+import { NavigationService } from '../_services/navigation.service';
 
 @Component({
   selector: 'app-online-round',
@@ -17,8 +18,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
-              protected router: Router) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router);
+              protected router: Router,
+              protected navigationService: NavigationService) {
+    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService);
   }
 
   // helper function to provide verious arrays for html
