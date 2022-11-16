@@ -4,7 +4,6 @@ import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 export function getTestRound(): Round {
