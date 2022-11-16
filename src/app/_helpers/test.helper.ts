@@ -4,6 +4,7 @@ import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AuthenticationService } from '@/_services/authentication.service';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 export function getTestRound(): Round {
@@ -174,7 +175,12 @@ export function getTestOnlineRound(): OnlineRound[] {
     putts: false,
     tee: {id: 6, tee: 'red', cr: 70.2, sr: 129, teeType: 0, sex: true},
     teeTime: '12:46'
-  }
-];
+  }];
+}
 
+export class MyRouterStub {
+  routerState = { root: '' };
+  navigate() {
+    return;
+  }
 }

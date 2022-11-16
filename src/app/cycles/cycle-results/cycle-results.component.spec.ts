@@ -51,4 +51,8 @@ describe('CycleResultsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  afterEach(() => {
+    localStorage.removeItem('currentPlayer');
+  });
 });

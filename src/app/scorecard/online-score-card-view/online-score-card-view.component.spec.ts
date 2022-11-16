@@ -98,6 +98,7 @@ describe('OnlineScoreCardViewComponent', () => {
 
   afterEach(() => {
     navigationService.clear();
+    localStorage.removeItem('currentPlayer');
   });
 
   afterAll(() => {

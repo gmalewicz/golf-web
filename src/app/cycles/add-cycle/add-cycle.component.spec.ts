@@ -74,4 +74,8 @@ describe('AddCycleComponent', () => {
     expect(component.addCycleForm.invalid).toBeTruthy();
 
   }));
+
+  afterEach(() => {
+    localStorage.removeItem('currentPlayer');
+  });
 });

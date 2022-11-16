@@ -12,7 +12,7 @@ export class MimicBackendScoreInterceptor implements HttpInterceptor{
         observer.next(new HttpResponse<any>({status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/OnlineRound')) {
+    } else if (req.url.endsWith('rest/OnlineRound') || req.url.endsWith('rest/OnlineRoundCourse/1')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<any>>({body:
 
@@ -41,17 +41,6 @@ export class MimicBackendScoreInterceptor implements HttpInterceptor{
 
           [
             getOnlineScoreCard()
-          ]
-
-        , status: 200}));
-        observer.complete();
-      });
-    } else if (req.url.endsWith('rest/OnlineRoundCourse/1')) {
-      return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
-
-          [
-            getOnlineRoundFirstPlayer()
           ]
 
         , status: 200}));

@@ -50,7 +50,6 @@ export class OnlineScoreCardComponent implements OnInit {
         for (const or of this.onlineRounds) {
           this.courses.set(or.course.id , or.course);
         }
-
         this.display = true;
       });
     }
