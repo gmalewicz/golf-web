@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
@@ -23,6 +24,7 @@ describe('OnlineRoundComponent', () => {
       ,
       providers: [HttpService,
         ScorecardHttpService,
+        NavigationService,
         {
           provide: MatDialogRef,
           useValue: {}

@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 import { ScorecardHttpService } from './../_services/scorecardHttp.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
@@ -23,6 +24,7 @@ describe('OnlineMatchplayComponent', () => {
       ,
       providers: [HttpService,
         ScorecardHttpService,
+        NavigationService,
         {
           provide: MatDialogRef,
           useValue: {}

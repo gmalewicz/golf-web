@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub, getTee, getTestCourse} from '@/_helpers/test.helper';
@@ -68,6 +69,7 @@ describe('OnlineRoundDefComponent', () => {
         { provide: AlertService, useValue: alertServiceStub },
         { provide: ConfirmationDialogComponent, useClass: MatDialogMock},
         ScorecardHttpService,
+        NavigationService
         ]
     })
     .compileComponents();
