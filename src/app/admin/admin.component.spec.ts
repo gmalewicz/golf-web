@@ -85,6 +85,10 @@ describe('AdminComponent', () => {
     expect().nothing();
   }));
 
+  afterEach(() => {
+    localStorage.removeItem('currentPlayer');
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });

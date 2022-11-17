@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController} from '@angular/common/h
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ErrorInterceptor } from '../error.interceptor';
+import { MyRouterStub} from '../test.helper';
 
 const alertServiceStub: Partial<AlertService> = {
   clear() {
@@ -12,13 +13,6 @@ const alertServiceStub: Partial<AlertService> = {
   // tslint:disable-next-line: variable-name
   error(_message: string, _keepAfterRouteChange = false) {
     // This is intentional
-  }
-};
-
-const routerStub: Partial<Router> = {
-  // tslint:disable-next-line: variable-name
-  navigate(_commands: any[]): Promise<boolean> {
-    return null;
   }
 };
 
@@ -34,7 +28,7 @@ describe('error.interceptor', () => {
       ],
       providers: [
         { provide: AlertService, useValue: alertServiceStub },
-        { provide: Router, useValue: routerStub },
+        { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
       ]
     });

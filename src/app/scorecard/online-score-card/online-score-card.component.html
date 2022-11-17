@@ -31,11 +31,7 @@
         <tbody>
           <tr *ngFor="let entry of courses | keyvalue">
             <td>
-              <a
-                href="#"
-                routerLink="onlineScoreCardView"
-                [state]="{ data: { course: entry.value } }"
-              >
+              <a (click)="viewRound(1, entry.value, null)">
                 <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
               </a>
               {{ entry.value.name}}
@@ -59,11 +55,7 @@
           <ng-container *ngFor="let round of onlineRounds">
             <tr *ngIf="!round.matchPlay">
               <td>
-                <a
-                  href="#"
-                  routerLink="onlineScoreCardView"
-                  [state]="{ data: { onlineRound: round } }"
-                >
+                <a (click)="viewRound(2, null, round)">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
                 {{ round.player.nick }}
@@ -98,11 +90,7 @@
           <ng-container *ngFor="let round of onlineRounds">
             <tr *ngIf="round.matchPlay && round.player.nick != round.nick2">
               <td>
-                <a
-                  href="#"
-                  routerLink="onlineScoreCardView"
-                  [state]="{ data: { owner: round.owner, course: round.course, finalized: round.finalized, teeTime: round.teeTime} }"
-                >
+                <a (click)="viewRound(3, round.course, round)">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
                 {{ round.player.nick }}-{{ round.nick2 }}
@@ -143,8 +131,7 @@
     <button
       type="button"
       class="btn btn-success"
-      [routerLink]="['onlineRound']"
-      [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
+      (click)="continueRound('onlineRound')"
       i18n="@@onlineScoreCard-continue"
     >
       Continue Round
@@ -154,8 +141,7 @@
     <button
       type="button"
       class="btn btn-success"
-      [routerLink]="['onlineMatchplay']"
-      [state]="{ data: { onlineRounds: myOnlineRounds, course: myOnlineRounds[0].course } }"
+      (click)="continueRound('onlineMatchplay')"
       i18n="@@onlineScoreCard-continue"
     >
       Continue Round

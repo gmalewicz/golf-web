@@ -47,6 +47,10 @@ describe('BingoHolestakeGamesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  afterEach(() => {
+    localStorage.removeItem('currentPlayer');
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });

@@ -1,3 +1,4 @@
+import { NavigationService } from './_services/navigation.service';
 import { CommonScorecardComponent } from './common-scorecard/common-scorecard.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -52,7 +53,8 @@ import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
   providers: [ScorecardHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+    NavigationService
   ],
   exports: [],
   entryComponents: [RegisterPlayerDialogComponent, UpdateWhsDialogComponent]

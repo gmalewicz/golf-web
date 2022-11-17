@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
 import { OnlineRound } from '../_models/onlineRound';
 import { OnlineScoreCard } from '../_models/onlineScoreCard';
+import { NavigationService } from '../_services/navigation.service';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 
 @Component({
@@ -69,25 +70,29 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
-              protected router: Router) {
+              protected router: Router,
+              protected navigationService: NavigationService) {
   }
 
   ngOnInit(): void {
 
 
-    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+    if (this.authenticationService.currentPlayerValue === null ||
+        this.navigationService.getCourse() === null ||
+        this.navigationService.getOnlineRounds() === null
+      ) {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
 
       // get passed data
-      this.onlineRounds = history.state.data.onlineRounds;
+      this.onlineRounds = this.navigationService.getOnlineRounds();
 
       // 2.0.0 - adding sort of the array to have always the same sequence of players even
       // if retreiving from backend
       this.onlineRounds.sort((or1, or2) => or1.player.id - or2.player.id);
 
-      this.course = history.state.data.course;
+      this.course =  this.navigationService.getCourse();
       // initialize variables
       this.curPlayerIdx = 0;
       this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
@@ -136,7 +141,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    // This is intentional
+    this.navigationService.clear();
   }
 
   // helper function to provide verious arrays for html

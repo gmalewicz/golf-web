@@ -1,3 +1,4 @@
+import { NavigationService } from './../_services/navigation.service';
 import { getDateAndTime } from '@/_helpers/common';
 import { Course, Player, Tee } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
@@ -15,7 +16,6 @@ import { tap } from 'rxjs/operators';
 import { RegisterPlayerDialogComponent } from '../register-player-dialog/register-player-dialog.component';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
-
 import { ScorecardHttpService } from '../_services';
 
 @Component({
@@ -46,7 +46,8 @@ export class OnlineRoundDefComponent implements OnInit {
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -246,14 +247,12 @@ export class OnlineRoundDefComponent implements OnInit {
       .pipe(
         tap((or) => {
           this.loading = false;
+          this.navigationService.setCourse(this.course);
+          this.navigationService.setOnlineRounds(or);
           if (this.f.matchPlay.value) {
-            this.router.navigate(['/scorecard/onlineMatchplay'], {
-              state: { data: { onlineRounds: or, course: this.course } },
-            });
+            this.router.navigate(['/scorecard/onlineMatchplay']);
           } else {
-            this.router.navigate(['/scorecard/onlineRound'], {
-              state: { data: { onlineRounds: or, course: this.course } },
-            });
+            this.router.navigate(['/scorecard/onlineRound']);
           }
         })
       )

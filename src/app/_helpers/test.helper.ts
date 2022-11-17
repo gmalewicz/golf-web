@@ -174,7 +174,12 @@ export function getTestOnlineRound(): OnlineRound[] {
     putts: false,
     tee: {id: 6, tee: 'red', cr: 70.2, sr: 129, teeType: 0, sex: true},
     teeTime: '12:46'
-  }
-];
+  }];
+}
 
+export class MyRouterStub {
+  routerState = { root: '' };
+  navigate() {
+    return;
+  }
 }

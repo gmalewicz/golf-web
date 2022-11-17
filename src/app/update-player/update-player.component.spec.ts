@@ -84,6 +84,10 @@ describe('UpdatePlayerComponent', () => {
     expect(component.f.password.value).toContain('123456');
   }));
 
+  afterEach(() => {
+    localStorage.removeItem('currentPlayer');
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
