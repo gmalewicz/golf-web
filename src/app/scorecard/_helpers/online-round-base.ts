@@ -464,6 +464,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       }
 
       onlineScoreCards[i].forEach((sc: OnlineScoreCard) => {
+
         // initialize strokes per holes for display
         this.strokes[sc.hole - 1][i] = sc.stroke;
         this.putts[sc.hole - 1][i] = sc.putt;

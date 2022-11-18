@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Round } from '@/_models';
 import { HttpService, AuthenticationService, AlertService } from '@/_services';
-import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -11,42 +10,33 @@ import { tap } from 'rxjs/operators';
 export class RoundsComponent implements OnInit {
 
   selectedTab: number;
-
   rounds: Array<Round>;
   savedRounds: Array<Round>;
-
   dispMy: boolean;
   dispRecent: boolean;
   page: number;
   savedPage: number;
   pageSize: number;
-  // savedPageSize: number;
 
   constructor(private httpService: HttpService,
               private authenticationService: AuthenticationService,
-              private router: Router,
               private alertService: AlertService) {
   }
 
   ngOnInit(): void {
 
-    if (this.authenticationService.currentPlayerValue === null) {
-      this.authenticationService.logout();
-      this.router.navigate(['/login']);
-    } else {
+    // initialize the current page
+    this.page = 0;
+    this.savedPage = 0;
+    this.pageSize = 5;
+    this.selectedTab = 0;
+    this.dispMy = false;
+    this.dispRecent = false;
 
-      // initialize the current page
-      this.page = 0;
-      this.savedPage = 0;
-      this.pageSize = 5;
-      this.selectedTab = 0;
-      this.dispMy = false;
-      this.dispRecent = false;
-
-      if (this.rounds === undefined) {
-        this.getMyRounds();
-      }
+    if (this.rounds === undefined) {
+      this.getMyRounds();
     }
+
   }
 
   onNext() {
