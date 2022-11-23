@@ -2,7 +2,7 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { Round, Player } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs/operators';

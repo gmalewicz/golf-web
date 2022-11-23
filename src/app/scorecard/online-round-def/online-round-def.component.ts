@@ -4,7 +4,7 @@ import { Course, Player, Tee } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
   faCheckCircle,

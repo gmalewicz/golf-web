@@ -2,7 +2,7 @@ import { Cycle, CycleStatus } from './../_models/cycle';
 import { EagleResult, EagleResultSet } from './../_models/eagleResult';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AddTournamentDialogComponent } from '../add-tournament-dialog/add-tournament-dialog.component';

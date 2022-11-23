@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { AlertService, AuthenticationService } from '@/_services';
 import { Player } from '@/_models';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FinishSocialDialogComponent } from './finish-social-dialog/finish-social-dialog.component';
 
 @Component({
