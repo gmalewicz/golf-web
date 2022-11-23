@@ -8,7 +8,7 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OnlineMatchplayComponent } from './online-matchplay.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer } from '../_helpers/test.helper';
 import { authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';

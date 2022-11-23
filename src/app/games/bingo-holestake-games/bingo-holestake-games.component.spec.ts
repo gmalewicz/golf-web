@@ -4,7 +4,7 @@ import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { GameHttpService } from '../_services/gameHttp.service';
 

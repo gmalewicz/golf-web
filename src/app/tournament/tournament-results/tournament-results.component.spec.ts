@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
 import { TournamentResultsComponent } from './tournament-results.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { of } from 'rxjs';
 

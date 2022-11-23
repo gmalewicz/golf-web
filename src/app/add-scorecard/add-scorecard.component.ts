@@ -5,7 +5,7 @@ import { Course, ScoreCard, Round, Tee } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';

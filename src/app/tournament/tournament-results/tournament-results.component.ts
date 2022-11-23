@@ -6,7 +6,7 @@ import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
 import { Tournament, TournamentResult, TournamentRound } from '../_models';
 import { Round } from '@/_models';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
 @Component({

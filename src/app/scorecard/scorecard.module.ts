@@ -18,9 +18,9 @@ import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.co
 import { OnlineNavComponent } from './online-nav/online-nav.component';
 import { RegisterPlayerDialogComponent } from './register-player-dialog/register-player-dialog.component';
 import { UpdateWhsDialogComponent } from './update-whs-dialog/update-whs-dialog.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { CommonDialogComponent } from './common-dialog/common-dialog.component';
 import { CommonScorecardTopComponent } from './common-scorecard-top/common-scorecard-top.component';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';

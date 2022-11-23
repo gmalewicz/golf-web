@@ -1,7 +1,7 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { AlertService, AuthenticationService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Game } from '../_models';

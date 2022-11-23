@@ -15,9 +15,9 @@ import { CycleDetailsComponent } from './cycle-details/cycle-details.component';
 import { CycleResultsComponent } from './cycle-results/cycle-results.component';
 import { CycleTournamentComponent } from './cycle-tournament/cycle-tournament.component';
 import { AddTournamentDialogComponent } from './add-tournament-dialog/add-tournament-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 
 @NgModule({
   declarations: [

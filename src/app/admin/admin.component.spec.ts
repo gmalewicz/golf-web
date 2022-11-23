@@ -8,7 +8,7 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { CommonModule } from '@angular/common';
 
 describe('AdminComponent', () => {

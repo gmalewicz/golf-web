@@ -3,7 +3,7 @@ import { getTestRound } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule} from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { By } from '@angular/platform-browser';
 import { NgChartsModule } from 'ng2-charts';
 

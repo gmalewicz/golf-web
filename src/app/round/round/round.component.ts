@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Player, Round, teeTypes } from '@/_models';
 import { Router} from '@angular/router';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { tap } from 'rxjs/operators';
 import { calculateCourseHCP, calculateHoleHCP, calculateScoreDifferential, getPlayedCoursePar } from '@/_helpers/whs.routines';
