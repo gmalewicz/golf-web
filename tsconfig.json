@@ -4,7 +4,6 @@
     "src/**/*.ts"
 , "src/app/scorecard/_helpers/web.socket.api_2ts"  ],
   "compilerOptions": {
-    // "baseUrl": "./",
     "baseUrl": "src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -14,16 +13,17 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "lib": [
       "es2018",
       "dom"
     ],
     "paths": {
       "@/*": [
-          "app/*"
+        "app/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
