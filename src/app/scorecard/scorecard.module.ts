@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../_services/authentication.service';
 import { NavigationService } from './_services/navigation.service';
 import { CommonScorecardComponent } from './common-scorecard/common-scorecard.component';
 import { NgModule } from '@angular/core';
@@ -23,6 +24,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonDialogComponent } from './common-dialog/common-dialog.component';
 import { CommonScorecardTopComponent } from './common-scorecard-top/common-scorecard-top.component';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
+import { RxStompService } from './_services/rx-stomp.service';
+import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,7 @@ import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+    { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService]},
     NavigationService
   ],
   exports: [],
