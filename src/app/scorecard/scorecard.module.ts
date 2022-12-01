@@ -26,6 +26,7 @@ import { CommonScorecardTopComponent } from './common-scorecard-top/common-score
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { RxStompService } from './_services/rx-stomp.service';
 import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
     MatInputModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatButtonModule
   ],
   providers: [ScorecardHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

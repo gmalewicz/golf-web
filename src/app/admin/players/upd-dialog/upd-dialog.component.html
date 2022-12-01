@@ -37,11 +37,13 @@
       >Male</mat-checkbox
     >
   </mat-dialog-content>
-  <mat-dialog-actions>
-    <button class="mat-raised-button mat-primary" (click)="close()">
-      Cancel
-    </button>
-    &nbsp;
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
-  </mat-dialog-actions>
+  <mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="close()">
+        Cancel
+      </button>
+      &nbsp;
+      <button mat-raised-button color="primary" (click)="save()">Save</button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
 </div>
