@@ -1,23 +1,15 @@
 <div class="golf-theme">
   <h1 mat-dialog-title>Confirm</h1>
   <div mat-dialog-content>{{ confirmMessage }}</div>
-  <div mat-dialog-actions>
-    <button
-      mat-button
-      class="mat-raised-button mat-primary"
-      (click)="dialogRef.close(true)"
-      i18n="@@confirmDlg-confirm"
-    >
-      Confirm
-    </button>
-    &nbsp;
-    <button
-      class="mat-raised-button mat-primary"
-      mat-button
-      (click)="dialogRef.close(false)"
-      i18n="@@confirmDlg-cancel"
-    >
-      Cancel
-    </button>
-  </div>
+  <div mat-dialog-content>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
+        Confirm
+      </button>
+      &nbsp;
+      <button mat-raised-button color="primary" (click)="dialogRef.close(false)" i18n="@@confirmDlg-cancel">
+        Cancel
+      </button>
+    </div>
+</div>
 </div>

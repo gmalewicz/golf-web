@@ -8,7 +8,7 @@ import { Course} from '@/_models';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
-import { WebSocketAPI2 } from '../_helpers/web.socket.api_2';
+import { RxStompService } from '../_services/rx-stomp.service';
 
 @Component({
   selector: 'app-online-score-card-view',
@@ -23,7 +23,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   display = false;
   first9par: number;
   last9par: number;
-  webSocketAPI: WebSocketAPI2;
+  //webSocketAPI: WebSocketAPI2;
   holeHCP: number[][];
   finalized: boolean;
   // -2 not set
@@ -53,12 +53,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
               private router: Router,
-              private navigationService: NavigationService) { }
+              private navigationService: NavigationService,
+              private rxStompService: RxStompService) { }
 
   ngOnDestroy(): void {
-    if (this.webSocketAPI !== undefined) {
-      this.webSocketAPI._disconnect();
-    }
+
+    this.rxStompService.deactivate();
 
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -90,8 +90,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       // get owner in case of match play online score card
       this.owner = this.navigationService.getOwner();
 
-      this.webSocketAPI = new WebSocketAPI2(this.authenticationService);
-
       if (onlineRound !== null && this.owner === null) {
         this.onlineRounds = new Array(1);
         this.onlineRounds[0] = onlineRound;
@@ -113,7 +111,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   startLisenning() {
 
-    this.queueSubscription = this.webSocketAPI.messageQueue$.subscribe((message) => {
+    this.rxStompService.activate();
+    this.queueSubscription = this.rxStompService.watch('/topic').subscribe((message) => {
 
         this.handleMessage(JSON.parse(message.body));
 
@@ -184,7 +183,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.first9par = this.course.holes.map(h => h.par).
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
-        this.webSocketAPI._connect(true);
         this.startLisenning();
         this.display = true;
     });
@@ -290,7 +288,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
-        this.webSocketAPI._connect(true);
         this.startLisenning();
         this.display = true;
     });
@@ -347,7 +344,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.first9par = this.course.holes.map(h => h.par).
           reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
         this.last9par = this.course.par - this.first9par;
-        this.webSocketAPI._connect(true);
         this.startLisenning();
         this.display = true;
     });

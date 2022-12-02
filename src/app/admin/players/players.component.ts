@@ -12,6 +12,7 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { UpdDialogComponent } from './upd-dialog/upd-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-players',
@@ -118,6 +119,6 @@ export class PlayersComponent implements OnInit {
 
 @NgModule({
   declarations: [PlayersComponent],
-  imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule]
+  imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule, MatButtonModule]
 })
 class ResetPasswordModule {}

@@ -14,17 +14,19 @@
     &nbsp;
     <mat-checkbox formControlName="male" (click)="sexClick(false)" i18n="@@registerPlr-mal">Male</mat-checkbox>
   </mat-dialog-content>
-  <mat-dialog-actions>
-    <button class="mat-raised-button mat-primary" (click)="close()" i18n="@@registerPlr-cancel">
-      Cancel
-    </button>
-    &nbsp;
-    <button class="mat-raised-button mat-primary" (click)="save()" i18n="@@registerPlr-save">Save</button>
-  </mat-dialog-actions>
-  <br />
-  <p>
-    <span i18n="@@registerPlr-msg1">Create the new player or</span><br />
-    <span i18n="@@registerPlr-msg2">cancel and search again. The</span><br />
-    <span i18n="@@registerPlr-msg3">password will be 'welcome'.</span><br />
-  </p>
+  <mat-dialog-content [formGroup]="form">
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="close()" i18n="@@registerPlr-cancel">
+        Cancel
+      </button>
+      &nbsp;
+      <button mat-raised-button color="primary" (click)="save()" i18n="@@registerPlr-save">Save</button>
+    </mat-dialog-actions>
+    <br />
+    <p>
+      <span i18n="@@registerPlr-msg1">Create the new player or</span><br />
+      <span i18n="@@registerPlr-msg2">cancel and search again. The</span><br />
+      <span i18n="@@registerPlr-msg3">password will be 'welcome'.</span><br />
+    </p>
+  </mat-dialog-content>
 </div>

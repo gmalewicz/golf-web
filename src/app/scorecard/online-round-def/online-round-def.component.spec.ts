@@ -94,13 +94,13 @@ describe('OnlineRoundDefComponent', () => {
     expect(component.f.nick2.enabled).toBeTruthy();
   }));
 
-  it('should search the second player with different nick but not found', fakeAsync(() => {
+  it('should search the second player with different nick but not found', () => {
 
     component.f.nick2.enable();
     component.f.nick2.setValue('Other');
     component.onSearchPlayer(1);
     expect(component.f.nick2.enabled).toBeTruthy();
-  }));
+  });
 
   it('should search the second player with different nick and player found', fakeAsync(() => {
 
@@ -156,13 +156,13 @@ describe('OnlineRoundDefComponent', () => {
     expect(component.f.nick2.enabled).toBeFalsy();
   }));
 
-  it('should update WHS for the second player', fakeAsync(() => {
+  it('should update WHS for the second player', () => {
 
     component.f.nick2.enable();
     component.f.nick2.setValue('Other');
     component.updateWHS(1);
     expect(component.f.nick2.enabled).toBeTruthy();
-  }));
+  });
 
   it('should tee change for the first player', fakeAsync(() => {
 

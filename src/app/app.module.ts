@@ -38,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.component';
 import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish-social-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish
     RecaptchaFormsModule,
     HttpClientXsrfModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatButtonModule
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
