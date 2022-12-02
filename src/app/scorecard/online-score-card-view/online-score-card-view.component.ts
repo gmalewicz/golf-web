@@ -23,7 +23,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   display = false;
   first9par: number;
   last9par: number;
-  //webSocketAPI: WebSocketAPI2;
   holeHCP: number[][];
   finalized: boolean;
   // -2 not set
@@ -58,6 +57,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
+    this.clear();
+    this.navigationService.clear();
+  }
+
+  private clear(): void {
+
     this.rxStompService.deactivate();
 
     if (this.subscription) {
@@ -68,7 +73,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.queueSubscription.unsubscribe();
     }
 
-    this.navigationService.clear();
   }
 
   ngOnInit(): void {
@@ -297,7 +301,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
       this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
-;
+
         this.first9ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.last9ballPickedUp = Array(retOnlineRounds.length).fill(false);
         this.course.holes = retHoles;
@@ -478,7 +482,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   checkForReload(onlineRound: OnlineRound, hole: number) {
 
     if (onlineRound.scoreCardAPI[hole - 1] === null) {
-      this.ngOnDestroy();
+      this.clear();
       this.ngOnInit();
     }
 
