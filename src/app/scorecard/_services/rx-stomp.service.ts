@@ -10,7 +10,7 @@ import { golfRxStompConfig } from '../_helpers/golfRxStompConfig';
 export class RxStompService extends RxStomp {
 
   wsEndpointStr: string;
-  activePending: boolean = false;
+  activePending = false;
 
   constructor(private authenticationService: AuthenticationService) {
 
