@@ -40,12 +40,12 @@
     </button>
     &nbsp;
     <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN && cycleTournaments.length > 0"
-          type="button" class="btn btn-success cls" (click)="deleteLast()">
+          type="button" class="btn btn-success lst" (click)="deleteLast()">
       <span *ngIf="loadingDeleteTour" class="spinner-border spinner-border-sm mr-1"></span>
       <span i18n="@@cycleDetails-deletetLast">Delete last tournament</span>
     </button>
     &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success cls" (click)="deleteCycle()">
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success del2" (click)="deleteCycle()">
       <span *ngIf="loadingDeleteCycle" class="spinner-border spinner-border-sm mr-1"></span>
       <span i18n="@@cycleDetails-delCycle">Delete cycle</span>
     </button>

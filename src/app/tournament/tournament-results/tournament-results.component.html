@@ -120,13 +120,18 @@
       Cancel
     </button>
     &nbsp;
-    <span *ngIf="tournament.player.id === playerId">
+    <span *ngIf="tournament.player.id === playerId && tournament.status === false">
       <button type="button" class="btn btn-success"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: tournament}}" i18n="@@tourRes-add">
         Add Round
       </button>
       &nbsp;
       <button type="button" class="btn btn-success"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: tournament}}" i18n="@@tourRes-addBehf">
         Add Rounds on Behalf
+      </button>
+      &nbsp;
+      <button id="close_btn" type="button" class="btn btn-success" (click)="closeTournament()">
+        <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@tourRes-close">Close tournament</span>
       </button>
     </span>
   </div>

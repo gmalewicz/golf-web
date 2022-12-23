@@ -10,5 +10,10 @@ export interface Tournament {
   rounds?: Round[];
   tournamentResults?: TournamentResult[];
   bestRounds?: number;
+  status?: boolean
 }
 
+export const TournamentStatus = {
+  STATUS_OPEN: false,
+  STATUS_CLOSE: true
+};

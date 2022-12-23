@@ -20,7 +20,8 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
         observer.complete();
       });
     } else if (req.url.endsWith('rest/Cycle') || req.url.endsWith('rest/CycleTournament') ||
-               req.url.startsWith('rest/CycleClose')) {
+               req.url.startsWith('rest/CycleClose') || req.url.startsWith('rest/Cycle/1') ||
+               req.url.startsWith('rest/DeleteCycleTournament')) {
       return new Observable<any> (observer => {
         observer.next(new HttpResponse<any>({status: 200}));
         observer.complete();
