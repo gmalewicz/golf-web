@@ -32,7 +32,8 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
                req.url.startsWith('rest/TournamentResultRound') ||
                req.url.startsWith('rest/TournamentRound') ||
                req.url.startsWith('rest/Round') ||
-               req.url.startsWith('rest/TournamentRoundOnBehalf')) {
+               req.url.startsWith('rest/TournamentRoundOnBehalf') ||
+               req.url.startsWith('rest/TournamentClose')) {
         return new Observable<any> (observer => {
           observer.next(new HttpResponse<Array<any>>({body:
             []

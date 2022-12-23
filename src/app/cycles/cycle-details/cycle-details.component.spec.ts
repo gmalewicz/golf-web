@@ -1,3 +1,4 @@
+import { CycleStatus } from './../_models/cycle';
 import { CycleTournamentComponent } from './../cycle-tournament/cycle-tournament.component';
 import { CycleResultsComponent } from './../cycle-results/cycle-results.component';
 import { routing } from '@/app.routing';
@@ -14,10 +15,33 @@ import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { AlertService } from '@/_services/alert.service';
 
 describe('CycleDetailsComponent', () => {
   let component: CycleDetailsComponent;
   let fixture: ComponentFixture<CycleDetailsComponent>;
+
+  class RouterStub {
+    routerState = { root: '' };
+    navigate() {
+      return;
+    }
+  }
+
+  const alertServiceStub: Partial<AlertService> = {
+    clear() {
+      // This is intentional
+    },
+    // tslint:disable-next-line: variable-name
+    error(_message: string, _keepAfterRouteChange = false) {
+      // This is intentional
+    },
+
+    success(_message: string, _keepAfterRouteChange = false) {
+      // This is intentional
+    }
+  };
 
   class MatDialogMock {
 
@@ -49,7 +73,9 @@ describe('CycleDetailsComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
         CycleHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
-        { provide: MatDialog, useClass: MatDialogMock}
+        { provide: MatDialog, useClass: MatDialogMock},
+        { provide: Router, useClass: RouterStub },
+        { provide: AlertService, useValue: alertServiceStub }
       ]
     })
       .compileComponents();
@@ -83,11 +109,67 @@ describe('CycleDetailsComponent', () => {
     buttonElement.triggerEventHandler('click',  {});
     tick();
 
-    buttonElement = fixture.debugElement.query(By.css('.cls'));
-    // Trigger click event after spyOn
-    buttonElement.triggerEventHandler('click',  {});
-    tick();
-
     expect(component).toBeTruthy();
   }));
+
+  it('should delete cycle',  fakeAsync(() => {
+    fixture = TestBed.createComponent(CycleDetailsComponent);
+    history.pushState({
+      data: {
+        cycle: {
+          id: 1, name: 'Test tournament 1', status: false, rule: 0,
+          player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
+        }
+      }
+    }, '');
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    let buttonElement = fixture.debugElement.query(By.css('.del2'));
+    // Trigger click event after spyOn
+    buttonElement.triggerEventHandler('click',  {});
+   // tick();
+    expect(component.loadingDeleteCycle).toBeTruthy();
+  }));
+
+  it('should close cycle',  fakeAsync(() => {
+    fixture = TestBed.createComponent(CycleDetailsComponent);
+    history.pushState({
+      data: {
+        cycle: {
+          id: 1, name: 'Test cycle 1', status: false, rule: 0,
+          player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
+        }
+      }
+    }, '');
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    let buttonElement = fixture.debugElement.query(By.css('.cls'));
+    // Trigger click event after spyOn
+    buttonElement.triggerEventHandler('click',  {});
+   // tick();
+    expect(component.cycle.status).toBe(CycleStatus.STATUS_CLOSE);
+  }));
+
+  it('should delete last tournament',  fakeAsync(() => {
+    fixture = TestBed.createComponent(CycleDetailsComponent);
+    history.pushState({
+      data: {
+        cycle: {
+          id: 1, name: 'Test cycle 1', status: false, rule: 0,
+          player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
+        }
+      }
+    }, '');
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    let buttonElement = fixture.debugElement.query(By.css('.lst'));
+    // Trigger click event after spyOn
+    buttonElement.triggerEventHandler('click',  {});
+   // tick();
+    expect(component.cycleTournaments.length).toEqual(1);
+  }));
+
 });

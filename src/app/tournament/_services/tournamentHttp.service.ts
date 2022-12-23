@@ -56,6 +56,12 @@ export class TournamentHttpService {
   deleteResult(resultId: number): Observable<void> {
     return this.http.delete<void>('rest/TournamentResult/' + resultId);
   }
+
+  // gets eagle results
+  closeTournament(tournamentId: number): Observable<void> {
+
+    return this.http.patch<void>('rest/TournamentClose/' + tournamentId, null);
+  }
 }
 
 

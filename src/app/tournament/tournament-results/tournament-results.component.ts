@@ -4,7 +4,7 @@ import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@for
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
-import { Tournament, TournamentResult, TournamentRound } from '../_models';
+import { Tournament, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { Round } from '@/_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
@@ -28,6 +28,8 @@ export class TournamentResultsComponent implements OnInit {
 
   tournamentResults: Array<TournamentResult>;
 
+  loadingClose: boolean;
+
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
               private router: Router,
@@ -43,6 +45,8 @@ export class TournamentResultsComponent implements OnInit {
     } else {
 
       this.display = false;
+
+      this.loadingClose = false;
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -137,6 +141,29 @@ export class TournamentResultsComponent implements OnInit {
               this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
               this.tournamentResults = this.tournamentResults.filter(rs => rs.id !== resultId);
             })
+        ).subscribe();
+      }
+    });
+  }
+
+  closeTournament(): void {
+
+    this.alertService.clear();
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = $localize`:@@tourRunds-CloseConf:Are you sure you want to close tournament?`;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingClose = true;
+        this.tournamentHttpService.closeTournament(this.tournament.id).pipe(tap(
+          () => {
+            this.tournament.status = TournamentStatus.STATUS_CLOSE;
+            this.alertService.success($localize`:@@tourRunds-CloseMsg:Tournament successfully closed`, false);
+            this.loadingClose = false;
+          })
         ).subscribe();
       }
     });

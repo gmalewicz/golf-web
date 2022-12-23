@@ -3152,6 +3152,30 @@
           <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="tourRes-close" datatype="html">
+        <source>Close tournament</source>
+        <target>Zamknij turniej</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-CloseConf" datatype="html">
+        <source>Are you sure you want to close tournament?</source>
+        <target>Czy zamknąć turniej?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.ts</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRunds-CloseMsg" datatype="html">
+        <source>Tournament successfully closed</source>
+        <target>Turniej został zamknięty</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.ts</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

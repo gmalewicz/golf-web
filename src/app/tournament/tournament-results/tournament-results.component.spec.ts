@@ -4,7 +4,7 @@ import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
@@ -12,6 +12,8 @@ import { TournamentResultsComponent } from './tournament-results.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { TournamentStatus } from '../_models/tournament';
 
 describe('TournamentResultsComponent', () => {
 
@@ -167,10 +169,16 @@ describe('TournamentResultsComponent', () => {
 
   it('should test delete result', fakeAsync(() => {
 
-    fixture.detectChanges();
     component.deleteResult(1);
     expect(component).toBeTruthy();
 
+  }));
+
+
+  it('should close tournament',  fakeAsync(() => {
+
+    component.closeTournament();
+    expect(component.tournament.status).toBe(TournamentStatus.STATUS_CLOSE);
   }));
 
   afterAll(() => {
