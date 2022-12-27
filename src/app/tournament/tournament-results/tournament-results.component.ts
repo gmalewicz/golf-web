@@ -124,8 +124,6 @@ export class TournamentResultsComponent implements OnInit {
         (round: Round) => {
 
           this.router.navigate(['/round/'], { state: { data: { round } }});
-
-          //this.ngZone.run(() => this.router.navigate(['/round/'], { state: { data: { round } }})).then();
         })
     ).subscribe();
 
