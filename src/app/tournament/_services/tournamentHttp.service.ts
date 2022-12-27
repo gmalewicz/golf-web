@@ -62,6 +62,11 @@ export class TournamentHttpService {
 
     return this.http.patch<void>('rest/TournamentClose/' + tournamentId, null);
   }
+
+  // gets round for given id
+  deleteTournament(tournamentId: number): Observable<void> {
+    return this.http.delete<void>('rest/Tournament/' + tournamentId);
+  }
 }
 
 
