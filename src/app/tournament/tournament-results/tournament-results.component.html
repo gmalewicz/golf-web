@@ -133,6 +133,11 @@
         <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@tourRes-close">Close tournament</span>
       </button>
+      &nbsp;
+      <button type="button" class="btn btn-success del" (click)="deleteTournament()">
+        <span *ngIf="loadingDelete" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@tourRes-delete">Delete tournament</span>
+      </button>
     </span>
   </div>
 </div>

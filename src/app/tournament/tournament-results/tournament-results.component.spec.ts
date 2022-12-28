@@ -2,7 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TournamentResult } from './../_models/tournamentResult';
 import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
-import { AuthenticationService, HttpService } from '@/_services';
+import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,8 +14,30 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { TournamentStatus } from '../_models/tournament';
+import { Router } from '@angular/router';
 
 describe('TournamentResultsComponent', () => {
+
+  class RouterStub {
+    routerState = { root: '' };
+    navigate() {
+      return;
+    }
+  }
+
+  const alertServiceStub: Partial<AlertService> = {
+    clear() {
+      // This is intentional
+    },
+    // tslint:disable-next-line: variable-name
+    error(_message: string, _keepAfterRouteChange = false) {
+      // This is intentional
+    },
+
+    success(_message: string, _keepAfterRouteChange = false) {
+      // This is intentional
+    }
+  };
 
   class MatDialogMock {
 
@@ -67,7 +89,9 @@ describe('TournamentResultsComponent', () => {
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
                   TournamentHttpService,
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock}
+                  { provide: MatDialog, useClass: MatDialogMock},
+                  { provide: Router, useClass: RouterStub },
+                  { provide: AlertService, useValue: alertServiceStub }
         ]
     })
     .compileComponents();
@@ -179,6 +203,13 @@ describe('TournamentResultsComponent', () => {
 
     component.closeTournament();
     expect(component.tournament.status).toBe(TournamentStatus.STATUS_CLOSE);
+  }));
+
+
+  it('should delete tournament',  fakeAsync(() => {
+
+    component.deleteTournament();
+    expect(component.loadingDelete).toBeTruthy();
   }));
 
   afterAll(() => {

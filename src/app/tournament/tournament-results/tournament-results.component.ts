@@ -29,6 +29,7 @@ export class TournamentResultsComponent implements OnInit {
   tournamentResults: Array<TournamentResult>;
 
   loadingClose: boolean;
+  loadingDelete: boolean;
 
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
@@ -47,6 +48,7 @@ export class TournamentResultsComponent implements OnInit {
       this.display = false;
 
       this.loadingClose = false;
+      this.loadingDelete = false;
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -120,7 +122,8 @@ export class TournamentResultsComponent implements OnInit {
     this.tournamentHttpService.getRound(roundId).pipe(
       tap(
         (round: Round) => {
-          this.ngZone.run(() => this.router.navigate(['/round/'], { state: { data: { round } }})).then();
+
+          this.router.navigate(['/round/'], { state: { data: { round } }});
         })
     ).subscribe();
 
@@ -163,6 +166,28 @@ export class TournamentResultsComponent implements OnInit {
             this.tournament.status = TournamentStatus.STATUS_CLOSE;
             this.alertService.success($localize`:@@tourRunds-CloseMsg:Tournament successfully closed`, false);
             this.loadingClose = false;
+          })
+        ).subscribe();
+      }
+    });
+  }
+
+  deleteTournament(): void {
+
+    this.alertService.clear();
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = $localize`:@@tourRunds-DeleteConf:Are you sure you want to delete entire tournament?`;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingDelete = true;
+        this.tournamentHttpService.deleteTournament(this.tournament.id).pipe(tap(
+          () => {
+            this.alertService.success($localize`:@@tourRunds-DeleteMsg:Tournament successfully deleted`, true);
+            this.router.navigate(['/tournaments']);
           })
         ).subscribe();
       }
