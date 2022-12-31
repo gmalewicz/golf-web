@@ -33,7 +33,7 @@ export class ScorecardHttpService {
 
   finalizeOnlineOwnerRound(ownerId: number): Observable<HttpResponse<null>> {
 
-    return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds/', ownerId);
+    return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds', ownerId);
   }
 
   getOnlineRoundsForOwner(ownerId: number): Observable<Array<OnlineRound>> {
