@@ -1,0 +1,30 @@
+<table class="table table-striped" aria-describedby="tournament details">
+  <thead>
+    <tr>
+      <th id="no" i18n="@@tourRes-no">No</th>
+      <th id="cour" i18n="@@tourRes-course">Course</th>
+      <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
+      <th id="gstb" i18n="@@tourRes-stb">STB</th>
+      <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
+      <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+      <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let tournamentRound of tournamentResult.tournamentRounds,  let j = index">
+    <td>{{j + 1}}</td>
+    <td>
+      <span *ngIf="tournamentRound.roundId !== null">
+        <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerRound(tournamentRound.roundId)"></fa-icon>
+        &nbsp;
+      </span>
+      {{tournamentRound.courseName}}
+    </td>
+    <td>{{tournamentRound.stbNet}}</td>
+    <td>{{tournamentRound.stbGross}}</td>
+    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>
+    <td *ngIf="!tournamentRound.strokes">x</td>
+    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesNetto}}</td>
+    <td *ngIf="!tournamentRound.strokes">x</td>
+    <td>{{tournamentRound.scrDiff}}</td>
+  </tbody>
+</table>

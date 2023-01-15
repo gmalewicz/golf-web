@@ -15,23 +15,30 @@
   <br/>
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-      <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+      <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#stbNet" type="button"
         role="tab" aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)" i18n="@@tourRes-stbNet">STB Net</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" id="stb-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+      <button class="nav-link" id="stb-tab" data-bs-toggle="tab" data-bs-target="#stb" type="button"
         role="tab" aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" id="strokes-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+      <button class="nav-link" id="strokes-tab" data-bs-toggle="tab" data-bs-target="#strokes" type="button"
         role="tab" aria-controls="strokes" aria-selected="false" (click)="updateSort(2)" i18n="@@tourRes-str">Strokes</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" id="netStroke-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+      <button class="nav-link" id="netStroke-tab" data-bs-toggle="tab" data-bs-target="#netStroke" type="button"
         role="tab" aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)" i18n="@@tourRes-strNet">Strokes Net</button>
+    </li>
+    <li class="nav-item" *ngIf="tournament.player.id === playerId && tournament.status === false">
+      <button class="nav-link" id="participants-tab" data-bs-toggle="tab" data-bs-target="#participants" type="button"
+        role="tab" aria-controls="participants" aria-selected="false" i18n="@@tourRes-participants" (click)="loadComponent(0)">Players</button>
     </li>
   </ul>
   <br/>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="stbNet" role="tabpanel" aria-labelledby="stbNet-tab">
 
       <table class="table table-striped" aria-describedby="tournament result">
         <thead>
@@ -48,27 +55,27 @@
         <tbody >
           <ng-container *ngFor="let tournamentResult of tournamentResults, let i = index">
             <tr>
-              <td *ngIf="displayRound[i] == false">
+              <td *ngIf="displayRound[i] == false" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
                 <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
-              <td *ngIf="displayRound[i] == true">
+              <td *ngIf="displayRound[i] == true" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
-              <td>{{ tournamentResult.player.nick }}</td>
-              <td>{{ tournamentResult.stbNet}}</td>
-              <td>{{ tournamentResult.stbGross}}</td>
-              <td *ngIf="tournamentResult.strokesBrutto === 0">x</td>
-              <td *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
-              <td *ngIf="tournamentResult.strokesNetto === 0">x</td>
-              <td *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
-              <td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</th>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
-                <span *ngIf="tournament.player.id === playerId">
+                <span *ngIf="tournament.player.id === playerId && tournament.status === false">
                   <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
                 </span>
               </td>
@@ -78,45 +85,190 @@
             <ng-template #showDetails>
               <td colspan="6">
                 <div>
-                <table class="table table-striped" aria-describedby="tournament details">
-                  <thead>
-                    <tr>
-                      <th id="no" i18n="@@tourRes-no">No</th>
-                      <th id="cour" i18n="@@tourRes-course">Course</th>
-                      <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-                      <th id="gstb" i18n="@@tourRes-stb">STB</th>
-                      <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
-                      <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-                      <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let tournamentRound of tournamentResult.tournamentRounds,  let j = index">
-                    <td>{{j + 1}}</td>
-                    <td>
-                      <span *ngIf="tournamentRound.roundId !== null">
-                        <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerRound(tournamentRound.roundId)"></fa-icon>
-                        &nbsp;
-                      </span>
-                      {{tournamentRound.courseName}}
-                    </td>
-                    <td>{{tournamentRound.stbNet}}</td>
-                    <td>{{tournamentRound.stbGross}}</td>
-                    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>
-                    <td *ngIf="!tournamentRound.strokes">x</td>
-                    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesNetto}}</td>
-                    <td *ngIf="!tournamentRound.strokes">x</td>
-                    <td>{{tournamentRound.scrDiff}}</td>
-                  </tbody>
-                </table>
+                  <app-player-results [tournamentResult]='tournamentResults[i]'></app-player-results>
                 </div>
               </td>
             </ng-template>
           </ng-container>
         </tbody>
       </table>
+
+    </div>
+    <div class="tab-pane fade" id="stb" role="tabpanel" aria-labelledby="stb-tab">
+
+      <table class="table table-striped" aria-describedby="tournament result">
+        <thead>
+          <tr>
+            <th id="place" i18n="@@tourRes-place">Place</th>
+            <th id="player" i18n="@@tourRes-plr">Player</th>
+            <th id="gstb" i18n="@@tourRes-stb">STB</th>
+            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+          </tr>
+        </thead>
+        <tbody >
+          <ng-container *ngFor="let tournamentResult of tournamentResults, let i = index">
+            <tr>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
+                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
+                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</th>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
+                {{ tournamentResult.playedRounds}}
+                <span *ngIf="tournament.player.id === playerId && tournament.status === false">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
+
+            <ng-template #showDetails>
+              <td colspan="6">
+                <div>
+                  <app-player-results [tournamentResult]='tournamentResults[i]'></app-player-results>
+                </div>
+              </td>
+            </ng-template>
+          </ng-container>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="tab-pane fade" id="strokes" role="tabpanel" aria-labelledby="strokes-tab">
+
+      <table class="table table-striped" aria-describedby="tournament result">
+        <thead>
+          <tr>
+            <th id="place" i18n="@@tourRes-place">Place</th>
+            <th id="player" i18n="@@tourRes-plr">Player</th>
+            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstb" i18n="@@tourRes-stb">STB</th>
+            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+          </tr>
+        </thead>
+        <tbody >
+          <ng-container *ngFor="let tournamentResult of tournamentResults, let i = index">
+            <tr>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
+                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
+                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</th>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</th>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}"> {{ tournamentResult.stbNet}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
+                {{ tournamentResult.playedRounds}}
+                <span *ngIf="tournament.player.id === playerId && tournament.status === false">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
+
+            <ng-template #showDetails>
+              <td colspan="6">
+                <div>
+                  <app-player-results [tournamentResult]='tournamentResults[i]'></app-player-results>
+                </div>
+              </td>
+            </ng-template>
+          </ng-container>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="tab-pane fade" id="netStroke" role="tabpanel" aria-labelledby="betStroke-tab">
+
+      <table class="table table-striped" aria-describedby="tournament result">
+        <thead>
+          <tr>
+            <th id="place" i18n="@@tourRes-place">Place</th>
+            <th id="player" i18n="@@tourRes-plr">Player</th>
+            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstb" i18n="@@tourRes-stb">STB</th>
+            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+          </tr>
+        </thead>
+        <tbody >
+          <ng-container *ngFor="let tournamentResult of tournamentResults, let i = index">
+            <tr>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === false">
+                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === true">
+                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                &nbsp;
+                {{i + 1}}
+              </td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</th>
+              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</th>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
+              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
+                {{ tournamentResult.playedRounds}}
+                <span *ngIf="tournament.player.id === playerId  && tournament.status === false">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
+
+            <ng-template #showDetails>
+              <td colspan="6">
+                <div>
+                  <app-player-results [tournamentResult]='tournamentResults[i]'></app-player-results>
+                </div>
+              </td>
+            </ng-template>
+          </ng-container>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+      <ng-container #tournamentContainer></ng-container>
+    </div>
+  </div>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@tourRes-cancel">
+    <button type="button" class="btn btn-success" routerLink="/tournaments" i18n="@@tourRes-cancel">
       Cancel
     </button>
     &nbsp;

@@ -1,0 +1,40 @@
+<div *ngIf="display">
+  <form [formGroup]="searchPlayerForm">
+    <div class="row">
+      <div class="form-group col">
+        <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
+          [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
+        <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
+          <div *ngIf="f.nick.errors.required" i18n="@@addRound-nickReq">Player nick is required</div>
+          <div *ngIf="f.nick.errors.maxlength" i18n="@@addRound-nickTooLng">Nick cannot be longer than 20 characters</div>
+        </div>
+      </div>
+      <span class="search col-auto">
+        <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
+      </span>
+      <div class="form-group col"></div>
+    </div>
+  </form>
+  <table *ngIf="tournamentPlayers !== undefined && tournamentPlayers.length > 0" id="tee-tbl" class="table table-striped" aria-describedby="Tees">
+    <thead>
+      <tr>
+        <th id="no">No.</th>
+        <th id="nick">Nick</th>
+        <th id="whs">HCP</th>
+        <th id="delete">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tournamentPlayers, let idx = index">
+        <td>{{idx + 1}}</td>
+        <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
+        <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
+        <td>
+          <a (click)="onClickDelete(row.id)">
+            <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deletePlayer(row)"></fa-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
