@@ -2,7 +2,7 @@ import { CycleStatus } from './../_models/cycle';
 import { CycleTournamentComponent } from './../cycle-tournament/cycle-tournament.component';
 import { CycleResultsComponent } from './../cycle-results/cycle-results.component';
 import { routing } from '@/app.routing';
-import { authenticationServiceAdminStub } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceAdminStub, MyRouterStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,27 +21,6 @@ import { AlertService } from '@/_services/alert.service';
 describe('CycleDetailsComponent', () => {
   let component: CycleDetailsComponent;
   let fixture: ComponentFixture<CycleDetailsComponent>;
-
-  class RouterStub {
-    routerState = { root: '' };
-    navigate() {
-      return;
-    }
-  }
-
-  const alertServiceStub: Partial<AlertService> = {
-    clear() {
-      // This is intentional
-    },
-    // tslint:disable-next-line: variable-name
-    error(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    },
-
-    success(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    }
-  };
 
   class MatDialogMock {
 
@@ -74,7 +53,7 @@ describe('CycleDetailsComponent', () => {
         CycleHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
         { provide: MatDialog, useClass: MatDialogMock},
-        { provide: Router, useClass: RouterStub },
+        { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub }
       ]
     })

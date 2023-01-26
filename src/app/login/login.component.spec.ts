@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
@@ -23,16 +23,6 @@ describe('LoginComponent', () => {
       }
     }
   };
-
-  class MatDialogMock {
-
-    open() {
-        return {
-            afterClosed: () => of({female: true, whs: 10.1}),
-            componentInstance: {confirmMessage: ''}
-        };
-    }
-  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

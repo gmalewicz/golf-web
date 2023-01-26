@@ -4,17 +4,7 @@ import { HttpClientTestingModule, HttpTestingController} from '@angular/common/h
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ErrorInterceptor } from '../error.interceptor';
-import { MyRouterStub} from '../test.helper';
-
-const alertServiceStub: Partial<AlertService> = {
-  clear() {
-    // This is intentional
-  },
-  // tslint:disable-next-line: variable-name
-  error(_message: string, _keepAfterRouteChange = false) {
-    // This is intentional
-  }
-};
+import { alertServiceStub, MyRouterStub} from '../test.helper';
 
 describe('error.interceptor', () => {
 

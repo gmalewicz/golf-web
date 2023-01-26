@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -15,16 +15,6 @@ import { PlayersComponent } from './players.component';
 describe('PlayersComponent', () => {
   let component: PlayersComponent;
   let fixture: ComponentFixture<PlayersComponent>;
-
-  class MatDialogMock {
-
-    open() {
-        return {
-            afterClosed: () => of({nick: 'Player', female: true, whs: 10.1}),
-            componentInstance: {confirmMessage: ''}
-        };
-    }
-  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

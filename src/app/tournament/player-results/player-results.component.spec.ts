@@ -5,17 +5,11 @@ import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { Router } from '@angular/router';
+import { MyRouterStub } from '@/_helpers/test.helper';
 
 describe('PlayerResultsComponent', () => {
   let component: PlayerResultsComponent;
   let fixture: ComponentFixture<PlayerResultsComponent>;
-
-  class RouterStub {
-    routerState = { root: '' };
-    navigate() {
-      return;
-    }
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,7 +20,7 @@ describe('PlayerResultsComponent', () => {
       providers: [
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        { provide: Router, useClass: RouterStub }
+        { provide: Router, useClass: MyRouterStub }
       ]
     })
     .compileComponents();

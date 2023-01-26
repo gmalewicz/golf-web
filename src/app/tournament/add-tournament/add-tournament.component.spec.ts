@@ -6,33 +6,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddTournamentComponent } from './add-tournament.component';
 import { Router } from '@angular/router';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
-
+import { alertServiceStub, authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper';
 
 describe('AddTournamentComponent', () => {
   let component: AddTournamentComponent;
   let fixture: ComponentFixture<AddTournamentComponent>;
-
-  class RouterStub {
-    routerState = { root: '' };
-    navigate() {
-      return;
-    }
-  }
-
-  const alertServiceStub: Partial<AlertService> = {
-    clear() {
-      // This is intentional
-    },
-    // tslint:disable-next-line: variable-name
-    error(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    },
-     // tslint:disable-next-line: variable-name
-    success(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    }
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -43,7 +21,7 @@ describe('AddTournamentComponent', () => {
       ],
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        { provide: Router, useClass: RouterStub },
+        { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         TournamentHttpService,
         { provide: AlertService, useValue: alertServiceStub }

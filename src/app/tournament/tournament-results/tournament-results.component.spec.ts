@@ -1,7 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TournamentResult } from './../_models/tournamentResult';
 import { routing } from '@/app.routing';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, MatDialogMock, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
@@ -11,67 +10,14 @@ import { TournamentHttpService } from '../_services';
 import { TournamentResultsComponent } from './tournament-results.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { of } from 'rxjs';
 import { TournamentStatus } from '../_models/tournament';
 import { Router } from '@angular/router';
+import { getTournamentResult, getTournamentResult2 } from '../_helpers/test.helper';
 
 describe('TournamentResultsComponent', () => {
 
-  class RouterStub {
-    routerState = { root: '' };
-    navigate() {
-      return;
-    }
-  }
-
-  const alertServiceStub: Partial<AlertService> = {
-    clear() {
-      // This is intentional
-    },
-    // tslint:disable-next-line: variable-name
-    error(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    },
-
-    success(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    }
-  };
-
-  class MatDialogMock {
-
-    open() {
-      return {
-        afterClosed: () => of(true),
-        componentInstance: {confirmMessage: ''}
-      };
-    }
-  }
-
   let component: TournamentResultsComponent;
   let fixture: ComponentFixture<TournamentResultsComponent>;
-
-  const tournamentResult1: TournamentResult = {
-    id: 1,
-    playedRounds: 1,
-    player: {id: 1},
-    strokesBrutto: 1,
-    strokesNetto: 1,
-    stbNet: 1,
-    stbGross: 1,
-    strokeRounds: 1,
-  };
-
-  const tournamentResult2: TournamentResult = {
-    id: 2,
-    playedRounds: 1,
-    player: {id: 1},
-    strokesBrutto: 2,
-    strokesNetto: 2,
-    stbNet: 2,
-    stbGross: 2,
-    strokeRounds: 1
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -89,7 +35,7 @@ describe('TournamentResultsComponent', () => {
                   TournamentHttpService,
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
                   { provide: MatDialog, useClass: MatDialogMock},
-                  { provide: Router, useClass: RouterStub },
+                  { provide: Router, useClass: MyRouterStub },
                   { provide: AlertService, useValue: alertServiceStub }
         ]
     })
@@ -118,7 +64,7 @@ describe('TournamentResultsComponent', () => {
 
   it('should test show Player details with undefined rounds', fakeAsync(() => {
 
-    component.showPlayerDetails(tournamentResult1, 0);
+    component.showPlayerDetails(getTournamentResult(), 0);
     expect(component.displayRound[0]).toBeTruthy();
 
   }));
@@ -133,8 +79,8 @@ describe('TournamentResultsComponent', () => {
 
   it('should test updateSort with stb net', fakeAsync(() => {
 
-    component.tournamentResults.push(tournamentResult1);
-    component.tournamentResults.push(tournamentResult2);
+    component.tournamentResults.push(getTournamentResult());
+    component.tournamentResults.push(getTournamentResult2());
     component.updateSort(0);
     expect(component.tournamentResults[0].id).toEqual(2);
 
@@ -143,8 +89,8 @@ describe('TournamentResultsComponent', () => {
 
   it('should test updateSort with stb gross', fakeAsync(() => {
 
-    component.tournamentResults.push(tournamentResult1);
-    component.tournamentResults.push(tournamentResult2);
+    component.tournamentResults.push(getTournamentResult());
+    component.tournamentResults.push(getTournamentResult2());
     component.updateSort(1);
     expect(component.tournamentResults[0].id).toEqual(2);
 
@@ -152,8 +98,8 @@ describe('TournamentResultsComponent', () => {
 
   it('should test updateSort with strokes', fakeAsync(() => {
 
-    component.tournamentResults.push(tournamentResult1);
-    component.tournamentResults.push(tournamentResult2);
+    component.tournamentResults.push(getTournamentResult());
+    component.tournamentResults.push(getTournamentResult2());
     fixture.detectChanges();
     component.updateSort(2);
     expect(component.tournamentResults[0].id).toEqual(1);
@@ -162,8 +108,8 @@ describe('TournamentResultsComponent', () => {
 
   it('should test updateSort with strokes net', fakeAsync(() => {
 
-    component.tournamentResults.push(tournamentResult1);
-    component.tournamentResults.push(tournamentResult2);
+    component.tournamentResults.push(getTournamentResult());
+    component.tournamentResults.push(getTournamentResult2());
     fixture.detectChanges();
     component.updateSort(3);
     expect(component.tournamentResults[0].id).toEqual(1);
@@ -173,8 +119,8 @@ describe('TournamentResultsComponent', () => {
   it('should test updateSort with strokes net and best round = 1', fakeAsync(() => {
 
     component.tournament.bestRounds = 1;
-    component.tournamentResults.push(tournamentResult1);
-    component.tournamentResults.push(tournamentResult2);
+    component.tournamentResults.push(getTournamentResult());
+    component.tournamentResults.push(getTournamentResult2());
     fixture.detectChanges();
     component.updateSort(3);
     expect(component.tournamentResults[0].id).toEqual(1);
