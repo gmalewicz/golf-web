@@ -27,10 +27,10 @@
     <tbody>
       <tr *ngFor="let row of tournamentPlayers, let idx = index">
         <td>{{idx + 1}}</td>
-        <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
-        <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
+        <td>{{ row.nick }}</td>
+        <td>{{ row.whs }}</td>
         <td>
-          <a (click)="onClickDelete(row.id)">
+          <a>
             <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deletePlayer(row)"></fa-icon>
           </a>
         </td>
