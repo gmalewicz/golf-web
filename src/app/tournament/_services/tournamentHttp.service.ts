@@ -31,7 +31,6 @@ export class TournamentHttpService {
   }
 
   addTournament(tournament: Tournament): Observable<void> {
-
     return this.http.post<void>('rest/Tournament', tournament);
   }
 
@@ -70,7 +69,7 @@ export class TournamentHttpService {
 
   // gets players for given tournament
   getTournamentPlayers(tournamentId: number): Observable<Array<TournamentPlayer>> {
-    return this.http.get<Array<TournamentPlayer>>('/rest/TournamentPlayer/' + tournamentId);
+    return this.http.get<Array<TournamentPlayer>>('rest/TournamentPlayer/' + tournamentId);
   }
 
   // add player to the tournament

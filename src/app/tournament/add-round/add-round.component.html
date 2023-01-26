@@ -4,40 +4,33 @@
 </div>
 <div *ngIf="display">
   <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
+  <div>{{course.name}}</div>
   <br/>
   <form [formGroup]="defRoundForm">
     <div class="row">
-      <div class="form-group col">
-        <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
-          [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
-        <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
-          <div *ngIf="f.nick.errors.required" i18n="@@addRound-nickReq">Player nick is required</div>
-          <div *ngIf="f.nick.errors.maxlength" i18n="@@addRound-nickTooLng">Nick cannot be longer than 20 characters</div>
+
+        <div class="form-group col-auto">
+          <p-dropdown (onChange)="nickChange()" formControlName="nickDropDown" [options]="tournamentPlayersOptions"
+            [ngClass]="{ 'is-invalid': submitted && f.nickDropDown.errors }" placeholder="nick">
+          </p-dropdown>
+          <div *ngIf="submitted && f.nickDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.nickDropDown.errors.required" i18n="@@addRound-nickReq">Nick is required</div>
+          </div>
         </div>
-      </div>
-      <span class="search col-auto">
-        <span *ngIf="player == null">
-          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
-        </span>
-        <span *ngIf="player != null">
+        <div class="form-group col-auto">
+          <p-dropdown (onChange)="teeChange()" formControlName="teeDropDown" [options]="getTeeOptions()"
+            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
+          </p-dropdown>
+          <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
+            <div *ngIf="f.teeDropDown.errors.required" i18n="@@addRound-teeReq">Tee is required</div>
+          </div>
+        </div>
+        <span *ngIf="!defRoundForm.invalid" class="search col-auto">
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-      </span>
-      <div class="form-group col">
-        <p-dropdown (onChange)="teeChange()" formControlName="teeDropDown" [options]="getTeeOptions()"
-          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
-        </p-dropdown>
-        <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown.errors.required" i18n="@@addRound-teeReq">Tee is required</div>
-        </div>
+        <span *ngIf="searchInProgress" class="spinner-border text-success" role="status"></span>
       </div>
-      <span *ngIf="tee != null" class="search">
-        &nbsp;
-        <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-      </span>
-      &nbsp;
-      <span *ngIf="searchInProgress" class="spinner-border text-success" role="status"></span>
-    </div>
+
   </form>
   <br/>
   <div class="table-responsive">

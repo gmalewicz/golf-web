@@ -3208,6 +3208,62 @@
           <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="tourPlr-delPlr" datatype="html">
+        <source>Are you sure you want to remove player from tournamnet?</source>
+        <target>Na pewno chcesz usnąć gracza z turneju?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-delSucc" datatype="html">
+        <source>Player successfuly deleted</source>
+        <target>Gracz poprawnie usunięty z turnieju</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-nickReq" datatype="html">
+        <source>Player nick is required</source>
+        <target>Nazwa gracza jeest wymagana</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-nickTooLng" datatype="html">
+        <source>Nick cannot be longer than 20 characters</source>
+        <target>Nazwa gracza jest dłuższa niż 20 znaków</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-plrAlrdAdded" datatype="html">
+        <source>Player <x id="PH" equiv-text="this.f.nick.value"/> already added to the tournament.</source>
+        <target>Gracz <x id="PH" equiv-text="this.f.nick.value"/> został już dodany do turnieju.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-plrNotFnd" datatype="html">
+        <source>Player <x id="PH" equiv-text="this.f.nick.value"/> not found.</source>
+        <target>Gracz <x id="PH" equiv-text="this.f.nick.value"/> nie został znaleziony.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-delFail" datatype="html">
+        <source>There are results for player. Please remove them first</source>
+        <target>Istnieją wyniki dla tego gracza. Wyniki muszą zostać usunięte.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

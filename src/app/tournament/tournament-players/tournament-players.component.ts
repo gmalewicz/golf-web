@@ -11,6 +11,7 @@ import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-s
 import { Subject, tap } from 'rxjs';
 import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
+import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class TournamentPlayersComponent implements OnInit {
 
   @Input() tournament: Tournament;
   @Input() tournamentPlayers: TournamentPlayer[];
+  @Input() tournamentResults: TournamentResult[];
 
   outTournamentPlayers = new Subject<TournamentPlayer[]>();
 
@@ -70,10 +72,6 @@ export class TournamentPlayersComponent implements OnInit {
     }
   }
 
-  onClickUpdate(idx: number): void {}
-
-  onClickDelete(id: number): void {}
-
   onSearchPlayer() {
     this.alertService.clear();
 
@@ -86,7 +84,7 @@ export class TournamentPlayersComponent implements OnInit {
 
     // verify if player has been already added to the tournament
     if (this.tournamentPlayers.find(p => p.nick === this.f.nick.value)) {
-      this.alertService.error($localize`:@@addRound-plrAlrdAdded:Player ${this.f.nick.value} already added to the tournament.`, false);
+      this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${this.f.nick.value} already added to the tournament.`, false);
       this.submitted = false;
       this.searchPlayerForm.reset();
       return;
@@ -115,7 +113,7 @@ export class TournamentPlayersComponent implements OnInit {
             })
           ).subscribe();
         } else {
-          this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
+          this.alertService.error($localize`:@@tourPlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
           this.submitted = false;
           this.searchPlayerForm.reset();
         }
@@ -139,18 +137,22 @@ export class TournamentPlayersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do confirmation actions
-        this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(
-          tap(
-            () => {
-              this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
-              this.tournamentPlayers = this.tournamentPlayers.filter(tp => tp.playerId !== tournamentPlayer.playerId);
-              this.outTournamentPlayers.next(this.tournamentPlayers);
-            })
-        ).subscribe();
+        if (this.tournamentResults.map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
+          this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
+        } else {
+
+          this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(
+            tap(
+              () => {
+                this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
+                this.tournamentPlayers = this.tournamentPlayers.filter(tp => tp.playerId !== tournamentPlayer.playerId);
+                this.outTournamentPlayers.next(this.tournamentPlayers);
+              })
+          ).subscribe();
+        }
       }
     });
   }
-
 }
 
 @NgModule({

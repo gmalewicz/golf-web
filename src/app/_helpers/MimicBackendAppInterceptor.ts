@@ -71,7 +71,8 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
                (req.url.startsWith('rest/UpdatePlayerOnBehalf')) ||
                (req.url.startsWith('rest/SwapPlrRnd')) ||
                (req.url.startsWith('rest/Rounds')) ||
-               (req.url.startsWith('rest/RecentRounds'))
+               (req.url.startsWith('rest/RecentRounds')) ||
+               (req.url.endsWith('rest/Player/Other3'))
                ) {
       return new Observable<any> (observer => {
         observer.next(new HttpResponse<any>({status: 200}));

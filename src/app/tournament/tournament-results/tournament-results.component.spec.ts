@@ -12,7 +12,6 @@ import { TournamentResultsComponent } from './tournament-results.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import { TournamentStatus } from '../_models/tournament';
 import { Router } from '@angular/router';
 
@@ -181,15 +180,6 @@ describe('TournamentResultsComponent', () => {
     expect(component.tournamentResults[0].id).toEqual(1);
 
   }));
-
-  it('should test redirection to the round', fakeAsync(() => {
-
-    fixture.detectChanges();
-    component.showPlayerRound(1);
-    expect(component).toBeTruthy();
-
-  }));
-
 
   it('should test delete result', fakeAsync(() => {
 

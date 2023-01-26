@@ -199,6 +199,7 @@ export class TournamentResultsComponent implements OnInit {
       const componentRef = this.tournamentContainerRef.createComponent(TournamentPlayersComponent);
       componentRef.instance.tournament = this.tournament;
       componentRef.instance.tournamentPlayers = this.tournamentPlayers;
+      componentRef.instance.tournamentResults = this.tournamentResults;
       componentRef.instance.outTournamentPlayers.subscribe((tournamentPlayers) => {
         this.tournamentPlayers = tournamentPlayers;
       });

@@ -5,8 +5,8 @@
         <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
           [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
         <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
-          <div *ngIf="f.nick.errors.required" i18n="@@addRound-nickReq">Player nick is required</div>
-          <div *ngIf="f.nick.errors.maxlength" i18n="@@addRound-nickTooLng">Nick cannot be longer than 20 characters</div>
+          <div *ngIf="f.nick.errors.required" i18n="@@tourPlr-nickReq">Player nick is required</div>
+          <div *ngIf="f.nick.errors.maxlength" i18n="@@tourPlr-nickTooLng">Nick cannot be longer than 20 characters</div>
         </div>
       </div>
       <span class="search col-auto">
