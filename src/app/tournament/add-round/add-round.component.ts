@@ -73,8 +73,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
       this.router.navigate(['/home']);
     } else {
       this.display = false;
-
-      // this.faSearchPlus = faSearchPlus;
       this.faCheckCircle = faCheckCircle;
       this.tournament = history.state.data.tournament;
       this.course = history.state.data.course;

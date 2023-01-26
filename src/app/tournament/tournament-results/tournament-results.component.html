@@ -67,7 +67,7 @@
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</th>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
@@ -123,7 +123,7 @@
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</th>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
@@ -179,8 +179,8 @@
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</th>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</th>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}"> {{ tournamentResult.stbNet}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
@@ -235,8 +235,8 @@
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</th>
-              <th [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</th>
+              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</th>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
