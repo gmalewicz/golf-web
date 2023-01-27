@@ -1,7 +1,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub, getTee, getTestCourse} from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, getTee, getTestCourse, MatDialogMock, MyRouterStub} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
@@ -11,42 +11,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropdownModule } from 'primeng/dropdown';
-import { of } from 'rxjs';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
-
 import { OnlineRoundDefComponent } from './online-round-def.component';
 
 describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;
   let fixture: ComponentFixture<OnlineRoundDefComponent>;
-
-  const routerStub: Partial<Router> = {
-    // tslint:disable-next-line: variable-name
-    navigate(_commands: any[]): Promise<boolean> {
-      return null;
-    }
-  };
-
-  const alertServiceStub: Partial<AlertService> = {
-    clear() {
-      // This is intentional
-    },
-    // tslint:disable-next-line: variable-name
-    error(_message: string, _keepAfterRouteChange = false) {
-      // This is intentional
-    }
-  };
-
-  class MatDialogMock {
-
-    open() {
-        return {
-            afterClosed: () => of(),
-            componentInstance: {confirmMessage: ''}
-        };
-    }
-  }
 
   beforeEach(waitForAsync(() => {
 
@@ -65,7 +36,7 @@ describe('OnlineRoundDefComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        { provide: Router, useValue: routerStub },
+        { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
         { provide: ConfirmationDialogComponent, useClass: MatDialogMock},
         ScorecardHttpService,

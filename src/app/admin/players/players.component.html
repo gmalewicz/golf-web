@@ -7,6 +7,7 @@
   <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
     <thead>
       <tr>
+        <th id="no">No.</th>
         <th id="nick">Nick</th>
         <th id="sex">Sex</th>
         <th id="whs">WHS</th>
@@ -19,6 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of playerRound, let idx = index">
+        <td>{{idx + 1}}</td>
         <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
         <td (click)="onClickUpdate(idx)">
           <span *ngIf="row.sex">F</span>

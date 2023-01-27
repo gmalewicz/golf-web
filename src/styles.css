@@ -84,3 +84,19 @@ label {
 .highlightHcp {
   background-color: #1bff0742 !important;
 }
+
+.golf-red {
+  color: red !important;
+}
+
+.golf-orange {
+  color: orange !important;
+}
+
+.golf-gold {
+  color: darkkhaki !important;
+}
+
+.search {
+  margin-top: 5px !important;
+}

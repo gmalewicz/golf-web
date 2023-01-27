@@ -52,8 +52,6 @@ export class AddTournamentComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
-
     const tournament: Tournament = {
       player: {id: this.authenticationService.currentPlayerValue.id,
                nick: this.authenticationService.currentPlayerValue.nick,
@@ -68,6 +66,8 @@ export class AddTournamentComponent implements OnInit {
       this.alertService.error($localize`:@@addTour-strtDat:Start date cannot be later than end date`, false);
       return;
     }
+
+    this.loading = true;
 
     this.tournamentHttpService.addTournament(tournament).pipe(
       tap(

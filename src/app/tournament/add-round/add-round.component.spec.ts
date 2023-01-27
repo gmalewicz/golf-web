@@ -53,24 +53,6 @@ describe('AddRoundComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should search for player and found it', () => {
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    component.f.nick.setValue('Other2');
-    component.onSearchPlayer();
-    expect(component.player).toBeDefined();
-    expect(component.player[0].id).toBe(2);
-  });
-
-  it('should search for player and have not found it', () => {
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    component.clear();
-    component.f.nick.setValue('Other');
-    component.onSearchPlayer();
-    expect(component.player).toBeUndefined();
-  });
-
   it('should tee change', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -125,6 +107,8 @@ describe('AddRoundComponent', () => {
     component.score.fill('1');
     component.player = {id: 1, sex: true};
     component.tee = 1;
+    component.f.nickDropDown.setValue('nick');
+    component.f.teeDropDown.setValue('test');
     component.addRound();
     expect( component.tournamentRounds.length).toEqual(1);
   });
@@ -136,7 +120,27 @@ describe('AddRoundComponent', () => {
     component.score[0] = 'x';
     component.player = {id: 1, sex: true};
     component.tee = 1;
+    component.f.nickDropDown.setValue('nick');
+    component.f.teeDropDown.setValue('test');
     component.addRound();
     expect( component.tournamentRounds.length).toEqual(1);
+  });
+
+  it('should change nick and player found', () => {
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.f.nickDropDown.setValue('Other2');
+    component.f.teeDropDown.setValue('test');
+    component.nickChange();
+    expect( component.f.nickDropDown.disabled).toBeTruthy();
+  });
+
+  it('should change nick and player not found', () => {
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.f.nickDropDown.setValue('Other');
+    component.f.teeDropDown.setValue('test');
+    component.nickChange();
+    expect( component.f.nickDropDown.disabled).toBeFalsy();
   });
 });

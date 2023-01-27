@@ -3,6 +3,7 @@ import { Course } from '@/_models/course';
 import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
+import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Observable, of } from 'rxjs';
 
@@ -114,7 +115,7 @@ export class MatDialogMock {
 
     open() {
         return {
-            afterClosed: () => of({ name: 'some object' }),
+            afterClosed: () => of({nick: 'Player', female: true, whs: 10.1}),
             componentInstance: {confirmMessage: ''}
         };
     }
@@ -183,3 +184,19 @@ export class MyRouterStub {
     return;
   }
 }
+
+export let alertServiceStub: Partial<AlertService>;
+
+alertServiceStub = {
+  clear() {
+    // This is intentional
+  },
+  // tslint:disable-next-line: variable-name
+  error(_message: string, _keepAfterRouteChange = false) {
+    // This is intentional
+  },
+  // tslint:disable-next-line: variable-name
+  success(_message: string, _keepAfterRouteChange = false) {
+    // This is intentional
+  }
+};

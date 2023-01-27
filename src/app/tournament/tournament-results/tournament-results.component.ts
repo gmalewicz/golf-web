@@ -1,11 +1,10 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
-import { Tournament, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
-import { Round } from '@/_models';
+import { Tournament, TournamentPlayer, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 
@@ -20,6 +19,8 @@ export class TournamentResultsComponent implements OnInit {
   faMinusCircle: IconDefinition;
 
   tournament: Tournament;
+  tournamentPlayers: TournamentPlayer[];
+
   playerId: number;
   displayRound: Array<boolean>;
 
@@ -31,12 +32,13 @@ export class TournamentResultsComponent implements OnInit {
   loadingClose: boolean;
   loadingDelete: boolean;
 
+  @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
+
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
-              private dialog: MatDialog,
-              private ngZone: NgZone) {}
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
 
@@ -80,7 +82,9 @@ export class TournamentResultsComponent implements OnInit {
           })
       ).subscribe();
     }
+
     this.displayRound[index] = true;
+
   }
 
   hidePlayerDetails(index: number) {
@@ -89,6 +93,8 @@ export class TournamentResultsComponent implements OnInit {
   }
 
   updateSort(action: number) {
+
+    this.alertService.clear();
 
     this.displayRound.fill(false);
 
@@ -115,18 +121,6 @@ export class TournamentResultsComponent implements OnInit {
         tempLst.concat((this.tournamentResults
           .filter(r => r.strokeRounds < this.tournament.bestRounds)).sort((a, b) => b.strokeRounds - a.strokeRounds));
     }
-  }
-
-  showPlayerRound(roundId: number) {
-
-    this.tournamentHttpService.getRound(roundId).pipe(
-      tap(
-        (round: Round) => {
-
-          this.router.navigate(['/round/'], { state: { data: { round } }});
-        })
-    ).subscribe();
-
   }
 
   deleteResult(resultId: number) {
@@ -192,5 +186,23 @@ export class TournamentResultsComponent implements OnInit {
         ).subscribe();
       }
     });
+  }
+
+  async loadComponent(comp: number) {
+
+    if (this.tournamentContainerRef !== undefined) {
+      this.tournamentContainerRef.clear();
+    }
+
+    if (comp === 0) {
+      const {TournamentPlayersComponent} = await import('../tournament-players/tournament-players.component');
+      const componentRef = this.tournamentContainerRef.createComponent(TournamentPlayersComponent);
+      componentRef.instance.tournament = this.tournament;
+      componentRef.instance.tournamentPlayers = this.tournamentPlayers;
+      componentRef.instance.tournamentResults = this.tournamentResults;
+      componentRef.instance.outTournamentPlayers.subscribe((tournamentPlayers) => {
+        this.tournamentPlayers = tournamentPlayers;
+      });
+    }
   }
 }

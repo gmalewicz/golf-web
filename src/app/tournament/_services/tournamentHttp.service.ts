@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Round } from '@/_models';
-import { Tournament, TournamentResult, TournamentRound } from '../_models';
+import { Tournament, TournamentPlayer, TournamentResult, TournamentRound } from '../_models';
 
 
 @Injectable()
@@ -31,7 +31,6 @@ export class TournamentHttpService {
   }
 
   addTournament(tournament: Tournament): Observable<void> {
-
     return this.http.post<void>('rest/Tournament', tournament);
   }
 
@@ -63,9 +62,26 @@ export class TournamentHttpService {
     return this.http.patch<void>('rest/TournamentClose/' + tournamentId, null);
   }
 
-  // gets round for given id
+  // deletes tournament for given id
   deleteTournament(tournamentId: number): Observable<void> {
     return this.http.delete<void>('rest/Tournament/' + tournamentId);
+  }
+
+  // gets players for given tournament
+  getTournamentPlayers(tournamentId: number): Observable<Array<TournamentPlayer>> {
+    return this.http.get<Array<TournamentPlayer>>('rest/TournamentPlayer/' + tournamentId);
+  }
+
+  // add player to the tournament
+  addTournamentPlayer(tournamentPlayer: TournamentPlayer): Observable<void> {
+
+    return this.http.post<void>('rest/TournamentPlayer', tournamentPlayer);
+
+  }
+
+  // deletes tournament player
+  deleteTournamentPlayer(tournamentId: number, playerId: number): Observable<void> {
+    return this.http.delete<void>('rest/TournamentPlayer/' + tournamentId + '/' + playerId);
   }
 }
 

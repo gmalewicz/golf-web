@@ -9,7 +9,7 @@ import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, Subscription, timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '../_models/tournament';
@@ -27,7 +27,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
   // parent data who call me
   data: {course: Course, tournament: Tournament};
 
-  faSearchPlus: IconDefinition;
   faCheckCircle: IconDefinition;
 
   display: boolean;
@@ -44,7 +43,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
   tournament: Tournament;
 
   submitted: boolean;
-  searchInProgress: boolean;
 
   score: string[];
   first9Total: number;
@@ -59,6 +57,9 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
   subscription: Subscription;
   seconds: number;
   stoppedCounter: boolean;
+  tournamentPlayersOptions = [];
+
+  searchInProgress: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private alertService: AlertService,
@@ -72,8 +73,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
       this.router.navigate(['/home']);
     } else {
       this.display = false;
-
-      this.faSearchPlus = faSearchPlus;
       this.faCheckCircle = faCheckCircle;
       this.tournament = history.state.data.tournament;
       this.course = history.state.data.course;
@@ -81,15 +80,16 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
       this.seconds = 0;
 
       this.defRoundForm = this.formBuilder.group({
-        teeDropDown: ['', [Validators.required]],
-        nick: ['', [Validators.required, Validators.maxLength(20)]]
+        nickDropDown : ['', [Validators.required]],
+        teeDropDown: ['', [Validators.required]]
       });
 
       this.clear();
 
       combineLatest([this.httpService.getHoles(this.course.id),
-                    this.httpService.getTees(this.course.id)]).pipe(tap(
-        ([retHoles, retTees]) => {
+                    this.httpService.getTees(this.course.id),
+                    this.tournamentHttpService.getTournamentPlayers(this.tournament.id)]).pipe(tap(
+        ([retHoles, retTees, retTournamentPlayers]) => {
           // update teee with missing infromation about holes and tees
           this.holes = retHoles;
           this.tees = retTees;
@@ -110,6 +110,14 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
                 value: t.id,
               })
             );
+
+          retTournamentPlayers.forEach(t => {
+            this.tournamentPlayersOptions.push({
+              label: t.nick,
+              value: t.nick,
+            });
+          });
+
           this.display = true;
         })
       ).subscribe();
@@ -127,22 +135,22 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
     return this.defRoundForm.controls;
   }
 
-  onSearchPlayer() {
+  nickChange() {
     this.alertService.clear();
 
-    if (this.f.nick.valid) {
+    if (this.f.nickDropDown.valid) {
 
       this.searchInProgress = true;
 
       this.httpService
-      .getPlayerForNick(this.f.nick.value)
+      .getPlayerForNick(this.f.nickDropDown.value)
       .pipe(
         tap((player) => {
           if (player != null) {
-            this.f.nick.disable();
+            this.f.nickDropDown.disable();
             this.player = player;
           } else {
-            this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
+            this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nickDropDown.value} not found.`, false);
           }
           this.searchInProgress = false;
         })
@@ -168,6 +176,7 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
     this.alertService.clear();
     // set up the tee for the player based on the drop down tee
     this.tee = this.f.teeDropDown.value;
+    this.f.teeDropDown.disable();
   }
 
   // helper function to provide verious arrays for html
@@ -213,11 +222,22 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
     this.grandTotal = 0;
     this.player = undefined;
     this.tee = null;
-    this.f.nick.setValue(undefined);
-    this.f.nick.enable();
+    this.f.nickDropDown.setValue(undefined);
+    this.f.nickDropDown.enable();
+    this.f.teeDropDown.enable();
+    this.submitted = false;
   }
 
   addRound() {
+
+
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.defRoundForm.invalid) {
+      return;
+    }
+
     // first check if all holes has been added
     if  (this.score.includes('')) {
       this.alertService.error($localize`:@@addRound-allHls:All holes must be filled`, false);
@@ -271,6 +291,7 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
         this.clear();
         this.resetCounter();
         this.stoppedCounter = false;
+        this.submitted = false;
       })
     ).subscribe();
   }

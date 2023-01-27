@@ -1,3 +1,4 @@
+import { PlayerResultsComponent } from './player-results/player-results.component';
 import { AutoTabDirective } from './add-round/AutoTab.directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -22,7 +23,8 @@ import { DropdownModule } from 'primeng/dropdown';
     TournamentRoundsComponent,
     TournamentsComponent,
     AddRoundComponent,
-    AutoTabDirective
+    AutoTabDirective,
+    PlayerResultsComponent
    ],
   imports: [
     routing,
