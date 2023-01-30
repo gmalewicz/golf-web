@@ -27,7 +27,7 @@
     "@fortawesome/angular-fontawesome": "^0.12.1",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fullcalendar/core": "^6.0.2",
+    "@fullcalendar/core": "^6.1.0",
     "@popperjs/core": "^2.11.6",
     "@stomp/rx-stomp": "^1.2.0",
     "bootstrap": "^5.2.3",
