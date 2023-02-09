@@ -83,6 +83,11 @@ export class TournamentHttpService {
   deleteTournamentPlayer(tournamentId: number, playerId: number): Observable<void> {
     return this.http.delete<void>('rest/TournamentPlayer/' + tournamentId + '/' + playerId);
   }
+
+  // updates handicap of tournament player
+  updateTournamentPlayer(tournamentPlayer: TournamentPlayer): Observable<void> {
+    return this.http.patch<void>('rest/TournamentPlayer', tournamentPlayer);
+  }
 }
 
 

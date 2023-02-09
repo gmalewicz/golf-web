@@ -3264,6 +3264,86 @@
           <context context-type="linenumber">145</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="addTour-header" datatype="html">
+        <source>Add the new tournament:</source>
+        <target>Dodaj nowy turniej</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourPlr-hcpUpdated" datatype="html">
+        <source>HCP for <x id="PH" equiv-text="this.tournamentPlayers[playerIdx].nick"/> has been updated</source>
+        <target>HCP dla gracza <x id="PH" equiv-text="this.tournamentPlayers[playerIdx].nick"/> został zmodyfikowany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tournament-players/tournament-players.component.ts</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-cancel" datatype="html">
+        <source> Cancel </source>
+        <target>Wróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-patrn" datatype="html">
+        <source>Provide valid value</source>
+        <target>Wprowadź poprawną wartość</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-save" datatype="html">
+        <source>Save</source>
+        <target>Zapisz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-updateHcp" datatype="html">
+        <source>Update HCP</source>
+        <target>Zmień HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-whsReq" datatype="html">
+        <source>WHS is required</source>
+        <target>HCP jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-whsTooHigh" datatype="html">
+        <source>WHS is caannot be higer than 54</source>
+        <target>HCP nie może być większy niż 54</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-whsTooLow" datatype="html">
+        <source>WHS is caannot be lower than -5</source>
+        <target>HCP nie może być mniejszy niż -5</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updTourPlrDlg-whs" datatype="html">
+        <source>Player whs (X.X)</source>
+        <target>HCP gracza (X.X)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

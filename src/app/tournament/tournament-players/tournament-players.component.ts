@@ -5,10 +5,12 @@ import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Subject, tap } from 'rxjs';
+import { UpdateTournamentPlayerWhsDialogComponent } from '../update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component';
 import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentResult } from '../_models/tournamentResult';
@@ -34,7 +36,12 @@ export class TournamentPlayersComponent implements OnInit {
 
   searchPlayerForm: FormGroup;
 
-  searchInProgress: boolean;
+  searchPlayerInProgress: boolean;
+
+  updWhsInProgress: boolean;
+  playerIdx: number;
+
+  deletePlayerinProgress: boolean;
 
   submitted: boolean;
 
@@ -90,7 +97,7 @@ export class TournamentPlayersComponent implements OnInit {
       return;
     }
 
-    this.searchInProgress = true;
+    this.searchPlayerInProgress = true;
 
     this.httpService.getPlayerForNick(this.f.nick.value).pipe(
       tap((player: Player) => {
@@ -110,14 +117,15 @@ export class TournamentPlayersComponent implements OnInit {
               this.searchPlayerForm.reset();
               this.tournamentPlayers.push(tournamentPlayer);
               this.outTournamentPlayers.next(this.tournamentPlayers);
+              this.searchPlayerInProgress = false;
             })
           ).subscribe();
         } else {
           this.alertService.error($localize`:@@tourPlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
           this.submitted = false;
           this.searchPlayerForm.reset();
+          this.searchPlayerInProgress = false;
         }
-        this.searchInProgress = false;
       })
     )
     .subscribe();
@@ -128,7 +136,7 @@ export class TournamentPlayersComponent implements OnInit {
     return this.searchPlayerForm.controls;
   }
 
-  deletePlayer(tournamentPlayer: TournamentPlayer) {
+  deletePlayer(tournamentPlayer: TournamentPlayer, playerIdx: number) {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
@@ -140,23 +148,73 @@ export class TournamentPlayersComponent implements OnInit {
         if (this.tournamentResults.map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
           this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
         } else {
-
+          this.deletePlayerinProgress = true;
+          this.playerIdx = playerIdx;
           this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(
             tap(
               () => {
                 this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
                 this.tournamentPlayers = this.tournamentPlayers.filter(tp => tp.playerId !== tournamentPlayer.playerId);
                 this.outTournamentPlayers.next(this.tournamentPlayers);
+                this.deletePlayerinProgress = false;
               })
           ).subscribe();
         }
       }
     });
   }
+
+  updateWHS(playerIdx: number) {
+
+    if (this.tournamentResults.map(tr => tr.player.id).includes(this.tournamentPlayers[playerIdx].playerId)) {
+      this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
+      return;
+    }
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      player: this.tournamentPlayers[playerIdx]
+    };
+
+    const dialogRef = this.dialog.open(
+      UpdateTournamentPlayerWhsDialogComponent,
+      dialogConfig
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+
+        this.updWhsInProgress = true;
+        this.playerIdx = playerIdx;
+
+        let whs: string = result.whs;
+        whs = whs.toString().replace(/,/gi, '.');
+        this.tournamentPlayers[playerIdx].whs = +whs;
+
+        this.tournamentHttpService.updateTournamentPlayer(this.tournamentPlayers[playerIdx]).pipe(
+          tap(() => {
+            // tslint:disable-next-line: max-line-length
+            this.alertService.success($localize`:@@tourPlr-hcpUpdated:HCP for ${this.tournamentPlayers[playerIdx].nick} has been updated`, false);
+            this.updWhsInProgress = false;
+          })
+        ).subscribe();
+      }
+    });
+  }
 }
 
 @NgModule({
-  declarations: [TournamentPlayersComponent],
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule]
+  declarations: [
+    TournamentPlayersComponent,
+    UpdateTournamentPlayerWhsDialogComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    MatDialogModule,
+    MatInputModule]
 })
 class TournamentPlayersModule {}
