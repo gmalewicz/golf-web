@@ -35,6 +35,7 @@ export class OnlineScoreCardComponent implements OnInit {
       // initialization
       this.display = false;
       this.faSearchPlus = faSearchPlus;
+      this.navigationService.clear();
 
       this.scorecardHttpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
 
