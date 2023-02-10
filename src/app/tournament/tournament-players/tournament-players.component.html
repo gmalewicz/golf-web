@@ -1,3 +1,6 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
 <div *ngIf="display">
   <form [formGroup]="searchPlayerForm">
     <div class="row">
@@ -10,7 +13,8 @@
         </div>
       </div>
       <span class="search col-auto">
-        <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
+        <fa-icon *ngIf="!searchPlayerInProgress" [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
+        <span *ngIf="searchPlayerInProgress" class="text-success spinner-border spinner-border-sm mr-1"></span>
       </span>
       <div class="form-group col"></div>
     </div>
@@ -28,12 +32,14 @@
       <tr *ngFor="let row of tournamentPlayers, let idx = index">
         <td>{{idx + 1}}</td>
         <td>{{ row.nick }}</td>
-        <td>{{ row.whs }}</td>
-        <td>
-          <a>
-            <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deletePlayer(row)"></fa-icon>
-          </a>
-        </td>
+        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
+        <td *ngIf="updWhsInProgress && playerIdx === idx">{{ row.whs }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+        <td *ngIf="updWhsInProgress && playerIdx !== idx">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
+
+        <td *ngIf="!deletePlayerinProgress" (click)="deletePlayer(row, idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+        <td *ngIf="deletePlayerinProgress && playerIdx === idx">{{ row.whs }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+        <td *ngIf="deletePlayerinProgress && playerIdx !== idx">{{ row.whs }} &nbsp; <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+
       </tr>
     </tbody>
   </table>

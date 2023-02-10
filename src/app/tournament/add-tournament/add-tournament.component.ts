@@ -33,7 +33,7 @@ export class AddTournamentComponent implements OnInit {
         name: ['', [Validators.required, Validators.minLength(3)]],
         startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
         endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-        bestRounds: ['1', [Validators.required,  Validators.min(0), Validators.max(10)]]
+        bestRounds: ['0', [Validators.required,  Validators.min(0), Validators.max(10)]]
       });
 
       this.submitted = false;

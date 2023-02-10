@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { getTournamentPlayer, getTournamentResult } from '../_helpers/test.helper';
-import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 
 import { TournamentPlayersComponent } from './tournament-players.component';
@@ -51,7 +50,7 @@ describe('TournamentPlayersComponent', () => {
 
     component.tournamentResults = [];
     component.tournamentPlayers = [getTournamentPlayer()];
-    component.deletePlayer(getTournamentPlayer());
+    component.deletePlayer(getTournamentPlayer(), 0);
     expect(component.tournamentPlayers.length).toBe(0);
   });
 
@@ -59,7 +58,7 @@ describe('TournamentPlayersComponent', () => {
 
     component.tournamentPlayers = [getTournamentPlayer()];
     component.tournamentResults = [getTournamentResult()];
-    component.deletePlayer(getTournamentPlayer());
+    component.deletePlayer(getTournamentPlayer(), 0);
     expect(component.tournamentPlayers.length).toBe(1);
   });
 
@@ -91,6 +90,14 @@ describe('TournamentPlayersComponent', () => {
     component.f.nick.setValue('Other3');
     component.onSearchPlayer();
     expect(component.tournamentPlayers.length).toBe(1);
+  });
+
+  it('should update WHS', () => {
+
+    component.tournamentPlayers = [getTournamentPlayer()];
+    component.tournamentResults = [];
+    component.updateWHS(0);
+    expect(component.tournamentPlayers.at(0).whs).toBe(10.1);
   });
 
 });
