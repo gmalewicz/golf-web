@@ -56,6 +56,17 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
+    } else if (req.url.startsWith('rest/AddPlayerOnBehalf')) {
+      return new Observable(observer => {
+        observer.next(new HttpResponse<Array<any>>({body:
+
+          [
+            {id: 241, nick: 'Other', whs: 23.2,  sex: false, updateSocial: null}
+          ]
+
+        , status: 200}));
+        observer.complete();
+      });
     } else if ((req.url.endsWith('rest/Round')) ||
                (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH')) ||
                (req.url.endsWith('rest/DeleteFavouriteCourse/1')) ||

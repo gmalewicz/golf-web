@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
     <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min" i18n="@@scrComDlg-whsTooLow">WHS is caannot be lower than -5</mat-error>
     <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern" i18n="@@scrComDlg-patrn">Provide valid value</mat-error>
   </mat-form-field>
-</mat-dialog-content>
+  </mat-dialog-content>
   `
 })
 export class CommonDialogComponent implements OnInit {

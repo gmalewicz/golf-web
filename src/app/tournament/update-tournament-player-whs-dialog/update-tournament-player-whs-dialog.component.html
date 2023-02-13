@@ -8,8 +8,7 @@
       <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min" i18n="@@updTourPlrDlg-whsTooLow">WHS is caannot be lower than -5</mat-error>
       <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern" i18n="@@updTourPlrDlg-patrn">Provide valid value</mat-error>
     </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-content [formGroup]="form">
+
     <mat-dialog-actions>
       <button mat-raised-button color="primary" (click)="close()" span i18n="@@updTourPlrDlg-cancel">
         Cancel

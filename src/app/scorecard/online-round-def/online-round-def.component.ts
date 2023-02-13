@@ -389,7 +389,7 @@ export class OnlineRoundDefComponent implements OnInit {
       if (result !== undefined) {
 
         let whs: string = result.whs;
-        whs = whs.replace(/,/gi, '.');
+        whs = whs.toString().replace(/,/gi, '.');
 
         const newPlayer: Player = {
           nick: result.nick,
@@ -496,23 +496,40 @@ export class OnlineRoundDefComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
+
         const player: Player = this.players[playerIdx];
 
         let whs: string = result.whs;
-        whs = whs.replace(/,/gi, '.');
-
+        whs = whs.toString().replace(/,/gi, '.');
         player.whs = +whs;
         this.searchInProgress[playerIdx] = true;
-        this.httpService
-        .updatePlayerOnBehalf(player)
-        .pipe(
-          tap(() => {
-            this.updatePlayers(player, playerIdx);
-            this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
-            this.searchInProgress[playerIdx] = false;
-          })
-        )
-        .subscribe();
+
+        // update owner
+        if (playerIdx === 0) {
+          this.httpService
+          .updatePlayer(player)
+          .pipe(
+            tap(() => {
+              this.updatePlayers(player, playerIdx);
+              this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
+              this.searchInProgress[playerIdx] = false;
+            })
+          )
+          .subscribe();
+          // update other player
+        } else {
+
+          this.httpService
+          .updatePlayerOnBehalf(player)
+          .pipe(
+            tap(() => {
+              this.updatePlayers(player, playerIdx);
+              this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
+              this.searchInProgress[playerIdx] = false;
+            })
+          )
+          .subscribe();
+        }
       }
     });
   }
