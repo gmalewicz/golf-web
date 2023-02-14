@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
@@ -6,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Subject, tap } from 'rxjs';
@@ -15,6 +15,7 @@ import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-tournament-players',
@@ -215,6 +216,7 @@ export class TournamentPlayersComponent implements OnInit {
     ReactiveFormsModule,
     FontAwesomeModule,
     MatDialogModule,
-    MatInputModule]
+    MatInputModule,
+    MatButtonModule]
 })
 class TournamentPlayersModule {}
