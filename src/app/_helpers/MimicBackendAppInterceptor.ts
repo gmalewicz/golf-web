@@ -68,7 +68,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         observer.complete();
       });
     } else if ((req.url.endsWith('rest/Round')) ||
-               (req.url.endsWith('rest/ScoreCard') && (req.method === 'PATCH')) ||
+               (req.url.endsWith('rest/ScoreCard')) ||
                (req.url.endsWith('rest/DeleteFavouriteCourse/1')) ||
                (req.url.endsWith('rest/AddPlayer')) ||
                (req.url.endsWith('rest/Player/Other')) ||
