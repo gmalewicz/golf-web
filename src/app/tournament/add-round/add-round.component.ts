@@ -7,10 +7,10 @@ import { ScoreCard } from '@/_models/scoreCard';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faCheckCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest, Subscription, timer } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '../_models/tournament';
 import { getDateAndTime } from '@/_helpers/common';
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-round.component.html',
   styleUrls: ['./add-round.component.css']
 })
-export class AddRoundComponent implements OnInit, OnDestroy  {
+export class AddRoundComponent implements OnInit {
 
   // parent data who call me
   data: {course: Course, tournament: Tournament};
@@ -54,9 +54,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
   teeHour: number;
   teeMinute: number;
 
-  subscription: Subscription;
-  seconds: number;
-  stoppedCounter: boolean;
   tournamentPlayersOptions = [];
 
   searchInProgress: boolean;
@@ -76,8 +73,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
       this.faCheckCircle = faCheckCircle;
       this.tournament = history.state.data.tournament;
       this.course = history.state.data.course;
-      this.stoppedCounter = true;
-      this.seconds = 0;
 
       this.defRoundForm = this.formBuilder.group({
         nickDropDown : ['', [Validators.required]],
@@ -121,12 +116,6 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
           this.display = true;
         })
       ).subscribe();
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 
@@ -289,28 +278,9 @@ export class AddRoundComponent implements OnInit, OnDestroy  {
 
         this.tournamentRounds.push(tournamentRound);
         this.clear();
-        this.resetCounter();
-        this.stoppedCounter = false;
         this.submitted = false;
       })
     ).subscribe();
-  }
-
-  private resetCounter() {
-
-    const startDate = new Date();
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
-    this.subscription = timer(0, 1000)
-    .subscribe(() => {
-      this.seconds = Math.floor((new Date().getTime() - startDate.getTime()) / 1000);
-      if (this.seconds >= 60) {
-        this.stoppedCounter = true;
-      }
-    });
   }
 }
 
