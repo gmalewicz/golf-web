@@ -114,16 +114,9 @@
         Clear
       </button>
       &nbsp;
-      <span *ngIf="stoppedCounter" >
-        <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
-          Add
-        </button>
-      </span>
-      <span *ngIf="!stoppedCounter" >
-        <button type="button" class="btn btn-success btn-submit w-80" disabled>
-          00:{{60 - seconds | number:'2.0'}}
-        </button>
-      </span>
+      <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
+        Add
+      </button>
     </div>
   </div>
   <div *ngIf="tournamentRounds.length > 0">
