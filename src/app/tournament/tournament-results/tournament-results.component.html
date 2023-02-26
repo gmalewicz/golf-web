@@ -1,9 +1,8 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="display">
+<div *ngIf="display" id="pdfData">
   <h2>
-    <span i18n="@@tourRes-hdr">Tournament Results: </span>
     {{tournament.name}}
     <span *ngIf="tournament.bestRounds > 0">
       <span i18n="@@tourRes-bst"> - best </span>
@@ -13,7 +12,7 @@
   </h2>
 
   <br/>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs" id="myTab" role="tablist" data-html2canvas-ignore="true">
     <li class="nav-item">
       <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#stbNet" type="button"
         role="tab" aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)" i18n="@@tourRes-stbNet">STB Net</button>
@@ -57,12 +56,12 @@
             <tr>
               <td *ngIf="displayRound[i] == false" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td *ngIf="displayRound[i] == true" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -76,7 +75,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="tournament.player.id === playerId && tournament.status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -113,12 +112,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -132,7 +131,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="tournament.player.id === playerId && tournament.status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -169,12 +168,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -188,7 +187,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="tournament.player.id === playerId && tournament.status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -225,12 +224,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" (click)="hidePlayerDetails(i)"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -244,7 +243,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="tournament.player.id === playerId  && tournament.status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteResult(tournamentResult.id)"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -267,10 +266,15 @@
     </div>
   </div>
   <br />
-  <div class="row">
+  <div class="row" data-html2canvas-ignore="true">
     <span>
     <button type="button" class="btn btn-success" routerLink="/tournaments" i18n="@@tourRes-cancel">
       Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="displayPDF(tournament.name)">
+      <span *ngIf="loadingPDF" class="spinner-border spinner-border-sm mr-1"></span>
+      <span>PDF</span>
     </button>
     &nbsp;
     <span *ngIf="tournament.player.id === playerId && tournament.status === false">
