@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { Tournament, TournamentPlayer, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { generatePDF } from '@/_helpers/common';
 
 @Component({
   selector: 'app-tournament-results',
@@ -31,6 +32,7 @@ export class TournamentResultsComponent implements OnInit {
 
   loadingClose: boolean;
   loadingDelete: boolean;
+  loadingPDF: boolean;
 
   @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
 
@@ -51,6 +53,7 @@ export class TournamentResultsComponent implements OnInit {
 
       this.loadingClose = false;
       this.loadingDelete = false;
+      this.loadingPDF = false;
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -204,5 +207,10 @@ export class TournamentResultsComponent implements OnInit {
         this.tournamentPlayers = tournamentPlayers;
       });
     }
+  }
+
+  public displayPDF(name: string): void {
+    this.loadingPDF = true;
+    generatePDF(name, this);
   }
 }

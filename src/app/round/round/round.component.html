@@ -1,10 +1,10 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
-<div *ngIf="display">
+<div *ngIf="display" id="pdfData">
   <h2>{{ round.course.name }} &nbsp; {{ round.roundDate }}</h2>
 
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs" id="myTab" role="tablist" data-html2canvas-ignore="true">
     <li class="nav-item">
       <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"
         role="tab" aria-controls="overview" aria-selected="true" (click)="onTabClick(0)" i18n="@@round-over">Overview</button>
@@ -57,12 +57,19 @@
       <app-round-view-mp [round]='round' *ngIf="round.matchPlay && selectedTab == 6"></app-round-view-mp>
     </div>
   </div>
-  <div>
+  <div data-html2canvas-ignore="true">
     <br />
     <button type="button" class="btn btn-success" routerLink="/home" i18n="@@round-cancel">
       Cancel
     </button>
     &nbsp;
+    <span *ngIf="selectedTab > 0">
+      <button type="button" class="btn btn-success" (click)="displayPDF(round.course.name + ' ' + round.roundDate)">
+        <span *ngIf="loadingPDF" class="spinner-border spinner-border-sm mr-1"></span>
+        <span>PDF</span>
+      </button>
+      &nbsp;
+    </span>
     <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" *ngIf="!viewOnly" i18n="@@round-edit">
       Edit
     </button>

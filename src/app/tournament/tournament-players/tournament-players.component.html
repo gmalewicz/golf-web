@@ -2,7 +2,7 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <form [formGroup]="searchPlayerForm">
+  <form [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
     <div class="row">
       <div class="form-group col">
         <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
@@ -25,20 +25,20 @@
         <th id="no">No.</th>
         <th id="nick">Nick</th>
         <th id="whs">HCP</th>
-        <th id="delete">Delete</th>
+        <th id="delete" data-html2canvas-ignore="true">Delete</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of tournamentPlayers, let idx = index">
         <td>{{idx + 1}}</td>
         <td>{{ row.nick }}</td>
-        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
+        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"></fa-icon></td>
         <td *ngIf="updWhsInProgress && playerIdx === idx">{{ row.whs }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
         <td *ngIf="updWhsInProgress && playerIdx !== idx">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
 
-        <td *ngIf="!deletePlayerinProgress" (click)="deletePlayer(row, idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
-        <td *ngIf="deletePlayerinProgress && playerIdx === idx">{{ row.whs }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
-        <td *ngIf="deletePlayerinProgress && playerIdx !== idx">{{ row.whs }} &nbsp; <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+        <td *ngIf="!deletePlayerinProgress" (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true"><fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+        <td *ngIf="deletePlayerinProgress && playerIdx === idx"> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+        <td *ngIf="deletePlayerinProgress && playerIdx !== idx"> <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
 
       </tr>
     </tbody>
