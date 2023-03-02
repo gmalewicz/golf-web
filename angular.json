@@ -84,7 +84,9 @@
               "extractLicenses": false,
               "vendorChunk": true,
               "buildOptimizer": false,
-              "localize": ["pl"]
+              "localize": [
+                "pl"
+              ]
             }
           },
           "defaultConfiguration": ""
@@ -99,7 +101,7 @@
             "production": {
               "browserTarget": "golf-web:build:production"
             },
-            "pl" : {
+            "pl": {
               "browserTarget": "golf-web:build:pl"
             }
           }
@@ -143,8 +145,22 @@
         "deploy": {
           "builder": "@angular/fire:deploy",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
