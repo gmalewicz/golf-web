@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 
 export class MimicBackendAppInterceptor implements HttpInterceptor{
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler):
+    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
 
     if (req.url.endsWith('rest/Holes/1') && (req.method === 'GET')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {par: 4, number: 1, si: 13},
@@ -36,7 +36,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if (req.url.endsWith('rest/Tee/1') && (req.method === 'GET')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {id: 4, tee: 'men red', cr: 66.9, sr: 125, teeType: 0}
@@ -47,7 +47,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if (req.url.endsWith('rest/Player/Other2') || req.url.endsWith('rest/GetSocialPlayer')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {nick: 'Other2', id: 2, whs: 20}
@@ -58,7 +58,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if (req.url.startsWith('rest/AddPlayerOnBehalf')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {id: 241, nick: 'Other', whs: 23.2,  sex: false, updateSocial: null}
@@ -85,13 +85,13 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
                (req.url.startsWith('rest/RecentRounds')) ||
                (req.url.endsWith('rest/Player/Other3'))
                ) {
-      return new Observable<any> (observer => {
-        observer.next(new HttpResponse<any>({status: 200}));
+      return new Observable (observer => {
+        observer.next(new HttpResponse<unknown>({status: 200}));
         observer.complete();
       });
     } else if (req.url.endsWith('rest/ScoreCard/1')) {
-        return new Observable<any> (observer => {
-          observer.next(new HttpResponse<Array<any>>({body:
+        return new Observable (observer => {
+          observer.next(new HttpResponse<Array<unknown>>({body:
 
             [{id: 1, hole: 1, stroke: 10, pats: 0,  player: {id: 1, nick: 'test'}},
               {id: 2, hole: 2, stroke: 1, pats: 0 },
@@ -135,7 +135,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         });
     } else if (req.url.endsWith('rest/RoundPlayersDetails/1')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {playerId: 1, whs: 36.6, teeId: 49, cr: 71.8, sr: 124, teeType: 0},
@@ -147,7 +147,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if (req.url.endsWith('rest/FavouriteCourses/1') || req.url.endsWith('rest/SearchForCourse') || req.url.endsWith('rest/SortedCourses/0')){
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {id: 2, name: 'Lisia Polana', par: 72, holeNbr: 18}
@@ -158,7 +158,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
       });
     } else if (req.url.includes('rest/RefreshToken/')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({ status: 200}));
+        observer.next(new HttpResponse<Array<unknown>>({ status: 200}));
         observer.complete();
       });
     }

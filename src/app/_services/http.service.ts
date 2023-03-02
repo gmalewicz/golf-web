@@ -36,9 +36,9 @@ export class HttpService {
   }
 
   // add round
-  addRound(round: Round): Observable<any> {
+  addRound(round: Round): Observable<void> {
 
-    return this.http.post<any>('rest/Round', round);
+    return this.http.post<void>('rest/Round', round);
   }
 
   getScoreCards(roundId: number): Observable<Array<ScoreCard>> {
@@ -47,23 +47,23 @@ export class HttpService {
 
   authenticate(nick: string, password: string): Observable<HttpResponse<Player>> {
 
-    return this.http.post<any>('rest/Authenticate', {nick, password}, {observe: 'response'});
+    return this.http.post('rest/Authenticate', {nick, password}, {observe: 'response'});
   }
 
-  refresh(playerId: number): Observable<HttpResponse<any>>  {
+  refresh(playerId: number): Observable<HttpResponse<unknown>>  {
 
-    return this.http.get<HttpResponse<any>>('rest/Refresh/' + playerId, {observe: 'response'});
+    return this.http.get<HttpResponse<unknown>>('rest/Refresh/' + playerId, {observe: 'response'});
   }
 
   // v2.20 update JWT not to break on-line round
-  refreshOnDemand(playerId: number): Observable<HttpResponse<any>>  {
+  refreshOnDemand(playerId: number): Observable<HttpResponse<unknown>>  {
 
-    return this.http.get<HttpResponse<any>>('rest/RefreshToken/' + playerId, {observe: 'response'});
+    return this.http.get<HttpResponse<unknown>>('rest/RefreshToken/' + playerId, {observe: 'response'});
   }
 
-  addPlayer(player: Player): Observable<HttpResponse<any>> {
+  addPlayer(player: Player): Observable<HttpResponse<unknown>> {
 
-    return this.http.post<HttpResponse<any>>('rest/AddPlayer', player);
+    return this.http.post<HttpResponse<unknown>>('rest/AddPlayer', player);
   }
 
   addPlayerOnBehalf(player: Player): Observable<Player> {
@@ -160,7 +160,7 @@ export class HttpService {
 
     const headers = new HttpHeaders({Authorization: `Bearer ${token}`});
 
-    return this.http.get<any>('rest/GetSocialPlayer', {headers, observe: 'response'});
+    return this.http.get<Player>('rest/GetSocialPlayer', {headers, observe: 'response'});
   }
 
   updatePlayerRnd(oldPlrId: number, newPlrId: number, roundId: number): Observable<HttpResponse<null>> {

@@ -27,6 +27,7 @@ export class CycleHttpService {
   }
 
   // gets eagle results
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getEagleResults(tournamentNo: number): Observable<any> {
 
     return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=0');

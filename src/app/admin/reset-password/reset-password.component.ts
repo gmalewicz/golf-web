@@ -68,4 +68,5 @@ export class ResetPasswordComponent implements OnInit {
   declarations: [ResetPasswordComponent],
   imports: [CommonModule, ReactiveFormsModule, routing]
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ResetPasswordModule {}

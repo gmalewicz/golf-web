@@ -62,10 +62,10 @@ export class AuthenticationService {
   }
 
   // v2.20 update JWT not to break on-line round
-  updateJWT(): Observable<HttpResponse<any>> {
+  updateJWT(): Observable<HttpResponse<unknown>> {
     return this.httpService.refreshOnDemand(this.currentPlayerValue.id).pipe(
       tap(
-        (response: HttpResponse<any>) => {
+        (response: HttpResponse<unknown>) => {
           this.currentPlayerValue.token =  response.headers.get('Jwt');
           this.currentPlayerValue.refreshToken =  response.headers.get('Refresh');
           localStorage.setItem('currentPlayer', JSON.stringify(this.currentPlayerValue));

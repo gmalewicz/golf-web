@@ -66,7 +66,4 @@ describe('TournamentRoundsComponent', () => {
     TestBed.resetTestingModule();
   });
 });
-function prepareData() {
-  throw new Error('Function not implemented.');
-}
 

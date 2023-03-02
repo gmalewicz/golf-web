@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
         private alertService: AlertService
     ) {}
 
-    // tslint:disable-next-line: variable-name
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
         const currentPlayer = this.authenticationService.currentPlayerValue;
         if (currentPlayer) {

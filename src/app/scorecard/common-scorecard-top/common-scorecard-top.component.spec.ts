@@ -21,7 +21,7 @@ describe('CommonScorecardTopComponent', () => {
     component.calculateStyle = () => 'edit';
     component.addScore = () => null;
     // tslint:disable-next-line: variable-name
-    component.counter = (_i: number) => [1];
+    component.counter = () => [1];
     component.curHoleIdx = 0;
     component.curHoleStrokes = [1];
     component.ballPickedUp = false;

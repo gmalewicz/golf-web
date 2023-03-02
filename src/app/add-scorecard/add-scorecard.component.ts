@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
-import { Course, ScoreCard, Round, Tee } from '@/_models';
+import { Course, ScoreCard, Round, Tee, TeeOptions } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -28,7 +28,7 @@ export class AddScorecardComponent implements OnInit {
   display: boolean;
   submitted: boolean;
 
-  teeOptions: any[];
+  teeOptions: TeeOptions[];
   selectedTee: number;
 
   public addScorecardForm: FormGroup;
@@ -43,9 +43,9 @@ export class AddScorecardComponent implements OnInit {
   public strokeButtons: number[];
   public patButtons: number[];
 
-  public holeSelectorActive: any[];
-  public strokeSelectorActive: any[];
-  public patSelectorActive: any[];
+  public holeSelectorActive: HoleSelector[];
+  public strokeSelectorActive: HoleSelector[];
+  public patSelectorActive: HoleSelector[];
 
   strokes: number[];
   putts: number[];
@@ -74,7 +74,7 @@ export class AddScorecardComponent implements OnInit {
       const dateStr = getDateAndTime();
 
       this.addScorecardForm = this.formBuilder.group({
-        date: [dateStr[0], [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        date: [dateStr[0], [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],
         teeTime: [dateStr[1], [Validators.required, Validators.pattern('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$')]],
         teeDropDown: ['', [ Validators.required ]]
       });
@@ -150,8 +150,7 @@ export class AddScorecardComponent implements OnInit {
       this.f.teeTime.disable();
 
       // get tee which was played
-      this.httpService.getPlayerRoundDetails
-      (this.authenticationService.currentPlayerValue.id, this.round.id).pipe(tap(
+      this.httpService.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(tap(
         (playerRoundDetails) => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
           this.f.teeDropDown.disable();
@@ -483,4 +482,9 @@ export class AddScorecardComponent implements OnInit {
     this.strokeSelectorActive.fill({disabled: false, active: false});
     this.patSelectorActive.fill({disabled: false, active: false});
   }
+}
+
+interface HoleSelector {
+  disabled?: boolean,
+  active?: boolean
 }

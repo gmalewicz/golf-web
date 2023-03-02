@@ -79,6 +79,7 @@ export class CycleDetailsComponent implements OnInit {
         this.loadingAddTour = true;
         this.cycleHttpService.getEagleResults(result.tournamentNo)
         .pipe(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           tap((reareEagleResultSet: any) => {
 
             const eagleResultSet: EagleResultSet  = {

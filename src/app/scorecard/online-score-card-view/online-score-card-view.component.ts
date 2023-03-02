@@ -278,8 +278,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           }
           // create colour
           this.scoreBruttoClass[0][retScoreCards[idx - 1].hole - 1] =
-            this.prepareColoursForResults
-              (retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
+            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
 
           this.lstUpdTime = this.compareTime(this.lstUpdTime, retScoreCards[idx - 1].time);
           idx--;

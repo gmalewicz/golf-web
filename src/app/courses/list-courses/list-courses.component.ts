@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 })
 export class ListCoursesComponent implements OnInit {
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() data: any;
   @Input() courses: Courses;
   @Input() selectedTab: number;

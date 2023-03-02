@@ -16,6 +16,7 @@ import { Tournament } from '../_models/tournament';
 import { getDateAndTime } from '@/_helpers/common';
 import { Hole } from '@/_models/hole';
 import { Router } from '@angular/router';
+import { TeeOptions } from '@/_models/teeOptions';
 
 @Component({
   selector: 'app-add-round',
@@ -35,8 +36,8 @@ export class AddRoundComponent implements OnInit {
   player: Player;
   tee: number;
   holes: Hole[];
-  teeOptionsMale = [];
-  teeOptionsFemale = [];
+  teeOptionsMale: TeeOptions[] = [];
+  teeOptionsFemale: TeeOptions[] = [];
   tees: Tee[] = [];
 
   course: Course;
@@ -148,14 +149,13 @@ export class AddRoundComponent implements OnInit {
     }
   }
 
-  getTeeOptions(): any[] {
+  getTeeOptions(): TeeOptions[] {
     if (this.player !== undefined) {
       const retVal = this.player.sex
         ? this.teeOptionsFemale
         : this.teeOptionsMale;
 
       this.tee = this.f.teeDropDown.value;
-
       return retVal;
     }
   }

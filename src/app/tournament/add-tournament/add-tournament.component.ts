@@ -31,8 +31,8 @@ export class AddTournamentComponent implements OnInit {
 
       this.addTournamentForm = this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
-        startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
-        endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})\/([0-9]{1,2})\/([0-9]{1,2})')]],
+        startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],
+        endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],
         bestRounds: ['0', [Validators.required,  Validators.min(0), Validators.max(10)]]
       });
 

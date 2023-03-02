@@ -121,4 +121,5 @@ export class PlayersComponent implements OnInit {
   declarations: [PlayersComponent],
   imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule, MatButtonModule]
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ResetPasswordModule {}

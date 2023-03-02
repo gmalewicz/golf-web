@@ -60,4 +60,5 @@ export class MoveCourseComponent implements OnInit {
   declarations: [MoveCourseComponent],
   imports: [CommonModule, ReactiveFormsModule, routing]
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class MoveCourseModule {}

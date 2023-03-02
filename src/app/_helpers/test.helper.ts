@@ -84,6 +84,7 @@ export function getTee(): Tee {
 
 export let authenticationServiceStub: Partial<AuthenticationService>;
 
+// eslint-disable-next-line prefer-const
 authenticationServiceStub = {
   currentPlayerValue: {nick: 'test', id: 1, whs: 10},
   playerRole: 'PLAYER',
@@ -93,7 +94,8 @@ authenticationServiceStub = {
   loginSocial(): void {
     // This is intentional
   },
-  // tslint:disable-next-line: variable-name
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login(_username: string, _password: string): Observable<Player> {
     return of({whs: 11.1});
   }
@@ -101,6 +103,7 @@ authenticationServiceStub = {
 
 export let authenticationServiceAdminStub: Partial<AuthenticationService>;
 
+// eslint-disable-next-line prefer-const
 authenticationServiceAdminStub = {
   currentPlayerValue: {nick: 'test', id: 1, whs: 10},
   playerRole: 'ADMIN',
@@ -123,22 +126,24 @@ export class MatDialogMock {
 
 export class WebSocketAPIMock {
 
-  // tslint:disable-next-line: variable-name
-  constructor(_appComponent: any = null,
-              // tslint:disable-next-line: variable-name
-              private _alertService: any = null,
-              // tslint:disable-next-line: variable-name
-              private _authenticationService: any = null,
-              // tslint:disable-next-line: variable-name
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(_appComponent: unknown = null,
+
+              private _alertService: AlertService = null,
+
+              private _authenticationService: AuthenticationService = null,
+
+              // eslint-disable-next-line @typescript-eslint/no-inferrable-types, @typescript-eslint/no-unused-vars
               _acceptMessage: boolean = false,
-              // tslint:disable-next-line: variable-name
+
+              // eslint-disable-next-line @typescript-eslint/no-inferrable-types, @typescript-eslint/no-unused-vars
               _reconnect: boolean = false) {
       // This is intentional
     }
 
 
-
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _connect(_listen: boolean) {
     // This is intentional
   }
@@ -187,15 +192,16 @@ export class MyRouterStub {
 
 export let alertServiceStub: Partial<AlertService>;
 
+// eslint-disable-next-line prefer-const
 alertServiceStub = {
   clear() {
     // This is intentional
   },
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   error(_message: string, _keepAfterRouteChange = false) {
     // This is intentional
   },
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   success(_message: string, _keepAfterRouteChange = false) {
     // This is intentional
   }
