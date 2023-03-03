@@ -1,6 +1,8 @@
+import { teeTypes } from './../_models/tee';
 import { routing } from '@/app.routing';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
-import { HttpService } from '@/_services';
+import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
+import { AlertService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +12,8 @@ import { DropdownModule } from 'primeng/dropdown';
 
 
 import { AddCourseComponent } from './add-course.component';
+import { Router } from '@angular/router';
+import { alertServiceStub, MyRouterStub } from '@/_helpers/test.helper';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
@@ -26,8 +30,11 @@ describe('AddCourseComponent', () => {
         routing,
       ],
       providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }]
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: Router, useClass: MyRouterStub },
+        { provide: AlertService, useValue: alertServiceStub }]
     })
     .compileComponents();
   }));
@@ -148,6 +155,22 @@ describe('AddCourseComponent', () => {
     radioElement.triggerEventHandler('click',  null);
     tick();
     expect(component.tees.length).toBe(0);
+
+  }));
+
+  it('should test onSubmit() function with correct result', fakeAsync(() => {
+
+    const radioElement = fixture.debugElement.query(By.css('.btn-submit'));
+    // Trigger click event after spyOn
+    component.f.courseName.setValue('test');
+    component.f.coursePar.setValue(72);
+    component.pars.fill(3);
+    component.si.fill(5);
+    component.tees = [{cr: 61.1, sr: 132, tee: 'yellow', teeType: teeTypes.TEE_TYPE_18, sex: false}];
+
+    radioElement.triggerEventHandler('click',  null);
+    tick();
+    expect(component.tees.length).toBe(1);
 
   }));
 
