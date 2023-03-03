@@ -145,7 +145,10 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/FavouriteCourses/1') || req.url.endsWith('rest/SearchForCourse') || req.url.endsWith('rest/SortedCourses/0')){
+    } else if (req.url.endsWith('rest/FavouriteCourses/1') ||
+               req.url.endsWith('rest/SearchForCourse') ||
+               req.url.endsWith('rest/SortedCourses/0') ||
+               req.url.endsWith('rest/Courses')){
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 

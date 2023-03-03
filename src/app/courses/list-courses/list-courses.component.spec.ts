@@ -32,7 +32,8 @@ describe('ListCoursesComponent', () => {
     .compileComponents();
   });
 
-  beforeEach(() => {
+  it('should delete from favourites', fakeAsync(() => {
+
     fixture = TestBed.createComponent(ListCoursesComponent);
     component = fixture.componentInstance;
     component.courses = {favourites: [course]};
@@ -40,13 +41,6 @@ describe('ListCoursesComponent', () => {
     component.selectedTab = 0;
 
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should delete from favourites', fakeAsync(() => {
 
     component.onClickFavourite(course);
 
@@ -55,10 +49,31 @@ describe('ListCoursesComponent', () => {
 
   it('should add to favourites', fakeAsync(() => {
 
+    fixture = TestBed.createComponent(ListCoursesComponent);
+    component = fixture.componentInstance;
+    component.courses = {favourites: [course]};
+    component.data = {parent: 'courses'};
+    component.selectedTab = 0;
+
+    fixture.detectChanges();
+
     component.selectedTab = 1;
     component.onClickFavourite({id: 2, name: 'Lisia Polana', par: 72, holeNbr: 18});
 
     expect(component.courses.favourites.length).toBe(2);
+  }));
+
+  it('should search for all courses', fakeAsync(() => {
+
+    fixture = TestBed.createComponent(ListCoursesComponent);
+    component = fixture.componentInstance;
+    component.courses = {favourites: [course]};
+    component.data = {parent: 'courses'};
+    component.selectedTab = 2;
+
+    fixture.detectChanges();
+
+    expect(component.courses.all.length).toBe(1);
   }));
 
   afterAll(() => {
