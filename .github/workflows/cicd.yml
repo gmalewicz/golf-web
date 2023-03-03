@@ -109,7 +109,7 @@ jobs:
           install-command: npm i
           build: npm run build
           start: npm start
-          wait-on: 'http://localhost:4200'
+          wait-on: 'http://127.0.0.1:4200'
 
   test-coverage:
     runs-on: ubuntu-latest
