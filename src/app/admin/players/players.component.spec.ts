@@ -8,7 +8,6 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { of } from 'rxjs';
 
 import { PlayersComponent } from './players.component';
 

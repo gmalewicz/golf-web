@@ -13,7 +13,7 @@ export function getDateAndTime(): string[] {
 export const ballPickedUpStrokes = 16;
 
 export function generatePDF(name: string, _this): void {
-  const DATA: any = document.getElementById('pdfData');
+  const DATA: HTMLElement = document.getElementById('pdfData');
   html2canvas(DATA).then((canvas) => {
     const fileWidth = 208;
     const fileHeight = (canvas.height * fileWidth) / canvas.width;

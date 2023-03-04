@@ -94,15 +94,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          install-command: npm install --save --legacy-peer-deps
           build: npm run build
           start: npm start
-          wait-on: 'http://localhost:4200'
+          wait-on: 'http://127.0.0.1:4200'
+          wait-on-timeout: 180
 
   test-coverage:
     runs-on: ubuntu-latest

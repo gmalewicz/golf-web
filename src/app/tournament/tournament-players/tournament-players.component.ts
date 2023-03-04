@@ -219,4 +219,5 @@ export class TournamentPlayersComponent implements OnInit {
     MatInputModule,
     MatButtonModule]
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class TournamentPlayersModule {}

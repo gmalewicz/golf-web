@@ -63,4 +63,5 @@ export class UpdPlayerRndComponent implements OnInit {
   declarations: [UpdPlayerRndComponent],
   imports: [CommonModule, ReactiveFormsModule]
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class UpdPlayerRndModule {}

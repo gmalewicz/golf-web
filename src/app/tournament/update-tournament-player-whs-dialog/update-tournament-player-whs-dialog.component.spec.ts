@@ -24,7 +24,8 @@ describe('UpdateTournamentPlayerWhsDialogComponent', () => {
       providers: [
         {provide: MatDialogRef, useValue: {
 
-          close(value: any) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          close(_value: unknown) {
               return null;
               }
           }},

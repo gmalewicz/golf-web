@@ -10,7 +10,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router,
               private alertService: AlertService) { }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {
 
       if (err.status === 0 || err.status === 404 || err.status === 504) {

@@ -83,7 +83,7 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    let buttonElement = fixture.debugElement.query(By.css('.add'));
+    const buttonElement = fixture.debugElement.query(By.css('.add'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
     tick();
@@ -104,7 +104,7 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    let buttonElement = fixture.debugElement.query(By.css('.del2'));
+    const buttonElement = fixture.debugElement.query(By.css('.del2'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
    // tick();
@@ -124,7 +124,7 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    let buttonElement = fixture.debugElement.query(By.css('.cls'));
+    const buttonElement = fixture.debugElement.query(By.css('.cls'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
    // tick();
@@ -144,7 +144,7 @@ describe('CycleDetailsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    let buttonElement = fixture.debugElement.query(By.css('.lst'));
+    const buttonElement = fixture.debugElement.query(By.css('.lst'));
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
    // tick();

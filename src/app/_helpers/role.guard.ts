@@ -11,10 +11,11 @@ export class RoleGuard implements CanActivate {
         private alertService: AlertService
     ) {}
 
-    // tslint:disable-next-line: variable-name
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canActivate(route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
 
-      if (!!route.data.role) {
+      if (!route.data.role) {
         const routeRole = route.data.role;
         const roles: string = this.authenticationService.playerRole;
 

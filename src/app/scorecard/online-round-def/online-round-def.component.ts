@@ -1,6 +1,6 @@
 import { NavigationService } from './../_services/navigation.service';
 import { getDateAndTime } from '@/_helpers/common';
-import { Course, Player, Tee } from '@/_models';
+import { Course, Player, Tee, TeeOptions } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -25,8 +25,8 @@ import { ScorecardHttpService } from '../_services';
 export class OnlineRoundDefComponent implements OnInit {
   course: Course;
   defScoreCardForm: FormGroup;
-  teeOptionsMale = [];
-  teeOptionsFemale = [];
+  teeOptionsMale: TeeOptions[] = [];
+  teeOptionsFemale: TeeOptions[] = [];
   display: boolean;
   submitted: boolean;
   loading: boolean;
@@ -128,7 +128,7 @@ export class OnlineRoundDefComponent implements OnInit {
       retTees
         .filter((t) => t.sex)
         // tslint:disable-next-line: variable-name
-        .forEach((t, _i) =>
+        .forEach(t =>
           this.teeOptionsFemale.push({
             label: t.tee + ' ' + teeType[t.teeType],
             value: t.id,
@@ -137,7 +137,7 @@ export class OnlineRoundDefComponent implements OnInit {
       retTees
         .filter((t) => !t.sex)
         // tslint:disable-next-line: variable-name
-        .forEach((t, _i) =>
+        .forEach(t =>
           this.teeOptionsMale.push({
             label: t.tee + ' ' + teeType[t.teeType],
             value: t.id,
@@ -162,28 +162,28 @@ export class OnlineRoundDefComponent implements OnInit {
       case 0: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter((t, _i) => t.id === this.f.teeDropDown1.value)
+          .filter(t => t.id === this.f.teeDropDown1.value)
           .pop();
         break;
       }
       case 1: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter((t, _i) => t.id === this.f.teeDropDown2.value)
+          .filter(t => t.id === this.f.teeDropDown2.value)
           .pop();
         break;
       }
       case 2: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter((t, _i) => t.id === this.f.teeDropDown3.value)
+          .filter(t => t.id === this.f.teeDropDown3.value)
           .pop();
         break;
       }
       default: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter((t, _i) => t.id === this.f.teeDropDown4.value)
+          .filter(t => t.id === this.f.teeDropDown4.value)
           .pop();
         break;
       }
@@ -471,7 +471,7 @@ export class OnlineRoundDefComponent implements OnInit {
     return retVal;
   }
 
-  getTeeOptions(idx: number): any[] {
+  getTeeOptions(idx: number): TeeOptions[] {
     if (this.players[idx] !== undefined) {
       return this.players[idx].sex
         ? this.teeOptionsFemale

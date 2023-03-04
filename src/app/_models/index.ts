@@ -7,3 +7,5 @@ export * from './tee';
 export * from './playerRoundDetails';
 export * from './courses';
 export * from './playerRndCnt';
+export * from './teeOptions';
+export * from './message'

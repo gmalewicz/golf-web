@@ -4,17 +4,17 @@ import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer, getOnlineScoreCa
 
 export class MimicBackendScoreInterceptor implements HttpInterceptor{
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler):
+    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
 
     if (req.url.endsWith('rest/OnlineRounds')) {
-      return new Observable<any> (observer => {
-        observer.next(new HttpResponse<any>({status: 200}));
+      return new Observable (observer => {
+        observer.next(new HttpResponse<unknown>({status: 200}));
         observer.complete();
       });
     } else if (req.url.endsWith('rest/OnlineRound') || req.url.endsWith('rest/OnlineRoundCourse/1')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             getOnlineRoundFirstPlayer()
@@ -25,7 +25,7 @@ export class MimicBackendScoreInterceptor implements HttpInterceptor{
       });
     } else if (req.url.endsWith('rest/OnlineRoundOwner/1')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             getOnlineRoundFirstPlayer(),
@@ -37,7 +37,7 @@ export class MimicBackendScoreInterceptor implements HttpInterceptor{
       });
     } else if (req.url.startsWith('rest/OnlineScoreCard')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             getOnlineScoreCard()

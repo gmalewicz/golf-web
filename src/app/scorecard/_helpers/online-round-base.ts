@@ -288,7 +288,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     });
   }
 
-  // tslint:disable-next-line: variable-name
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected updateMpResult(_strokeIdx: number) {
     // This is intentional
   }
@@ -325,7 +325,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.strokes[this.curHoleIdx][this.curPlayerIdx] !== 0) {
           currentOnlineScoreCard.update = true;
 
-          const onlineScoreCards: OnlineScoreCard[] = new Array();
+          const onlineScoreCards: OnlineScoreCard[] = [];
           onlineScoreCards.push(currentOnlineScoreCard);
           this.display = false;
 
@@ -336,9 +336,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
               })
           ).subscribe();
       }
-
-      // send scorecard to server
-      // this.webSocketAPI._send(currentOnlineScoreCard);
 
       // update total strokes by substracting current value and adding the new one
       this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
@@ -394,7 +391,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     }
   }
 
-  // tslint:disable-next-line: variable-name
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected calculateHCP(_i: number) {
     // This is intentional
   }

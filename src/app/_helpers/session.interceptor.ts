@@ -15,16 +15,16 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
               private tokenExtractor: HttpXsrfTokenExtractor,
               private router: Router) {}
 
-  private refreshSubject: Subject<any> = new Subject<any>();
+  private refreshSubject: Subject<unknown> = new Subject<unknown>();
 
   private _ifTokenExpired() {
     this.refreshSubject.subscribe({
       complete: () => {
-        this.refreshSubject = new Subject<any>();
+        this.refreshSubject = new Subject<unknown>();
       },
       error: () => {
         this.refreshSubject.complete();
-        this.refreshSubject = new Subject<any>();
+        this.refreshSubject = new Subject<unknown>();
         this.authenticationService.logout();
         this.router.navigate(['']);
       }
@@ -37,7 +37,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
 
       this.httpService.refresh(currentPlayer.id).pipe(
         tap(
-          (response: HttpResponse<any>) => {
+          (response: HttpResponse<unknown>) => {
             currentPlayer.token =  response.headers.get('Jwt');
             currentPlayer.refreshToken =  response.headers.get('Refresh');
             localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
@@ -57,9 +57,9 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   }
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (req.url === 'rest/Authenticate' || req.url === 'rest/AddPlayer' || req.url.startsWith('rest/Refresh')
                                         || req.url.startsWith('signin') || req.url.startsWith('rest/GetSocialPlayer')) {
       return next.handle(req);
@@ -83,7 +83,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
     }
   }
 
-  private updateHeader(request: HttpRequest<any>): HttpRequest<any> {
+  private updateHeader(request: HttpRequest<unknown>): HttpRequest<unknown> {
 
     const currentPlayer: Player = this.authenticationService.currentPlayerValue;
 

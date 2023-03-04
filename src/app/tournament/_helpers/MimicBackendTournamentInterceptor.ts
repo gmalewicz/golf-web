@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 
 export class MimicBackendTournamentInterceptor implements HttpInterceptor{
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler):
+    Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
 
     if (req.url.endsWith('rest/Tournament') && (req.method === 'GET')) {
       return new Observable(observer => {
-        observer.next(new HttpResponse<Array<any>>({body:
+        observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
             {id: 1, name: 'Elkner Cup', startDate: '2020/06/10', endDate: '2020/06/15', bestRounds: 0,
@@ -36,8 +36,8 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
                req.url.startsWith('rest/TournamentClose') ||
                req.url.startsWith('rest/Tournament') ||
                req.url.startsWith('rest/TournamentPlayer')) {
-        return new Observable<any> (observer => {
-          observer.next(new HttpResponse<Array<any>>({body:
+        return new Observable (observer => {
+          observer.next(new HttpResponse<Array<unknown>>({body:
             []
           , status: 200}));
           observer.complete();

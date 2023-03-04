@@ -3,7 +3,7 @@ import { routing } from '@/app.routing';
 import { alertServiceStub, authenticationServiceStub, MatDialogMock, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';

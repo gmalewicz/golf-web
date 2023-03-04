@@ -29,11 +29,10 @@ describe('error.interceptor', () => {
 
   it('repsonse error 0', fakeAsync(() => {
 
-    let response: any;
-    let errResponse: any;
+    let errResponse: string;
 
 
-    httpClient.get('/rest/Courses').subscribe({next: res => response = res, error: err => errResponse = err});
+    httpClient.get('/rest/Courses').subscribe({ error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
@@ -50,11 +49,10 @@ describe('error.interceptor', () => {
 
   it('repsonse error 404', fakeAsync(() => {
 
-    let response: any;
-    let errResponse: any;
+    let errResponse: string;
 
 
-    httpClient.get('/rest/Courses').subscribe({next: res => response = res, error: err => errResponse = err});
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
@@ -72,11 +70,10 @@ describe('error.interceptor', () => {
 
   it('repsonse error 504', fakeAsync(() => {
 
-    let response: any;
-    let errResponse: any;
+    let errResponse: string;
 
 
-    httpClient.get('/rest/Courses').subscribe({next: res => response = res, error: err => errResponse = err});
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
@@ -93,11 +90,10 @@ describe('error.interceptor', () => {
 
   it('repsonse error 402', fakeAsync(() => {
 
-    let response: any;
-    let errResponse: any;
+    let errResponse: string;
 
 
-    httpClient.get('/rest/Courses').subscribe({next: res => response = res, error: err => errResponse = err});
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
@@ -114,11 +110,10 @@ describe('error.interceptor', () => {
 
   it('repsonse error 401', fakeAsync(() => {
 
-    let response: any;
-    let errResponse: any;
+    let errResponse: string;
 
 
-    httpClient.get('/rest/Courses').subscribe({next: res => response = res, error: err => errResponse = err});
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
