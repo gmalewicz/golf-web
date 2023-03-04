@@ -124,35 +124,6 @@ export class MatDialogMock {
     }
 }
 
-export class WebSocketAPIMock {
-
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_appComponent: unknown = null,
-
-              private _alertService: AlertService = null,
-
-              private _authenticationService: AuthenticationService = null,
-
-              // eslint-disable-next-line @typescript-eslint/no-inferrable-types, @typescript-eslint/no-unused-vars
-              _acceptMessage: boolean = false,
-
-              // eslint-disable-next-line @typescript-eslint/no-inferrable-types, @typescript-eslint/no-unused-vars
-              _reconnect: boolean = false) {
-      // This is intentional
-    }
-
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _connect(_listen: boolean) {
-    // This is intentional
-  }
-  _disconnect() {
-    // This is intentional
-  }
-
-}
-
 export function getTestOnlineRound(): OnlineRound[] {
 
   return [{

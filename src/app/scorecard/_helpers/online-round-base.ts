@@ -337,9 +337,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           ).subscribe();
       }
 
-      // send scorecard to server
-      // this.webSocketAPI._send(currentOnlineScoreCard);
-
       // update total strokes by substracting current value and adding the new one
       this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
       this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
