@@ -20,6 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -28,10 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+
 
       - name: npm install and npm run build
         run: npm run build:prod-locale
