@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
-import { AuthenticationService, AlertService } from '@/_services';
+import { Router } from '@angular/router';
+import { AuthenticationService} from '@/_services';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService,
-        private alertService: AlertService
+        private authenticationService: AuthenticationService
     ) {}
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
+    canActivate() {
+
         const currentPlayer = this.authenticationService.currentPlayerValue;
         if (currentPlayer) {
             // authorised so return true
             return true;
         }
-        this.alertService.error($localize`:@@authGuard-notAuthorized:You are not authorized to view this page`, true);
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/login']);
         return false;
