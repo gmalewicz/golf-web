@@ -31,12 +31,10 @@ jobs:
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16
 
       - name: npm install and npm run build
-        run: |
-          npm i
-          npm run build:prod-locale
+        run: npm run build:prod-locale
 
       - name: Set up version
         #if: always()
