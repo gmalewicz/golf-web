@@ -1,5 +1,4 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlayerResultsComponent } from './player-results.component';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -11,7 +10,7 @@ describe('PlayerResultsComponent', () => {
   let component: PlayerResultsComponent;
   let fixture: ComponentFixture<PlayerResultsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PlayerResultsComponent ],
       imports: [

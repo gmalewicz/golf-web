@@ -3,7 +3,7 @@ import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { GameHttpService } from '../_services/gameHttp.service';
@@ -14,7 +14,7 @@ describe('BingoHolestakeGamesComponent', () => {
   let component: BingoHolestakeGamesComponent;
   let fixture: ComponentFixture<BingoHolestakeGamesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BingoHolestakeGamesComponent ],
       imports: [
