@@ -1,5 +1,7 @@
 import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { OnlineRound } from '../_models/onlineRound';
+import { Observable, of } from 'rxjs';
+import { IMessage } from '@stomp/rx-stomp/esm6';
 
 export function getOnlineRoundFirstPlayer(): OnlineRound {
 
@@ -75,4 +77,32 @@ export function getOnlineScoreCard(): OnlineScoreCard {
       time: '12:26',
       update: false
     };
+}
+
+export let rxStompServiceStub;
+
+// eslint-disable-next-line prefer-const
+rxStompServiceStub = {
+
+  activate() {
+    // This is intentional
+  },
+
+  deactivate(): Promise<void> {
+    return null;
+  },
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  watch(destination: string): Observable<IMessage> {
+
+    const test: IMessage = {body: JSON.stringify(getOnlineScoreCard()),
+                            ack: null,
+                            nack: null,
+                            command: null,
+                            headers: null,
+                            isBinaryBody: null,
+                            binaryBody: null};
+
+    return of(test);
+  }
 }

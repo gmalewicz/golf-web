@@ -6,6 +6,7 @@ import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
+import { RxStompService } from '../_services/rx-stomp.service';
 
 @Component({
   selector: 'app-online-matchplay',
@@ -31,8 +32,9 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
               protected router: Router,
-              protected navigationService: NavigationService) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService);
+              protected navigationService: NavigationService,
+              protected rxStompService: RxStompService) {
+    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService);
   }
 
   ngOnInit(): void {

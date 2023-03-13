@@ -21,9 +21,24 @@
       &gt;
     </button>
     &nbsp;
-    <button type="button" class="btn-lg btn-success fw-bolder" (click)="addScore()" i18n="@@onlnNav-save">
-      Save
+    <button type="button" style="width: 6rem;" class="btn-lg btn-success fw-bolder" (click)="addScore()" [disabled]="isActive ? null : true">
+      <span *ngIf="isActive" i18n="@@onlnNav-save">
+        Save
+      </span>
+      <span *ngIf="!isActive" class="spinner-border spinner-border-sm mr-1">
+      </span>
     </button>
+    &nbsp;
+    &nbsp;
+    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn-lg btn-success fw-bolder" (click)="switchMode()">
+      <span *ngIf="useWebSocket">web</span>
+      <span *ngIf="!useWebSocket">no web</span>
+    </button>
+    <span *ngIf="useWebSocket && !isActive" class="golf-red">
+      &nbsp;
+      &nbsp;
+      Network failure - wait
+    </span>
   </div>
 </div>
 <div *ngIf="rounds[0].putts">
