@@ -338,18 +338,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           const onlineScoreCards: OnlineScoreCard[] = [];
           onlineScoreCards.push(currentOnlineScoreCard);
 
-          if (!this.useWebSocket) {
-            this.display = false;
+          this.saveUpdateToServer(onlineScoreCards, currentOnlineScoreCard);
 
-            this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
-              tap(
-                () => {
-                  this.display = true;
-                })
-            ).subscribe();
-          } else {
-            this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
-          }
       } else {
         if (this.useWebSocket) {
           this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
@@ -396,6 +386,21 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
+  }
+
+  private saveUpdateToServer (onlineScoreCards: OnlineScoreCard[], currentOnlineScoreCard: OnlineScoreCard) {
+    if (!this.useWebSocket) {
+      this.display = false;
+
+      this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
+        tap(
+          () => {
+            this.display = true;
+          })
+      ).subscribe();
+    } else {
+      this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
+    }
   }
 
   private setBallPickUp() {
