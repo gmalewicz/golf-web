@@ -33,7 +33,7 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
     "cypress": "^12.7.0",
-    "jquery": "^3.6.3",
+    "jquery": "^3.6.4",
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "net": "^1.0.2",
