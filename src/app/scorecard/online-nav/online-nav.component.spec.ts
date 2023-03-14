@@ -1,3 +1,5 @@
+import { authenticationServiceAdminStub } from '@/_helpers/test.helper';
+import { AuthenticationService } from '@/_services/authentication.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OnlineNavComponent } from './online-nav.component';
@@ -9,7 +11,10 @@ describe('OnlineNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OnlineNavComponent ]
+      declarations: [ OnlineNavComponent ],
+      providers: [
+        { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
+      ]
     })
     .compileComponents();
   });

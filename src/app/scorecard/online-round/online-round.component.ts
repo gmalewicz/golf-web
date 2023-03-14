@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
+import { RxStompService } from '../_services/rx-stomp.service';
 
 @Component({
   selector: 'app-online-round',
@@ -19,8 +20,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
               protected router: Router,
-              protected navigationService: NavigationService) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService);
+              protected navigationService: NavigationService,
+              protected rxStompService: RxStompService) {
+    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService);
   }
 
   // helper function to provide verious arrays for html

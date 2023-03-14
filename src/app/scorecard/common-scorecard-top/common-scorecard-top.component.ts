@@ -21,6 +21,9 @@ export class CommonScorecardTopComponent implements OnInit {
   @Input() curPlayerIdx: number;
   @Input() puttSelectorActive: { active: boolean }[];
 
+  @Input() public useWebSocket: boolean;
+  @Input() public switchMode: () => void;
+
   constructor() {
     // This is intentional
   }

@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 
 @Component({
   selector: 'app-online-nav',
   templateUrl: './online-nav.component.html'
 })
-export class OnlineNavComponent implements OnInit {
+export class OnlineNavComponent implements OnInit, OnDestroy {
 
   @Input() curHoleStrokes: number[];
   @Input() curPlayerIdx: number;
@@ -18,12 +20,28 @@ export class OnlineNavComponent implements OnInit {
 
   public buttons: number[];
 
-  constructor() {
+  @Input() public useWebSocket: boolean;
+  @Input() public switchMode: () => void;
+
+
+  public isActive: boolean;
+  subscriptions: Subscription[] = [];
+  offlineEvent: Observable<Event>;
+  onlineEvent: Observable<Event>;
+
+  constructor(public authenticationService: AuthenticationService) {
     // This is intentional
   }
 
   ngOnInit(): void {
     this.buttons = [0, 1, 2, 3, 4, 5];
+    this.handleAppConnectivityChanges();
+    this.isActive = true;
+  }
+
+  ngOnDestroy(): void {
+
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   onPickUp() {
@@ -60,5 +78,22 @@ export class OnlineNavComponent implements OnInit {
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[penalties] = { active: true };
     this.curHolePenalties[this.curPlayerIdx] = penalties;
+  }
+
+  private handleAppConnectivityChanges(): void {
+    this.onlineEvent = fromEvent(window, 'online');
+    this.offlineEvent = fromEvent(window, 'offline');
+
+    this.subscriptions.push(this.onlineEvent.subscribe(() => {
+      // handle online mode
+      this.isActive = true;
+    }));
+
+    this.subscriptions.push(this.offlineEvent.subscribe(() => {
+      // handle offline mode
+      if (this.useWebSocket) {
+        this.isActive = false;
+      }
+    }));
   }
 }

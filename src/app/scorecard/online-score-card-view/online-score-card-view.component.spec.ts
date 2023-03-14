@@ -6,9 +6,10 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
-import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer, getOnlineScoreCard } from '../_helpers/test.helper';
+import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer, getOnlineScoreCard, rxStompServiceStub } from '../_helpers/test.helper';
 import { ScorecardHttpService } from '../_services';
 import { OnlineScoreCardViewComponent } from './online-score-card-view.component';
+import { RxStompService } from '../_services/rx-stomp.service';
 
 describe('OnlineScoreCardViewComponent', () => {
   let component: OnlineScoreCardViewComponent;
@@ -30,6 +31,7 @@ describe('OnlineScoreCardViewComponent', () => {
         NavigationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: RxStompService, useValue: rxStompServiceStub }
         ]
     })
     .compileComponents();

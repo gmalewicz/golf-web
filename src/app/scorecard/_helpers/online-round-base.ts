@@ -10,12 +10,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
+import { combineLatest, fromEvent, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
 import { OnlineRound } from '../_models/onlineRound';
 import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { NavigationService } from '../_services/navigation.service';
+import { RxStompService } from '../_services/rx-stomp.service';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 
 @Component({
@@ -33,6 +34,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   curPlayerIdx: number;
   curHoleIdx: number;
+
+  useWebSocket: boolean;
 
 
   // strokes, putts, penalties for the current hole
@@ -65,13 +68,17 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   display: boolean;
 
+  visibilityChangeEvent: Observable<Event>;
+  subscriptions: Subscription[] = [];
+
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
               protected dialog: MatDialog,
               protected authenticationService: AuthenticationService,
               protected router: Router,
-              protected navigationService: NavigationService) {
+              protected navigationService: NavigationService,
+              protected rxStompService: RxStompService) {
   }
 
   ngOnInit(): void {
@@ -84,6 +91,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
+
+      this.useWebSocket = false;
 
       // get passed data
       this.onlineRounds = this.navigationService.getOnlineRounds();
@@ -142,6 +151,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.navigationService.clear();
+    this.rxStompService.deactivate();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   // helper function to provide verious arrays for html
@@ -232,7 +243,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           this.display = true;
         })
     ).subscribe();
-
   }
 
   onFinal() {
@@ -327,14 +337,13 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
           const onlineScoreCards: OnlineScoreCard[] = [];
           onlineScoreCards.push(currentOnlineScoreCard);
-          this.display = false;
 
-          this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
-            tap(
-              () => {
-                this.display = true;
-              })
-          ).subscribe();
+          this.saveUpdateToServer(onlineScoreCards, currentOnlineScoreCard);
+
+      } else {
+        if (this.useWebSocket) {
+          this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
+        }
       }
 
       // update total strokes by substracting current value and adding the new one
@@ -363,8 +372,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.curPlayerIdx++;
     } else {
 
-      // synchronize hole reults
-      this.syncHole(this.curHoleIdx);
+      if (!this.useWebSocket) {
+        // synchronize hole reults
+        this.syncHole(this.curHoleIdx);
+      }
 
       this.curPlayerIdx = 0;
       this.selectHole(this.curHoleIdx + 1);
@@ -375,6 +386,21 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
+  }
+
+  private saveUpdateToServer (onlineScoreCards: OnlineScoreCard[], currentOnlineScoreCard: OnlineScoreCard) {
+    if (!this.useWebSocket) {
+      this.display = false;
+
+      this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
+        tap(
+          () => {
+            this.display = true;
+          })
+      ).subscribe();
+    } else {
+      this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
+    }
   }
 
   private setBallPickUp() {
@@ -495,5 +521,32 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     } else {
       this.roundCompleted = false;
     }
+  }
+
+  switchMode() {
+    this.useWebSocket = !this.useWebSocket;
+    if (this.useWebSocket) {
+      this.handleDocumentVisibilityChanges();
+      this.rxStompService.activate();
+    } else  {
+      this.rxStompService.deactivate();
+    }
+  }
+
+  private handleDocumentVisibilityChanges(): void {
+
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
+    this.visibilityChangeEvent = fromEvent(document, 'visibilitychange');
+
+    this.subscriptions.push(this.visibilityChangeEvent.subscribe(() => {
+
+      if (document.visibilityState === 'visible') {
+        this.rxStompService.deactivate();
+        this.rxStompService.activate();
+      }
+
+    }));
+
   }
 }
