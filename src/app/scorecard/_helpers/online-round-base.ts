@@ -352,10 +352,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       if (!this.useWebSocket) {
         this.updateTotals();
+        this.moveToNextPlayer();
       }
-    }
-
-    if (!this.useWebSocket) {
+    } else {
       this.moveToNextPlayer();
     }
   }
