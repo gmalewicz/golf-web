@@ -346,7 +346,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       } else {
         if (this.useWebSocket) {
-          this.sendMessage();
+          this.sendMessage(currentOnlineScoreCard);
         }
       }
 
@@ -424,14 +424,14 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           })
       ).subscribe();
     } else {
-      this.sendMessage();
+      this.sendMessage(currentOnlineScoreCard);
     }
   }
 
-  private sendMessage() {
+  private sendMessage(onlineScoreCard: OnlineScoreCard) {
     this.inProgress = true;
       const receiptId = '' + Math.random() * 10000;
-      this.rxStompService.publish({ destination: '/app/hole', headers: {receipt: receiptId}, body: JSON.stringify(currentOnlineScoreCard) });
+      this.rxStompService.publish({ destination: '/app/hole', headers: {receipt: receiptId}, body: JSON.stringify(onlineScoreCard) });
       const prom = this.rxStompService.asyncReceipt(receiptId);
       prom.then(() => {
         this.processReceipt();
