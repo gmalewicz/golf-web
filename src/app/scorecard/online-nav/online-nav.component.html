@@ -21,11 +21,11 @@
       &gt;
     </button>
     &nbsp;
-    <button type="button" style="width: 6rem;" class="btn-lg btn-success fw-bolder" (click)="addScore()" [disabled]="isActive ? null : true">
-      <span *ngIf="isActive" i18n="@@onlnNav-save">
+    <button type="button" style="width: 6rem;" class="btn-lg btn-success fw-bolder" (click)="addScore()" [disabled]="isActive ? (inProgress ? true : false) : true">
+      <span *ngIf="isActive && !inProgress" i18n="@@onlnNav-save">
         Save
       </span>
-      <span *ngIf="!isActive" class="spinner-border spinner-border-sm mr-1">
+      <span *ngIf="!isActive || inProgress" class="spinner-border spinner-border-sm mr-1">
       </span>
     </button>
     <div *ngIf="authenticationService.playerRole.includes('ADMIN')" class="golf-padding">
