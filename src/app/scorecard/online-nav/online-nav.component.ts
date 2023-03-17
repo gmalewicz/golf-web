@@ -22,6 +22,7 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
 
   @Input() public useWebSocket: boolean;
   @Input() public switchMode: () => void;
+  @Input() public inProgress: boolean;
 
 
   public isActive: boolean;

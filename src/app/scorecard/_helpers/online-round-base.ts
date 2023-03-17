@@ -71,6 +71,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   visibilityChangeEvent: Observable<Event>;
   subscriptions: Subscription[] = [];
 
+  // waiting for server response
+  inProgress: boolean;
+
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -93,6 +96,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     } else {
 
       this.useWebSocket = false;
+      this.inProgress = false;
 
       // get passed data
       this.onlineRounds = this.navigationService.getOnlineRounds();
@@ -342,25 +346,27 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       } else {
         if (this.useWebSocket) {
-          this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
+          this.sendMessage(currentOnlineScoreCard);
         }
       }
 
-      // update total strokes by substracting current value and adding the new one
-      this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
-      this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
-
-      // udate strokes for display
-      this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
-
-      // verify if at least for one hole the ball has been picked up
-      this.setBallPickUp();
-
-      this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
-      this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
-
+      if (!this.useWebSocket) {
+        this.updateTotals();
+        this.moveToNextPlayer();
+      }
+    } else {
+      this.moveToNextPlayer();
     }
+  }
 
+  private processReceipt() {
+    console.log('start processing receipt');
+    this.updateTotals();
+    this.moveToNextPlayer();
+    this.inProgress = false;
+  }
+
+  private moveToNextPlayer() {
     // move to the next player
     this.editClass[this.curPlayerIdx] = 'no-edit';
     // increase current player index is not last or set to 0 if last
@@ -388,6 +394,24 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
   }
 
+
+  private updateTotals() {
+    // update total strokes by substracting current value and adding the new one
+    this.totalStrokes[this.curPlayerIdx] -= this.strokes[this.curHoleIdx][this.curPlayerIdx];
+    this.totalStrokes[this.curPlayerIdx] += this.curHoleStrokes[this.curPlayerIdx];
+
+    // udate strokes for display
+    this.strokes[this.curHoleIdx][this.curPlayerIdx] = this.curHoleStrokes[this.curPlayerIdx];
+
+    // verify if at least for one hole the ball has been picked up
+    this.setBallPickUp();
+
+    this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
+    this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
+
+  }
+
+
   private saveUpdateToServer (onlineScoreCards: OnlineScoreCard[], currentOnlineScoreCard: OnlineScoreCard) {
     if (!this.useWebSocket) {
       this.display = false;
@@ -399,8 +423,18 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           })
       ).subscribe();
     } else {
-      this.rxStompService.publish({ destination: '/app/hole', body: JSON.stringify(currentOnlineScoreCard) });
+      this.sendMessage(currentOnlineScoreCard);
     }
+  }
+
+  private sendMessage(onlineScoreCard: OnlineScoreCard) {
+    this.inProgress = true;
+      const receiptId = '' + Math.random() * 10000;
+      this.rxStompService.publish({ destination: '/app/hole', headers: {receipt: receiptId}, body: JSON.stringify(onlineScoreCard) });
+      const prom = this.rxStompService.asyncReceipt(receiptId);
+      prom.then(() => {
+        this.processReceipt();
+      })
   }
 
   private setBallPickUp() {
