@@ -36,7 +36,6 @@ export class RxStompService extends RxStomp {
 
     this.authenticationService.updateJWT().subscribe(() => {
       golfRxStompConfig.brokerURL = this.wsEndpointStr + this.authenticationService.currentPlayerValue.token;
-      golfRxStompConfig.debug = (msg: string): void => {console.log(new Date(), msg);};
       super.configure(golfRxStompConfig);
       super.activate();
       return this;

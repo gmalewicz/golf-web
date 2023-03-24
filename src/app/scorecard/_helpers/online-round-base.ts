@@ -95,7 +95,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.router.navigate(['/login']);
     } else {
 
-      this.useWebSocket = false;
+      // chnage it to switch between websocket (ture) or POST call (false)
+      this.useWebSocket = true;
       this.inProgress = false;
 
       // get passed data
@@ -360,8 +361,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   private processReceipt() {
-    console.log('start processing receipt');
-    this.updateTotals();
     this.moveToNextPlayer();
     this.inProgress = false;
   }
