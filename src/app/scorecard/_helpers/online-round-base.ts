@@ -303,11 +303,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.curHolePutts[this.curPlayerIdx] !== this.putts[this.curHoleIdx][this.curPlayerIdx] ||
         this.curHolePenalties[this.curPlayerIdx] !== this.penalties[this.curHoleIdx][this.curPlayerIdx]) &&
         this.strokes[this.curHoleIdx][this.curPlayerIdx] !== 0) {
+
           currentOnlineScoreCard.update = true;
-
-          const onlineScoreCards: OnlineScoreCard[] = [];
-          onlineScoreCards.push(currentOnlineScoreCard);
-
           this.sendMessage(currentOnlineScoreCard);
 
       } else {
