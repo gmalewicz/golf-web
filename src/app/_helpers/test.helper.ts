@@ -5,6 +5,7 @@ import { Round } from '@/_models/round';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
+import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 export function getTestRound(): Round {
@@ -98,6 +99,10 @@ authenticationServiceStub = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login(_username: string, _password: string): Observable<Player> {
     return of({whs: 11.1});
+  },
+
+  updateJWT(): Observable<HttpResponse<unknown>> {
+    return of(null);
   }
 };
 

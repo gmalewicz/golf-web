@@ -35,9 +35,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   curPlayerIdx: number;
   curHoleIdx: number;
 
-  useWebSocket: boolean;
-
-
   // strokes, putts, penalties for the current hole
   curHoleStrokes: number[];
   curHolePutts: number[];
@@ -95,8 +92,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.router.navigate(['/login']);
     } else {
 
-      // chnage it to switch between websocket (ture) or POST call (false)
-      this.useWebSocket = true;
       this.inProgress = false;
 
       // get passed data
@@ -139,6 +134,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       }
       this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
 
+      this.rxStompService.activate();
+      this.handleDocumentVisibilityChanges()
       this.getRoundData();
     }
   }
@@ -216,38 +213,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
     this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
-  }
-
-  syncHole(curHoleIdx: number) {
-
-    const onlineScoreCards: OnlineScoreCard[] = [];
-
-    this.onlineRounds.forEach((or, idx) => {
-
-       // create new online score card
-       const currentOnlineScoreCard: OnlineScoreCard = {
-        hole: curHoleIdx + 1,
-        stroke: this.strokes[curHoleIdx][idx],
-        putt: this.putts[curHoleIdx][idx],
-        penalty: this.penalties[curHoleIdx][idx],
-        player: {
-          id: this.onlineRounds[idx].player.id
-        },
-        orId: this.onlineRounds[idx].id,
-        update: false,
-        time: formatDate(new Date(), 'HH:mm', 'en-US')
-      };
-
-       onlineScoreCards.push(currentOnlineScoreCard);
-    });
-
-    this.display = false;
-    this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
-      tap(
-        () => {
-          this.display = true;
-        })
-    ).subscribe();
   }
 
   onFinal() {
@@ -343,17 +308,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           const onlineScoreCards: OnlineScoreCard[] = [];
           onlineScoreCards.push(currentOnlineScoreCard);
 
-          this.saveUpdateToServer(onlineScoreCards, currentOnlineScoreCard);
+          this.sendMessage(currentOnlineScoreCard);
 
       } else {
-        if (this.useWebSocket) {
           this.sendMessage(currentOnlineScoreCard);
-        }
-      }
-
-      if (!this.useWebSocket) {
-        this.updateTotals();
-        this.moveToNextPlayer();
       }
     } else {
       this.moveToNextPlayer();
@@ -361,6 +319,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   private processReceipt() {
+    this.updateTotals();
     this.moveToNextPlayer();
     this.inProgress = false;
   }
@@ -376,12 +335,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
       this.curPlayerIdx++;
     } else {
-
-      if (!this.useWebSocket) {
-        // synchronize hole reults
-        this.syncHole(this.curHoleIdx);
-      }
-
       this.curPlayerIdx = 0;
       this.selectHole(this.curHoleIdx + 1);
     }
@@ -408,22 +361,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
     this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
 
-  }
-
-
-  private saveUpdateToServer (onlineScoreCards: OnlineScoreCard[], currentOnlineScoreCard: OnlineScoreCard) {
-    if (!this.useWebSocket) {
-      this.display = false;
-
-      this.scorecardHttpService.syncOnlineScoreCards(onlineScoreCards).pipe(
-        tap(
-          () => {
-            this.display = true;
-          })
-      ).subscribe();
-    } else {
-      this.sendMessage(currentOnlineScoreCard);
-    }
   }
 
   private sendMessage(onlineScoreCard: OnlineScoreCard) {
@@ -553,16 +490,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.roundCompleted = true;
     } else {
       this.roundCompleted = false;
-    }
-  }
-
-  switchMode() {
-    this.useWebSocket = !this.useWebSocket;
-    if (this.useWebSocket) {
-      this.handleDocumentVisibilityChanges();
-      this.rxStompService.activate();
-    } else  {
-      this.rxStompService.deactivate();
     }
   }
 
