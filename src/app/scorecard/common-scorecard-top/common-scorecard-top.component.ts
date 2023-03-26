@@ -20,10 +20,8 @@ export class CommonScorecardTopComponent implements OnInit {
   @Input() public addScore: () => void;
   @Input() curPlayerIdx: number;
   @Input() puttSelectorActive: { active: boolean }[];
-
-  @Input() public useWebSocket: boolean;
   @Input() public inProgress: boolean;
-  @Input() public switchMode: () => void;
+
 
   constructor() {
     // This is intentional

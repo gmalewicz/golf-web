@@ -1,7 +1,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Subscription, timer } from 'rxjs';
+import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
 import { Router } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
@@ -48,6 +48,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   queueSubscription: Subscription;
 
+  subscriptions: Subscription[] = [];
+
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
@@ -73,6 +75,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.queueSubscription.unsubscribe();
     }
 
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
   }
 
   ngOnInit(): void {
@@ -82,6 +86,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.authenticationService.logout();
       this.router.navigate(['/login']);
     } else {
+
+      this.handleDocumentVisibilityChanges();
 
       this.elapsed = {hours: 0, minutes: 0, seconds: 0};
       // get round from state
@@ -575,6 +581,23 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       return 'highlightHcp';
     }
     return 'no-edit';
+  }
+
+  private handleDocumentVisibilityChanges(): void {
+
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
+    const visibilityChangeEvent = fromEvent(document, 'visibilitychange');
+
+    this.subscriptions.push(visibilityChangeEvent.subscribe(() => {
+
+      if (document.visibilityState === 'visible') {
+        this.clear();
+        this.ngOnInit();
+      }
+
+    }));
+
   }
 }
 

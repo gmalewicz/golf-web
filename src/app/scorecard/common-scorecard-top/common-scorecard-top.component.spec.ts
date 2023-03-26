@@ -35,9 +35,6 @@ describe('CommonScorecardTopComponent', () => {
     component.curHolePutts = [1];
     component.curHolePenalties = [1];
 
-    component.switchMode= () => null;
-
-
     fixture.detectChanges();
   });
 

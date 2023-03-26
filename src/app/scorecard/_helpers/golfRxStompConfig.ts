@@ -24,5 +24,5 @@ export const golfRxStompConfig: RxStompConfig = {
   // Skip this key to stop logging to console
   // debug: (msg: string): void => {
   //   console.log(new Date(), msg);
-  // },
+  //},
 };

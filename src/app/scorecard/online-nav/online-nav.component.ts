@@ -19,9 +19,6 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
   @Input() public addScore: () => void;
 
   public buttons: number[];
-
-  @Input() public useWebSocket: boolean;
-  @Input() public switchMode: () => void;
   @Input() public inProgress: boolean;
 
 
@@ -92,9 +89,7 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.offlineEvent.subscribe(() => {
       // handle offline mode
-      if (this.useWebSocket) {
         this.isActive = false;
-      }
     }));
   }
 }
