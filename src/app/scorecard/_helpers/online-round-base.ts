@@ -249,6 +249,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       disableClose: false
     });
     this.dialogRef.componentInstance.confirmMessage = $localize`:@@onLineRndBse-delRndCnf:Are you sure you want to delete this scorecard permanently?`;
+    this.dialogRef.componentInstance.makeItDanger = true;
     this.dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
@@ -291,7 +292,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         putt: this.curHolePutts[this.curPlayerIdx],
         penalty: this.curHolePenalties[this.curPlayerIdx],
         player: {
-          id: this.onlineRounds[this.curPlayerIdx].player.id
+          id: this.onlineRounds[this.curPlayerIdx].player.id,
+          nick: this.onlineRounds[this.curPlayerIdx].player.nick
         },
         orId: this.onlineRounds[this.curPlayerIdx].id,
         update: false,
