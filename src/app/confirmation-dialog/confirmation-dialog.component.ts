@@ -10,4 +10,5 @@ export class ConfirmationDialogComponent  {
   constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) { }
 
   public confirmMessage: string;
+  public makeItDanger: boolean
 }

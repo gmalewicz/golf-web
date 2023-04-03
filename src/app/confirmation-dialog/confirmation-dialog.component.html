@@ -1,9 +1,12 @@
 <div class="golf-theme">
-  <h1 mat-dialog-title>Confirm</h1>
+  <h1 mat-dialog-title i18n="@@confirmDlg-confirm">Confirm</h1>
   <div mat-dialog-content>{{ confirmMessage }}</div>
   <div mat-dialog-content>
     <div mat-dialog-actions>
-      <button mat-raised-button color="primary" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
+      <button  *ngIf="makeItDanger" mat-raised-button color="warn" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
+        Confirm
+      </button>
+      <button  *ngIf="!makeItDanger" mat-raised-button color="primary" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
         Confirm
       </button>
       &nbsp;
