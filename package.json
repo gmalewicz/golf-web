@@ -57,7 +57,7 @@
     "@angular-eslint/schematics": "15.2.1",
     "@angular-eslint/template-parser": "15.2.1",
     "@angular/common": "^15.0.1",
-    "@angular/compiler-cli": "^15.0.1",
+    "@angular/compiler-cli": "^15.2.6",
     "@angular/language-service": "^15.2.4",
     "@angular/localize": "^15.2.4",
     "@types/jasmine": "^4.3.1",
