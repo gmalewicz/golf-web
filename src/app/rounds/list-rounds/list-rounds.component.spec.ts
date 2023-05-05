@@ -1,3 +1,4 @@
+import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,7 +14,8 @@ describe('ListRoundsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ListRoundsComponent ],
       providers:
-        [{ provide: AuthenticationService, useValue: authenticationServiceStub }]
+        [{ provide: AuthenticationService, useValue: authenticationServiceStub },
+        RoundsNavigationService]
     })
     .compileComponents();
   });

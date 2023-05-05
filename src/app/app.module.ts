@@ -39,6 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.component';
 import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish-social-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { MatButtonModule } from '@angular/material/button';
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+              RoundsNavigationService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationDialogComponent]

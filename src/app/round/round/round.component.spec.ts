@@ -9,6 +9,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
 import { NgChartsModule } from 'ng2-charts';
+import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -27,7 +28,8 @@ describe('RoundComponent', () => {
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        { provide: MatDialogRef, useValue: {} }]
+        { provide: MatDialogRef, useValue: {} },
+        RoundsNavigationService]
     })
     .compileComponents();
   }));

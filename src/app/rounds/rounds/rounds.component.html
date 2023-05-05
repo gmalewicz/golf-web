@@ -1,32 +1,32 @@
 
-  <h2 *ngIf="selectedTab === 0" i18n="@@rounds-myRounds">My Rounds</h2>
-  <h2 *ngIf="selectedTab === 1" i18n="@@rounds-recPlayRounds">Recently played rounds</h2>
+  <h2 *ngIf="roundsNavigationService.getSelectedTab() === 0" i18n="@@rounds-myRounds">My Rounds</h2>
+  <h2 *ngIf="roundsNavigationService.getSelectedTab() === 1" i18n="@@rounds-recPlayRounds">Recently played rounds</h2>
   <br/>
   <ul class="nav nav-tabs" id="roundsTab" role="tablist">
     <li class="nav-item">
-      <button class="nav-link active" id="myRounds-tab" data-bs-toggle="tab" data-bs-target="#myRounds" type="button"
+      <button class="nav-link" [ngClass]="{'active': roundsNavigationService.getSelectedTab() === 0}" id="myRounds-tab" data-bs-toggle="tab" data-bs-target="#myRounds" type="button"
         role="tab" aria-controls="myRounds" aria-selected="true" (click)="onTabClick(0)" i18n="@@rounds-myRounds">My Rounds</button>
     </li>
     <li class="nav-item">
-      <button class="nav-link" id="recent-tab" data-bs-toggle="tab" data-bs-target="#recent" type="button"
+      <button class="nav-link" [ngClass]="{'active': roundsNavigationService.getSelectedTab() === 1}" id="recent-tab" data-bs-toggle="tab" data-bs-target="#recent" type="button"
         role="tab" aria-controls="recent" aria-selected="false" (click)="onTabClick(1)" i18n="@@rounds-recRounds">Recently played</button>
     </li>
   </ul>
   <div class="tab-content" id="roundsTabContent">
     <div class="tab-pane fade show active" id="myRounds" role="tabpanel" aria-labelledby="myRounds-tab">
-      <div *ngIf="!dispMy" class="d-flex justify-content-center">
+      <div *ngIf="!dispRounds" class="d-flex justify-content-center">
         <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
       </div>
-      <div *ngIf="dispMy">
-        <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 0"></app-list-rounds>
+      <div *ngIf="dispRounds">
+        <app-list-rounds></app-list-rounds>
       </div>
     </div>
     <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
-      <div *ngIf="!dispRecent" class="d-flex justify-content-center">
+      <div *ngIf="!dispRounds" class="d-flex justify-content-center">
         <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
       </div>
-      <div *ngIf="dispRecent">
-        <app-list-rounds [selectedTab]='selectedTab' [rounds]='rounds' *ngIf="selectedTab == 1"></app-list-rounds>
+      <div *ngIf="dispRounds">
+        <app-list-rounds></app-list-rounds>
       </div>
     </div>
   </div>
@@ -36,11 +36,11 @@
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@rounds-previous">
+    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="roundsNavigationService.getPage() === 0" i18n="@@rounds-previous">
       Previous
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="rounds != undefined && rounds.length < pageSize" i18n="@@rounds-next">
+    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="roundsNavigationService.getRounds() != undefined && roundsNavigationService.getRounds().length < roundsNavigationService.getPageSize()" i18n="@@rounds-next">
       Next
     </button>
     &nbsp;

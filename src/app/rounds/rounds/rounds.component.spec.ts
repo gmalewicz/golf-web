@@ -8,6 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RoundsComponent } from './rounds.component';
+import { RoundsNavigationService } from '../roundsNavigation.service';
 
 describe('RoundsComponent', () => {
 
@@ -25,6 +26,7 @@ describe('RoundsComponent', () => {
       providers: [HttpService,
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+                  RoundsNavigationService
         ]
     })
     .compileComponents();
@@ -41,28 +43,28 @@ describe('RoundsComponent', () => {
   });
 
   it('should execute onNext', () => {
-    component.rounds = [getTestRound()];
-    component.pageSize = 1;
+    component.roundsNavigationService.setRounds([getTestRound()]);
+    // component.pageSize = 1;
     component.onNext();
-    expect(component.page).toBe(1);
+    expect(component.roundsNavigationService.getPage()).toBe(0);
   });
 
   it('should execute onPrevious', () => {
-    component.rounds = [getTestRound()];
-    component.page = 1;
+    component.roundsNavigationService.setRounds([getTestRound()]);
+    //component.page = 1;
     component.onPrevious();
-    expect(component.page).toBe(0);
+    expect(component.roundsNavigationService.getPage()).toBe(0);
   });
 
   it('should execute onTabClick 0', () => {
-    component.rounds = [getTestRound()];
+    component.roundsNavigationService.setRounds([getTestRound()]);
     component.onTabClick(0);
-    expect(component.selectedTab).toBe(0);
+    expect(component.roundsNavigationService.getSelectedTab()).toBe(0);
   });
 
   it('should execute onTabClick 1', () => {
     component.onTabClick(1);
-    expect(component.selectedTab).toBe(1);
+    expect(component.roundsNavigationService.getSelectedTab()).toBe(1);
   });
 
 

@@ -7,12 +7,14 @@ import { tap } from 'rxjs/operators';
 import { faMinusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { UpdDialogComponent } from './upd-dialog/upd-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-players',
@@ -119,7 +121,7 @@ export class PlayersComponent implements OnInit {
 
 @NgModule({
   declarations: [PlayersComponent],
-  imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule, MatButtonModule]
+  imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule ,MatInputModule, MatCheckboxModule, MatDialogModule]
 })
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ResetPasswordModule {}

@@ -16,7 +16,7 @@ export class AddTournamentDialogComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(30)]],
-      rounds: ['1', [ Validators.required, Validators.min(1), Validators.max(4)]],
+      rounds: ['', [ Validators.required, Validators.min(1), Validators.max(4)]],
       bestOf: [false],
       tournamentNo: ['', [Validators.required, Validators.pattern('[1-9][0-9][0-9][0-9][0-9]{0,1}')]],
     });

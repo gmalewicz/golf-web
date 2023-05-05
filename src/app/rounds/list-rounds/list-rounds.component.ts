@@ -1,7 +1,7 @@
-import { Round } from '@/_models/round';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { RoundsNavigationService } from '../roundsNavigation.service';
 
 @Component({
   selector: 'app-list-rounds',
@@ -9,12 +9,10 @@ import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 })
 export class ListRoundsComponent implements OnInit {
 
-  @Input() rounds: Round[];
-  @Input() selectedTab: number;
-
   faSearchPlus: IconDefinition;
 
-  constructor(public authenticationService: AuthenticationService) {
+  constructor(public authenticationService: AuthenticationService,
+              public roundsNavigationService: RoundsNavigationService) {
      // This is intentional
   }
 

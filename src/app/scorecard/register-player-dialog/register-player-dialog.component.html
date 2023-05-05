@@ -1,20 +1,19 @@
 <div class="golf-theme">
   <h2 style="color: red" mat-dialog-title i18n="@@registerPlr-notFound">Player not found!</h2>
 
-  <mat-dialog-content [formGroup]="form">
+  <mat-dialog-content [formGroup]="form" style="width: 290px;">
     <mat-form-field>
       <input matInput i18n-placeholder="@@registerPlr-nick" placeholder="Player nick" formControlName="nick" />
       <mat-error *ngIf="f.nick.errors && f.nick.errors.required" i18n="@@registerPlr-nickReq">Nick is required</mat-error>
       <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength" i18n="@@registerPlr-nickTooLng">Nick can be up to 10 characters long</mat-error>
     </mat-form-field>
-  </mat-dialog-content>
-  <app-common-dialog [form] = 'form'></app-common-dialog>
-  <mat-dialog-content [formGroup]="form">
+
+    <app-common-dialog [form] = 'form'></app-common-dialog>
+
     <mat-checkbox formControlName="female" (click)="sexClick(true)" i18n="@@registerPlr-fem">Female</mat-checkbox>
     &nbsp;
     <mat-checkbox formControlName="male" (click)="sexClick(false)" i18n="@@registerPlr-mal">Male</mat-checkbox>
-  </mat-dialog-content>
-  <mat-dialog-content [formGroup]="form">
+
     <mat-dialog-actions>
       <button mat-raised-button color="primary" (click)="close()" i18n="@@registerPlr-cancel">
         Cancel

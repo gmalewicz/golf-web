@@ -42,11 +42,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #198754 !important;
 }
 
-label {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
-
 .golf-margin-top {
   display: inline-block;
   margin-top: 1rem;
@@ -99,4 +94,8 @@ label {
 
 .search {
   margin-top: 5px !important;
+}
+
+.mdc-checkbox.  {
+  margin: 2px 8px auto 0;
 }
