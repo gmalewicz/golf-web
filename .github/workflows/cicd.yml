@@ -24,7 +24,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
 
       - name: Cache node modules
@@ -99,7 +99,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
 
       - name: Cypress run
@@ -121,7 +121,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
 
       - name: Cache node modules
@@ -134,7 +134,7 @@ jobs:
 
       - name: npm install
         run: |
-          npm i
+          npm i --legacy-peer-deps
 
       - name: test coverage
         run: yarn test --code-coverage --watch=false
