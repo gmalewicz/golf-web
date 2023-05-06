@@ -8,6 +8,10 @@
       <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength">Nick can be up to 10 characters long</mat-error>
     </mat-form-field>
 
+    <br/>
+    <br/>
+    <br/>
+
     <mat-form-field>
       <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
       <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required">WHS is required</mat-error>
@@ -15,6 +19,10 @@
       <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min">WHS is caannot be lower than -5</mat-error>
       <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern">Provide valid value</mat-error>
     </mat-form-field>
+
+    <br/>
+    <br/>
+    <br/>
 
     <mat-checkbox formControlName="female" (click)="sexClick(true)">Female</mat-checkbox>
     &nbsp;

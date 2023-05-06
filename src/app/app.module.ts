@@ -93,7 +93,6 @@ import { RoundsNavigationService } from './rounds/roundsNavigation.service';
               { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
               RoundsNavigationService
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

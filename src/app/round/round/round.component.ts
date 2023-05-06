@@ -41,7 +41,7 @@ export class RoundComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch();
     } else {
 
       this.loading = false;
@@ -106,7 +106,7 @@ export class RoundComponent implements OnInit {
           () => {
             this.loading = false;
             this.alertService.success($localize`:@@round-deleteCnfSuccess:The scorecard has been successfully deleted`, true);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/home']).catch();
           })
         ).subscribe();
       }
@@ -126,7 +126,7 @@ export class RoundComponent implements OnInit {
       this.round.course.name + '/' +
       this.round.course.par], {
       state: { data: { round: this.round } }
-    });
+    }).catch();
 
   }
 
@@ -264,9 +264,9 @@ export class RoundComponent implements OnInit {
 
     if (history.state.data.back !== undefined && history.state.data.back === true) {
       this.roundsNavigationService.restoreLast();
-      this.router.navigate(['/rounds']);
+      this.router.navigate(['/rounds']).catch();
     } else {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home']).catch();
     }
   }
 }

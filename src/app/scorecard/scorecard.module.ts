@@ -62,7 +62,6 @@ import { MatButtonModule } from '@angular/material/button';
     { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService]},
     NavigationService
   ],
-  exports: [],
-  entryComponents: [RegisterPlayerDialogComponent, UpdateWhsDialogComponent]
+  exports: []
 })
 export class ScorecardModule { }

@@ -8,7 +8,15 @@
       <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength" i18n="@@registerPlr-nickTooLng">Nick can be up to 10 characters long</mat-error>
     </mat-form-field>
 
+    <br/>
+    <br/>
+    <br/>
+
     <app-common-dialog [form] = 'form'></app-common-dialog>
+
+    <br/>
+    <br/>
+    <br/>
 
     <mat-checkbox formControlName="female" (click)="sexClick(true)" i18n="@@registerPlr-fem">Female</mat-checkbox>
     &nbsp;

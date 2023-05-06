@@ -116,6 +116,11 @@ export class RoundViewMPComponent implements OnInit {
 
     this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
 
+      // skip holes that are not played
+      if (sc.stroke === 0 || this.round.scoreCard[18 + index].stroke === 0) {
+        return;
+      }
+
       // calculate mp result
       const result = sc.stroke - this.holeHCP[0][index] -
       (this.round.scoreCard[18 + index].stroke - this.holeHCP[1][index]);
