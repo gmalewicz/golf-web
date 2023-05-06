@@ -264,7 +264,7 @@ export class RoundComponent implements OnInit {
 
     if (history.state.data.back !== undefined && history.state.data.back === true) {
       this.roundsNavigationService.restoreLast();
-      this.router.navigate(['/rounds']).catch();
+      this.router.navigate(['/rounds']).catch(error => console.log(error));
     } else {
       this.router.navigate(['/home']).catch();
     }
