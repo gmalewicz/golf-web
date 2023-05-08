@@ -80,6 +80,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
                (req.url.endsWith('rest/PlayerRoundCnt')) ||
                (req.url.endsWith('rest/Course')) ||
                (req.url.endsWith('rest/Course/1')) ||
+               (req.url.endsWith('rest/ScoreCard/1/1')) ||
                (req.url.startsWith('rest/DeletePlayer')) ||
                (req.url.startsWith('rest/UpdatePlayerOnBehalf')) ||
                (req.url.startsWith('rest/SwapPlrRnd')) ||
