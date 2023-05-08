@@ -6,7 +6,7 @@ import { AlertService, AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
 import { NgChartsModule } from 'ng2-charts';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
