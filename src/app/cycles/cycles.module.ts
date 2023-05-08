@@ -18,6 +18,7 @@ import { AddTournamentDialogComponent } from './add-tournament-dialog/add-tourna
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatButtonModule
   ],
   providers: [CycleHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

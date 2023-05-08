@@ -1,13 +1,16 @@
 <div class="golf-theme">
   <h2 style="color: red" mat-dialog-title>{{player.nick}}: <span i18n="@@updateWhsDld-updateHcp">Update HCP</span></h2>
-  <app-common-dialog [form] = 'form'></app-common-dialog>
   <mat-dialog-content [formGroup]="form">
+
+    <app-common-dialog [form] = 'form'></app-common-dialog>
+    <br/>
+    <br/>
+    <br/>
     <mat-dialog-actions>
-      <button mat-raised-button color="primary" (click)="close()" span i18n="@@updateWhsDld-cancel">
-        Cancel
-      </button>
+      <button mat-raised-button color="primary" (click)="close()" span i18n="@@updateWhsDld-cancel">Cancel</button>
       &nbsp;
       <button mat-raised-button color="primary" (click)="save()" span i18n="@@updateWhsDld-save">Save</button>
     </mat-dialog-actions>
+
   </mat-dialog-content>
 </div>

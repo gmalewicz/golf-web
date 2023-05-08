@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { calculateCourseHCP, calculateHoleHCP, calculateScoreDifferential, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { combineLatest } from 'rxjs';
 import { generatePDF } from '@/_helpers/common';
+import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 
 
 
@@ -31,7 +32,8 @@ export class RoundComponent implements OnInit {
               private alertService: AlertService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              public roundsNavigationService: RoundsNavigationService) {
 
   }
 
@@ -39,7 +41,7 @@ export class RoundComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.loading = false;
@@ -104,7 +106,7 @@ export class RoundComponent implements OnInit {
           () => {
             this.loading = false;
             this.alertService.success($localize`:@@round-deleteCnfSuccess:The scorecard has been successfully deleted`, true);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/home']).catch(error => console.log(error));
           })
         ).subscribe();
       }
@@ -124,7 +126,7 @@ export class RoundComponent implements OnInit {
       this.round.course.name + '/' +
       this.round.course.par], {
       state: { data: { round: this.round } }
-    });
+    }).catch(error => console.log(error));
 
   }
 
@@ -256,5 +258,15 @@ export class RoundComponent implements OnInit {
   public displayPDF(name: string): void {
     this.loadingPDF = true;
     generatePDF(name, this);
+  }
+
+  onCancel() {
+
+    if (history.state.data.back !== undefined && history.state.data.back === true) {
+      this.roundsNavigationService.restoreLast();
+      this.router.navigate(['/rounds']).catch(error => console.log(error));
+    } else {
+      this.router.navigate(['/home']).catch(error => console.log(error));
+    }
   }
 }

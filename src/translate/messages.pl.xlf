@@ -896,7 +896,7 @@
       </trans-unit>
       <trans-unit id="addTournamentDialog-Tip1" datatype="html">
         <source>Find tournamnet no.</source>
-        <target>Znajdź nr rurnieju</target>
+        <target>Znajdź nr turnieju&nbsp;</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/cycles/add-tournament-dialog/add-tournament-dialog.component.html</context>
           <context context-type="linenumber">40</context>

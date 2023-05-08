@@ -161,8 +161,10 @@ export function getTestOnlineRound(): OnlineRound[] {
 
 export class MyRouterStub {
   routerState = { root: '' };
-  navigate() {
-    return;
+  navigate(): Promise<boolean> {
+    return new Promise(() => {
+      return true;
+    });
   }
 }
 
