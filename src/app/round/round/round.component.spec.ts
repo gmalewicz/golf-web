@@ -76,6 +76,13 @@ describe('RoundComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call onCancel with back set', () => {
+    history.pushState({data: {round: getTestRound(), back: true}}, '');
+    fixture.detectChanges();
+    component.onCancel();
+    expect(component).toBeTruthy();
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });

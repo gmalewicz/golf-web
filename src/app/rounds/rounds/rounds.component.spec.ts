@@ -43,15 +43,15 @@ describe('RoundsComponent', () => {
   });
 
   it('should execute onNext', () => {
-    component.roundsNavigationService.setRounds([getTestRound()]);
+    component.roundsNavigationService.setRounds([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
     // component.pageSize = 1;
     component.onNext();
-    expect(component.roundsNavigationService.getPage()).toBe(0);
+    expect(component.roundsNavigationService.getPage()).toBe(1);
   });
 
   it('should execute onPrevious', () => {
-    component.roundsNavigationService.setRounds([getTestRound()]);
-    //component.page = 1;
+    component.roundsNavigationService.setPage(1);
+    component.roundsNavigationService.setRounds([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
     component.onPrevious();
     expect(component.roundsNavigationService.getPage()).toBe(0);
   });
