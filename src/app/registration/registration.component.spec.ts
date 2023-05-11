@@ -6,6 +6,9 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { RegistrationComponent } from './registration.component';
+import { Router } from '@angular/router';
+import { AlertService } from '@/_services/alert.service';
+import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -19,11 +22,12 @@ describe('RegistrationComponent', () => {
         ReactiveFormsModule,
         RecaptchaModule,
         RecaptchaFormsModule,
-        routing,
       ]
       ,
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true }]
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: Router, useClass: MyRouterStub },
+        { provide: AlertService, useValue: alertServiceStub }]
     })
     .compileComponents();
   }));

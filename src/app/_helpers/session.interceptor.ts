@@ -26,7 +26,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
         this.refreshSubject.complete();
         this.refreshSubject = new Subject<unknown>();
         this.authenticationService.logout();
-        this.router.navigate(['']);
+        this.router.navigate(['']).catch(error => console.log(error));
       }
     });
     if (this.refreshSubject.observed) {
@@ -51,8 +51,8 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   private _checkTokenExpiryErr(error: HttpErrorResponse): boolean {
 
     return (
-      (error && error.status === 999) ||
-      (error && error.error && error.error.status === 999)
+      (error?.status === 999) ||
+      (error?.error && error.error?.status === 999)
     );
   }
 
@@ -87,7 +87,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
 
     const currentPlayer: Player = this.authenticationService.currentPlayerValue;
 
-    if (currentPlayer && currentPlayer.token) {
+    if (currentPlayer?.token) {
       request = request.clone({
           setHeaders: {
               Authorization: `Bearer ${currentPlayer.token}`,

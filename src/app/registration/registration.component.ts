@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
@@ -20,15 +20,14 @@ export class RegistrationComponent implements OnInit {
       private router: Router,
       private authenticationService: AuthenticationService,
       private alertService: AlertService,
-      private httpService: HttpService,
-      private ngZone: NgZone
+      private httpService: HttpService
   ) {}
 
   ngOnInit() {
 
       // redirect to home if already logged in
       if (this.authenticationService.currentPlayerValue) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']).catch(error => console.log(error));
       }
 
       this.loading = false;
@@ -74,7 +73,7 @@ export class RegistrationComponent implements OnInit {
       tap(
         () => {
           this.alertService.success($localize`:@@registration-success:Registration successful. Please log in`, true);
-          this.ngZone.run(() => this.router.navigate([''])).then();
+          this.router.navigate(['']).then().catch(error => console.log(error));
         })
     ).subscribe();
   }

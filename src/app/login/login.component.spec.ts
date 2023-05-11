@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, MatDialogMock, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -29,15 +29,15 @@ describe('LoginComponent', () => {
       imports: [
         HttpClientModule,
         ReactiveFormsModule,
-        routing,
         MatDialogModule,
       ],
       providers: [HttpService,
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  {provide: ActivatedRoute, useValue: routeStub},
-                  {provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+                  { provide: ActivatedRoute, useValue: routeStub},
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
                   { provide: MatDialog, useClass: MatDialogMock},
-                  AlertService]
+                  { provide: Router, useClass: MyRouterStub },
+                  { provide: AlertService, useValue: alertServiceStub }]
     })
     .compileComponents();
   }));

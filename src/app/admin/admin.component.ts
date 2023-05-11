@@ -23,9 +23,9 @@ export class AdminComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      this.loadComponent(0);
+      this.loadComponent(0).catch(error => console.log(error));
     }
   }
 

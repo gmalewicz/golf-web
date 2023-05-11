@@ -27,7 +27,7 @@ export class TournamentsComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.faSearchPlus = faSearchPlus;
       this.tournamentHttpService.getTournaments().pipe(

@@ -31,7 +31,7 @@ export class PlayerResultsComponent implements OnInit {
       tap(
         (round: Round) => {
 
-          this.router.navigate(['/round/'], { state: { data: { round } }});
+          this.router.navigate(['/round/'], { state: { data: { round } }}).catch(error => console.log(error));
         })
     ).subscribe();
 

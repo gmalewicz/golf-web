@@ -56,7 +56,7 @@ export class OnlineRoundDefComponent implements OnInit {
       this.authenticationService.currentPlayerValue === null
     ) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       // initialization
       this.display = false;
@@ -250,9 +250,9 @@ export class OnlineRoundDefComponent implements OnInit {
           this.navigationService.setCourse(this.course);
           this.navigationService.setOnlineRounds(or);
           if (this.f.matchPlay.value) {
-            this.router.navigate(['/scorecard/onlineMatchplay']);
+            this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
           } else {
-            this.router.navigate(['/scorecard/onlineRound']);
+            this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
           }
         })
       )

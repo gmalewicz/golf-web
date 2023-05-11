@@ -60,7 +60,7 @@ describe('AddCycleComponent', () => {
 
   });
 
-  it('should test addCycle with invalid form', fakeAsync(() => {
+  it('should test addCycle with invalid form', () => {
 
     localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
     fixture = TestBed.createComponent(AddCycleComponent);
@@ -70,10 +70,10 @@ describe('AddCycleComponent', () => {
     // Trigger click event after spyOn
     buttonElement.nativeElement.click();
 
-    tick();
+    //tick();
     expect(component.addCycleForm.invalid).toBeTruthy();
 
-  }));
+  });
 
   afterEach(() => {
     localStorage.removeItem('currentPlayer');

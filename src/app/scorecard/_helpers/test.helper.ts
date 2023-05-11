@@ -89,7 +89,9 @@ rxStompServiceStub = {
   },
 
   deactivate(): Promise<void> {
-    return null;
+    return new Promise(() => {
+      return;
+    });
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

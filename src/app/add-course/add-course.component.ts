@@ -58,7 +58,7 @@ export class AddCourseComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.newCourseForm = this.formBuilder.group({
@@ -248,7 +248,7 @@ export class AddCourseComponent implements OnInit {
         () => {
           this.alertService.success($localize`:@@addCourse-addedSuccess:The course ${this.f.courseName.value} successfully added`, true);
 
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
   }

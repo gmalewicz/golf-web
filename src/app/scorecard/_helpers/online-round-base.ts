@@ -89,7 +89,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.navigationService.getOnlineRounds() === null
       ) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.inProgress = false;
@@ -153,7 +153,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.navigationService.clear();
-    this.rxStompService.deactivate();
+    this.rxStompService.deactivate().catch(error => console.log(error));
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
@@ -233,7 +233,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
             () => {
               this.loadingFin = false;
               this.alertService.success($localize`:@@onLineRndBse-finRndMsg:The round has been successfuly saved`, true);
-              this.router.navigate(['/rounds']);
+              this.router.navigate(['/rounds']).catch(error => console.log(error));
             })
         ).subscribe();
       }
@@ -260,7 +260,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
             () => {
               this.loadingDel = false;
               this.alertService.success($localize`:@@onLineRndBse-delRndMsg:This score card has been successfully deleted`, false);
-              this.router.navigate(['/home']);
+              this.router.navigate(['/home']).catch(error => console.log(error));
             })
         ).subscribe();
       }
@@ -369,7 +369,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       const prom = this.rxStompService.asyncReceipt(receiptId);
       prom.then(() => {
         this.processReceipt();
-      })
+      }).catch(error => console.log(error))
   }
 
   private setBallPickUp() {
@@ -501,7 +501,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.subscriptions.push(this.visibilityChangeEvent.subscribe(() => {
 
       if (document.visibilityState === 'visible') {
-        this.rxStompService.deactivate();
+        this.rxStompService.deactivate().catch(error => console.log(error));
         this.rxStompService.activate();
       }
 

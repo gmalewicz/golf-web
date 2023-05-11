@@ -26,7 +26,7 @@ export class AddTournamentComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.addTournamentForm = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class AddTournamentComponent implements OnInit {
         () => {
           this.alertService.success($localize`:@@addTour-tourSucc:Tournament successfully created`, true);
           this.loading = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
   }

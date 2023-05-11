@@ -23,5 +23,5 @@ export function generatePDF(name: string, _this): void {
     PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
     PDF.save(name + ' pdf');
     _this.loadingPDF = false;
-  });
+  }).catch(error => console.log(error));
 }

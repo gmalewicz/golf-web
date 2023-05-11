@@ -28,7 +28,7 @@ export class TournamentRoundsComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.faPlusCircle = faPlusCircle;
       this.tournament = history.state.data.tournament;

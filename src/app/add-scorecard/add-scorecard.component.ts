@@ -68,7 +68,7 @@ export class AddScorecardComponent implements OnInit {
     if (this.authenticationService.currentPlayerValue === null) {
 
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       const dateStr = getDateAndTime();
@@ -254,7 +254,7 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // go to min page if cancel
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']).catch(error => console.log(error));
       }
       // do nthing if not
       this.dialogRef = null;
@@ -305,7 +305,7 @@ export class AddScorecardComponent implements OnInit {
         () => {
           this.display = false;
           this.alertService.success($localize`:@@addScorecard-successConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully added`, true);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
       ).subscribe();
     } else {
@@ -315,7 +315,7 @@ export class AddScorecardComponent implements OnInit {
         () => {
           this.display = false;
           this.alertService.success($localize`:@@addScorecard-addConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully updated`, true);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
       ).subscribe();
     }
