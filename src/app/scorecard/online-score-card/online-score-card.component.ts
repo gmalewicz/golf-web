@@ -29,7 +29,7 @@ export class OnlineScoreCardComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       // initialization
@@ -59,7 +59,7 @@ export class OnlineScoreCardComponent implements OnInit {
   continueRound(navigation: string) {
     this.navigationService.setCourse(this.myOnlineRounds[0].course);
     this.navigationService.setOnlineRounds(this.myOnlineRounds);
-    this.router.navigate(['/scorecard/' + navigation]);
+    this.router.navigate(['/scorecard/' + navigation]).catch(error => console.log(error));
   }
 
   viewRound(viewType: number, course: Course, onlineRound: OnlineRound) {
@@ -81,6 +81,6 @@ export class OnlineScoreCardComponent implements OnInit {
       }
     }
 
-    this.router.navigate(['/scorecard/onlineScoreCardView']);
+    this.router.navigate(['/scorecard/onlineScoreCardView']).catch(error => console.log(error));
   }
 }

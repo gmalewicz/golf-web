@@ -28,7 +28,7 @@ export class UpdatePlayerComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.display = true;
       this.loading = false;
@@ -91,7 +91,7 @@ export class UpdatePlayerComponent implements OnInit {
             this.authenticationService.updateStorage();
           }
           this.loading = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
   }

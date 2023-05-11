@@ -35,7 +35,7 @@ export class NavigationComponent implements OnInit {
   logout(): void {
     this.authenticationService.logout();
     this.alertService.success($localize`:@@nav-logoutSuccess:Your have been logged out`, true);
-    this.router.navigate(['']);
+    this.router.navigate(['']).catch(error => console.log(error));
     this.display = false;
   }
 

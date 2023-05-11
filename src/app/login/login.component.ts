@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { HttpService } from '@/_services/http.service';
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
     private httpService: HttpService,
-    private dialog: MatDialog,
-    private ngZone: NgZone
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -46,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     // redirect to home if already logged in
     if (this.authenticationService.currentPlayerValue) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     }
     // process social log in if authenticated correctly
     if (this.route.snapshot.queryParams.token !== undefined) {
@@ -80,7 +79,7 @@ export class LoginComponent implements OnInit {
           this.alertService.success($localize`:@@login-welcome:Welcome ${this.f.username.value}. Your handicap is
           ${data.whs} Make sure it is up to date before adding the round.`, true);
           this.loading = false;
-          this.ngZone.run(() => this.router.navigate(['/home'])).then();
+          this.router.navigate(['/home']).then().catch(error => console.log(error));
         })
     ).subscribe();
 
@@ -140,7 +139,7 @@ export class LoginComponent implements OnInit {
     this.alertService.success($localize`:@@login-welcome:Welcome ${player.nick}. Your handicap is
           ${player.whs} Make sure it is up to date before adding the round.`, true);
     this.loading = false;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home']).catch(error => console.log(error));
   }
 
   startSocialLoading() {

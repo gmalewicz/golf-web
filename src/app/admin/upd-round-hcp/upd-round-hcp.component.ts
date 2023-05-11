@@ -59,7 +59,7 @@ export class UpdRoundHcpComponent implements OnInit {
         () => {
           this.alertService.success('WHS for round successfully updated', true);
           this.updRoundHcpLoading = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
 

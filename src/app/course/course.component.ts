@@ -38,7 +38,7 @@ export class CourseComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       // initializaion
@@ -136,7 +136,7 @@ export class CourseComponent implements OnInit {
       tap(
         () => {
           this.alertService.success($localize`:@@course-DelMsg:The course has been successfully deleted`, true);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
   }

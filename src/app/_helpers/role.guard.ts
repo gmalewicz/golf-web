@@ -18,7 +18,7 @@ export class RoleGuard {
         return true;
       } else {
         this.alertService.error($localize`:@@roleGuard-accessDenied:Access denied. You do not have role: ${routeRole}.`, false);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']).catch(error => console.log(error));
       }
 
       return false;

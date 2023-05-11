@@ -25,7 +25,7 @@ export class CycleResultsComponent implements OnInit {
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.rounds = [];

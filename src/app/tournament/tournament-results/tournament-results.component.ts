@@ -46,7 +46,7 @@ export class TournamentResultsComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.display = false;
@@ -184,7 +184,7 @@ export class TournamentResultsComponent implements OnInit {
         this.tournamentHttpService.deleteTournament(this.tournament.id).pipe(tap(
           () => {
             this.alertService.success($localize`:@@tourRunds-DeleteMsg:Tournament successfully deleted`, true);
-            this.router.navigate(['/tournaments']);
+            this.router.navigate(['/tournaments']).catch(error => console.log(error));
           })
         ).subscribe();
       }

@@ -166,7 +166,7 @@ export class RoundViewComponent implements OnInit {
           tap(
             () => {
               this.alertService.success($localize`:@@roundView-delConfSuccess:The scorecard has been successfully deleted`, false);
-              this.router.navigate(['/home']);
+              this.router.navigate(['/home']).catch(error => console.log(error));
             })
         ).subscribe();
       }

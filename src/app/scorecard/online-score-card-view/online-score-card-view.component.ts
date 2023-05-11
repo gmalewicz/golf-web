@@ -65,7 +65,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   private clear(): void {
 
-    this.rxStompService.deactivate();
+    this.rxStompService.deactivate().catch(error => console.log(error));
 
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -84,7 +84,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.authenticationService.currentPlayerValue === null &&
         this.navigationService.getCourse() === null && this.navigationService.getOnlineRounds() === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.handleDocumentVisibilityChanges();

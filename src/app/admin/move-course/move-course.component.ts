@@ -50,7 +50,7 @@ export class MoveCourseComponent implements OnInit {
         () => {
           this.alertService.success('Course has been moved to history', true);
           this.moveLoading = false;
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
   }

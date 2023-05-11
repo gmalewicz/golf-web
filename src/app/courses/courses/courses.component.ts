@@ -38,7 +38,7 @@ export class CoursesComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.data = history.state.data;
       this.selectedTab = 0;

@@ -40,7 +40,7 @@ export class CycleDetailsComponent implements OnInit {
 
     if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.loadingClose = false;
@@ -178,7 +178,7 @@ export class CycleDetailsComponent implements OnInit {
         this.cycleHttpService.deleteCycle(this.cycle.id).pipe(tap(
           () => {
             this.alertService.success($localize`:@@cycleDetails-DelCycleMsg:Cycle successfully deleted`, true);
-            this.router.navigate(['/cycles']);
+            this.router.navigate(['/cycles']).catch(error => console.log(error));
           })
         ).subscribe();
       }

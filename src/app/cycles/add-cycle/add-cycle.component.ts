@@ -28,7 +28,7 @@ export class AddCycleComponent implements OnInit {
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.addCycleForm = this.formBuilder.group({
@@ -70,7 +70,7 @@ export class AddCycleComponent implements OnInit {
       () => {
         this.alertService.success($localize`:@@addCycle-cycleAddedMsg:Cycle successfully created`, true);
         this.loading = false;
-        this.router.navigate(['/cycles']);
+        this.router.navigate(['/cycles']).catch(error => console.log(error));
       })
     ).subscribe();
   }

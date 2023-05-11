@@ -33,7 +33,6 @@ const routes: Routes = [
 
   { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},
-  { path: 'games', loadChildren: () => import('./games/games.module').then(m => m.GamesModule)},
   { path: 'cycles', loadChildren: () => import('./cycles/cycles.module').then(m => m.CyclesModule)},
 
   { path: 'login', component: LoginComponent },
