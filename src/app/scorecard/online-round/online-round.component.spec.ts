@@ -8,6 +8,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 
 import { OnlineRoundComponent } from './online-round.component';
+import { AppConfigService } from '../_services/appConfig.service';
+import { appConfigServiceStub } from '../_helpers/test.helper';
 
 describe('OnlineRoundComponent', () => {
   let component: OnlineRoundComponent;
@@ -28,7 +30,8 @@ describe('OnlineRoundComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {}
-        }
+        },
+        { provide: AppConfigService, useValue: appConfigServiceStub }
         ]
     })
     .compileComponents();

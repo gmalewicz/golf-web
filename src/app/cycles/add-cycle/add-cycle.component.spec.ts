@@ -1,7 +1,7 @@
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DropdownModule } from 'primeng/dropdown';
@@ -77,5 +77,6 @@ describe('AddCycleComponent', () => {
 
   afterEach(() => {
     localStorage.removeItem('currentPlayer');
+    TestBed.resetTestingModule();
   });
 });

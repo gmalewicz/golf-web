@@ -1,3 +1,4 @@
+
 import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
@@ -5,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
-import { ScorecardHttpService } from '../_services';
+import { AppConfigService, ScorecardHttpService } from '../_services';
 
 @Component({
   selector: 'app-online-score-card',
@@ -22,7 +23,8 @@ export class OnlineScoreCardComponent implements OnInit {
   constructor(private scorecardHttpService: ScorecardHttpService,
               private authenticationService: AuthenticationService,
               private router: Router,
-              private navigationService: NavigationService) {
+              private navigationService: NavigationService,
+              private appConfigService: AppConfigService) {
   }
 
   ngOnInit(): void {
@@ -31,6 +33,9 @@ export class OnlineScoreCardComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
+
+      // initialize configuration for websocket
+      this.appConfigService.loadAppConfig();
 
       // initialization
       this.display = false;

@@ -3,11 +3,11 @@ import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ScorecardHttpService } from '../_services';
+import { AppConfigService, ScorecardHttpService } from '../_services';
 import { OnlineScoreCardComponent } from './online-score-card.component';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
+import { appConfigServiceStub, getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { Router } from '@angular/router';
 
@@ -29,6 +29,7 @@ describe('OnlineScoreCardComponent', () => {
         NavigationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
         { provide: Router, useClass: MyRouterStub },
+        { provide: AppConfigService, useValue: appConfigServiceStub }
         ]
     })
     .compileComponents();
