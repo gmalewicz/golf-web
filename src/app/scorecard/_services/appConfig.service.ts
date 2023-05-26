@@ -11,12 +11,23 @@ export class AppConfigService {
 
     loadAppConfig() {
 
+      this.scorecardHttpService.getAppConfig().subscribe({
+
+        next: (data) => this.appConfig = data,
+        error: () => this.appConfig = {wsEndpoint: "dgng.pl/websocket/onlinescorecard?token="},
+
+      })
+
+/*
+
+
         this.scorecardHttpService.getAppConfig().pipe(
           tap(
             (data: AppConfig)  => {
               this.appConfig = data;
             })
         ).subscribe();
+        */
     }
 
     get config() {

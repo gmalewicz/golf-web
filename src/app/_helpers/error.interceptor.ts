@@ -13,6 +13,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {
 
+      if (request.url.endsWith('assets/app-config.json')) {
+        console.log('skip it');
+        return;
+      }
+
       if (err.status === 0 || err.status === 404 || err.status === 504) {
         this.alertService.error($localize`:@@errorInterceptor-notAvailable:Application not available. Try to refresh browser then log out and log in.`, true);
         this.router.navigate(['']).catch(error => console.log(error));
