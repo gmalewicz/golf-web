@@ -2,7 +2,6 @@ import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { OnlineRound } from '../_models/onlineRound';
 import { Observable, of } from 'rxjs';
 import { IMessage } from '@stomp/rx-stomp/esm6';
-import { AppConfig } from '../_models/appConfig';
 
 export function getOnlineRoundFirstPlayer(): OnlineRound {
 
@@ -107,20 +106,6 @@ rxStompServiceStub = {
                             binaryBody: null};
 
     return of(test);
-  }
-}
-
-export let appConfigServiceStub;
-
-// eslint-disable-next-line prefer-const
-appConfigServiceStub = {
-
-  loadAppConfig() {
-    //this is intentional
-  },
-
-  get config(): AppConfig {
-    return {wsEndpoint: 'test'};
   }
 }
 
