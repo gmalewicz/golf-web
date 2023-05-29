@@ -6,6 +6,7 @@ import { ScorecardHttpService } from '../_services';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-online-round',
@@ -21,8 +22,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
               protected authenticationService: AuthenticationService,
               protected router: Router,
               protected navigationService: NavigationService,
-              protected rxStompService: RxStompService) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService);
+              protected rxStompService: RxStompService,
+              protected location: LocationStrategy) {
+    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService, location);
   }
 
   // helper function to provide verious arrays for html

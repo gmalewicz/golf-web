@@ -9,12 +9,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OnlineMatchplayComponent } from './online-matchplay.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { appConfigServiceStub, getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer } from '../_helpers/test.helper';
+import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer } from '../_helpers/test.helper';
 import { authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AppConfigService } from '../_services';
 
 describe('OnlineMatchplayComponent', () => {
 
@@ -39,7 +38,6 @@ describe('OnlineMatchplayComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-        { provide: AppConfigService, useValue: appConfigServiceStub },
       ]
     })
     .compileComponents();
@@ -79,7 +77,7 @@ describe('OnlineMatchplayComponent', () => {
    expect(component).toBeTruthy();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 
