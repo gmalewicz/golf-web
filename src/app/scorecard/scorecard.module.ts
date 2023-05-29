@@ -59,9 +59,11 @@ import { MatButtonModule } from '@angular/material/button';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
-    { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService]},
-    NavigationService
+    { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService]},
+    NavigationService,
   ],
   exports: []
 })
 export class ScorecardModule { }
+
+

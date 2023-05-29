@@ -1,8 +1,8 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Injectable } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
-import { environment } from 'environments/environment';
 import { golfRxStompConfig } from '../_helpers/golfRxStompConfig';
+import { ScorecardHttpService } from './scorecardHttp.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +12,36 @@ export class RxStompService extends RxStomp {
   wsEndpointStr: string;
   activePending = false;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService,
+              private scorecardHttpService: ScorecardHttpService) {
 
     super();
 
-    if (document.location.protocol === 'http:') {
+    this.scorecardHttpService.getAppConfig().subscribe({
 
-      this.wsEndpointStr = 'ws://' + environment.WS_ENDPOINT;
+      next: (data) => {
+        if (document.location.protocol === 'http:') {
 
-    } else {
+          this.wsEndpointStr = 'ws://' + data.wsEndpoint;
 
-      this.wsEndpointStr = 'wss://' + environment.WS_ENDPOINT;
-    }
+        } else {
+
+          this.wsEndpointStr = 'wss://' + data.wsEndpoint;
+        }
+      },
+      error: () => {
+
+        if (document.location.protocol === 'http:') {
+
+          this.wsEndpointStr = 'ws://' + "dgng.pl/websocket/onlinescorecard?token=";
+
+        } else {
+
+          this.wsEndpointStr = 'wss://' + "dgng.pl/websocket/onlinescorecard?token=";
+        }
+      },
+
+    })
   }
 
   activate(): void {

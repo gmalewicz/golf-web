@@ -28,7 +28,7 @@ describe('OnlineScoreCardComponent', () => {
         ScorecardHttpService,
         NavigationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-        { provide: Router, useClass: MyRouterStub },
+        { provide: Router, useClass: MyRouterStub }
         ]
     })
     .compileComponents();

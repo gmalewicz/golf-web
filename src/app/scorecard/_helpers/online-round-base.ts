@@ -5,7 +5,7 @@ import { teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { formatDate } from '@angular/common';
+import { LocationStrategy, formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -78,11 +78,17 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
               protected authenticationService: AuthenticationService,
               protected router: Router,
               protected navigationService: NavigationService,
-              protected rxStompService: RxStompService) {
+              protected rxStompService: RxStompService,
+              protected location: LocationStrategy) {
+
+    history.pushState(null, null, window.location.href);
+    // check if back or forward button is pressed.
+    this.location.onPopState(() => {
+        history.pushState(null, null, window.location.href);
+    });
   }
 
   ngOnInit(): void {
-
 
     if (this.authenticationService.currentPlayerValue === null ||
         this.navigationService.getCourse() === null ||

@@ -38,7 +38,7 @@ describe('OnlineMatchplayComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-        ]
+      ]
     })
     .compileComponents();
   });
@@ -77,7 +77,7 @@ describe('OnlineMatchplayComponent', () => {
    expect(component).toBeTruthy();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     TestBed.resetTestingModule();
   });
 

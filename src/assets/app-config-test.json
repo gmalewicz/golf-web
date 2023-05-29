@@ -1,0 +1,3 @@
+{
+  "wsEndpoint": "localhost:8080/websocket/onlinescorecard?token="
+}

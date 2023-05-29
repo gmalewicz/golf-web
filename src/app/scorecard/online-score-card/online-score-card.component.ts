@@ -1,3 +1,4 @@
+
 import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
@@ -31,6 +32,9 @@ export class OnlineScoreCardComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
+
+      // initialize configuration for websocket
+      // this.appConfigService.loadAppConfig();
 
       // initialization
       this.display = false;

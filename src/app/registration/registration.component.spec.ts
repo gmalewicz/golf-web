@@ -1,4 +1,3 @@
-import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { HttpService } from '@/_services/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';

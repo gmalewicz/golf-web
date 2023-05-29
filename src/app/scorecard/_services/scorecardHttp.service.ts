@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { OnlineScoreCard } from '../_models/onlineScoreCard';
+import { AppConfig } from '../_models/appConfig';
 
 
 @Injectable()
@@ -43,6 +44,11 @@ export class ScorecardHttpService {
   syncOnlineScoreCards(onlineScoreCards: Array<OnlineScoreCard>): Observable<HttpResponse<null>> {
 
     return this.http.post<HttpResponse<null>>('rest/OnlineScoreCard', onlineScoreCards);
+  }
+
+  getAppConfig(): Observable<AppConfig> {
+
+    return this.http.get<AppConfig>('./assets/app-config.json');
   }
 }
 
