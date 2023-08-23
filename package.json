@@ -16,7 +16,7 @@
   "dependencies": {
     "@angular/animations": "^16.0.0",
     "@angular/cdk": "^16.0.0",
-    "@angular/cli": "^16.0.0",
+    "@angular/cli": "^16.2.0",
     "@angular/compiler": "^16.0.0",
     "@angular/core": "^16.0.0",
     "@angular/forms": "^16.0.0",
@@ -50,8 +50,8 @@
     "zone.js": "^0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1600.0",
-    "@angular-devkit/build-angular": "^16.0.0",
+    "@angular-devkit/architect": "^0.1602.0",
+    "@angular-devkit/build-angular": "^16.2.0",
     "@angular-eslint/builder": "16.1.1",
     "@angular-eslint/eslint-plugin": "16.1.1",
     "@angular-eslint/eslint-plugin-template": "16.1.1",
