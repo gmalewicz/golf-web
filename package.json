@@ -38,7 +38,7 @@
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "net": "^1.0.2",
-    "ng-recaptcha": "^11.0.0",
+    "ng-recaptcha": "^12.0.2",
     "ng2-charts": "^4.1.1",
     "popper.js": "^1.16.1",
     "primeicons": "^6.0.1",
