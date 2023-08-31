@@ -1,0 +1,38 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <h2 i18n="@@leagues-list">List of leagues:</h2>
+  <br/>
+  <table class="table table-striped" aria-describedby="League list">
+    <thead>
+      <tr>
+        <th id="nav"></th>
+        <th id="name" i18n="@@league-name">Name</th>
+        <th id="status" i18n="@@league-status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let league of leagues">
+        <td>
+          <a href="#"  routerLink ="leagueDetails" [state]="{data: {league: league}}">
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td>{{ league.name }}</td>
+        <td *ngIf="league.status === statusOpen" i18n="@@leagues-open">Opened</td>
+        <td *ngIf="league.status === statusClose" i18n="@@leagues-close">Closed</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <br />
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@leagues-cancel">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" routerLink="addLeague" i18n="@@leagues-add">
+      Add
+    </button>
+  </div>
+</div>

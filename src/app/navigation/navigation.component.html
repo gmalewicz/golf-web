@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v3.3.15</a>
+    <a class="navbar-brand" href="#">DGNG v3.4</a>
 
     <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
       <option *ngFor="let locale of locales" [value]="locale.code">
@@ -29,6 +29,7 @@
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
         <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/mpLeagues" (click)="onClick()" i18n="@@nav-leagues">Match Play Ligues</a></li>
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
         <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
         <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
