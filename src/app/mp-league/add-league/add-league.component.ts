@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AlertService } from '@/_services/alert.service';
@@ -14,9 +14,8 @@ import { tap } from 'rxjs/operators';
 export class AddLeagueComponent implements OnInit {
 
   addLeagueForm: FormGroup;
-  submitted: boolean;
-  loading: boolean;
-  display: boolean;
+  private submitted: WritableSignal<boolean>;
+  private loading: WritableSignal<boolean>;
 
   constructor(private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
@@ -35,9 +34,8 @@ export class AddLeagueComponent implements OnInit {
         name: ['', [Validators.required, Validators.minLength(3)]],
       });
 
-      this.submitted = false;
-      this.loading = false;
-      this.display = true;
+      this.submitted = signal(false);
+      this.loading = signal(false);
     }
   }
 
@@ -45,14 +43,14 @@ export class AddLeagueComponent implements OnInit {
   get f() { return this.addLeagueForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
+    this.submitted.set(true);
 
     // stop here if form is invalid
     if (this.addLeagueForm.invalid) {
       return;
     }
 
-    this.loading = true;
+    this.loading.set(true);
 
     const league: League = {
       player: {id: this.authenticationService.currentPlayerValue.id,
@@ -65,9 +63,17 @@ export class AddLeagueComponent implements OnInit {
     this.leagueHttpService.addLeague(league).pipe(tap(
       () => {
         this.alertService.success($localize`:@@addLeague-leagueAddedMsg:League successfully created`, true);
-        this.loading = false;
+        this.loading.set(false);
         this.router.navigate(['/mpLeagues']).catch(error => console.log(error));
       })
     ).subscribe();
+  }
+
+  isLoading() {
+    return this.loading();
+  }
+
+  isSubmitted() {
+    return this.submitted();
   }
 }

@@ -9,13 +9,18 @@ import { LeagueHttpService } from './_services/leagueHttp.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddLeagueComponent } from './add-league/add-league.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LeagueComponent } from './league/league.component';
+import { LeaguePlayerComponent } from './league-player/league-player.component';
+import { NavigationService } from './_services/navigation.service';
 
 
 
 @NgModule({
   declarations: [
     MpLeaguesComponent,
-    AddLeagueComponent
+    AddLeagueComponent,
+    LeagueComponent,
+    LeaguePlayerComponent
   ],
   imports: [
     CommonModule,
@@ -24,9 +29,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     routing,
   ],
   providers: [LeagueHttpService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+              NavigationService,
+              { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
   ],
 })
 export class MpLeagueModule { }

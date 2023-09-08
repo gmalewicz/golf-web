@@ -5,6 +5,7 @@ import { IconDefinition, faSearchPlus } from '@fortawesome/free-solid-svg-icons'
 import { tap } from 'rxjs/operators';
 import { League, LeagueStatus } from '../_models';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
+import { NavigationService } from '../_services/navigation.service';
 
 @Component({
   selector: 'app-mp-ligues',
@@ -20,6 +21,7 @@ export class MpLeaguesComponent implements OnInit {
 
 
   constructor(private leagueHttpService: LeagueHttpService,
+              private navigationService: NavigationService,
               public authenticationService: AuthenticationService,
               private router: Router) {}
 
@@ -32,6 +34,7 @@ export class MpLeaguesComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
+      this.navigationService.clear();
       this.faSearchPlus = faSearchPlus;
       this.leagueHttpService.getLeagues().pipe(
         tap (
@@ -41,6 +44,12 @@ export class MpLeaguesComponent implements OnInit {
         })
       ).subscribe();
     }
+  }
+
+  goToLeague(league: League) {
+    //TO DO: verify if clear of naviagation service is required
+    this.navigationService.setLeague(league);
+    this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
   }
 
 }

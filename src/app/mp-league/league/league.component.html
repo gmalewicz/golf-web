@@ -1,0 +1,59 @@
+<div *ngIf="!isDisplay()" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="isDisplay()" id="pdfData">
+  <h2>
+    {{league.name}}
+  </h2>
+
+  <br/>
+  <ul class="nav nav-tabs" id="myTab" role="tablist" data-html2canvas-ignore="true">
+    <li class="nav-item">
+      <button class="nav-link active" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button"
+        role="tab" aria-controls="results" aria-selected="true" i18n="@@league-results">Results</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button"
+        role="tab" aria-controls="matches" aria-selected="false">Matches</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
+        role="tab" aria-controls="players" aria-selected="false" i18n="@@league-players" (click)="loadComponent(0)">Players</button>
+    </li>
+  </ul>
+  <br/>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
+      To do
+    </div>
+    <div class="tab-pane fade" id="matches" role="tabpanel" aria-labelledby="matches-tab">
+      To do
+    </div>
+    <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
+      <ng-container #leagueContainer></ng-container>
+    </div>
+
+  </div>
+  <br />
+  <div class="row">
+    <span>
+    <button type="button" class="btn btn-success" routerLink="/mpLeagues" i18n="@@tourRes-cancel">
+      Cancel
+    </button>
+    &nbsp;
+    <span *ngIf="league.player.id === playerId && league.status === false">
+      <button id="close_btn" type="button" class="btn btn-success" (click)="closeLeague()">
+        <span *ngIf="isLoadingClose()" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@league-close">Close league</span>
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success del" (click)="deleteLeague()">
+        <span *ngIf="isLoadingDelete()" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@league-delete">Delete league</span>
+      </button>
+    </span>
+  </span>
+  </div>
+</div>
+

@@ -2,7 +2,7 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <h2 i18n="@@leagues-list">List of leagues:</h2>
+  <h2 i18n="@@leagues-list">List of Match Play leagues:</h2>
   <br/>
   <table class="table table-striped" aria-describedby="League list">
     <thead>
@@ -15,9 +15,9 @@
     <tbody>
       <tr *ngFor="let league of leagues">
         <td>
-          <a href="#"  routerLink ="leagueDetails" [state]="{data: {league: league}}">
+          <span  (click)="goToLeague(league)">
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
+          </span>
         </td>
         <td>{{ league.name }}</td>
         <td *ngIf="league.status === statusOpen" i18n="@@leagues-open">Opened</td>
