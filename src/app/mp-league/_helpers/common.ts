@@ -1,6 +1,8 @@
+import { DisplayMatch } from './../_models/displayMatch';
 import { LeagueMatch } from "../_models/leagueMatch";
 import { Result } from "../_models/result";
 import { WritableSignal } from '@angular/core';
+import { LeaguePlayer } from '../_models/leaguePlayer';
 
 export function  generateResults(matches: LeagueMatch[], results: WritableSignal<Result[]>) {
   matches.forEach(match => {
@@ -43,17 +45,23 @@ export function  generateResults(matches: LeagueMatch[], results: WritableSignal
   });
 }
 
+export function generateDisplayResults(matches: LeagueMatch[], players: LeaguePlayer[]): DisplayMatch[][] {
 
+  // initialize winner display array
+  const displayMatches: DisplayMatch[][] =
+    new Array(players.length).fill({result: "", winner: false}).map(() => new Array(players.length).fill({result: "", winner: false}));
 
+  // generate map of idexes
+  const playerMap = new Map<number, number>();
+  players.forEach((player, idx) => playerMap.set(player.id, idx));
 
+  // player array must be sorted!
+  matches.forEach(match => {
+    displayMatches[playerMap.get(match.winnerId)][playerMap.get(match.looserId)] = {result: match.result, winner: true};
+    displayMatches[playerMap.get(match.looserId)][playerMap.get(match.winnerId)] = {result: match.result, winner: false};
+  });
 
-export function getDateAndTime(): string[] {
-
-  // construct default teetime and tee date to be automatically assign for the round
-  const dateTime = new Date();
-  const teeTime = dateTime.toISOString().substring(11, 16);
-  const teeDate = dateTime.toISOString().substring(0, 10).replace(/-/gi, '/');
-  return [teeDate, teeTime];
+  return displayMatches;
 }
 
 

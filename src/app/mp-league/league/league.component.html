@@ -48,7 +48,25 @@
 
     </div>
     <div class="tab-pane fade" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-      To do
+      <table id="tee-tbl" class="table table-bordered table-fixed" aria-describedby="results">
+        <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let header of navigationService.players(), let idx = index" style="color: red;">{{header.nick}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let row of navigationService.players(), let rowId = index">
+            <th>{{row.nick}}</th>
+            <td *ngFor="let data of navigationService.players(), let index = index" [ngStyle]="{'background': (rowId >= index) ? 'grey' : 'white'}">
+              <span *ngIf="rowId < index"  [ngStyle]="{'color': navigationService.matchesForDisplay()[rowId][index].winner === true ? 'red' : 'black'}" >
+                {{navigationService.matchesForDisplay()[rowId][index].result}}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
       <ng-container #leagueContainer></ng-container>

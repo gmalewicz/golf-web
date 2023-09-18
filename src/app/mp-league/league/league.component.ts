@@ -9,7 +9,7 @@ import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@for
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest, tap } from 'rxjs';
-import { generateResults } from '../_helpers/common';
+import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-league',
@@ -23,6 +23,8 @@ export class LeagueComponent  implements OnInit {
   faMinusCircle: IconDefinition;
 
   league: League;
+
+  dupa: true;
 
   playerId: number;
 
@@ -52,6 +54,7 @@ export class LeagueComponent  implements OnInit {
       this.loadingDelete = signal(false);
       // this.loadingPDF = false;
 
+
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
       this.faMinusCircle = faMinusCircle;
@@ -67,10 +70,12 @@ export class LeagueComponent  implements OnInit {
           this.leagueHttpService.getMatches(this.league.id),
           this.leagueHttpService.getLeaguePlayers(this.navigationService.getLeague().id)
         ]).subscribe(([retMatches, retLeaguelayers]) => {
-          this.navigationService.players.set(retLeaguelayers);
+          this.navigationService.players.set(retLeaguelayers.sort((a,b) => a.id - b.id));
+          console.log(this.navigationService.players());
           this.navigationService.matches.set(retMatches);
           this.updateNicks();
           generateResults(retMatches, this.navigationService.results);
+          this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
           this.display.set(true);
         });
       } else {
@@ -116,6 +121,8 @@ export class LeagueComponent  implements OnInit {
     }));
   }
 
+
+
   async loadComponent(comp: number) {
 
     if (this.leagueContainerRef !== undefined) {
@@ -127,6 +134,8 @@ export class LeagueComponent  implements OnInit {
       this.leagueContainerRef.createComponent(LeaguePlayerComponent);
     }
   }
+
+
 
   isDisplay() {
     return this.display();
