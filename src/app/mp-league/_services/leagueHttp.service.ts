@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { League, LeaguePlayer } from '../_models';
-
+import { League, LeagueMatch, LeaguePlayer } from '../_models';
 
 @Injectable()
 export class LeagueHttpService {
@@ -25,9 +24,9 @@ export class LeagueHttpService {
   }
 
   // add player to the league
-  addLeaguePlayer(leaguePlayer: LeaguePlayer): Observable<void> {
+  addLeaguePlayer(leaguePlayer: LeaguePlayer): Observable<LeaguePlayer> {
 
-    return this.http.post<void>('rest/LeaguePlayer', leaguePlayer);
+    return this.http.post<LeaguePlayer>('rest/LeaguePlayer', leaguePlayer);
 
   }
 
@@ -40,6 +39,18 @@ export class LeagueHttpService {
   closeLeague(leagueId: number): Observable<void> {
 
     return this.http.patch<void>('rest/LeagueClose/' + leagueId, null);
+  }
+
+  // add league Match
+  addMatch(leagueMatch: LeagueMatch): Observable<void> {
+
+    return this.http.post<void>('rest/LeagueMatch', leagueMatch);
+
+  }
+
+  // get leagues
+  getMatches(leagueId: number): Observable<Array<LeagueMatch>> {
+    return this.http.get<Array<LeagueMatch>>('rest/LeagueMatch/' + leagueId);
   }
 
 }

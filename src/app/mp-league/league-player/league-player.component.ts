@@ -35,7 +35,7 @@ export class LeaguePlayerComponent implements OnInit {
               private alertService: AlertService,
               private httpService: HttpService,
               private dialog: MatDialog,
-              private navigationService: NavigationService) {}
+              public navigationService: NavigationService) {}
 
   ngOnInit(): void {
 
@@ -50,19 +50,7 @@ export class LeaguePlayerComponent implements OnInit {
     this.searchPlayerForm = this.formBuilder.group({
       nick: ['', [Validators.required, Validators.maxLength(20)]]
     });
-
-    if (this.navigationService.getLeaguePlayers() === undefined) {
-
-      this.leagueHttpService.getLeaguePlayers(this.navigationService.getLeague().id).pipe(
-        tap(
-          (retLeaguelayers: LeaguePlayer[]) => {
-            this.navigationService.setLeaguePlayers(retLeaguelayers);
-            this.display.set(true);
-          })
-      ).subscribe();
-    } else {
-      this.display.set(true);
-    }
+    this.display.set(true);
   }
 
   isSubmitted() {
@@ -86,10 +74,6 @@ export class LeaguePlayerComponent implements OnInit {
     return this.searchPlayerForm.controls;
   }
 
-  getLeaguePlayers() : LeaguePlayer[] {
-    return this.navigationService.getLeaguePlayers();
-  }
-
   getLeague() : League {
     return this.navigationService.getLeague();
   }
@@ -105,7 +89,7 @@ export class LeaguePlayerComponent implements OnInit {
     }
 
     // verify if player has been already added to the tournament
-    if (this.navigationService.getLeaguePlayers().find(p => p.nick === this.f.nick.value)) {
+    if (this.navigationService.players().find(p => p.nick === this.f.nick.value)) {
       this.alertService.error($localize`:@@leaguePlr-plrAlrdAdded:Player ${this.f.nick.value} already added to the league.`, false);
       this.submitted.set(false);
       this.searchPlayerForm.reset();
@@ -126,10 +110,10 @@ export class LeaguePlayerComponent implements OnInit {
           };
 
           this.leagueHttpService.addLeaguePlayer(leaguePlayer).pipe(
-            tap(() => {
+            tap((retPlayer) => {
               this.submitted.set(false);
               this.searchPlayerForm.reset();
-              this.navigationService.getLeaguePlayers().push(leaguePlayer);
+              this.navigationService.players.mutate(players => players.push(retPlayer));
               this.searchPlayerInProgress.set(false);
             })
           ).subscribe();
@@ -158,7 +142,7 @@ export class LeaguePlayerComponent implements OnInit {
           tap(
             () => {
               this.alertService.success($localize`:@@leaguePlr-delSucc:Player successfuly deleted`, false);
-              this.navigationService.setLeaguePlayers(this.navigationService.getLeaguePlayers().filter(lp => lp.playerId !== leaguePlayer.playerId));
+              this.navigationService.players.mutate(players => players.filter(lp => lp.playerId !== leaguePlayer.playerId));
               this.deletePlayerInProgress.set(false);
             })
         ).subscribe();

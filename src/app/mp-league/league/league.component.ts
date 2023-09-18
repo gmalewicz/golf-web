@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { tap } from 'rxjs';
+import { combineLatest, tap } from 'rxjs';
+import { generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-league',
@@ -22,25 +23,18 @@ export class LeagueComponent  implements OnInit {
   faMinusCircle: IconDefinition;
 
   league: League;
-  //leaguePlayers: LeaguePlayer[];
 
   playerId: number;
-  //displayRound: Array<boolean>;
 
   private display: WritableSignal<boolean>;
 
-  // rndSpinner: boolean[];
-
-  // tournamentResults: Array<TournamentResult>;
-
   private loadingClose: WritableSignal<boolean>;
   private loadingDelete: WritableSignal<boolean>;
-  // loadingPDF: boolean;
 
   @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef;
 
   constructor(private leagueHttpService: LeagueHttpService,
-              private navigationService: NavigationService,
+              public navigationService: NavigationService,
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
@@ -64,18 +58,24 @@ export class LeagueComponent  implements OnInit {
 
       this.league = this.navigationService.getLeague();
       this.playerId = this.authenticationService.currentPlayerValue.id;
-      /*
-      this.tournamentHttpService.getTournamentResults(this.tournament.id).pipe(
-        tap(
-          (retTournamentResults: TournamentResult[]) => {
-            this.tournamentResults = retTournamentResults;
-            this.displayRound = Array(this.tournamentResults.length).fill(false);
-            this.rndSpinner = Array(this.tournamentResults.length).fill(false);
-            this.display = true;
-          })
-      ).subscribe();
-      */
-      this.display.set(true);
+
+      // read from database only if no matches exists
+      if (this.navigationService.matches().length === 0) {
+
+        // get course holes and available tees
+        combineLatest([
+          this.leagueHttpService.getMatches(this.league.id),
+          this.leagueHttpService.getLeaguePlayers(this.navigationService.getLeague().id)
+        ]).subscribe(([retMatches, retLeaguelayers]) => {
+          this.navigationService.players.set(retLeaguelayers);
+          this.navigationService.matches.set(retMatches);
+          this.updateNicks();
+          generateResults(retMatches, this.navigationService.results);
+          this.display.set(true);
+        });
+      } else {
+        this.display.set(true);
+      }
     }
   }
 
@@ -104,6 +104,16 @@ export class LeagueComponent  implements OnInit {
         ).subscribe();
       }
     });
+  }
+
+  updateNicks() {
+
+    this.navigationService.matches.mutate(matches => matches.forEach(match => {
+      // update only if winnerNick is undefined (when it is read from database)
+      if (match.winnerNick === undefined) {
+        match.winnerNick = this.navigationService.players().find(player => player.id === match.winnerId).nick;
+      }
+    }));
   }
 
   async loadComponent(comp: number) {

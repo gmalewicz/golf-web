@@ -49,6 +49,7 @@ export class MpLeaguesComponent implements OnInit {
   goToLeague(league: League) {
     //TO DO: verify if clear of naviagation service is required
     this.navigationService.setLeague(league);
+    this.navigationService.init();
     this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
   }
 

@@ -14,7 +14,7 @@
     </li>
     <li class="nav-item">
       <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button"
-        role="tab" aria-controls="matches" aria-selected="false">Matches</button>
+        role="tab" aria-controls="matches" aria-selected="false" i18n="@@league-matches">Matches</button>
     </li>
     <li class="nav-item">
       <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
@@ -25,7 +25,27 @@
 
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
-      To do
+      <table id="tee-tbl" class="table table-striped" aria-describedby="results">
+        <thead>
+          <tr>
+            <th id="no" i18n="@@league-no">No.</th>
+            <th id="nick" i18n="@@league-nick">Nick</th>
+            <th id="big" i18n="@@league-big">Big Points</th>
+            <th id="small" i18n="@@league-small">Small Points</th>
+            <th id="small" i18n="@@league-matches">Matches</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of navigationService.results(), let idx = index">
+            <td>{{idx + 1}}</td>
+            <td>{{ row.nick }}</td>
+            <td> {{row.big}} </td>
+            <td> {{row.small}} </td>
+            <td> {{row.matchesPlayed}} </td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
     <div class="tab-pane fade" id="matches" role="tabpanel" aria-labelledby="matches-tab">
       To do
@@ -43,6 +63,10 @@
     </button>
     &nbsp;
     <span *ngIf="league.player.id === playerId && league.status === false">
+      <button id="add_btn" type="button" class="btn btn-success" routerLink="/mpLeagues/addMatch">
+        <span i18n="@@league-addMatch">Add Match</span>
+      </button>
+      &nbsp;
       <button id="close_btn" type="button" class="btn btn-success" (click)="closeLeague()">
         <span *ngIf="isLoadingClose()" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@league-close">Close league</span>

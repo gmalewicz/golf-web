@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LeagueComponent } from './league/league.component';
 import { LeaguePlayerComponent } from './league-player/league-player.component';
 import { NavigationService } from './_services/navigation.service';
+import { AddMatchComponent } from './add-match/add-match.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 
@@ -20,12 +22,14 @@ import { NavigationService } from './_services/navigation.service';
     MpLeaguesComponent,
     AddLeagueComponent,
     LeagueComponent,
-    LeaguePlayerComponent
+    LeaguePlayerComponent,
+    AddMatchComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    DropdownModule,
     routing,
   ],
   providers: [LeagueHttpService,
