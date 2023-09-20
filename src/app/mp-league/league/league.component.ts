@@ -131,6 +131,7 @@ export class LeagueComponent  implements OnInit {
 
     if (comp === 0) {
       const {LeaguePlayerComponent} = await import('../league-player/league-player.component');
+      console.log('Creating');
       this.leagueContainerRef.createComponent(LeaguePlayerComponent);
     }
   }
