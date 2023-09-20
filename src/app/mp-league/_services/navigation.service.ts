@@ -5,7 +5,7 @@ import { LeagueMatch } from '../_models/leagueMatch';
 import { Result } from '../_models/result';
 import { DisplayMatch } from '../_models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NavigationService {
 
   private league: League;
@@ -26,15 +26,12 @@ export class NavigationService {
     return this.league;
   }
 
-  clear() {
-    this.league = undefined;
-    this.leaguePlayers = undefined;
-    this.matches.set([]);
-  }
-
   init() {
+    console.log('initialization executed');
     this.matches.set([]);
     this.results.set([]);
+    this.players.set([]);
+    this.matchesForDisplay.set([]);
   }
 
 

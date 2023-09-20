@@ -9,7 +9,7 @@ import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { tap } from 'rxjs';
 import { AlertService } from '@/_services/alert.service';
 import { LeagueMatch } from '../_models';
-import { generateResults } from '../_helpers/common';
+import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-add-match',
@@ -50,8 +50,6 @@ export class AddMatchComponent implements OnInit {
         resultDropDown : ['', [Validators.required]]
       });
 
-      // verify if league players needs to be refreshed
-      console.log(this.navigationService.players());
       this.prepareDropDowns();
     }
   }
@@ -116,6 +114,7 @@ export class AddMatchComponent implements OnInit {
           this.submitted.set(false);
           this.navigationService.matches.mutate(matches => matches.push(leagueMatch));
           generateResults([leagueMatch], this.navigationService.results);
+          this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
           this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
         })
       ).subscribe();

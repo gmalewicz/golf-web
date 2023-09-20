@@ -48,7 +48,7 @@
 
     </div>
     <div class="tab-pane fade" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-      <table id="tee-tbl" class="table table-bordered table-fixed" aria-describedby="results">
+      <table *ngIf="navigationService.players().length > 0" id="tee-tbl" class="table table-bordered table-fixed" aria-describedby="results">
         <thead>
           <tr>
             <th></th>

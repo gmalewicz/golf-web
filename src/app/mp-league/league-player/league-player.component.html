@@ -2,6 +2,7 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="isDisplayed()">
+  {{navigationService.players().length}}
   <form  *ngIf="getLeague().status === false" [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
     <div class="row">
       <div class="form-group col">

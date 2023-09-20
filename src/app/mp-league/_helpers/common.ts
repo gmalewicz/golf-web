@@ -57,8 +57,8 @@ export function generateDisplayResults(matches: LeagueMatch[], players: LeaguePl
 
   // player array must be sorted!
   matches.forEach(match => {
-    displayMatches[playerMap.get(match.winnerId)][playerMap.get(match.looserId)] = {result: match.result, winner: true};
-    displayMatches[playerMap.get(match.looserId)][playerMap.get(match.winnerId)] = {result: match.result, winner: false};
+    displayMatches[playerMap.get(match.winnerId)][playerMap.get(match.looserId)] = {result: match.result, winner: false};
+    displayMatches[playerMap.get(match.looserId)][playerMap.get(match.winnerId)] = {result: match.result, winner: true};
   });
 
   return displayMatches;

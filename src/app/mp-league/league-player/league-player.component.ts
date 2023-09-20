@@ -1,9 +1,9 @@
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, NgModule, OnInit, WritableSignal, signal } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { IconDefinition, faMinusCircle, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { tap } from 'rxjs';
@@ -11,6 +11,10 @@ import { LeaguePlayer } from '../_models/leaguePlayer';
 import { Player } from '@/_models/player';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { League } from '../_models/league';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @Component({
   selector: 'app-league-player',
@@ -26,6 +30,9 @@ export class LeaguePlayerComponent implements OnInit {
   private searchPlayerInProgress: WritableSignal<boolean>;
   private deletePlayerInProgress: WritableSignal<boolean>;
 
+  public players: LeaguePlayer[] = [];
+
+
   searchPlayerForm: FormGroup;
 
   playerIdx: number;
@@ -35,10 +42,12 @@ export class LeaguePlayerComponent implements OnInit {
               private alertService: AlertService,
               private httpService: HttpService,
               private dialog: MatDialog,
-              public navigationService: NavigationService) {}
+              public navigationService: NavigationService,
+
+              private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-
+console.log('inside on init');
     this.faMinusCircle = faMinusCircle;
     this.faSearchPlus = faSearchPlus;
 
@@ -50,6 +59,7 @@ export class LeaguePlayerComponent implements OnInit {
     this.searchPlayerForm = this.formBuilder.group({
       nick: ['', [Validators.required, Validators.maxLength(20)]]
     });
+
     this.display.set(true);
   }
 
@@ -109,19 +119,28 @@ export class LeaguePlayerComponent implements OnInit {
             nick: player.nick
           };
 
+          console.log(leaguePlayer);
+
           this.leagueHttpService.addLeaguePlayer(leaguePlayer).pipe(
             tap((retPlayer) => {
-              this.submitted.set(false);
-              this.searchPlayerForm.reset();
-              this.navigationService.players.mutate(players => players.push(retPlayer));
-              this.searchPlayerInProgress.set(false);
+
+                this.submitted.set(false);
+                this.searchPlayerForm.reset();
+                this.navigationService.players.set(this.navigationService.players().concat(retPlayer));
+                console.log(this.navigationService.players);
+                //this.navigationService.players.update(players => players.filter(lp => lp.playerId !== -1));
+                this.searchPlayerInProgress.set(false);
+                this.ref.detectChanges();
+
             })
           ).subscribe();
         } else {
+          this.ref.detectChanges();
           this.alertService.error($localize`:@@leaguePlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
           this.submitted.set(false);
           this.searchPlayerForm.reset();
           this.searchPlayerInProgress.set(false);
+          this.ref.detectChanges();
         }
       })
     )
@@ -129,6 +148,12 @@ export class LeaguePlayerComponent implements OnInit {
   }
 
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {
+
+    // first check if player has associated any match and display proper error
+    if (this.navigationService.matches().find(m => m.winnerId === leaguePlayer.id || m.looserId === leaguePlayer.id)) {
+      this.alertService.error($localize`:@@leaguePlr-delFailure:Cannot delete player with matches. Delete all player matches first.`, false);
+      return;
+    }
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
@@ -142,7 +167,8 @@ export class LeaguePlayerComponent implements OnInit {
           tap(
             () => {
               this.alertService.success($localize`:@@leaguePlr-delSucc:Player successfuly deleted`, false);
-              this.navigationService.players.mutate(players => players.filter(lp => lp.playerId !== leaguePlayer.playerId));
+              this.navigationService.players.set(...[this.navigationService.players().filter(lp => lp.playerId !== leaguePlayer.playerId)]);
+              this.players = this.navigationService.players();
               this.deletePlayerInProgress.set(false);
             })
         ).subscribe();
@@ -150,3 +176,17 @@ export class LeaguePlayerComponent implements OnInit {
     })
   }
 }
+
+@NgModule({
+  declarations: [LeaguePlayerComponent],
+  imports: [FontAwesomeModule,
+            CommonModule,
+            ReactiveFormsModule,
+            MatDialogModule,
+            ],
+  providers: [LeagueHttpService,
+              NavigationService,
+             ],
+})
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class LeaguePlayerModule {}
