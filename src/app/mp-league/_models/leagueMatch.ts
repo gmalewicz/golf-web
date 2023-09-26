@@ -1,9 +1,11 @@
+import { League } from "./league";
+
 export interface LeagueMatch {
   id?: number;
   winnerId: number;
   winnerNick?: string;
   looserId: number;
   looserNick?: string;
-  leagueId: number;
+  league: League;
   result: string;
 }

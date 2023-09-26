@@ -81,7 +81,7 @@ export class RemoveMatchComponent implements OnInit {
       return;
     }
 
-    this.leagueHttpService.deleteMatch(match.leagueId, match.winnerId, match.looserId).pipe(
+    this.leagueHttpService.deleteMatch(match.league.id, match.winnerId, match.looserId).pipe(
       tap(() => {
         this.submitted.set(false);
         this.navigationService.matches.set(...[this.navigationService.matches().filter(m => m.winnerId !== match.winnerId && m.looserId !== match.looserId)]);

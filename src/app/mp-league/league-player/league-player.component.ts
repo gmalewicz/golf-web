@@ -114,7 +114,7 @@ export class LeaguePlayerComponent implements OnInit {
 
           const leaguePlayer: LeaguePlayer = {
             playerId: player.id,
-            leagueId: this.navigationService.league().id,
+            league: this.navigationService.league(),
             nick: player.nick
           };
 
@@ -160,7 +160,7 @@ export class LeaguePlayerComponent implements OnInit {
       if (result) {
         this.deletePlayerInProgress.set(true);
         this.playerIdx = playerIdx;
-        this.leagueHttpService.deleteLeaguePlayer(leaguePlayer.leagueId, leaguePlayer.playerId).pipe(
+        this.leagueHttpService.deleteLeaguePlayer(leaguePlayer.league.id, leaguePlayer.playerId).pipe(
           tap(
             () => {
               this.alertService.success($localize`:@@leaguePlr-delSucc:Player successfuly deleted`, false);

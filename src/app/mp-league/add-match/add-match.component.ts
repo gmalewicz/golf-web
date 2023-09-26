@@ -108,7 +108,7 @@ export class AddMatchComponent implements OnInit {
         looserId: this.f.looserDropDown.value,
         looserNick: this.getNickForId(this.f.looserDropDown.value),
         result: this.f.resultDropDown.value,
-        leagueId: this.navigationService.league().id
+        league: this.navigationService.league()
       };
       console.log('here');
       this.leagueHttpService.addMatch(leagueMatch).pipe(
