@@ -1,5 +1,6 @@
+import { LeaguePlayer } from './../_models/leaguePlayer';
 import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal } from '@angular/core';
-import { League, LeagueStatus } from '../_models/league';
+import { LeagueStatus } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Router } from '@angular/router';
@@ -13,16 +14,13 @@ import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-league',
-  templateUrl: './league.component.html',
-  styleUrls: ['./league.component.css']
+  templateUrl: './league.component.html'
 })
 export class LeagueComponent  implements OnInit {
 
   faSearchPlus: IconDefinition;
   faSearchMinus: IconDefinition;
   faMinusCircle: IconDefinition;
-
-  league: League;
 
   dupa: true;
 
@@ -33,7 +31,7 @@ export class LeagueComponent  implements OnInit {
   private loadingClose: WritableSignal<boolean>;
   private loadingDelete: WritableSignal<boolean>;
 
-  @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef;
+  @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef | undefined;
 
   constructor(private leagueHttpService: LeagueHttpService,
               public navigationService: NavigationService,
@@ -59,7 +57,6 @@ export class LeagueComponent  implements OnInit {
       this.faSearchMinus = faSearchMinus;
       this.faMinusCircle = faMinusCircle;
 
-      this.league = this.navigationService.getLeague();
       this.playerId = this.authenticationService.currentPlayerValue.id;
 
       // read from database only if no matches exists
@@ -67,11 +64,10 @@ export class LeagueComponent  implements OnInit {
 
         // get course holes and available tees
         combineLatest([
-          this.leagueHttpService.getMatches(this.league.id),
-          this.leagueHttpService.getLeaguePlayers(this.navigationService.getLeague().id)
+          this.leagueHttpService.getMatches(this.navigationService.league().id),
+          this.leagueHttpService.getLeaguePlayers(this.navigationService.league().id)
         ]).subscribe(([retMatches, retLeaguelayers]) => {
-          this.navigationService.players.set(retLeaguelayers.sort((a,b) => a.id - b.id));
-          console.log(this.navigationService.players());
+          this.navigationService.players.set(retLeaguelayers.sort((a,b) => a.playerId - b.playerId));
           this.navigationService.matches.set(retMatches);
           this.updateNicks();
           generateResults(retMatches, this.navigationService.results);
@@ -85,6 +81,27 @@ export class LeagueComponent  implements OnInit {
   }
 
   deleteLeague() : void {
+
+    this.alertService.clear();
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+
+    dialogRef.componentInstance.confirmMessage = $localize`:@@league-DeleteConf:Are you sure you want to delete league with all players and matches results?`;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadingDelete.set(true);
+        this.leagueHttpService.deleteLeague(this.navigationService.league().id).pipe(tap(
+          () => {
+            this.alertService.success($localize`:@@league-DeleteMsg:League successfully deleted`, true);
+            this.loadingDelete.set(false);
+            this.router.navigate(['mpLeagues']).catch(error => console.log(error));
+          })
+        ).subscribe();
+      }
+    });
+
   }
 
   closeLeague() : void {
@@ -99,9 +116,9 @@ export class LeagueComponent  implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadingClose.set(true);
-        this.leagueHttpService.closeLeague(this.navigationService.getLeague().id).pipe(tap(
+        this.leagueHttpService.closeLeague(this.navigationService.league().id).pipe(tap(
           () => {
-            this.navigationService.getLeague().status = LeagueStatus.STATUS_CLOSE;
+            this.navigationService.league().status = LeagueStatus.STATUS_CLOSE;
             this.alertService.success($localize`:@@league-CloseMsg:League successfully closed`, true);
             this.loadingClose.set(false);
             this.router.navigate(['mpLeagues']).catch(error => console.log(error));
@@ -116,7 +133,7 @@ export class LeagueComponent  implements OnInit {
     this.navigationService.matches.mutate(matches => matches.forEach(match => {
       // update only if winnerNick is undefined (when it is read from database)
       if (match.winnerNick === undefined) {
-        match.winnerNick = this.navigationService.players().find(player => player.id === match.winnerId).nick;
+        match.winnerNick = this.navigationService.players().find(player => player.playerId === match.winnerId).nick;
       }
     }));
   }
@@ -131,11 +148,13 @@ export class LeagueComponent  implements OnInit {
 
     if (comp === 0) {
       const {LeaguePlayerComponent} = await import('../league-player/league-player.component');
-      console.log('Creating');
       this.leagueContainerRef.createComponent(LeaguePlayerComponent);
     }
   }
 
+  getPlayers(): LeaguePlayer[] {
+    return this.navigationService.players();
+  }
 
 
   isDisplay() {

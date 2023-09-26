@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IconDefinition, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
-import { League } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { tap } from 'rxjs';
 import { AlertService } from '@/_services/alert.service';
@@ -31,7 +30,7 @@ export class AddMatchComponent implements OnInit {
               private alertService: AlertService,
               private authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
-              private navigationService: NavigationService,
+              public navigationService: NavigationService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -60,7 +59,7 @@ export class AddMatchComponent implements OnInit {
     this.navigationService.players().forEach(t => {
       this.playerOptions.push({
         label: t.nick,
-        value: t.id,
+        value: t.playerId,
       });
     });
 
@@ -88,27 +87,30 @@ export class AddMatchComponent implements OnInit {
   }
 
   addMatchResult() {
+    console.log('here');
     this.submitted.set(true);
 
     // do nothing if the form is invalid
     if (this.f.winnerDropDown.invalid || this.f.looserDropDown.invalid || this.f.resultDropDown.invalid) {
+      console.log('here');
       return;
     }
 
     // display an error if winner and looser are th same
     if (this.f.winnerDropDown.value === this.f.looserDropDown.value) {
+      console.log('here');
       this.alertService.error($localize`:@@addMatch-WrongPlayers:Winner and looser must be different players.`, false);
     } else {
-
+      console.log('here');
       const leagueMatch: LeagueMatch = {
         winnerId: this.f.winnerDropDown.value,
         winnerNick: this.getNickForId(this.f.winnerDropDown.value),
         looserId: this.f.looserDropDown.value,
         looserNick: this.getNickForId(this.f.looserDropDown.value),
         result: this.f.resultDropDown.value,
-        leagueId: this.navigationService.getLeague().id
+        leagueId: this.navigationService.league().id
       };
-
+      console.log('here');
       this.leagueHttpService.addMatch(leagueMatch).pipe(
         tap(() => {
           this.submitted.set(false);
@@ -122,7 +124,7 @@ export class AddMatchComponent implements OnInit {
   }
 
    getNickForId(id: number): string {
-    return this.navigationService.players().filter(p => p.id === id)[0].nick;
+    return this.navigationService.players().filter(p => p.playerId === id)[0].nick;
    }
 
    // convenience getter for easy access to form fields
@@ -138,13 +140,12 @@ export class AddMatchComponent implements OnInit {
     return this.submitted();
   }
 
-  getLeague() : League {
-    return this.navigationService.getLeague();
+  clear() {
+    this.f.winnerDropDown.setValue(undefined);
+    this.f.looserDropDown.setValue(undefined);
+    this.f.resultDropDown.setValue(undefined);
+    this.submitted.set(false);
   }
-
-
-
-  clear() {}
 
   onChange() {
     this.alertService.clear();

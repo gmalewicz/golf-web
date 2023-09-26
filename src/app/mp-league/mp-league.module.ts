@@ -1,11 +1,7 @@
-import { LeaguePlayerComponent } from './league-player/league-player.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MpLeaguesComponent } from './mp-leagues/mp-leagues.component';
 import { routing } from './mp-league.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
-import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LeagueHttpService } from './_services/leagueHttp.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddLeagueComponent } from './add-league/add-league.component';
@@ -14,6 +10,7 @@ import { LeagueComponent } from './league/league.component';
 import { NavigationService } from './_services/navigation.service';
 import { AddMatchComponent } from './add-match/add-match.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { RemoveMatchComponent } from './remove-match/remove-match.component';
 
 
 
@@ -23,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
     AddLeagueComponent,
     LeagueComponent,
     AddMatchComponent,
+    RemoveMatchComponent,
   ],
   imports: [
     CommonModule,
@@ -33,9 +31,7 @@ import { DropdownModule } from 'primeng/dropdown';
   ],
   providers: [LeagueHttpService,
               NavigationService,
-              { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-              { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-              { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+
   ],
 })
 export class MpLeagueModule { }

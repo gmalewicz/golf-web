@@ -53,14 +53,13 @@ export function generateDisplayResults(matches: LeagueMatch[], players: LeaguePl
 
   // generate map of idexes
   const playerMap = new Map<number, number>();
-  players.forEach((player, idx) => playerMap.set(player.id, idx));
+  players.forEach((player, idx) => playerMap.set(player.playerId, idx));
 
   // player array must be sorted!
   matches.forEach(match => {
     displayMatches[playerMap.get(match.winnerId)][playerMap.get(match.looserId)] = {result: match.result, winner: false};
     displayMatches[playerMap.get(match.looserId)][playerMap.get(match.winnerId)] = {result: match.result, winner: true};
   });
-
   return displayMatches;
 }
 

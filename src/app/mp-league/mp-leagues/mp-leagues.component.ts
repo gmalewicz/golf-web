@@ -46,7 +46,7 @@ export class MpLeaguesComponent implements OnInit {
   }
 
   goToLeague(league: League) {
-    this.navigationService.setLeague(league);
+    this.navigationService.league.set(league);
     this.navigationService.init();
     this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
   }

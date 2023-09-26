@@ -24,9 +24,9 @@ export class LeagueHttpService {
   }
 
   // add player to the league
-  addLeaguePlayer(leaguePlayer: LeaguePlayer): Observable<LeaguePlayer> {
+  addLeaguePlayer(leaguePlayer: LeaguePlayer): Observable<void> {
 
-    return this.http.post<LeaguePlayer>('rest/LeaguePlayer', leaguePlayer);
+    return this.http.post<void>('rest/LeaguePlayer', leaguePlayer);
 
   }
 
@@ -53,6 +53,15 @@ export class LeagueHttpService {
     return this.http.get<Array<LeagueMatch>>('rest/LeagueMatch/' + leagueId);
   }
 
+  // deletes match
+  deleteMatch(leagueId: number, winnerId: number, looserId: number): Observable<void> {
+    return this.http.delete<void>('rest/LeagueMatch/' + leagueId + '/' + winnerId + '/' + looserId);
+  }
+
+  // deletes league
+  deleteLeague(leagueId: number): Observable<void> {
+    return this.http.delete<void>('rest/League/' + leagueId);
+  }
 }
 
 

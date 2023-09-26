@@ -1,24 +1,28 @@
-import { ChangeDetectorRef, Component, NgModule, OnInit, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { IconDefinition, faMinusCircle, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { tap } from 'rxjs';
 import { LeaguePlayer } from '../_models/leaguePlayer';
 import { Player } from '@/_models/player';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { League } from '../_models/league';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { generateDisplayResults } from '../_helpers/common';
 
 
 @Component({
   selector: 'app-league-player',
-  templateUrl: './league-player.component.html'
+  standalone: true,
+  imports: [CommonModule,
+            FontAwesomeModule,
+            ReactiveFormsModule],
+  templateUrl: './league-player.component.html',
+ // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaguePlayerComponent implements OnInit {
 
@@ -47,7 +51,6 @@ export class LeaguePlayerComponent implements OnInit {
               private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-console.log('inside on init');
     this.faMinusCircle = faMinusCircle;
     this.faSearchPlus = faSearchPlus;
 
@@ -84,10 +87,6 @@ console.log('inside on init');
     return this.searchPlayerForm.controls;
   }
 
-  getLeague() : League {
-    return this.navigationService.getLeague();
-  }
-
   onSearchPlayer() {
     this.alertService.clear();
 
@@ -115,27 +114,25 @@ console.log('inside on init');
 
           const leaguePlayer: LeaguePlayer = {
             playerId: player.id,
-            leagueId: this.navigationService.getLeague().id,
+            leagueId: this.navigationService.league().id,
             nick: player.nick
           };
 
-          console.log(leaguePlayer);
-
           this.leagueHttpService.addLeaguePlayer(leaguePlayer).pipe(
-            tap((retPlayer) => {
+            tap(() => {
 
                 this.submitted.set(false);
                 this.searchPlayerForm.reset();
-                this.navigationService.players.set(this.navigationService.players().concat(retPlayer));
-                console.log(this.navigationService.players);
-                //this.navigationService.players.update(players => players.filter(lp => lp.playerId !== -1));
+                // sort players and save
+                this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
+                // recalculate results
+                this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
                 this.searchPlayerInProgress.set(false);
                 this.ref.detectChanges();
-
             })
           ).subscribe();
+
         } else {
-          this.ref.detectChanges();
           this.alertService.error($localize`:@@leaguePlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
           this.submitted.set(false);
           this.searchPlayerForm.reset();
@@ -143,8 +140,8 @@ console.log('inside on init');
           this.ref.detectChanges();
         }
       })
-    )
-    .subscribe();
+    ).subscribe();
+
   }
 
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {
@@ -176,17 +173,3 @@ console.log('inside on init');
     })
   }
 }
-
-@NgModule({
-  declarations: [LeaguePlayerComponent],
-  imports: [FontAwesomeModule,
-            CommonModule,
-            ReactiveFormsModule,
-            MatDialogModule,
-            ],
-  providers: [LeagueHttpService,
-              NavigationService,
-             ],
-})
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export class LeaguePlayerModule {}
