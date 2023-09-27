@@ -8,10 +8,11 @@ import { generateDisplayResults, generateResults } from '../_helpers/common';
 export class NavigationService {
 
   public league = signal<League>(undefined);
-  public results = computed(() => generateResults(this.matches));
+  //public results = computed(() => generateResults(this.matches));
   public matches = signal<LeagueMatch[]>([]);
   public players = signal<LeaguePlayer[]>([]);
   public matchesForDisplay  = computed(() => generateDisplayResults(this.matches, this.players));
+  public results = computed(() => generateResults(this.matches, this.players));
 
   constructor() {}
 
