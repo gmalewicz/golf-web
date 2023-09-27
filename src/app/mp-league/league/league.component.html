@@ -38,30 +38,30 @@
         <tbody>
           <tr *ngFor="let row of navigationService.results(), let idx = index">
             <td>{{idx + 1}}</td>
-            <td>{{ row.nick }}</td>
-            <td> {{row.big}} </td>
-            <td> {{row.small}} </td>
-            <td> {{row.matchesPlayed}} </td>
+            <td>{{row.nick }}</td>
+            <td>{{row.big}} </td>
+            <td>{{row.small}} </td>
+            <td>{{row.matchesPlayed}}/{{navigationService.players().length}} </td>
           </tr>
         </tbody>
       </table>
 
     </div>
     <div class="tab-pane fade" id="matches" role="tabpanel" aria-labelledby="matches-tab">
-      <table *ngIf="getPlayers().length > 1" id="tee-tbl" class="table table-bordered table-fixed" aria-describedby="results">
+      <table *ngIf="navigationService.players().length > 1" id="tee-tbl" class="table table-bordered table-fixed" aria-describedby="results">
         <thead>
           <tr>
             <th></th>
-            <th *ngFor="let header of getPlayers()" style="color: red;">
+            <th *ngFor="let header of navigationService.players()" style="color: red;">
               {{header.nick}}
             </th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let row of getPlayers(), let rowId = index">
-            <th>{{row.nick}}</th>
-            <td *ngFor="let data of getPlayers(), let index = index" [ngStyle]="{'background': (rowId >= index) ? 'grey' : 'white'}">
+          <tr *ngFor="let row of navigationService.players(), let rowId = index">
+            <th >{{row.nick}}</th>
+            <td *ngFor="let data of navigationService.players(), let index = index" [ngStyle]="{'background': (rowId >= index) ? 'grey' : 'white'}">
               <span *ngIf="rowId < index"  [ngStyle]="{'color': navigationService.matchesForDisplay()[rowId][index].winner === true ? 'red' : 'black'}" >
                 {{navigationService.matchesForDisplay()[rowId][index].result}}
               </span>

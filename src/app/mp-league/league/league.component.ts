@@ -135,6 +135,9 @@ export class LeagueComponent  implements OnInit {
       if (match.winnerNick === undefined) {
         match.winnerNick = this.navigationService.players().find(player => player.playerId === match.winnerId).nick;
       }
+      if (match.looserNick === undefined) {
+        match.looserNick = this.navigationService.players().find(player => player.playerId === match.looserId).nick;
+      }
     }));
   }
 
@@ -151,11 +154,6 @@ export class LeagueComponent  implements OnInit {
       this.leagueContainerRef.createComponent(LeaguePlayerComponent);
     }
   }
-
-  getPlayers(): LeaguePlayer[] {
-    return this.navigationService.players();
-  }
-
 
   isDisplay() {
     return this.display();

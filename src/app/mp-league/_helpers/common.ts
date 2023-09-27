@@ -5,44 +5,84 @@ import { WritableSignal } from '@angular/core';
 import { LeaguePlayer } from '../_models/leaguePlayer';
 
 export function  generateResults(matches: LeagueMatch[], results: WritableSignal<Result[]>) {
+
+  let modifiedResults: Result[] = results();
+
   matches.forEach(match => {
 
-    // only for matches that have a winner
-    if (match.result !== "A/S") {
+    // find the small points
+    // take the first chaaracter
+    let smallPoints = match.result.charAt(0);
+    // append the second charatcer if it is "0"
+    if (match.result.charAt(1) === "0") {
+      smallPoints = smallPoints.concat("0");
+    }
 
-      // find the small points
-      // take the first chaaracter
-      let smallPoints = match.result.charAt(0);
-      // append the second charatcer if it is "0"
-      if (match.result.charAt(1) === "0") {
-        smallPoints = smallPoints.concat("0");
+    const newResults: Result[] = [];
+
+    // create winner record record if not already exist
+    const winnerResultIdx: number = modifiedResults.findIndex(result => result.id === match.winnerId);
+
+
+    if (winnerResultIdx === -1) {
+      const newWinnerResult: Result = {
+        id: match.winnerId,
+        nick: match.winnerNick,
+        big: 1,
+        small: +smallPoints,
+        matchesPlayed: 1
       }
 
-      const resultIdx: number = results().findIndex(result => result.id === match.winnerId);
-
-      // create result record if not already exist
-      if (resultIdx === -1) {
-        const newResult: Result = {
-          id: match.winnerId,
-          nick: match.winnerNick,
-          big: 1,
-          small: +smallPoints,
-          matchesPlayed: 1
-        }
-        results.mutate(results => results.push(newResult));
-        // otherwise update existing results record
-      } else {
-        results.mutate(results => {
-          results[resultIdx].big++;
-          results[resultIdx].small += +smallPoints;
-          results[resultIdx].matchesPlayed++;
-        });
+      // clear winner statistics if it was a tie
+      if (match.result === 'A/S') {
+        newWinnerResult.big = 0;
+        newWinnerResult.small = 0;
       }
+      newResults.push(newWinnerResult);
+    }
 
-      // eventually sort results
-      results.mutate(results => results.sort((a, b) => b.big - a.big || b.small - a.small));
+    // create looser record record if not already exist
+    const looserResultIdx: number = modifiedResults.findIndex(result => result.id === match.looserId);
+
+    if (looserResultIdx === -1) {
+      const newLooserResult: Result = {
+        id: match.looserId,
+        nick: match.looserNick,
+        big: 0,
+        small: 0,
+        matchesPlayed: 1
+      }
+      newResults.push(newLooserResult);
+    }
+
+    // mutate results signal if array not ampty - add new elements
+    if (newResults.length > 0) {
+      modifiedResults = modifiedResults.concat(newResults);
+    }
+
+    // return when it was the first record for the winner
+    if (winnerResultIdx === -1) {
+
+      // if looser record exists update match counter
+      if (looserResultIdx !== -1) {
+        modifiedResults[looserResultIdx].matchesPlayed += 1;
+      }
+      return;
+    }
+
+    // if it is not tie update winner statistic otherwise update played matches only
+    if (match.result !== 'A/S') {
+      // update existing winner results record
+      modifiedResults[winnerResultIdx].big++;
+      modifiedResults[winnerResultIdx].small += +smallPoints;
+      modifiedResults[winnerResultIdx].matchesPlayed += 1;
+    } else {
+      modifiedResults[winnerResultIdx].matchesPlayed += 1;
     }
   });
+  // eventually sort results
+  modifiedResults.sort((a, b) => b.big - a.big || b.small - a.small);
+  results.set(modifiedResults);
 }
 
 export function generateDisplayResults(matches: LeagueMatch[], players: LeaguePlayer[]): DisplayMatch[][] {
