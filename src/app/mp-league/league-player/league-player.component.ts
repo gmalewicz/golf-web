@@ -12,8 +12,7 @@ import { Player } from '@/_models/player';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { generateDisplayResults } from '../_helpers/common';
-
+import { AuthenticationService } from '@/_services/authentication.service';
 
 @Component({
   selector: 'app-league-player',
@@ -22,7 +21,6 @@ import { generateDisplayResults } from '../_helpers/common';
             FontAwesomeModule,
             ReactiveFormsModule],
   templateUrl: './league-player.component.html',
- // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaguePlayerComponent implements OnInit {
 
@@ -40,6 +38,7 @@ export class LeaguePlayerComponent implements OnInit {
   searchPlayerForm: FormGroup;
 
   playerIdx: number;
+  player: Player;
 
   constructor(private leagueHttpService: LeagueHttpService,
               private formBuilder: FormBuilder,
@@ -47,7 +46,7 @@ export class LeaguePlayerComponent implements OnInit {
               private httpService: HttpService,
               private dialog: MatDialog,
               public navigationService: NavigationService,
-
+              private authenticationService: AuthenticationService,
               private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -64,6 +63,7 @@ export class LeaguePlayerComponent implements OnInit {
     });
 
     this.display.set(true);
+    this.player = this.authenticationService.currentPlayerValue;
   }
 
   isSubmitted() {
@@ -125,8 +125,6 @@ export class LeaguePlayerComponent implements OnInit {
                 this.searchPlayerForm.reset();
                 // sort players and save
                 this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
-                // recalculate results
-                this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
                 this.searchPlayerInProgress.set(false);
                 this.ref.detectChanges();
             })

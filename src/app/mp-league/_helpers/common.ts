@@ -1,14 +1,14 @@
+import { WritableSignal } from '@angular/core';
 import { DisplayMatch } from './../_models/displayMatch';
 import { LeagueMatch } from "../_models/leagueMatch";
 import { Result } from "../_models/result";
-import { WritableSignal } from '@angular/core';
 import { LeaguePlayer } from '../_models/leaguePlayer';
 
-export function  generateResults(matches: LeagueMatch[], results: WritableSignal<Result[]>) {
+export function generateResults(matches: WritableSignal<LeagueMatch[]>) : Result[] {
 
-  let modifiedResults: Result[] = results();
+  let modifiedResults: Result[] = [];
 
-  matches.forEach(match => {
+  matches().forEach(match => {
 
     // find the small points
     // take the first chaaracter
@@ -82,24 +82,25 @@ export function  generateResults(matches: LeagueMatch[], results: WritableSignal
   });
   // eventually sort results
   modifiedResults.sort((a, b) => b.big - a.big || b.small - a.small);
-  results.set(modifiedResults);
+  return modifiedResults;
 }
 
-export function generateDisplayResults(matches: LeagueMatch[], players: LeaguePlayer[]): DisplayMatch[][] {
+export function generateDisplayResults(matches: WritableSignal<LeagueMatch[]>, players: WritableSignal<LeaguePlayer[]>): DisplayMatch[][] {
 
   // initialize winner display array
   const displayMatches: DisplayMatch[][] =
-    new Array(players.length).fill({result: "", winner: false}).map(() => new Array(players.length).fill({result: "", winner: false}));
+    new Array(players().length).fill({result: "", winner: false}).map(() => new Array(players().length).fill({result: "", winner: false}));
 
   // generate map of idexes
   const playerMap = new Map<number, number>();
-  players.forEach((player, idx) => playerMap.set(player.playerId, idx));
+  players().forEach((player, idx) => playerMap.set(player.playerId, idx));
 
   // player array must be sorted!
-  matches.forEach(match => {
+  matches().forEach(match => {
     displayMatches[playerMap.get(match.winnerId)][playerMap.get(match.looserId)] = {result: match.result, winner: false};
     displayMatches[playerMap.get(match.looserId)][playerMap.get(match.winnerId)] = {result: match.result, winner: true};
   });
+
   return displayMatches;
 }
 

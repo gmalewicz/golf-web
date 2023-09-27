@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { NavigationService } from '../_services/navigation.service';
 import { AlertService } from '@/_services/alert.service';
 import { tap } from 'rxjs';
-import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 
 @Component({
@@ -85,10 +84,6 @@ export class RemoveMatchComponent implements OnInit {
       tap(() => {
         this.submitted.set(false);
         this.navigationService.matches.set(...[this.navigationService.matches().filter(m => m.winnerId !== match.winnerId && m.looserId !== match.looserId)]);
-
-        this.navigationService.results.set([]);
-        generateResults(this.navigationService.matches(), this.navigationService.results);
-        this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
         this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
       })
     ).subscribe();

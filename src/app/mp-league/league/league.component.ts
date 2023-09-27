@@ -1,4 +1,3 @@
-import { LeaguePlayer } from './../_models/leaguePlayer';
 import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal } from '@angular/core';
 import { LeagueStatus } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
@@ -10,11 +9,11 @@ import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@for
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest, tap } from 'rxjs';
-import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-league',
-  templateUrl: './league.component.html'
+  templateUrl: './league.component.html',
+  styleUrls: ['./league.component.css']
 })
 export class LeagueComponent  implements OnInit {
 
@@ -50,8 +49,6 @@ export class LeagueComponent  implements OnInit {
 
       this.loadingClose  = signal(false);
       this.loadingDelete = signal(false);
-      // this.loadingPDF = false;
-
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -70,8 +67,6 @@ export class LeagueComponent  implements OnInit {
           this.navigationService.players.set(retLeaguelayers.sort((a,b) => a.playerId - b.playerId));
           this.navigationService.matches.set(retMatches);
           this.updateNicks();
-          generateResults(retMatches, this.navigationService.results);
-          this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
           this.display.set(true);
         });
       } else {

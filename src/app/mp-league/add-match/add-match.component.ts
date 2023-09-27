@@ -8,7 +8,6 @@ import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { tap } from 'rxjs';
 import { AlertService } from '@/_services/alert.service';
 import { LeagueMatch } from '../_models';
-import { generateDisplayResults, generateResults } from '../_helpers/common';
 
 @Component({
   selector: 'app-add-match',
@@ -115,8 +114,6 @@ export class AddMatchComponent implements OnInit {
         tap(() => {
           this.submitted.set(false);
           this.navigationService.matches.mutate(matches => matches.push(leagueMatch));
-          generateResults([leagueMatch], this.navigationService.results);
-          this.navigationService.matchesForDisplay.set(generateDisplayResults(this.navigationService.matches(), this.navigationService.players()));
           this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
         })
       ).subscribe();

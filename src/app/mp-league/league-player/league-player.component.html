@@ -2,7 +2,7 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="isDisplayed()">
-  <form  *ngIf="navigationService.league().status === false" [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
+  <form  *ngIf="navigationService.league().player.id === player.id &&  navigationService.league().status === false" [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
     <div class="row">
       <div class="form-group col">
         <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
