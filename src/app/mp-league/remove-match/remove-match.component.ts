@@ -83,16 +83,10 @@ export class RemoveMatchComponent implements OnInit {
     this.leagueHttpService.deleteMatch(match.league.id, match.winnerId, match.looserId).pipe(
       tap(() => {
         this.submitted.set(false);
-        this.navigationService.matches.set(...[this.navigationService.matches().filter(m => m.winnerId !== match.winnerId && m.looserId !== match.looserId)]);
+        this.navigationService.matches.set(this.navigationService.matches().filter(m => !(m.winnerId === match.winnerId && m.looserId === match.looserId)));
         this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
       })
     ).subscribe();
-
-
-
-
-
-
   }
 
    getNickForId(id: number): string {

@@ -19,9 +19,14 @@ export class MimicBackendMpLeaguesInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/League')) {
+    } else if (req.url.endsWith('rest/League') || req.url.startsWith('rest/LeagueMatch') || req.url.startsWith('rest/LeaguePlayer')) {
       return new Observable (observer => {
-        observer.next(new HttpResponse<unknown>({status: 200}));
+        observer.next(new HttpResponse<Array<unknown>>({body:
+
+          [
+          ]
+
+        , status: 200}));
         observer.complete();
       });
     }

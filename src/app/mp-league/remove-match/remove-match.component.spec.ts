@@ -1,17 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RemoveMatchComponent } from './remove-match.component';
+import { AuthenticationService } from '@/_services/authentication.service';
+import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { LeagueHttpService } from '../_services/leagueHttp.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 
-describe('AddMatchComponent', () => {
+describe('RemoveMatchComponent', () => {
   let component: RemoveMatchComponent;
   let fixture: ComponentFixture<RemoveMatchComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RemoveMatchComponent]
+      declarations: [RemoveMatchComponent],
+      imports: [
+        HttpClientModule,
+        ReactiveFormsModule,
+        DropdownModule,
+      ],
+      providers: [ LeagueHttpService,
+                  { provide: AuthenticationService, useValue: authenticationServiceStub},
+]
     });
     fixture = TestBed.createComponent(RemoveMatchComponent);
     component = fixture.componentInstance;
+    component.navigationService.league.set({id: 1, name: 'test league', status: true});
     fixture.detectChanges();
   });
 

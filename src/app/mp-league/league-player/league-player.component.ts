@@ -145,7 +145,7 @@ export class LeaguePlayerComponent implements OnInit {
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {
 
     // first check if player has associated any match and display proper error
-    if (this.navigationService.matches().find(m => m.winnerId === leaguePlayer.id || m.looserId === leaguePlayer.id)) {
+    if (this.navigationService.matches().find(m => m.winnerId === leaguePlayer.playerId || m.looserId === leaguePlayer.playerId)) {
       this.alertService.error($localize`:@@leaguePlr-delFailure:Cannot delete player with matches. Delete all player matches first.`, false);
       return;
     }

@@ -86,21 +86,17 @@ export class AddMatchComponent implements OnInit {
   }
 
   addMatchResult() {
-    console.log('here');
     this.submitted.set(true);
 
     // do nothing if the form is invalid
     if (this.f.winnerDropDown.invalid || this.f.looserDropDown.invalid || this.f.resultDropDown.invalid) {
-      console.log('here');
       return;
     }
 
     // display an error if winner and looser are th same
     if (this.f.winnerDropDown.value === this.f.looserDropDown.value) {
-      console.log('here');
       this.alertService.error($localize`:@@addMatch-WrongPlayers:Winner and looser must be different players.`, false);
     } else {
-      console.log('here');
       const leagueMatch: LeagueMatch = {
         winnerId: this.f.winnerDropDown.value,
         winnerNick: this.getNickForId(this.f.winnerDropDown.value),
@@ -109,7 +105,6 @@ export class AddMatchComponent implements OnInit {
         result: this.f.resultDropDown.value,
         league: this.navigationService.league()
       };
-      console.log('here');
       this.leagueHttpService.addMatch(leagueMatch).pipe(
         tap(() => {
           this.submitted.set(false);
