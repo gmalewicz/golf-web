@@ -19,7 +19,9 @@ export class MimicBackendMpLeaguesInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/League') || req.url.startsWith('rest/LeagueMatch') || req.url.startsWith('rest/LeaguePlayer')) {
+    } else if ((req.url.startsWith('rest/League') && (req.method === 'GET'))||
+               (req.url.startsWith('rest/LeagueMatch') && (req.method === 'GET'))||
+               (req.url.startsWith('rest/LeaguePlayer')  && (req.method === 'GET'))) {
       return new Observable (observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 
@@ -27,6 +29,13 @@ export class MimicBackendMpLeaguesInterceptor implements HttpInterceptor{
           ]
 
         , status: 200}));
+        observer.complete();
+      });
+    } else if ((req.url.startsWith('rest/League') && req.method === 'DELETE') ||
+               (req.url.startsWith('rest/League') && req.method === 'POST') ||
+               (req.url.startsWith('rest/LeagueClose'))) {
+      return new Observable (observer => {
+        observer.next(new HttpResponse<unknown>({status: 200}));
         observer.complete();
       });
     }

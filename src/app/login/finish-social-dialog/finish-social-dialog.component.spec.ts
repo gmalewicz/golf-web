@@ -59,7 +59,7 @@ describe('UpdDialogComponent', () => {
     expect(component.form.invalid).toBeFalsy();
   });
 
-  it('should press save with invalid form chuj', () => {
+  it('should press save with invalid form', () => {
     spyOnProperty(component.form, 'invalid').and.returnValue(true);
     component.save();
     expect(component.form.invalid).toBeTruthy();

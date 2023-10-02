@@ -21,8 +21,6 @@ export class LeagueComponent  implements OnInit {
   faSearchMinus: IconDefinition;
   faMinusCircle: IconDefinition;
 
-  dupa: true;
-
   playerId: number;
 
   private display: WritableSignal<boolean>;
@@ -34,19 +32,19 @@ export class LeagueComponent  implements OnInit {
 
   constructor(private leagueHttpService: LeagueHttpService,
               public navigationService: NavigationService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
               private dialog: MatDialog) {}
 
   ngOnInit(): void {
+
+    this.display = signal(false);
+
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-
-      this.display = signal(false);
-
       this.loadingClose  = signal(false);
       this.loadingDelete = signal(false);
 
@@ -83,14 +81,17 @@ export class LeagueComponent  implements OnInit {
       disableClose: false
     });
 
+
+
     dialogRef.componentInstance.confirmMessage = $localize`:@@league-DeleteConf:Are you sure you want to delete league with all players and matches results?`;
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadingDelete.set(true);
+        this.loadingDelete.set(true)
         this.leagueHttpService.deleteLeague(this.navigationService.league().id).pipe(tap(
           () => {
             this.alertService.success($localize`:@@league-DeleteMsg:League successfully deleted`, true);
             this.loadingDelete.set(false);
+            this.navigationService.league.set(undefined);
             this.router.navigate(['mpLeagues']).catch(error => console.log(error));
           })
         ).subscribe();

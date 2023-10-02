@@ -27,18 +27,19 @@ export class AddMatchComponent implements OnInit {
 
   constructor(private leagueHttpService: LeagueHttpService,
               private alertService: AlertService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               public navigationService: NavigationService,
               private router: Router) { }
 
   ngOnInit(): void {
 
+    this.display = signal(false);
+
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      this.display = signal(false);
       this.submitted = signal(false);
       this.faCheckCircle = faCheckCircle;
 
