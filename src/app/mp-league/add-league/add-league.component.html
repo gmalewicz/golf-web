@@ -1,4 +1,7 @@
-<div>
+<div *ngIf="!isDisplay()" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div  *ngIf="isDisplay()">
   <h2 class="col" i18n="@@addLeague-AddLbl">Add the new league:</h2>
   <form [formGroup]="addLeagueForm" (ngSubmit)="onSubmit()">
     <div class="form-group col">

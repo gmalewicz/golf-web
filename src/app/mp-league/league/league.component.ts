@@ -62,7 +62,8 @@ export class LeagueComponent  implements OnInit {
           this.leagueHttpService.getMatches(this.navigationService.league().id),
           this.leagueHttpService.getLeaguePlayers(this.navigationService.league().id)
         ]).subscribe(([retMatches, retLeaguelayers]) => {
-          this.navigationService.players.set(retLeaguelayers.sort((a,b) => a.playerId - b.playerId));
+          retLeaguelayers.sort((a,b) => a.playerId - b.playerId);
+          this.navigationService.players.set(retLeaguelayers);
           this.navigationService.matches.set(retMatches);
           this.updateNicks();
           this.display.set(true);

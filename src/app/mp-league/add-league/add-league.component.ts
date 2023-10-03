@@ -16,14 +16,17 @@ export class AddLeagueComponent implements OnInit {
   addLeagueForm: FormGroup;
   private submitted: WritableSignal<boolean>;
   private loading: WritableSignal<boolean>;
+  private display: WritableSignal<boolean>;
 
   constructor(private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private leagueHttpService: LeagueHttpService,
               private alertService: AlertService,
               private router: Router) { }
 
   ngOnInit(): void {
+
+    this.display = signal(false);
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
@@ -36,6 +39,7 @@ export class AddLeagueComponent implements OnInit {
 
       this.submitted = signal(false);
       this.loading = signal(false);
+      this.display.set(true);
     }
   }
 
@@ -75,5 +79,9 @@ export class AddLeagueComponent implements OnInit {
 
   isSubmitted() {
     return this.submitted();
+  }
+
+  isDisplay() {
+    return this.display();
   }
 }

@@ -30,7 +30,9 @@ export class AddMatchComponent implements OnInit {
               public authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               public navigationService: NavigationService,
-              private router: Router) { }
+              private router: Router) {
+                // This is intentional
+              }
 
   ngOnInit(): void {
 
@@ -52,8 +54,6 @@ export class AddMatchComponent implements OnInit {
       this.prepareDropDowns();
     }
   }
-
-  // this.clear();
 
   private prepareDropDowns(): void {
     this.navigationService.players().forEach(t => {
@@ -116,7 +116,7 @@ export class AddMatchComponent implements OnInit {
     }
   }
 
-   getNickForId(id: number): string {
+   private getNickForId(id: number): string {
     return this.navigationService.players().filter(p => p.playerId === id)[0].nick;
    }
 

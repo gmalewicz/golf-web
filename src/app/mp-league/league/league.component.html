@@ -52,8 +52,8 @@
       <table *ngIf="navigationService.players().length > 1" id="tee-tbl" class="table table-bordered" aria-describedby="results">
         <thead>
           <tr>
-            <th class="w-15"></th>
-            <th class="w-15 center" *ngFor="let header of navigationService.players()" style="color: red;">
+            <th id="empty" class="w-15"></th>
+            <th id="plr" class="w-15 center" *ngFor="let header of navigationService.players()" style="color: red;">
               {{header.nick}}
             </th>
           </tr>
@@ -61,7 +61,7 @@
 
         <tbody>
           <tr *ngFor="let row of navigationService.players(), let rowId = index">
-            <th class="w-15">{{row.nick}}</th>
+            <th id="nck" class="w-15">{{row.nick}}</th>
             <td class="w-15 center" *ngFor="let data of navigationService.players(), let index = index" [ngStyle]="{'background': (rowId >= index) ? 'grey' : 'white'}">
               <span *ngIf="rowId < index"  [ngStyle]="{'color': navigationService.matchesForDisplay()[rowId][index].winner === true ? 'red' : 'black'}" >
                 {{navigationService.matchesForDisplay()[rowId][index].result}}

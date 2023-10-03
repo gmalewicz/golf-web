@@ -7,10 +7,13 @@ import { HttpService } from '@/_services/http.service';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { By } from '@angular/platform-browser';
+import { AlertService } from '@/_services/alert.service';
+import { alertServiceStub } from '@/_helpers/test.helper';
 
 describe('AddLeagueComponent', () => {
   let component: AddLeagueComponent;
   let fixture: ComponentFixture<AddLeagueComponent>;
+  let currentPlayerValueSpy: jasmine.Spy<jasmine.Func>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -21,52 +24,44 @@ describe('AddLeagueComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [HttpService,
-
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
-        LeagueHttpService
+        LeagueHttpService,
+        { provide: AlertService, useValue: alertServiceStub },
       ]
     })
       .compileComponents();
   }));
-/*
-  it('should create without player ', () => {
 
-    localStorage.removeItem('currentPlayer');
-
+  beforeEach(() => {
+    //localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
     fixture = TestBed.createComponent(AddLeagueComponent);
     component = fixture.componentInstance;
+    currentPlayerValueSpy = spyOnProperty(component.authenticationService , 'currentPlayerValue');
+  });
+
+  it('should create but player does not exists', () => {
+    currentPlayerValueSpy.and.returnValue(null);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
-*/
-  it('should test addLeague', () => {
 
-    localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
-    fixture = TestBed.createComponent(AddLeagueComponent);
-    component = fixture.componentInstance;
+  it('should test addLeague', () => {
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
     fixture.detectChanges();
     const buttonElement = fixture.debugElement.query(By.css('.btn-success'));
-    // Trigger click event after spyOn
     component.f.name.setValue('test league');
-
     buttonElement.nativeElement.click();
-
-
     expect(component.isLoading()).toBeFalsy();
 
   });
 
   it('should test addLeague with invalid form', () => {
-
-    localStorage.setItem('currentPlayer', JSON.stringify([{ nick: 'test' }]));
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
     fixture = TestBed.createComponent(AddLeagueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const buttonElement = fixture.debugElement.query(By.css('.btn-success'));
-    // Trigger click event after spyOn
     buttonElement.nativeElement.click();
-
-    //tick();
     expect(component.addLeagueForm.invalid).toBeTruthy();
 
   });

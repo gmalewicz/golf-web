@@ -23,7 +23,7 @@ export class RemoveMatchComponent implements OnInit {
   playerOptions = [];
 
   constructor(private alertService: AlertService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private formBuilder: FormBuilder,
               public navigationService: NavigationService,
               private router: Router,
@@ -31,11 +31,11 @@ export class RemoveMatchComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.display = signal(false);
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      this.display = signal(false);
       this.submitted = signal(false);
 
       this.matchRemoveForm = this.formBuilder.group({
@@ -88,10 +88,6 @@ export class RemoveMatchComponent implements OnInit {
       })
     ).subscribe();
   }
-
-   getNickForId(id: number): string {
-    return this.navigationService.players().filter(p => p.id === id)[0].nick;
-   }
 
    // convenience getter for easy access to form fields
    get f() {
