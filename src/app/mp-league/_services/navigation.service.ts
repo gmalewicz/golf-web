@@ -13,10 +13,6 @@ export class NavigationService {
   public matchesForDisplay  = computed(() => generateDisplayResults(this.matches, this.players));
   public results = computed(() => generateResults(this.matches, this.players));
 
-  constructor() {
-    // This is intentional
-  }
-
   init() {
     this.matches.set([]);
     this.players.set([]);
