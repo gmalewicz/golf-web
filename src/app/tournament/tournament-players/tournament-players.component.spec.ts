@@ -19,8 +19,8 @@ describe('TournamentPlayersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TournamentPlayersComponent ],
       imports: [
+        TournamentPlayersComponent,
         HttpClientModule,
         CommonModule,
         ReactiveFormsModule,

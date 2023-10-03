@@ -1,9 +1,20 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule],
   selector: 'app-update-tournament-player-whs-dialog',
   templateUrl: './update-tournament-player-whs-dialog.component.html'
 })
