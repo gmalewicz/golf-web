@@ -97,17 +97,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      #- uses: actions/setup-node@v3
-      #  with:
-      #    node-version: 20
-       #   cache: 'npm'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          # install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
-         # build: npm run build
-         # start: npm start
+          #install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
+          build: npm run build
+          start: npm start
           wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 180
 
