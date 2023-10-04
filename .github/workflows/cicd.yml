@@ -92,7 +92,7 @@ jobs:
         run: kubectl rollout status deployment/golf-web
 
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -108,8 +108,8 @@ jobs:
           # install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
           build: npm run build
           start: npm start
-          #wait-on: 'http://127.0.0.1:4200'
-          #wait-on-timeout: 180
+          wait-on: 'http://127.0.0.1:4200'
+          wait-on-timeout: 180
 
   test-coverage:
     runs-on: ubuntu-latest
