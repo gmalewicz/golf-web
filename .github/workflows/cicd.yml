@@ -105,7 +105,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
+          # install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
           # build: npm run build
           start: npm start
           wait-on: 'http://127.0.0.1:4200'
