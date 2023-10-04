@@ -99,7 +99,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 19
           cache: 'npm'
 
       - name: Cypress run
@@ -108,7 +108,7 @@ jobs:
           #install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
           # build: npm run build
           start: npm start
-          wait-on: 'http://0.0.0.0:4200'
+          wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 180
 
   test-coverage:
