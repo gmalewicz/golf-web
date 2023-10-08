@@ -24,18 +24,16 @@
     <div *ngIf="currentPlayer && display" class="navbar-collapse login p-4" id="navbarToggleLogIn">
 
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/mpLeagues" (click)="onClick()" i18n="@@nav-leagues">Match Play Ligues</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
-        <li class="nav-item"><a class="nav-link"  href="#" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()">
-            <fa-icon [icon]="faCog"></fa-icon>
-          </a></li>
+        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
+        <li class="nav-item"><a class="nav-link" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()" i18n="@@nav-account">My Account</a></li>
       </ul>
     </div>
 

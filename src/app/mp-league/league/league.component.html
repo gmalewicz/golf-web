@@ -16,7 +16,7 @@
       <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button"
         role="tab" aria-controls="matches" aria-selected="false" i18n="@@league-matches">Matches</button>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="navigationService.league().player.id === authenticationService.currentPlayerValue.id">
       <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
         role="tab" aria-controls="players" aria-selected="false" i18n="@@league-players" (click)="loadComponent(0)">Players</button>
     </li>
@@ -41,7 +41,7 @@
             <td>{{row.nick }}</td>
             <td>{{row.big}} </td>
             <td>{{row.small}} </td>
-            <td>{{row.matchesPlayed}}/{{navigationService.players().length}} </td>
+            <td>{{row.matchesPlayed}}/{{navigationService.players().length - 1}} </td>
           </tr>
         </tbody>
       </table>

@@ -13,9 +13,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let league of leagues">
+      <tr *ngFor="let league of leagues" (click)="goToLeague(league)">
         <td>
-          <span  (click)="goToLeague(league)">
+          <span>
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
           </span>
         </td>
