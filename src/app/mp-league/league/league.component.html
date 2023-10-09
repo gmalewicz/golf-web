@@ -63,7 +63,10 @@
           <tr *ngFor="let row of navigationService.players(), let rowId = index">
             <th id="nck" class="w-15">{{row.nick}}</th>
             <td class="w-15 center" *ngFor="let data of navigationService.players(), let index = index" [ngStyle]="{'background': (rowId >= index) ? 'grey' : 'white'}">
-              <span *ngIf="rowId < index"  [ngStyle]="{'color': navigationService.matchesForDisplay()[rowId][index].winner === true ? 'red' : 'black'}" >
+              <span *ngIf="rowId < index && navigationService.matchesForDisplay()[rowId][index].result === 'A/S'" class="golf-green" >
+                {{navigationService.matchesForDisplay()[rowId][index].result}}
+              </span>
+              <span *ngIf="rowId < index && navigationService.matchesForDisplay()[rowId][index].result !== 'A/S'"  [ngStyle]="{'color': navigationService.matchesForDisplay()[rowId][index].winner === true ? 'red' : 'black'}" >
                 {{navigationService.matchesForDisplay()[rowId][index].result}}
               </span>
             </td>
