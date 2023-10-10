@@ -17,8 +17,8 @@ export class FinishSocialDialogComponent extends DialogBaseComponent {
     @Inject(MAT_DIALOG_DATA) data
   ) {
     super(fb, dialogRef, data);
-    this.form.addControl('female',  new FormControl(data.sex === true ? true : false));
-    this.form.addControl('male',  new FormControl(data.sex === false ? true : false));
+    this.form.addControl('female',  new FormControl(data.sex === true));
+    this.form.addControl('male',  new FormControl(data.sex === false));
     this.nick = data.nick;
   }
 }

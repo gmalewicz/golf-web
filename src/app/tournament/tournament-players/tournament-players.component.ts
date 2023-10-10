@@ -1,12 +1,11 @@
-import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Subject, tap } from 'rxjs';
@@ -15,10 +14,13 @@ import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-tournament-players',
+  standalone: true,
+  imports: [CommonModule,
+    FontAwesomeModule,
+    ReactiveFormsModule],
   templateUrl: './tournament-players.component.html',
   styleUrls: ['./tournament-players.component.css']
 })
@@ -206,18 +208,3 @@ export class TournamentPlayersComponent implements OnInit {
     });
   }
 }
-
-@NgModule({
-  declarations: [
-    TournamentPlayersComponent,
-    UpdateTournamentPlayerWhsDialogComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    MatDialogModule,
-    MatInputModule,
-    MatButtonModule]
-})
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class TournamentPlayersModule {}

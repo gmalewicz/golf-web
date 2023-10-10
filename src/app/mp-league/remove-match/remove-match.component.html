@@ -1,0 +1,42 @@
+
+<div *ngIf="!isDisplay()" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="isDisplay()">
+  <h2 span i18n="@@removeMatch-hdr">Remove match results from league: {{navigationService.league().name}}</h2>
+  <br/>
+  <form [formGroup]="matchRemoveForm">
+    <div class="row align-items-start">
+      <div class="col">
+        <p-dropdown (onChange)="onChange()" formControlName="winnerDropDown" [options]="playerOptions"
+          [ngClass]="{ 'is-invalid': isSubmitted() && f.winnerDropDown.errors }" placeholder="nick" [style]="{'width':'200px'}">
+        </p-dropdown>
+        &nbsp;vs&nbsp;
+        <p-dropdown (onChange)="onChange()" formControlName="looserDropDown" [options]="playerOptions"
+          [ngClass]="{ 'is-invalid': isSubmitted() && f.looserDropDown.errors }" placeholder="nick" [style]="{'width':'200px'}">
+        </p-dropdown>
+        <div *ngIf="isSubmitted() && (f.looserDropDown.errors || f.winnerDropDown.errors)" class="invalid-feedback">
+          <div *ngIf="f.looserDropDown.errors.required" i18n="@@addMatch-nickReq">Winner and looser are required</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br/>
+  <div>
+    <div class="form-group">
+      <button type="button" class="btn btn-success btn-clear w-80" routerLink="/mpLeagues/league" i18n="@@removeMatch-cancel">
+        Cancel
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addMatch-clear">
+        Clear
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success btn-submit w-80" (click)="removeMatchResult()" i18n="@@addMatch-remove">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>
+
+

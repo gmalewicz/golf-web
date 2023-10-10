@@ -14,13 +14,14 @@ describe('UpdateTournamentPlayerWhsDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        UpdateTournamentPlayerWhsDialogComponent,
         ReactiveFormsModule,
         MatCheckboxModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
       ],
-      declarations: [ UpdateTournamentPlayerWhsDialogComponent,  CommonDialogComponent ],
+      declarations: [ CommonDialogComponent ],
       providers: [
         {provide: MatDialogRef, useValue: {
 

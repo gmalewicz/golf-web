@@ -14,7 +14,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {
 
       if (request.url.endsWith('assets/app-config.json')) {
-        console.log('skip it');
         return;
       }
 

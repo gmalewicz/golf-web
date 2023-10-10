@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
 
                 const whs = result.whs.toString().replace(/,/gi, '.');
                 player.whs = +whs;
-                player.sex = result.female ? true : false;
+                player.sex = result.female === true;
                 player.updateSocial = true;
                 this.authenticationService.loginSocial(player);
                 this.httpService.updatePlayerOnBehalf(player).pipe(tap(

@@ -394,7 +394,7 @@ export class OnlineRoundDefComponent implements OnInit {
         const newPlayer: Player = {
           nick: result.nick,
           whs: +whs,
-          sex: result.female ? true : false
+          sex: result.female === true
         };
         this.searchInProgress[playerIdx] = true;
         this.httpService

@@ -103,7 +103,7 @@ export class PlayersComponent implements OnInit {
           id: this.playerRound[id].id,
           whs: +whs,
           nick: result.nick,
-          sex: result.female ? true : false
+          sex: result.female === true
         };
         this.httpService.updatePlayerOnBehalf(player).pipe(tap(
           () => {
