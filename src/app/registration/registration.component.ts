@@ -79,7 +79,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   sexClick(sex: boolean) {
-    this.f.male.setValue(!(sex === true));
-    this.f.female.setValue(!(sex === false));
+    this.f.male.setValue(sex !== true);
+    this.f.female.setValue(sex !== false);
   }
 }
