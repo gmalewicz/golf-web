@@ -1,48 +1,86 @@
 import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 import { OnlineRoundComponent } from './online-round.component';
+import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
+import { OnlineNavComponent } from '../online-nav/online-nav.component';
+import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthenticationService } from '@/_services';
+import { RxStompServiceStub, authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper';
+import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
+import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
+import { getOnlineRoundFirstPlayer, rxStompServiceStub } from '../_helpers/test.helper';
+import { RxStompService } from '../_services/rx-stomp.service';
 
 
 describe('OnlineRoundComponent', () => {
   let component: OnlineRoundComponent;
   let fixture: ComponentFixture<OnlineRoundComponent>;
+  let navigationService: NavigationService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OnlineRoundComponent ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ OnlineRoundComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent],
       imports: [
         HttpClientModule,
         routing,
         MatDialogModule,
+        FontAwesomeModule,
       ]
       ,
       providers: [HttpService,
         ScorecardHttpService,
         NavigationService,
-        {
-          provide: MatDialogRef,
-          useValue: {}
-        }
-        ]
+        { provide: MatDialogRef, useValue: {} },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: RxStompService, useClass: RxStompServiceStub },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
+      ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OnlineRoundComponent);
-    component = fixture.componentInstance;
-    history.pushState({data: {}}, '');
-    fixture.detectChanges();
+    navigationService = TestBed.inject(NavigationService);
   });
 
-  it('should create', () => {
+  it('should create but no data', () => {
+    fixture = TestBed.createComponent(OnlineRoundComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should create with correct data', () => {
+    navigationService.setCourse(getTestCourse());
+    const onlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.matchPlay= false;
+    navigationService.setOnlineRounds([onlineRound]);
+    fixture = TestBed.createComponent(OnlineRoundComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should add score 2', fakeAsync(() => {
+    navigationService.setCourse(getTestCourse());
+    const onlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.matchPlay= false;
+    navigationService.setOnlineRounds([onlineRound]);
+    fixture = TestBed.createComponent(OnlineRoundComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.curHoleStrokes[component.curPlayerIdx] = 10;
+    component.addScore();
+    tick(200);
+    expect(component.curHoleIdx).toBe(1);
+  }));
 
   afterAll(() => {
     TestBed.resetTestingModule();
