@@ -4,6 +4,7 @@ import { ScorecardHttpService } from './scorecardHttp.service';
 
 export function rxStompServiceFactory(authenticationService: AuthenticationService, scorecardHttpService: ScorecardHttpService) {
   const rxStomp = new RxStompService(authenticationService, scorecardHttpService);
+  console.log("factory");
   rxStomp.activate();
   return rxStomp;
 }

@@ -19,10 +19,6 @@ export class CommonDialogComponent implements OnInit {
 
   @Input() form: FormGroup;
 
-  constructor() {
-    // This is intentional
-  }
-
   ngOnInit(): void {
     // This is intentional
   }

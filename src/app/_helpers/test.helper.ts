@@ -7,6 +7,7 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { IFrame, IRxStompPublishParams } from '@stomp/rx-stomp';
 
 export function getTestRound(): Round {
 
@@ -184,3 +185,28 @@ alertServiceStub = {
     // This is intentional
   }
 };
+
+
+
+// eslint-disable-next-line prefer-const
+export class RxStompServiceStub  {
+
+
+  activate() {
+    // This is intentional
+  }
+
+  deactivate(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  publish(message: IRxStompPublishParams) {
+    // This is intentional
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  asyncReceipt(receiptId: string): Promise<IFrame> {
+    return Promise.resolve(null);
+  }
+}

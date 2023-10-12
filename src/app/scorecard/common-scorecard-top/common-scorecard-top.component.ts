@@ -22,11 +22,6 @@ export class CommonScorecardTopComponent implements OnInit {
   @Input() puttSelectorActive: { active: boolean }[];
   @Input() public inProgress: boolean;
 
-
-  constructor() {
-    // This is intentional
-  }
-
   ngOnInit() {
     // This is intentional
   }

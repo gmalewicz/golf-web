@@ -284,6 +284,14 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // This is intentional
   }
 
+  protected prepareAndCalculateStb() {
+    // This is intentional
+  }
+
+  protected updateStb() {
+    // This is intentional
+  }
+
   addScore() {
 
     // save only if anything has been changed
@@ -336,6 +344,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // update mp score if score enetered for both players
     this.updateMpResult(this.curHoleIdx);
     this.updateMpTotal();
+    this.updateStb();
 
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
       this.curPlayerIdx++;
@@ -348,7 +357,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.puttSelectorActive.fill({ active: false });
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
-    this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
   }
 
 
@@ -365,7 +373,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
     this.putts[this.curHoleIdx][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
     this.penalties[this.curHoleIdx][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
-
   }
 
   private sendMessage(onlineScoreCard: OnlineScoreCard) {
@@ -448,6 +455,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           }
           return s;
         });
+        this.prepareAndCalculateStb();
         this.display = true;
       })
     ).subscribe();
