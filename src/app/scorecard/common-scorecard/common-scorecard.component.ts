@@ -147,10 +147,6 @@ export class CommonScorecardComponent implements OnInit {
   @Input() public counter: (i: number) => number[];
   @Input() public calculateStyle: (i: number) => string;
 
-  constructor() {
-     // This is intentional
-  }
-
   ngOnInit() {
      // This is intentional
   }

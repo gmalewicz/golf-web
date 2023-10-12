@@ -22,10 +22,6 @@ export class RoundSummaryComponent implements OnInit {
 
   display: boolean;
 
-  constructor() {
-    // This is intentional
-  }
-
   ngOnInit(): void {
 
     this.display = false;

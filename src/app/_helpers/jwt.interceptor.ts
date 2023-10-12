@@ -22,7 +22,7 @@ export class JwtInterceptor implements HttpInterceptor {
         }
 
         // add token if exists else throw an error and logout
-        if (currentPlayer && currentPlayer.token) {
+        if (currentPlayer?.token) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${currentPlayer.token}`

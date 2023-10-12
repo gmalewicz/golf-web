@@ -7,9 +7,7 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { RxStompService } from '@/scorecard/_services/rx-stomp.service';
 import { IFrame, IRxStompPublishParams } from '@stomp/rx-stomp';
-import { ScorecardHttpService } from '@/scorecard/_services';
 
 export function getTestRound(): Round {
 
@@ -197,11 +195,9 @@ export class RxStompServiceStub  {
   activate() {
     // This is intentional
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  deactivate() {
-    return new Promise(resolve => {
-      resolve(null);
-    });
+
+  deactivate(): Promise<void> {
+    return Promise.resolve();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -211,8 +207,6 @@ export class RxStompServiceStub  {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   asyncReceipt(receiptId: string): Promise<IFrame> {
-    return new Promise(resolve => {
-      resolve(null);
-    });
+    return Promise.resolve(null);
   }
 }
