@@ -1,3 +1,4 @@
+import { LeaguePlayer } from './../_models/leaguePlayer';
 import { ChangeDetectorRef, Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,8 +7,7 @@ import { HttpService } from '@/_services/http.service';
 import { MatDialog } from '@angular/material/dialog';
 import { IconDefinition, faMinusCircle, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
-import { tap } from 'rxjs';
-import { LeaguePlayer } from '../_models/leaguePlayer';
+import { map, mergeMap, tap } from 'rxjs';
 import { Player } from '@/_models/player';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { CommonModule } from '@angular/common';
@@ -107,39 +107,42 @@ export class LeaguePlayerComponent implements OnInit {
 
     this.searchPlayerInProgress.set(true);
 
-    this.httpService.getPlayerForNick(this.f.nick.value).pipe(
-      tap((player: Player) => {
+    this.httpService.getPlayerForNick(this.f.nick.value)
+      .pipe(
+        map (
+        (player: Player) => {
 
-        if (player != null) {
+          let leaguePlayer: LeaguePlayer = null;
 
-          const leaguePlayer: LeaguePlayer = {
-            playerId: player.id,
-            league: this.navigationService.league(),
-            nick: player.nick
-          };
+          if (player != null) {
 
-          this.leagueHttpService.addLeaguePlayer(leaguePlayer).pipe(
-            tap(() => {
-
-                this.submitted.set(false);
-                this.searchPlayerForm.reset();
-                // sort players and save
-                this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
-                this.searchPlayerInProgress.set(false);
-                this.ref.detectChanges();
-            })
-          ).subscribe();
-
-        } else {
-          this.alertService.error($localize`:@@leaguePlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
-          this.submitted.set(false);
-          this.searchPlayerForm.reset();
-          this.searchPlayerInProgress.set(false);
-          this.ref.detectChanges();
+            leaguePlayer = {
+              playerId: player.id,
+              league: this.navigationService.league(),
+              nick: player.nick
+            };
+            // sort players and save
+            this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
+          } else {
+            this.alertService.error($localize`:@@leaguePlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
+            this.submitted.set(false);
+            this.searchPlayerForm.reset();
+            this.searchPlayerInProgress.set(false);
+          }
+          return leaguePlayer;
+        }),
+        mergeMap(leaguePlayer => {
+          if (leaguePlayer !== null) {
+            return this.leagueHttpService.addLeaguePlayer(leaguePlayer);
+          }
         }
-      })
-    ).subscribe();
-
+      )
+    ).subscribe(() => {
+      this.submitted.set(false);
+      this.searchPlayerForm.reset();
+      this.searchPlayerInProgress.set(false);
+      this.ref.detectChanges();
+    })
   }
 
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {
