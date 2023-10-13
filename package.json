@@ -61,7 +61,7 @@
     "@angular/compiler-cli": "^16.2.1",
     "@angular/language-service": "^16.2.1",
     "@angular/localize": "^16.2.1",
-    "@types/jasmine": "^4.3.1",
+    "@types/jasmine": "^5.1.0",
     "@types/jasminewd2": "^2.0.10",
     "@types/node": "^20.0.0",
     "@types/sockjs-client": "^1.5.1",
