@@ -135,6 +135,7 @@ export class LeaguePlayerComponent implements OnInit {
           if (leaguePlayer !== null) {
             return this.leagueHttpService.addLeaguePlayer(leaguePlayer);
           }
+          return Promise.resolve();
         }
       )
     ).subscribe(() => {
