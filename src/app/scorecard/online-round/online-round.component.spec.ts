@@ -2,7 +2,7 @@ import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 import { OnlineRoundComponent } from './online-round.component';
@@ -14,7 +14,7 @@ import { AuthenticationService } from '@/_services';
 import { RxStompServiceStub, authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
-import { getOnlineRoundFirstPlayer, rxStompServiceStub } from '../_helpers/test.helper';
+import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { RxStompService } from '../_services/rx-stomp.service';
 
 
