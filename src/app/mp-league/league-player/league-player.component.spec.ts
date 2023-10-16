@@ -81,5 +81,4 @@ describe('LeaguePlayerComponent', () => {
     expect(component.navigationService.players().length).toBe(1);
   });
 
-
 });

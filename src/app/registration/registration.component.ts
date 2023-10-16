@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
                               password: this.f.password.value,
                               whs: +whs,
                               captcha: this.f.recaptchaReactive.value,
-                              sex: this.f.female.value ? true : false};
+                              sex: this.f.female.value === true};
 
       this.httpService.addPlayer(player).pipe(
       tap(

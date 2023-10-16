@@ -29,9 +29,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let entry of courses | keyvalue">
+          <tr *ngFor="let entry of courses | keyvalue" (click)="viewRound(1, entry.value, null)">
             <td>
-              <a (click)="viewRound(1, entry.value, null)">
+              <a>
                 <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
               </a>
               {{ entry.value.name}}
@@ -53,9 +53,9 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let round of onlineRounds">
-            <tr *ngIf="!round.matchPlay">
+            <tr *ngIf="!round.matchPlay" (click)="viewRound(2, null, round)">
               <td>
-                <a (click)="viewRound(2, null, round)">
+                <a>
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
                 {{ round.player.nick }}
@@ -88,9 +88,9 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let round of onlineRounds">
-            <tr *ngIf="round.matchPlay && round.player.nick != round.nick2">
+            <tr *ngIf="round.matchPlay && round.player.nick != round.nick2" (click)="viewRound(3, round.course, round)">
               <td>
-                <a (click)="viewRound(3, round.course, round)">
+                <a>
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
                 {{ round.player.nick }}-{{ round.nick2 }}
