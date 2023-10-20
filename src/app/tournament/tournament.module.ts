@@ -15,6 +15,7 @@ import { routing } from './tournament.routing';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { AddRoundComponent } from './add-round/add-round.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DropdownModule } from 'primeng/dropdown';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
   ],
 })
 export class TournamentModule { }
