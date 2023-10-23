@@ -40,6 +40,7 @@ import { UpdDialogComponent } from './admin/players/upd-dialog/upd-dialog.compon
 import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish-social-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RoundsNavigationService } from './rounds/roundsNavigation.service';
+import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { RoundsNavigationService } from './rounds/roundsNavigation.service';
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
               RoundsNavigationService
   ],
   bootstrap: [AppComponent]

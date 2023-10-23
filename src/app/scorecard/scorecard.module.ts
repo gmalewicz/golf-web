@@ -27,6 +27,7 @@ import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { RxStompService } from './_services/rx-stomp.service';
 import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
 import { MatButtonModule } from '@angular/material/button';
+import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MatButtonModule } from '@angular/material/button';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
     { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService]},
+    { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
     NavigationService,
   ],
   exports: []

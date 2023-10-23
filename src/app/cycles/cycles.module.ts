@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatButtonModule } from '@angular/material/button';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
   ],
 })
 export class CyclesModule { }

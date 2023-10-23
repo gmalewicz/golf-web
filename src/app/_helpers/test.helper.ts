@@ -104,6 +104,10 @@ authenticationServiceStub = {
 
   updateJWT(): Observable<HttpResponse<unknown>> {
     return of(null);
+  },
+
+  updateStorage(): void {
+    // This is intentional
   }
 };
 
