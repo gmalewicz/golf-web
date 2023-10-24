@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "codelyzer": "^6.0.2",
-    "eslint": "^8.39.0",
+    "eslint": "^8.52.0",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.27.5",
     "fuzzy": "^0.1.3",
