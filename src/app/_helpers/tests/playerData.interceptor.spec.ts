@@ -1,10 +1,9 @@
-import { HttpClient, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Player } from '@/_models';
 import { PlayerDataInterceptor } from '../playerData.interceptor';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { HttpService } from '@/_services';
 import { authenticationServiceStub } from '../test.helper';
 
 describe('playerData.interceptor', () => {
@@ -45,9 +44,9 @@ describe('playerData.interceptor', () => {
 
     let playerResponse: Player;
 
-    httpClient.get('rest/Courses').subscribe({next: player => playerResponse = player});
+    httpClient.get('rest/Cycle').subscribe({next: player => playerResponse = player});
 
-    const req = httpMock.expectOne('rest/Courses');
+    const req = httpMock.expectOne('rest/Cycle');
     req.flush({nick: 'Test}'}, {headers: {hcp: '10.1', sex: 'true'}});
 
     tick(200);
