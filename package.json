@@ -16,7 +16,7 @@
   "dependencies": {
     "@angular/animations": "^16.2.1",
     "@angular/cdk": "^16.2.1",
-    "@angular/cli": "^16.2.0",
+    "@angular/cli": "^16.2.7",
     "@angular/compiler": "^16.2.1",
     "@angular/core": "^16.2.1",
     "@angular/forms": "^16.2.1",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1602.7",
-    "@angular-devkit/build-angular": "^16.2.0",
+    "@angular-devkit/build-angular": "^16.2.7",
     "@angular-eslint/builder": "16.2.0",
     "@angular-eslint/eslint-plugin": "16.2.0",
     "@angular-eslint/eslint-plugin-template": "16.2.0",
