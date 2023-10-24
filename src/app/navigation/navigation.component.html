@@ -1,7 +1,9 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">DGNG v3.4.4</a>
-
+    <p *ngIf="currentPlayer" class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;">
+      HCP:{{currentPlayer.whs}}
+    </p>
     <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
       <option *ngFor="let locale of locales" [value]="locale.code">
         &nbsp;
