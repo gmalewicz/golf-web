@@ -284,11 +284,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // This is intentional
   }
 
-  protected prepareAndCalculateStb() {
+  protected prepareAndCalculateNetStatistic() {
     // This is intentional
   }
 
-  protected updateStb() {
+  protected updateNetStatistic() {
     // This is intentional
   }
 
@@ -344,7 +344,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // update mp score if score enetered for both players
     this.updateMpResult(this.curHoleIdx);
     this.updateMpTotal();
-    this.updateStb();
+    this.updateNetStatistic();
 
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
       this.curPlayerIdx++;
@@ -455,7 +455,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
           }
           return s;
         });
-        this.prepareAndCalculateStb();
+        this.prepareAndCalculateNetStatistic();
         this.display = true;
       })
     ).subscribe();

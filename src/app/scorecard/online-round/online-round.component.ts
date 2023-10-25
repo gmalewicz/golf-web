@@ -21,6 +21,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   stbNet: number[][];
   totalStbNet: number[];
 
+  strNet: number[][];
+  totalStrNet: number[];
+
   // 0 - strokes brutto
   // 1 - stb netto
   // 2 - strokes netto
@@ -43,12 +46,16 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     return new Array(i);
   }
 
-  protected prepareAndCalculateStb() {
+  protected prepareAndCalculateNetStatistic() {
 
     this.holeHcp = Array(this.onlineRounds.length).fill(0).map(() => new Array(18).fill(0));
 
     this.stbNet = Array(this.onlineRounds.length).fill(0).map(() => new Array(18).fill(0));
     this.totalStbNet = new Array(this.onlineRounds.length).fill(0);
+
+    this.strNet = Array(this.onlineRounds.length).fill(0).map(() => new Array(18).fill(0));
+    this.totalStrNet = new Array(this.onlineRounds.length).fill(0);
+
 
     this.onlineRounds.forEach( (onlineRound, idx) => {
       const courseHcp = calculateCourseHCP(
@@ -70,24 +77,32 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
         if (this.strokes[id][idx]  > 0) {
           this.stbNet[idx][id] = this.course.holes[id].par - this.strokes[id][idx] + hHcp + 2;
+          this.strNet[idx][id] = this.strokes[id][idx] - hHcp;
         }
         if (this.stbNet[idx][id] < 0) {
           this.stbNet[idx][id] = 0;
         }
       })
       this.totalStbNet[idx] = this.stbNet[idx].reduce((p, n) => p + n);
+      this.totalStrNet[idx] = this.strNet[idx].reduce((p, n) => p + n);
     })
   }
 
-  protected updateStb() {
+  protected updateNetStatistic() {
 
+    // update stableford netto
     this.stbNet[this.curPlayerIdx][this.curHoleIdx] =
       this.course.holes[this.curHoleIdx].par - this.curHoleStrokes[this.curPlayerIdx] + this.holeHcp[this.curPlayerIdx][this.curHoleIdx] + 2;
-      if (this.stbNet[this.curPlayerIdx][this.curHoleIdx] < 0) {
-        this.stbNet[this.curPlayerIdx][this.curHoleIdx] = 0;
-      }
+    if (this.stbNet[this.curPlayerIdx][this.curHoleIdx] < 0) {
+      this.stbNet[this.curPlayerIdx][this.curHoleIdx] = 0;
+    }
 
+    // update stroke play netto
     this.totalStbNet[this.curPlayerIdx] = this.stbNet[this.curPlayerIdx].reduce((p, n) => p + n);
+
+    this.strNet[this.curPlayerIdx][this.curHoleIdx] = this.curHoleStrokes[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdx];
+    this.totalStrNet[this.curPlayerIdx] = this.strNet[this.curPlayerIdx].reduce((p, n) => p + n);
+
   }
 
   selectMode(mode: number) {
