@@ -1,6 +1,6 @@
 {
   "name": "golf-web",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,7 +27,6 @@
     "@fortawesome/angular-fontawesome": "^0.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fullcalendar/core": "^6.1.6",
     "@popperjs/core": "^2.11.7",
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
@@ -67,7 +66,6 @@
     "@types/sockjs-client": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
-    "codelyzer": "^6.0.2",
     "eslint": "^8.52.0",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.29.0",

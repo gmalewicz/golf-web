@@ -28,6 +28,10 @@
           STR
         </label>
         &nbsp;
+        <label class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
+          STN
+        </label>
+        &nbsp;
         <label class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
           STB
         </label>
@@ -62,6 +66,7 @@
             <span *ngIf="stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0">{{stroke[pl]}}</span>
             <span *ngIf="stroke[pl] === 16  && displayMode === 0">x</span>
             <span *ngIf="stroke[pl] > 0 && displayMode === 1">{{stbNet[pl][i]}}</span>
+            <span *ngIf="stroke[pl] > 0 && displayMode === 2">{{strNet[pl][i]}}</span>
             <span class="supsub">
               <span class="superscript">
                 <span class="dotSeparator"></span>
@@ -114,8 +119,11 @@
     <span *ngIf="!ballPickedUp[0] && displayMode === 0">
       ({{totalStrokes[0]}})
     </span>
-    <span *ngIf="!ballPickedUp[0] && displayMode === 1">
+    <span *ngIf="displayMode === 1">
       ({{totalStbNet[0]}})
+    </span>
+    <span *ngIf="displayMode === 2">
+      ({{totalStrNet[0]}})
     </span>
   </th>
   <th id="p2str" *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}}
@@ -125,8 +133,11 @@
     <span *ngIf="!ballPickedUp[1]  && displayMode === 0">
       ({{totalStrokes[1]}})
     </span>
-    <span *ngIf="!ballPickedUp[0] && displayMode === 1">
+    <span *ngIf="displayMode === 1">
       ({{totalStbNet[1]}})
+    </span>
+    <span *ngIf="displayMode === 2">
+      ({{totalStrNet[1]}})
     </span>
   </th>
   <th id="p3str" *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}}
@@ -136,8 +147,11 @@
     <span *ngIf="!ballPickedUp[2]  && displayMode === 0">
       ({{totalStrokes[2]}})
     </span>
-    <span *ngIf="!ballPickedUp[0] && displayMode === 1">
+    <span *ngIf="displayMode === 1">
       ({{totalStbNet[2]}})
+    </span>
+    <span *ngIf="displayMode === 2">
+      ({{totalStrNet[2]}})
     </span>
   </th>
   <th id="p4str" *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}}
@@ -147,8 +161,11 @@
     <span *ngIf="!ballPickedUp[3] && displayMode === 0">
       ({{totalStrokes[3]}})
     </span>
-    <span *ngIf="!ballPickedUp[0] && displayMode === 1">
+    <span *ngIf="displayMode === 1">
       ({{totalStbNet[3]}})
+    </span>
+    <span *ngIf="displayMode === 2">
+      ({{totalStrNet[3]}})
     </span>
   </th>
 </ng-template>
