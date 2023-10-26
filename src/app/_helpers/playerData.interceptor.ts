@@ -22,7 +22,7 @@ export class PlayerDataInterceptor implements HttpInterceptor {
           if (httpEvent.type === HttpEventType.Response) {
             const currentPlayer: Player = this.authenticationService.currentPlayerValue;
             currentPlayer.whs = +httpEvent.headers.get("hcp");
-            currentPlayer.sex = Boolean(httpEvent.headers.get("sex"));
+            currentPlayer.sex = JSON.parse(httpEvent.headers.get("sex"));
             this.authenticationService.updateStorage();
           }
         })
