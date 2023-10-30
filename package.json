@@ -59,7 +59,7 @@
     "@angular/common": "^16.2.10",
     "@angular/compiler-cli": "^16.2.10",
     "@angular/language-service": "^16.2.10",
-    "@angular/localize": "^16.2.10",
+    "@angular/localize": "^16.2.11",
     "@types/jasmine": "^5.1.1",
     "@types/jasminewd2": "^2.0.12",
     "@types/node": "^20.8.8",
