@@ -57,7 +57,7 @@
     "@angular-eslint/schematics": "16.2.0",
     "@angular-eslint/template-parser": "16.2.0",
     "@angular/common": "^16.2.10",
-    "@angular/compiler-cli": "^16.2.10",
+    "@angular/compiler-cli": "^16.2.12",
     "@angular/language-service": "^16.2.10",
     "@angular/localize": "^16.2.10",
     "@types/jasmine": "^5.1.1",
