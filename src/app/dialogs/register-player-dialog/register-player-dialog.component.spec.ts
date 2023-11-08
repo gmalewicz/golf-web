@@ -23,7 +23,13 @@ describe('RegisterPlayerDialogComponent', () => {
       ],
       declarations: [ RegisterPlayerDialogComponent,  CommonDialogComponent],
       providers: [
-        {provide: MatDialogRef, useValue: []},
+        {provide: MatDialogRef, useValue: {
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          close(_value: unknown) {
+              return null;
+              }
+          }},
         {provide: MAT_DIALOG_DATA, useValue: []}
       ],
     })
@@ -52,9 +58,24 @@ describe('RegisterPlayerDialogComponent', () => {
     expect(component.f.female.value).toBeFalsy();
   });
 
-  it('should click save', () => {
+  it('should click save but form is invalid', () => {
     component.save();
     expect(component.form.invalid).toBeTruthy();
   });
+
+  it('should click save with valid form', () => {
+    component.f.female.setValue(true);
+    component.f.male.setValue(false);
+    component.f.nick.setValue('test');
+    component.f.whs.setValue(10.1);
+    component.save();
+    expect(component.form.invalid).toBeFalsy();
+  });
+
+  it('should click close', () => {
+    component.close();
+    expect(component.form.invalid).toBeTruthy();
+  });
+
 
 });
