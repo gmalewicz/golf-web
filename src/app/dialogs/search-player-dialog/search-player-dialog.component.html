@@ -1,0 +1,53 @@
+<div class="golf-theme">
+  <h2 style="color: red" mat-dialog-title i18n="@@searchPlayerDialog-notFound">Search or create player</h2>
+  <mat-dialog-content [formGroup]="form" style="width: 300px;">
+
+    <mat-form-field>
+      <input matInput i18n-placeholder="@@searchPlayerDialog-nick" placeholder="Player nick" formControlName="nick" (keyup)="onKey()"/>
+    </mat-form-field>
+
+    <table *ngIf="dispPlayers" class="table table-striped" aria-describedby="Players" style="width: 230px;">
+      <thead>
+        <tr>
+          <th id="nick" i18n="@@searchPlayerDialog-nck" style="width: 40px;">Nick</th>
+          <th id="sex" i18n="@@searchPlayerDialog-sex" style="width: 20px;">Sex</th>
+          <th id="hcp" style="width: 20px;">HCP</th>
+          <th id="nav"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of players" (click)="addPlayer(player)">
+          <td>{{ player.nick }}</td>
+          <td>
+            <span *ngIf="player.sex">F</span>
+            <span *ngIf="!player.sex">M</span>
+          </td>
+          <td>{{ player.whs }}</td>
+          <td>
+            <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <br />
+      <button type="button" class="btn btn-success" i18n="@@searchPlayerDialog-cancel" (click)="close()">
+        Cancel
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0">
+        &lt;
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onNext()"
+        [disabled]="players != undefined && players.length < pageSize">
+        &gt;
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success" i18n="@@searchPlayerDialog-add" (click)="onNew()">
+        New
+      </button>
+    </div>
+  </mat-dialog-content>
+</div>

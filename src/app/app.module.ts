@@ -41,6 +41,7 @@ import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish
 import { MatButtonModule } from '@angular/material/button';
 import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
+import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/search-player-dialog.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
     ListRoundsComponent,
     AdminComponent,
     UpdDialogComponent,
-    FinishSocialDialogComponent
+    FinishSocialDialogComponent,
+    SearchPlayerDialogComponent
   ],
   imports: [
     BrowserModule,

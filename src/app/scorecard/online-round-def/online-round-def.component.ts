@@ -6,17 +6,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import {
-  faCheckCircle,
-  faSearchPlus,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faSearchPlus, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { RegisterPlayerDialogComponent } from '../register-player-dialog/register-player-dialog.component';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
+import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 
 @Component({
   selector: 'app-online-round-def',
