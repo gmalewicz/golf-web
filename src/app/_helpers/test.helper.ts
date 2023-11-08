@@ -126,11 +126,17 @@ authenticationServiceAdminStub = {
 
 export class MatDialogMock {
 
+    retVal: unknown = {nick: 'Player', female: true, whs: 10.1};
+
     open() {
         return {
-            afterClosed: () => of({nick: 'Player', female: true, whs: 10.1}),
+            afterClosed: () => of(this.retVal),
             componentInstance: {confirmMessage: ''}
         };
+    }
+
+    setRetVal(retVal: unknown) {
+      this.retVal= retVal;
     }
 }
 

@@ -5,7 +5,7 @@ import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -49,7 +49,6 @@ export class TournamentPlayersComponent implements OnInit {
   submitted: boolean;
 
   constructor(private tournamentHttpService: TournamentHttpService,
-              private formBuilder: FormBuilder,
               private alertService: AlertService,
               private httpService: HttpService,
               private dialog: MatDialog) {}
