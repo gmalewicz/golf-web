@@ -94,22 +94,22 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "golf-web:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "golf-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "golf-web:build:production"
+              "buildTarget": "golf-web:build:production"
             },
             "pl": {
-              "browserTarget": "golf-web:build:pl"
+              "buildTarget": "golf-web:build:pl"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "golf-web:build"
+            "buildTarget": "golf-web:build"
           }
         },
         "test": {
