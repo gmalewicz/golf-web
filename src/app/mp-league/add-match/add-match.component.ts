@@ -109,7 +109,7 @@ export class AddMatchComponent implements OnInit {
       this.leagueHttpService.addMatch(leagueMatch).pipe(
         tap(() => {
           this.submitted.set(false);
-          this.navigationService.matches.mutate(matches => matches.push(leagueMatch));
+          this.navigationService.matches.update(matches => [...matches, leagueMatch]);
           this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
         })
       ).subscribe();
