@@ -96,7 +96,7 @@ export class TournamentPlayersComponent implements OnInit {
       .pipe(
         mergeMap(player => {
           // user decided to create the new player so open the proper dialog
-          if (player !== undefined && player.action !== undefined) {
+          if (player?.action) {
 
             const dialogConfig = new MatDialogConfig();
 
