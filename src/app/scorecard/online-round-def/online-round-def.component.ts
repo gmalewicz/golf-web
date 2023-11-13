@@ -29,6 +29,7 @@ export class OnlineRoundDefComponent implements OnInit {
   noOfPlayers: number;
   players: Player[];
   tees: Tee[];
+  selectedTeeOption: TeeOptions | undefined
 
   searchInProgress: boolean[];
 
@@ -158,28 +159,28 @@ export class OnlineRoundDefComponent implements OnInit {
       case 0: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown1.value)
+          .filter(t => t.id === this.f.teeDropDown1.value.value)
           .pop();
         break;
       }
       case 1: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown2.value)
+          .filter(t => t.id === this.f.teeDropDown2.value.value)
           .pop();
         break;
       }
       case 2: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown3.value)
+          .filter(t => t.id === this.f.teeDropDown3.value.value)
           .pop();
         break;
       }
       default: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown4.value)
+          .filter(t => t.id === this.f.teeDropDown4.value.value)
           .pop();
         break;
       }

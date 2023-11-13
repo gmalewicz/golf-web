@@ -79,7 +79,7 @@
         </div>
 
         <div class="col-auto golf-padding">
-          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" [options]="getTeeOptions(0)" class="teeDropDown1"
+          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" optionLabel="label" [options]="getTeeOptions(0)"
             [ngClass]="{ 'is-invalid': submitted && f.teeDropDown1.errors }" placeholder="tee">
           </p-dropdown>
           &nbsp;
