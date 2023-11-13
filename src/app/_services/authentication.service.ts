@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
-import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { HttpResponse } from '@angular/common/http';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 interface MyJwtPayload extends JwtPayload {
     roles: string;
@@ -30,7 +30,7 @@ export class AuthenticationService {
       return '';
     }
 
-    return (jwt_decode<MyJwtPayload>(this.currentPlayerSubject.value.token)).roles;
+    return (jwtDecode<MyJwtPayload>(this.currentPlayerSubject.value.token)).roles;
   }
 
 
