@@ -98,8 +98,6 @@ export class AddCourseComponent implements OnInit {
       this.barChartType = 'bar';
       this.barChartLegend = true;
       this.barChartLabels = [];
-      // this.submitted = false;
-      // this.addTeeSubmitted = false;
       this.loading = false;
       this.parButtons = [3, 4, 5, 6];
 
