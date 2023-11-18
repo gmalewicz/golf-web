@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { DropdownModule } from 'primeng/dropdown';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
 import { CycleHttpService } from '../_services/cycleHttp.service';
 
@@ -20,8 +19,7 @@ describe('AddCycleComponent', () => {
       imports: [
         HttpClientModule,
         routing,
-        ReactiveFormsModule,
-        DropdownModule,
+        ReactiveFormsModule
       ],
       providers: [HttpService,
 

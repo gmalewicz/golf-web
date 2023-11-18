@@ -323,8 +323,11 @@ export class AddCourseComponent implements OnInit {
 
     // save tee
     this.tees.push({
-      tee: this.g.tee.value, cr: this.g.cr.value.toString().replace(/,/gi, '.'), sr: this.g.sr.value,
-      teeType: this.g.teeTypeDropDown.value, sex: this.g.sexDropDown.value
+      tee: this.g.tee.value,
+      cr: this.g.cr.value.toString().replace(/,/gi, '.'),
+      sr: this.g.sr.value,
+      teeType: this.g.teeTypeDropDown.value,
+      sex: this.g.sexDropDown.value
     });
 
     // clear form

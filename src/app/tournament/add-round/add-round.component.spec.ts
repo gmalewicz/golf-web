@@ -6,10 +6,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DropdownModule } from 'primeng/dropdown';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { AddRoundComponent } from './add-round.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddRoundComponent', () => {
   let component: AddRoundComponent;
@@ -23,8 +24,9 @@ describe('AddRoundComponent', () => {
         routing,
         ReactiveFormsModule,
         FontAwesomeModule,
-        DropdownModule,
         FormsModule,
+        MatSelectModule,
+        BrowserAnimationsModule
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },

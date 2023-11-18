@@ -11,8 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgChartsModule } from 'ng2-charts';
-import { DropdownModule } from 'primeng/dropdown';
 import { AddScorecardComponent } from './add-scorecard.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 describe('AddScorecardComponent', () => {
 
@@ -33,10 +34,11 @@ describe('AddScorecardComponent', () => {
         ReactiveFormsModule,
         routing,
         MatDialogModule,
-        DropdownModule,
         NgChartsModule,
         BrowserAnimationsModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        MatSelectModule,
+        MatInputModule
       ],
     })
     .compileComponents();

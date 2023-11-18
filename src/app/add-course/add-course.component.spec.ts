@@ -8,12 +8,12 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgChartsModule } from 'ng2-charts';
-import { DropdownModule } from 'primeng/dropdown';
-
-
 import { AddCourseComponent } from './add-course.component';
 import { Router } from '@angular/router';
 import { alertServiceStub, MyRouterStub } from '@/_helpers/test.helper';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
@@ -26,7 +26,9 @@ describe('AddCourseComponent', () => {
         HttpClientModule,
         ReactiveFormsModule,
         NgChartsModule,
-        DropdownModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
+        MatInputModule,
         routing,
       ],
       providers: [HttpService,
@@ -106,9 +108,11 @@ describe('AddCourseComponent', () => {
 
     const radioElement = fixture.debugElement.query(By.css('.btn-tee'));
     // Trigger click event after spyOn
-    component.f.tee.setValue(0);
-    component.f.cr.setValue(62.1);
-    component.f.sr.setValue(123);
+    component.g.tee.setValue(0);
+    component.g.cr.setValue(62.1);
+    component.g.sr.setValue(123);
+    component.g.teeTypeDropDown.setValue(1);
+    component.g.sexDropDown.setValue(true);
 
     radioElement.triggerEventHandler('click',  null);
     tick();

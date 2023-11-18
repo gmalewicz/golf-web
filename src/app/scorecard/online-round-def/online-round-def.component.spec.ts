@@ -9,11 +9,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DropdownModule } from 'primeng/dropdown';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 import { OnlineRoundDefComponent } from './online-round-def.component';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;
@@ -26,10 +27,11 @@ describe('OnlineRoundDefComponent', () => {
       imports: [
         HttpClientModule,
         FontAwesomeModule,
-        DropdownModule,
         ReactiveFormsModule,
         MatDialogModule,
         BrowserAnimationsModule,
+        MatSelectModule,
+        MatInputModule,
       ]
       ,
       providers: [HttpService,
