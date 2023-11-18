@@ -14,8 +14,8 @@ import { TournamentsComponent } from './tournaments/tournaments.component';
 import { routing } from './tournament.routing';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { AddRoundComponent } from './add-round/add-round.component';
-import { DropdownModule } from 'primeng/dropdown';
 import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -30,12 +30,12 @@ import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
   imports: [
     routing,
     CommonModule,
-    DropdownModule,
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
     HttpClientModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    MatSelectModule
   ],
   providers: [TournamentHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

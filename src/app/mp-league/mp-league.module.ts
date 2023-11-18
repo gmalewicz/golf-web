@@ -9,10 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LeagueComponent } from './league/league.component';
 import { NavigationService } from './_services/navigation.service';
 import { AddMatchComponent } from './add-match/add-match.component';
-import { DropdownModule } from 'primeng/dropdown';
 import { RemoveMatchComponent } from './remove-match/remove-match.component';
-
-
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -26,7 +24,7 @@ import { RemoveMatchComponent } from './remove-match/remove-match.component';
     CommonModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    DropdownModule,
+    MatSelectModule,
     routing,
   ],
   providers: [LeagueHttpService,

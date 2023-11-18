@@ -20,7 +20,6 @@ export class AddMatchComponent implements OnInit {
   matchResultForm: FormGroup;
 
   private display: WritableSignal<boolean>;
-  private submitted: WritableSignal<boolean>;
 
   playerOptions = [];
   resultOptions = [];
@@ -42,7 +41,6 @@ export class AddMatchComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      this.submitted = signal(false);
       this.faCheckCircle = faCheckCircle;
 
       this.matchResultForm = this.formBuilder.group({
@@ -87,7 +85,8 @@ export class AddMatchComponent implements OnInit {
   }
 
   addMatchResult() {
-    this.submitted.set(true);
+
+    this.matchResultForm.markAllAsTouched();
 
     // do nothing if the form is invalid
     if (this.f.winnerDropDown.invalid || this.f.looserDropDown.invalid || this.f.resultDropDown.invalid) {
@@ -108,7 +107,6 @@ export class AddMatchComponent implements OnInit {
       };
       this.leagueHttpService.addMatch(leagueMatch).pipe(
         tap(() => {
-          this.submitted.set(false);
           this.navigationService.matches.update(matches => [...matches, leagueMatch]);
           this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
         })
@@ -129,15 +127,14 @@ export class AddMatchComponent implements OnInit {
     return this.display();
   }
 
-  isSubmitted() {
-    return this.submitted();
-  }
-
   clear() {
+
     this.f.winnerDropDown.setValue(undefined);
     this.f.looserDropDown.setValue(undefined);
     this.f.resultDropDown.setValue(undefined);
-    this.submitted.set(false);
+
+    this.alertService.clear();
+    this.matchResultForm.markAsUntouched();
   }
 
   onChange() {

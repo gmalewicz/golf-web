@@ -7,25 +7,48 @@
   <br/>
   <form [formGroup]="matchResultForm">
     <div class="row align-items-start">
-      <div class="col">
-        <p-dropdown (onChange)="onChange()" formControlName="winnerDropDown" [options]="playerOptions"
-          [ngClass]="{ 'is-invalid': isSubmitted() && f.winnerDropDown.errors }" placeholder="winner" [style]="{'width':'180px'}">
-        </p-dropdown>
-        &nbsp;
-        <p-dropdown formControlName="resultDropDown" [options]="resultOptions"
-          [ngClass]="{ 'is-invalid': isSubmitted() && f.resultDropDown.errors }" placeholder="result" [style]="{'width':'100px'}">
-        </p-dropdown>
-        &nbsp;
-        <p-dropdown (onChange)="onChange()" formControlName="looserDropDown" [options]="playerOptions"
-          [ngClass]="{ 'is-invalid': isSubmitted() && f.looserDropDown.errors }" placeholder="looser" [style]="{'width':'180px'}">
-        </p-dropdown>
-        <div *ngIf="isSubmitted() && (f.looserDropDown.errors || f.winnerDropDown.errors)" class="invalid-feedback">
-          <div *ngIf="f.looserDropDown.errors.required" i18n="@@addMatch-nickReq">Winner and looser are required</div>
-        </div>
-        <div *ngIf="isSubmitted() && f.resultDropDown.errors" class="invalid-feedback">
-          <div *ngIf="f.resultDropDown.errors.required" i18n="@@addMatch-resultReq">Result is required</div>
-        </div>
+      <div class="col-auto">
+        <mat-form-field>
+          <mat-label>winner</mat-label>
+          <mat-select [formControlName]="'winnerDropDown'" (selectionChange)="onChange()">
+            @for (player of playerOptions; track player) {
+              <mat-option [value]="player.value">{{player.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.winnerDropDown.invalid  && f.winnerDropDown.errors) {
+            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+          }
+        </mat-form-field>
       </div>
+
+      <div class="col-auto">
+        <mat-form-field>
+          <mat-label>result</mat-label>
+          <mat-select [formControlName]="'resultDropDown'">
+            @for (result of resultOptions; track result) {
+              <mat-option [value]="result.value">{{result.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.resultDropDown.invalid  && f.resultDropDown.errors) {
+            <mat-error i18n="@@addMatch-resultReq">Result is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="col-auto">
+        <mat-form-field>
+          <mat-label>looser</mat-label>
+          <mat-select [formControlName]="'looserDropDown'" (selectionChange)="onChange()">
+            @for (player of playerOptions; track player) {
+              <mat-option [value]="player.value">{{player.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.looserDropDown.invalid  && f.looserDropDown.errors) {
+            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
     </div>
   </form>
   <br/>

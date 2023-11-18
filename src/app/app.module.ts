@@ -21,7 +21,6 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DropdownModule} from 'primeng/dropdown';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { CourseComponent } from './course/course.component';
 import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
@@ -83,7 +82,6 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    DropdownModule,
     RecaptchaModule,
     RecaptchaFormsModule,
     HttpClientXsrfModule,
