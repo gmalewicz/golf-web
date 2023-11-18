@@ -5,201 +5,190 @@
   <div class="container-float">
     <form [formGroup]="newCourseForm">
       <div class="row">
-        <div class="form-group col">
-          <input
-            type="text"
-            formControlName="courseName"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.courseName.errors }"
-            i18n-placeholder="@@addCourse-name"
-            placeholder="Course name"
-          />
-          <div *ngIf="submitted && f.courseName.errors" class="invalid-feedback">
-            <div *ngIf="f.courseName.errors.required" i18n="@@addCourse-courseReq">Course name is required</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field class="course-name-width">
+            <mat-label i18n="@@addCourse-name">Course name</mat-label>
+            <input matInput maxlength="100" [formControlName]="'courseName'"/>
+            @if (f.courseName.invalid && f.courseName.errors.required) {
+              <mat-error i18n="@@addCourse-courseReq">Course name is required</mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="form-group col">
-          <input
-            type="text"
-            maxlength="2"
-            formControlName="coursePar"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.coursePar.errors }"
-            i18n-placeholder="@@addCourse-coursePar"
-            placeholder="Course par"
-          />
-          <div *ngIf="submitted && f.coursePar.errors" class="invalid-feedback">
-            <div *ngIf="f.coursePar.errors.required" i18n="@@addCourse-courseParReq">Course par is required</div>
-            <div *ngIf="f.coursePar.errors.pattern" i18n="@@addCourse-courseParRange">Course par must be a number from 30 to 79</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-coursePar">Course par</mat-label>
+            <input matInput maxlength="2" [formControlName]="'coursePar'"/>
+            @if (f.coursePar.invalid && f.coursePar.errors.required) {
+              <mat-error i18n="@@addCourse-courseParReq">Course par is required</mat-error>
+            }
+            @if (f.coursePar.invalid && f.coursePar.errors.pattern) {
+              <mat-error i18n="@@addCourse-courseParRange">Course par must be a number from 30 to 79</mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="form-group col">
-          <p-dropdown
-            formControlName="nbrHolesDropDown"
-            [options]="nbrHoles"
-            [ngClass]="{ 'is-invalid': submitted && f.nbrHolesDropDown.errors }"
-            i18n-placeholder="@@addCourse-noHoles"
-            placeholder="number of holes">
-          </p-dropdown>
-          <div *ngIf="submitted && f.nbrHolesDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.nbrHolesDropDown.errors.required" i18n="@@addCourse-holesReq">Number of holes is required</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-noHoles">number of holes</mat-label>
+            <mat-select [formControlName]="'nbrHolesDropDown'">
+              @for (holeOption of nbrHoles; track holeOption) {
+                <mat-option [value]="holeOption.value">{{holeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.nbrHolesDropDown.invalid && f.nbrHolesDropDown.errors) {
+              <mat-error i18n="@@addCourse-holesReq">Number of holes is required</mat-error>
+            }
+          </mat-form-field>
         </div>
       </div>
-      <div>
-        <canvas
-          baseChart class="chart"
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [type]="barChartType"
-        >
-        </canvas>
+    </form>
+    <div>
+      <canvas
+        baseChart class="chart"
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [type]="barChartType"
+      >
+      </canvas>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-1 golf-padding" style="cursor: default;" i18n="@@addCourse-hole">
+          Hole:
+        </div>
+        <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+          <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
+            {{ i + 1 }}
+          </label>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-1 golf-padding" style="cursor: default;">
+        Par:
       </div>
-      <br />
-
-        <div class="row">
-            <div class="col-1 golf-padding" style="cursor: default;" i18n="@@addCourse-hole">
-              Hole:
-            </div>
-            <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-              <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
-                {{ i + 1 }}
-              </label>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-1 golf-padding" style="cursor: default;">
-            Par:
-          </div>
-          <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-            <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par" [ngClass]="parSelectorActive[i]" (click)="selectPar(par)">
-              {{ par }}
-            </label>
-          </div>
-        </div>
-        <br/>
-        <div class="row">
-          <div class="col-1 golf-padding" style="cursor: default;">
-            SI:
-          </div>
-          <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-            <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si" [ngClass]="siSelectorActive[i]" (click)="selectSi(i)">
-              {{ i + 1 }}
-            </label>
-          </div>
-        </div>
-
-
-      <br/>
-      <div *ngIf="tees.length > 0">
-        <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
-          <thead>
-            <tr>
-              <th id="tee">Tee</th>
-              <th id="cr">CR</th>
-              <th id="sr">SR</th>
-              <th id="type" i18n="@@addCourse-type">Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of tees">
-              <td>{{ row.tee }}
-                  <span *ngIf="row.sex" i18n="@@addCourse-ladies">ladies</span>
-                  <span *ngIf="!row.sex" i18n="@@addCourse-men">men</span>
-              </td>
-              <td>{{ row.cr }}</td>
-              <td>{{ row.sr }}</td>
-              <td *ngIf="row.teeType === 0">1-18</td>
-              <td *ngIf="row.teeType === 1">1-9</td>
-              <td *ngIf="row.teeType === 2">10-18</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par" [ngClass]="parSelectorActive[i]" (click)="selectPar(par)">
+          {{ par }}
+        </label>
       </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-1 golf-padding" style="cursor: default;">
+        SI:
+      </div>
+      <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si" [ngClass]="siSelectorActive[i]" (click)="selectSi(i)">
+          {{ i + 1 }}
+        </label>
+      </div>
+    </div>
+    <div *ngIf="tees.length > 0">
+      <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
+        <thead>
+          <tr>
+            <th id="tee">Tee</th>
+            <th id="cr">CR</th>
+            <th id="sr">SR</th>
+            <th id="type" i18n="@@addCourse-type">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tees">
+            <td>{{ row.tee }}
+                <span *ngIf="row.sex" i18n="@@addCourse-ladies">ladies</span>
+                <span *ngIf="!row.sex" i18n="@@addCourse-men">men</span>
+            </td>
+            <td>{{ row.cr }}</td>
+            <td>{{ row.sr }}</td>
+            <td *ngIf="row.teeType === 0">1-18</td>
+            <td *ngIf="row.teeType === 1">1-9</td>
+            <td *ngIf="row.teeType === 2">10-18</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <form [formGroup]="newCourseTeeForm">
       <br/>
       <div class="row">
-        <div class="form-group col">
-          <input
-            type="text"
-            maxlength="20"
-            formControlName="tee"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.tee.errors }"
-            i18n-placeholder="@@addCourse-colour"
-            placeholder="colour"
-          />
-          <div *ngIf="addTeeSubmitted && f.tee.errors" class="invalid-feedback">
-            <div *ngIf="f.tee.errors.required" i18n="@@addCourse-colourReq">Tee colour is required</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-colour">colour</mat-label>
+            <input matInput maxlength="20" [formControlName]="'tee'"/>
+            @if (g.tee.invalid && g.tee.errors.required)  {
+              <mat-error i18n="@@addCourse-colourReq">Tee colour is required</mat-error>
+            }
+          </mat-form-field>
         </div>
 
-        <div class="form-group col">
-          <input
-            type="text"
-            maxlength="4"
-            formControlName="cr"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.cr.errors }"
-            placeholder="CR"
-          />
-          <div *ngIf="addTeeSubmitted && f.cr.errors" class="invalid-feedback">
-            <div *ngIf="f.cr.errors.required" i18n="@@addCourse-crReq">Course CR is required</div>
-            <div *ngIf="f.cr.errors.pattern" i18n="@@addCourse-crRange">Course CR must be in range: 20 to 89.9</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>CR</mat-label>
+            <input matInput maxlength="4" [formControlName]="'cr'"/>
+            @if (g.cr.invalid && g.cr.errors.required)  {
+              <mat-error i18n="@@addCourse-crReq">Course CR is required</mat-error>
+            }
+            @if (g.cr.invalid && g.cr.errors.pattern)  {
+              <mat-error i18n="@@addCourse-crRange">Course CR must be in range: 20 to 89.9</mat-error>
+            }
+          </mat-form-field>
         </div>
 
-        <div class="form-group col">
-          <input
-            type="text"
-            maxlength="3"
-            formControlName="sr"
-            class="form-control"
-            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.sr.errors }"
-            placeholder="SR"
-          />
-          <div *ngIf="addTeeSubmitted && f.sr.errors" class="invalid-feedback">
-            <div *ngIf="f.sr.errors.required" i18n="@@addCourse-srReq">Course SR is required</div>
-            <div *ngIf="f.sr.errors.pattern" i18n="@@addCourse-srRange">Course SR must be in range: 10 to 299</div>
-          </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>SR</mat-label>
+            <input matInput maxlength="3" [formControlName]="'sr'"/>
+            @if (g.sr.invalid && g.sr.errors.required)  {
+              <mat-error i18n="@@addCourse-srReq">Course SR is required</mat-error>
+            }
+            @if (g.sr.invalid && g.sr.errors.pattern)  {
+              <mat-error i18n="@@addCourse-srRange">Course SR must be in range: 10 to 299</mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="form-group col">
-          <p-dropdown
-            formControlName="teeTypeDropDown"
-            autoWidth="false" [style]="{'width':'100%'}"
-            [options]="teeTypes"
-            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
-            i18n-placeholder="@@addCourse-teeType"
-            placeholder="tee type">
-          </p-dropdown>
-          <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.teeTypeDropDown.errors.required" i18n="@@addCourse-teeReq">Tee is required</div>
-          </div>
+
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-teeType">tee type</mat-label>
+            <mat-select [formControlName]="'teeTypeDropDown'">
+              @for (teeType of teeTypes; track teeType) {
+                <mat-option [value]="teeType.value">{{teeType.label}}</mat-option>
+              }
+            </mat-select>
+            @if (g.teeTypeDropDown.invalid  && g.teeTypeDropDown.errors) {
+              <mat-error i18n="@@addCourse-teeReq">Tee is required</mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="form-group col">
-          <p-dropdown
-            formControlName="sexDropDown"
-            autoWidth="false" [style]="{'width':'100%'}"
-            [options]="sex"
-            [ngClass]="{ 'is-invalid': addTeeSubmitted && f.teeTypeDropDown.errors }"
-            i18n-placeholder="@@addCourse-sex"
-            placeholder="sex">
-          </p-dropdown>
-          <div *ngIf="addTeeSubmitted && f.teeTypeDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.teeTypeDropDown.errors.required" i18n="@@addCourse-sexReq">Sex is required</div>
-          </div>
+
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-sex">sex</mat-label>
+            <mat-select [formControlName]="'sexDropDown'">
+              @for (sexOpt of sex; track sexOpt) {
+                <mat-option [value]="sexOpt.value">{{sexOpt.label}}</mat-option>
+              }
+            </mat-select>
+            @if (g.sexDropDown.invalid  && g.sexDropDown.errors) {
+              <mat-error i18n="@@addCourse-sexReq">Sex is required</mat-error>
+            }
+          </mat-form-field>
         </div>
-        <div class="form-group col">
+
+        <div class="col-auto">
           <button type="button" class="btn btn-success btn-tee" (click)="addTee()" i18n="@@addCourse-add">
             Add Tee
           </button>
         </div>
+
       </div>
+    </form>
       <div>
         <br />
-        <div class="form-group">
+        <div>
           <button type="button" class="btn btn-success" routerLink="/home" i18n="@@addCourse-cancel">
             Cancel
           </button>
@@ -208,12 +197,11 @@
             Clear
           </button>
           &nbsp;
-          <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            <span i18n="@@addCourse-save">Save</span>
-          </button>
+            <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              <span i18n="@@addCourse-save">Save</span>
+            </button>
         </div>
       </div>
-    </form>
   </div>
-</div>
+

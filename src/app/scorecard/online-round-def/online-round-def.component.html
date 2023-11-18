@@ -8,21 +8,21 @@
         {{course.name}}
       </h2>
     </div>
-    <div class="row">
-      <label>Tee time:</label>
-    </div>
-    <div class="row">
-      <span class="col-4">
-        <input type="text" maxlength="5" formControlName="teeTime" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }" placeholder="HH:MM" />
-        <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
-          <div *ngIf="f.teeTime.errors.required" i18n="@@onlnRndDef-timReq">Tee time is required</div>
-          <div *ngIf="f.teeTime.errors.pattern" i18n="@@onlnRndDef-timPatt">Provide the valid tee time</div>
-        </div>
-      </span>
-    </div>
+    <div class="golf-margin-top-15">
+      <mat-form-field>
+        <mat-label>Tee time</mat-label>
+        <input matInput maxlength="5" [formControlName]="'teeTime'" />
+        @if (f.teeTime.invalid && f.teeTime.errors.required) {
+          <mat-error i18n="@@onlnRndDef-timReq">Tee time is required</mat-error>
+        }
+        @if (f.teeTime.invalid && f.teeTime.errors.pattern) {
+          <mat-error i18n="@@onlnRndDef-timPatt">Provide the valid tee time</mat-error>
+        }
 
-    <div class="golf-margin-top">
+      </mat-form-field>
+  </div>
+
+    <div >
       <input type="checkbox" class="form-check-input form-check-input-green" id="matchPlay" formControlName="matchPlay"
         (ngModelChange)="onMatchPlayChange($event)">
       <label for="matchPlay">&nbsp; <span i18n="@@onlnRndDef-mpRnd">Match Play Round</span></label>
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="row golf-margin-top">
+    <div class="row golf-margin-top-15">
       <div class="col">
         <div class="btn-group" role="group" aria-label="Number of players">
           <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)">
@@ -66,167 +66,191 @@
       </div>
     </div>
 
-    <div class="row golf-margin-top">
+    <div class="row golf-margin-top-15">
 
-        <label for="player1Lbl" i18n="@@onlnRndDef-p1">Player 1 username:</label>
-
-        <div class="col-8">
-          <input type="text" formControlName="nick1" class="form-control" />
-        </div>
-
-        <div class="col-4 golf-padding">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </div>
-
-        <div class="col-auto golf-padding">
-          <p-dropdown (onChange)="teeChange(0)" formControlName="teeDropDown1" optionLabel="label" [options]="getTeeOptions(0)"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown1.errors }" placeholder="tee">
-          </p-dropdown>
-          &nbsp;
-          <div *ngIf="submitted && f.teeDropDown1.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown1.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
-          </div>
-
-          <span *ngIf="tees[0] != null">
-            <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-            &nbsp;
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@onlnRndDef-p1">Player 1 username</mat-label>
+            <input matInput [formControlName]="'nick1'" />
+          </mat-form-field>
+          <span class="mat-mdc-text-field-wrapper">
+            <fa-icon [icon]="faCheckCircle" class="golf-green golf-padding mat-mdc-text-field-wrapper"></fa-icon>
           </span>
+        </div>
 
-          <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)" i18n="@@onlnRndDef-hcpUpd">
-            HCP update
-          </button>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown1'" (selectionChange)="teeChange(0)">
+              @for (teeOption of getTeeOptions(0); track teeOption) {
+                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown1.invalid && f.teeDropDown1.errors) {
+              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            }
+
+          </mat-form-field>
+          <span *ngIf="tees[0] != null">
+            <fa-icon [icon]="faCheckCircle" class="golf-green golf-padding"></fa-icon>
+          </span>
+          <span class="golf-padding">
+            <button type="button" id="p0Btn" class="btn btn-success" (click)="updateWHS(0)" i18n="@@onlnRndDef-hcpUpd">
+              HCP update
+            </button>
+          </span>
         </div>
     </div>
 
-    <div *ngIf="noOfPlayers > 1" class="row golf-margin-top">
-      <label for="player2Lbl" i18n="@@onlnRndDef-p2">Player 2 username:</label>
-
-      <div class="col-8">
-          <input type="text" formControlName="nick2" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.nick2.errors }" />
-          <div *ngIf="submitted && f.nick2.errors" class="invalid-feedback">
-            <div *ngIf="f.nick2.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
-            <div *ngIf="f.nick2.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
-          </div>
-      </div>
-
-      <div class="col-4 golf-padding">
-        <span *ngIf="players[1] == null">
-          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
-        </span>
-        <span *ngIf="players[1] != null">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-      </div>
-
-
-      <div class="col-auto golf-padding">
-        <p-dropdown (onChange)="teeChange(1)" formControlName="teeDropDown2" [options]="getTeeOptions(1)"
-          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown2.errors }" placeholder="tee">
-        </p-dropdown>
-        <div *ngIf="submitted && f.teeDropDown2.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown2.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
+    @if (noOfPlayers > 1) {
+      <div class="row golf-margin-top-15">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@onlnRndDef-p2">Player 2 username</mat-label>
+            <input matInput [formControlName]="'nick2'" />
+            @if (f.nick2.invalid && f.nick2.errors.required) {
+              <mat-error i18n="@@onlnRndDef-nickReq">Player nick is required</mat-error>
+            }
+            @if (f.nick2.invalid && f.nick2.errors.maxlength) {
+              <mat-error i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</mat-error>
+            }
+          </mat-form-field>
+          <span class="golf-padding">
+            @if (players[1] == null) {
+              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
+            }
+            @if (players[1] != null) {
+              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            }
+          </span>
         </div>
-        <span *ngIf="tees[1] != null">
-          &nbsp;
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-        <span class="form-group" *ngIf="players[1] != null">
-          &nbsp;
-          <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)" i18n="@@onlnRndDef-hcpUpd">
-            HCP update
-          </button>
-        </span>
-        &nbsp;
-        <span *ngIf="searchInProgress[1]" class="spinner-border text-success" role="status"></span>
-      </div>
-    </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown2'" (selectionChange)="teeChange(1)">
+              @for (teeOption of getTeeOptions(1); track teeOption) {
+                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown2.invalid && f.teeDropDown2.errors) {
+              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            }
 
-    <div *ngIf="noOfPlayers > 2" class="row golf-margin-top">
-      <label for="player3Lbl" i18n="@@onlnRndDef-p3">Player 3 username:</label>
-
-      <div class="col-8">
-        <input type="text" formControlName="nick3" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.nick3.errors }" />
-        <div *ngIf="submitted && f.nick3.errors" class="invalid-feedback">
-          <div *ngIf="f.nick3.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
-          <div *ngIf="f.nick3.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
+          </mat-form-field>
+          @if(tees[1] != null) {
+            <fa-icon [icon]="faCheckCircle" class="golf-green golf-padding"></fa-icon>
+          }
+          <span class="golf-padding">
+            <button type="button" id="p1Btn" class="btn btn-success" (click)="updateWHS(1)" i18n="@@onlnRndDef-hcpUpd">
+              HCP update
+            </button>
+          </span>
+          @if (searchInProgress[1]) {
+            <span class="spinner-border text-success" role="status"></span>
+          }
         </div>
       </div>
+    }
 
-      <div class="col-4 golf-padding">
-        <span *ngIf="players[2] == null">
-          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
-        </span>
-        <span *ngIf="players[2] != null">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-      </div>
-
-      <div  class="col-auto golf-padding">
-        <p-dropdown (onChange)="teeChange(2)" formControlName="teeDropDown3" [options]="getTeeOptions(2)"
-          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown3.errors }" placeholder="tee">
-        </p-dropdown>
-        <div *ngIf="submitted && f.teeDropDown3.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown3.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
+    @if (noOfPlayers > 2) {
+      <div class="row golf-margin-top-15">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@onlnRndDef-p3">Player 3 username</mat-label>
+            <input matInput [formControlName]="'nick3'" />
+            @if (f.nick3.invalid && f.nick3.errors.required) {
+              <mat-error i18n="@@onlnRndDef-nickReq">Player nick is required</mat-error>
+            }
+            @if (f.nick3.invalid && f.nick3.errors.maxlength) {
+              <mat-error i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</mat-error>
+            }
+          </mat-form-field>
+          <span class="golf-padding">
+            @if (players[2] == null) {
+              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
+            }
+            @if (players[2] != null) {
+              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            }
+          </span>
         </div>
-        <span *ngIf="tees[2] != null">
-          &nbsp;
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-        <span class="form-group" *ngIf="players[2] != null">
-          &nbsp;
-          <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)" i18n="@@onlnRndDef-hcpUpd">
-            HCP update
-          </button>
-        </span>
-        <span *ngIf="searchInProgress[2]" class="spinner-border text-success" role="status"></span>
-      </div>
-    </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown3'" (selectionChange)="teeChange(2)">
+              @for (teeOption of getTeeOptions(2); track teeOption) {
+                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown3.invalid && f.teeDropDown3.errors) {
+              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            }
 
-    <div *ngIf="noOfPlayers > 3" class="row golf-margin-top">
-      <label for="player4Lbl" i18n="@@onlnRndDef-p4">Player 4 username:</label>
-
-      <div class="col-8">
-
-        <input type="text" formControlName="nick4" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.nick4.errors }" />
-        <div *ngIf="submitted && f.nick4.errors" class="invalid-feedback">
-          <div *ngIf="f.nick4.errors.required" i18n="@@onlnRndDef-nickReq">Player nick is required</div>
-          <div *ngIf="f.nick4.errors.maxlength" i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</div>
+          </mat-form-field>
+          @if(tees[2] != null) {
+            <fa-icon [icon]="faCheckCircle" class="golf-green golf-padding"></fa-icon>
+          }
+          <span class="golf-padding">
+            <button type="button" id="p2Btn" class="btn btn-success" (click)="updateWHS(2)" i18n="@@onlnRndDef-hcpUpd">
+              HCP update
+            </button>
+          </span>
+          @if (searchInProgress[2]) {
+            <span class="spinner-border text-success" role="status"></span>
+          }
         </div>
       </div>
+    }
 
-      <div class="col-4 golf-padding">
-        <span *ngIf="players[3] == null">
-          <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
-        </span>
-        <span *ngIf="players[3] != null">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-      </div>
-
-      <div class="col-auto golf-padding">
-        <p-dropdown (onChange)="teeChange(3)" formControlName="teeDropDown4" [options]="getTeeOptions(3)"
-          [ngClass]="{ 'is-invalid': submitted && f.teeDropDown4.errors }" placeholder="tee">
-        </p-dropdown>
-        <div *ngIf="submitted && f.teeDropDown4.errors" class="invalid-feedback">
-          <div *ngIf="f.teeDropDown4.errors.required" i18n="@@onlnRndDef-teeReq">Tee is required</div>
+    @if (noOfPlayers > 3) {
+      <div class="row golf-margin-top-15">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@onlnRndDef-p4">Player 4 username</mat-label>
+            <input matInput [formControlName]="'nick4'" />
+            @if (f.nick4.invalid && f.nick4.errors.required) {
+              <mat-error i18n="@@onlnRndDef-nickReq">Player nick is required</mat-error>
+            }
+            @if (f.nick4.invalid  && f.nick4.errors.maxlength) {
+              <mat-error i18n="@@onlnRndDef-nickTooLenght">Nick cannot be longer than 20 characters</mat-error>
+            }
+          </mat-form-field>
+          <span class="golf-padding">
+            @if (players[3] == null) {
+              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
+            }
+            @if (players[3] != null) {
+              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            }
+          </span>
         </div>
-        <span *ngIf="tees[3] != null">
-          &nbsp;
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-        <span class="form-group" *ngIf="players[3] != null">
-          &nbsp;
-          <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)" i18n="@@onlnRndDef-hcpUpd">
-            HCP update
-          </button>
-        </span>
-        &nbsp;
-        <span *ngIf="searchInProgress[3]" class="spinner-border text-success" role="status"></span>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown4'" (selectionChange)="teeChange(3)">
+              @for (teeOption of getTeeOptions(3); track teeOption) {
+                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown4.invalid  && f.teeDropDown4.errors) {
+              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            }
+
+          </mat-form-field>
+          @if(tees[3] != null) {
+            <fa-icon [icon]="faCheckCircle" class="golf-green golf-padding"></fa-icon>
+          }
+          <span class="golf-padding">
+            <button type="button" id="p3Btn" class="btn btn-success" (click)="updateWHS(3)" i18n="@@onlnRndDef-hcpUpd">
+              HCP update
+            </button>
+          </span>
+          @if (searchInProgress[3]) {
+            <span class="spinner-border text-success" role="status"></span>
+          }
+        </div>
       </div>
-    </div>
+    }
 
     <div class="golf-margin-top">
       <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts"/>

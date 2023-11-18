@@ -99,3 +99,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 .mdc-checkbox  {
   margin: 2px 8px auto 0;
 }
+
+.golf-margin-top-15 {
+  margin-top: 15px  !important;
+}

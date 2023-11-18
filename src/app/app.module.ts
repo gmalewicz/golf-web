@@ -42,6 +42,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
 import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/search-player-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/sear
     HttpClientXsrfModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

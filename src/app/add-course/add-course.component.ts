@@ -20,11 +20,10 @@ export class AddCourseComponent implements OnInit {
 
   loading: boolean;
   public newCourseForm: FormGroup;
-  submitted: boolean;
-  addTeeSubmitted: boolean;
+  public newCourseTeeForm: FormGroup;
 
   public barChartType: ChartType;
-  public barChartLegend;
+  public barChartLegend: boolean;
   public barChartLabels: string[];
   public barChartData: ChartDataset[];
   public barChartOptions: ChartOptions;
@@ -64,13 +63,17 @@ export class AddCourseComponent implements OnInit {
       this.newCourseForm = this.formBuilder.group({
         courseName: ['', Validators.required],
         coursePar: ['', [Validators.required, Validators.pattern('[3-7][0-9]$')]],
+        nbrHolesDropDown: ['', [Validators.required]]
+      });
+
+      this.newCourseTeeForm = this.formBuilder.group({
         tee: ['', Validators.required],
         cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9](,|\\.)?[0-9]?')]],
         sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
         sexDropDown: ['', [Validators.required]],
         teeTypeDropDown: ['', [Validators.required]],
-        nbrHolesDropDown: ['', [Validators.required]]
       });
+
       // initialize all buttons for net selected
       this.parSelectorActive = Array(4).fill({ active: false });
       this.siSelectorActive = Array(18).fill({ active: false });
@@ -95,8 +98,8 @@ export class AddCourseComponent implements OnInit {
       this.barChartType = 'bar';
       this.barChartLegend = true;
       this.barChartLabels = [];
-      this.submitted = false;
-      this.addTeeSubmitted = false;
+      // this.submitted = false;
+      // this.addTeeSubmitted = false;
       this.loading = false;
       this.parButtons = [3, 4, 5, 6];
 
@@ -109,6 +112,9 @@ export class AddCourseComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.newCourseForm.controls; }
+
+  // convenience getter for easy access to form fields
+  get g() { return this.newCourseTeeForm.controls; }
 
   generateLabelsAndData() {
 
@@ -216,11 +222,11 @@ export class AddCourseComponent implements OnInit {
 
   onSubmit() {
 
-    // needed to indicate if main form has been submitted
-    this.submitted = true;
+    // mark that tee data have been submitted
+    this.newCourseForm.markAllAsTouched();
 
     // verify form data and other entries
-    if (this.f.courseName.invalid || this.f.coursePar.invalid || !this.allDataSet()) {
+    if (this.newCourseForm.invalid || !this.allDataSet()) {
       return;
     }
 
@@ -259,10 +265,7 @@ export class AddCourseComponent implements OnInit {
     this.alertService.clear();
 
     // clear couse name, par and number of holes
-    this.f.courseName.reset();
-    this.f.coursePar.reset();
-    this.f.nbrHolesDropDown.reset();
-
+    this.newCourseForm.reset();
 
     // clear button selections
     this.siSelectorActive.fill({ active: false });
@@ -283,10 +286,7 @@ export class AddCourseComponent implements OnInit {
 
     // clear tees
     this.tees = [];
-    this.f.tee.reset();
-    this.f.cr.reset();
-    this.f.sr.reset();
-    this.f.teeTypeDropDown.reset();
+    this.newCourseTeeForm.reset();
   }
 
   private allDataSet(): boolean {
@@ -314,20 +314,20 @@ export class AddCourseComponent implements OnInit {
   addTee(): void {
 
     // mark that tee data have been submitted
-    this.addTeeSubmitted = true;
+    this.newCourseTeeForm.markAllAsTouched();
 
     // display errors if any
-    if (this.f.tee.invalid || this.f.cr.invalid || this.f.sr.invalid ) {
+    if (this.newCourseTeeForm.invalid) {
       return;
     }
 
     // save tee
     this.tees.push({
-      tee: this.f.tee.value, cr: this.f.cr.value.toString().replace(/,/gi, '.'), sr: this.f.sr.value,
-      teeType: this.f.teeTypeDropDown.value, sex: this.f.sexDropDown.value
+      tee: this.g.tee.value, cr: this.g.cr.value.toString().replace(/,/gi, '.'), sr: this.g.sr.value,
+      teeType: this.g.teeTypeDropDown.value, sex: this.g.sexDropDown.value
     });
 
-    // clare submit flag to be ready for the next tee
-    this.addTeeSubmitted = false;
+    // clear form
+    this.newCourseTeeForm.reset();
   }
 }

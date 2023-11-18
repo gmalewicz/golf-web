@@ -24,7 +24,6 @@ export class OnlineRoundDefComponent implements OnInit {
   teeOptionsMale: TeeOptions[] = [];
   teeOptionsFemale: TeeOptions[] = [];
   display: boolean;
-  submitted: boolean;
   loading: boolean;
   noOfPlayers: number;
   players: Player[];
@@ -57,7 +56,6 @@ export class OnlineRoundDefComponent implements OnInit {
     } else {
       // initialization
       this.display = false;
-      this.submitted = false;
       this.loading = false;
       this.noOfPlayers = 1;
       this.players = Array(4);
@@ -108,6 +106,8 @@ export class OnlineRoundDefComponent implements OnInit {
       mpFormat: ['0.75', Validators.required]
     });
 
+
+
     // clean up all controls;
     this.onPlayers(1);
 
@@ -150,6 +150,8 @@ export class OnlineRoundDefComponent implements OnInit {
     return this.defScoreCardForm.controls;
   }
 
+  get teeDropDown1() { return this.defScoreCardForm.get("teeDropDown") }
+
   // change which 9 is available when tee has been changed
   teeChange(index: number) {
     this.alertService.clear();
@@ -159,28 +161,28 @@ export class OnlineRoundDefComponent implements OnInit {
       case 0: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown1.value.value)
+          .filter(t => t.id === this.f.teeDropDown1.value)
           .pop();
         break;
       }
       case 1: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown2.value.value)
+          .filter(t => t.id === this.f.teeDropDown2.value)
           .pop();
         break;
       }
       case 2: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown3.value.value)
+          .filter(t => t.id === this.f.teeDropDown3.value)
           .pop();
         break;
       }
       default: {
         this.tees[index] = this.course.tees
           // tslint:disable-next-line: variable-name
-          .filter(t => t.id === this.f.teeDropDown4.value.value)
+          .filter(t => t.id === this.f.teeDropDown4.value)
           .pop();
         break;
       }
@@ -188,7 +190,18 @@ export class OnlineRoundDefComponent implements OnInit {
   }
 
   onStartOnlineRound() {
-    this.submitted = true;
+
+    this.f.teeDropDown1.markAsTouched();
+    this.f.teeDropDown2.markAsTouched();
+    this.f.teeDropDown3.markAsTouched();
+    this.f.teeDropDown4.markAsTouched();
+    this.f.nick2.markAsTouched();
+    this.f.nick3.markAsTouched();
+    this.f.nick4.markAsTouched();
+    this.f.teeTime.markAsTouched();
+
+
+    this.f.teeDropDown1.updateValueAndValidity();
 
     // reset alerts on submit
     this.alertService.clear();
