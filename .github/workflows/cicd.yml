@@ -106,7 +106,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           # install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
-          # build: npm run build
+          build: npm run build --legacy-peer-deps
           start: npm start
           wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 180
