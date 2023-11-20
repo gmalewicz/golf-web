@@ -3,12 +3,13 @@ import { RemoveMatchComponent } from './remove-match.component';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
 import { HttpService } from '@/_services/http.service';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
 import { Router } from '@angular/router';
 import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { AlertService } from '@/_services/alert.service';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RemoveMatchComponent', () => {
   let component: RemoveMatchComponent;
@@ -21,7 +22,8 @@ describe('RemoveMatchComponent', () => {
       imports: [
         HttpClientModule,
         ReactiveFormsModule,
-        DropdownModule,
+        MatSelectModule,
+        BrowserAnimationsModule
       ],
       providers: [ LeagueHttpService,
                    HttpService,
@@ -54,7 +56,7 @@ describe('RemoveMatchComponent', () => {
     currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
     fixture.detectChanges();
     component.removeMatchResult();
-    expect(component.isSubmitted()).toBeTruthy();
+    expect(component.matchRemoveForm.valid).toBeFalsy();
   });
 
   it('should remove match but players are the same', () => {
@@ -66,7 +68,7 @@ describe('RemoveMatchComponent', () => {
     component.f.winnerDropDown.setValue(1);
     component.f.looserDropDown.setValue(1);
     component.removeMatchResult();
-    expect(component.isSubmitted()).toBeTruthy();
+    expect(component.matchRemoveForm.valid).toBeTruthy();
   });
 
   it('should remove match but it does not exist', () => {
@@ -78,7 +80,7 @@ describe('RemoveMatchComponent', () => {
     component.f.winnerDropDown.setValue(1);
     component.f.looserDropDown.setValue(2);
     component.removeMatchResult();
-    expect(component.isSubmitted()).toBeTruthy();
+    expect(component.matchRemoveForm.valid).toBeTruthy();
   });
 
   it('should remove match properly', () => {

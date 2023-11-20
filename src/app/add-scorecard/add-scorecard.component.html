@@ -5,45 +5,45 @@
   <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
   <form [formGroup]="addScorecardForm">
   <div class="row">
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="10"
-        formControlName="date"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
-      />
-      <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
-        <div *ngIf="f.date.errors.required" i18n="@@addScorecard-dateReq">Date is required</div>
-        <div *ngIf="f.date.errors.pattern" i18n="@@addScorecard-dateFrmt">Provide the date in the YYYY/MM/DD format</div>
-      </div>
+
+    <div class="col-auto">
+      <mat-form-field>
+        <input matInput maxlength="10" [formControlName]="'date'"/>
+        @if (f.date.invalid && f.date.errors.required)  {
+          <mat-error i18n="@@addScorecard-dateReq">Date is required</mat-error>
+        }
+        @if (f.date.invalid && f.date.errors.pattern)  {
+          <mat-error i18n="@@addScorecard-dateFrmt">Provide the date in the YYYY/MM/DD format</mat-error>
+        }
+      </mat-form-field>
     </div>
-    &nbsp;
-    <div class="form-group col">
-      <input
-        type="text"
-        maxlength="5"
-        formControlName="teeTime"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.teeTime.errors }"
-      />
-      <div *ngIf="submitted && f.teeTime.errors" class="invalid-feedback">
-        <div *ngIf="f.teeTime.errors.required" i18n="@@addScorecard-teeTimeReq">Tee time is required</div>
-        <div *ngIf="f.teeTime.errors.pattern" i18n="@@addScorecard-teeValid">Provide the valid tee time</div>
-      </div>
+
+    <div class="col-auto">
+      <mat-form-field>
+        <input matInput maxlength="5" [formControlName]="'teeTime'"/>
+        @if (f.teeTime.invalid && f.teeTime.errors.required)  {
+          <mat-error i18n="@@addScorecard-teeTimeReq">Tee time is required</mat-error>
+        }
+        @if (f.teeTime.invalid && f.teeTime.errors.pattern)  {
+          <mat-error i18n="@@addScorecard-teeValid">Provide the valid tee time</mat-error>
+        }
+      </mat-form-field>
     </div>
-    <div class="form-group col">
-      <p-dropdown (onChange)="teeChange(true)"
-        formControlName="teeDropDown"
-        [options]="teeOptions"
-        [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }"
-        i18n-placeholder="@@addScorecard-tee"
-        placeholder="tee">
-      </p-dropdown>
-      <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
-        <div *ngIf="f.teeDropDown.errors.required" i18n="@@addScorecard-teeReq">Tee is required</div>
-      </div>
+
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label>tee</mat-label>
+        <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(true)">
+          @for (tee of teeOptions; track teeOptions) {
+            <mat-option [value]="tee.value">{{tee.label}}</mat-option>
+          }
+        </mat-select>
+        @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
+          <mat-error i18n="@@addScorecard-teeReq">Tee is required</mat-error>
+        }
+      </mat-form-field>
     </div>
+
     <br />
     <br />
   </div>

@@ -127,15 +127,17 @@ export class LeagueComponent  implements OnInit {
 
   updateNicks() {
 
-    this.navigationService.matches.mutate(matches => matches.forEach(match => {
-      // update only if winnerNick is undefined (when it is read from database)
-      if (match.winnerNick === undefined) {
-        match.winnerNick = this.navigationService.players().find(player => player.playerId === match.winnerId).nick;
-      }
-      if (match.looserNick === undefined) {
-        match.looserNick = this.navigationService.players().find(player => player.playerId === match.looserId).nick;
-      }
-    }));
+    this.navigationService.matches.update(matches => { matches.forEach(match => {
+        // update only if winnerNick is undefined (when it is read from database)
+        if (match.winnerNick === undefined) {
+          match.winnerNick = this.navigationService.players().find(player => player.playerId === match.winnerId).nick;
+        }
+        if (match.looserNick === undefined) {
+          match.looserNick = this.navigationService.players().find(player => player.playerId === match.looserId).nick;
+        }
+      })
+      return matches;
+    });
   }
 
 

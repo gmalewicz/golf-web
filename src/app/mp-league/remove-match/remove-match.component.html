@@ -7,17 +7,36 @@
   <br/>
   <form [formGroup]="matchRemoveForm">
     <div class="row align-items-start">
-      <div class="col">
-        <p-dropdown (onChange)="onChange()" formControlName="winnerDropDown" [options]="playerOptions"
-          [ngClass]="{ 'is-invalid': isSubmitted() && f.winnerDropDown.errors }" placeholder="nick" [style]="{'width':'200px'}">
-        </p-dropdown>
-        &nbsp;vs&nbsp;
-        <p-dropdown (onChange)="onChange()" formControlName="looserDropDown" [options]="playerOptions"
-          [ngClass]="{ 'is-invalid': isSubmitted() && f.looserDropDown.errors }" placeholder="nick" [style]="{'width':'200px'}">
-        </p-dropdown>
-        <div *ngIf="isSubmitted() && (f.looserDropDown.errors || f.winnerDropDown.errors)" class="invalid-feedback">
-          <div *ngIf="f.looserDropDown.errors.required" i18n="@@addMatch-nickReq">Winner and looser are required</div>
-        </div>
+      <div class="col-auto">
+
+        <mat-form-field>
+          <mat-label>nick</mat-label>
+          <mat-select [formControlName]="'winnerDropDown'" (selectionChange)="onChange()">
+            @for (player of playerOptions; track player) {
+              <mat-option [value]="player.value">{{player.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.winnerDropDown.invalid  && f.winnerDropDown.errors) {
+            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+          }
+        </mat-form-field>
+
+        <span class="golf-padding">
+          vs
+        </span>
+
+        <mat-form-field>
+          <mat-label>nick</mat-label>
+          <mat-select [formControlName]="'looserDropDown'" (selectionChange)="onChange()">
+            @for (player of playerOptions; track player) {
+              <mat-option [value]="player.value">{{player.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.looserDropDown.invalid  && f.looserDropDown.errors) {
+            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+          }
+        </mat-form-field>
+
       </div>
     </div>
   </form>

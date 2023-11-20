@@ -1,19 +1,23 @@
+
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Subject, tap } from 'rxjs';
+import { Subject, map, mergeMap, tap } from 'rxjs';
 import { UpdateTournamentPlayerWhsDialogComponent } from '../update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component';
 import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
+import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
+import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
+
 
 @Component({
   selector: 'app-tournament-players',
@@ -37,10 +41,6 @@ export class TournamentPlayersComponent implements OnInit {
   faMinusCircle: IconDefinition;
   faSearchPlus: IconDefinition;
 
-  searchPlayerForm: FormGroup;
-
-  searchPlayerInProgress: boolean;
-
   updWhsInProgress: boolean;
   playerIdx: number;
 
@@ -49,7 +49,6 @@ export class TournamentPlayersComponent implements OnInit {
   submitted: boolean;
 
   constructor(private tournamentHttpService: TournamentHttpService,
-              private formBuilder: FormBuilder,
               private alertService: AlertService,
               private httpService: HttpService,
               private dialog: MatDialog) {}
@@ -60,10 +59,6 @@ export class TournamentPlayersComponent implements OnInit {
     this.faSearchPlus = faSearchPlus;
 
     this.submitted = false;
-
-    this.searchPlayerForm = this.formBuilder.group({
-      nick: ['', [Validators.required, Validators.maxLength(20)]]
-    });
 
     this.display = false;
 
@@ -82,61 +77,94 @@ export class TournamentPlayersComponent implements OnInit {
     }
   }
 
-  onSearchPlayer() {
+   onSearchPlayer() {
     this.alertService.clear();
 
     this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.searchPlayerForm.invalid) {
-      return;
-    }
+    const dialogConfig = new MatDialogConfig();
 
-    // verify if player has been already added to the tournament
-    if (this.tournamentPlayers.find(p => p.nick === this.f.nick.value)) {
-      this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${this.f.nick.value} already added to the tournament.`, false);
-      this.submitted = false;
-      this.searchPlayerForm.reset();
-      return;
-    }
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
-    this.searchPlayerInProgress = true;
+    const dialogRef = this.dialog.open(
+      SearchPlayerDialogComponent,
+      dialogConfig
+    );
 
-    this.httpService.getPlayerForNick(this.f.nick.value).pipe(
-      tap((player: Player) => {
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap(player => {
+          // user decided to create the new player so open the proper dialog
+          if (player?.action) {
 
-        if (player != null) {
+            const dialogConfig = new MatDialogConfig();
 
-          const tournamentPlayer: TournamentPlayer = {
-            playerId: player.id,
-            whs: player.whs,
-            tournamentId: this.tournament.id,
-            nick: player.nick
-          };
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.data = {
+              nick: '',
+            };
 
-          this.tournamentHttpService.addTournamentPlayer(tournamentPlayer).pipe(
-            tap(() => {
-              this.submitted = false;
-              this.searchPlayerForm.reset();
-              this.tournamentPlayers.push(tournamentPlayer);
-              this.outTournamentPlayers.next(this.tournamentPlayers);
-              this.searchPlayerInProgress = false;
-            })
-          ).subscribe();
-        } else {
-          this.alertService.error($localize`:@@tourPlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
-          this.submitted = false;
-          this.searchPlayerForm.reset();
-          this.searchPlayerInProgress = false;
+            const dialogRef = this.dialog.open(
+              RegisterPlayerDialogComponent,
+              dialogConfig
+            );
+
+            return dialogRef.afterClosed();
+          // indicate that it is an existing player
+          } else if (player !== undefined) {
+            player.action = "notNew";
+            return Promise.resolve(player);
+          }
+          // player cancelled search
+          return Promise.resolve(player);
+        }),
+        // create new player if required
+        mergeMap(player => {
+
+          if (player !== undefined && player.action === undefined) {
+            let whs: string = player.whs;
+            whs = whs.toString().replace(/,/gi, '.');
+
+            const newPlayer: Player = {
+              nick: player.nick,
+              whs: +whs,
+              sex: player.female === true
+            };
+            // save new player in backend and return that player to the next step
+            return this.httpService.addPlayerOnBehalf(newPlayer);
+          }
+
+          return Promise.resolve(player);
+        }),
+        mergeMap(player => {
+          if (player !== undefined) {
+            if (this.tournamentPlayers.find(p => p.nick === player.nick)) {
+              this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${player.nick} already added to the tournament.`, false);
+              return Promise.resolve(undefined);
+            }
+
+            const tournamentPlayer: TournamentPlayer = {
+              playerId: player.id,
+              whs: player.whs,
+              tournamentId: this.tournament.id,
+              nick: player.nick
+            };
+
+            // send tournament player to backend
+            return this.tournamentHttpService.addTournamentPlayer(tournamentPlayer).pipe(map(() => tournamentPlayer));
+          }
+          // here must be undefined
+          return Promise.resolve(undefined);
+        })
+      ).subscribe((tournamentPlayer) => {
+        if (tournamentPlayer !== undefined) {
+          this.tournamentPlayers.push(tournamentPlayer);
+          this.outTournamentPlayers.next(this.tournamentPlayers);
         }
-      })
-    )
-    .subscribe();
-  }
-
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.searchPlayerForm.controls;
+        this.submitted = false;
+      });
   }
 
   deletePlayer(tournamentPlayer: TournamentPlayer, playerIdx: number) {

@@ -4,11 +4,12 @@ import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { Router } from '@angular/router';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddMatchComponent', () => {
   let component: AddMatchComponent;
@@ -21,7 +22,8 @@ describe('AddMatchComponent', () => {
       imports: [
         HttpClientModule,
         ReactiveFormsModule,
-        DropdownModule,
+        MatSelectModule,
+        BrowserAnimationsModule
       ],
       providers: [HttpService,
                   LeagueHttpService,

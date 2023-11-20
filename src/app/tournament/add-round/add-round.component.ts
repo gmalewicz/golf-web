@@ -205,6 +205,10 @@ export class AddRoundComponent implements OnInit {
   }
 
   clear() {
+
+    // mark that tee data have been submitted
+    this.defRoundForm.markAsUntouched();
+
     this.score =  Array(18).fill('');
     this.first9Total = 0;
     this.last9Total = 0;
@@ -219,6 +223,9 @@ export class AddRoundComponent implements OnInit {
 
   addRound() {
 
+
+    // mark that tee data have been submitted
+    this.defRoundForm.markAllAsTouched();
 
     this.submitted = true;
 

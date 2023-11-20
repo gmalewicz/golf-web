@@ -16,6 +16,7 @@ import { TournamentPlayersComponent } from './tournament-players.component';
 describe('TournamentPlayersComponent', () => {
   let component: TournamentPlayersComponent;
   let fixture: ComponentFixture<TournamentPlayersComponent>;
+  const dialog = new MatDialogMock();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,7 +30,7 @@ describe('TournamentPlayersComponent', () => {
       providers: [
         HttpService,
         TournamentHttpService,
-        { provide: MatDialog, useClass: MatDialogMock},
+        { provide: MatDialog, useValue: dialog},
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
       ]
@@ -39,15 +40,22 @@ describe('TournamentPlayersComponent', () => {
     fixture = TestBed.createComponent(TournamentPlayersComponent);
     component = fixture.componentInstance;
     component.tournament = {id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020'};
-    fixture.detectChanges();
+
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should create where tournamentPlayers are defined', () => {
+    component.tournamentPlayers = [];
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should delete existing player without results', () => {
-
+    fixture.detectChanges();
     component.tournamentResults = [];
     component.tournamentPlayers = [getTournamentPlayer()];
     component.deletePlayer(getTournamentPlayer(), 0);
@@ -55,49 +63,56 @@ describe('TournamentPlayersComponent', () => {
   });
 
   it('should try to delete player with results', () => {
-
+    fixture.detectChanges();
     component.tournamentPlayers = [getTournamentPlayer()];
     component.tournamentResults = [getTournamentResult()];
     component.deletePlayer(getTournamentPlayer(), 0);
     expect(component.tournamentPlayers.length).toBe(1);
   });
 
-  it('should search player with invalid form', () => {
-
+  it('should search player and player found', () => {
+    fixture.detectChanges();
     component.onSearchPlayer();
     expect(component.submitted).toBeTruthy();
   });
 
-  it('should search for player already added to tournament', () => {
-
-    component.tournamentPlayers = [getTournamentPlayer()];
-    component.f.nick.setValue('test');
+  it('should search player but action has ben cancelled', () => {
+    dialog.setRetVal(undefined);
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.submitted).toBeFalsy();
+    expect(component.submitted).toBeTruthy();
   });
 
-  it('should search for player and add it to tournament', () => {
-
-    component.tournamentPlayers = [getTournamentPlayer()];
-    component.f.nick.setValue('Other2');
+  it('should search player but creation of the new player has been selected', () => {
+    dialog.setRetVal({nick: 'Player', female: true, whs: 10.1, action: 'new'});
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.tournamentPlayers.length).toBe(2);
+    expect(component.submitted).toBeTruthy();
   });
 
-  it('should search for player and not found it', () => {
-
+  it('should not add player because the player already exists', () => {
+    dialog.setRetVal({nick: 'test', female: true, whs: 10.1});
     component.tournamentPlayers = [getTournamentPlayer()];
-    component.f.nick.setValue('Other3');
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.tournamentPlayers.length).toBe(1);
+    expect(component.submitted).toBeTruthy();
   });
 
   it('should update WHS', () => {
-
+    dialog.setRetVal({nick: 'Player', female: true, whs: 10.1});
+    fixture.detectChanges();
     component.tournamentPlayers = [getTournamentPlayer()];
     component.tournamentResults = [];
     component.updateWHS(0);
     expect(component.tournamentPlayers.at(0).whs).toBe(10.1);
   });
 
+  it('should not update WHS because player has results', () => {
+    dialog.setRetVal({nick: 'Player', female: true, whs: 10.1});
+    fixture.detectChanges();
+    component.tournamentPlayers = [getTournamentPlayer()];
+    component.tournamentResults = [getTournamentResult()];
+    component.updateWHS(0);
+    expect(component.tournamentPlayers.at(0).whs).toBe(10);
+  });
 });

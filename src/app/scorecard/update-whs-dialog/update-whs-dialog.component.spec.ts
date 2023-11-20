@@ -5,7 +5,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonDialogComponent } from '../common-dialog/common-dialog.component';
+import { CommonDialogComponent } from '@/dialogs/common-dialog/common-dialog.component';
 
 describe('UpdateWhsDialogComponent', () => {
   let component: UpdateWhsDialogComponent;

@@ -85,5 +85,5 @@ export class CoursesComponent implements OnInit {
           this.courses.searchRes = courses;
         })
     ).subscribe();
-}
+  }
 }

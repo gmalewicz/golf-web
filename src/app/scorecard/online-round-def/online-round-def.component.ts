@@ -6,17 +6,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import {
-  faCheckCircle,
-  faSearchPlus,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faSearchPlus, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { RegisterPlayerDialogComponent } from '../register-player-dialog/register-player-dialog.component';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
+import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 
 @Component({
   selector: 'app-online-round-def',
@@ -28,11 +24,11 @@ export class OnlineRoundDefComponent implements OnInit {
   teeOptionsMale: TeeOptions[] = [];
   teeOptionsFemale: TeeOptions[] = [];
   display: boolean;
-  submitted: boolean;
   loading: boolean;
   noOfPlayers: number;
   players: Player[];
   tees: Tee[];
+  selectedTeeOption: TeeOptions | undefined
 
   searchInProgress: boolean[];
 
@@ -60,7 +56,6 @@ export class OnlineRoundDefComponent implements OnInit {
     } else {
       // initialization
       this.display = false;
-      this.submitted = false;
       this.loading = false;
       this.noOfPlayers = 1;
       this.players = Array(4);
@@ -111,6 +106,8 @@ export class OnlineRoundDefComponent implements OnInit {
       mpFormat: ['0.75', Validators.required]
     });
 
+
+
     // clean up all controls;
     this.onPlayers(1);
 
@@ -153,6 +150,8 @@ export class OnlineRoundDefComponent implements OnInit {
     return this.defScoreCardForm.controls;
   }
 
+  get teeDropDown1() { return this.defScoreCardForm.get("teeDropDown") }
+
   // change which 9 is available when tee has been changed
   teeChange(index: number) {
     this.alertService.clear();
@@ -191,7 +190,18 @@ export class OnlineRoundDefComponent implements OnInit {
   }
 
   onStartOnlineRound() {
-    this.submitted = true;
+
+    this.f.teeDropDown1.markAsTouched();
+    this.f.teeDropDown2.markAsTouched();
+    this.f.teeDropDown3.markAsTouched();
+    this.f.teeDropDown4.markAsTouched();
+    this.f.nick2.markAsTouched();
+    this.f.nick3.markAsTouched();
+    this.f.nick4.markAsTouched();
+    this.f.teeTime.markAsTouched();
+
+
+    this.f.teeDropDown1.updateValueAndValidity();
 
     // reset alerts on submit
     this.alertService.clear();

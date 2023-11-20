@@ -9,28 +9,39 @@
   <form [formGroup]="defRoundForm">
     <div class="row">
 
-        <div class="form-group col-auto">
-          <p-dropdown (onChange)="nickChange()" formControlName="nickDropDown" [options]="tournamentPlayersOptions"
-            [ngClass]="{ 'is-invalid': submitted && f.nickDropDown.errors }" placeholder="nick">
-          </p-dropdown>
-          <div *ngIf="submitted && f.nickDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.nickDropDown.errors.required" i18n="@@addRound-nickReq">Nick is required</div>
-          </div>
-        </div>
-        <div class="form-group col-auto">
-          <p-dropdown (onChange)="teeChange()" formControlName="teeDropDown" [options]="getTeeOptions()"
-            [ngClass]="{ 'is-invalid': submitted && f.teeDropDown.errors }" placeholder="tee">
-          </p-dropdown>
-          <div *ngIf="submitted && f.teeDropDown.errors" class="invalid-feedback">
-            <div *ngIf="f.teeDropDown.errors.required" i18n="@@addRound-teeReq">Tee is required</div>
-          </div>
-        </div>
-        <span *ngIf="!defRoundForm.invalid" class="search col-auto">
+      <div class="col-auto">
+        <mat-form-field>
+          <mat-label i18n="@@addRound-nick">nick</mat-label>
+          <mat-select [formControlName]="'nickDropDown'" (selectionChange)="nickChange()">
+            @for (player of tournamentPlayersOptions; track player) {
+              <mat-option [value]="player.value">{{player.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.nickDropDown.invalid  && f.nickDropDown.errors) {
+            <mat-error i18n="@@addRound-nickReq">Nick is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="col-auto">
+        <mat-form-field>
+          <mat-label>tee</mat-label>
+          <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange()">
+            @for (tee of getTeeOptions(); track tee) {
+              <mat-option [value]="tee.value">{{tee.label}}</mat-option>
+            }
+          </mat-select>
+          @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
+            <mat-error i18n="@@addRound-teeReq">Tee is required</mat-error>
+          }
+        </mat-form-field>
+
+        <span *ngIf="!defRoundForm.invalid" class="search col-auto golf-padding">
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
         <span *ngIf="searchInProgress" class="spinner-border text-success" role="status"></span>
       </div>
-
+    </div>
   </form>
   <br/>
   <div class="table-responsive">

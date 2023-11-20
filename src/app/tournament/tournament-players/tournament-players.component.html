@@ -2,23 +2,14 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="display">
-  <form [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
-    <div class="row">
-      <div class="form-group col">
-        <input type="text" formControlName="nick" class="form-control" i18n-placeholder="@@addRound-nick" placeholder="Player nick"
-          [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
-        <div *ngIf="submitted && f.nick.errors" class="invalid-feedback">
-          <div *ngIf="f.nick.errors.required" i18n="@@tourPlr-nickReq">Player nick is required</div>
-          <div *ngIf="f.nick.errors.maxlength" i18n="@@tourPlr-nickTooLng">Nick cannot be longer than 20 characters</div>
-        </div>
-      </div>
-      <span class="search col-auto">
-        <fa-icon *ngIf="!searchPlayerInProgress" [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer()"></fa-icon>
-        <span *ngIf="searchPlayerInProgress" class="text-success spinner-border spinner-border-sm mr-1"></span>
-      </span>
-      <div class="form-group col"></div>
-    </div>
-  </form>
+
+  <div class="row">
+    <button type="button" class="btn btn-success" (click)="onSearchPlayer()">
+      <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
+      <span *ngIf="!submitted" i18n="@@tournamentPlayer-search">Search or create Player</span>
+    </button>
+  </div>
+
   <table *ngIf="tournamentPlayers !== undefined && tournamentPlayers.length > 0" id="tee-tbl" class="table table-striped" aria-describedby="Tees">
     <thead>
       <tr>
@@ -32,9 +23,9 @@
       <tr *ngFor="let row of tournamentPlayers, let idx = index">
         <td>{{idx + 1}}</td>
         <td>{{ row.nick }}</td>
-        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"></fa-icon></td>
-        <td *ngIf="updWhsInProgress && playerIdx === idx">{{ row.whs }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
-        <td *ngIf="updWhsInProgress && playerIdx !== idx">{{ row.whs }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
+        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)">{{ row.whs | number: '1.1-1'}} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"></fa-icon></td>
+        <td *ngIf="updWhsInProgress && playerIdx === idx">{{ row.whs | number: '1.1-1' }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+        <td *ngIf="updWhsInProgress && playerIdx !== idx">{{ row.whs | number: '1.1-1' }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
 
         <td *ngIf="!deletePlayerinProgress" (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true"><fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
         <td *ngIf="deletePlayerinProgress && playerIdx === idx"> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>

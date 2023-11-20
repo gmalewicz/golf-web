@@ -18,7 +18,6 @@ export class RemoveMatchComponent implements OnInit {
   matchRemoveForm: FormGroup;
 
   private display: WritableSignal<boolean>;
-  private submitted: WritableSignal<boolean>;
 
   playerOptions = [];
 
@@ -36,7 +35,6 @@ export class RemoveMatchComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      this.submitted = signal(false);
 
       this.matchRemoveForm = this.formBuilder.group({
         winnerDropDown : ['', [Validators.required]],
@@ -59,7 +57,8 @@ export class RemoveMatchComponent implements OnInit {
   }
 
   removeMatchResult() {
-    this.submitted.set(true);
+
+    this.matchRemoveForm.markAllAsTouched();
 
     // do nothing if the form is invalid
     if (this.f.winnerDropDown.invalid || this.f.looserDropDown.invalid) {
@@ -86,7 +85,6 @@ export class RemoveMatchComponent implements OnInit {
 
     this.leagueHttpService.deleteMatch(match.league.id, match.winnerId, match.looserId).pipe(
       tap(() => {
-        this.submitted.set(false);
         this.navigationService.matches.set(this.navigationService.matches().filter(m => !(m.winnerId === match.winnerId && m.looserId === match.looserId)));
         this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
       })
@@ -102,15 +100,10 @@ export class RemoveMatchComponent implements OnInit {
     return this.display();
   }
 
-  isSubmitted() {
-    return this.submitted();
-  }
-
-
   clear() {
     this.f.winnerDropDown.setValue(undefined);
     this.f.looserDropDown.setValue(undefined);
-    this.submitted.set(false);
+    this.matchRemoveForm.markAsUntouched();
   }
 
   onChange() {

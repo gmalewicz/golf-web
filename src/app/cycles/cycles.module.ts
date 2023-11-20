@@ -10,7 +10,6 @@ import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { AddCycleComponent } from './add-cycle/add-cycle.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DropdownModule} from 'primeng/dropdown';
 import { CycleDetailsComponent } from './cycle-details/cycle-details.component';
 import { CycleResultsComponent } from './cycle-results/cycle-results.component';
 import { CycleTournamentComponent } from './cycle-tournament/cycle-tournament.component';
@@ -35,7 +34,6 @@ import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
     CommonModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    DropdownModule,
     HttpClientModule,
     HttpClientXsrfModule,
     MatInputModule,

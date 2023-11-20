@@ -13,21 +13,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { ScorecardHttpService } from './_services/scorecardHttp.service';
 import { routing } from './scorecard.routing';
-import { DropdownModule } from 'primeng/dropdown';
 import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
 import { OnlineNavComponent } from './online-nav/online-nav.component';
-import { RegisterPlayerDialogComponent } from './register-player-dialog/register-player-dialog.component';
 import { UpdateWhsDialogComponent } from './update-whs-dialog/update-whs-dialog.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CommonDialogComponent } from './common-dialog/common-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 import { CommonScorecardTopComponent } from './common-scorecard-top/common-scorecard-top.component';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { RxStompService } from './_services/rx-stomp.service';
 import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
-import { MatButtonModule } from '@angular/material/button';
 import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
+import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
+import { CommonDialogComponent } from '@/dialogs/common-dialog/common-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -45,16 +44,14 @@ import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
   ],
   imports: [
     routing,
-    DropdownModule,
     CommonModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     HttpClientModule,
     HttpClientXsrfModule,
     MatInputModule,
-    MatCheckboxModule,
     MatDialogModule,
-    MatButtonModule
+    MatSelectModule
   ],
   providers: [ScorecardHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

@@ -166,6 +166,10 @@ export class HttpService {
   updatePlayerRnd(oldPlrId: number, newPlrId: number, roundId: number): Observable<HttpResponse<null>> {
     return this.http.patch<HttpResponse<null>>('rest/SwapPlrRnd', {oldPlrId, newPlrId, roundId});
   }
+
+  searchForPlayer(nick: string, page: number): Observable<Array<Player>> {
+    return this.http.post<Array<Player>>('rest/SearchForPlayer', {nick, page});
+  }
 }
 
 

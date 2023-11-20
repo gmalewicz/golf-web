@@ -21,7 +21,6 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DropdownModule} from 'primeng/dropdown';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { CourseComponent } from './course/course.component';
 import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
@@ -41,6 +40,8 @@ import { FinishSocialDialogComponent } from './login/finish-social-dialog/finish
 import { MatButtonModule } from '@angular/material/button';
 import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
+import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/search-player-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
     ListRoundsComponent,
     AdminComponent,
     UpdDialogComponent,
-    FinishSocialDialogComponent
+    FinishSocialDialogComponent,
+    SearchPlayerDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -80,13 +82,13 @@ import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    DropdownModule,
     RecaptchaModule,
     RecaptchaFormsModule,
     HttpClientXsrfModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [HttpService,
               { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
