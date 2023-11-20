@@ -123,6 +123,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
           start: npm start
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4200'
