@@ -126,7 +126,7 @@ jobs:
           install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
           start: npm start --host=0.0.0.0
           # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://0.0.0.0:4200'
+          wait-on: 'http://[::1]:4200'
           wait-on-timeout: 180
 
 
