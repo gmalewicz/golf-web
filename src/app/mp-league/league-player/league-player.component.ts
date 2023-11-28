@@ -1,10 +1,10 @@
 import { LeaguePlayer } from './../_models/leaguePlayer';
 import { ChangeDetectorRef, Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { IconDefinition, faMinusCircle, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { map, mergeMap, tap } from 'rxjs';
@@ -13,13 +13,16 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthenticationService } from '@/_services/authentication.service';
+import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
+import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 
 @Component({
   selector: 'app-league-player',
   standalone: true,
   imports: [CommonModule,
             FontAwesomeModule,
-            ReactiveFormsModule],
+            ReactiveFormsModule
+          ],
   templateUrl: './league-player.component.html',
 })
 export class LeaguePlayerComponent implements OnInit {
@@ -34,14 +37,10 @@ export class LeaguePlayerComponent implements OnInit {
 
   public players: LeaguePlayer[] = [];
 
-
-  searchPlayerForm: FormGroup;
-
   playerIdx: number;
   player: Player;
 
   constructor(private leagueHttpService: LeagueHttpService,
-              private formBuilder: FormBuilder,
               private alertService: AlertService,
               private httpService: HttpService,
               private dialog: MatDialog,
@@ -57,11 +56,6 @@ export class LeaguePlayerComponent implements OnInit {
     this.display = signal(false);
     this.deletePlayerInProgress = signal(false);
     this.searchPlayerInProgress = signal(false);
-
-    this.searchPlayerForm = this.formBuilder.group({
-      nick: ['', [Validators.required, Validators.maxLength(20)]]
-    });
-
     this.display.set(true);
     this.player = this.authenticationService.currentPlayerValue;
   }
@@ -82,68 +76,90 @@ export class LeaguePlayerComponent implements OnInit {
     return this.deletePlayerInProgress();
   }
 
-   // convenience getter for easy access to form fields
-   get f() {
-    return this.searchPlayerForm.controls;
-  }
-
   onSearchPlayer() {
     this.alertService.clear();
 
-    this.submitted.set(true);
+    const dialogConfig = new MatDialogConfig();
 
-    // stop here if form is invalid
-    if (this.searchPlayerForm.invalid) {
-      return;
-    }
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
-    // verify if player has been already added to the tournament
-    if (this.navigationService.players().find(p => p.nick === this.f.nick.value)) {
-      this.alertService.error($localize`:@@leaguePlr-plrAlrdAdded:Player ${this.f.nick.value} already added to the league.`, false);
-      this.submitted.set(false);
-      this.searchPlayerForm.reset();
-      return;
-    }
+    const dialogRef = this.dialog.open(
+      SearchPlayerDialogComponent,
+      dialogConfig
+    );
 
-    this.searchPlayerInProgress.set(true);
-
-    this.httpService.getPlayerForNick(this.f.nick.value)
+    dialogRef.afterClosed()
       .pipe(
-        map (
-        (player: Player) => {
+        mergeMap(player => {
+          // user decided to create the new player so open the proper dialog
+          if (player?.action) {
 
-          let leaguePlayer: LeaguePlayer = null;
+            const dialogConfig = new MatDialogConfig();
 
-          if (player != null) {
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.data = {
+              nick: '',
+            };
 
-            leaguePlayer = {
+            const dialogRef = this.dialog.open(
+              RegisterPlayerDialogComponent,
+              dialogConfig
+            );
+
+            return dialogRef.afterClosed();
+          // indicate that it is an existing player
+          } else if (player !== undefined) {
+            player.action = "notNew";
+            return Promise.resolve(player);
+          }
+          // player cancelled search
+          return Promise.resolve(player);
+        }),
+        // create new player if required
+        mergeMap(player => {
+
+          if (player !== undefined && player.action === undefined) {
+            let whs: string = player.whs;
+            whs = whs.toString().replace(/,/gi, '.');
+
+            const newPlayer: Player = {
+              nick: player.nick,
+              whs: +whs,
+              sex: player.female === true
+            };
+            // save new player in backend and return that player to the next step
+            return this.httpService.addPlayerOnBehalf(newPlayer);
+          }
+
+          return Promise.resolve(player);
+        }),
+        mergeMap(player => {
+          if (player !== undefined) {
+            if (this.navigationService.players().find(p => p.nick === player.nick)) {
+              this.alertService.error($localize`:@@leaguePlr-plrAlrdAdded:Player ${player.nick} already added to the league.`, false);
+              return Promise.resolve(undefined);
+            }
+
+            const leaguePlayer: LeaguePlayer = {
               playerId: player.id,
               league: this.navigationService.league(),
               nick: player.nick
             };
-            // sort players and save
-            this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
-          } else {
-            this.alertService.error($localize`:@@leaguePlr-plrNotFnd:Player ${this.f.nick.value} not found.`, false);
-            this.submitted.set(false);
-            this.searchPlayerForm.reset();
-            this.searchPlayerInProgress.set(false);
+
+            // send league player to backend
+            return this.leagueHttpService.addLeaguePlayer(leaguePlayer).pipe(map(() => leaguePlayer));
           }
-          return leaguePlayer;
-        }),
-        mergeMap(leaguePlayer => {
-          if (leaguePlayer !== null) {
-            return this.leagueHttpService.addLeaguePlayer(leaguePlayer);
-          }
-          return Promise.resolve();
+          // here must be undefined
+          return Promise.resolve(undefined);
+        })
+      ).subscribe((leaguePlayer) => {
+        if (leaguePlayer !== undefined) {
+          // sort players and save
+          this.navigationService.players.set(this.navigationService.players().concat(leaguePlayer).sort((a,b) => a.playerId - b.playerId));
         }
-      )
-    ).subscribe(() => {
-      this.submitted.set(false);
-      this.searchPlayerForm.reset();
-      this.searchPlayerInProgress.set(false);
-      this.ref.detectChanges();
-    })
+      });
   }
 
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {

@@ -2,6 +2,15 @@
   <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
 </div>
 <div *ngIf="isDisplayed()">
+  <div *ngIf="navigationService.league().status === false">
+    <div class="row">
+      <button type="button" class="btn btn-success" (click)="onSearchPlayer()" i18n="@@tournamentPlayer-search">
+        Search or create Player
+      </button>
+    </div>
+  </div>
+
+<!--
   <form  *ngIf="navigationService.league().status === false" [formGroup]="searchPlayerForm" data-html2canvas-ignore="true">
     <div class="row">
       <div class="form-group col">
@@ -19,6 +28,7 @@
       <div class="form-group col"></div>
     </div>
   </form>
+-->
   <table *ngIf="navigationService.players().length > 0" id="tee-tbl" class="table table-striped" aria-describedby="Tees">
     <thead>
       <tr>
