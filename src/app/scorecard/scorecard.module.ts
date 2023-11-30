@@ -26,6 +26,8 @@ import { rxStompServiceFactory } from './_services/rx-stomp-service-factory';
 import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
 import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 import { CommonDialogComponent } from '@/dialogs/common-dialog/common-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { CommonDialogComponent } from '@/dialogs/common-dialog/common-dialog.com
     HttpClientXsrfModule,
     MatInputModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule
   ],
   providers: [ScorecardHttpService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

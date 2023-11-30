@@ -3834,7 +3834,7 @@
       </trans-unit>
       <trans-unit id="searchPlayerDialog-cancel" datatype="html">
         <source> Cancel </source>
-        <target>Usuń</target>
+        <target>Wróć</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/dialogs/search-player-dialog/search-player-dialog.component.html</context>
           <context context-type="linenumber">35,37</context>
