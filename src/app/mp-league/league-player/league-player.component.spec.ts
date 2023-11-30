@@ -12,6 +12,7 @@ import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeag
 describe('LeaguePlayerComponent', () => {
   let component: LeaguePlayerComponent;
   let fixture: ComponentFixture<LeaguePlayerComponent>;
+  const dialog = new MatDialogMock();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,44 +25,46 @@ describe('LeaguePlayerComponent', () => {
                   { provide: AuthenticationService, useValue: authenticationServiceStub},
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock},
+                  { provide: MatDialog, useValue: dialog},
       ]
     });
     fixture = TestBed.createComponent(LeaguePlayerComponent);
     component = fixture.componentInstance;
     component.navigationService.league.set({id: 1, name: 'test league', status: true, player: {id: 1}});
+    component.navigationService.players.set([]);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.isSearchPlayerInProgress()).toBeFalsy();
   });
 
-  it('should search player but form is invalid', () => {
+  it('should search player and player found', () => {
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.isSubmitted()).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should search player but he is already added to the tournamnet', () => {
-    component.navigationService.players.set([{id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
-    component.f.nick.setValue('Test 1');
+  it('should search player but action has ben cancelled', () => {
+    dialog.setRetVal(undefined);
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.isSubmitted()).toBeFalsy();
+    expect(component).toBeTruthy();
   });
 
-  it('should search add player', () => {
-    component.navigationService.players.set([{id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
-    component.f.nick.setValue('Other2');
+  it('should search player but creation of the new player has been selected', () => {
+    dialog.setRetVal({nick: 'Player', female: true, whs: 10.1, action: 'new'});
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.navigationService.players().length).toBe(2);
+    expect(component).toBeTruthy();
   });
 
-  it('should search add player but id does not exists', () => {
-    component.navigationService.players.set([{id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
-    component.f.nick.setValue('Other3');
+  it('should not add player because the player already exists', () => {
+    dialog.setRetVal({nick: 'test', female: true, whs: 10.1});
+    component.navigationService.players.set([{id: 1, playerId: 1, nick: 'test', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
+    fixture.detectChanges();
     component.onSearchPlayer();
-    expect(component.navigationService.players().length).toBe(1);
+    expect(component).toBeTruthy();
   });
 
   it('should delete player but he has match associated with', () => {

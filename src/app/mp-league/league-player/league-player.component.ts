@@ -34,9 +34,7 @@ export class LeaguePlayerComponent implements OnInit {
   faMinusCircle: IconDefinition;
   faSearchPlus: IconDefinition;
 
-  private submitted: WritableSignal<boolean>;
   private display: WritableSignal<boolean>;
-  private searchPlayerInProgress: WritableSignal<boolean>;
   private deletePlayerInProgress: WritableSignal<boolean>;
 
   public players: LeaguePlayer[] = [];
@@ -56,24 +54,14 @@ export class LeaguePlayerComponent implements OnInit {
     this.faMinusCircle = faMinusCircle;
     this.faSearchPlus = faSearchPlus;
 
-    this.submitted = signal(false);
     this.display = signal(false);
     this.deletePlayerInProgress = signal(false);
-    this.searchPlayerInProgress = signal(false);
     this.display.set(true);
     this.player = this.authenticationService.currentPlayerValue;
   }
 
-  isSubmitted() {
-    return this.submitted();
-  }
-
   isDisplayed() {
     return this.display();
-  }
-
-  isSearchPlayerInProgress() {
-    return this.searchPlayerInProgress();
   }
 
   isDeletePlayerInProgress() {
