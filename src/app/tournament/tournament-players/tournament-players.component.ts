@@ -17,6 +17,8 @@ import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
 import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @Component({
@@ -24,7 +26,9 @@ import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/
   standalone: true,
   imports: [CommonModule,
     FontAwesomeModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCheckboxModule],
   templateUrl: './tournament-players.component.html',
   styleUrls: ['./tournament-players.component.css']
 })

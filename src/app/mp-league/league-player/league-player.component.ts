@@ -1,7 +1,7 @@
 import { LeaguePlayer } from './../_models/leaguePlayer';
 import { ChangeDetectorRef, Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -15,13 +15,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
 import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-league-player',
   standalone: true,
   imports: [CommonModule,
             FontAwesomeModule,
-            ReactiveFormsModule
+            ReactiveFormsModule,
+            MatButtonModule,
+            MatCheckboxModule
           ],
   templateUrl: './league-player.component.html',
 })
