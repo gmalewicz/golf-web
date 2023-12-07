@@ -46,6 +46,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   margin-top: 1rem;
 }
 
+.golf-margin-top-6 {
+  display: inline-block;
+  margin-top: 6px !important;
+}
+
 .golf-padding {
   padding: 6px;
 }
@@ -101,4 +106,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 
 .golf-margin-top-15 {
   margin-top: 15px  !important;
+}
+
+.golf-thick {
+  font-weight: bold;
+}
+
+.golf-width-150 {
+  width: 150px !important;
+}
+
+.golf-width-250 {
+  width: 210px !important;
 }

@@ -2096,38 +2096,6 @@
           <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="onlnRndDef-nickReq" datatype="html">
-        <source>Player nick is required</source>
-        <target>Nazwa gracza jest wymagana</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">104</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">148</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">191</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="onlnRndDef-nickTooLenght" datatype="html">
-        <source>Nick cannot be longer than 20 characters</source>
-        <target>Nazwa gracza nie może być dłuższa niż 20 znaków</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">105</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">149</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">192</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="onlnRndDef-p3" datatype="html">
         <source>Player 3</source>
         <target>Gracz 3</target>
@@ -2214,14 +2182,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
           <context context-type="linenumber">464</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="onlnRndDef-hcpUpdated" datatype="html">
-        <source>HCP for <x id="PH" equiv-text="player.nick"/> has been updated</source>
-        <target>HCP dla <x id="PH" equiv-text="player.nick"/> został zmieniony</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.ts</context>
-          <context context-type="linenumber">512</context>
         </context-group>
       </trans-unit>
       <trans-unit id="onlnRnd-score" datatype="html">

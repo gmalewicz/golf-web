@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;
   let fixture: ComponentFixture<OnlineRoundDefComponent>;
+  const dialog = new MatDialogMock();
 
   beforeEach(waitForAsync(() => {
 
@@ -40,7 +41,7 @@ describe('OnlineRoundDefComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        { provide: MatDialog, useClass: MatDialogMock},
+        { provide: MatDialog, useValue: dialog},
         ScorecardHttpService,
         NavigationService
         ]
@@ -59,37 +60,33 @@ describe('OnlineRoundDefComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should search the second player with duplicated nick', fakeAsync(() => {
-
-    component.players = [getTestOnlineRound()[0].player];
-    component.players[0].nick = 'Other';
-
-    component.f.nick2.enable();
-    component.f.nick2.setValue('Other');
+  it('should search player and player found', () => {
+    fixture.detectChanges();
     component.onSearchPlayer(1);
-    expect(component.searchInProgress[1]).toBeFalsy();
-  }));
-
-  it('should search the second player with different nick but not found', () => {
-
-    component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
-
-    component.f.nick2.enable();
-    component.f.nick2.setValue('Other');
-    component.onSearchPlayer(1);
-    expect(component.f.nick2.disabled).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should search the second player with different nick and player found', fakeAsync(() => {
-
-    component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
-
-
-    component.f.nick2.enable();
-    component.f.nick2.setValue('Other2');
+  it('should search player but action has ben cancelled', () => {
+    dialog.setRetVal(undefined);
+    fixture.detectChanges();
     component.onSearchPlayer(1);
-    expect(component.f.nick2.enabled).toBeFalsy();
-  }));
+    expect(component).toBeTruthy();
+  });
+
+  it('should search player but creation of the new player has been selected', () => {
+    dialog.setRetVal({nick: 'Player', female: true, whs: 10.1, action: 'new'});
+    fixture.detectChanges();
+    component.onSearchPlayer(1);
+    expect(component).toBeTruthy();
+  });
+
+  it('should not add player because the player already exists', () => {
+    dialog.setRetVal({nick: 'Greg', female: true, whs: 10.1});
+    component.players = [getTestOnlineRound()[0].player];
+    fixture.detectChanges();
+    component.onSearchPlayer(1);
+    expect(component).toBeTruthy();
+  });
 
   it('start on-line stroke play round', fakeAsync(() => {
 
@@ -113,6 +110,7 @@ describe('OnlineRoundDefComponent', () => {
     expect(component.f.teeDropDown4.enabled).toBeTruthy();
   }));
 
+
   it('start on-line MP round', fakeAsync(() => {
 
     component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
@@ -125,30 +123,9 @@ describe('OnlineRoundDefComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  it('should search the third player with different nick and player found', fakeAsync(() => {
-
-    component.f.nick3.enable();
-    component.f.nick3.setValue('Other2');
-    component.onSearchPlayer(2);
-    expect(component.f.nick2.enabled).toBeFalsy();
-  }));
-
-  it('should search the fourth player with different nick and player found', fakeAsync(() => {
-
-    component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
-
-    component.f.nick4.enable();
-    component.f.nick4.setValue('Other2');
-    component.onSearchPlayer(3);
-    expect(component.f.nick2.enabled).toBeFalsy();
-  }));
-
   it('should update WHS for the second player', () => {
 
     component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
-
-    component.f.nick2.enable();
-    component.f.nick2.setValue('Other');
     component.updateWHS(1);
     expect(component.searchInProgress[1]).toBeFalsy();
   });
@@ -156,8 +133,6 @@ describe('OnlineRoundDefComponent', () => {
   it('should update WHS for the first player', () => {
 
     component.players = [getTestOnlineRound()[0].player, getTestOnlineRound()[1].player];
-
-    component.f.nick1.setValue('Other');
     component.updateWHS(0);
     expect(component.searchInProgress[1]).toBeFalsy();
   });
