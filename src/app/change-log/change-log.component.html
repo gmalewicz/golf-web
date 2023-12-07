@@ -1,7 +1,13 @@
-<div>
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
   <h2>Change log</h2>
+  Backend version: {{version.version}}
+  <p></p>
   <ul>
     <li>v3.5.6-1: Search or create player for online round</li>
+    <li>v3.5.6-2: Backend version added to change log</li>
     <p></p>
     <li>v3.5.0-1: Search or create player for tournament</li>
     <p></p>
