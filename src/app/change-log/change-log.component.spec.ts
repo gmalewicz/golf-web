@@ -1,15 +1,14 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { ChangeLogComponent } from './change-log.component';
+import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 
 describe('ChangeLogComponent', () => {
   let component: ChangeLogComponent;
   let fixture: ComponentFixture<ChangeLogComponent>;
+  let currentPlayerValueSpy: jasmine.Spy<jasmine.Func>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -19,8 +18,7 @@ describe('ChangeLogComponent', () => {
         routing,
       ],
       providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }]
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },]
     })
     .compileComponents();
   }));
@@ -28,10 +26,18 @@ describe('ChangeLogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChangeLogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    currentPlayerValueSpy = spyOnProperty(component.authenticationService , 'currentPlayerValue');
   });
 
-  it('should create', () => {
+  it('should create without logged in user', () => {
+    currentPlayerValueSpy.and.returnValue(null);
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should create with logged in user', () => {
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

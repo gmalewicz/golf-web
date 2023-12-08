@@ -13,7 +13,7 @@ export class ChangeLogComponent implements OnInit {
   version: Version = null;
   display: boolean;
 
-  constructor( private authenticationService: AuthenticationService,
+  constructor( public authenticationService: AuthenticationService,
                private router: Router,
                private httpService: HttpService,) { }
 
