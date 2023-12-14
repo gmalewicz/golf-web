@@ -12,8 +12,8 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
-import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
+import { findOrCreatePlayer, savePlayer } from '@/dialogs/common';
 
 @Component({
   selector: 'app-online-round-def',
@@ -306,54 +306,16 @@ export class OnlineRoundDefComponent implements OnInit {
       SearchPlayerDialogComponent,
       dialogConfig
     );
-
     dialogRef.afterClosed()
       .pipe(
-        mergeMap(player => {
-          // user decided to create the new player so open the proper dialog
-          if (player?.action) {
-
-            const dialogConfig = new MatDialogConfig();
-
-            dialogConfig.disableClose = true;
-            dialogConfig.autoFocus = true;
-            dialogConfig.data = {
-              nick: '',
-            };
-
-            const dialogRef = this.dialog.open(
-              RegisterPlayerDialogComponent,
-              dialogConfig
-            );
-
-            return dialogRef.afterClosed();
-          // indicate that it is an existing player
-          } else if (player !== undefined) {
-            player.action = "notNew";
-            return Promise.resolve(player);
-          }
-          // player cancelled search
-          return Promise.resolve(player);
+        mergeMap((player: Player) => {
+          return findOrCreatePlayer(player, this.dialog);
         }),
         // create new player if required
         mergeMap(player => {
-
-          if (player !== undefined && player.action === undefined) {
-            let whs: string = player.whs;
-            whs = whs.toString().replace(/,/gi, '.');
-
-            const newPlayer: Player = {
-              nick: player.nick,
-              whs: +whs,
-              sex: player.female === true
-            };
-            // save new player in backend and return that player to the next step
-            return this.httpService.addPlayerOnBehalf(newPlayer);
-          }
-
-          return Promise.resolve(player);
+          return savePlayer(player, this.httpService);
         }),
-        mergeMap(player => {
+        mergeMap((player: Player) => {
           if (player !== undefined) {
 
             // verify if player is not already added
@@ -466,3 +428,6 @@ export class OnlineRoundDefComponent implements OnInit {
     });
   }
 }
+
+
+
