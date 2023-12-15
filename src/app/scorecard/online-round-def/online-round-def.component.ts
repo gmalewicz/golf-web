@@ -307,7 +307,6 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
         return Promise.resolve(undefined);
       }
 
-      //this.updatePlayers(player, playerIdx);
       this.players[playerIdx] = player;
     }
     // here must be undefined - all actions if any performed before
