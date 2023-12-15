@@ -4,7 +4,7 @@
 <div *ngIf="isDisplayed()">
   <div *ngIf="navigationService.league().status === false">
     <div class="row">
-      <button type="button" class="btn btn-success" (click)="onSearchPlayer()" i18n="@@tournamentPlayer-search">
+      <button type="button" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
         Search or create Player
       </button>
     </div>

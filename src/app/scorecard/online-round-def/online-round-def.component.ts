@@ -7,19 +7,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
-import { mergeMap, tap } from 'rxjs/operators';
+import { combineLatest, tap } from 'rxjs';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
-import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
-import { findOrCreatePlayer, savePlayer } from '@/dialogs/common';
+import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
 
 @Component({
   selector: 'app-online-round-def',
   templateUrl: './online-round-def.component.html',
 })
-export class OnlineRoundDefComponent implements OnInit {
+export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
   course: Course;
   defScoreCardForm: FormGroup;
   teeOptionsMale: TeeOptions[] = [];
@@ -37,15 +35,17 @@ export class OnlineRoundDefComponent implements OnInit {
   faCheckCircle: IconDefinition;
 
   constructor(
-    private httpService: HttpService,
+    protected httpService: HttpService,
     private scorecardHttpService: ScorecardHttpService,
     private formBuilder: FormBuilder,
-    private alertService: AlertService,
+    protected alertService: AlertService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private dialog: MatDialog,
+    protected dialog: MatDialog,
     private navigationService: NavigationService
-  ) {}
+  ) {
+    super(alertService, dialog, httpService);
+    }
 
   ngOnInit(): void {
     if (
@@ -293,43 +293,25 @@ export class OnlineRoundDefComponent implements OnInit {
     }
   }
 
-  onSearchPlayer(playerIdx: number) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected processPostPlayer(player: unknown): void {
+    // This is intentional
+  }
 
-    this.alertService.clear();
+  protected processPlayer(player: Player, playerIdx: number): Promise<Player> {
 
-    const dialogConfig = new MatDialogConfig();
+    if (player !== undefined) {
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
+      // verify if player is not already added
+      if (this.isNickDuplicated(player.nick)) {
+        return Promise.resolve(undefined);
+      }
 
-    const dialogRef = this.dialog.open(
-      SearchPlayerDialogComponent,
-      dialogConfig
-    );
-    dialogRef.afterClosed()
-      .pipe(
-        mergeMap((player: Player) => {
-          return findOrCreatePlayer(player, this.dialog);
-        }),
-        // create new player if required
-        mergeMap(player => {
-          return savePlayer(player, this.httpService);
-        }),
-        mergeMap((player: Player) => {
-          if (player !== undefined) {
-
-            // verify if player is not already added
-            if (this.isNickDuplicated(player.nick)) {
-              return Promise.resolve(undefined);
-            }
-
-            //this.updatePlayers(player, playerIdx);
-            this.players[playerIdx] = player;
-          }
-          // here must be undefined - all actions if any performed before
-          return Promise.resolve(undefined);
-        })
-      ).subscribe();
+      //this.updatePlayers(player, playerIdx);
+      this.players[playerIdx] = player;
+    }
+    // here must be undefined - all actions if any performed before
+    return Promise.resolve(undefined);
   }
 
   onMatchPlayChange(e) {
