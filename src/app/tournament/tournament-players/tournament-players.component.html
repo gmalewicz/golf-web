@@ -4,9 +4,8 @@
 <div *ngIf="display">
 
   <div class="row">
-    <button type="button" class="btn btn-success" (click)="onSearchPlayer()">
-      <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
-      <span *ngIf="!submitted" i18n="@@tournamentPlayer-search">Search or create Player</span>
+    <button type="button" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
+      Search or create Player
     </button>
   </div>
 

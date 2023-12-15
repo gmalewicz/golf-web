@@ -7,18 +7,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { combineLatest, tap } from 'rxjs';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
-import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
+import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
 
 @Component({
   selector: 'app-online-round-def',
   templateUrl: './online-round-def.component.html',
 })
-export class OnlineRoundDefComponent implements OnInit {
+export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
   course: Course;
   defScoreCardForm: FormGroup;
   teeOptionsMale: TeeOptions[] = [];
@@ -36,15 +35,17 @@ export class OnlineRoundDefComponent implements OnInit {
   faCheckCircle: IconDefinition;
 
   constructor(
-    private httpService: HttpService,
+    protected httpService: HttpService,
     private scorecardHttpService: ScorecardHttpService,
     private formBuilder: FormBuilder,
-    private alertService: AlertService,
+    protected alertService: AlertService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private dialog: MatDialog,
+    protected dialog: MatDialog,
     private navigationService: NavigationService
-  ) {}
+  ) {
+    super(alertService, dialog, httpService);
+    }
 
   ngOnInit(): void {
     if (
@@ -88,18 +89,6 @@ export class OnlineRoundDefComponent implements OnInit {
       teeDropDown2: [{ value: '', disabled: true }, [Validators.required]],
       teeDropDown3: [{ value: '', disabled: true }, [Validators.required]],
       teeDropDown4: [{ value: '', disabled: true }, [Validators.required]],
-      nick1: [
-        {
-          value:
-            this.authenticationService.currentPlayerValue.nick +
-            ' ' +
-            this.authenticationService.currentPlayerValue.whs,
-          disabled: true,
-        },
-      ],
-      nick2: ['', [Validators.required, Validators.maxLength(20)]],
-      nick3: ['', [Validators.required, Validators.maxLength(20)]],
-      nick4: ['', [Validators.required, Validators.maxLength(20)]],
       putts: [false],
       penalties: [false],
       matchPlay: [false],
@@ -195,11 +184,7 @@ export class OnlineRoundDefComponent implements OnInit {
     this.f.teeDropDown2.markAsTouched();
     this.f.teeDropDown3.markAsTouched();
     this.f.teeDropDown4.markAsTouched();
-    this.f.nick2.markAsTouched();
-    this.f.nick3.markAsTouched();
-    this.f.nick4.markAsTouched();
     this.f.teeTime.markAsTouched();
-
 
     this.f.teeDropDown1.updateValueAndValidity();
 
@@ -282,9 +267,6 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.disable();
         this.f.teeDropDown3.disable();
         this.f.teeDropDown4.disable();
-        this.f.nick2.disable();
-        this.f.nick3.disable();
-        this.f.nick4.disable();
         break;
       }
       case 2: {
@@ -292,11 +274,6 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.disable();
         this.f.teeDropDown4.disable();
-        if (this.players[1] === undefined) {
-          this.f.nick2.enable();
-        }
-        this.f.nick3.disable();
-        this.f.nick4.disable();
         break;
       }
       case 3: {
@@ -304,13 +281,6 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.enable();
         this.f.teeDropDown4.disable();
-        if (this.players[1] === undefined) {
-          this.f.nick2.enable();
-        }
-        if (this.players[2] === undefined) {
-          this.f.nick3.enable();
-        }
-        this.f.nick4.disable();
         break;
       }
       case 4: {
@@ -318,132 +288,29 @@ export class OnlineRoundDefComponent implements OnInit {
         this.f.teeDropDown2.enable();
         this.f.teeDropDown3.enable();
         this.f.teeDropDown4.enable();
-        if (this.players[1] === undefined) {
-          this.f.nick2.enable();
-        }
-        if (this.players[2] === undefined) {
-          this.f.nick3.enable();
-        }
-        if (this.players[3] === undefined) {
-          this.f.nick4.enable();
-        }
         break;
       }
     }
   }
 
-  onSearchPlayer(playerIdx: number) {
-    this.alertService.clear();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected processPostPlayer(player: unknown): void {
+    // This is intentional
+  }
 
-    switch (playerIdx) {
-      case 1: {
-        if (this.f.nick2.valid && !this.isNickDuplicated(this.f.nick2.value)) {
-          this.searchPlayer(this.f.nick2.value, playerIdx);
-        }
+  protected processPlayer(player: Player, playerIdx: number): Promise<Player> {
 
-        break;
+    if (player !== undefined) {
+
+      // verify if player is not already added
+      if (this.isNickDuplicated(player.nick)) {
+        return Promise.resolve(undefined);
       }
 
-      case 2: {
-        if (this.f.nick3.valid && !this.isNickDuplicated(this.f.nick3.value)) {
-          this.searchPlayer(this.f.nick3.value, playerIdx);
-        }
-
-        break;
-      }
-
-      case 3: {
-        if (this.f.nick4.valid && !this.isNickDuplicated(this.f.nick4.value)) {
-          this.searchPlayer(this.f.nick4.value, playerIdx);
-        }
-
-        break;
-      }
+      this.players[playerIdx] = player;
     }
-  }
-
-  private searchPlayer(nick: string, playerIdx: number) {
-    this.searchInProgress[playerIdx] = true;
-
-    this.httpService
-      .getPlayerForNick(nick)
-      .pipe(
-        tap((player) => {
-          if (player != null) {
-            this.updatePlayers(player, playerIdx);
-          } else {
-            this.processDialog(nick, playerIdx);
-          }
-          this.searchInProgress[playerIdx] = false;
-        })
-      )
-      .subscribe();
-  }
-
-  processDialog(nick: string, playerIdx: number) {
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      nick,
-    };
-
-    const dialogRef = this.dialog.open(
-      RegisterPlayerDialogComponent,
-      dialogConfig
-    );
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
-
-        let whs: string = result.whs;
-        whs = whs.toString().replace(/,/gi, '.');
-
-        const newPlayer: Player = {
-          nick: result.nick,
-          whs: +whs,
-          sex: result.female === true
-        };
-        this.searchInProgress[playerIdx] = true;
-        this.httpService
-        .addPlayerOnBehalf(newPlayer)
-        .pipe(
-          tap((player) => {
-            this.updatePlayers(player, playerIdx);
-            this.alertService.success($localize`:@@onlnRndDef-addPlr:The new player has been successfully created`, false);
-            this.searchInProgress[playerIdx] = false;
-          })
-        )
-        .subscribe();
-      }
-    });
-  }
-
-  private updatePlayers(player: Player, playerIdx: number) {
-    this.players[playerIdx] = player;
-
-    if (playerIdx === 0) {
-      this.f.nick1.setValue(
-        this.players[0].nick + ' ' + this.players[0].whs
-      );
-  } else if (playerIdx === 1) {
-      this.f.nick2.disable();
-      this.f.nick2.setValue(
-        this.players[1].nick + ' ' + this.players[1].whs
-      );
-    } else if (playerIdx === 2) {
-      this.f.nick3.disable();
-      this.f.nick3.setValue(
-        this.players[2].nick + ' ' + this.players[2].whs
-      );
-    } else if (playerIdx === 3) {
-      this.f.nick4.disable();
-      this.f.nick4.setValue(
-        this.players[3].nick + ' ' + this.players[3].whs
-      );
-    }
+    // here must be undefined - all actions if any performed before
+    return Promise.resolve(undefined);
   }
 
   onMatchPlayChange(e) {
@@ -520,8 +387,7 @@ export class OnlineRoundDefComponent implements OnInit {
           .updatePlayer(player)
           .pipe(
             tap(() => {
-              this.updatePlayers(player, playerIdx);
-              this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
+              this.players[playerIdx] = player;
               this.searchInProgress[playerIdx] = false;
             })
           )
@@ -533,8 +399,7 @@ export class OnlineRoundDefComponent implements OnInit {
           .updatePlayerOnBehalf(player)
           .pipe(
             tap(() => {
-              this.updatePlayers(player, playerIdx);
-              this.alertService.success($localize`:@@onlnRndDef-hcpUpdated:HCP for ${player.nick} has been updated`, false);
+              this.players[playerIdx] = player;
               this.searchInProgress[playerIdx] = false;
             })
           )
@@ -544,3 +409,6 @@ export class OnlineRoundDefComponent implements OnInit {
     });
   }
 }
+
+
+

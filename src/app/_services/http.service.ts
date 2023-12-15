@@ -2,7 +2,7 @@ import { PlayerRndCnt } from './../_models/playerRndCnt';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails} from '@/_models';
+import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Version} from '@/_models';
 
 
 @Injectable()
@@ -169,6 +169,10 @@ export class HttpService {
 
   searchForPlayer(nick: string, page: number): Observable<Array<Player>> {
     return this.http.post<Array<Player>>('rest/SearchForPlayer', {nick, page});
+  }
+
+  getVersion(): Observable<Version> {
+    return this.http.get<Version>('rest/Version');
   }
 }
 

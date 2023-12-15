@@ -72,30 +72,30 @@ describe('TournamentPlayersComponent', () => {
 
   it('should search player and player found', () => {
     fixture.detectChanges();
-    component.onSearchPlayer();
-    expect(component.submitted).toBeTruthy();
+    component.onSearchPlayer(undefined);
+    expect(component).toBeTruthy();
   });
 
   it('should search player but action has ben cancelled', () => {
     dialog.setRetVal(undefined);
     fixture.detectChanges();
-    component.onSearchPlayer();
-    expect(component.submitted).toBeTruthy();
+    component.onSearchPlayer(undefined);
+    expect(component).toBeTruthy();
   });
 
   it('should search player but creation of the new player has been selected', () => {
     dialog.setRetVal({nick: 'Player', female: true, whs: 10.1, action: 'new'});
     fixture.detectChanges();
-    component.onSearchPlayer();
-    expect(component.submitted).toBeTruthy();
+    component.onSearchPlayer(undefined);
+    expect(component).toBeTruthy();
   });
 
   it('should not add player because the player already exists', () => {
     dialog.setRetVal({nick: 'test', female: true, whs: 10.1});
     component.tournamentPlayers = [getTournamentPlayer()];
     fixture.detectChanges();
-    component.onSearchPlayer();
-    expect(component.submitted).toBeTruthy();
+    component.onSearchPlayer(undefined);
+    expect(component).toBeTruthy();
   });
 
   it('should update WHS', () => {

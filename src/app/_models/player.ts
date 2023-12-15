@@ -10,4 +10,6 @@ export interface Player {
   sex?: boolean;
   refreshToken?: string;
   updateSocial?: boolean;
+  action?: string;
+  female?: boolean;
 }

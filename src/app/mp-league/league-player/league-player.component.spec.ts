@@ -41,21 +41,21 @@ describe('LeaguePlayerComponent', () => {
 
   it('should search player and player found', () => {
     fixture.detectChanges();
-    component.onSearchPlayer();
+    component.onSearchPlayer(undefined);
     expect(component).toBeTruthy();
   });
 
   it('should search player but action has ben cancelled', () => {
     dialog.setRetVal(undefined);
     fixture.detectChanges();
-    component.onSearchPlayer();
+    component.onSearchPlayer(undefined);
     expect(component).toBeTruthy();
   });
 
   it('should search player but creation of the new player has been selected', () => {
     dialog.setRetVal({nick: 'Player', female: true, whs: 10.1, action: 'new'});
     fixture.detectChanges();
-    component.onSearchPlayer();
+    component.onSearchPlayer(undefined);
     expect(component).toBeTruthy();
   });
 
@@ -63,7 +63,7 @@ describe('LeaguePlayerComponent', () => {
     dialog.setRetVal({nick: 'test', female: true, whs: 10.1});
     component.navigationService.players.set([{id: 1, playerId: 1, nick: 'test', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
     fixture.detectChanges();
-    component.onSearchPlayer();
+    component.onSearchPlayer(undefined);
     expect(component).toBeTruthy();
   });
 

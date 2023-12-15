@@ -9,17 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Subject, map, mergeMap, tap } from 'rxjs';
+import { Subject, firstValueFrom, map, tap } from 'rxjs';
 import { UpdateTournamentPlayerWhsDialogComponent } from '../update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component';
 import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-import { SearchPlayerDialogComponent } from '@/dialogs/search-player-dialog/search-player-dialog.component';
-import { RegisterPlayerDialogComponent } from '@/dialogs/register-player-dialog/register-player-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
 
 @Component({
   selector: 'app-tournament-players',
@@ -32,7 +30,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './tournament-players.component.html',
   styleUrls: ['./tournament-players.component.css']
 })
-export class TournamentPlayersComponent implements OnInit {
+export class TournamentPlayersComponent extends CreateOrSearchDialogBase implements OnInit {
 
   display: boolean;
 
@@ -50,19 +48,17 @@ export class TournamentPlayersComponent implements OnInit {
 
   deletePlayerinProgress: boolean;
 
-  submitted: boolean;
-
   constructor(private tournamentHttpService: TournamentHttpService,
-              private alertService: AlertService,
-              private httpService: HttpService,
-              private dialog: MatDialog) {}
+              protected alertService: AlertService,
+              protected httpService: HttpService,
+              protected dialog: MatDialog) {
+                super(alertService, dialog, httpService);
+              }
 
   ngOnInit(): void {
 
     this.faMinusCircle = faMinusCircle;
     this.faSearchPlus = faSearchPlus;
-
-    this.submitted = false;
 
     this.display = false;
 
@@ -81,94 +77,33 @@ export class TournamentPlayersComponent implements OnInit {
     }
   }
 
-   onSearchPlayer() {
-    this.alertService.clear();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected processPlayer(player: Player, playerIdx: number): Promise<unknown> {
+    if (player !== undefined) {
+      if (this.tournamentPlayers.find(p => p.nick === player.nick)) {
+        this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${player.nick} already added to the tournament.`, false);
+        return Promise.resolve(undefined);
+      }
 
-    this.submitted = true;
+      const tournamentPlayer: TournamentPlayer = {
+        playerId: player.id,
+        whs: player.whs,
+        tournamentId: this.tournament.id,
+        nick: player.nick
+      };
 
-    const dialogConfig = new MatDialogConfig();
+      // send tournament player to backend
+      return firstValueFrom(this.tournamentHttpService.addTournamentPlayer(tournamentPlayer).pipe(map(() => tournamentPlayer)));
+    }
+    // here must be undefined
+    return Promise.resolve(undefined);
+  }
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(
-      SearchPlayerDialogComponent,
-      dialogConfig
-    );
-
-    dialogRef.afterClosed()
-      .pipe(
-        mergeMap(player => {
-          // user decided to create the new player so open the proper dialog
-          if (player?.action) {
-
-            const dialogConfig = new MatDialogConfig();
-
-            dialogConfig.disableClose = true;
-            dialogConfig.autoFocus = true;
-            dialogConfig.data = {
-              nick: '',
-            };
-
-            const dialogRef = this.dialog.open(
-              RegisterPlayerDialogComponent,
-              dialogConfig
-            );
-
-            return dialogRef.afterClosed();
-          // indicate that it is an existing player
-          } else if (player !== undefined) {
-            player.action = "notNew";
-            return Promise.resolve(player);
-          }
-          // player cancelled search
-          return Promise.resolve(player);
-        }),
-        // create new player if required
-        mergeMap(player => {
-
-          if (player !== undefined && player.action === undefined) {
-            let whs: string = player.whs;
-            whs = whs.toString().replace(/,/gi, '.');
-
-            const newPlayer: Player = {
-              nick: player.nick,
-              whs: +whs,
-              sex: player.female === true
-            };
-            // save new player in backend and return that player to the next step
-            return this.httpService.addPlayerOnBehalf(newPlayer);
-          }
-
-          return Promise.resolve(player);
-        }),
-        mergeMap(player => {
-          if (player !== undefined) {
-            if (this.tournamentPlayers.find(p => p.nick === player.nick)) {
-              this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${player.nick} already added to the tournament.`, false);
-              return Promise.resolve(undefined);
-            }
-
-            const tournamentPlayer: TournamentPlayer = {
-              playerId: player.id,
-              whs: player.whs,
-              tournamentId: this.tournament.id,
-              nick: player.nick
-            };
-
-            // send tournament player to backend
-            return this.tournamentHttpService.addTournamentPlayer(tournamentPlayer).pipe(map(() => tournamentPlayer));
-          }
-          // here must be undefined
-          return Promise.resolve(undefined);
-        })
-      ).subscribe((tournamentPlayer) => {
-        if (tournamentPlayer !== undefined) {
-          this.tournamentPlayers.push(tournamentPlayer);
-          this.outTournamentPlayers.next(this.tournamentPlayers);
-        }
-        this.submitted = false;
-      });
+  protected processPostPlayer(tournamentPlayer: unknown): void {
+    if (tournamentPlayer !== undefined) {
+      this.tournamentPlayers.push(tournamentPlayer as TournamentPlayer);
+      this.outTournamentPlayers.next(this.tournamentPlayers);
+    }
   }
 
   deletePlayer(tournamentPlayer: TournamentPlayer, playerIdx: number) {
