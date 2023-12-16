@@ -77,6 +77,6 @@
     "karma-coverage": "^2.2.0",
     "karma-jasmine": "^5.1.0",
     "karma-spec-reporter": "^0.0.36",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.2"
   }
 }
