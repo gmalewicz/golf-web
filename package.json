@@ -31,7 +31,7 @@
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
     "bootstrap": "^5.2.3",
-    "chart.js": "^4.3.0",
+    "chart.js": "^4.4.1",
     "cypress": "^13.3.2",
     "jquery": "^3.6.4",
     "jspdf": "^2.5.1",
