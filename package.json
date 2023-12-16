@@ -38,7 +38,7 @@
     "jwt-decode": "^4.0.0",
     "net": "^1.0.2",
     "ng-recaptcha": "^13.2.1",
-    "ng2-charts": "^5.0.3",
+    "ng2-charts": "^5.0.4",
     "primeicons": "^6.0.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.5.0",
