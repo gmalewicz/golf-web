@@ -64,7 +64,7 @@
     "@types/sockjs-client": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
-    "eslint": "^8.54.0",
+    "eslint": "^8.56.0",
     "eslint-plugin-deprecation": "^2.0.0",
     "eslint-plugin-import": "^2.29.0",
     "fuzzy": "^0.1.3",
