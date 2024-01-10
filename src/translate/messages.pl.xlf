@@ -3824,6 +3824,22 @@
           <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="addCourse-clearSi" datatype="html">
+        <source>Clear SI</source>
+        <target>Wyczyść SI</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/add-course/add-course.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="course-clone" datatype="html">
+        <source>Clone</source>
+        <target>Klonuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course/course.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

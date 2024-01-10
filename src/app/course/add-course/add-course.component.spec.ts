@@ -1,4 +1,3 @@
-import { teeTypes } from './../_models/tee';
 import { routing } from '@/app.routing';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
@@ -14,6 +13,7 @@ import { alertServiceStub, MyRouterStub } from '@/_helpers/test.helper';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { teeTypes } from '@/_models/tee';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;

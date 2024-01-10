@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
-import { Hole, Course, Tee } from '@/_models';
+import { Hole, Course } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
 import { tap } from 'rxjs/operators';
-
-
+import { NavigationService } from '../_services/navigation.service';
 
 @Component({
   selector: 'app-add-course',
@@ -20,7 +19,6 @@ export class AddCourseComponent implements OnInit {
 
   loading: boolean;
   public newCourseForm: FormGroup;
-  public newCourseTeeForm: FormGroup;
 
   public barChartType: ChartType;
   public barChartLegend: boolean;
@@ -38,19 +36,15 @@ export class AddCourseComponent implements OnInit {
   updatingHole: number;
   pars: number[];
   si: number[];
-  tees: Tee[];
-
-  teeTypes: { label: string; value: number; }[];
 
   nbrHoles: { label: string; value: number; }[];
-
-  sex: { label: string; value: boolean; }[];
 
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
               public authenticationService: AuthenticationService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private navigationService: NavigationService) {
   }
 
   ngOnInit(): void {
@@ -66,61 +60,71 @@ export class AddCourseComponent implements OnInit {
         nbrHolesDropDown: ['', [Validators.required]]
       });
 
-      this.newCourseTeeForm = this.formBuilder.group({
-        tee: ['', Validators.required],
-        cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9](,|\\.)?[0-9]?')]],
-        sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
-        sexDropDown: ['', [Validators.required]],
-        teeTypeDropDown: ['', [Validators.required]],
-      });
-
       // initialize all buttons for net selected
       this.parSelectorActive = Array(4).fill({ active: false });
       this.siSelectorActive = Array(18).fill({ active: false });
       this.holeSelectorActive = Array(18).fill({ active: false });
 
-      // initialize tee types
-      this.teeTypes = [{ label: '1-18', value: 0 },
-                      { label: '1-9', value: 1 },
-                      { label: '10-18', value: 2 }];
-
       this.nbrHoles = [{ label: '18', value: 18 },
                       { label: '9', value: 9 }];
 
-      this.sex = [{ label: 'female', value: true },
-                      { label: 'male', value: false }];
-
       this.updatingHole = 0;
-      this.pars = [];
-      this.si = [];
-      this.tees = [];
+      // initialize data
+      this.pars = Array(18).fill(0);
+      this.navigationService.init();
 
       this.barChartType = 'bar';
       this.barChartLegend = true;
-      this.barChartLabels = [];
+      this.clearSi();
       this.loading = false;
       this.parButtons = [3, 4, 5, 6];
 
+      this.navigationService.removeTee.set(true);
+
+      if (this.navigationService.cloneCourse() != undefined) {
+        this.cloneCourseData(this.navigationService.cloneCourse());
+        this.navigationService.cloneCourse.set(undefined);
+      }
+      console.log(this.pars);
+
       this.generateLabelsAndData();
 
-      this.display = true;
+      console.log('here');
 
+      this.display = true;
     }
+  }
+
+  private cloneCourseData(course: Course) {
+    this.f.courseName.setValue(course.name + " copy");
+    this.f.coursePar.setValue(course.par);
+    this.f.nbrHolesDropDown.setValue(course.holeNbr);
+
+    this.pars = course.holes.map(hole => hole.par);
+    this.si = course.holes.map(hole => hole.si);
+    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1) + '(' + (this.si[i] + 1) + ')');
+
+    // load tees
+    this.httpService.getTees(course.id).pipe(
+      tap(
+        (tees) => {
+          // clear ids for each tee
+          tees.forEach(tee => tee.id = undefined);
+          this.navigationService.tees.set(tees);
+        })
+    ).subscribe();
+
+  }
+
+  clearSi() {
+    this.si = Array(18).fill(0);
+    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.newCourseForm.controls; }
 
-  // convenience getter for easy access to form fields
-  get g() { return this.newCourseTeeForm.controls; }
-
-  generateLabelsAndData() {
-
-    // initialize data
-    this.pars = Array(18).fill(0);
-    this.si = Array(18).fill(0);
-    // tslint:disable-next-line: variable-name
-    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
+  private generateLabelsAndData() {
 
     // set bar chart data
     this.barChartData = [{ data: this.pars, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
@@ -242,7 +246,7 @@ export class AddCourseComponent implements OnInit {
       name: this.f.courseName.value,
       par: +this.f.coursePar.value,
       holes: newHoles,
-      tees: this.tees,
+      tees: this.navigationService.tees(),
       holeNbr: this.f.nbrHolesDropDown.value
     });
 
@@ -283,8 +287,8 @@ export class AddCourseComponent implements OnInit {
     this.holeSelectorActive[0] = ({ active: true });
 
     // clear tees
-    this.tees = [];
-    this.newCourseTeeForm.reset();
+    this.navigationService.init();
+    //this.newCourseTeeForm.reset();
   }
 
   private allDataSet(): boolean {
@@ -301,34 +305,11 @@ export class AddCourseComponent implements OnInit {
     }
 
     // verify if at least one tee is defined
-    if (this.tees.length < 1) {
+    if (this.navigationService.tees().length < 1) {
       this.alertService.error($localize`:@@addCourse-TeeNotSet:At least one tee must be defined`, false);
       return false;
     }
 
     return true;
-  }
-
-  addTee(): void {
-
-    // mark that tee data have been submitted
-    this.newCourseTeeForm.markAllAsTouched();
-
-    // display errors if any
-    if (this.newCourseTeeForm.invalid) {
-      return;
-    }
-
-    // save tee
-    this.tees.push({
-      tee: this.g.tee.value,
-      cr: this.g.cr.value.toString().replace(/,/gi, '.'),
-      sr: this.g.sr.value,
-      teeType: this.g.teeTypeDropDown.value,
-      sex: this.g.sexDropDown.value
-    });
-
-    // clear form
-    this.newCourseTeeForm.reset();
   }
 }

@@ -1,10 +1,10 @@
-import { HttpService } from '../_services/http.service';
 import { Component, OnInit } from '@angular/core';
-import { Hole, Tee, Course } from '@/_models';
+import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Router } from '@angular/router';
-import { AlertService, AuthenticationService } from '@/_services';
+import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
+import { NavigationService } from '../_services/navigation.service';
 
 @Component({
   selector: 'app-course',
@@ -17,7 +17,6 @@ export class CourseComponent implements OnInit {
   display: boolean;
   displayTees: boolean;
   showTeesLbl: string;
-  tee: Tee[];
 
   course: Course;
   holes: Array<Hole>;
@@ -32,7 +31,8 @@ export class CourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private alertService: AlertService,
               public authenticationService: AuthenticationService,
-              private router: Router) { }
+              private router: Router,
+              private navigationService: NavigationService) { }
 
   ngOnInit(): void {
 
@@ -47,12 +47,13 @@ export class CourseComponent implements OnInit {
       this.display = false;
       this.displayTees = false;
       this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
-      this.tee = [];
+      this.navigationService.init();
       this.barChartType = 'bar';
       this.barChartLegend = true;
       this.barChartLabels = [];
       this.barChartData = [];
       this.barData = [];
+      this.navigationService.removeTee.set(false);
 
       this.course = history.state.data.course;
       this.getHoles();
@@ -109,13 +110,13 @@ export class CourseComponent implements OnInit {
     this.displayTees = !this.displayTees;
 
 
-    if (this.displayTees && this.tee.length === 0) {
+    if (this.displayTees && this.navigationService.tees().length === 0) {
 
       this.loadingTees = true;
       this.httpService.getTees(this.course.id).pipe(
         tap(
-          (tee) => {
-            this.tee = tee;
+          (tees) => {
+            this.navigationService.tees.set(tees);
             this.loadingTees = false;
           })
       ).subscribe();
@@ -139,6 +140,12 @@ export class CourseComponent implements OnInit {
           this.router.navigate(['/home']).catch(error => console.log(error));
         })
     ).subscribe();
+  }
+
+  clone() {
+    this.course.holes = this.holes;
+    this.navigationService.cloneCourse.set(this.course);
+    this.router.navigate(['/addCourse']).catch(error => console.log(error));
   }
 
 }

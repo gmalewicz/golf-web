@@ -1,0 +1,36 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <div>
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
+    </canvas>
+  </div>
+  <div *ngIf="displayTees">
+    <app-course-tees></app-course-tees>
+  </div>
+  <div>
+    <br />
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@course-cancel">
+      Cancel
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success btn-showTees" (click)="onShowTees()">
+      <span *ngIf="loadingTees" class="spinner-border spinner-border-sm mr-1"></span>
+      {{showTeesLbl}}
+    </button>
+    <span *ngIf="authenticationService.playerRole.includes('ADMIN')">
+      &nbsp;
+      <button type="button" class="btn btn-success btn-delete" (click)="delete()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@course-delete">Delete</span>
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success btn-clone" (click)="clone()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@course-clone">Clone</span>
+      </button>
+    </span>
+  </div>
+</div>
+
