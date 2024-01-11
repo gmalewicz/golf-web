@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavigationService } from '../_services/navigation.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-tee',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatInputModule, MatSelectModule, ReactiveFormsModule],
   templateUrl: './add-tee.component.html'
 })
 export class AddTeeComponent implements OnInit {

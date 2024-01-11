@@ -1,13 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
-import { Router } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { NavigationService } from '../_services/navigation.service';
+import { NgChartsModule } from 'ng2-charts';
+import { CourseTeesComponent } from '../course-tees/course-tees.component';
+import { AuthGuard } from '@/_helpers/auth.guard';
 
 @Component({
   selector: 'app-course',
+  standalone: true,
+  imports: [NgChartsModule,
+            CourseTeesComponent,
+            CommonModule,
+            RouterModule],
   templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
@@ -149,3 +158,9 @@ export class CourseComponent implements OnInit {
   }
 
 }
+
+export const courseRoutes: Routes = [
+
+  { path: '', component: CourseComponent, canActivate: [AuthGuard] }
+
+];

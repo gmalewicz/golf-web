@@ -8,7 +8,6 @@ import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angu
 import { NavigationComponent } from './navigation/navigation.component';
 import { NgChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AddCourseComponent } from './course/add-course/add-course.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { routing } from './app.routing';
 import { HomeComponent } from './home/home.component';
@@ -22,7 +21,6 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
-import { CourseComponent } from './course/course/course.component';
 import { ListCoursesComponent } from './courses/list-courses/list-courses.component';
 import { RoundComponent } from './round/round/round.component';
 import { RoundViewWHSComponent } from './round/round-view-whs/round-view-whs.component';
@@ -42,20 +40,13 @@ import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
 import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/search-player-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { CourseTeesComponent } from './course/course-tees/course-tees.component';
 import { NavigationService } from './course/_services/navigation.service';
-import { AddTeeComponent } from './course/add-tee/add-tee.component';
-
 
 @NgModule({
   declarations: [
     AppComponent,
     CoursesComponent,
-    CourseTeesComponent,
-    AddTeeComponent,
     NavigationComponent,
-    CourseComponent,
-    AddCourseComponent,
     RoundsComponent,
     AddScorecardComponent,
     RoundComponent,

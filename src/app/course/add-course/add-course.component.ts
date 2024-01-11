@@ -2,14 +2,29 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Hole, Course } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { BaseChartDirective } from 'ng2-charts';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { tap } from 'rxjs/operators';
 import { NavigationService } from '../_services/navigation.service';
+import { CourseTeesComponent } from '../course-tees/course-tees.component';
+import { AddTeeComponent } from '../add-tee/add-tee.component';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { AuthGuard } from '@/_helpers/auth.guard';
 
 @Component({
   selector: 'app-add-course',
+  standalone: true,
+  imports: [CourseTeesComponent,
+            AddTeeComponent,
+            CommonModule,
+            NgChartsModule,
+            MatInputModule,
+            ReactiveFormsModule,
+            MatSelectModule,
+            RouterModule],
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.css']
 })
@@ -85,12 +100,7 @@ export class AddCourseComponent implements OnInit {
         this.cloneCourseData(this.navigationService.cloneCourse());
         this.navigationService.cloneCourse.set(undefined);
       }
-      console.log(this.pars);
-
       this.generateLabelsAndData();
-
-      console.log('here');
-
       this.display = true;
     }
   }
@@ -313,3 +323,9 @@ export class AddCourseComponent implements OnInit {
     return true;
   }
 }
+
+export const addCourseRoutes: Routes = [
+
+  { path: '', component: AddCourseComponent, canActivate: [AuthGuard] }
+
+];
