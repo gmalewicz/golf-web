@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavigationService } from '../_services/navigation.service';
+import { CourseNavigationService } from '../_services/course-navigation.service';
 import { IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Tee } from '@/_models/tee';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,11 +15,11 @@ export class CourseTeesComponent {
 
   faMinusCircle: IconDefinition;
 
-  constructor(public navigationService: NavigationService) {
+  constructor(public courseNavigationService: CourseNavigationService) {
     this.faMinusCircle = faMinusCircle;
   }
 
   deleteTee(teeToRemove: Tee) {
-    this.navigationService.tees.update(tees => tees.filter(tee => (tee.tee != teeToRemove.tee && tee.sex != teeToRemove.sex)));
+    this.courseNavigationService.tees.update(tees => tees.filter(tee => (tee.tee != teeToRemove.tee && tee.sex != teeToRemove.sex)));
   }
 }

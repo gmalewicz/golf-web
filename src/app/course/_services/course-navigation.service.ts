@@ -3,7 +3,7 @@ import { Tee } from '@/_models/tee';
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class NavigationService {
+export class CourseNavigationService {
 
   public tees = signal<Tee[]>([]);
   public removeTee = signal<boolean>(undefined);

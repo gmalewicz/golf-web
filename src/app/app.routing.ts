@@ -3,7 +3,6 @@ import { inject, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses/courses.component';
-import { AddCourseComponent } from './course/add-course/add-course.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';

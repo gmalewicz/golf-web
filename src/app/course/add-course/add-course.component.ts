@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterModule, Routes } from '@angular/router';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { tap } from 'rxjs/operators';
-import { NavigationService } from '../_services/navigation.service';
+import { CourseNavigationService } from '../_services/course-navigation.service';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { AddTeeComponent } from '../add-tee/add-tee.component';
 import { CommonModule } from '@angular/common';
@@ -57,9 +57,9 @@ export class AddCourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
-              public authenticationService: AuthenticationService,
+              private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private navigationService: NavigationService) {
+              private courseNavigationService: CourseNavigationService) {
   }
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class AddCourseComponent implements OnInit {
       this.updatingHole = 0;
       // initialize data
       this.pars = Array(18).fill(0);
-      this.navigationService.init();
+      this.courseNavigationService.init();
 
       this.barChartType = 'bar';
       this.barChartLegend = true;
@@ -94,11 +94,11 @@ export class AddCourseComponent implements OnInit {
       this.loading = false;
       this.parButtons = [3, 4, 5, 6];
 
-      this.navigationService.removeTee.set(true);
+      this.courseNavigationService.removeTee.set(true);
 
-      if (this.navigationService.cloneCourse() != undefined) {
-        this.cloneCourseData(this.navigationService.cloneCourse());
-        this.navigationService.cloneCourse.set(undefined);
+      if (this.courseNavigationService.cloneCourse() != undefined) {
+        this.cloneCourseData(this.courseNavigationService.cloneCourse());
+        this.courseNavigationService.cloneCourse.set(undefined);
       }
       this.generateLabelsAndData();
       this.display = true;
@@ -120,7 +120,7 @@ export class AddCourseComponent implements OnInit {
         (tees) => {
           // clear ids for each tee
           tees.forEach(tee => tee.id = undefined);
-          this.navigationService.tees.set(tees);
+          this.courseNavigationService.tees.set(tees);
         })
     ).subscribe();
 
@@ -256,7 +256,7 @@ export class AddCourseComponent implements OnInit {
       name: this.f.courseName.value,
       par: +this.f.coursePar.value,
       holes: newHoles,
-      tees: this.navigationService.tees(),
+      tees: this.courseNavigationService.tees(),
       holeNbr: this.f.nbrHolesDropDown.value
     });
 
@@ -297,8 +297,7 @@ export class AddCourseComponent implements OnInit {
     this.holeSelectorActive[0] = ({ active: true });
 
     // clear tees
-    this.navigationService.init();
-    //this.newCourseTeeForm.reset();
+    this.courseNavigationService.init();
   }
 
   private allDataSet(): boolean {
@@ -315,7 +314,7 @@ export class AddCourseComponent implements OnInit {
     }
 
     // verify if at least one tee is defined
-    if (this.navigationService.tees().length < 1) {
+    if (this.courseNavigationService.tees().length < 1) {
       this.alertService.error($localize`:@@addCourse-TeeNotSet:At least one tee must be defined`, false);
       return false;
     }

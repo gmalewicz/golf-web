@@ -88,7 +88,7 @@ export let authenticationServiceStub: Partial<AuthenticationService>;
 
 // eslint-disable-next-line prefer-const
 authenticationServiceStub = {
-  currentPlayerValue: {nick: 'test', id: 1, whs: 10},
+  get currentPlayerValue() {return {nick: 'test', id: 1, whs: 10}},
   playerRole: 'PLAYER',
   logout(): void {
     // This is intentional

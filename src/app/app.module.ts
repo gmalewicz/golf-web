@@ -40,7 +40,6 @@ import { RoundsNavigationService } from './rounds/roundsNavigation.service';
 import { PlayerDataInterceptor } from './_helpers/playerData.interceptor';
 import { SearchPlayerDialogComponent } from './dialogs/search-player-dialog/search-player-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { NavigationService } from './course/_services/navigation.service';
 
 @NgModule({
   declarations: [
@@ -91,8 +90,7 @@ import { NavigationService } from './course/_services/navigation.service';
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
-              RoundsNavigationService,
-              NavigationService,
+              RoundsNavigationService
   ],
   bootstrap: [AppComponent]
 })

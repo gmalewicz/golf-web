@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NavigationService } from '../_services/navigation.service';
+import { CourseNavigationService } from '../_services/course-navigation.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -19,7 +19,7 @@ export class AddTeeComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private navigationService: NavigationService) {
+    private courseNavigationService: CourseNavigationService) {
 }
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class AddTeeComponent implements OnInit {
     }
 
     // save tee
-    this.navigationService.tees.update(tees => [...tees, {
+    this.courseNavigationService.tees.update(tees => [...tees, {
       tee: this.g.tee.value,
       cr: this.g.cr.value.toString().replace(/,/gi, '.'),
       sr: this.g.sr.value,
