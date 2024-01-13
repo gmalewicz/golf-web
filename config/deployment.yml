@@ -17,7 +17,7 @@ spec:
         image: gmalewicz/golf-web
         envFrom:
         - configMapRef:
-            name: golf-web-configmapp
+            name: golf-web-configmap
         resources:
           requests:
             memory: "100Mi"
