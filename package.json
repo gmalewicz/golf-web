@@ -32,7 +32,7 @@
     "@stomp/stompjs": "^7.0.0",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.4.1",
-    "cypress": "^13.6.1",
+    "cypress": "^13.6.2",
     "jquery": "^3.6.4",
     "jspdf": "^2.5.1",
     "jwt-decode": "^4.0.0",
