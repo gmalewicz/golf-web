@@ -1,8 +1,7 @@
-import { teeTypes } from './../_models/tee';
 import { routing } from '@/app.routing';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { AlertService, HttpService } from '@/_services';
+import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,19 +9,28 @@ import { By } from '@angular/platform-browser';
 import { NgChartsModule } from 'ng2-charts';
 import { AddCourseComponent } from './add-course.component';
 import { Router } from '@angular/router';
-import { alertServiceStub, MyRouterStub } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { teeTypes } from '@/_models/tee';
+import { CourseNavigationService } from '../_services/course-navigation.service';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
   let fixture: ComponentFixture<AddCourseComponent>;
+  const courseNavigationService: CourseNavigationService = new CourseNavigationService();
+
+  const standardSetup = () => {
+    fixture = TestBed.createComponent(AddCourseComponent);
+    fixture.detectChanges();
+    component = fixture.componentInstance;
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddCourseComponent ],
       imports: [
+        AddCourseComponent,
         HttpClientModule,
         ReactiveFormsModule,
         NgChartsModule,
@@ -36,25 +44,21 @@ describe('AddCourseComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: Router, useClass: MyRouterStub },
-        { provide: AlertService, useValue: alertServiceStub }]
+        { provide: AlertService, useValue: alertServiceStub },
+        { provide: CourseNavigationService, useValue: courseNavigationService},
+        { provide: AuthenticationService, useValue: authenticationServiceStub }]
     })
     .compileComponents();
   }));
 
-  beforeEach(() => {
-    localStorage.removeItem('currentPlayer');
-    fixture = TestBed.createComponent(AddCourseComponent);
-    component = fixture.componentInstance;
-    spyOnProperty(component.authenticationService , 'currentPlayerValue').and.returnValue({nick: 'test', id: 1});
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should create but player is not defined', () => {
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
+    standardSetup();
     expect(component).toBeTruthy();
   });
 
   it('should click Clear button', fakeAsync(() => {
-
+    standardSetup();
     const buttonElement = fixture.debugElement.query(By.css('.btn-clear'));
     spyOn(component, 'clear');
     // Trigger click event after spyOn
@@ -65,7 +69,7 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test clear() function', fakeAsync(() => {
-
+    standardSetup();
     component.f.courseName.setValue('test');
     const buttonElement = fixture.debugElement.query(By.css('.btn-clear'));
     buttonElement.triggerEventHandler('click', null);
@@ -75,7 +79,9 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test selectHole() function', fakeAsync(() => {
-
+    standardSetup();
+    component.pars[0] = 5;
+    component.si[0] = 5;
     const radioElement = fixture.debugElement.query(By.css('.input-hole'));
     // Trigger click event after spyOn
     radioElement.triggerEventHandler('click', {});
@@ -85,7 +91,7 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test selectPar() function', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.input-par'));
     // Trigger click event after spyOn
     radioElement.triggerEventHandler('click',  {});
@@ -95,7 +101,7 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test selectSi() function', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.input-si'));
     // Trigger click event after spyOn
     radioElement.triggerEventHandler('click',  {});
@@ -104,28 +110,24 @@ describe('AddCourseComponent', () => {
 
   }));
 
-  it('should test addTee() function', fakeAsync(() => {
-
-    const radioElement = fixture.debugElement.query(By.css('.btn-tee'));
+  it('should test selectSi() function but the same SI has been set', fakeAsync(() => {
+    standardSetup();
+    const radioElement = fixture.debugElement.query(By.css('.input-si'));
     // Trigger click event after spyOn
-    component.g.tee.setValue(0);
-    component.g.cr.setValue(62.1);
-    component.g.sr.setValue(123);
-    component.g.teeTypeDropDown.setValue(1);
-    component.g.sexDropDown.setValue(true);
-
-    radioElement.triggerEventHandler('click',  null);
+    component.si[5] = 1;
+    radioElement.triggerEventHandler('click',  {});
     tick();
-    expect(component.tees.length).toBe(1);
+    expect(component.si[component.updatingHole]).toBe(0);
 
   }));
 
   it('should test onSubmit() function not all pars set', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.btn-submit'));
     // Trigger click event after spyOn
     component.f.courseName.setValue('test');
     component.f.coursePar.setValue(72);
+    component.f.nbrHolesDropDown.setValue(18);
 
     radioElement.triggerEventHandler('click',  null);
     tick();
@@ -134,11 +136,12 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test onSubmit() function not all si set', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.btn-submit'));
     // Trigger click event after spyOn
     component.f.courseName.setValue('test');
     component.f.coursePar.setValue(72);
+    component.f.nbrHolesDropDown.setValue(18);
     component.pars.fill(3);
 
     radioElement.triggerEventHandler('click',  null);
@@ -148,33 +151,42 @@ describe('AddCourseComponent', () => {
   }));
 
   it('should test onSubmit() function no tee set', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.btn-submit'));
     // Trigger click event after spyOn
     component.f.courseName.setValue('test');
     component.f.coursePar.setValue(72);
+    component.f.nbrHolesDropDown.setValue(18);
     component.pars.fill(3);
     component.si.fill(5);
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(component.tees.length).toBe(0);
+    expect(courseNavigationService.tees().length).toBe(0);
 
   }));
 
   it('should test onSubmit() function with correct result', fakeAsync(() => {
-
+    standardSetup();
     const radioElement = fixture.debugElement.query(By.css('.btn-submit'));
     // Trigger click event after spyOn
     component.f.courseName.setValue('test');
     component.f.coursePar.setValue(72);
+    component.f.nbrHolesDropDown.setValue(18);
     component.pars.fill(3);
     component.si.fill(5);
-    component.tees = [{cr: 61.1, sr: 132, tee: 'yellow', teeType: teeTypes.TEE_TYPE_18, sex: false}];
+    courseNavigationService.tees.set([{cr: 61.1, sr: 132, tee: 'yellow', teeType: teeTypes.TEE_TYPE_18, sex: false}]);
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(component.tees.length).toBe(1);
+    expect(courseNavigationService.tees().length).toBe(1);
+
+  }));
+
+  it('should process clone course', fakeAsync(() => {
+    courseNavigationService.cloneCourse.set(getTestCourse());
+    standardSetup();
+    expect(component).toBeTruthy();
 
   }));
 

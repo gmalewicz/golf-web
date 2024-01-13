@@ -1,0 +1,27 @@
+<div *ngIf="courseNavigationService.tees().length > 0">
+  <table id="tee-tbl" class="table table-striped" aria-describedby="Add tee">
+    <thead>
+      <tr>
+        <th id="tee">Tee</th>
+        <th id="cr">CR</th>
+        <th id="sr">SR</th>
+        <th id="type" i18n="@@addCourse-type">Type</th>
+        <th *ngIf="courseNavigationService.removeTee()"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of courseNavigationService.tees()">
+        <td>{{ row.tee }}
+            <span *ngIf="row.sex" i18n="@@addCourse-ladies">ladies</span>
+            <span *ngIf="!row.sex" i18n="@@addCourse-men">men</span>
+        </td>
+        <td>{{ row.cr }}</td>
+        <td>{{ row.sr }}</td>
+        <td *ngIf="row.teeType === 0">1-18</td>
+        <td *ngIf="row.teeType === 1">1-9</td>
+        <td *ngIf="row.teeType === 2">10-18</td>
+        <td *ngIf="courseNavigationService.removeTee()"><fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteTee(row)"></fa-icon></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

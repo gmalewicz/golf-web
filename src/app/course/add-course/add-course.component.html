@@ -1,0 +1,115 @@
+<div *ngIf="!display" class="d-flex justify-content-center">
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+</div>
+<div *ngIf="display">
+  <div class="container-float">
+    <form [formGroup]="newCourseForm">
+      <div class="row">
+        <div class="col-auto">
+          <mat-form-field class="course-name-width">
+            <mat-label i18n="@@addCourse-name">Course name</mat-label>
+            <input matInput maxlength="100" [formControlName]="'courseName'"/>
+            @if (f.courseName.invalid && f.courseName.errors.required) {
+              <mat-error i18n="@@addCourse-courseReq">Course name is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-coursePar">Course par</mat-label>
+            <input matInput maxlength="2" [formControlName]="'coursePar'"/>
+            @if (f.coursePar.invalid && f.coursePar.errors.required) {
+              <mat-error i18n="@@addCourse-courseParReq">Course par is required</mat-error>
+            }
+            @if (f.coursePar.invalid && f.coursePar.errors.pattern) {
+              <mat-error i18n="@@addCourse-courseParRange">Course par must be a number from 30 to 79</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addCourse-noHoles">number of holes</mat-label>
+            <mat-select [formControlName]="'nbrHolesDropDown'">
+              @for (holeOption of nbrHoles; track holeOption) {
+                <mat-option [value]="holeOption.value">{{holeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.nbrHolesDropDown.invalid && f.nbrHolesDropDown.errors) {
+              <mat-error i18n="@@addCourse-holesReq">Number of holes is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div>
+      <canvas
+        baseChart class="chart"
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [type]="barChartType"
+      >
+      </canvas>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-1 golf-padding" style="cursor: default;" i18n="@@addCourse-hole">
+          Hole:
+        </div>
+        <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+          <label *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
+            {{ i + 1 }}
+          </label>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-1 golf-padding" style="cursor: default;">
+        Par:
+      </div>
+      <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par" [ngClass]="parSelectorActive[i]" (click)="selectPar(par)">
+          {{ par }}
+        </label>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-1 golf-padding" style="cursor: default;">
+        SI:
+      </div>
+      <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si" [ngClass]="siSelectorActive[i]" (click)="selectSi(i)">
+          {{ i + 1 }}
+        </label>
+      </div>
+    </div>
+    @defer {
+      <app-course-tees></app-course-tees>
+    }
+    <app-add-tee></app-add-tee>
+    <div>
+      <br />
+      <div>
+        <button type="button" class="btn btn-success" routerLink="/home" i18n="@@addCourse-cancel">
+          Cancel
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addCourse-clear">
+          Clear
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-success btn-clearSi" (click)="clearSi()" i18n="@@addCourse-clearSi">
+          Clear SI
+        </button>
+        &nbsp;
+          <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <span i18n="@@addCourse-save">Save</span>
+          </button>
+      </div>
+    </div>
+  </div>
+</div>

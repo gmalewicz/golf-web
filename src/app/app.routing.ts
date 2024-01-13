@@ -3,8 +3,6 @@ import { inject, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses/courses.component';
-import { AddCourseComponent } from './add-course/add-course.component';
-import { CourseComponent } from './course/course.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
@@ -22,19 +20,19 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'courses', component: CoursesComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'rounds', component: RoundsComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
-  { path: 'addCourse', component: AddCourseComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
-  { path: 'course', component: CourseComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'round', component: RoundComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'admin', component: AdminComponent, canActivate: [() => inject(AuthGuard).canActivate(),
                                                             () => inject(RoleGuard).canActivate('ADMIN')]},
-
   { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},
   { path: 'cycles', loadChildren: () => import('./cycles/cycles.module').then(m => m.CyclesModule)},
   { path: 'mpLeagues', loadChildren: () => import('./mp-league/mp-league.module').then(m => m.MpLeagueModule)},
+
+  { path: 'course', loadChildren: () => import('./course/course/course.component').then((m) => m.courseRoutes) },
+  { path: 'addCourse', loadChildren: () => import('./course/add-course/add-course.component').then((m) => m.addCourseRoutes)  },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

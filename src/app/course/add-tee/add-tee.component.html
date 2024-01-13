@@ -1,0 +1,69 @@
+<form [formGroup]="newCourseTeeForm">
+  <br/>
+  <div class="row">
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label i18n="@@addCourse-colour">colour</mat-label>
+        <input matInput maxlength="20" [formControlName]="'tee'"/>
+        @if (g.tee.invalid && g.tee.errors.required)  {
+          <mat-error i18n="@@addCourse-colourReq">Tee colour is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label>CR</mat-label>
+        <input matInput maxlength="4" [formControlName]="'cr'"/>
+        @if (g.cr.invalid && g.cr.errors.required)  {
+          <mat-error i18n="@@addCourse-crReq">Course CR is required</mat-error>
+        }
+        @if (g.cr.invalid && g.cr.errors.pattern)  {
+          <mat-error i18n="@@addCourse-crRange">Course CR must be in range: 20 to 89.9</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label>SR</mat-label>
+        <input matInput maxlength="3" [formControlName]="'sr'"/>
+        @if (g.sr.invalid && g.sr.errors.required)  {
+          <mat-error i18n="@@addCourse-srReq">Course SR is required</mat-error>
+        }
+        @if (g.sr.invalid && g.sr.errors.pattern)  {
+          <mat-error i18n="@@addCourse-srRange">Course SR must be in range: 10 to 299</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label i18n="@@addCourse-teeType">tee type</mat-label>
+        <mat-select [formControlName]="'teeTypeDropDown'">
+          @for (teeType of teeTypes; track teeType) {
+            <mat-option [value]="teeType.value">{{teeType.label}}</mat-option>
+          }
+        </mat-select>
+        @if (g.teeTypeDropDown.invalid  && g.teeTypeDropDown.errors) {
+          <mat-error i18n="@@addCourse-teeReq">Tee is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-label i18n="@@addCourse-sex">sex</mat-label>
+        <mat-select [formControlName]="'sexDropDown'">
+          @for (sexOpt of sex; track sexOpt) {
+            <mat-option [value]="sexOpt.value">{{sexOpt.label}}</mat-option>
+          }
+        </mat-select>
+        @if (g.sexDropDown.invalid  && g.sexDropDown.errors) {
+          <mat-error i18n="@@addCourse-sexReq">Sex is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-success btn-tee" (click)="addTee()" i18n="@@addCourse-add">
+        Add Tee
+      </button>
+    </div>
+  </div>
+</form>

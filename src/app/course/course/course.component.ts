@@ -1,13 +1,22 @@
-import { HttpService } from '../_services/http.service';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Hole, Tee, Course } from '@/_models';
+import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
-import { Router } from '@angular/router';
-import { AlertService, AuthenticationService } from '@/_services';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
+import { CourseNavigationService } from '../_services/course-navigation.service';
+import { NgChartsModule } from 'ng2-charts';
+import { CourseTeesComponent } from '../course-tees/course-tees.component';
+import { AuthGuard } from '@/_helpers/auth.guard';
 
 @Component({
   selector: 'app-course',
+  standalone: true,
+  imports: [NgChartsModule,
+            CourseTeesComponent,
+            CommonModule,
+            RouterModule],
   templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
@@ -17,7 +26,6 @@ export class CourseComponent implements OnInit {
   display: boolean;
   displayTees: boolean;
   showTeesLbl: string;
-  tee: Tee[];
 
   course: Course;
   holes: Array<Hole>;
@@ -32,7 +40,8 @@ export class CourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private alertService: AlertService,
               public authenticationService: AuthenticationService,
-              private router: Router) { }
+              private router: Router,
+              private courseNavigationService: CourseNavigationService) { }
 
   ngOnInit(): void {
 
@@ -47,12 +56,13 @@ export class CourseComponent implements OnInit {
       this.display = false;
       this.displayTees = false;
       this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
-      this.tee = [];
+      this.courseNavigationService.init();
       this.barChartType = 'bar';
       this.barChartLegend = true;
       this.barChartLabels = [];
       this.barChartData = [];
       this.barData = [];
+      this.courseNavigationService.removeTee.set(false);
 
       this.course = history.state.data.course;
       this.getHoles();
@@ -109,13 +119,13 @@ export class CourseComponent implements OnInit {
     this.displayTees = !this.displayTees;
 
 
-    if (this.displayTees && this.tee.length === 0) {
+    if (this.displayTees && this.courseNavigationService.tees().length === 0) {
 
       this.loadingTees = true;
       this.httpService.getTees(this.course.id).pipe(
         tap(
-          (tee) => {
-            this.tee = tee;
+          (tees) => {
+            this.courseNavigationService.tees.set(tees);
             this.loadingTees = false;
           })
       ).subscribe();
@@ -141,4 +151,16 @@ export class CourseComponent implements OnInit {
     ).subscribe();
   }
 
+  clone() {
+    this.course.holes = this.holes;
+    this.courseNavigationService.cloneCourse.set(this.course);
+    this.router.navigate(['/addCourse']).catch(error => console.log(error));
+  }
+
 }
+
+export const courseRoutes: Routes = [
+
+  { path: '', component: CourseComponent, canActivate: [AuthGuard] }
+
+];
