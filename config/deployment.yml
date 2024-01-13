@@ -12,30 +12,28 @@ spec:
       labels:
         app: golf-web
     spec:
-      volumes:
-      - name: cert-storage
-        persistentVolumeClaim:
-          claimName:  golf-web-pvc
       containers:
       - name: myweb
-        image: <IMAGE>
+        image: gmalewicz/golf-web
+        envFrom:
+        - configMapRef:
+            name: golf-web-configmapp
         resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "100Mi"
+            cpu: "100m"
         ports:
          - containerPort: 80
            name: http
          - containerPort: 443
            name: https
-        env:
-        - name: GOLF_SERVER
-          valueFrom:
-            configMapKeyRef:
-              name: golf-web-configmap
-              key: app_url
-        - name: CERT
-          value: /cert
         volumeMounts:
         - mountPath: "/cert"
           name: cert-storage
+      volumes:
+        - name: cert-storage
+          persistentVolumeClaim:
+            claimName:  golf-web-pvc
