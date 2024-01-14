@@ -9,6 +9,7 @@ import { CourseNavigationService } from '../_services/course-navigation.service'
 import { NgChartsModule } from 'ng2-charts';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { AuthGuard } from '@/_helpers/auth.guard';
+import { AddTeeComponent } from '../add-tee/add-tee.component';
 
 @Component({
   selector: 'app-course',
@@ -16,7 +17,8 @@ import { AuthGuard } from '@/_helpers/auth.guard';
   imports: [NgChartsModule,
             CourseTeesComponent,
             CommonModule,
-            RouterModule],
+            RouterModule,
+            AddTeeComponent],
   templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
@@ -37,6 +39,8 @@ export class CourseComponent implements OnInit {
   barChartOptions: ChartOptions;
   barData: number[];
 
+  displayAddTee: boolean;
+
   constructor(private httpService: HttpService,
               private alertService: AlertService,
               public authenticationService: AuthenticationService,
@@ -55,6 +59,7 @@ export class CourseComponent implements OnInit {
       this.loadingTees = false;
       this.display = false;
       this.displayTees = false;
+      this.displayAddTee = false;
       this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
       this.courseNavigationService.init();
       this.barChartType = 'bar';
@@ -62,7 +67,10 @@ export class CourseComponent implements OnInit {
       this.barChartLabels = [];
       this.barChartData = [];
       this.barData = [];
+      this.course = history.state.data.course;
+
       this.courseNavigationService.removeTee.set(false);
+      this.courseNavigationService.course.set(this.course);
 
       this.course = history.state.data.course;
       this.getHoles();
@@ -155,6 +163,20 @@ export class CourseComponent implements OnInit {
     this.course.holes = this.holes;
     this.courseNavigationService.cloneCourse.set(this.course);
     this.router.navigate(['/addCourse']).catch(error => console.log(error));
+  }
+
+  addTee() {
+
+    this.courseNavigationService.addTee.set(true);
+
+    if (!this.displayAddTee) {
+      this.displayAddTee = true;
+    }
+
+    if (!this.displayTees) {
+      this.onShowTees();
+    }
+
   }
 
 }

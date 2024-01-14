@@ -92,6 +92,12 @@ describe('CourseComponent', () => {
     expect(component).toBeTruthy();
   }));
 
+  it('should addTee', fakeAsync(() => {
+    standardSetup();
+    component.addTee();
+    expect(component).toBeTruthy();
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
