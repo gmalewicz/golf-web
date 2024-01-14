@@ -72,7 +72,7 @@ export class AddTeeComponent implements OnInit {
     }
 
     // not allow adding the tee with the same sex and tee
-    if (this.courseNavigationService.tees().some(t => t.tee === tee.tee && t.sex === tee.sex && t.teeType === t.teeType)) {
+    if (this.courseNavigationService.tees().some(t => t.tee === tee.tee && t.sex === tee.sex && t.teeType === tee.teeType)) {
       this.alertService.error($localize`:@@adTee-WrongTeeMsg:Tee sex, type and colour must be unique`, false);
       return;
     }
