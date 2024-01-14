@@ -6,9 +6,14 @@
     <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
     </canvas>
   </div>
-  <div *ngIf="displayTees">
+  <div>
     @defer {
-      <app-course-tees></app-course-tees>
+      @if (displayTees) {
+        <app-course-tees></app-course-tees>
+      }
+      @if (displayAddTee){
+        <app-add-tee></app-add-tee>
+      }
     }
   </div>
   <div>
@@ -20,6 +25,10 @@
     <button type="button" class="btn btn-success btn-showTees" (click)="onShowTees()">
       <span *ngIf="loadingTees" class="spinner-border spinner-border-sm mr-1"></span>
       {{showTeesLbl}}
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success btn-addTee" (click)="addTee()">
+      <span i18n="@@course-addTee">Add tee</span>
     </button>
     <span *ngIf="authenticationService.playerRole.includes('ADMIN')">
       &nbsp;

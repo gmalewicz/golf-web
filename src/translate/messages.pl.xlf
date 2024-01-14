@@ -3840,6 +3840,22 @@
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="course-addTee" datatype="html">
+        <source>Add Tee</source>
+        <target>Dodaj tee</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course/course.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="adTee-WrongTeeMsg" datatype="html">
+        <source>Tee sex, type and colour must be unique</source>
+        <target>Płeć, type oraz kolor tee muszą być unikalne</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course/course.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
