@@ -24,31 +24,39 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@cycleDetails-cancel">
-      Cancel
-    </button>
-    &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN"
-      type="button" class="btn btn-success add" (click)="addTournament()">
-      <span *ngIf="loadingAddTour" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@cycleDetails-add">Add tournament</span>
-    </button>
-    &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN" type="button" class="btn btn-success cls" (click)="closeCycle()">
-      <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@cycleDetails-close">Close cycle</span>
-    </button>
-    &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN && cycleTournaments.length > 0"
-          type="button" class="btn btn-success lst" (click)="deleteLast()">
-      <span *ngIf="loadingDeleteTour" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@cycleDetails-deletetLast">Delete last tournament</span>
-    </button>
-    &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success del2" (click)="deleteCycle()">
-      <span *ngIf="loadingDeleteCycle" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@cycleDetails-delCycle">Delete cycle</span>
-    </button>
+    <span>
+      <button type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/home" i18n="@@cycleDetails-cancel">
+        Cancel
+      </button>
+    </span>
+    <span *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN">
+      &nbsp;
+      <button type="button" class="btn btn-success add golf-margin-bottom-6" (click)="addTournament()">
+        <span *ngIf="loadingAddTour" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@cycleDetails-add">Add tournament</span>
+      </button>
+    </span>
+    <span *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN">
+      &nbsp;
+      <button type="button" class="btn btn-success cls golf-margin-bottom-6" (click)="closeCycle()">
+        <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@cycleDetails-close">Close cycle</span>
+      </button>
+    </span>
+    <span *ngIf="authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN && cycleTournaments.length > 0">
+      &nbsp;
+      <button type="button" class="btn btn-success lst golf-margin-bottom-6" (click)="deleteLast()">
+        <span *ngIf="loadingDeleteTour" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@cycleDetails-deletetLast">Delete last tournament</span>
+      </button>
+    </span>
+    <span *ngIf="authenticationService.playerRole.includes('ADMIN')">
+      &nbsp;
+      <button type="button" class="golf-margin-bottom-6 btn btn-success del2" (click)="deleteCycle()">
+        <span *ngIf="loadingDeleteCycle" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@cycleDetails-delCycle">Delete cycle</span>
+      </button>
+    </span>
   </div>
 </div>
 

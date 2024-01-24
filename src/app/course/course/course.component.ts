@@ -92,6 +92,12 @@ export class CourseComponent implements OnInit {
       this.barData.push(hole.par);
     }
 
+    let text = this.course.name + ' - Par: ' + this.course.par;
+
+    if (this.authenticationService.playerRole.includes('ADMIN')) {
+      text = text + " (" + this.course.id  + ")"
+    }
+
     this.barChartData = [{ data: this.barData, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
 
     this.barChartOptions = {
@@ -109,7 +115,7 @@ export class CourseComponent implements OnInit {
       plugins: {
         title: {
           display: true,
-          text: this.course.name + '  - Par: ' + this.course.par,
+          text,
         position: 'bottom'
         },
         tooltip: {
