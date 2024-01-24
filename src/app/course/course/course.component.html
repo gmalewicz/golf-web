@@ -18,26 +18,26 @@
   </div>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@course-cancel">
+    <button type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/home" i18n="@@course-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success btn-showTees" (click)="onShowTees()">
+    <button type="button" class="btn btn-success btn-showTees golf-margin-bottom-6" (click)="onShowTees()">
       <span *ngIf="loadingTees" class="spinner-border spinner-border-sm mr-1"></span>
       {{showTeesLbl}}
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success btn-addTee" (click)="addTee()">
+    <button type="button" class="btn btn-success btn-addTee golf-margin-bottom-6" (click)="addTee()">
       <span i18n="@@course-addTee">Add tee</span>
     </button>
     <span *ngIf="authenticationService.playerRole.includes('ADMIN')">
       &nbsp;
-      <button type="button" class="btn btn-success btn-delete" (click)="delete()">
+      <button type="button" class="btn btn-success btn-delete golf-margin-bottom-6" (click)="delete()">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@course-delete">Delete</span>
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success btn-clone" (click)="clone()">
+      <button type="button" class="btn btn-success btn-clone golf-margin-bottom-6" (click)="clone()">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@course-clone">Clone</span>
       </button>

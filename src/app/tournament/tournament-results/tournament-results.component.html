@@ -268,30 +268,30 @@
   <br />
   <div class="row" data-html2canvas-ignore="true">
     <span>
-    <button type="button" class="btn btn-success" routerLink="/tournaments" i18n="@@tourRes-cancel">
+    <button type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/tournaments" i18n="@@tourRes-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" (click)="displayPDF(tournament.name)">
+    <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="displayPDF(tournament.name)">
       <span *ngIf="loadingPDF" class="spinner-border spinner-border-sm mr-1"></span>
       <span>PDF</span>
     </button>
     &nbsp;
     <span *ngIf="tournament.player.id === playerId && tournament.status === false">
-      <button type="button" class="btn btn-success"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: tournament}}" i18n="@@tourRes-add">
+      <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: tournament}}" i18n="@@tourRes-add">
         Add Round
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: tournament}}" i18n="@@tourRes-addBehf">
+      <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: tournament}}" i18n="@@tourRes-addBehf">
         Add Rounds on Behalf
       </button>
       &nbsp;
-      <button id="close_btn" type="button" class="btn btn-success" (click)="closeTournament()">
+      <button id="close_btn" type="button" class="btn btn-success golf-margin-bottom-6" (click)="closeTournament()">
         <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@tourRes-close">Close tournament</span>
       </button>
       &nbsp;
-      <button type="button" class="btn btn-success del" (click)="deleteTournament()">
+      <button type="button" class="btn btn-success del golf-margin-bottom-6" (click)="deleteTournament()">
         <span *ngIf="loadingDelete" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@tourRes-delete">Delete tournament</span>
       </button>

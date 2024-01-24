@@ -119,3 +119,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 .golf-width-250 {
   width: 210px !important;
 }
+
+.golf-margin-bottom-6 {
+  margin-bottom: 6px !important;
+}
