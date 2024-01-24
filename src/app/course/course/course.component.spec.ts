@@ -46,7 +46,13 @@ describe('CourseComponent', () => {
     .compileComponents();
   }));
 
-  it('should create', () => {
+  it('should create with player', () => {
+    standardSetup();
+    expect(component).toBeTruthy();
+  });
+
+  it('should create with admin', () => {
+    spyOnProperty(authenticationServiceStub , 'playerRole').and.returnValue('ADMIN');
     standardSetup();
     expect(component).toBeTruthy();
   });
