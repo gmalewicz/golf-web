@@ -12,9 +12,9 @@ describe('PlayerResultsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerResultsComponent ],
       imports: [
         HttpClientModule,
+        PlayerResultsComponent
       ],
       providers: [
         TournamentHttpService,

@@ -18,10 +18,10 @@ describe('TournamentRoundsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TournamentRoundsComponent ],
       imports: [
         HttpClientModule,
         FontAwesomeModule,
+        TournamentRoundsComponent,
         routing,
       ],
       providers: [HttpService,

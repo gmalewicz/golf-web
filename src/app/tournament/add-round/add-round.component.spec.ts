@@ -18,7 +18,6 @@ describe('AddRoundComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddRoundComponent, AutoTabDirective ],
       imports: [
         HttpClientModule,
         routing,
@@ -26,7 +25,9 @@ describe('AddRoundComponent', () => {
         FontAwesomeModule,
         FormsModule,
         MatSelectModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AddRoundComponent,
+        AutoTabDirective
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },

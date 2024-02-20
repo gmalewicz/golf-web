@@ -17,7 +17,7 @@
     <tbody>
       <tr *ngFor="let tournament of tournaments">
         <td>
-          <a href="#"  routerLink ="tournamentResults" [state]="{data: {tournament: tournament}}">
+          <a href="#"  routerLink ="tournamentResults" (click)="showTournament(tournament)">
             <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
           </a>
         </td>
@@ -40,4 +40,3 @@
     </button>
   </div>
 </div>
-

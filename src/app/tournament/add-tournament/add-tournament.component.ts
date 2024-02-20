@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService, AlertService } from '@/_services';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { Tournament } from '../_models/tournament';
 import { tap } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-tournament',
+  standalone: true,
+  imports: [RouterModule,
+            CommonModule,
+            ReactiveFormsModule],
+  providers: [TournamentHttpService],
   templateUrl: './add-tournament.component.html'
 })
 export class AddTournamentComponent implements OnInit {
@@ -28,7 +34,6 @@ export class AddTournamentComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-
       this.addTournamentForm = this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],

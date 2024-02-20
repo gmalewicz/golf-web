@@ -1,3 +1,4 @@
+import { TeeTimeParameters } from '@/tournament/_models';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -5,7 +6,7 @@ import { Round } from '@/_models';
 import { Tournament, TournamentPlayer, TournamentResult, TournamentRound } from '../_models';
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TournamentHttpService {
 
   constructor(private http: HttpClient) { }
@@ -74,9 +75,7 @@ export class TournamentHttpService {
 
   // add player to the tournament
   addTournamentPlayer(tournamentPlayer: TournamentPlayer): Observable<void> {
-
     return this.http.post<void>('rest/TournamentPlayer', tournamentPlayer);
-
   }
 
   // deletes tournament player
@@ -87,6 +86,18 @@ export class TournamentHttpService {
   // updates handicap of tournament player
   updateTournamentPlayer(tournamentPlayer: TournamentPlayer): Observable<void> {
     return this.http.patch<void>('rest/TournamentPlayer', tournamentPlayer);
+  }
+
+  saveTeeTimes(tournamentId: number, teeTimeParameters: TeeTimeParameters): Observable<void> {
+    return this.http.post<void>('rest/Tournament/TeeTime/' + tournamentId, teeTimeParameters);
+  }
+
+  getTeeTimes(tournamentId: number): Observable<TeeTimeParameters> {
+    return this.http.get<TeeTimeParameters>('rest/Tournament/TeeTime/' + tournamentId);
+  }
+
+  deleteTeeTimes(tournamentId: number): Observable<void> {
+    return this.http.delete<void>('rest/Tournament/TeeTime/' + tournamentId);
   }
 }
 

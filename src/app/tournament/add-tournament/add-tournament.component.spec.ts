@@ -1,12 +1,21 @@
-import { TournamentHttpService } from './../_services/tournamentHttp.service';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AddTournamentComponent } from './add-tournament.component';
-import { Router } from '@angular/router';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
-import { alertServiceStub, authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
+import { routing } from '@/app.routing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core';
+
+@NgModule()
+export class FixNavigationTriggeredOutsideAngularZoneNgModule {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(_router: Router) {
+  }
+}
 
 describe('AddTournamentComponent', () => {
   let component: AddTournamentComponent;
@@ -14,17 +23,20 @@ describe('AddTournamentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddTournamentComponent ],
       imports: [
         HttpClientModule,
-        ReactiveFormsModule,
+        AddTournamentComponent,
+        RouterTestingModule.withRoutes([]),
+        routing,
+        BrowserAnimationsModule,
+        FixNavigationTriggeredOutsideAngularZoneNgModule
       ],
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        TournamentHttpService,
-        { provide: AlertService, useValue: alertServiceStub }
+        //{ provide: Router, useClass: MyRouterStub },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: AlertService, useValue: alertServiceStub },
       ]
     })
     .compileComponents();
