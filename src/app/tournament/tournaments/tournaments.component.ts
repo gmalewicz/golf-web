@@ -54,7 +54,6 @@ export class TournamentsComponent implements OnInit {
 
   showTournament(tournament: Tournament) {
     this.navigationService.tournament.set(tournament);
-    console.log(this.navigationService.tournament());
     this.router.navigate(['tournaments/tournamentResults']).catch(error => console.log(error));
   }
 }

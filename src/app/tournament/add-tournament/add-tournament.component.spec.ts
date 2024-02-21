@@ -21,6 +21,12 @@ describe('AddTournamentComponent', () => {
   let component: AddTournamentComponent;
   let fixture: ComponentFixture<AddTournamentComponent>;
 
+  const standardSetup = () => {
+    fixture = TestBed.createComponent(AddTournamentComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -42,18 +48,19 @@ describe('AddTournamentComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(() => {
-    localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, whs: '10.0'}]));
-    fixture = TestBed.createComponent(AddTournamentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  it('should create', () => {
+    standardSetup();
+    expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
+  it('should create but player not signed on', () => {
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
+    standardSetup();
     expect(component).toBeTruthy();
   });
 
   it('should add tournament with valid data', () => {
+    standardSetup();
     component.f.name.setValue('Test');
     component.f.startDate.setValue('2023/10/10');
     component.f.endDate.setValue('2023/10/10');
@@ -63,11 +70,13 @@ describe('AddTournamentComponent', () => {
   });
 
   it('should add tournament with invalid form', () => {
+    standardSetup();
     component.onSubmit();
     expect(component.submitted).toBeTruthy();
   });
 
   it('should add tournament with end date lower than start date', () => {
+    standardSetup();
     component.f.name.setValue('Test');
     component.f.startDate.setValue('2023/10/10');
     component.f.endDate.setValue('2023/10/09');

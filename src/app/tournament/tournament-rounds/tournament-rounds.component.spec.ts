@@ -15,7 +15,6 @@ import { TournamentRoundsComponent } from './tournament-rounds.component';
 describe('TournamentRoundsComponent', () => {
   let component: TournamentRoundsComponent;
   let fixture: ComponentFixture<TournamentRoundsComponent>;
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [

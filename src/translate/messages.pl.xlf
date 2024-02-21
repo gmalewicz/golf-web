@@ -3856,6 +3856,118 @@
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="teeTime-parameters" datatype="html">
+        <source>Parametrs</source>
+        <target>Parametry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-preview" datatype="html">
+        <source>Preview</source>
+        <target>Podgląd</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-modifications" datatype="html">
+        <source>Modifications</source>
+        <target>Modyfikacje</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-save" datatype="html">
+        <source>Save Tee Times</source>
+        <target>Zapisz tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-publish" datatype="html">
+        <source>Publish Tee Times</source>
+        <target>Publikuj tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-delete" datatype="html">
+        <source>Delete Tee Times</source>
+        <target>Usuń tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="teeTime-notPublished" datatype="html">
+        <source>Tee times not publisheed yet</source>
+        <target>Tee time nie został jeszcze opublikowany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/tee-time/tee-time.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-firstTeeTimeLbl" datatype="html">
+        <source>First tee time</source>
+        <target>Pierwszy tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-startTeeTimeReq" datatype="html">
+        <source>Start tee time is required</source>
+        <target>Pierwszy tee time jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-startTeeTimeValid" datatype="html">
+        <source>Provide the valid tee time</source>
+        <target>Wpisz poprawny tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-teeTimeStepLbl" datatype="html">
+        <source>Tee time step</source>
+        <target>Odstęp pomiędzy tee time</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-teeTimeStepReq" datatype="html">
+        <source>Tee time step is required</source>
+        <target>Odstęp pomiędzy tee time jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-flightSizeLbl" datatype="html">
+        <source>Flight size</source>
+        <target>Ilość graczy we flight</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-flightSizeReq" datatype="html">
+        <source>Flight size is required</source>
+        <target>Ilość graczy we flight jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

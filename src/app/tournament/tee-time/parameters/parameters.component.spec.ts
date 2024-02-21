@@ -36,4 +36,16 @@ describe('ParametersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should change form value', () => {
+    component.f.flightSize.setValue(2);
+    expect(component).toBeTruthy();
+  });
+
+  it('should update parameters', () => {
+    component.updateParameters();
+    expect(component).toBeTruthy();
+  });
+
+
 });

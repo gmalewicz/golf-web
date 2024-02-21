@@ -20,6 +20,13 @@ describe('TournamentResultsComponent', () => {
   let fixture: ComponentFixture<TournamentResultsComponent>;
   const navigationService: TournamentNavigationService = new TournamentNavigationService();
 
+  const standardSetup = () => {
+    fixture = TestBed.createComponent(TournamentResultsComponent);
+    component = fixture.componentInstance;
+    component.navigationService.tournament.set({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, player: {id: 1}});
+    fixture.detectChanges();
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -44,35 +51,27 @@ describe('TournamentResultsComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(() => {
-
-    fixture = TestBed.createComponent(TournamentResultsComponent);
-    component = fixture.componentInstance;
-    component.navigationService.tournament.set({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, player: {id: 1}});
-    fixture.detectChanges();
-  });
 
   it('should create without player ', () => {
-
-    fixture = TestBed.createComponent(TournamentResultsComponent);
-    history.pushState({data: undefined}, '');
-    fixture.detectChanges();
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
+    standardSetup();
     expect(component).toBeTruthy();
   });
 
   it('should create', () => {
+    standardSetup();
     expect(component).toBeTruthy();
   });
 
   it('should test show Player details with undefined rounds', fakeAsync(() => {
-
+    standardSetup();
     component.showPlayerDetails(getTournamentResult(), 0);
     expect(component.displayRound[0]).toBeTruthy();
 
   }));
 
   it('should test hied player details', fakeAsync(() => {
-
+    standardSetup();
     component.displayRound[0] = true;
     component.hidePlayerDetails(0);
     expect(component.displayRound[0]).toBeFalsy();
@@ -80,7 +79,7 @@ describe('TournamentResultsComponent', () => {
   }));
 
   it('should test updateSort with stb net', fakeAsync(() => {
-
+    standardSetup();
     component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
     component.updateSort(0);
     expect(component.navigationService.tournamentResults()[0].id).toEqual(2);
@@ -89,7 +88,7 @@ describe('TournamentResultsComponent', () => {
 
 
   it('should test updateSort with stb gross', fakeAsync(() => {
-
+    standardSetup();
     component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
     component.updateSort(1);
     expect(component.navigationService.tournamentResults()[0].id).toEqual(2);
@@ -97,7 +96,7 @@ describe('TournamentResultsComponent', () => {
   }));
 
   it('should test updateSort with strokes', fakeAsync(() => {
-
+    standardSetup();
     component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
     fixture.detectChanges();
     component.updateSort(2);
@@ -106,7 +105,7 @@ describe('TournamentResultsComponent', () => {
   }));
 
   it('should test updateSort with strokes net', fakeAsync(() => {
-
+    standardSetup();
     component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
     fixture.detectChanges();
     component.updateSort(3);
@@ -115,7 +114,7 @@ describe('TournamentResultsComponent', () => {
   }));
 
   it('should test updateSort with strokes net and best round = 1', fakeAsync(() => {
-
+    standardSetup();
     component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 1});
     component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
     fixture.detectChanges();
@@ -125,7 +124,7 @@ describe('TournamentResultsComponent', () => {
   }));
 
   it('should test delete result', fakeAsync(() => {
-
+    standardSetup();
     component.deleteResult(1);
     expect(component).toBeTruthy();
 
@@ -133,16 +132,40 @@ describe('TournamentResultsComponent', () => {
 
 
   it('should close tournament',  fakeAsync(() => {
-
+    standardSetup();
     component.closeTournament();
     expect(component.navigationService.tournament().status).toBe(TournamentStatus.STATUS_CLOSE);
   }));
 
 
   it('should delete tournament',  fakeAsync(() => {
-
+    standardSetup();
     component.deleteTournament();
     expect(component.loadingDelete).toBeTruthy();
+  }));
+
+  it('should press cancel',  fakeAsync(() => {
+    standardSetup();
+    component.onCancel();
+    expect(navigationService.teeTimeParameters()).toBeUndefined();
+  }));
+
+  it('should displayPDF',  fakeAsync(() => {
+    standardSetup();
+    component.displayPDF("test");
+    expect(component).toBeTruthy();
+  }));
+
+  it('should loadComponent 0',  fakeAsync(() => {
+    standardSetup();
+    component.loadComponent(0);
+    expect(component).toBeTruthy();
+  }));
+
+  it('should loadComponent 1',  fakeAsync(() => {
+    standardSetup();
+    component.loadComponent(1);
+    expect(component).toBeTruthy();
   }));
 
   afterAll(() => {
