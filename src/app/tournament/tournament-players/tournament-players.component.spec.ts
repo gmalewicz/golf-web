@@ -3,7 +3,7 @@ import { MatDialogMock } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -56,13 +56,13 @@ describe('TournamentPlayersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should delete existing player without results', () => {
+  it('should delete existing player without results', () => fakeAsync(() => {
     fixture.detectChanges();
     component.navigationService.tournamentResults.set([]);
     component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.deletePlayer(getTournamentPlayer(), 0);
     expect(component.navigationService.tournamentPlayers().length).toBe(0);
-  });
+  }));
 
   it('should try to delete player with results', () => {
     fixture.detectChanges();

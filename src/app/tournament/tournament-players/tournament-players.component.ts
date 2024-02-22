@@ -98,6 +98,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
     }
   }
 
+
   deletePlayer(tournamentPlayer: TournamentPlayer, playerIdx: number) {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -124,7 +125,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
           this.navigationService.tournamentPlayers.update(players => [...players.filter(tp => tp.playerId !== tournamentPlayer.playerId)]);
           this.deletePlayerinProgress = false;
         }
-      });
+    });
   }
 
 
