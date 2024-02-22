@@ -3,7 +3,7 @@ import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
-import { tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
@@ -11,6 +11,7 @@ import { generatePDF } from '@/_helpers/common';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tournament-results',
@@ -108,21 +109,21 @@ export class TournamentResultsComponent implements OnInit {
 
     switch (action) {
       case 0: // stb net
-        this.navigationService.tournamentResults.update(results => [...results.sort((a, b) => b.stbNet - a.stbNet)]);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.stbNet - a.stbNet));
         break;
       case 1: // stb
-        this.navigationService.tournamentResults.update(results => [...results.sort((a, b) => b.stbGross - a.stbGross)]);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.stbGross - a.stbGross));
         break;
       case 2: // strokes
-        this.navigationService.tournamentResults.update(results => [...results.sort((a, b) => a.strokesBrutto - b.strokesBrutto)]);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => a.strokesBrutto - b.strokesBrutto));
         break;
       case 3: // net strokes
-        this.navigationService.tournamentResults.update(results => [...results.sort((a, b) => a.strokesNetto - b.strokesNetto)]);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => a.strokesNetto - b.strokesNetto));
         break;
     }
 
     if  (this.navigationService.tournament().bestRounds === 0 && action > 1) {
-      this.navigationService.tournamentResults.update(results => [...results.sort((a, b) => b.strokeRounds - a.strokeRounds)]);
+      this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.strokeRounds - a.strokeRounds));
     } else if (this.navigationService.tournament().bestRounds !== 0 &&  action > 1) {
       const tempLst = this.navigationService.tournamentResults().filter(r => r.strokeRounds >= this.navigationService.tournament().bestRounds);
       this.navigationService.tournamentResults.set(tempLst.concat((this.navigationService.tournamentResults()
@@ -136,18 +137,20 @@ export class TournamentResultsComponent implements OnInit {
       disableClose: false
     });
     dialogRef.componentInstance.confirmMessage = $localize`:@@tourRes-delConf:Are you sure you want to delete result?`;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // do confirmation actions
-        this.tournamentHttpService.deleteResult(resultId).pipe(
-          tap(
-            () => {
-              this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
-              this.navigationService.tournamentResults.update(results => [...results.filter(rs => rs.id !== resultId)]);
-            })
-        ).subscribe();
+    dialogRef.afterClosed()
+    .pipe(
+      mergeMap((result: boolean) => {
+        if (result) {
+          return firstValueFrom(this.tournamentHttpService.deleteResult(resultId).pipe(map(() => true)));
+        }
+        return Promise.resolve(false);
       }
-    });
+    )).subscribe((status: boolean) => {
+      if (status) {
+        this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
+        this.navigationService.tournamentResults.update(results => [...results].filter(rs => rs.id !== resultId));
+      }
+    })
   }
 
   closeTournament(): void {
