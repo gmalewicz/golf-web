@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { firstValueFrom, map, tap } from 'rxjs';
+import { firstValueFrom, map, mergeMap, tap } from 'rxjs';
 import { UpdateTournamentPlayerWhsDialogComponent } from '../update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
@@ -104,26 +104,31 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
       disableClose: false
     });
     dialogRef.componentInstance.confirmMessage = $localize`:@@tourPlr-delPlr:Are you sure you want to remove player from tournamnet?`;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // do confirmation actions
-        if (this.navigationService.tournamentResults().map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
-          this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
-        } else {
-          this.deletePlayerinProgress = true;
-          this.playerIdx = playerIdx;
-          this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(
-            tap(
-              () => {
-                this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
-                this.navigationService.tournamentPlayers.update(players => [...players.filter(tp => tp.playerId !== tournamentPlayer.playerId)]);
-                this.deletePlayerinProgress = false;
-              })
-          ).subscribe();
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((result: boolean) => {
+          if (result)
+            if (this.navigationService.tournamentResults().map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
+              this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
+              return Promise.resolve(false);
+            } else {
+              this.deletePlayerinProgress = true;
+              this.playerIdx = playerIdx;
+              return firstValueFrom(this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(map(() => true)));
+            }
+          return Promise.resolve(false);
+        })
+      ).subscribe((status: boolean) => {
+        if (status === true) {
+          this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
+          this.navigationService.tournamentPlayers.update(players => [...players.filter(tp => tp.playerId !== tournamentPlayer.playerId)]);
+          this.deletePlayerinProgress = false;
         }
-      }
-    });
+      });
   }
+
+
+
 
   updateWHS(playerIdx: number) {
 
