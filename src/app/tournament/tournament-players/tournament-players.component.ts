@@ -4,20 +4,19 @@ import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Subject, firstValueFrom, map, tap } from 'rxjs';
+import { firstValueFrom, map, mergeMap, tap } from 'rxjs';
 import { UpdateTournamentPlayerWhsDialogComponent } from '../update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component';
-import { Tournament } from '../_models/tournament';
 import { TournamentPlayer } from '../_models/tournamentPlayer';
-import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
+import { TournamentNavigationService } from '../_services';
 
 @Component({
   selector: 'app-tournament-players',
@@ -34,12 +33,6 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
   display: boolean;
 
-  @Input() tournament: Tournament;
-  @Input() tournamentPlayers: TournamentPlayer[];
-  @Input() tournamentResults: TournamentResult[];
-
-  outTournamentPlayers = new Subject<TournamentPlayer[]>();
-
   faMinusCircle: IconDefinition;
   faSearchPlus: IconDefinition;
 
@@ -51,7 +44,8 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
   constructor(private tournamentHttpService: TournamentHttpService,
               protected alertService: AlertService,
               protected httpService: HttpService,
-              protected dialog: MatDialog) {
+              protected dialog: MatDialog,
+              public navigationService: TournamentNavigationService) {
                 super(alertService, dialog, httpService);
               }
 
@@ -62,14 +56,13 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
     this.display = false;
 
-    if (this.tournamentPlayers === undefined) {
+    if (this.navigationService.tournamentPlayers() == undefined) {
 
-      this.tournamentHttpService.getTournamentPlayers(this.tournament.id).pipe(
+      this.tournamentHttpService.getTournamentPlayers(this.navigationService.tournament().id).pipe(
         tap(
           (retTournamentPlayers: TournamentPlayer[]) => {
-            this.tournamentPlayers = retTournamentPlayers;
+            this.navigationService.tournamentPlayers.set(retTournamentPlayers);
             this.display = true;
-            this.outTournamentPlayers.next(this.tournamentPlayers);
           })
       ).subscribe();
     } else {
@@ -80,7 +73,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected processPlayer(player: Player, playerIdx: number): Promise<unknown> {
     if (player !== undefined) {
-      if (this.tournamentPlayers.find(p => p.nick === player.nick)) {
+      if (this.navigationService.tournamentPlayers().find(p => p.nick === player.nick)) {
         this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${player.nick} already added to the tournament.`, false);
         return Promise.resolve(undefined);
       }
@@ -88,7 +81,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
       const tournamentPlayer: TournamentPlayer = {
         playerId: player.id,
         whs: player.whs,
-        tournamentId: this.tournament.id,
+        tournamentId: this.navigationService.tournament().id,
         nick: player.nick
       };
 
@@ -101,10 +94,10 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
   protected processPostPlayer(tournamentPlayer: unknown): void {
     if (tournamentPlayer !== undefined) {
-      this.tournamentPlayers.push(tournamentPlayer as TournamentPlayer);
-      this.outTournamentPlayers.next(this.tournamentPlayers);
+      this.navigationService.tournamentPlayers.update(players => [...players, tournamentPlayer as TournamentPlayer])
     }
   }
+
 
   deletePlayer(tournamentPlayer: TournamentPlayer, playerIdx: number) {
 
@@ -112,31 +105,35 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
       disableClose: false
     });
     dialogRef.componentInstance.confirmMessage = $localize`:@@tourPlr-delPlr:Are you sure you want to remove player from tournamnet?`;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // do confirmation actions
-        if (this.tournamentResults.map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
-          this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
-        } else {
-          this.deletePlayerinProgress = true;
-          this.playerIdx = playerIdx;
-          this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(
-            tap(
-              () => {
-                this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
-                this.tournamentPlayers = this.tournamentPlayers.filter(tp => tp.playerId !== tournamentPlayer.playerId);
-                this.outTournamentPlayers.next(this.tournamentPlayers);
-                this.deletePlayerinProgress = false;
-              })
-          ).subscribe();
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((result: boolean) => {
+          if (result)
+            if (this.navigationService.tournamentResults().map(tr => tr.player.id).includes(tournamentPlayer.playerId)) {
+              this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
+              return Promise.resolve(false);
+            } else {
+              this.deletePlayerinProgress = true;
+              this.playerIdx = playerIdx;
+              return firstValueFrom(this.tournamentHttpService.deleteTournamentPlayer(tournamentPlayer.tournamentId, tournamentPlayer.playerId).pipe(map(() => true)));
+            }
+          return Promise.resolve(false);
+        })
+      ).subscribe((status: boolean) => {
+        if (status === true) {
+          this.alertService.success($localize`:@@tourPlr-delSucc:Player successfuly deleted`, false);
+          this.navigationService.tournamentPlayers.update(players => [...players.filter(tp => tp.playerId !== tournamentPlayer.playerId)]);
+          this.deletePlayerinProgress = false;
         }
-      }
     });
   }
 
+
+
+
   updateWHS(playerIdx: number) {
 
-    if (this.tournamentResults.map(tr => tr.player.id).includes(this.tournamentPlayers[playerIdx].playerId)) {
+    if (this.navigationService.tournamentResults().map(tr => tr.player.id).includes(this.navigationService.tournamentPlayers()[playerIdx].playerId)) {
       this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
       return;
     }
@@ -146,7 +143,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      player: this.tournamentPlayers[playerIdx]
+      player: this.navigationService.tournamentPlayers()[playerIdx]
     };
 
     const dialogRef = this.dialog.open(
@@ -162,12 +159,12 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
         let whs: string = result.whs;
         whs = whs.toString().replace(/,/gi, '.');
-        this.tournamentPlayers[playerIdx].whs = +whs;
+        this.navigationService.tournamentPlayers()[playerIdx].whs = +whs;
 
-        this.tournamentHttpService.updateTournamentPlayer(this.tournamentPlayers[playerIdx]).pipe(
+        this.tournamentHttpService.updateTournamentPlayer(this.navigationService.tournamentPlayers()[playerIdx]).pipe(
           tap(() => {
             // tslint:disable-next-line: max-line-length
-            this.alertService.success($localize`:@@tourPlr-hcpUpdated:HCP for ${this.tournamentPlayers[playerIdx].nick} has been updated`, false);
+            this.alertService.success($localize`:@@tourPlr-hcpUpdated:HCP for ${this.navigationService.tournamentPlayers()[playerIdx].nick} has been updated`, false);
             this.updWhsInProgress = false;
           })
         ).subscribe();

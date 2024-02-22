@@ -1,0 +1,43 @@
+@if (mode() === undefined) {
+} @else if (mode() === MODE_ADMIN_TEETIMES_NOT_PUBLISHED) {
+  <mat-tab-group>
+    <mat-tab i18n-label="@@teeTime-parameters" label="Parametrs">
+      @defer {
+        <app-parameters/>
+      }
+    </mat-tab>
+    <mat-tab i18n-label="@@teeTime-preview" label="Preview">
+      @defer {
+        <app-preview/>
+      }
+    </mat-tab>
+    <mat-tab label="Modifications" disabled="true" i18n-label="@@teeTime-modifications"> placeholder </mat-tab>
+  </mat-tab-group>
+} @else if (mode() === MODE_ADMIN_TEETIMES_PUBLISHED || mode() === MODE_PLYAYER_TEETIMES_PUBLISHED) {
+    @defer {
+      <app-preview/>
+    }
+} @else {
+  <h2 i18n="@@teeTime-notPublished">Tee times not publisheed yet</h2>
+}
+@if (mode() === MODE_ADMIN_TEETIMES_NOT_PUBLISHED || mode() === MODE_ADMIN_TEETIMES_PUBLISHED) {
+  <br/>
+  <div class="row">
+    <span>
+      @if (mode() === MODE_ADMIN_TEETIMES_NOT_PUBLISHED) {
+        <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="saveTeeTimes()" i18n="@@teeTime-save">
+          Save Tee Times
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="publishTeeTimes()" i18n="@@teeTime-publish">
+          Publish Tee Times
+        </button>
+        &nbsp;
+      }
+      <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="deleteTeeTimes()" i18n="@@teeTime-delete">
+        Delete Tee Times
+      </button>
+    </span>
+  </div>
+}
+

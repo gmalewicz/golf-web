@@ -15,13 +15,12 @@ import { TournamentRoundsComponent } from './tournament-rounds.component';
 describe('TournamentRoundsComponent', () => {
   let component: TournamentRoundsComponent;
   let fixture: ComponentFixture<TournamentRoundsComponent>;
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TournamentRoundsComponent ],
       imports: [
         HttpClientModule,
         FontAwesomeModule,
+        TournamentRoundsComponent,
         routing,
       ],
       providers: [HttpService,

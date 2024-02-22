@@ -1,16 +1,27 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
-import { TournamentHttpService } from '../_services';
-import { tap } from 'rxjs/operators';
-import { Tournament, TournamentPlayer, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
+import { Router, RouterModule } from '@angular/router';
+import { TournamentHttpService, TournamentNavigationService } from '../_services';
+import { map, mergeMap, tap } from 'rxjs/operators';
+import { TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { generatePDF } from '@/_helpers/common';
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlayerResultsComponent } from '../player-results/player-results.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tournament-results',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    RouterModule,
+    PlayerResultsComponent
+    ],
   templateUrl: './tournament-results.component.html'
 })
 export class TournamentResultsComponent implements OnInit {
@@ -19,36 +30,32 @@ export class TournamentResultsComponent implements OnInit {
   faSearchMinus: IconDefinition;
   faMinusCircle: IconDefinition;
 
-  tournament: Tournament;
-  tournamentPlayers: TournamentPlayer[];
-
   playerId: number;
   displayRound: Array<boolean>;
 
   display: boolean;
   rndSpinner: boolean[];
 
-  tournamentResults: Array<TournamentResult>;
-
   loadingClose: boolean;
   loadingDelete: boolean;
   loadingPDF: boolean;
 
   @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
+  @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
 
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              public navigationService: TournamentNavigationService) {}
 
   ngOnInit(): void {
-
-    if (history.state.data === undefined || this.authenticationService.currentPlayerValue === null) {
+    if (this.authenticationService.currentPlayerValue === null || this.navigationService.tournament() === undefined) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-
+      this.navigationService.init();
       this.display = false;
 
       this.loadingClose = false;
@@ -59,14 +66,13 @@ export class TournamentResultsComponent implements OnInit {
       this.faSearchMinus = faSearchMinus;
       this.faMinusCircle = faMinusCircle;
 
-      this.tournament = history.state.data.tournament;
       this.playerId = this.authenticationService.currentPlayerValue.id;
-      this.tournamentHttpService.getTournamentResults(this.tournament.id).pipe(
+      this.tournamentHttpService.getTournamentResults(this.navigationService.tournament().id).pipe(
         tap(
           (retTournamentResults: TournamentResult[]) => {
-            this.tournamentResults = retTournamentResults;
-            this.displayRound = Array(this.tournamentResults.length).fill(false);
-            this.rndSpinner = Array(this.tournamentResults.length).fill(false);
+            this.navigationService.tournamentResults.set(retTournamentResults);
+            this.displayRound = Array(this.navigationService.tournamentResults().length).fill(false);
+            this.rndSpinner = Array(this.navigationService.tournamentResults().length).fill(false);
             this.display = true;
           })
       ).subscribe();
@@ -103,26 +109,25 @@ export class TournamentResultsComponent implements OnInit {
 
     switch (action) {
       case 0: // stb net
-        this.tournamentResults.sort((a, b) => b.stbNet - a.stbNet);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.stbNet - a.stbNet));
         break;
       case 1: // stb
-        this.tournamentResults.sort((a, b) => b.stbGross - a.stbGross);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.stbGross - a.stbGross));
         break;
       case 2: // strokes
-        this.tournamentResults.sort((a, b) => a.strokesBrutto - b.strokesBrutto);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => a.strokesBrutto - b.strokesBrutto));
         break;
       case 3: // net strokes
-        this.tournamentResults.sort((a, b) => a.strokesNetto - b.strokesNetto);
+        this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => a.strokesNetto - b.strokesNetto));
         break;
     }
 
-    if  (this.tournament.bestRounds === 0 && action > 1) {
-      this.tournamentResults.sort((a, b) => b.strokeRounds - a.strokeRounds);
-    } else if (this.tournament.bestRounds !== 0 &&  action > 1) {
-      const tempLst = this.tournamentResults.filter(r => r.strokeRounds >= this.tournament.bestRounds);
-      this.tournamentResults =
-        tempLst.concat((this.tournamentResults
-          .filter(r => r.strokeRounds < this.tournament.bestRounds)).sort((a, b) => b.strokeRounds - a.strokeRounds));
+    if  (this.navigationService.tournament().bestRounds === 0 && action > 1) {
+      this.navigationService.tournamentResults.update(results => [...results].sort((a, b) => b.strokeRounds - a.strokeRounds));
+    } else if (this.navigationService.tournament().bestRounds !== 0 &&  action > 1) {
+      const tempLst = this.navigationService.tournamentResults().filter(r => r.strokeRounds >= this.navigationService.tournament().bestRounds);
+      this.navigationService.tournamentResults.set(tempLst.concat((this.navigationService.tournamentResults()
+        .filter(r => r.strokeRounds < this.navigationService.tournament().bestRounds)).sort((a, b) => b.strokeRounds - a.strokeRounds)));
     }
   }
 
@@ -132,18 +137,20 @@ export class TournamentResultsComponent implements OnInit {
       disableClose: false
     });
     dialogRef.componentInstance.confirmMessage = $localize`:@@tourRes-delConf:Are you sure you want to delete result?`;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // do confirmation actions
-        this.tournamentHttpService.deleteResult(resultId).pipe(
-          tap(
-            () => {
-              this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
-              this.tournamentResults = this.tournamentResults.filter(rs => rs.id !== resultId);
-            })
-        ).subscribe();
+    dialogRef.afterClosed()
+    .pipe(
+      mergeMap((result: boolean) => {
+        if (result) {
+          return firstValueFrom(this.tournamentHttpService.deleteResult(resultId).pipe(map(() => true)));
+        }
+        return Promise.resolve(false);
       }
-    });
+    )).subscribe((status: boolean) => {
+      if (status) {
+        this.alertService.success($localize`:@@tourRes-delSucc:Result successfuly deleted`, false);
+        this.navigationService.tournamentResults.update(results => [...results].filter(rs => rs.id !== resultId));
+      }
+    })
   }
 
   closeTournament(): void {
@@ -158,9 +165,9 @@ export class TournamentResultsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadingClose = true;
-        this.tournamentHttpService.closeTournament(this.tournament.id).pipe(tap(
+        this.tournamentHttpService.closeTournament(this.navigationService.tournament().id).pipe(tap(
           () => {
-            this.tournament.status = TournamentStatus.STATUS_CLOSE;
+            this.navigationService.tournament().status = TournamentStatus.STATUS_CLOSE;
             this.alertService.success($localize`:@@tourRunds-CloseMsg:Tournament successfully closed`, false);
             this.loadingClose = false;
           })
@@ -181,7 +188,7 @@ export class TournamentResultsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadingDelete = true;
-        this.tournamentHttpService.deleteTournament(this.tournament.id).pipe(tap(
+        this.tournamentHttpService.deleteTournament(this.navigationService.tournament().id).pipe(tap(
           () => {
             this.alertService.success($localize`:@@tourRunds-DeleteMsg:Tournament successfully deleted`, true);
             this.router.navigate(['/tournaments']).catch(error => console.log(error));
@@ -196,21 +203,26 @@ export class TournamentResultsComponent implements OnInit {
     if (this.tournamentContainerRef !== undefined) {
       this.tournamentContainerRef.clear();
     }
+    if (this.teeTimeContainerRef !== undefined) {
+      this.teeTimeContainerRef.clear();
+    }
 
     if (comp === 0) {
       const {TournamentPlayersComponent} = await import('../tournament-players/tournament-players.component');
-      const componentRef = this.tournamentContainerRef.createComponent(TournamentPlayersComponent);
-      componentRef.instance.tournament = this.tournament;
-      componentRef.instance.tournamentPlayers = this.tournamentPlayers;
-      componentRef.instance.tournamentResults = this.tournamentResults;
-      componentRef.instance.outTournamentPlayers.subscribe((tournamentPlayers) => {
-        this.tournamentPlayers = tournamentPlayers;
-      });
+      this.tournamentContainerRef.createComponent(TournamentPlayersComponent);
+    } else if (comp === 1) {
+      const {TeeTimeComponent} = await import('../tee-time/tee-time/tee-time.component');
+      this.teeTimeContainerRef.createComponent(TeeTimeComponent);
     }
   }
 
   public displayPDF(name: string): void {
     this.loadingPDF = true;
     generatePDF(name, this);
+  }
+
+  onCancel() {
+    this.navigationService.init();
+    this.router.navigate(['tournaments']).catch(error => console.log(error));
   }
 }

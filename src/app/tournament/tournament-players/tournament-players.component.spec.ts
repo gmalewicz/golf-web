@@ -3,7 +3,7 @@ import { MatDialogMock } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -12,6 +12,7 @@ import { getTournamentPlayer, getTournamentResult } from '../_helpers/test.helpe
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 
 import { TournamentPlayersComponent } from './tournament-players.component';
+import { TournamentNavigationService } from '../_services';
 
 describe('TournamentPlayersComponent', () => {
   let component: TournamentPlayersComponent;
@@ -30,6 +31,7 @@ describe('TournamentPlayersComponent', () => {
       providers: [
         HttpService,
         TournamentHttpService,
+        TournamentNavigationService,
         { provide: MatDialog, useValue: dialog},
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
@@ -39,7 +41,7 @@ describe('TournamentPlayersComponent', () => {
 
     fixture = TestBed.createComponent(TournamentPlayersComponent);
     component = fixture.componentInstance;
-    component.tournament = {id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020'};
+    component.navigationService.tournament.set({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020'});
 
   });
 
@@ -49,25 +51,25 @@ describe('TournamentPlayersComponent', () => {
   });
 
   it('should create where tournamentPlayers are defined', () => {
-    component.tournamentPlayers = [];
+    component.navigationService.tournamentPlayers.set([]);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should delete existing player without results', () => {
+  it('should delete existing player without results', () => fakeAsync(() => {
     fixture.detectChanges();
-    component.tournamentResults = [];
-    component.tournamentPlayers = [getTournamentPlayer()];
+    component.navigationService.tournamentResults.set([]);
+    component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.deletePlayer(getTournamentPlayer(), 0);
-    expect(component.tournamentPlayers.length).toBe(0);
-  });
+    expect(component.navigationService.tournamentPlayers().length).toBe(0);
+  }));
 
   it('should try to delete player with results', () => {
     fixture.detectChanges();
-    component.tournamentPlayers = [getTournamentPlayer()];
-    component.tournamentResults = [getTournamentResult()];
+    component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
+    component.navigationService.tournamentResults.set([getTournamentResult()]);
     component.deletePlayer(getTournamentPlayer(), 0);
-    expect(component.tournamentPlayers.length).toBe(1);
+    expect(component.navigationService.tournamentPlayers().length).toBe(1);
   });
 
   it('should search player and player found', () => {
@@ -92,7 +94,7 @@ describe('TournamentPlayersComponent', () => {
 
   it('should not add player because the player already exists', () => {
     dialog.setRetVal({nick: 'test', female: true, whs: 10.1});
-    component.tournamentPlayers = [getTournamentPlayer()];
+    component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     fixture.detectChanges();
     component.onSearchPlayer(undefined);
     expect(component).toBeTruthy();
@@ -101,18 +103,18 @@ describe('TournamentPlayersComponent', () => {
   it('should update WHS', () => {
     dialog.setRetVal({nick: 'Player', female: true, whs: 10.1});
     fixture.detectChanges();
-    component.tournamentPlayers = [getTournamentPlayer()];
-    component.tournamentResults = [];
+    component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
+    component.navigationService.tournamentResults.set([]);
     component.updateWHS(0);
-    expect(component.tournamentPlayers.at(0).whs).toBe(10.1);
+    expect(component.navigationService.tournamentPlayers().at(0).whs).toBe(10.1);
   });
 
   it('should not update WHS because player has results', () => {
     dialog.setRetVal({nick: 'Player', female: true, whs: 10.1});
     fixture.detectChanges();
-    component.tournamentPlayers = [getTournamentPlayer()];
-    component.tournamentResults = [getTournamentResult()];
+    component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
+    component.navigationService.tournamentResults.set([getTournamentResult()]);
     component.updateWHS(0);
-    expect(component.tournamentPlayers.at(0).whs).toBe(10);
+    expect(component.navigationService.tournamentPlayers().at(0).whs).toBe(10);
   });
 });

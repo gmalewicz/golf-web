@@ -26,13 +26,14 @@ const routes: Routes = [
   { path: 'changeLog', component: ChangeLogComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'admin', component: AdminComponent, canActivate: [() => inject(AuthGuard).canActivate(),
                                                             () => inject(RoleGuard).canActivate('ADMIN')]},
-  { path: 'tournaments', loadChildren: () => import('./tournament/tournament.module').then(m => m.TournamentModule)},
+
   { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},
   { path: 'cycles', loadChildren: () => import('./cycles/cycles.module').then(m => m.CyclesModule)},
   { path: 'mpLeagues', loadChildren: () => import('./mp-league/mp-league.module').then(m => m.MpLeagueModule)},
 
   { path: 'course', loadChildren: () => import('./course/course/course.component').then((m) => m.courseRoutes) },
   { path: 'addCourse', loadChildren: () => import('./course/add-course/add-course.component').then((m) => m.addCourseRoutes)  },
+  { path: 'tournaments', loadChildren: () => import('./tournament/tournaments/tournaments.component').then((m) => m.tournamentRoutes)},
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

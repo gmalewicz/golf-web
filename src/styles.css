@@ -116,8 +116,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   width: 150px !important;
 }
 
-.golf-width-250 {
+.golf-width-210 {
   width: 210px !important;
+}
+
+.golf-width-300 {
+  width: 300px !important;
 }
 
 .golf-margin-bottom-6 {

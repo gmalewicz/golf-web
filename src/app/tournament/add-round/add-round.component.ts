@@ -1,3 +1,4 @@
+import { AutoTabDirective } from './AutoTab.directive';
 import { TournamentRound } from './../_models/tournamentRound';
 import { TournamentHttpService } from './../_services/tournamentHttp.service';
 import { Course } from '@/_models/course';
@@ -8,18 +9,30 @@ import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { faCheckCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '../_models/tournament';
 import { getDateAndTime } from '@/_helpers/common';
 import { Hole } from '@/_models/hole';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TeeOptions } from '@/_models/teeOptions';
+import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-add-round',
+  standalone: true,
+  imports: [RouterModule,
+            MatSelectModule,
+            CommonModule,
+            ReactiveFormsModule,
+            AutoTabDirective,
+            FontAwesomeModule,
+            FormsModule],
+  providers: [TournamentHttpService],
   templateUrl: './add-round.component.html',
   styleUrls: ['./add-round.component.css']
 })

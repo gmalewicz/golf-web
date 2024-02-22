@@ -1,0 +1,48 @@
+<form [formGroup]="parametersForm">
+  <div class="golf-margin-top-15">
+
+      <div class="row golf-width-300">
+        <mat-form-field>
+          <mat-label i18n="@@parameters-firstTeeTimeLbl">first tee time</mat-label>
+          <input matInput maxlength="5" [formControlName]="'startTeeTime'"/>
+          @if (f.startTeeTime.invalid && f.startTeeTime.errors.required)  {
+            <mat-error i18n="@@parameters-startTeeTimeReq">Start tee time is required</mat-error>
+          }
+          @if (f.startTeeTime.invalid && f.startTeeTime.errors.pattern)  {
+            <mat-error i18n="@@parameters-startTeeTimeValid">Provide the valid tee time</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="row golf-width-300">
+        <mat-form-field>
+          <mat-label i18n="@@parameters-teeTimeStepLbl">Tee time step</mat-label>
+          <mat-select [formControlName]="'teeTimeStep'">
+            <mat-option value="8">8</mat-option>
+            <mat-option value="9">9</mat-option>
+            <mat-option value="10">10</mat-option>
+            <mat-option value="10">11</mat-option>
+            <mat-option value="12">12</mat-option>
+          </mat-select>
+          @if (f.teeTimeStep.invalid  && f.teeTimeStep.errors) {
+            <mat-error i18n="@@parameters-teeTimeStepReq">Tee time step is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="row golf-width-300">
+        <mat-form-field>
+          <mat-label i18n="@@parameters-flightSizeLbl">Flight size</mat-label>
+          <mat-select [formControlName]="'flightSize'">
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+          </mat-select>
+          @if (f.teeTimeStep.invalid  && f.teeTimeStep.errors) {
+            <mat-error i18n="@@parameters-flightSizeReq">Flight size is required</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+  </div>
+</form>

@@ -1,41 +1,66 @@
 import { routing } from '@/app.routing';
-import { HttpService } from '@/_services';
+import { AuthenticationService, HttpService } from '@/_services';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { TournamentHttpService } from '../_services';
 import { TournamentsComponent } from './tournaments.component';
+import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { NgModule } from '@angular/core';
+import { Router } from '@angular/router';
+
+@NgModule()
+export class FixNavigationTriggeredOutsideAngularZoneNgModule {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(_router: Router) {
+  }
+}
 
 describe('TournamentsComponent', () => {
+
+  const standardSetup = () => {
+    fixture = TestBed.createComponent(TournamentsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  };
 
   let component: TournamentsComponent;
   let fixture: ComponentFixture<TournamentsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TournamentsComponent ],
       imports: [
+        TournamentsComponent,
         HttpClientModule,
         routing,
-        FontAwesomeModule
+        FontAwesomeModule,
+        FixNavigationTriggeredOutsideAngularZoneNgModule
       ],
       providers: [HttpService,
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
         ]
     })
     .compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TournamentsComponent);
-    component = fixture.componentInstance;
-    spyOnProperty(component.authenticationService , 'currentPlayerValue').and.returnValue({nick: 'test', id: 1});
-    fixture.detectChanges();
+
+  it('should create without player ', () => {
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
+    standardSetup();
+    expect(component).toBeTruthy();
+  });
+
+  it('should show tournament ', () => {
+    standardSetup();
+    component.showTournament({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, player: {id: 1}});
+    expect(component).toBeTruthy();
   });
 
   it('should verify first table row ', (done) => {
+    standardSetup();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

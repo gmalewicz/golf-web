@@ -2,13 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Round } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
 import { IconDefinition, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '../_models';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tournament-rounds',
+  standalone: true,
+  imports: [RouterModule,
+            FontAwesomeModule,
+            CommonModule],
+  providers: [TournamentHttpService],
   templateUrl: './tournament-rounds.component.html',
   styleUrls: ['./tournament-rounds.component.css']
 })

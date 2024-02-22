@@ -1,7 +1,8 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appAutoTab]'
+  selector: '[appAutoTab]',
+  standalone: true
 })
 export class AutoTabDirective {
 
