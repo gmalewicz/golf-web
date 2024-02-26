@@ -8,15 +8,17 @@ import { ParametersComponent } from '../parameters/parameters.component';
 import { PreviewComponent } from '../preview/preview.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { MatDialogMock, authenticationServiceStub } from '@/_helpers/test.helper';
 import { TournamentNavigationService } from '@/tournament/_services/tournamentNavigation.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MimicBackendTournamentInterceptor } from '@/tournament/_helpers/MimicBackendTournamentInterceptor';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('TeeTimeComponent', () => {
   let component: TeeTimeComponent;
   let fixture: ComponentFixture<TeeTimeComponent>;
   const tournamentNavigationService: TournamentNavigationService = new TournamentNavigationService();
+  const dialog = new MatDialogMock();
 
   const standardSetup = () => {
     tournamentNavigationService.teeTimesChecked.set(true);
@@ -39,7 +41,8 @@ describe('TeeTimeComponent', () => {
       providers: [
                   { provide: TournamentNavigationService, useValue: tournamentNavigationService},
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },]
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
+                  { provide: MatDialog, useValue: dialog},]
     })
     .compileComponents();
   });
@@ -68,17 +71,47 @@ describe('TeeTimeComponent', () => {
   it('should save tee times', () => {
     standardSetup();
     component.saveTeeTimes();
+    dialog.setRetVal(true);
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should save tee times but user cancel it', () => {
+    standardSetup();
+    dialog.setRetVal(false);
+    component.saveTeeTimes();
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should publish tee times', () => {
     standardSetup();
+    dialog.setRetVal(true);
+    fixture.detectChanges();
+    component.publishTeeTimes();
+    expect(component).toBeTruthy();
+  });
+
+  it('should publish tee times but user cancels it', () => {
+    standardSetup();
+    dialog.setRetVal(false);
+    fixture.detectChanges();
     component.publishTeeTimes();
     expect(component).toBeTruthy();
   });
 
   it('should delete tee times', () => {
     standardSetup();
+    dialog.setRetVal(true);
+    fixture.detectChanges();
+    component.deleteTeeTimes();
+    expect(component).toBeTruthy();
+  });
+
+  it('should delete tee times but user cancels it', () => {
+    standardSetup();
+    dialog.setRetVal(false);
+    fixture.detectChanges();
     component.deleteTeeTimes();
     expect(component).toBeTruthy();
   });

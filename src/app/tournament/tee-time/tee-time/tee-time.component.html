@@ -1,6 +1,6 @@
 @if (mode() === undefined) {
 } @else if (mode() === MODE_ADMIN_TEETIMES_NOT_PUBLISHED) {
-  <mat-tab-group (selectedTabChange)="clearAlert()">
+  <mat-tab-group>
     <mat-tab i18n-label="@@teeTime-parameters" label="Parametrs">
       @defer {
         <app-parameters/>

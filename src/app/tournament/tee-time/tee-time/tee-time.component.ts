@@ -192,8 +192,4 @@ export class TeeTimeComponent implements OnInit {
         }
     });
   }
-
-  clearAlert() {
-    this.alertService.clear();
-  }
 }

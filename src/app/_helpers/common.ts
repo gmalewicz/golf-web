@@ -14,7 +14,7 @@ export const ballPickedUpStrokes = 16;
 
 export function generatePDF(name: string, _this): void {
   const DATA: HTMLElement = document.getElementById('pdfData');
-  html2canvas(DATA).then((canvas) => {
+  html2canvas(DATA, { logging: false }).then((canvas) => {
     const fileWidth = 208;
     const fileHeight = (canvas.height * fileWidth) / canvas.width;
     const FILEURI = canvas.toDataURL('image/png');

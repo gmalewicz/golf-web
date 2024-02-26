@@ -9,7 +9,6 @@ export function generateTeeTimes(teeTimeParameters: WritableSignal<TeeTimeParame
                                  tournamentResults: WritableSignal<TournamentResult[]>): TeeTime[] {
 
   if (teeTimeParameters() != undefined && tournamentPlayers() != undefined) {
-    console.log(teeTimeParameters().flightAssignment);
     const teeTimes: TeeTime[] = [];
 
     let mixedTournamentPlayers: TournamentPlayer[];
