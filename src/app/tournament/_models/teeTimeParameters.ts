@@ -5,7 +5,8 @@ export interface TeeTimeParameters {
   teeTimeStep: number;
   flightSize: number;
   teeTimes?: TeeTime[];
-  published: boolean
+  published: boolean;
+  flightAssignment?: number;
 }
 
 export const TeeTimePublishStatus = {
@@ -13,3 +14,8 @@ export const TeeTimePublishStatus = {
   STATUS_PUBLISHED: true
 };
 
+export const FlightAssignmentMode = {
+  MODE_RANDOM: 1,
+  MODE_HCP: 2,
+  MODE_RESULTS: 3
+};

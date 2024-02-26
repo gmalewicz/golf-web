@@ -84,10 +84,7 @@ export function getTee(): Tee {
   return {id: 1, cr: 68, sr: 133, tee: 'test', teeType: teeTypes.TEE_TYPE_18, sex: false};
 }
 
-export let authenticationServiceStub: Partial<AuthenticationService>;
-
-// eslint-disable-next-line prefer-const
-authenticationServiceStub = {
+export const authenticationServiceStub : Partial<AuthenticationService> = {
   get currentPlayerValue() {return {nick: 'test', id: 1, whs: 10}},
   get playerRole() { return 'PLAYER'; },
   logout(): void {
@@ -111,18 +108,13 @@ authenticationServiceStub = {
   }
 };
 
-export let authenticationServiceAdminStub: Partial<AuthenticationService>;
-
-// eslint-disable-next-line prefer-const
-authenticationServiceAdminStub = {
+export const authenticationServiceAdminStub: Partial<AuthenticationService> = {
   currentPlayerValue: {nick: 'test', id: 1, whs: 10},
   playerRole: 'ADMIN',
   logout(): void {
     // This is intentional
   }
 };
-
-
 
 export class MatDialogMock {
 
@@ -179,10 +171,7 @@ export class MyRouterStub {
   }
 }
 
-export let alertServiceStub: Partial<AlertService>;
-
-// eslint-disable-next-line prefer-const
-alertServiceStub = {
+export const alertServiceStub : Partial<AlertService> = {
   clear() {
     // This is intentional
   },

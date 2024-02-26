@@ -200,6 +200,8 @@ export class TournamentResultsComponent implements OnInit {
 
   async loadComponent(comp: number) {
 
+    this.alertService.clear();
+
     if (this.tournamentContainerRef !== undefined) {
       this.tournamentContainerRef.clear();
     }
