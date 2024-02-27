@@ -73,7 +73,7 @@ function shuffle<T>(array: T[]): T[] {
 
 function orderByResults(tournamentPlayer: TournamentPlayer[], tournamentResults: TournamentResult[]): TournamentPlayer[] {
 
-  if (tournamentPlayer.length > tournamentResults.length) {
+  if (tournamentResults?.length > 0) {
 
     const trPlrIds: number[] = tournamentResults.map(tr => tr.player.id);
 

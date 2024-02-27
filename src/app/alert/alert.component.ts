@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from '@/_services';
 import { Message } from '@/_models/message';
 
-@Component({ selector: 'app-alert', templateUrl: 'alert.component.html' })
+@Component({ selector: 'app-alert', template: '' })
 export class AlertComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
@@ -15,8 +15,14 @@ export class AlertComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subscription = this.alertService.getAlert()
             .subscribe(message => {
-                this.message = message;
-                this._snackBar.open(message.text,  $localize`:@@alert-close:Close` , {verticalPosition: 'top', duration: 5000});
+              switch (message?.type) {
+                case 'success':
+                  this._snackBar.open(message.text,  $localize`:@@alert-close:Close` , {verticalPosition: 'top', duration: 2000});
+                    break;
+                case 'error':
+                  this._snackBar.open(message.text,  $localize`:@@alert-close:Close` , {verticalPosition: 'top'});
+                    break;
+              }
             });
     }
 
