@@ -172,9 +172,6 @@ export class MyRouterStub {
 }
 
 export const alertServiceStub : Partial<AlertService> = {
-  clear() {
-    // This is intentional
-  },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   error(_message: string, _keepAfterRouteChange = false) {
     // This is intentional

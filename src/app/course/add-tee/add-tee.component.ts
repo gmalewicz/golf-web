@@ -52,8 +52,6 @@ export class AddTeeComponent implements OnInit {
 
   addTee(): void {
 
-    this.alertService.clear();
-
     // mark that tee data have been submitted
     this.newCourseTeeForm.markAllAsTouched();
 

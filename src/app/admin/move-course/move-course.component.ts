@@ -35,9 +35,6 @@ export class MoveCourseComponent implements OnInit {
 
     this.submittedMoveCourse = true;
 
-    // reset alerts on submit
-    this.alertService.clear();
-
     // stop here if form is invalid
     if (this.moveCourseForm.invalid) {
       return;

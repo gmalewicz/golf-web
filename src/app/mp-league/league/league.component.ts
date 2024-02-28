@@ -76,8 +76,6 @@ export class LeagueComponent  implements OnInit {
 
   deleteLeague() : void {
 
-    this.alertService.clear();
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -102,8 +100,6 @@ export class LeagueComponent  implements OnInit {
   }
 
   closeLeague() : void {
-
-    this.alertService.clear();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false

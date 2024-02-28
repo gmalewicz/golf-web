@@ -164,9 +164,6 @@ export class AddCourseComponent implements OnInit {
 
   selectHole(hole: number) {
 
-    // clear error
-    this.alertService.clear();
-
     // save updating hole index
     this.updatingHole = hole;
 
@@ -191,9 +188,6 @@ export class AddCourseComponent implements OnInit {
 
   selectPar(par: number) {
 
-    // clear error
-    this.alertService.clear();
-
     // save selected par
     this.pars[this.updatingHole] = par;
 
@@ -206,9 +200,6 @@ export class AddCourseComponent implements OnInit {
   }
 
   selectSi(si: number) {
-
-    // clear error
-    this.alertService.clear();
 
     // check if that si has been already used
     if (this.si.includes(si + 1)) {
@@ -272,9 +263,6 @@ export class AddCourseComponent implements OnInit {
   }
 
   clear() {
-
-    // clear error
-    this.alertService.clear();
 
     // clear couse name, par and number of holes
     this.newCourseForm.reset();

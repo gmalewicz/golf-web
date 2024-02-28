@@ -105,8 +105,4 @@ export class RemoveMatchComponent implements OnInit {
     this.f.looserDropDown.setValue(undefined);
     this.matchRemoveForm.markAsUntouched();
   }
-
-  onChange() {
-    this.alertService.clear();
-  }
 }

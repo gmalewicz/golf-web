@@ -143,7 +143,6 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
 
   // change which 9 is available when tee has been changed
   teeChange(index: number) {
-    this.alertService.clear();
 
     // set up the tee for the player based on the drop down tee
     switch (index) {
@@ -187,9 +186,6 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
     this.f.teeTime.markAsTouched();
 
     this.f.teeDropDown1.updateValueAndValidity();
-
-    // reset alerts on submit
-    this.alertService.clear();
 
     // stop here if form is invalid
     if (this.defScoreCardForm.invalid) {

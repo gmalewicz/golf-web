@@ -10,7 +10,7 @@
       <div class="col-auto">
         <mat-form-field>
           <mat-label>winner</mat-label>
-          <mat-select [formControlName]="'winnerDropDown'" (selectionChange)="onChange()">
+          <mat-select [formControlName]="'winnerDropDown'">
             @for (player of playerOptions; track player) {
               <mat-option [value]="player.value">{{player.label}}</mat-option>
             }
@@ -38,7 +38,7 @@
       <div class="col-auto">
         <mat-form-field>
           <mat-label>looser</mat-label>
-          <mat-select [formControlName]="'looserDropDown'" (selectionChange)="onChange()">
+          <mat-select [formControlName]="'looserDropDown'">
             @for (player of playerOptions; track player) {
               <mat-option [value]="player.value">{{player.label}}</mat-option>
             }

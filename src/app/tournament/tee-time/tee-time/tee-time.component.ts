@@ -109,8 +109,6 @@ export class TeeTimeComponent implements OnInit {
 
     this.tournamentHttpService.saveTeeTimes(this.navigationService.tournament().id, this.navigationService.teeTimeParameters()).subscribe();
 
-    this.alertService.clear();
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -136,8 +134,6 @@ export class TeeTimeComponent implements OnInit {
   }
 
   publishTeeTimes() {
-
-    this.alertService.clear();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
@@ -167,8 +163,6 @@ export class TeeTimeComponent implements OnInit {
   }
 
   async deleteTeeTimes() {
-
-    this.alertService.clear();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false

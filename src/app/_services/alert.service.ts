@@ -15,9 +15,6 @@ export class AlertService {
                 if (this.keepAfterRouteChange) {
                     // only keep for a single route change
                     this.keepAfterRouteChange = false;
-                } else {
-                    // clear alert message
-                    this.clear();
                 }
             }
         });
@@ -35,10 +32,5 @@ export class AlertService {
     error(message: string, keepAfterRouteChange = false) {
         this.keepAfterRouteChange = keepAfterRouteChange;
         this.subject.next({ type: 'error', text: message });
-    }
-
-    clear() {
-        // clear by calling subject.next() without parameters
-        //this.subject.next(null);
     }
 }

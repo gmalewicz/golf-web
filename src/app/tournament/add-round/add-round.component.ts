@@ -139,7 +139,6 @@ export class AddRoundComponent implements OnInit {
   }
 
   nickChange() {
-    this.alertService.clear();
 
     if (this.f.nickDropDown.valid) {
 
@@ -175,7 +174,6 @@ export class AddRoundComponent implements OnInit {
 
   // change which 9 is available when tee has been changed
   teeChange() {
-    this.alertService.clear();
     // set up the tee for the player based on the drop down tee
     this.tee = this.f.teeDropDown.value;
     this.f.teeDropDown.disable();
@@ -187,8 +185,6 @@ export class AddRoundComponent implements OnInit {
   }
 
   onKey(text: string, i: number) {
-
-    this.alertService.clear();
 
     if (text.search('^(1[0-5]|[1-9]|x)$') === -1) {
       this.score[i] = '';

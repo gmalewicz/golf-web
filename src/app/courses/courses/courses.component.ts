@@ -55,7 +55,6 @@ export class CoursesComponent implements OnInit {
   get f() { return this.searchCourseForm.controls; }
 
   onTabClick(id: number) {
-    this.alertService.clear();
     this.selectedTab = id;
     // initialize search result
 

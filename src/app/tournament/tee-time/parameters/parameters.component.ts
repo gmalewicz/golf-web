@@ -60,8 +60,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   updateParameters() {
 
-    this.alertService.clear();
-
     const newParameters : TeeTimeParameters = {...this.tournamentNavigationService.teeTimeParameters(),
       firstTeeTime: this.f.startTeeTime.value,
       flightSize: this.f.flightSize.value,
