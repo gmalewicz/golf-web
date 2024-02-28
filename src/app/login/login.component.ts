@@ -78,7 +78,10 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           this.router.navigate(['/home']).then().catch(error => console.log(error));
         }),
-        catchError(() => of(this.loading = false))
+        catchError((err) => {
+          this.loading = false;
+          return of(err);
+        })
     ).subscribe();
 
   }
