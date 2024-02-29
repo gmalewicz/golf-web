@@ -119,8 +119,6 @@ export class CycleDetailsComponent implements OnInit {
 
   closeCycle(): void {
 
-    this.clearAlert();
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -141,8 +139,6 @@ export class CycleDetailsComponent implements OnInit {
   }
 
   deleteLast(): void {
-
-    this.clearAlert();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
@@ -165,8 +161,6 @@ export class CycleDetailsComponent implements OnInit {
 
   deleteCycle(): void {
 
-    this.clearAlert();
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -183,9 +177,5 @@ export class CycleDetailsComponent implements OnInit {
         ).subscribe();
       }
     });
-  }
-
-  clearAlert(): void {
-    this.alertService.clear();
   }
 }

@@ -133,11 +133,6 @@ export class AddMatchComponent implements OnInit {
     this.f.looserDropDown.setValue(undefined);
     this.f.resultDropDown.setValue(undefined);
 
-    this.alertService.clear();
     this.matchResultForm.markAsUntouched();
-  }
-
-  onChange() {
-    this.alertService.clear();
   }
 }

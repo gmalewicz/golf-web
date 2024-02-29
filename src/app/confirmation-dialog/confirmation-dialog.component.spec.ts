@@ -13,8 +13,8 @@ describe('ConfirmationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationDialogComponent ],
       imports: [
+        ConfirmationDialogComponent,
         MatDialogModule,
         ReactiveFormsModule,
       ],

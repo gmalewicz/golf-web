@@ -16,8 +16,6 @@ export abstract class CreateOrSearchDialogBase {
 
   onSearchPlayer(playerIdx: number) {
 
-    this.alertService.clear();
-
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

@@ -79,10 +79,7 @@ export function getOnlineScoreCard(): OnlineScoreCard {
     };
 }
 
-export let rxStompServiceStub;
-
-// eslint-disable-next-line prefer-const
-rxStompServiceStub = {
+export const rxStompServiceStub = {
 
   activate() {
     // This is intentional

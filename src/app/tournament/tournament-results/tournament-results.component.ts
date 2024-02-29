@@ -103,8 +103,6 @@ export class TournamentResultsComponent implements OnInit {
 
   updateSort(action: number) {
 
-    this.alertService.clear();
-
     this.displayRound.fill(false);
 
     switch (action) {
@@ -155,8 +153,6 @@ export class TournamentResultsComponent implements OnInit {
 
   closeTournament(): void {
 
-    this.alertService.clear();
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
@@ -177,8 +173,6 @@ export class TournamentResultsComponent implements OnInit {
   }
 
   deleteTournament(): void {
-
-    this.alertService.clear();
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false

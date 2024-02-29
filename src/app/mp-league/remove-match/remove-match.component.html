@@ -11,7 +11,7 @@
 
         <mat-form-field>
           <mat-label>nick</mat-label>
-          <mat-select [formControlName]="'winnerDropDown'" (selectionChange)="onChange()">
+          <mat-select [formControlName]="'winnerDropDown'">
             @for (player of playerOptions; track player) {
               <mat-option [value]="player.value">{{player.label}}</mat-option>
             }
@@ -27,7 +27,7 @@
 
         <mat-form-field>
           <mat-label>nick</mat-label>
-          <mat-select [formControlName]="'looserDropDown'" (selectionChange)="onChange()">
+          <mat-select [formControlName]="'looserDropDown'">
             @for (player of playerOptions; track player) {
               <mat-option [value]="player.value">{{player.label}}</mat-option>
             }

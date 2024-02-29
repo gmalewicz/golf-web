@@ -3968,6 +3968,110 @@
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="parameters-hcpItem" datatype="html">
+        <source>By HCP</source>
+        <target>Po HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-playerAssignmentLbl" datatype="html">
+        <source>Players assignment</source>
+        <target>Przypisanie graczy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-playerAssignmentReq" datatype="html">
+        <source>Player assignment is required</source>
+        <target>Przypisanie graczy jest wymagane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-resItem" datatype="html">
+        <source>By Results</source>
+        <target>Po Wynikach</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="parameters-rndItem" datatype="html">
+        <source>Random</source>
+        <target>Losowo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-delTeeTimeCnf" datatype="html">
+        <source>Are you sure you want to remove tee times?</source>
+        <target>Czy na pewno usunąć tee times?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-delTeeTimeCnfMsg" datatype="html">
+        <source>Tee times successfuly deleted</source>
+        <target>Tee times poprawnie usunięte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-pubTeeTimeCnf" datatype="html">
+        <source>Are you sure you want to publish tee times?</source>
+        <target>Czy na pewno opublikować tee times?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-pubTimeCnfMsg" datatype="html">
+        <source>Tee times successfuly publish</source>
+        <target>Tee times poprawnie opublikowane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-savTeeTimeCnf" datatype="html">
+        <source>Are you sure you want to save tee times?</source>
+        <target>Czy na pewno zapisać tee times?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="teeTime-savTimeCnfMsg" datatype="html">
+        <source>Tee times successfuly saved</source>
+        <target>Tee times poprawnie zapisane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="alert-close" datatype="html">
+        <source>Close</source>
+        <target>Zamknij</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="errorInterceptor-accessDenied" datatype="html">
+        <source>Access denied</source>
+        <target>Brak dostępu</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

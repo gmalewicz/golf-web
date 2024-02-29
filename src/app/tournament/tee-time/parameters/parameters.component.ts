@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TeeTimeParameters } from '@/tournament/_models';
+import { AlertService } from '@/_services/alert.service';
 
 @Component({
   selector: 'app-parameters',
@@ -22,6 +23,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     public tournamentNavigationService: TournamentNavigationService,
+    private alertService: AlertService
   ) {}
 
   ngOnDestroy(): void {
@@ -40,7 +42,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
         ],
       }],
       teeTimeStep: [this.tournamentNavigationService.teeTimeParameters().teeTimeStep + '', [Validators.required]],
-      flightSize: [this.tournamentNavigationService.teeTimeParameters().flightSize + '', [Validators.required]]
+      flightSize: [this.tournamentNavigationService.teeTimeParameters().flightSize + '', [Validators.required]],
+      playerAssignment: [this.tournamentNavigationService.teeTimeParameters().flightAssignment + '', [Validators.required]],
     });
 
     this._formChanges = this.parametersForm.valueChanges.subscribe(() => {
@@ -56,10 +59,12 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   updateParameters() {
+
     const newParameters : TeeTimeParameters = {...this.tournamentNavigationService.teeTimeParameters(),
       firstTeeTime: this.f.startTeeTime.value,
       flightSize: this.f.flightSize.value,
-      teeTimeStep: this.f.teeTimeStep.value
+      teeTimeStep: this.f.teeTimeStep.value,
+      flightAssignment: this.f.playerAssignment.value
     };
     this.tournamentNavigationService.teeTimeParameters.set(newParameters);
   }

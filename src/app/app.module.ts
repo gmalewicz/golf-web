@@ -17,7 +17,6 @@ import { ErrorInterceptor, JwtInterceptor} from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
@@ -55,7 +54,6 @@ import { MatSelectModule } from '@angular/material/select';
     RegistrationComponent,
     UpdatePlayerComponent,
     ChangeLogComponent,
-    ConfirmationDialogComponent,
     RoundViewWHSComponent,
     RoundViewMPComponent,
     RoundViewComponent,

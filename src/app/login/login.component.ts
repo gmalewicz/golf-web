@@ -3,11 +3,12 @@ import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AlertService, AuthenticationService } from '@/_services';
 import { Player } from '@/_models';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FinishSocialDialogComponent } from './finish-social-dialog/finish-social-dialog.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,6 @@ export class LoginComponent implements OnInit {
     this.socialLoading = false;
     this.loading = false;
     this.submitted = false;
-    this.alertService.clear();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -63,9 +63,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // reset alerts on submit
-    this.alertService.clear();
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
@@ -80,6 +77,10 @@ export class LoginComponent implements OnInit {
           ${data.whs} Make sure it is up to date before adding the round.`, true);
           this.loading = false;
           this.router.navigate(['/home']).then().catch(error => console.log(error));
+        }),
+        catchError((err) => {
+          this.loading = false;
+          return of(err);
         })
     ).subscribe();
 

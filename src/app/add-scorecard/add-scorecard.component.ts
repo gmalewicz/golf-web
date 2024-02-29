@@ -218,7 +218,6 @@ export class AddScorecardComponent implements OnInit {
     this.dialogRef.componentInstance.confirmMessage = $localize`:@@addScorecard-clearConf:Are you sure you want to clear score card?`;
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.alertService.clear();
         this.holeSelectorActive.fill({active: false});
         this.clearGraph();
         this.displayResult = '';
@@ -262,8 +261,6 @@ export class AddScorecardComponent implements OnInit {
   }
 
   save() {
-
-    this.alertService.clear();
 
     this.submitted = true;
 
@@ -323,8 +320,6 @@ export class AddScorecardComponent implements OnInit {
 
   selectHole(hole: number) {
 
-    this.alertService.clear();
-
     // initialize buttons and set them not to be marked
     this.holeSelectorActive = Array(18).fill({active: false});
     this.holeSelectorActive[hole - 1] = {active: true};
@@ -349,8 +344,6 @@ export class AddScorecardComponent implements OnInit {
   }
 
   selectStroke(stroke: number) {
-
-    this.alertService.clear();
 
      // number of pats cannot be greater than number of strokes
     if (stroke < this.putts[this.updatingHole - 1]) {
@@ -408,8 +401,6 @@ export class AddScorecardComponent implements OnInit {
   }
 
   selectPat(pat: number) {
-
-    this.alertService.clear();
 
     // number of pats cannot be greater than number of strokes
     if (pat > this.strokes[this.updatingHole - 1]) {

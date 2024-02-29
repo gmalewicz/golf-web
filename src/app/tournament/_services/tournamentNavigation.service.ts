@@ -19,9 +19,10 @@ export class TournamentNavigationService {
       this.loadTeeTimesFlag = false;
       return this.teeTimeParameters().teeTimes
     } else {
-      return generateTeeTimes(this.teeTimeParameters, this.tournamentPlayers)
+      return generateTeeTimes(this.teeTimeParameters, this.tournamentPlayers, this.tournamentResults)
     }
   });
+
   public tournamentResults = signal<TournamentResult[]>(undefined);
 
   init() {
