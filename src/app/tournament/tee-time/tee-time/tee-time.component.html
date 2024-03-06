@@ -11,7 +11,11 @@
         <app-preview/>
       }
     </mat-tab>
-    <mat-tab label="Modifications" disabled="true" i18n-label="@@teeTime-modifications"> placeholder </mat-tab>
+    <mat-tab label="Modifications" i18n-label="@@teeTime-modifications">
+      @defer {
+        <app-modification/>
+      }
+    </mat-tab>
   </mat-tab-group>
 } @else if (mode() === MODE_ADMIN_TEETIMES_PUBLISHED || mode() === MODE_PLYAYER_TEETIMES_PUBLISHED) {
     @defer {
@@ -25,18 +29,18 @@
   <div class="row">
     <span>
       @if (mode() === MODE_ADMIN_TEETIMES_NOT_PUBLISHED) {
-        <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-150" (click)="saveTeeTimes()">
+        <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-160" (click)="saveTeeTimes()">
           <span *ngIf="saveInProgress()" class="spinner-border spinner-border-sm mr-1"></span>
           <span *ngIf="!saveInProgress()" i18n="@@teeTime-save"> Save Tee Times</span>
         </button>
         &nbsp;
-        <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-150" (click)="publishTeeTimes()">
+        <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-160" (click)="publishTeeTimes()">
           <span *ngIf="publishInProgress()" class="spinner-border spinner-border-sm mr-1"></span>
           <span *ngIf="!publishInProgress()" i18n="@@teeTime-publish">Publish Tee Times</span>
         </button>
         &nbsp;
       }
-      <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-150" (click)="deleteTeeTimes()">
+      <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-160" (click)="deleteTeeTimes()">
         <span *ngIf="deleteInProgress()" class="spinner-border spinner-border-sm mr-1"></span>
         <span *ngIf="!deleteInProgress()" i18n="@@teeTime-delete">Delete Tee Times</span>
       </button>

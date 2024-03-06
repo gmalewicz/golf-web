@@ -1,40 +1,58 @@
+import { TeeTimeModification } from './../_models/teeTimeModification';
 import { TournamentPlayer } from './../_models/tournamentPlayer';
 import { FlightAssignmentMode, TeeTimeParameters } from './../_models/teeTimeParameters';
 import { TeeTime } from "../_models/teeTime";
-import { WritableSignal } from '@angular/core';
 import { TournamentResult } from '../_models/tournamentResult';
 
-export function generateTeeTimes(teeTimeParameters: WritableSignal<TeeTimeParameters>,
-                                 tournamentPlayers: WritableSignal<TournamentPlayer[]>,
-                                 tournamentResults: WritableSignal<TournamentResult[]>): TeeTime[] {
+export function updateTeeTimes(teeTimeParameters: TeeTimeParameters,
+                               tournamentPlayers: TournamentPlayer[],
+                               tournamentResults: TournamentResult[],
+                               teeTimeModification: TeeTimeModification,
+                               modification: boolean,
+                               loadTeeTimesFlag: boolean): TeeTime[] {
 
-  if (teeTimeParameters() != undefined && tournamentPlayers() != undefined) {
+  if (loadTeeTimesFlag) {
+    return teeTimeParameters.teeTimes
+  } else if (modification) {
+    return modifyTeeTimes(teeTimeModification, teeTimeParameters.teeTimes);
+  }
+
+  return generateTeeTimes(teeTimeParameters, tournamentPlayers, tournamentResults);
+}
+
+
+function generateTeeTimes(teeTimeParameters: TeeTimeParameters,
+                          tournamentPlayers: TournamentPlayer[],
+                          tournamentResults: TournamentResult[]): TeeTime[] {
+
+
+  if (teeTimeParameters != undefined && tournamentPlayers != undefined) {
     const teeTimes: TeeTime[] = [];
 
     let mixedTournamentPlayers: TournamentPlayer[];
 
-    if (teeTimeParameters().flightAssignment == FlightAssignmentMode.MODE_RANDOM) {
-      mixedTournamentPlayers = shuffle([...tournamentPlayers()]);
-    } else if (teeTimeParameters().flightAssignment == FlightAssignmentMode.MODE_HCP) {
-      mixedTournamentPlayers = orderByHcp([...tournamentPlayers()]);
+    if (teeTimeParameters.flightAssignment == FlightAssignmentMode.MODE_RANDOM) {
+      mixedTournamentPlayers = shuffle([...tournamentPlayers]);
+    } else if (teeTimeParameters.flightAssignment == FlightAssignmentMode.MODE_HCP) {
+      mixedTournamentPlayers = orderByHcp([...tournamentPlayers]);
     } else {
-      mixedTournamentPlayers = orderByResults([...tournamentPlayers()], tournamentResults());
+      mixedTournamentPlayers = orderByResults([...tournamentPlayers], tournamentResults);
     }
 
-    const startMinute = teeTimeParameters().firstTeeTime.substring(3,5);
-    const startHour = teeTimeParameters().firstTeeTime.substring(0,2);
+    const startMinute = teeTimeParameters.firstTeeTime.substring(3,5);
+    const startHour = teeTimeParameters.firstTeeTime.substring(0,2);
 
     let currentIdx = 0;
     while (mixedTournamentPlayers.length > currentIdx) {
 
-      const teeTimeDelta = Math.floor(currentIdx / teeTimeParameters().flightSize);
-      const minutesDelta = (+startMinute + (teeTimeDelta * teeTimeParameters().teeTimeStep)) %60;
-      const hourDelta = +startHour + Math.floor((+startMinute + (teeTimeDelta * teeTimeParameters().teeTimeStep)) / 60);
+      const teeTimeDelta = Math.floor(currentIdx / teeTimeParameters.flightSize);
+      const minutesDelta = (+startMinute + (teeTimeDelta * teeTimeParameters.teeTimeStep)) %60;
+      const hourDelta = +startHour + Math.floor((+startMinute + (teeTimeDelta * teeTimeParameters.teeTimeStep)) / 60);
 
       teeTimes.push({
         nick: mixedTournamentPlayers[currentIdx].nick,
         hcp: mixedTournamentPlayers[currentIdx].whs,
-        flight: Math.abs(currentIdx / teeTimeParameters().flightSize) + 1,
+        flight: Math.abs(currentIdx / teeTimeParameters.flightSize) + 1,
         time: hourDelta + ":" + ("0" + minutesDelta).slice(-2)
       })
 
@@ -92,5 +110,19 @@ function orderByResults(tournamentPlayer: TournamentPlayer[], tournamentResults:
   }
 
   return shuffle(tournamentPlayer);
+}
+
+function modifyTeeTimes(teeTimeModification: TeeTimeModification, teeTimes: TeeTime[]): TeeTime[] {
+
+  const originalNick: string = teeTimes[teeTimeModification.firstToSwap].nick;
+  const originalHcp: number = teeTimes[teeTimeModification.firstToSwap].hcp;
+
+  teeTimes[teeTimeModification.firstToSwap].nick = teeTimes[teeTimeModification.secondToSwap].nick;
+  teeTimes[teeTimeModification.firstToSwap].hcp = teeTimes[teeTimeModification.secondToSwap].hcp;
+
+  teeTimes[teeTimeModification.secondToSwap].nick = originalNick;
+  teeTimes[teeTimeModification.secondToSwap].hcp = originalHcp;
+
+  return teeTimes;
 }
 
