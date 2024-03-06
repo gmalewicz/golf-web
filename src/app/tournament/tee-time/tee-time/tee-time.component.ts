@@ -14,11 +14,12 @@ import { PreviewComponent } from '../preview/preview.component';
 import { AlertService } from '@/_services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { ModificationComponent } from '../modification/modification.component';
 
 @Component({
   selector: 'app-tee-time',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent, ModificationComponent],
   templateUrl: './tee-time.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

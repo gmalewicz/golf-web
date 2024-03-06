@@ -19,7 +19,7 @@
         <td></td>
         <td></td>
       }
-      <td>{{row.nick}}</td>
+      <td (click)="modifyPlayer(idx)" [ngClass]="modBackCls[idx]">{{row.nick}}</td>
       <td>{{row.hcp}}</td>
     </tr>
   </tbody>

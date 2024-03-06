@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TeeTimeParameters } from '@/tournament/_models';
-import { AlertService } from '@/_services/alert.service';
 
 @Component({
   selector: 'app-parameters',
@@ -22,8 +21,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    public tournamentNavigationService: TournamentNavigationService,
-    private alertService: AlertService
+    public tournamentNavigationService: TournamentNavigationService
   ) {}
 
   ngOnDestroy(): void {
