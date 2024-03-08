@@ -109,8 +109,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps --dns-result-order=ipv4first
-          build: npm run build --legacy-peer-deps --dns-result-order=ipv4first
+          #taainstall-command: yarn --frozen-lockfile --silent --legacy-peer-deps --dns-result-order=ipv4first
+          build: npm run build:prod-locale
           start: npm start --dns-result-order=ipv4first
           wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 180
