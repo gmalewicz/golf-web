@@ -112,8 +112,8 @@ jobs:
           #taainstall-command: yarn --frozen-lockfile --silent --legacy-peer-deps --dns-result-order=ipv4first
           build: npm run build:prod-locale
           start: npm start --dns-result-order=ipv4first
-          wait-on: 'http://localhost:4200'
-          wait-on-timeout: 180
+          wait-on: 'http://::1:4200'
+          wait-on-timeout: 360
 
 #  cypress-run:
 #    runs-on: ubuntu-22.04
