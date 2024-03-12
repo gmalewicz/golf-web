@@ -126,7 +126,7 @@ jobs:
           install-command: npm i --legacy-peer-deps
           start: npm start
           # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://127.0.0.1:4200'
+          wait-on: 'http://localhost:4200'
           wait-on-timeout: 180
 
   test-coverage:
