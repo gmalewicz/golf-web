@@ -10,17 +10,17 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of navigationService.teeTimes(), let idx = index">
-      @if (idx % navigationService.teeTimeParameters().flightSize === 0) {
-        <td>{{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}</td>
-        <td>{{row.time}}</td>
-        <td>1</td>
+      @if (idx == 0 || navigationService.teeTimes()[idx].flight != navigationService.teeTimes()[idx - 1].flight) {
+        <td [ngClass]="modBackCls[idx]" (click)="modifyFlight(idx)">{{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}</td>
+        <td [ngClass]="modBackCls[idx]">{{row.time}}</td>
+        <td [ngClass]="modBackCls[idx]">1</td>
       } @else {
-        <td></td>
-        <td></td>
-        <td></td>
+        <td [ngClass]="modBackCls[idx]"></td>
+        <td [ngClass]="modBackCls[idx]"></td>
+        <td [ngClass]="modBackCls[idx]"></td>
       }
-      <td (click)="modifyPlayer(idx)" [ngClass]="modBackCls[idx]">{{row.nick}}</td>
-      <td>{{row.hcp}}</td>
+      <td [ngClass]="modBackCls[idx]" (click)="modifyPlayer(idx)">{{row.nick}}</td>
+      <td [ngClass]="modBackCls[idx]">{{row.hcp}}</td>
     </tr>
   </tbody>
 </table>
