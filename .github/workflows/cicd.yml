@@ -124,7 +124,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           install-command: npm i --legacy-peer-deps
-          start: npm run build:prod-locale
+          start: npm start
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://127.0.0.1:4200'
           wait-on-timeout: 180
