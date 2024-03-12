@@ -115,20 +115,19 @@ jobs:
 #          wait-on: 'http://127.0.0.1:4200'
 #          wait-on-timeout: 180
 
-#  cypress-run:
-#    runs-on: ubuntu-22.04
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Cypress run
-#        uses: cypress-io/github-action@v6
-#        with:
-#          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
-#          start: npm start --host=0.0.0.0 --disable-host-check --port=4200
-#          # quote the url to be safe against YML parsing surprises
-#          wait-on: 'http://localhost:4200'
-#          wait-on-timeout: 180
-
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps
+          start: npm start --host=0.0.0.0 --disable-host-check --port=4200
+          # quote the url to be safe against YML parsing surprises
+          wait-on: 'http://localhost:4200'
+          wait-on-timeout: 180
 
   test-coverage:
     runs-on: ubuntu-latest
