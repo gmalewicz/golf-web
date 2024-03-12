@@ -96,24 +96,24 @@ jobs:
 #    steps:
 #      - name: Checkout
 #        uses: actions/checkout@v4
-
+#
 #      - uses: actions/setup-node@v4
 #        with:
-#          node-version: 20.11
+#          node-version: 20
 #          cache: 'npm'
-
+#
 #      - name: npm override
 #        run:
 #          echo "node-options=--max_old_space_size=4096" >> ~/.npmrc
-
+#
 #      - name: Cypress run
 #        uses: cypress-io/github-action@v6
 #        with:
-          #taainstall-command: yarn --frozen-lockfile --silent --legacy-peer-deps --dns-result-order=ipv4first
-#          build: npm run build:prod-locale
+#          install-command: yarn --frozen-lockfile --silent --legacy-peer-deps --dns-result-order=ipv4first
+#          build: npm run build --legacy-peer-deps --dns-result-order=ipv4first
 #          start: npm start --dns-result-order=ipv4first
-#          wait-on: 'http://localhost:4200'
-#          wait-on-timeout: 360
+#          wait-on: 'http://127.0.0.1:4200'
+#          wait-on-timeout: 180
 
 #  cypress-run:
 #    runs-on: ubuntu-22.04
@@ -165,4 +165,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
