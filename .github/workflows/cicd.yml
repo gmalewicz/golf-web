@@ -123,8 +123,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn --legacy-peer-deps
-          start: npm start --configuration pl
+          #install-command: yarn --legacy-peer-deps
+          start: ng serve --configuration pl
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:4200'
           wait-on-timeout: 180
