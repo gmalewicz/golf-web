@@ -1,7 +1,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Round } from '@/_models';
-import { HttpService, AuthenticationService, AlertService } from '@/_services';
+import { HttpService, AuthenticationService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { RoundsNavigationService } from '../roundsNavigation.service';
 
@@ -18,7 +18,6 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private authenticationService: AuthenticationService,
-              private alertService: AlertService,
               public roundsNavigationService: RoundsNavigationService) {
   }
 

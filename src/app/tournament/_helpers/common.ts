@@ -52,7 +52,7 @@ function generateTeeTimes(teeTimeParameters: TeeTimeParameters,
       teeTimes.push({
         nick: mixedTournamentPlayers[currentIdx].nick,
         hcp: mixedTournamentPlayers[currentIdx].whs,
-        flight: Math.abs(currentIdx / teeTimeParameters.flightSize) + 1,
+        flight: Math.ceil((currentIdx + 1) / teeTimeParameters.flightSize),
         time: hourDelta + ":" + ("0" + minutesDelta).slice(-2)
       })
 
@@ -114,15 +114,23 @@ function orderByResults(tournamentPlayer: TournamentPlayer[], tournamentResults:
 
 function modifyTeeTimes(teeTimeModification: TeeTimeModification, teeTimes: TeeTime[]): TeeTime[] {
 
-  const originalNick: string = teeTimes[teeTimeModification.firstToSwap].nick;
-  const originalHcp: number = teeTimes[teeTimeModification.firstToSwap].hcp;
+  if (teeTimeModification.newFlight == undefined) {
+    const originalNick: string = teeTimes[teeTimeModification.firstToSwap].nick;
+    const originalHcp: number = teeTimes[teeTimeModification.firstToSwap].hcp;
 
-  teeTimes[teeTimeModification.firstToSwap].nick = teeTimes[teeTimeModification.secondToSwap].nick;
-  teeTimes[teeTimeModification.firstToSwap].hcp = teeTimes[teeTimeModification.secondToSwap].hcp;
+    teeTimes[teeTimeModification.firstToSwap].nick = teeTimes[teeTimeModification.secondToSwap].nick;
+    teeTimes[teeTimeModification.firstToSwap].hcp = teeTimes[teeTimeModification.secondToSwap].hcp;
 
-  teeTimes[teeTimeModification.secondToSwap].nick = originalNick;
-  teeTimes[teeTimeModification.secondToSwap].hcp = originalHcp;
+    teeTimes[teeTimeModification.secondToSwap].nick = originalNick;
+    teeTimes[teeTimeModification.secondToSwap].hcp = originalHcp;
+  } else {
 
+      const flighTeeTime = teeTimes.find(tt => tt.flight === teeTimeModification.newFlight);
+      teeTimes[teeTimeModification.firstToSwap].flight = flighTeeTime.flight;
+      teeTimes[teeTimeModification.firstToSwap].time = flighTeeTime.time;
+      teeTimes.sort((a,b) => a.flight - b.flight);
+
+  }
   return teeTimes;
 }
 

@@ -2,7 +2,7 @@
   <h2 *ngIf="roundsNavigationService.getSelectedTab() === 0" i18n="@@rounds-myRounds">My Rounds</h2>
   <h2 *ngIf="roundsNavigationService.getSelectedTab() === 1" i18n="@@rounds-recPlayRounds">Recently played rounds</h2>
   <br/>
-  <ul class="nav nav-tabs" id="roundsTab" role="tablist">
+  <ul class="nav nav-tabs" id="roundsTab">
     <li class="nav-item">
       <button class="nav-link" [ngClass]="{'active': roundsNavigationService.getSelectedTab() === 0}" id="myRounds-tab" data-bs-toggle="tab" data-bs-target="#myRounds" type="button"
         role="tab" aria-controls="myRounds" aria-selected="true" (click)="onTabClick(0)" i18n="@@rounds-myRounds">My Rounds</button>

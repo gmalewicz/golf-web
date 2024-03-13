@@ -4,7 +4,7 @@ import { Hole, Course } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule, Routes } from '@angular/router';
-import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { tap } from 'rxjs/operators';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
@@ -20,7 +20,7 @@ import { AuthGuard } from '@/_helpers/auth.guard';
   imports: [CourseTeesComponent,
             AddTeeComponent,
             CommonModule,
-            NgChartsModule,
+            BaseChartDirective,
             MatInputModule,
             ReactiveFormsModule,
             MatSelectModule,

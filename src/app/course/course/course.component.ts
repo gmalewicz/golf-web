@@ -6,7 +6,7 @@ import { Router, RouterModule, Routes } from '@angular/router';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { CourseNavigationService } from '../_services/course-navigation.service';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { AddTeeComponent } from '../add-tee/add-tee.component';
@@ -14,7 +14,7 @@ import { AddTeeComponent } from '../add-tee/add-tee.component';
 @Component({
   selector: 'app-course',
   standalone: true,
-  imports: [NgChartsModule,
+  imports: [BaseChartDirective,
             CourseTeesComponent,
             CommonModule,
             RouterModule,

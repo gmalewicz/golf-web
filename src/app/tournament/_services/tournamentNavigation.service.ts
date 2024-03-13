@@ -38,6 +38,8 @@ export class TournamentNavigationService {
     this.teeTimeParameters.set(undefined);
     this.teeTimesChecked.set(false);
     this.tournamentResults.set(undefined);
+    this.modification = false;
+    this.loadTeeTimesFlag = false;
   }
 
 }

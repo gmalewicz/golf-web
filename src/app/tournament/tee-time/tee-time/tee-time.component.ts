@@ -59,7 +59,7 @@ export class TeeTimeComponent implements OnInit {
             if (retTeeTimesParamaters) {
               this.navigationService.loadTeeTimesFlag = true;
               this.navigationService.teeTimesChecked.set(true);
-              this.navigationService.teeTimeParameters.set(retTeeTimesParamaters);
+              this.navigationService.teeTimeParameters.set(retTeeTimesParamaters);;
             }
             this.setUpMode();
           })
