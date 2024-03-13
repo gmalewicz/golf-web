@@ -1,3 +1,4 @@
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -6,7 +7,6 @@ import { CoursesComponent } from './courses/courses/courses.component';
 import { HttpService } from '@/_services';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
-import { NgChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { routing } from './app.routing';
@@ -69,7 +69,7 @@ import { MatSelectModule } from '@angular/material/select';
     BrowserModule,
     routing,
     HttpClientModule,
-    NgChartsModule,
+    BaseChartDirective,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
@@ -88,6 +88,7 @@ import { MatSelectModule } from '@angular/material/select';
               { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
               { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
+              provideCharts(withDefaultRegisterables()),
               RoundsNavigationService
   ],
   bootstrap: [AppComponent]

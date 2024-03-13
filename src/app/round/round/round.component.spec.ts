@@ -8,9 +8,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
-import { NgChartsModule } from 'ng2-charts';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { Router } from '@angular/router';
+import { BaseChartDirective } from 'ng2-charts';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -23,7 +23,7 @@ describe('RoundComponent', () => {
         HttpClientModule,
         routing,
         MatDialogModule,
-        NgChartsModule,
+        BaseChartDirective
       ]
       ,
       providers: [HttpService,

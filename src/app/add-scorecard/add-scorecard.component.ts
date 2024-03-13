@@ -19,7 +19,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class AddScorecardComponent implements OnInit {
 
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
   round: Round;
@@ -61,6 +61,8 @@ export class AddScorecardComponent implements OnInit {
               private router: Router,
               private alertService: AlertService,
               private dialog: MatDialog) {
+
+
   }
 
   ngOnInit(): void {

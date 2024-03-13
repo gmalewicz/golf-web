@@ -10,10 +10,10 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgChartsModule } from 'ng2-charts';
 import { AddScorecardComponent } from './add-scorecard.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 describe('AddScorecardComponent', () => {
 
@@ -28,13 +28,14 @@ describe('AddScorecardComponent', () => {
       providers: [HttpService,
                   { provide: AuthenticationService, useValue: authenticationServiceStub },
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock}],
+                  { provide: MatDialog, useClass: MatDialogMock},
+                  provideCharts(withDefaultRegisterables())],
       imports: [
         HttpClientModule,
         ReactiveFormsModule,
         routing,
         MatDialogModule,
-        NgChartsModule,
+        BaseChartDirective,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([]),
         MatSelectModule,

@@ -6,7 +6,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NgChartsModule } from 'ng2-charts';
 import { AddCourseComponent } from './add-course.component';
 import { Router } from '@angular/router';
 import { alertServiceStub, authenticationServiceStub, getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
@@ -15,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { teeTypes } from '@/_models/tee';
 import { CourseNavigationService } from '../_services/course-navigation.service';
+import { BaseChartDirective } from 'ng2-charts';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
@@ -33,7 +33,7 @@ describe('AddCourseComponent', () => {
         AddCourseComponent,
         HttpClientModule,
         ReactiveFormsModule,
-        NgChartsModule,
+        BaseChartDirective,
         MatSelectModule,
         BrowserAnimationsModule,
         MatInputModule,

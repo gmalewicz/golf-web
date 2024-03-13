@@ -5,9 +5,9 @@ import { HttpClientModule} from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { NgChartsModule } from 'ng2-charts';
 
 import { RoundViewComponent } from './round-view.component';
+import { BaseChartDirective } from 'ng2-charts';
 
 describe('RoundViewComponent', () => {
   let component: RoundViewComponent;
@@ -20,7 +20,7 @@ describe('RoundViewComponent', () => {
         HttpClientModule,
         routing,
         MatDialogModule,
-        NgChartsModule
+        BaseChartDirective
       ]
       ,
       providers: [HttpService,

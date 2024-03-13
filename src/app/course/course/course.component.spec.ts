@@ -6,11 +6,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { NgChartsModule } from 'ng2-charts';
-
 import { CourseComponent } from './course.component';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { CommonModule } from '@angular/common';
+import { BaseChartDirective } from 'ng2-charts';
 
 describe('CourseComponent', () => {
   let component: CourseComponent;
@@ -29,12 +28,11 @@ describe('CourseComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CourseComponent,
-        NgChartsModule,
+        BaseChartDirective,
         CourseTeesComponent,
         CommonModule,
         HttpClientModule,
         routing,
-        NgChartsModule,
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
