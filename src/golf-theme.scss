@@ -21,7 +21,7 @@ $my-palette: (
   200: #ce93d8,
   300: #ba68c8,
   400: #ab47bc,
-  500: #198754,
+  500: white,
   600: #198754,
   700: #7b1fa2,
   800: #6a1b9a,
@@ -36,7 +36,7 @@ $my-palette: (
 
 
 $my-primary: mat.define-palette($my-palette, 500);
-$my-accent: mat.define-palette($my-palette, A200, A100, A400);
+$my-accent: mat.define-palette($my-palette, A700, A100, A400);
 
 // The "warn" palette is optional and defaults to red if not specified.
 
