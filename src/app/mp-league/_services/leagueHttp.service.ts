@@ -9,8 +9,8 @@ export class LeagueHttpService {
   constructor(private http: HttpClient) { }
 
   // get leagues
-  getLeagues(): Observable<Array<League>> {
-    return this.http.get<Array<League>>('rest/League');
+  getLeagues(pageId: number): Observable<Array<League>> {
+    return this.http.get<Array<League>>('rest/League/' + pageId);
   }
 
   // add league

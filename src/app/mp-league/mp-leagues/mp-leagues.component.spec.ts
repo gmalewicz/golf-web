@@ -56,4 +56,14 @@ describe('MpLeaguesComponent', () => {
     expect(component).toBeTruthy();
 
   }));
+
+  it('should execute onNext and onPrevious', () => {
+    spyOnProperty(component.authenticationService , 'playerRole').and.returnValue('PLAYER');
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
+    fixture.detectChanges();
+    component.onNext();
+    expect(component.page).toBe(1);
+    component.onPrevious();
+    expect(component.page).toBe(0);
+  });
 });

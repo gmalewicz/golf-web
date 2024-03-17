@@ -81,8 +81,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    if (this.authenticationService.currentPlayerValue === null &&
-        this.navigationService.getCourse() === null && this.navigationService.getOnlineRounds() === null) {
+    if (this.authenticationService.currentPlayerValue === null ||
+        (this.navigationService.getCourse() === null && this.navigationService.getOnlineRounds() === null)) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {

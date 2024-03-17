@@ -6,14 +6,21 @@ export class MimicBackendMpLeaguesInterceptor implements HttpInterceptor{
   intercept(req: HttpRequest<unknown>, next: HttpHandler):
     Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
 
-    if (req.url.endsWith('rest/League') && (req.method === 'GET')) {
+    if (req.url.endsWith('rest/League/0') && (req.method === 'GET')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 
           [
-            {id: 1, name: 'Test league', status: false,
-              player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}}
-
+            {id: 1, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 2, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 3, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 4, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 5, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 6, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 7, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 8, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 9, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}},
+            {id: 10, name: 'Test league', status: false, player: {id: 1, nick: 'golfer', sex: false, whs: 38.4}}
           ]
 
         , status: 200}));

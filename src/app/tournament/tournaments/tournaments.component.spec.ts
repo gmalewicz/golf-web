@@ -65,7 +65,7 @@ describe('TournamentsComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const tableRows = fixture.nativeElement.querySelectorAll('tr');
-      expect(tableRows.length).toBe(7);
+      expect(tableRows.length).toBe(11);
       // Header row
       const headerRow = tableRows[0];
       expect(headerRow.cells[1].innerHTML).toBe('Name');
@@ -79,6 +79,14 @@ describe('TournamentsComponent', () => {
       // Test more rows here..
       done();
     });
+  });
+
+  it('should execute onNext and onPrevious', () => {
+    standardSetup();
+    component.onNext();
+    expect(component.page).toBe(1);
+    component.onPrevious();
+    expect(component.page).toBe(0);
   });
 
   afterAll(() => {

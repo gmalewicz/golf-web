@@ -24,6 +24,9 @@ import { AddRoundComponent } from '../add-round/add-round.component';
 })
 export class TournamentsComponent implements OnInit {
 
+  readonly PAGE_SIZE = 10;
+
+  page: number;
   faSearchPlus: IconDefinition;
   tournaments: Tournament[];
   display: boolean;
@@ -36,25 +39,45 @@ export class TournamentsComponent implements OnInit {
   ngOnInit(): void {
 
     this.display = false;
+    this.page = 0;
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.faSearchPlus = faSearchPlus;
-      this.tournamentHttpService.getTournaments().pipe(
-        tap(
-          (retTournaments: Tournament[]) => {
-            this.tournaments = retTournaments;
-            this.display = true;
-        })
-      ).subscribe();
+      this.getTournaments();
     }
   }
+
+  getTournaments(): void {
+    this.tournamentHttpService.getTournaments(this.page).pipe(
+      tap(
+        (retTournaments: Tournament[]) => {
+          this.tournaments = retTournaments;
+          this.display = true;
+      })
+    ).subscribe();
+  }
+
 
   showTournament(tournament: Tournament) {
     this.navigationService.tournament.set(tournament);
     this.router.navigate(['tournaments/tournamentResults']).catch(error => console.log(error));
+  }
+
+  onNext() {
+    if (this.tournaments.length === this.PAGE_SIZE) {
+      this.page++;
+      this.getTournaments();
+    }
+  }
+
+  onPrevious() {
+    if (this.page > 0) {
+      this.page--;
+      this.getTournaments();
+    }
   }
 }
 

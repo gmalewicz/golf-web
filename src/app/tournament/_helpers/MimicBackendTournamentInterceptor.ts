@@ -6,7 +6,7 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
   intercept(req: HttpRequest<unknown>, next: HttpHandler):
     Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
 
-    if (req.url.endsWith('rest/Tournament') && (req.method === 'GET')) {
+    if (req.url.endsWith('rest/Tournament/0') && (req.method === 'GET')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 
@@ -22,6 +22,14 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
             {id: 5, name: 'Gosia vs Greg 3', startDate: '2020/08/21', endDate: '2020/09/03', bestRounds: 0,
               player: {id: 1, nick: 'Greg', whs: 28.7, role: 0, captcha: null}},
             {id: 6, name: 'Turniej Mikołajkowy 2020', startDate: '2020/12/06', endDate: '2020/12/07', bestRounds: 0,
+              player: {id: 11, nick: 'Gosia', whs: 35.0, role: 1, captcha: null}},
+            {id: 7, name: 'Turniej Mikołajkowy 2020', startDate: '2020/12/06', endDate: '2020/12/07', bestRounds: 0,
+              player: {id: 11, nick: 'Gosia', whs: 35.0, role: 1, captcha: null}},
+            {id: 8, name: 'Turniej Mikołajkowy 2020', startDate: '2020/12/06', endDate: '2020/12/07', bestRounds: 0,
+              player: {id: 11, nick: 'Gosia', whs: 35.0, role: 1, captcha: null}},
+            {id: 9, name: 'Turniej Mikołajkowy 2020', startDate: '2020/12/06', endDate: '2020/12/07', bestRounds: 0,
+              player: {id: 11, nick: 'Gosia', whs: 35.0, role: 1, captcha: null}},
+            {id: 10, name: 'Turniej Mikołajkowy 2020', startDate: '2020/12/06', endDate: '2020/12/07', bestRounds: 0,
               player: {id: 11, nick: 'Gosia', whs: 35.0, role: 1, captcha: null}}
           ]
 

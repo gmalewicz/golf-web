@@ -27,11 +27,19 @@
   </table>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@leagues-cancel">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@rounds-cancel" i18n="@@leagues-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" routerLink="addLeague" i18n="@@leagues-add">
+    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@leagues-previous">
+      Previous
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="leagues == undefined || leagues.length < PAGE_SIZE" i18n="@@leagues-next">
+      Next
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" routerLink= "addLeague" i18n="@@leagues-add">
       Add
     </button>
   </div>

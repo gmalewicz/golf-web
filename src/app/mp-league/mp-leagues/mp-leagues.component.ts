@@ -13,6 +13,9 @@ import { NavigationService } from '../_services/navigation.service';
 })
 export class MpLeaguesComponent implements OnInit {
 
+  readonly PAGE_SIZE = 10;
+
+  page: number;
   faSearchPlus: IconDefinition;
   leagues: League[];
   display: boolean;
@@ -28,20 +31,14 @@ export class MpLeaguesComponent implements OnInit {
   ngOnInit(): void {
 
     this.display = false;
-
+    this.page = 0;
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.faSearchPlus = faSearchPlus;
-      this.leagueHttpService.getLeagues().pipe(
-        tap (
-          (retLeagues: League[]) => {
-            this.leagues = retLeagues;
-            this.display = true;
-        })
-      ).subscribe();
+      this.getLeagues()
     }
   }
 
@@ -51,4 +48,27 @@ export class MpLeaguesComponent implements OnInit {
     this.router.navigate(['mpLeagues/league']).catch(error => console.log(error));
   }
 
+  getLeagues(): void {
+    this.leagueHttpService.getLeagues(this.page).pipe(
+      tap(
+        (retLeagues: League[]) => {
+          this.leagues = retLeagues;
+          this.display = true;
+      })
+    ).subscribe();
+  }
+
+  onNext() {
+    if (this.leagues.length === this.PAGE_SIZE) {
+      this.page++;
+      this.getLeagues();
+    }
+  }
+
+  onPrevious() {
+    if (this.page > 0) {
+      this.page--;
+      this.getLeagues();
+    }
+  }
 }
