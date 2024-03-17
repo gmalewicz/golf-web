@@ -31,11 +31,19 @@
   </table>
   <div>
     <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@tour-cancel">
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@rounds-cancel" i18n="@@tour-cancel">
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success" routerLink="addTournament" i18n="@@tour-add">
+    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@tour-previous">
+      Previous
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="tournaments == undefined || tournaments.length < PAGE_SIZE" i18n="@@tour-next">
+      Next
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-success" routerLink= "addTournament" i18n="@@tour-add">
       Add
     </button>
   </div>

@@ -12,8 +12,8 @@ export class TournamentHttpService {
   constructor(private http: HttpClient) { }
 
     // gets tournaments
-  getTournaments(): Observable<Array<Tournament>> {
-    return this.http.get<Array<Tournament>>('rest/Tournament');
+  getTournaments(page: number): Observable<Array<Tournament>> {
+    return this.http.get<Array<Tournament>>('rest/Tournament/' + page);
   }
 
   // gets tournament results
