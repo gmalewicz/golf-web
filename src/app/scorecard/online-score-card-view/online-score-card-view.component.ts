@@ -2,18 +2,21 @@ import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
+import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-online-score-card-view',
-  templateUrl: './online-score-card-view.component.html',
-  styleUrls: ['./online-score-card-view.component.css']
+    selector: 'app-online-score-card-view',
+    templateUrl: './online-score-card-view.component.html',
+    styleUrls: ['./online-score-card-view.component.css'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, RouterLink, DecimalPipe]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 

@@ -13,21 +13,21 @@ describe('AddTournamentDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         MatCheckboxModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
-      ],
-      declarations: [ AddTournamentDialogComponent ],
-      providers: [
-        {provide: MatDialogRef, useValue: {close(): void {
-          // This is intentional
-        }}},
-        {provide: MAT_DIALOG_DATA, useValue: []}
-      ],
-    })
+        AddTournamentDialogComponent,
+    ],
+    providers: [
+        { provide: MatDialogRef, useValue: { close(): void {
+                    // This is intentional
+                } } },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+    ],
+})
     .compileComponents();
   }));
 

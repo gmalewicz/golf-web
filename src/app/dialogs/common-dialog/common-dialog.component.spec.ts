@@ -14,15 +14,15 @@ describe('CommonScorecardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonDialogComponent ],
-      imports: [
+    imports: [
         MatDialogModule,
         MatInputModule,
         MatCheckboxModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-      ],
-    })
+        CommonDialogComponent,
+    ],
+})
     .compileComponents();
   }));
 

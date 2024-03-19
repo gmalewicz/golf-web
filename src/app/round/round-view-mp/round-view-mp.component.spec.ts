@@ -12,14 +12,12 @@ describe('RoundViewMPComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoundViewMPComponent ],
-      imports: [
+    imports: [
         HttpClientModule,
-      ]
-      ,
-      providers: [HttpService]
-
-    })
+        RoundViewMPComponent,
+    ],
+    providers: [HttpService]
+})
     .compileComponents();
   });
 

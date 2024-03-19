@@ -31,41 +31,39 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
-  declarations: [
-    OnlineScoreCardComponent,
-    OnlineRoundComponent,
-    OnlineScoreCardViewComponent,
-    OnlineRoundDefComponent,
-    OnlineMatchplayComponent,
-    OnlineNavComponent,
-    RegisterPlayerDialogComponent,
-    UpdateWhsDialogComponent,
-    CommonDialogComponent,
-    CommonScorecardComponent,
-    CommonScorecardTopComponent
-  ],
-  imports: [
-    routing,
-    CommonModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    HttpClientModule,
-    HttpClientXsrfModule,
-    MatInputModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatCheckboxModule
-  ],
-  providers: [ScorecardHttpService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
-    { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService]},
-    { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
-    NavigationService,
-  ],
-  exports: []
+    imports: [
+        routing,
+        CommonModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        HttpClientModule,
+        HttpClientXsrfModule,
+        MatInputModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        OnlineScoreCardComponent,
+        OnlineRoundComponent,
+        OnlineScoreCardViewComponent,
+        OnlineRoundDefComponent,
+        OnlineMatchplayComponent,
+        OnlineNavComponent,
+        RegisterPlayerDialogComponent,
+        UpdateWhsDialogComponent,
+        CommonDialogComponent,
+        CommonScorecardComponent,
+        CommonScorecardTopComponent
+    ],
+    providers: [ScorecardHttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+        { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService] },
+        { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
+        NavigationService,
+    ],
+    exports: []
 })
 export class ScorecardModule { }
 

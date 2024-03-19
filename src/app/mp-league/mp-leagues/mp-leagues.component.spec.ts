@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { MpLeaguesComponent } from './mp-leagues.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
 import { MyRouterStub } from '@/_helpers/test.helper';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 
 describe('MpLeaguesComponent', () => {
   let component: MpLeaguesComponent;
@@ -16,18 +16,19 @@ describe('MpLeaguesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MpLeaguesComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
-        FontAwesomeModule
-      ],
-      providers: [HttpService,
-                  LeagueHttpService,
+    imports: [
+        FontAwesomeModule,
+        MpLeaguesComponent
+    ],
+    providers: [HttpService,
+        LeagueHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
         { provide: Router, useClass: MyRouterStub },
-        ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+
+    ]
+})
     .compileComponents();
   }));
 

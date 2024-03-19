@@ -4,11 +4,11 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { authenticationServiceStub, getTestRound } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { RoundsComponent } from './rounds.component';
 import { RoundsNavigationService } from '../roundsNavigation.service';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('RoundsComponent', () => {
 
@@ -17,18 +17,18 @@ describe('RoundsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundsComponent, ListRoundsComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
-      ]
-      ,
-      providers: [HttpService,
-                  { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  RoundsNavigationService
-        ]
-    })
+    imports: [
+        RoundsComponent,
+        ListRoundsComponent
+    ],
+    providers: [HttpService,
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        RoundsNavigationService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   }));
 

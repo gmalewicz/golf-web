@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { tap } from 'rxjs/operators';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-update-player',
-  templateUrl: './update-player.component.html'
+    selector: 'app-update-player',
+    templateUrl: './update-player.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdatePlayerComponent implements OnInit {
 

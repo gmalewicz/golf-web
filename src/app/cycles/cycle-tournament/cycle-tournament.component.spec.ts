@@ -1,10 +1,11 @@
 import { routing } from '@/app.routing';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CycleTournamentComponent } from './cycle-tournament.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('CycleTournamentComponent', () => {
   let component: CycleTournamentComponent;
@@ -13,14 +14,15 @@ describe('CycleTournamentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CycleTournamentComponent],
-      imports: [
-        HttpClientModule,
-        routing,
-      ],
-      providers: [HttpService, AuthenticationService
-      ]
-    })
+    imports: [
+        CycleTournamentComponent,
+    ],
+    providers: [HttpService,
+                AuthenticationService,
+                provideHttpClient(withInterceptorsFromDi()),
+                provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
       .compileComponents();
   });
 

@@ -1,18 +1,21 @@
 import { environment } from 'environments/environment';
 import { HttpService } from '@/_services/http.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map, tap } from 'rxjs/operators';
 import { AlertService, AuthenticationService } from '@/_services';
 import { Player } from '@/_models';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FinishSocialDialogComponent } from './finish-social-dialog/finish-social-dialog.component';
 import { of } from 'rxjs';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html'
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;

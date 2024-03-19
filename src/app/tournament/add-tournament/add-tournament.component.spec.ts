@@ -1,11 +1,11 @@
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddTournamentComponent } from './add-tournament.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
 import { routing } from '@/app.routing';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -33,7 +33,6 @@ describe('AddTournamentComponent', () => {
         HttpClientModule,
         AddTournamentComponent,
         RouterTestingModule.withRoutes([]),
-        routing,
         BrowserAnimationsModule,
         FixNavigationTriggeredOutsideAngularZoneNgModule
       ],
@@ -43,6 +42,8 @@ describe('AddTournamentComponent', () => {
         //{ provide: Router, useClass: MyRouterStub },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: AlertService, useValue: alertServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
       ]
     })
     .compileComponents();

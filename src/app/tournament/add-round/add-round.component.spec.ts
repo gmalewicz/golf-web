@@ -2,7 +2,7 @@ import { AutoTabDirective } from './AutoTab.directive';
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,6 +10,7 @@ import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { AddRoundComponent } from './add-round.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { MatSelectModule } from '@angular/material/select';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddRoundComponent', () => {
@@ -19,20 +20,20 @@ describe('AddRoundComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
-        routing,
         ReactiveFormsModule,
         FontAwesomeModule,
+        BrowserAnimationsModule,
         FormsModule,
         MatSelectModule,
-        BrowserAnimationsModule,
         AddRoundComponent,
         AutoTabDirective
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        TournamentHttpService
+        TournamentHttpService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
         ]
     })
     .compileComponents();

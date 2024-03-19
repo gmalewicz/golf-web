@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RemoveMatchComponent } from './remove-match.component';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '@/_services/http.service';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { AlertService } from '@/_services/alert.service';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { routing } from '@/app.routing';
 
 describe('RemoveMatchComponent', () => {
   let component: RemoveMatchComponent;
@@ -18,20 +19,21 @@ describe('RemoveMatchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RemoveMatchComponent],
-      imports: [
-        HttpClientModule,
+    imports: [
         ReactiveFormsModule,
         MatSelectModule,
-        BrowserAnimationsModule
-      ],
-      providers: [ LeagueHttpService,
-                   HttpService,
-                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
-                   { provide: Router, useClass: MyRouterStub },
-                   { provide: AlertService, useValue: alertServiceStub },
-]
-    });
+        BrowserAnimationsModule,
+        RemoveMatchComponent
+    ],
+    providers: [LeagueHttpService,
+        HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
+        { provide: Router, useClass: MyRouterStub },
+        { provide: AlertService, useValue: alertServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+});
     fixture = TestBed.createComponent(RemoveMatchComponent);
     component = fixture.componentInstance;
     currentPlayerValueSpy = spyOnProperty(component.authenticationService , 'currentPlayerValue');

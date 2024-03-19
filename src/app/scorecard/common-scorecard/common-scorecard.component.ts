@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
+import { NgTemplateOutlet, NgClass, NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-common-scorecard',
-  template: `
+    selector: 'app-common-scorecard',
+    template: `
 <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round hole result" style="font-size: 18px;">
   <thead>
     <tr>
@@ -133,7 +134,9 @@ import { OnlineRound } from '../_models/onlineRound';
     </span>
   </th>
 </ng-template>
-  `
+  `,
+    standalone: true,
+    imports: [NgTemplateOutlet, NgClass, NgIf, NgFor]
 })
 export class CommonScorecardComponent implements OnInit {
 

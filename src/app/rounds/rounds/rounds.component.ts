@@ -4,11 +4,16 @@ import { Round } from '@/_models';
 import { HttpService, AuthenticationService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { RoundsNavigationService } from '../roundsNavigation.service';
+import { RouterLink } from '@angular/router';
+import { ListRoundsComponent } from '../list-rounds/list-rounds.component';
+import { NgIf, NgClass } from '@angular/common';
 
 
 @Component({
-  selector: 'app-rounds',
-  templateUrl: './rounds.component.html'
+    selector: 'app-rounds',
+    templateUrl: './rounds.component.html',
+    standalone: true,
+    imports: [NgIf, NgClass, ListRoundsComponent, RouterLink]
 })
 export class RoundsComponent implements OnInit, OnDestroy {
 

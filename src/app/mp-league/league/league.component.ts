@@ -2,18 +2,21 @@ import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal 
 import { LeagueStatus } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest, tap } from 'rxjs';
+import { NgIf, NgFor, NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'app-league',
-  templateUrl: './league.component.html',
-  styleUrls: ['./league.component.css']
+    selector: 'app-league',
+    templateUrl: './league.component.html',
+    styleUrls: ['./league.component.css'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgStyle, RouterLink]
 })
 export class LeagueComponent  implements OnInit {
 

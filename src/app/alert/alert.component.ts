@@ -4,7 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from '@/_services';
 import { Message } from '@/_models/message';
 
-@Component({ selector: 'app-alert', template: '' })
+@Component({
+    selector: 'app-alert', template: '',
+    standalone: true
+})
 export class AlertComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;

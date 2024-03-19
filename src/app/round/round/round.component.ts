@@ -9,12 +9,19 @@ import { calculateCourseHCP, calculateHoleHCP, calculateScoreDifferential, getPl
 import { combineLatest } from 'rxjs';
 import { generatePDF } from '@/_helpers/common';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
+import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
+import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.component';
+import { RoundSummaryComponent } from '../round-summary/round-summary.component';
+import { RoundViewComponent } from '../round-view/round-view.component';
+import { NgIf } from '@angular/common';
 
 
 
 @Component({
-  selector: 'app-round',
-  templateUrl: './round.component.html'
+    selector: 'app-round',
+    templateUrl: './round.component.html',
+    standalone: true,
+    imports: [NgIf, RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent]
 })
 export class RoundComponent implements OnInit {
 

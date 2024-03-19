@@ -2,7 +2,7 @@ import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { teeTypes } from '@/_models/tee';
 import { AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle';
@@ -11,6 +11,7 @@ import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTourn
 import { TournamentHttpService } from '../_services';
 
 import { TournamentRoundsComponent } from './tournament-rounds.component';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 
 describe('TournamentRoundsComponent', () => {
   let component: TournamentRoundsComponent;
@@ -18,15 +19,15 @@ describe('TournamentRoundsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
         FontAwesomeModule,
-        TournamentRoundsComponent,
-        routing,
+        TournamentRoundsComponent
       ],
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         TournamentHttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
         ]
     })
     .compileComponents();

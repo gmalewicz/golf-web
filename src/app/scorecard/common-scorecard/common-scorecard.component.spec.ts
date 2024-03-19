@@ -8,8 +8,8 @@ describe('CommonScorecardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonScorecardComponent ]
-    })
+    imports: [CommonScorecardComponent]
+})
     .compileComponents();
   }));
 

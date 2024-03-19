@@ -10,8 +10,8 @@ describe('RoundSummaryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoundSummaryComponent ]
-    })
+    imports: [RoundSummaryComponent]
+})
     .compileComponents();
   });
 

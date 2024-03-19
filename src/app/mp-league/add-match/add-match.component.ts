@@ -1,17 +1,23 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { IconDefinition, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { tap } from 'rxjs';
 import { AlertService } from '@/_services/alert.service';
 import { LeagueMatch } from '../_models';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-add-match',
-  templateUrl: './add-match.component.html'
+    selector: 'app-add-match',
+    templateUrl: './add-match.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
 })
 export class AddMatchComponent implements OnInit {
 

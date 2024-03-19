@@ -2,14 +2,14 @@ import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { alertServiceStub, authenticationServiceStub, getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { CourseComponent } from './course.component';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { CommonModule } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 describe('CourseComponent', () => {
   let component: CourseComponent;
@@ -31,14 +31,15 @@ describe('CourseComponent', () => {
         BaseChartDirective,
         CourseTeesComponent,
         CommonModule,
-        HttpClientModule,
-        routing,
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        { provide: AuthenticationService, useValue: authenticationServiceStub }
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+        provideCharts(withDefaultRegisterables()),
       ]
     })
     .compileComponents();

@@ -1,15 +1,21 @@
-import { routing } from '@/app.routing';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './reset-password.component.html',
+    templateUrl: './reset-password.component.html',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NgClass,
+        NgIf,
+        RouterLink,
+    ],
 })
 export class ResetPasswordComponent implements OnInit {
 
@@ -61,9 +67,4 @@ export class ResetPasswordComponent implements OnInit {
   }
 }
 
-@NgModule({
-  declarations: [ResetPasswordComponent],
-  imports: [CommonModule, ReactiveFormsModule, routing]
-})
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class ResetPasswordModule {}
+

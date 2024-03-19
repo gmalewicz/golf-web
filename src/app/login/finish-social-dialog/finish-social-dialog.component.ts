@@ -1,11 +1,18 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { NgIf } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-finish-social-dialog',
-  templateUrl: './finish-social-dialog.component.html'
+    selector: 'app-finish-social-dialog',
+    templateUrl: './finish-social-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, NgIf, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class FinishSocialDialogComponent extends DialogBaseComponent {
 

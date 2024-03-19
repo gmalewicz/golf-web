@@ -3,12 +3,13 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { ResetPasswordComponent } from './reset-password.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -16,16 +17,16 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResetPasswordComponent ],
-      imports: [
+    imports: [
         ReactiveFormsModule,
-        routing,
-        HttpClientModule
-      ],
-      providers: [HttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: AuthenticationService, useValue: authenticationServiceStub }]
-    })
+        ResetPasswordComponent
+    ],
+    providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   });
 

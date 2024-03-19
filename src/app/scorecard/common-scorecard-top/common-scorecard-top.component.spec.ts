@@ -11,11 +11,11 @@ describe('CommonScorecardTopComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonScorecardTopComponent, CommonScorecardComponent, OnlineNavComponent],
-      providers: [
+    imports: [CommonScorecardTopComponent, CommonScorecardComponent, OnlineNavComponent,],
+    providers: [
         { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
-      ]
-    })
+    ]
+})
     .compileComponents();
   }));
 

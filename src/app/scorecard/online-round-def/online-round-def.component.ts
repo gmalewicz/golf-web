@@ -3,19 +3,39 @@ import { getDateAndTime } from '@/_helpers/common';
 import { Course, Player, Tee, TeeOptions } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { faCheckCircle, faSearchPlus, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, tap } from 'rxjs';
 import { UpdateWhsDialogComponent } from '../update-whs-dialog/update-whs-dialog.component';
 import { OnlineRound } from '../_models/onlineRound';
 import { ScorecardHttpService } from '../_services';
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-online-round-def',
-  templateUrl: './online-round-def.component.html',
+    selector: 'app-online-round-def',
+    templateUrl: './online-round-def.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        NgClass,
+        FaIconComponent,
+        MatSelect,
+        MatOption,
+        RouterLink,
+    ],
 })
 export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
   course: Course;

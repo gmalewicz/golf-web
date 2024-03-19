@@ -5,7 +5,7 @@ import { NavigationService } from './../_services/navigation.service';
 import { ScorecardHttpService } from './../_services/scorecardHttp.service';
 import { routing } from '@/app.routing';
 import { AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OnlineMatchplayComponent } from './online-matchplay.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -14,6 +14,7 @@ import { authenticationServiceStub, getTestCourse } from '@/_helpers/test.helper
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('OnlineMatchplayComponent', () => {
 
@@ -23,23 +24,22 @@ describe('OnlineMatchplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OnlineMatchplayComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         MatDialogModule,
         FontAwesomeModule,
-      ]
-      ,
-      providers: [HttpService,
+        OnlineMatchplayComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent,
+    ],
+    providers: [HttpService,
         ScorecardHttpService,
         NavigationService,
         { provide: MatDialogRef, useValue: {} },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   });
 

@@ -3,14 +3,18 @@ import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-online-score-card',
-  templateUrl: './online-score-card.component.html'
+    selector: 'app-online-score-card',
+    templateUrl: './online-score-card.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, FaIconComponent, RouterLink, KeyValuePipe]
 })
 export class OnlineScoreCardComponent implements OnInit {
 

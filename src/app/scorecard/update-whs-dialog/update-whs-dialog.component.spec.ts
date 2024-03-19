@@ -13,19 +13,19 @@ describe('UpdateWhsDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         MatCheckboxModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
-      ],
-      declarations: [ UpdateWhsDialogComponent,  CommonDialogComponent ],
-      providers: [
-        {provide: MatDialogRef, useValue: []},
-        {provide: MAT_DIALOG_DATA, useValue: []}
-      ],
-    })
+        UpdateWhsDialogComponent, CommonDialogComponent,
+    ],
+    providers: [
+        { provide: MatDialogRef, useValue: [] },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+    ],
+})
     .compileComponents();
   }));
 

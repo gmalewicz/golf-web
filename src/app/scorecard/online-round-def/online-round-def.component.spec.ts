@@ -2,12 +2,12 @@ import { NavigationService } from './../_services/navigation.service';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { alertServiceStub, authenticationServiceStub, getTee, getTestCourse, getTestOnlineRound, MatDialogMock, MyRouterStub} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
@@ -15,6 +15,7 @@ import { OnlineRoundDefComponent } from './online-round-def.component';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { routing } from '@/app.routing';
 
 describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;
@@ -24,28 +25,28 @@ describe('OnlineRoundDefComponent', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ OnlineRoundDefComponent ],
-      imports: [
-        HttpClientModule,
+    imports: [
         FontAwesomeModule,
         ReactiveFormsModule,
         MatDialogModule,
         BrowserAnimationsModule,
         MatSelectModule,
         MatInputModule,
-      ]
-      ,
-      providers: [HttpService,
+        OnlineRoundDefComponent,
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        { provide: MatDialog, useValue: dialog},
+        { provide: MatDialog, useValue: dialog },
         ScorecardHttpService,
-        NavigationService
-        ]
-    })
+        NavigationService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   }));
 

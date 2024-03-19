@@ -1,13 +1,13 @@
 import { routing } from '@/app.routing';
 import { getTestRound } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-
 import { RoundViewComponent } from './round-view.component';
-import { BaseChartDirective } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('RoundViewComponent', () => {
   let component: RoundViewComponent;
@@ -15,20 +15,21 @@ describe('RoundViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoundViewComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         MatDialogModule,
-        BaseChartDirective
-      ]
-      ,
-      providers: [HttpService,
+        BaseChartDirective,
+        RoundViewComponent,
+    ],
+    providers: [HttpService,
         {
-          provide: MatDialogRef,
-          useValue: {}
-        }]
-    })
+            provide: MatDialogRef,
+            useValue: {}
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+        provideCharts(withDefaultRegisterables()),
+    ]
+})
     .compileComponents();
   });
 
