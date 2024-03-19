@@ -1,9 +1,10 @@
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeLogComponent } from './change-log.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('ChangeLogComponent', () => {
   let component: ChangeLogComponent;
@@ -12,14 +13,14 @@ describe('ChangeLogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangeLogComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
-      ],
-      providers: [HttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },]
-    })
+    imports: [
+        ChangeLogComponent,
+    ],
+    providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   }));
 

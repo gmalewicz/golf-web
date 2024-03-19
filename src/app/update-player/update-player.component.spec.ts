@@ -3,12 +3,13 @@ import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { UpdatePlayerComponent } from './update-player.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('UpdatePlayerComponent', () => {
   let component: UpdatePlayerComponent;
@@ -17,19 +18,19 @@ describe('UpdatePlayerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdatePlayerComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         ReactiveFormsModule,
-      ],
-      providers: [HttpService,
+        UpdatePlayerComponent,
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthenticationService
-        ]
-    })
+        AuthenticationService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
     .compileComponents();
   }));
 

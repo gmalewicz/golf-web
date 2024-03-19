@@ -1,17 +1,21 @@
 import { Component, OnInit} from '@angular/core';
 import { Course } from '@/_models/course';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Courses } from '@/_models/courses';
 import { AlertService } from '@/_services/alert.service';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '@/tournament/_models/tournament';
+import { ListCoursesComponent } from '../list-courses/list-courses.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html'
+    selector: 'app-courses',
+    templateUrl: './courses.component.html',
+    standalone: true,
+    imports: [NgIf, ListCoursesComponent, ReactiveFormsModule, RouterLink]
 })
 export class CoursesComponent implements OnInit {
 

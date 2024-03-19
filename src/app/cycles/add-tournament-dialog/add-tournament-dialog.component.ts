@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { NgIf } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-add-tournament-dialog',
-  templateUrl: './add-tournament-dialog.component.html'
+    selector: 'app-add-tournament-dialog',
+    templateUrl: './add-tournament-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, NgIf, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class AddTournamentDialogComponent implements OnInit {
 

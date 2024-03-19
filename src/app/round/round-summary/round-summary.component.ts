@@ -1,10 +1,13 @@
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { Round } from '@/_models/round';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgIf, NgFor, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-round-summary',
-  templateUrl: './round-summary.component.html'
+    selector: 'app-round-summary',
+    templateUrl: './round-summary.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, DecimalPipe]
 })
 export class RoundSummaryComponent implements OnInit {
 

@@ -2,19 +2,19 @@ import { routing } from '@/app.routing';
 import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AddCourseComponent } from './add-course.component';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { alertServiceStub, authenticationServiceStub, getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { teeTypes } from '@/_models/tee';
 import { CourseNavigationService } from '../_services/course-navigation.service';
-import { BaseChartDirective } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
@@ -31,13 +31,11 @@ describe('AddCourseComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         AddCourseComponent,
-        HttpClientModule,
         ReactiveFormsModule,
         BaseChartDirective,
         MatSelectModule,
         BrowserAnimationsModule,
         MatInputModule,
-        routing,
       ],
       providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
@@ -46,7 +44,10 @@ describe('AddCourseComponent', () => {
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
         { provide: CourseNavigationService, useValue: courseNavigationService},
-        { provide: AuthenticationService, useValue: authenticationServiceStub }]
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+        provideCharts(withDefaultRegisterables())]
     })
     .compileComponents();
   }));

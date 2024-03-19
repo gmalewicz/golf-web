@@ -4,13 +4,13 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { MatDialogMock, MyRouterStub, alertServiceStub, authenticationServiceStub, getTestRound } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
-import { Router } from '@angular/router';
-import { BaseChartDirective } from 'ng2-charts';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -18,22 +18,23 @@ describe('RoundComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundComponent, RoundViewComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         MatDialogModule,
-        BaseChartDirective
-      ]
-      ,
-      providers: [HttpService,
+        BaseChartDirective,
+        RoundComponent,
+        RoundViewComponent
+    ],
+    providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        { provide: MatDialog, useClass: MatDialogMock},
+        { provide: MatDialog, useClass: MatDialogMock },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        RoundsNavigationService]
-    })
+        RoundsNavigationService,
+        provideCharts(withDefaultRegisterables()),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   }));
 

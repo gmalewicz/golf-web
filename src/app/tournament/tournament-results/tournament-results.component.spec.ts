@@ -2,7 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routing } from '@/app.routing';
 import { alertServiceStub, authenticationServiceStub, MatDialogMock, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
@@ -11,7 +11,7 @@ import { TournamentResultsComponent } from './tournament-results.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TournamentStatus } from '../_models/tournament';
-import { Router } from '@angular/router';
+import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { getTournamentResult, getTournamentResult2 } from '../_helpers/test.helper';
 
 describe('TournamentResultsComponent', () => {
@@ -30,12 +30,9 @@ describe('TournamentResultsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
-        routing,
         ReactiveFormsModule,
         MatDialogModule,
         FontAwesomeModule,
-        BrowserAnimationsModule,
         TournamentResultsComponent
       ],
       providers: [HttpService,
@@ -45,7 +42,9 @@ describe('TournamentResultsComponent', () => {
                   { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
                   { provide: MatDialog, useClass: MatDialogMock},
                   { provide: Router, useClass: MyRouterStub },
-                  { provide: AlertService, useValue: alertServiceStub }
+                  { provide: AlertService, useValue: alertServiceStub },
+                  provideHttpClient(withInterceptorsFromDi()),
+                  provideRouter(routing, withPreloading(PreloadAllModules)),
         ]
     })
     .compileComponents();

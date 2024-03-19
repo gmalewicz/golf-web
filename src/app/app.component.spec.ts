@@ -1,46 +1,45 @@
-import { HttpService } from './_services/http.service';
-import { NavigationComponent } from './navigation/navigation.component';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './_services/authentication.service';
 import { authenticationServiceStub } from './_helpers/test.helper';
-import { Component } from '@angular/core';
+import { routing } from './app.routing';
 
-describe('AppComponent', () => {
+describe('LoginComponent', () => {
 
-  @Component({selector: 'app-alert', template: ''})
-  class ChildStubComponent {}
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      providers: [HttpService,
-                  { provide: AuthenticationService, useValue: authenticationServiceStub}
-                  ],
-      declarations: [
-        AppComponent,
-        NavigationComponent,
-        ChildStubComponent
-      ],
-    }).compileComponents();
+    imports: [
+      AppComponent
+    ],
+    providers: [
+      { provide: AuthenticationService, useValue: authenticationServiceStub },
+      provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
+    .compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
   });
 
-  it(`should have as title 'golf-web'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('golf-web');
+  it('should create', () => {
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+      expect(component.title).toEqual('golf-web');
   });
+
+
 
   afterAll(() => {
     TestBed.resetTestingModule();
   });
 });
+

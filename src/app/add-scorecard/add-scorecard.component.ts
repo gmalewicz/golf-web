@@ -4,18 +4,25 @@ import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Course, ScoreCard, Round, Tee, TeeOptions } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { getDateAndTime } from '@/_helpers/common';
 import { BaseChartDirective } from 'ng2-charts';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-add-scorecard',
-  templateUrl: './add-scorecard.component.html',
-  styleUrls: ['./add-scorecard.component.css']
+    selector: 'app-add-scorecard',
+    templateUrl: './add-scorecard.component.html',
+    styleUrls: ['./add-scorecard.component.css'],
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgFor, NgClass]
 })
 export class AddScorecardComponent implements OnInit {
 

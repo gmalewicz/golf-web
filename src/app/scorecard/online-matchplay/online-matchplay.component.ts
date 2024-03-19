@@ -7,12 +7,17 @@ import { calculateCourseHCP, calculateHoleHCP, createMPResultText, getPlayedCour
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy } from '@angular/common';
+import { LocationStrategy, NgIf, NgFor, NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 
 @Component({
-  selector: 'app-online-matchplay',
-  templateUrl: './online-matchplay.component.html',
-  styleUrls: ['./online-matchplay.component.css']
+    selector: 'app-online-matchplay',
+    templateUrl: './online-matchplay.component.html',
+    styleUrls: ['./online-matchplay.component.css'],
+    standalone: true,
+    imports: [NgIf, CommonScorecardTopComponent, NgFor, NgClass, FaIconComponent, MatButton]
 })
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
 

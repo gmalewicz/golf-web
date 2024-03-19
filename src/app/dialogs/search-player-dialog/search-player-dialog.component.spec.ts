@@ -15,27 +15,25 @@ describe('SearchPlayerDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchPlayerDialogComponent],
-      imports: [
+    imports: [
         HttpClientModule,
         ReactiveFormsModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
-
-      ],
-      providers: [
+        SearchPlayerDialogComponent,
+    ],
+    providers: [
         HttpService,
-        {provide: MatDialogRef, useValue: {
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          close(_value: unknown) {
-              return null;
-              }
-          }},
+        { provide: MatDialogRef, useValue: {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                close(_value: unknown) {
+                    return null;
+                }
+            } },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-      ],
-    });
+    ],
+});
     fixture = TestBed.createComponent(SearchPlayerDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

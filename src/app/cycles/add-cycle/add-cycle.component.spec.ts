@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -8,6 +8,7 @@ import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInter
 import { CycleHttpService } from '../_services/cycleHttp.service';
 
 import { AddCycleComponent } from './add-cycle.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('AddCycleComponent', () => {
   let component: AddCycleComponent;
@@ -15,18 +16,17 @@ describe('AddCycleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddCycleComponent],
-      imports: [
-        HttpClientModule,
-        routing,
-        ReactiveFormsModule
-      ],
-      providers: [HttpService,
-
+    imports: [
+        ReactiveFormsModule,
+        AddCycleComponent
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
-        CycleHttpService
-      ]
-    })
+        CycleHttpService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
       .compileComponents();
   }));
 

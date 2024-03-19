@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LeagueComponent } from './league.component';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatDialogMock, MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
 import { HttpService } from '@/_services/http.service';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
+import { routing } from '@/app.routing';
 
 describe('LeagueComponent', () => {
   let component: LeagueComponent;
@@ -16,20 +17,21 @@ describe('LeagueComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LeagueComponent],
-      imports: [
-        HttpClientModule,
+    imports: [
         MatDialogModule,
-      ],
-      providers: [
+        LeagueComponent,
+    ],
+    providers: [
         HttpService,
         LeagueHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        { provide: MatDialog, useClass: MatDialogMock},
-      ]
-    });
+        { provide: MatDialog, useClass: MatDialogMock },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+});
   }));
 
   beforeEach(() => {

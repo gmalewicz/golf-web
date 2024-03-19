@@ -12,11 +12,10 @@ describe('ListRoundsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListRoundsComponent ],
-      providers:
-        [{ provide: AuthenticationService, useValue: authenticationServiceStub },
+    imports: [ListRoundsComponent],
+    providers: [{ provide: AuthenticationService, useValue: authenticationServiceStub },
         RoundsNavigationService]
-    })
+})
     .compileComponents();
   });
 

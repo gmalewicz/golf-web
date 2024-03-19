@@ -3,13 +3,14 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PlayersComponent } from './players.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('PlayersComponent', () => {
   let component: PlayersComponent;
@@ -17,20 +18,20 @@ describe('PlayersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayersComponent ],
-      imports: [
+    imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        routing,
-        HttpClientModule,
-        MatDialogModule
-      ],
-      providers: [HttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  { provide: MatDialog, useClass: MatDialogMock}
-                ]
-    })
+        MatDialogModule,
+        PlayersComponent
+    ],
+    providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: MatDialog, useClass: MatDialogMock },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
     .compileComponents();
   }));
 

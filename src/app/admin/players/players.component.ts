@@ -1,23 +1,22 @@
 import { PlayerRndCnt } from './../../_models/playerRndCnt';
-import { routing } from '@/app.routing';
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, NgModule, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { HttpService } from '@/_services/http.service';
 import { tap } from 'rxjs/operators';
 import { faMinusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { UpdDialogComponent } from './upd-dialog/upd-dialog.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-players',
-  templateUrl: './players.component.html'
+    selector: 'app-players',
+    templateUrl: './players.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, FaIconComponent, RouterLink]
 })
 export class PlayersComponent implements OnInit {
 
@@ -118,9 +117,4 @@ export class PlayersComponent implements OnInit {
   }
 }
 
-@NgModule({
-  declarations: [PlayersComponent],
-  imports: [CommonModule, routing,  FontAwesomeModule, ReactiveFormsModule ,MatInputModule, MatCheckboxModule, MatDialogModule]
-})
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class ResetPasswordModule {}
+

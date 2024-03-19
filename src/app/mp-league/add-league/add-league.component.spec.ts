@@ -9,6 +9,7 @@ import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { By } from '@angular/platform-browser';
 import { AlertService } from '@/_services/alert.service';
 import { alertServiceStub } from '@/_helpers/test.helper';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 
 describe('AddLeagueComponent', () => {
   let component: AddLeagueComponent;
@@ -17,18 +18,18 @@ describe('AddLeagueComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddLeagueComponent],
-      imports: [
+    imports: [
         HttpClientModule,
-        routing,
         ReactiveFormsModule,
-      ],
-      providers: [HttpService,
+        AddLeagueComponent,
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
         LeagueHttpService,
         { provide: AlertService, useValue: alertServiceStub },
-      ]
-    })
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
       .compileComponents();
   }));
 

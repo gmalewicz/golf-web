@@ -3,7 +3,7 @@ import { EagleResult, EagleResultSet } from './../_models/eagleResult';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AddTournamentDialogComponent } from '../add-tournament-dialog/add-tournament-dialog.component';
 import { CycleHttpService } from '../_services/cycleHttp.service';
@@ -12,10 +12,15 @@ import { combineLatest } from 'rxjs';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleTournament } from '../_models/cycleTournament';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
+import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.component';
+import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-cycle-details',
-  templateUrl: './cycle-details.component.html'
+    selector: 'app-cycle-details',
+    templateUrl: './cycle-details.component.html',
+    standalone: true,
+    imports: [NgIf, CycleResultsComponent, CycleTournamentComponent, RouterLink]
 })
 export class CycleDetailsComponent implements OnInit {
 

@@ -3,13 +3,14 @@ import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { getTestCourse} from '@/_helpers/test.helper';
 import { AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { getOnlineRoundFirstPlayer, getOnlineRoundSecondPlayer, getOnlineScoreCard, rxStompServiceStub } from '../_helpers/test.helper';
 import { ScorecardHttpService } from '../_services';
 import { OnlineScoreCardViewComponent } from './online-score-card-view.component';
 import { RxStompService } from '../_services/rx-stomp.service';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('OnlineScoreCardViewComponent', () => {
   let component: OnlineScoreCardViewComponent;
@@ -19,21 +20,20 @@ describe('OnlineScoreCardViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnlineScoreCardViewComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
-      ]
-      ,
-      providers: [HttpService,
+    imports: [
+        OnlineScoreCardViewComponent,
+    ],
+    providers: [HttpService,
         ScorecardHttpService,
         AuthenticationService,
         NavigationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        { provide: RxStompService, useValue: rxStompServiceStub }
-        ]
-    })
+        { provide: RxStompService, useValue: rxStompServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   }));
 

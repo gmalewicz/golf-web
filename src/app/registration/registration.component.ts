@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { tap } from 'rxjs/operators';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html'
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgClass, NgIf, RecaptchaModule, RecaptchaFormsModule, RouterLink]
 })
 export class RegistrationComponent implements OnInit {
 
@@ -24,7 +28,6 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
       // redirect to home if already logged in
       if (this.authenticationService.currentPlayerValue) {
         this.router.navigate(['/home']).catch(error => console.log(error));

@@ -1,4 +1,4 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { routing } from '@/app.routing';
@@ -6,6 +6,7 @@ import { CycleHttpService } from '../_services/cycleHttp.service';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
 import { CyclesComponent } from './cycles.component';
 import { HttpService } from '@/_services/http.service';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('CyclesComponent', () => {
   let component: CyclesComponent;
@@ -14,17 +15,17 @@ describe('CyclesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CyclesComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
-        FontAwesomeModule
-      ],
-      providers: [HttpService,
-                  CycleHttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true }
-        ]
-    })
+    imports: [
+        FontAwesomeModule,
+        CyclesComponent
+    ],
+    providers: [HttpService,
+        CycleHttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
     .compileComponents();
   }));
 

@@ -2,16 +2,22 @@ import { LeagueHttpService } from './../_services/leagueHttp.service';
 import { LeagueMatch } from './../_models/leagueMatch';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { NavigationService } from '../_services/navigation.service';
 import { AlertService } from '@/_services/alert.service';
 import { tap } from 'rxjs';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-remove-match',
-  templateUrl: './remove-match.component.html'
+    selector: 'app-remove-match',
+    templateUrl: './remove-match.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
 })
 export class RemoveMatchComponent implements OnInit {
 

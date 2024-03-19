@@ -1,14 +1,23 @@
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { alertServiceStub, authenticationServiceStub, MatDialogMock, MyRouterStub } from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { LoginComponent } from './login.component';
+import { routing } from '@/app.routing';
+import { NgModule } from '@angular/core';
+
+@NgModule()
+export class FixNavigationTriggeredOutsideAngularZoneNgModule {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(_router: Router) {
+  }
+}
 
 describe('LoginComponent', () => {
 
@@ -24,20 +33,21 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ],
-      imports: [
-        HttpClientModule,
+    imports: [
         ReactiveFormsModule,
         MatDialogModule,
-      ],
-      providers: [HttpService,
-                  { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  { provide: ActivatedRoute, useValue: routeStub},
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock},
-                  { provide: Router, useClass: MyRouterStub },
-                  { provide: AlertService, useValue: alertServiceStub }]
-    })
+        LoginComponent,
+        FixNavigationTriggeredOutsideAngularZoneNgModule
+    ],
+    providers: [HttpService,
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: ActivatedRoute, useValue: routeStub },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: AlertService, useValue: alertServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   }));
 

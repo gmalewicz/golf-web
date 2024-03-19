@@ -1,14 +1,18 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-cycles',
-  templateUrl: './cycles.component.html'
+    selector: 'app-cycles',
+    templateUrl: './cycles.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, RouterLink, FaIconComponent]
 })
 
 export class CyclesComponent implements OnInit {

@@ -1,7 +1,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
@@ -16,6 +16,7 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { RxStompService } from '../_services/rx-stomp.service';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 
 describe('OnlineRoundComponent', () => {
@@ -25,15 +26,12 @@ describe('OnlineRoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OnlineRoundComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         MatDialogModule,
         FontAwesomeModule,
-      ]
-      ,
-      providers: [HttpService,
+        OnlineRoundComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent,
+    ],
+    providers: [HttpService,
         ScorecardHttpService,
         NavigationService,
         { provide: MatDialogRef, useValue: {} },
@@ -41,8 +39,10 @@ describe('OnlineRoundComponent', () => {
         { provide: RxStompService, useClass: RxStompServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   });
 

@@ -1,4 +1,3 @@
-import { routing } from '@/app.routing';
 import { AlertService } from '@/_services/alert.service';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
@@ -10,14 +9,13 @@ describe('AlertComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertComponent ],
-      providers: [
+    providers: [
         AlertService
-      ],
-      imports: [
-        routing
-      ],
-    })
+    ],
+    imports: [
+        AlertComponent
+    ],
+})
     .compileComponents();
   }));
 
