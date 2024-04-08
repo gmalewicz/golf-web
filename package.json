@@ -60,7 +60,7 @@
     "@angular/localize": "^17.2.4",
     "@types/jasmine": "^5.1.4",
     "@types/jasminewd2": "^2.0.13",
-    "@types/node": "^20.11.26",
+    "@types/node": "^20.12.5",
     "@types/sockjs-client": "^1.5.4",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
