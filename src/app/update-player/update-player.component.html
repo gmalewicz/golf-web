@@ -53,7 +53,7 @@
         </div>
       </div>
       <br/>
-      <div (click)="onRemove()" class="lbl-remove">
+      <div (click)="onRemove()" class="lbl-remove"  onKeyDown="onRemove()" tabindex="1">
         <input type="checkbox" class="form-check-input form-check-input-green" id="removeEmail" formControlName="removeEmail">
         <label for="matchPlay">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
       </div>
@@ -75,7 +75,7 @@
 }
 @if (removeEmail) {
   <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
 

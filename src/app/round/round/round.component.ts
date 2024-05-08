@@ -231,7 +231,7 @@ export class RoundComponent implements OnInit {
     if (pl.roundDetails.ninesFull === 0) {
 
        // create player corrected score brutto
-      const corScore = this.round.scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.corScoreBrutto).reduce((p, n) => p + n);
+      const corScore = this.round.scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
 
       pl.roundDetails.scoreDiff = calculateScoreDifferential(pl.roundDetails.sr,
                                                             corScore,
@@ -245,15 +245,15 @@ export class RoundComponent implements OnInit {
       let par: number;
 
       if (pl.roundDetails.ninesFull === 1) {
-        par = this.round.course.holes.slice(0, 9).map(h => h.par).reduce((p, n) => p + n);
+        par = this.round.course.holes.slice(0, 9).map(h => h.par).reduce((p, n) => p + n, 0);
       }
       if (pl.roundDetails.ninesFull === 2) {
-        par = this.round.course.holes.slice(10, 18).map(h => h.par).reduce((p, n) => p + n);
+        par = this.round.course.holes.slice(10, 18).map(h => h.par).reduce((p, n) => p + n, 0);
       }
 
       pl.roundDetails.scoreDiff = calculateScoreDifferential(pl.roundDetails.sr,
                                                             this.round.scoreCard.slice(idx * 18, (idx * 18) + 18).
-                                                              map(s => s.corScoreBrutto).reduce((p, n) => p + n),
+                                                              map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0),
                                                             pl.roundDetails.cr,
                                                             false,
                                                             par,

@@ -194,7 +194,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         // calculate MP result history
         this.mpResultHistory = createMPResultHistory(this.mpScore);
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -298,7 +298,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // create pars for first and last 9
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -354,7 +354,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds = retOnlineRounds;
         // create pars for first and last 9
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -442,7 +442,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   private createSummary() {
 
     this.first9par = this.course.holes.map(h => h.par).
-    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {

@@ -77,19 +77,6 @@ export class NotificationComponent implements OnInit {
           this.router.navigate(['/tournaments']).catch(error => console.log(error));
         }
     });
-/*
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadingUnsubscribe.set(true);
-        this.tournamentHttpService.unsubscribe(this.navigationService.tournament().id).pipe(tap(
-          () => {
-            this.alertService.success($localize`:@@notifications-UnsubscribeMsg:You will not be nofified about tournament changes`, true);
-            this.router.navigate(['/tournaments']).catch(error => console.log(error));
-          })
-        ).subscribe();
-      }
-    });
-    */
   }
 
   sendNotification(): void {
@@ -112,23 +99,6 @@ export class NotificationComponent implements OnInit {
         this.alertService.success($localize`:@@notifications-PublishMsg:Notifications has been sent.`, true);
         this.router.navigate(['/tournaments']).catch(error => console.log(error));
       }
-  });
-
-
-
-    /*
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadingNotify.set(true);
-        this.tournamentHttpService.notify(this.navigationService.tournament().id).pipe(tap(
-          () => {
-            this.alertService.success($localize`:@@notifications-PublishMsg:Notifications has been sent.`, true);
-            this.router.navigate(['/tournaments']).catch(error => console.log(error));
-          })
-        ).subscribe();
-      }
     });
-    */
   }
 }

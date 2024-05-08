@@ -111,7 +111,7 @@ export class RoundViewMPComponent implements OnInit {
     this.mpResultHistory = createMPResultHistory(this.mpScore);
 
     this.first9par = this.round.course.holes.map(h => h.par).
-            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
     this.last9par = this.round.course.par - this.first9par;
   }
 

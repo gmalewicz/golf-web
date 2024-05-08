@@ -204,14 +204,14 @@ export class RoundViewComponent implements OnInit {
 
   generateRoundResults() {
 
-    const displayPar = this.par.reduce((p, c) => p + c);
+    const displayPar = this.par.reduce((p, c) => p + c, 0);
 
     // tslint:disable-next-line: variable-name
     this.players.forEach((_player, i) => {
 
-      let stroke = this.strokes[i].reduce((p, c) => p + c);
+      let stroke = this.strokes[i].reduce((p, c) => p + c, 0);
 
-      stroke += this.pats[i].reduce((p, c) => p + c);
+      stroke += this.pats[i].reduce((p, c) => p + c, 0);
 
       const difference = stroke - displayPar;
 

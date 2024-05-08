@@ -207,7 +207,7 @@ export class AddScorecardComponent implements OnInit {
         };
 
         this.first9Par = this.course.holes.filter((h) => {if (h.number <= 9) { return h.par; }})
-                .map(h => h.par ).reduce((p, c) => p + c);
+                .map(h => h.par ).reduce((p, c) => p + c, 0);
 
         // create tee labels
         const teeType = ['1-18', '1-9', '10-18'];
@@ -386,7 +386,7 @@ export class AddScorecardComponent implements OnInit {
 
   private calculateResult() {
 
-    const result = this.strokes.reduce((p, c) => p + c);
+    const result = this.strokes.reduce((p, c) => p + c, 0);
     let difference = 0;
     let par = 0;
 

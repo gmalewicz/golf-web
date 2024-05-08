@@ -50,7 +50,7 @@ export class RoundViewWHSComponent implements OnInit {
       .some(v => v != null && v.stroke === ballPickedUpStrokes);
 
     // create pars for first and last 9
-    this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+    this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
     this.last9par = this.round.course.par - this.first9par;
     if (this.round.player[this.playerOffset].roundDetails.ninesFull === 1) {
       this.last9par = 0;
@@ -59,19 +59,19 @@ export class RoundViewWHSComponent implements OnInit {
     }
     // create player score for each 9
     this.first9score = this.round.scoreCard.map(s => s.stroke).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
     this.last9score = this.round.scoreCard.map(s => s.stroke).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
     // create player putt for each 9
     this.first9Putt = this.round.scoreCard.map(s => s.pats).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
     this.last9Putt = this.round.scoreCard.map(s => s.pats).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
     // create player penalty for each 9
     this.first9Penalty = this.round.scoreCard.map(s => s.penalty).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
     this.last9Penalty = this.round.scoreCard.map(s => s.penalty).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
-      .reduce((p, n) =>  p + n);
+      .reduce((p, n) =>  p + n, 0);
 
     // tslint:disable-next-line: variable-name
     this.scoreBruttoClass.forEach((_v, i) => {
@@ -137,24 +137,24 @@ export class RoundViewWHSComponent implements OnInit {
 
     // create player score for each 9
     this.first9scoreNetto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.scoreNetto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     this.last9scoreNetto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.scoreNetto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     // create player STB netto for each 9
     this.first9StbNetto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.stbNetto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     this.last9StbNetto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.stbNetto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     // create player STB brutto for each 9
     this.first9StbBrutto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.stbBrutto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     this.last9StbBrutto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.stbBrutto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     // create player corrected score brutto for each 9
     this.first9CorScorBrutto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.corScoreBrutto)
-      .reduce((p, n) => p + n);
+      .reduce((p, n) => p + n, 0);
     this.last9CorScorBrutto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
-      .map(s => s.corScoreBrutto).reduce((p, n) => p + n);
+      .map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
 
     this.display = true;
   }
