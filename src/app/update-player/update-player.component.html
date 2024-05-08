@@ -53,9 +53,9 @@
         </div>
       </div>
       <br/>
-      <div (click)="onRemove()" class="lbl-remove"  onKeyDown="onRemove()" tabindex="1">
-        <input type="checkbox" class="form-check-input form-check-input-green" id="removeEmail" formControlName="removeEmail">
-        <label for="matchPlay">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
+      <div>
+        <input type="checkbox" class="form-check-input form-check-input-green" id="removeEmail" (click)="onRemove()" onKeyDown="onRemove()" tabindex="-1" formControlName="removeEmail">
+        <label for="matchPlay" (click)="onRemove()" class="lbl-remove"  onKeyDown="onRemove()" tabindex="-2">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
       </div>
       <br/>
       <div class="form-group">

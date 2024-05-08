@@ -64,12 +64,12 @@
             <tr>
               <td *ngIf="displayRound[i] == false" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="0"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-1"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td *ngIf="displayRound[i] == true" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="1"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-2"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -83,7 +83,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="2"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-3"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -120,12 +120,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="3"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-4"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="4"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-5"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -139,7 +139,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="5"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-6"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -176,12 +176,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="7"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-7"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="6"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-8"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -195,7 +195,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="8"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-9"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -232,12 +232,12 @@
             <tr>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === false">
                 <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="10"></fa-icon>
+                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-10"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="9"></fa-icon>
+                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-11"></fa-icon>
                 &nbsp;
                 {{i + 1}}
               </td>
@@ -251,7 +251,7 @@
               <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
                 {{ tournamentResult.playedRounds}}
                 <span *ngIf="navigationService.tournament().player.id === playerId  && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="11"></fa-icon>
+                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-12"></fa-icon>
                 </span>
               </td>
             </tr>
