@@ -213,7 +213,6 @@ export class TournamentResultsComponent implements OnInit {
       const {TeeTimeComponent} = await import('../tee-time/tee-time/tee-time.component');
       this.teeTimeContainerRef.createComponent(TeeTimeComponent);
     } else if (comp === 2) {
-    console.log('executed');
       const {NotificationComponent} = await import('../notification/notification.component');
       this.notificationContainerRef.createComponent(NotificationComponent);
     }
