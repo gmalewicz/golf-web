@@ -1,0 +1,27 @@
+
+<button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onSubscribe()">
+  @if (loadingSubscribe()) {
+    <span class="spinner-border spinner-border-sm mr-1"></span>
+  } @else {
+    <span i18n="@@notification-subscribe">Subscribe to notifications</span>
+  }
+</button>
+&nbsp;
+<button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onUnsubscribe()">
+  @if (loadingUnsubscribe()) {
+    <span class="spinner-border spinner-border-sm mr-1"></span>
+  } @else {
+    <span i18n="@@notification-unsubscribe">Unsubscribe from notifications</span>
+  }
+</button>
+@if (navigationService.tournament().player.id === playerId) {
+  &nbsp;
+  <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="sendNotification()">
+    @if (loadingNotify()) {
+      <span class="spinner-border spinner-border-sm mr-1"></span>
+    } @else {
+      <span i18n="@@notification-notify">Send notifications</span>
+    }
+  </button>
+}
+<p>Note: You need to have email address defined in order to make that functionality working. Email address can be added in account settings.</p>

@@ -12,4 +12,5 @@ export interface Player {
   updateSocial?: boolean;
   action?: string;
   female?: boolean;
+  email?: string;
 }

@@ -99,6 +99,18 @@ export class TournamentHttpService {
   deleteTeeTimes(tournamentId: number): Observable<void> {
     return this.http.delete<void>('rest/Tournament/TeeTime/' + tournamentId);
   }
+
+  subscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/Tournament/AddNotification/' + tournamentId, {});
+  }
+
+  unsubscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/Tournament/RemoveNotification/' + tournamentId, {});
+  }
+
+  notify(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/Tournament/Notification/' + tournamentId, {});
+  }
 }
 
 

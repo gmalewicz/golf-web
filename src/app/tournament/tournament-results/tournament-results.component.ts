@@ -40,8 +40,10 @@ export class TournamentResultsComponent implements OnInit {
   loadingDelete: boolean;
   loadingPDF: boolean;
 
+
   @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
+  @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
 
   constructor(private tournamentHttpService: TournamentHttpService,
               private authenticationService: AuthenticationService,
@@ -200,6 +202,9 @@ export class TournamentResultsComponent implements OnInit {
     if (this.teeTimeContainerRef !== undefined) {
       this.teeTimeContainerRef.clear();
     }
+    if (this.notificationContainerRef !== undefined) {
+      this.notificationContainerRef.clear();
+    }
 
     if (comp === 0) {
       const {TournamentPlayersComponent} = await import('../tournament-players/tournament-players.component');
@@ -207,7 +212,12 @@ export class TournamentResultsComponent implements OnInit {
     } else if (comp === 1) {
       const {TeeTimeComponent} = await import('../tee-time/tee-time/tee-time.component');
       this.teeTimeContainerRef.createComponent(TeeTimeComponent);
+    } else if (comp === 2) {
+    console.log('executed');
+      const {NotificationComponent} = await import('../notification/notification.component');
+      this.notificationContainerRef.createComponent(NotificationComponent);
     }
+
   }
 
   public displayPDF(name: string): void {

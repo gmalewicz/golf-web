@@ -37,6 +37,10 @@
       <button class="nav-link" id="teetime-tab" data-bs-toggle="tab" data-bs-target="#teetime" type="button"
         role="tab" aria-controls="teetime" aria-selected="false" (click)="loadComponent(1)">Tee Time</button>
     </li>
+    <li class="nav-item" *ngIf="this.navigationService.tournament().status === false">
+      <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
+        role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(2)">Notifications</button>
+    </li>
   </ul>
   <br/>
 
@@ -270,6 +274,9 @@
     </div>
     <div class="tab-pane fade" id="teetime" role="tabpanel" aria-labelledby="teetime-tab">
       <ng-container #teeTimeContainer></ng-container>
+    </div>
+    <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+      <ng-container #notificationContainer></ng-container>
     </div>
   </div>
   <br />

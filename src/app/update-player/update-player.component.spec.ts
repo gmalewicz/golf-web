@@ -10,11 +10,14 @@ import { By } from '@angular/platform-browser';
 
 import { UpdatePlayerComponent } from './update-player.component';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { MatDialogMock } from '@/_helpers/test.helper';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('UpdatePlayerComponent', () => {
   let component: UpdatePlayerComponent;
   let fixture: ComponentFixture<UpdatePlayerComponent>;
   let authenticationService: AuthenticationService;
+  const dialog = new MatDialogMock();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -28,7 +31,8 @@ describe('UpdatePlayerComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         AuthenticationService,
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(routing, withPreloading(PreloadAllModules))
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+        { provide: MatDialog, useValue: dialog},
     ]
 })
     .compileComponents();
@@ -83,6 +87,21 @@ describe('UpdatePlayerComponent', () => {
     btnElement.nativeElement.click();
     tick();
     expect(component.f.password.value).toContain('123456');
+  }));
+
+  it('should test with correct email', fakeAsync(() => {
+    component.f.email.setValue('test@gmail.com');
+    const btnElement = fixture.debugElement.query(By.css('.btn-success'));
+    btnElement.nativeElement.click();
+    tick();
+    expect(component.f.email.value).toContain('test@gmail.com');
+  }));
+
+  it('should test remove email', fakeAsync(() => {
+    const lblElement = fixture.debugElement.query(By.css('.lbl-remove'));
+    lblElement.nativeElement.click();
+    tick();
+    expect(component.removeEmail).toBeFalsy();
   }));
 
   afterEach(() => {
