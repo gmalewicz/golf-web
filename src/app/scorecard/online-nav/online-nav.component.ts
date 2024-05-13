@@ -2,10 +2,13 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-online-nav',
-  templateUrl: './online-nav.component.html'
+    selector: 'app-online-nav',
+    templateUrl: './online-nav.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass]
 })
 export class OnlineNavComponent implements OnInit, OnDestroy {
 

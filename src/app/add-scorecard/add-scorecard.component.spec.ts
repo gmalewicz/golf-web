@@ -1,19 +1,18 @@
-import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub, MatDialogMock, getTestRound } from '@/_helpers/test.helper';
 import { HttpService, AuthenticationService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { AddScorecardComponent } from './add-scorecard.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { routing } from '@/app.routing';
 
 describe('AddScorecardComponent', () => {
 
@@ -24,24 +23,23 @@ describe('AddScorecardComponent', () => {
   beforeEach(async () => {
 
     TestBed.configureTestingModule({
-      declarations: [ AddScorecardComponent ],
-      providers: [HttpService,
-                  { provide: AuthenticationService, useValue: authenticationServiceStub },
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: MatDialog, useClass: MatDialogMock},
-                  provideCharts(withDefaultRegisterables())],
-      imports: [
-        HttpClientModule,
+    providers: [HttpService,
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: MatDialog, useClass: MatDialogMock },
+        provideCharts(withDefaultRegisterables()),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),],
+    imports: [
         ReactiveFormsModule,
-        routing,
         MatDialogModule,
         BaseChartDirective,
         BrowserAnimationsModule,
-        RouterTestingModule.withRoutes([]),
         MatSelectModule,
-        MatInputModule
-      ],
-    })
+        MatInputModule,
+        AddScorecardComponent,
+    ],
+})
     .compileComponents();
 
     route = TestBed.inject(ActivatedRoute);

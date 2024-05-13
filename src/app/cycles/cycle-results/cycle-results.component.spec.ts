@@ -1,11 +1,12 @@
 import { routing } from '@/app.routing';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 
 import { CycleResultsComponent } from './cycle-results.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('CycleResultsComponent', () => {
   let component: CycleResultsComponent;
@@ -14,13 +15,14 @@ describe('CycleResultsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CycleResultsComponent],
-      imports: [
-        HttpClientModule,
-        routing,
-      ],
-      providers: [HttpService, AuthenticationService]
-    })
+    imports: [
+        CycleResultsComponent,
+    ],
+    providers: [HttpService,
+                AuthenticationService,
+                provideHttpClient(withInterceptorsFromDi()),
+                provideRouter(routing, withPreloading(PreloadAllModules))]
+})
       .compileComponents();
   }));
 

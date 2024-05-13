@@ -3105,8 +3105,16 @@
         </context-group>
       </trans-unit>
       <trans-unit id="updatePlayer-noData" datatype="html">
-        <source>Handicap or password must be provided</source>
-        <target>Handicap lub hasło jest wymagane</target>
+        <source>Handicap, password or email must be provided</source>
+        <target>Handicap, hasłolub email jest wymagane</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/update-player/update-player.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="updatePlayer-emailRequired" datatype="html">
+        <source>Valid email is required</source>
+        <target>Poprawny email adres jest wymagany</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/update-player/update-player.component.ts</context>
           <context context-type="linenumber">60</context>
@@ -4115,6 +4123,126 @@
       <trans-unit id="tour-previous" datatype="html">
         <source>Previous</source>
         <target>Poprzednie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notification-subscribe" datatype="html">
+        <source>Subscribe to notifications</source>
+        <target>Włącz powiadomienia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-NotifyConf" datatype="html">
+        <source>Are you sure you want to be notified about tournament changes? Make sure you provided email address in account settings.</source>
+        <target>Na pewno chesz dostawać wiadomość o zmianach w turnieju? Czy adres email został podany w ustawieniach konta?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-NotifyMsg" datatype="html">
+        <source>You will be nofified about tournament changes via emails</source>
+        <target>Zmiany w turnieju będą komunikowane poprzez wiadomości email</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-notification" datatype="html">
+        <source>Notifications</source>
+        <target>Powiadomienia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notification-unsubscribe" datatype="html">
+        <source>Unsubscribe from notifications</source>
+        <target>Wyłącz powiadomienia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notification-notify" datatype="html">
+        <source>Send notification</source>
+        <target>Wyślij powiadomienie</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-UnsubscribeConf" datatype="html">
+        <source>Are you sure you want to unsubscribe from notifications?</source>
+        <target>Na pewno nie chcesz dostawać powiadomień dla tego turnieju?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-UnsubscribeMsg" datatype="html">
+        <source>You will not be nofified about tournament changes</source>
+        <target>Powiadomienia dla tego turnieju nie będą wysyłane.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-PublishConf" datatype="html">
+        <source>Are you sure you want to send notifications to subscribers?</source>
+        <target>Czy wysłać powiadomienia do zapisanych graczy?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="notifications-PublishMsg" datatype="html">
+        <source>Notifications has been sent.</source>
+        <target>Powiadomienia zostały wysłane.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="notifications-DeleteEmailMsg" datatype="html">
+        <source>Email has been deleted.</source>
+        <target>Adres email został usunięty.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="notifications-UpdateMsg" datatype="html">
+        <source>Player data has been updated.</source>
+        <target>Dane gracza zostały zaktualizowane.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-RemoveEmailConf" datatype="html">
+        <source>Are you sure you want to remove email?</source>
+        <target>Czy na pewno chcesz usunąć adres email?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-removeEmail" datatype="html">
+        <source>Remove email</source>
+        <target>Usuń adres email</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="updatePlayer-email" datatype="html">
+        <source>Email (optional)</source>
+        <target>Email (opcjonalnie)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>

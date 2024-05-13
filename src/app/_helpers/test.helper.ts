@@ -86,6 +86,7 @@ export function getTee(): Tee {
 
 export const authenticationServiceStub : Partial<AuthenticationService> = {
   get currentPlayerValue() {return {nick: 'test', id: 1, whs: 10}},
+  get currentPlayer()  { return of({nick: 'test', id: 1, whs: 10})},
   get playerRole() { return 'PLAYER'; },
 
   logout(): void {

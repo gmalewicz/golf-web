@@ -14,25 +14,24 @@ describe('RegisterPlayerDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         MatCheckboxModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
-      ],
-      declarations: [ RegisterPlayerDialogComponent,  CommonDialogComponent],
-      providers: [
-        {provide: MatDialogRef, useValue: {
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          close(_value: unknown) {
-              return null;
-              }
-          }},
-        {provide: MAT_DIALOG_DATA, useValue: []}
-      ],
-    })
+        RegisterPlayerDialogComponent, CommonDialogComponent,
+    ],
+    providers: [
+        { provide: MatDialogRef, useValue: {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                close(_value: unknown) {
+                    return null;
+                }
+            } },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+    ],
+})
     .compileComponents();
   }));
 

@@ -11,11 +11,11 @@ describe('OnlineNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OnlineNavComponent ],
-      providers: [
+    imports: [OnlineNavComponent],
+    providers: [
         { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
-      ]
-    })
+    ]
+})
     .compileComponents();
   });
 

@@ -1,15 +1,18 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AlertService } from '@/_services/alert.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { League, LeagueStatus } from '../_models/league';
 import { tap } from 'rxjs/operators';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-add-league',
-  templateUrl: './add-league.component.html'
+    selector: 'app-add-league',
+    templateUrl: './add-league.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddLeagueComponent implements OnInit {
 

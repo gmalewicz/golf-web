@@ -14,16 +14,14 @@ describe('RoundViewWHSComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundViewWHSComponent ],
-      imports: [
+    imports: [
         HttpClientModule,
-      ]
-      ,
-      providers: [HttpService,
+        RoundViewWHSComponent,
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }]
-
-    })
+})
     .compileComponents();
   }));
 

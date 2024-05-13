@@ -5,7 +5,7 @@ import { routing } from '@/app.routing';
 import { alertServiceStub, authenticationServiceAdminStub, MyRouterStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
@@ -15,7 +15,7 @@ import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
 
 describe('CycleDetailsComponent', () => {
@@ -40,23 +40,23 @@ describe('CycleDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CycleDetailsComponent, CycleResultsComponent, CycleTournamentComponent],
-      imports: [
-        routing,
-        HttpClientModule,
+    imports: [
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        MatDialogModule
-      ],
-      providers: [HttpService,
+        MatDialogModule,
+        CycleDetailsComponent, CycleResultsComponent, CycleTournamentComponent
+    ],
+    providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
         CycleHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
-        { provide: MatDialog, useClass: MatDialogMock},
+        { provide: MatDialog, useClass: MatDialogMock },
         { provide: Router, useClass: MyRouterStub },
-        { provide: AlertService, useValue: alertServiceStub }
-      ]
-    })
+        { provide: AlertService, useValue: alertServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
       .compileComponents();
   }));
 

@@ -2,18 +2,21 @@ import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
+import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-online-score-card-view',
-  templateUrl: './online-score-card-view.component.html',
-  styleUrls: ['./online-score-card-view.component.css']
+    selector: 'app-online-score-card-view',
+    templateUrl: './online-score-card-view.component.html',
+    styleUrls: ['./online-score-card-view.component.css'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, RouterLink, DecimalPipe]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
@@ -191,7 +194,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         // calculate MP result history
         this.mpResultHistory = createMPResultHistory(this.mpScore);
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -295,7 +298,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // create pars for first and last 9
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -351,7 +354,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds = retOnlineRounds;
         // create pars for first and last 9
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
         this.last9par = this.course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -439,7 +442,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   private createSummary() {
 
     this.first9par = this.course.holes.map(h => h.par).
-    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {

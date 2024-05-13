@@ -1,6 +1,5 @@
-import { routing } from '@/app.routing';
 import { AuthenticationService, HttpService } from '@/_services';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
@@ -8,7 +7,8 @@ import { TournamentHttpService } from '../_services';
 import { TournamentsComponent } from './tournaments.component';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { NgModule } from '@angular/core';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
+import { routing } from '@/app.routing';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
@@ -32,16 +32,16 @@ describe('TournamentsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         TournamentsComponent,
-        HttpClientModule,
-        routing,
         FontAwesomeModule,
-        FixNavigationTriggeredOutsideAngularZoneNgModule
+        FixNavigationTriggeredOutsideAngularZoneNgModule,
       ],
       providers: [HttpService,
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        ]
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+        provideHttpClient(withInterceptorsFromDi()),
+      ]
     })
     .compileComponents();
   }));

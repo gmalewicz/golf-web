@@ -7,10 +7,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faMinusCircle, faPlusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 import { tap } from 'rxjs/operators';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-list-courses',
-  templateUrl: './list-courses.component.html'
+    selector: 'app-list-courses',
+    templateUrl: './list-courses.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, RouterLink, FaIconComponent]
 })
 export class ListCoursesComponent implements OnInit {
 

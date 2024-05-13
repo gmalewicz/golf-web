@@ -14,21 +14,21 @@ describe('UpdDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FinishSocialDialogComponent ],
-      imports: [
+    imports: [
         MatDialogModule,
         MatCheckboxModule,
         MatInputModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule
-      ],
-      providers: [
-        {provide: MatDialogRef, useValue: {close(): void {
-                 // This is intentional
-        }}},
-        {provide: MAT_DIALOG_DATA, useValue: []}
-     ],
-    })
+        BrowserAnimationsModule,
+        FinishSocialDialogComponent
+    ],
+    providers: [
+        { provide: MatDialogRef, useValue: { close(): void {
+                    // This is intentional
+                } } },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+    ],
+})
     .compileComponents();
   }));
 

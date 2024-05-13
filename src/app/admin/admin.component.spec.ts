@@ -3,13 +3,14 @@ import { routing } from '@/app.routing';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('AdminComponent', () => {
   let component: AdminComponent;
@@ -18,20 +19,20 @@ describe('AdminComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminComponent ],
-      imports: [
-        HttpClientModule,
-        routing,
+    imports: [
         ReactiveFormsModule,
         MatDialogModule,
-        CommonModule
-      ],
-      providers: [HttpService,
+        CommonModule,
+        AdminComponent
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthenticationService
-        ]
-    })
+        AuthenticationService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))
+    ]
+})
     .compileComponents();
   }));
 

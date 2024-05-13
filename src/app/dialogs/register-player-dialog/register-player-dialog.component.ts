@@ -1,10 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { CommonDialogComponent } from '../common-dialog/common-dialog.component';
+import { NgIf } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-register-player-dialog',
-  templateUrl: './register-player-dialog.component.html'
+    selector: 'app-register-player-dialog',
+    templateUrl: './register-player-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, NgIf, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
 export class RegisterPlayerDialogComponent implements OnInit {
   form: FormGroup;

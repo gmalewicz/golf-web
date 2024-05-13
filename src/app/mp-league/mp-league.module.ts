@@ -13,23 +13,20 @@ import { RemoveMatchComponent } from './remove-match/remove-match.component';
 import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [
-    MpLeaguesComponent,
-    AddLeagueComponent,
-    LeagueComponent,
-    AddMatchComponent,
-    RemoveMatchComponent,
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    MatSelectModule,
-    routing,
-  ],
-  providers: [LeagueHttpService,
-              NavigationService,
-
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        MatSelectModule,
+        routing,
+        MpLeaguesComponent,
+        AddLeagueComponent,
+        LeagueComponent,
+        AddMatchComponent,
+        RemoveMatchComponent,
+    ],
+    providers: [LeagueHttpService,
+        NavigationService,
+    ],
 })
 export class MpLeagueModule { }

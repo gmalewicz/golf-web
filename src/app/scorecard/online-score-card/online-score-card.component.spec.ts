@@ -1,7 +1,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScorecardHttpService } from '../_services';
 import { OnlineScoreCardComponent } from './online-score-card.component';
@@ -9,7 +9,7 @@ import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInter
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 
 describe('OnlineScoreCardComponent', () => {
   let component: OnlineScoreCardComponent;
@@ -17,20 +17,19 @@ describe('OnlineScoreCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnlineScoreCardComponent ],
-      imports: [
-        HttpClientModule,
+    imports: [
         FontAwesomeModule,
-        routing
-      ]
-      ,
-      providers: [HttpService,
+        OnlineScoreCardComponent
+    ],
+    providers: [HttpService,
         ScorecardHttpService,
         NavigationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-        { provide: Router, useClass: MyRouterStub }
-        ]
-    })
+        { provide: Router, useClass: MyRouterStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+    ]
+})
     .compileComponents();
   }));
 

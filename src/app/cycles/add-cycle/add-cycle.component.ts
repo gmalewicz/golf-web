@@ -1,15 +1,18 @@
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-add-cycle',
-  templateUrl: './add-cycle.component.html'
+    selector: 'app-add-cycle',
+    templateUrl: './add-cycle.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddCycleComponent implements OnInit {
 

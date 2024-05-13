@@ -3,10 +3,13 @@ import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-round-view-mp',
-  templateUrl: './round-view-mp.component.html'
+    selector: 'app-round-view-mp',
+    templateUrl: './round-view-mp.component.html',
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass]
 })
 export class RoundViewMPComponent implements OnInit {
 
@@ -108,7 +111,7 @@ export class RoundViewMPComponent implements OnInit {
     this.mpResultHistory = createMPResultHistory(this.mpScore);
 
     this.first9par = this.round.course.holes.map(h => h.par).
-            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+            reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
     this.last9par = this.round.course.par - this.first9par;
   }
 

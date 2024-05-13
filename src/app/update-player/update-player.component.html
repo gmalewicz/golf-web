@@ -1,53 +1,83 @@
-<div *ngIf="display">
-  <h2 i18n="@@updatePlayer-header">Modify your data:</h2>
-  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="password" i18n="@@updatePlayer-password">Password</label>
-      <input
-        autocomplete="new-password"
-        type="password"
-        formControlName="password"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-      />
-      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-        <div *ngIf="f.password.errors.minlength" i18n="@@updatePlayer-passwordShort">
-          Password must be at least 6 characters
+@if (display && !removeEmail) {
+  <div >
+    <h2 i18n="@@updatePlayer-header">Modify your data:</h2>
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="password" i18n="@@updatePlayer-password">Password</label>
+        <input
+          autocomplete="new-password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+        />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.minlength" i18n="@@updatePlayer-passwordShort">
+            Password must be at least 6 characters
+          </div>
         </div>
       </div>
-    </div>
-    <br/>
-    <div class="form-group">
-      <label for="whs">HCP (handicap)</label>
-      <input
-        type="text"
-        formControlName="whs"
-        class="form-control"
-        maxlength="4"
-        [ngClass]="{ 'is-invalid': submitted && f.whs.errors }"
-        placeholder="X.X"
-      />
-      <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
-        <div *ngIf="f.whs.errors.required" i18n="@@updatePlayer-hcpRequired">Handicap is required</div>
-        <div *ngIf="f.whs.errors.max" i18n="@@updatePlayer-hcpHigh">Handicap caannot be higer than 54</div>
-        <div *ngIf="f.whs.errors.min" i18n="@@updatePlayer-hcpLow">Handicap caannot be lower than -5</div>
-        <div *ngIf="f.whs.errors.pattern" i18n="@@updatePlayer-hcpPattern">
-          Provide valid value with the follwoing format: X.X
+      <br/>
+      <div class="form-group">
+        <label for="whs">HCP (handicap)</label>
+        <input
+          type="text"
+          formControlName="whs"
+          class="form-control"
+          maxlength="4"
+          [ngClass]="{ 'is-invalid': submitted && f.whs.errors }"
+          placeholder="X.X"
+        />
+        <div *ngIf="submitted && f.whs.errors" class="invalid-feedback">
+          <div *ngIf="f.whs.errors.required" i18n="@@updatePlayer-hcpRequired">Handicap is required</div>
+          <div *ngIf="f.whs.errors.max" i18n="@@updatePlayer-hcpHigh">Handicap caannot be higer than 54</div>
+          <div *ngIf="f.whs.errors.min" i18n="@@updatePlayer-hcpLow">Handicap caannot be lower than -5</div>
+          <div *ngIf="f.whs.errors.pattern" i18n="@@updatePlayer-hcpPattern">
+            Provide valid value with the follwoing format: X.X
+          </div>
         </div>
       </div>
-    </div>
-    <br/>
-    <div class="form-group">
-      <button [disabled]="loading" class="btn btn-success">
-        <span
-          *ngIf="loading"
-          class="spinner-border spinner-border-sm mr-1">
-        </span>
-        <span i18n="@@updatePlayer-update">
-          Update
-        </span>
-      </button>
-      <a routerLink="/" class="btn btn-link text-success" i18n="@@updatePlayer-cancel">Cancel</a>
-    </div>
-  </form>
-</div>
+      <br/>
+      <div class="form-group">
+        <label for="whs" i18n="@@updatePlayer-email">Email (optional)</label>
+        <input
+          type="text"
+          formControlName="email"
+          class="form-control"
+          maxlength="30"
+          [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          placeholder="email"
+        />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.email" i18n="@@updatePlayer-emailRequired">Valid email is required</div>
+        </div>
+      </div>
+      <br/>
+      <div>
+        <input type="checkbox" class="form-check-input form-check-input-green lbl-remove" id="removeEmail" (click)="onRemove()" onKeyDown="onRemove()" tabindex="-1" formControlName="removeEmail">
+        <label for="updateForm">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
+      </div>
+      <br/>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-success">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1">
+          </span>
+          <span i18n="@@updatePlayer-update">
+            Update
+          </span>
+        </button>
+        <a routerLink="/" class="btn btn-link text-success" i18n="@@updatePlayer-cancel">Cancel</a>
+      </div>
+    </form>
+  </div>
+}
+@if (removeEmail) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+
+
+

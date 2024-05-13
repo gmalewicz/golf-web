@@ -13,26 +13,25 @@ describe('UpdateTournamentPlayerWhsDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         UpdateTournamentPlayerWhsDialogComponent,
         ReactiveFormsModule,
         MatCheckboxModule,
         MatDialogModule,
         MatInputModule,
         BrowserAnimationsModule,
-      ],
-      declarations: [ CommonDialogComponent ],
-      providers: [
-        {provide: MatDialogRef, useValue: {
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          close(_value: unknown) {
-              return null;
-              }
-          }},
-        {provide: MAT_DIALOG_DATA, useValue: []}
-      ],
-    })
+        CommonDialogComponent,
+    ],
+    providers: [
+        { provide: MatDialogRef, useValue: {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                close(_value: unknown) {
+                    return null;
+                }
+            } },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
+    ],
+})
     .compileComponents();
   }));
 

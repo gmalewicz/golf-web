@@ -174,6 +174,10 @@ export class HttpService {
   getVersion(): Observable<Version> {
     return this.http.get<Version>('rest/Version');
   }
+
+  deleteEmail(): Observable<void> {
+    return this.http.post<void>('rest/DeletePlayerEmail', {});
+  }
 }
 
 

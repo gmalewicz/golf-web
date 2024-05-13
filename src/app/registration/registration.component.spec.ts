@@ -1,13 +1,22 @@
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { RegistrationComponent } from './registration.component';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
-import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
+import { alertServiceStub } from '@/_helpers/test.helper';
+import { routing } from '@/app.routing';
+import { NgModule } from '@angular/core';
+
+@NgModule()
+export class FixNavigationTriggeredOutsideAngularZoneNgModule {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(_router: Router) {
+  }
+}
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -15,19 +24,20 @@ describe('RegistrationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistrationComponent ],
-      imports: [
-        HttpClientModule,
+    imports: [
         ReactiveFormsModule,
         RecaptchaModule,
         RecaptchaFormsModule,
-      ]
-      ,
-      providers: [HttpService,
+        RegistrationComponent,
+        FixNavigationTriggeredOutsideAngularZoneNgModule
+    ],
+    providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        { provide: Router, useClass: MyRouterStub },
-        { provide: AlertService, useValue: alertServiceStub }]
-    })
+        //{ provide: Router, useClass: MyRouterStub },
+        { provide: AlertService, useValue: alertServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   }));
 

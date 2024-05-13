@@ -1,11 +1,15 @@
 import { Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html'
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    standalone: true,
+    imports: [NgIf, ReactiveFormsModule, FormsModule, NgFor, RouterLink]
 })
 export class NavigationComponent implements OnInit {
 

@@ -1,14 +1,16 @@
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-upd-round-hcp',
-  templateUrl: './upd-round-hcp.component.html'
+    selector: 'app-upd-round-hcp',
+    templateUrl: './upd-round-hcp.component.html',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgClass, NgIf, RouterLink]
 })
 export class UpdRoundHcpComponent implements OnInit {
 
@@ -63,9 +65,4 @@ export class UpdRoundHcpComponent implements OnInit {
   }
 }
 
-@NgModule({
-  declarations: [UpdRoundHcpComponent],
-  imports: [CommonModule, ReactiveFormsModule]
-})
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class UpdRoundHcpModule {}
+

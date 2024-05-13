@@ -6,13 +6,18 @@ import { ScorecardHttpService } from '../_services';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy } from '@angular/common';
+import { LocationStrategy, NgIf, NgClass, NgTemplateOutlet, NgFor } from '@angular/common';
 import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { MatButton } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 
 @Component({
-  selector: 'app-online-round',
-  templateUrl: './online-round.component.html',
-  styleUrls: ['./online-round.component.css']
+    selector: 'app-online-round',
+    templateUrl: './online-round.component.html',
+    styleUrls: ['./online-round.component.css'],
+    standalone: true,
+    imports: [NgIf, CommonScorecardTopComponent, NgClass, NgTemplateOutlet, NgFor, FaIconComponent, MatButton]
 })
 export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
@@ -83,8 +88,8 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
           this.stbNet[idx][id] = 0;
         }
       })
-      this.totalStbNet[idx] = this.stbNet[idx].reduce((p, n) => p + n);
-      this.totalStrNet[idx] = this.strNet[idx].reduce((p, n) => p + n);
+      this.totalStbNet[idx] = this.stbNet[idx].reduce((p, n) => p + n, 0);
+      this.totalStrNet[idx] = this.strNet[idx].reduce((p, n) => p + n, 0);
     })
   }
 
@@ -98,10 +103,10 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     }
 
     // update stroke play netto
-    this.totalStbNet[this.curPlayerIdx] = this.stbNet[this.curPlayerIdx].reduce((p, n) => p + n);
+    this.totalStbNet[this.curPlayerIdx] = this.stbNet[this.curPlayerIdx].reduce((p, n) => p + n, 0);
 
     this.strNet[this.curPlayerIdx][this.curHoleIdx] = this.curHoleStrokes[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdx];
-    this.totalStrNet[this.curPlayerIdx] = this.strNet[this.curPlayerIdx].reduce((p, n) => p + n);
+    this.totalStrNet[this.curPlayerIdx] = this.strNet[this.curPlayerIdx].reduce((p, n) => p + n, 0);
 
   }
 

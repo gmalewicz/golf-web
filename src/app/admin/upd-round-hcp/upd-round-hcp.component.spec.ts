@@ -3,12 +3,13 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { UpdRoundHcpComponent } from './upd-round-hcp.component';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 describe('UpdRoundHcpComponent', () => {
   let component: UpdRoundHcpComponent;
@@ -16,16 +17,16 @@ describe('UpdRoundHcpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdRoundHcpComponent ],
-      imports: [
+    imports: [
         ReactiveFormsModule,
-        routing,
-        HttpClientModule
-      ],
-      providers: [HttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: AuthenticationService, useValue: authenticationServiceStub }]
-    })
+        UpdRoundHcpComponent
+    ],
+    providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   });
 

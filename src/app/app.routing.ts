@@ -1,6 +1,6 @@
 import { RoleGuard } from './_helpers/role.guard';
-import { inject, ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes} from '@angular/router';
+import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses/courses.component';
 import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
@@ -9,12 +9,12 @@ import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
 import { ChangeLogComponent } from './change-log/change-log.component';
-import { AppModule } from './app.module';
+
 import { RoundComponent } from './round/round/round.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
 import { AdminComponent } from './admin/admin.component';
 
-const routes: Routes = [
+export const routing: Routes = [
   { path: '', component: HomeComponent },
   // navigation main manu in navigation component or during round adding
   { path: 'home', component: HomeComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
@@ -38,8 +38,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }
 ];
-
-export const routing: ModuleWithProviders<AppModule> = RouterModule.forRoot(routes, {});
 
 
 

@@ -6,10 +6,11 @@ import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { Router } from '@angular/router';
+import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { MimicBackendMpLeaguesInterceptor } from '../_helpers/MimicBackendMpLeaguesInterceptor';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { routing } from '@/app.routing';
 
 describe('AddMatchComponent', () => {
   let component: AddMatchComponent;
@@ -18,20 +19,21 @@ describe('AddMatchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AddMatchComponent],
-      imports: [
+    imports: [
         HttpClientModule,
         ReactiveFormsModule,
         MatSelectModule,
-        BrowserAnimationsModule
-      ],
-      providers: [HttpService,
-                  LeagueHttpService,
-                  { provide: AlertService, useValue: alertServiceStub },
-                  { provide: Router, useClass: MyRouterStub },
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
+        BrowserAnimationsModule,
+        AddMatchComponent
+    ],
+    providers: [HttpService,
+        LeagueHttpService,
+        { provide: AlertService, useValue: alertServiceStub },
+        { provide: Router, useClass: MyRouterStub },
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
+        provideRouter(routing, withPreloading(PreloadAllModules)),
       ]
-    });
+});
     fixture = TestBed.createComponent(AddMatchComponent);
     component = fixture.componentInstance;
     currentPlayerValueSpy = spyOnProperty(component.authenticationService , 'currentPlayerValue');

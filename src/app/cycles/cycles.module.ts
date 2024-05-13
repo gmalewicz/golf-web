@@ -21,31 +21,29 @@ import { MatButtonModule } from '@angular/material/button';
 import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
 
 @NgModule({
-  declarations: [
-    CyclesComponent,
-    AddCycleComponent,
-    CycleDetailsComponent,
-    CycleResultsComponent,
-    CycleTournamentComponent,
-    AddTournamentDialogComponent
-  ],
-  imports: [
-    routing,
-    CommonModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientXsrfModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatButtonModule
-  ],
-  providers: [CycleHttpService,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
-  ],
+    imports: [
+        routing,
+        CommonModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        HttpClientXsrfModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatButtonModule,
+        CyclesComponent,
+        AddCycleComponent,
+        CycleDetailsComponent,
+        CycleResultsComponent,
+        CycleTournamentComponent,
+        AddTournamentDialogComponent
+    ],
+    providers: [CycleHttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
+    ],
 })
 export class CyclesModule { }

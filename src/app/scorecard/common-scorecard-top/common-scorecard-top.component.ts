@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
+import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
+import { OnlineNavComponent } from '../online-nav/online-nav.component';
 
 @Component({
-  selector: 'app-common-scorecard-top',
-  templateUrl: './common-scorecard-top.component.html'
+    selector: 'app-common-scorecard-top',
+    templateUrl: './common-scorecard-top.component.html',
+    standalone: true,
+    imports: [OnlineNavComponent, CommonScorecardComponent]
 })
 export class CommonScorecardTopComponent implements OnInit {
 

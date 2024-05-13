@@ -23,7 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return throwError(() => new Error(err.statusText.toString()));
       }
 
-      if (err.status === 0 || err.status === 404 || err.status === 504) {
+      if (err.status === 0 || err.status === 404 || err.status === 504 || err.status === 500) {
         this.alertService.error($localize`:@@errorInterceptor-notAvailable:Application not available. Try to refresh browser then log out and log in.`, true);
         this.router.navigate(['']).catch(error => console.log(error));
         return throwError(() => new Error(err.statusText.toString()));

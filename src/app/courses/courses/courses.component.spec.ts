@@ -3,13 +3,14 @@ import { routing } from '@/app.routing';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CoursesComponent } from './courses.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 
 
 describe('CoursesComponent', () => {
@@ -19,17 +20,17 @@ describe('CoursesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoursesComponent, ListCoursesComponent],
-      imports: [
-        HttpClientModule,
+    imports: [
         ReactiveFormsModule,
         FontAwesomeModule,
-        routing,
-      ],
-      providers: [HttpService,
-                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-                  { provide: AuthenticationService, useValue: authenticationServiceStub }]
-    })
+        CoursesComponent, ListCoursesComponent,
+    ],
+    providers: [HttpService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(routing, withPreloading(PreloadAllModules))]
+})
     .compileComponents();
   }));
 

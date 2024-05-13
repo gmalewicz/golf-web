@@ -1,15 +1,21 @@
 import { Player } from '@/_models/player';
 import { HttpService } from '@/_services/http.service';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgIf, NgFor } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-search-player-dialog',
-  templateUrl: './search-player-dialog.component.html'
+    selector: 'app-search-player-dialog',
+    templateUrl: './search-player-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, NgIf, NgFor, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {
 

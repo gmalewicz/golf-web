@@ -1,12 +1,14 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
 </div>
 <div *ngIf="display">
   <h2>Change log</h2>
   Backend version: {{version.version}}
   <p></p>
   <ul>
-    <li>v3.6.4-1: Search by page for leagus and tournaments</li>
+    <li>v3.6.5-1: Migrated to standalone components</li>
+    <p></p>
+    <li>v3.6.4-1: Search by page for leagues and tournaments</li>
     <p></p>
     <li>v3.6.3-1: Players can be moved between tee time flights</li>
     <p></p>

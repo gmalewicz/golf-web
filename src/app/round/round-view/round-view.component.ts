@@ -6,11 +6,15 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs/operators';
+import { BaseChartDirective } from 'ng2-charts';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-round-view',
-  templateUrl: './round-view.component.html',
-  styleUrls: ['./round-view.component.css']
+    selector: 'app-round-view',
+    templateUrl: './round-view.component.html',
+    styleUrls: ['./round-view.component.css'],
+    standalone: true,
+    imports: [NgIf, BaseChartDirective]
 })
 export class RoundViewComponent implements OnInit {
 
@@ -200,14 +204,14 @@ export class RoundViewComponent implements OnInit {
 
   generateRoundResults() {
 
-    const displayPar = this.par.reduce((p, c) => p + c);
+    const displayPar = this.par.reduce((p, c) => p + c, 0);
 
     // tslint:disable-next-line: variable-name
     this.players.forEach((_player, i) => {
 
-      let stroke = this.strokes[i].reduce((p, c) => p + c);
+      let stroke = this.strokes[i].reduce((p, c) => p + c, 0);
 
-      stroke += this.pats[i].reduce((p, c) => p + c);
+      stroke += this.pats[i].reduce((p, c) => p + c, 0);
 
       const difference = stroke - displayPar;
 
