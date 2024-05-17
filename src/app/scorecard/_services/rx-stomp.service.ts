@@ -33,11 +33,11 @@ export class RxStompService extends RxStomp {
 
         if (document.location.protocol === 'http:') {
 
-          this.wsEndpointStr = 'ws://' + "dgng.pl/websocket/onlinescorecard?token=";
+          this.wsEndpointStr = 'ws://' + "dgng.pl/websocket/onlinescorecard";
 
         } else {
 
-          this.wsEndpointStr = 'wss://' + "dgng.pl/websocket/onlinescorecard?token=";
+          this.wsEndpointStr = 'wss://' + "dgng.pl/websocket/onlinescorecard";
         }
       },
 
@@ -53,7 +53,7 @@ export class RxStompService extends RxStomp {
     }
 
     this.authenticationService.updateJWT().subscribe(() => {
-      golfRxStompConfig.brokerURL = this.wsEndpointStr + this.authenticationService.currentPlayerValue.token;
+      golfRxStompConfig.brokerURL = this.wsEndpointStr;
       super.configure(golfRxStompConfig);
       super.activate();
       return this;

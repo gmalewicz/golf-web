@@ -1,18 +1,17 @@
 import { Player } from '@/_models/player';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HttpXsrfTokenExtractor } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class SessionRecoveryInterceptor implements HttpInterceptor {
 
   constructor(private httpService: HttpService,
               private authenticationService: AuthenticationService,
-              private tokenExtractor: HttpXsrfTokenExtractor,
               private router: Router) {}
 
   private refreshSubject: Subject<unknown> = new Subject<unknown>();
@@ -32,17 +31,8 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
     if (this.refreshSubject.observed) {
 
       const currentPlayer: Player = this.authenticationService.currentPlayerValue;
-      // Hit refresh-token API passing the refresh token stored into the request
-      // to get new access token and refresh token pair
 
-      this.httpService.refresh(currentPlayer.id).pipe(
-        tap(
-          (response: HttpResponse<unknown>) => {
-            currentPlayer.token =  response.headers.get('Jwt');
-            currentPlayer.refreshToken =  response.headers.get('Refresh');
-            localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
-          })
-      ).subscribe(this.refreshSubject);
+      this.httpService.refresh(currentPlayer.id).subscribe(this.refreshSubject);
 
     }
     return this.refreshSubject;
@@ -70,7 +60,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
             if (this._checkTokenExpiryErr(error)) {
               return this._ifTokenExpired().pipe(
                 switchMap(() => {
-                  return next.handle(this.updateHeader(req));
+                  return next.handle(req);
                 })
               );
             } else {
@@ -80,21 +70,6 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
           return caught;
         })
       );
-    }
-  }
-
-  private updateHeader(request: HttpRequest<unknown>): HttpRequest<unknown> {
-
-    const currentPlayer: Player = this.authenticationService.currentPlayerValue;
-
-    if (currentPlayer?.token) {
-      request = request.clone({
-          setHeaders: {
-              Authorization: `Bearer ${currentPlayer.token}`,
-              'X-XSRF-TOKEN': this.tokenExtractor.getToken()
-          }
-      });
-      return request;
     }
   }
 }

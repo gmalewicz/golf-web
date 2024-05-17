@@ -4,7 +4,7 @@ import { AuthenticationService} from '@/_services';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
 import { tap } from 'rxjs/operators';
-import { Tournament } from '../_models';
+import { Tournament, TournamentStatus } from '../_models';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from '@/_helpers/auth.guard';
@@ -30,6 +30,8 @@ export class TournamentsComponent implements OnInit {
   faSearchPlus: IconDefinition;
   tournaments: Tournament[];
   display: boolean;
+  statusOpen: boolean = TournamentStatus.STATUS_OPEN;
+  statusClose: boolean = TournamentStatus.STATUS_CLOSE;
 
   constructor(private tournamentHttpService: TournamentHttpService,
               public authenticationService: AuthenticationService,

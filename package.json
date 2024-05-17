@@ -1,6 +1,6 @@
 {
   "name": "golf-web",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -35,7 +35,6 @@
     "cypress": "^13.6.6",
     "jquery": "^3.7.1",
     "jspdf": "^2.5.1",
-    "jwt-decode": "^4.0.0",
     "net": "^1.0.2",
     "ng-recaptcha": "^13.2.1",
     "ng2-charts": "^6.0.0",

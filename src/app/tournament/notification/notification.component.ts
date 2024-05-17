@@ -50,7 +50,7 @@ export class NotificationComponent implements OnInit {
         })
       ).subscribe((status: boolean) => {
         if (status === true) {
-          this.alertService.success($localize`:@@notifications-NotifyMsg:ou will be nofified about tournament changes via emails`, true);
+          this.alertService.success($localize`:@@notifications-NotifyMsg:You will be nofified about tournament changes via emails`, true);
           this.router.navigate(['/tournaments']).catch(error => console.log(error));
         }
     });

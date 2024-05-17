@@ -4248,6 +4248,30 @@
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="errorInterceptor-sessionExpired" datatype="html">
+        <source>Session expired. Please sign on again.</source>
+        <target>Sesja wygasła. Proszę zaloguj się ponownie.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-open" datatype="html">
+        <source>Opened</source>
+        <target>Otwarty</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tour-close" datatype="html">
+        <source>Closed</source>
+        <target>Zamknięty</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

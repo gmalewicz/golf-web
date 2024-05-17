@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Player } from '@/_models';
 import { HttpService } from './http.service';
 import { HttpResponse } from '@angular/common/http';
-import { JwtPayload, jwtDecode } from 'jwt-decode';
-
-interface MyJwtPayload extends JwtPayload {
-    roles: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -26,11 +21,20 @@ export class AuthenticationService {
 
   public get playerRole(): string {
 
+    let roles: string = '';
+
+
     if (this.currentPlayerValue === null) {
-      return '';
+      return roles;
     }
 
-    return (jwtDecode<MyJwtPayload>(this.currentPlayerSubject.value.token)).roles;
+    if (this.currentPlayerSubject.value.role == 0) {
+			roles += 'ROLE_ADMIN,';
+		}
+		roles += 'ROLE_PLAYER';
+
+
+    return roles;
   }
 
 
@@ -39,8 +43,6 @@ export class AuthenticationService {
     return this.httpService.authenticate(username, password)
       .pipe(map(response => {
         const player: Player = response.body;
-        player.token =  response.headers.get('Jwt');
-        player.refreshToken = response.headers.get('Refresh');
 
         localStorage.setItem('currentPlayer', JSON.stringify(player));
         this.currentPlayerSubject.next(player);
@@ -63,15 +65,7 @@ export class AuthenticationService {
 
   // v2.20 update JWT not to break on-line round
   updateJWT(): Observable<HttpResponse<unknown>> {
-    return this.httpService.refreshOnDemand(this.currentPlayerValue.id).pipe(
-      tap(
-        (response: HttpResponse<unknown>) => {
-          this.currentPlayerValue.token =  response.headers.get('Jwt');
-          this.currentPlayerValue.refreshToken =  response.headers.get('Refresh');
-          localStorage.setItem('currentPlayer', JSON.stringify(this.currentPlayerValue));
-          this.currentPlayerSubject.next(this.currentPlayerValue);
-        })
-    );
+    return this.httpService.refresh(this.currentPlayerValue.id);
   }
 
   updateStorage() {

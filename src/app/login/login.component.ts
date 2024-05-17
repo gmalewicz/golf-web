@@ -95,8 +95,6 @@ export class LoginComponent implements OnInit {
       map(
         (response) => {
           const player: Player = response.body;
-          player.refreshToken = response.headers.get('refresh');
-          player.token =  token;
 
           // process additional details for a new player
           if (this.route.snapshot.queryParams.new_player !== undefined &&
