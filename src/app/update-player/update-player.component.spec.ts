@@ -1,5 +1,5 @@
 import { routing } from '@/app.routing';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
+import { ErrorInterceptor } from '@/_helpers';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
@@ -28,7 +28,6 @@ describe('UpdatePlayerComponent', () => {
     providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         AuthenticationService,
         provideHttpClient(withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),

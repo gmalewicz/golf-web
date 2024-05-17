@@ -1,7 +1,6 @@
 import { AuthenticationService } from './../_services/authentication.service';
 import { routing } from '@/app.routing';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { JwtInterceptor } from '@/_helpers/jwt.interceptor';
 import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
@@ -27,7 +26,6 @@ describe('AdminComponent', () => {
     ],
     providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         AuthenticationService,
         provideHttpClient(withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules))

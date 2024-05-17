@@ -4,7 +4,8 @@ import { HttpClientTestingModule, HttpTestingController} from '@angular/common/h
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ErrorInterceptor } from '../error.interceptor';
-import { alertServiceStub, MyRouterStub} from '../test.helper';
+import { alertServiceStub, authenticationServiceStub, MyRouterStub} from '../test.helper';
+import { AuthenticationService } from '@/_services/authentication.service';
 
 describe('error.interceptor', () => {
 
@@ -19,7 +20,8 @@ describe('error.interceptor', () => {
       providers: [
         { provide: AlertService, useValue: alertServiceStub },
         { provide: Router, useClass: MyRouterStub },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
       ]
     });
 
