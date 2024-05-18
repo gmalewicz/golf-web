@@ -33,14 +33,16 @@
   </div>
   <div class="form-row golf-margin-top">
     <div class="col">
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" (click)="sexClick(true)" formControlName="female">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" (click)="sexClick(true)"
+        formControlName="female" onKeyDown="sexClick(true)">
       <label for="customCheck1">
         <span>&nbsp;</span>
         <span i18n="@@registration-female">Female</span>
       </label>
       &nbsp;
       &nbsp;
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" (click)="sexClick(false)" formControlName="male">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" (click)="sexClick(false)"
+        formControlName="male" onKeyDown="sexClick(false)">
       <label for="customCheck2">
         <span>&nbsp;</span>
         <span i18n="@@registration-male">Male</span>

@@ -25,8 +25,8 @@
         <td *ngIf="cycle.bestRounds === 0">All</td>
         <td *ngIf="cycle.bestRounds !== 0">{{cycle.bestRounds}}</td>
         <td>{{cycle.maxWhs}}</td>
-        <td *ngIf="cycle.status === statusOpen" i18n="@@cycles-open">Open</td>
-        <td *ngIf="cycle.status === statusClose" i18n="@@cycles-close">Close</td>
+        <td *ngIf="cycle.status === statusOpen" i18n="@@cycles-open">Opened</td>
+        <td *ngIf="cycle.status === statusClose" i18n="@@cycles-close">Closed</td>
       </tr>
     </tbody>
   </table>

@@ -55,12 +55,6 @@ export class HttpService {
     return this.http.get<HttpResponse<unknown>>('rest/Refresh/' + playerId, {observe: 'response'});
   }
 
-  // v2.20 update JWT not to break on-line round
-  refreshOnDemand(playerId: number): Observable<HttpResponse<unknown>>  {
-
-    return this.http.get<HttpResponse<unknown>>('rest/RefreshToken/' + playerId, {observe: 'response'});
-  }
-
   addPlayer(player: Player): Observable<HttpResponse<unknown>> {
 
     return this.http.post<HttpResponse<unknown>>('rest/AddPlayer', player);

@@ -6,7 +6,6 @@ import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTourn
 import { alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
 import { routing } from '@/app.routing';
 import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
@@ -32,14 +31,12 @@ describe('AddTournamentComponent', () => {
       imports: [
         HttpClientModule,
         AddTournamentComponent,
-        RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
         FixNavigationTriggeredOutsideAngularZoneNgModule
       ],
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        //{ provide: Router, useClass: MyRouterStub },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: AlertService, useValue: alertServiceStub },
         provideHttpClient(withInterceptorsFromDi()),

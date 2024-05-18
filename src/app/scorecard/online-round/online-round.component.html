@@ -24,17 +24,17 @@
           Score Card
         </span>
         &nbsp;
-        <span class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
+        <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
           STR
-        </span>
+        </button>
         &nbsp;
-        <span class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
+        <button class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
           STN
-        </span>
+        </button>
         &nbsp;
-        <span class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
+        <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
           STB
-        </span>
+        </button>
       </h3>
     </div>
     <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round score card">

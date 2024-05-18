@@ -38,9 +38,10 @@
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <span *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success btn-lg" [ngClass]="puttSelectorActive[i]" (click)="selectPutt(i)">
+      <button *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success btn-lg"
+          [ngClass]="puttSelectorActive[i]" (click)="selectPutt(i)">
         {{i}}
-      </span>
+      </button>
     </div>
   </div>
 </div>
@@ -51,9 +52,10 @@
   </div>
   <div>
     <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <span *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success btn-lg" [ngClass]="penaltySelectorActive[i]" (click)="selectPenalty(i)">
+      <button *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success btn-lg"
+          [ngClass]="penaltySelectorActive[i]" (click)="selectPenalty(i)">
         {{i}}
-      </span>
+      </button>
     </div>
   </div>
 </div>

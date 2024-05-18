@@ -65,9 +65,10 @@
       Hole:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <span *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth radio-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
+      <button *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth radio-hole"
+            [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
         {{ hole }}
-      </span>
+      </button>
     </div>
   </div>
 
@@ -78,9 +79,10 @@
       Strokes:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <span *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth radio-stroke" [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
+      <button *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth radio-stroke"
+          [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
         {{ stroke }}
-      </span>
+      </button>
     </div>
   </div>
 
@@ -91,9 +93,10 @@
       Putts:
     </div>
     <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <span *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth radio-put" [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
+      <button *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth radio-put"
+          [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
         {{ pat }}
-      </span>
+      </button>
     </div>
   </div>
 

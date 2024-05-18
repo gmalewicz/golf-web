@@ -16,7 +16,7 @@ import { RoundsNavigationService } from './app/rounds/roundsNavigation.service';
 import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2-charts';
 import { PlayerDataInterceptor } from './app/_helpers/playerData.interceptor';
 import { SessionRecoveryInterceptor } from './app/_helpers/session.interceptor';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
+import { ErrorInterceptor } from '@/_helpers';
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient, HttpClientXsrfModule } from '@angular/common/http';
 import { HttpService } from '@/_services';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
@@ -30,7 +30,6 @@ bootstrapApplication(AppComponent, {
         importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, HttpClientXsrfModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
         HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
         provideCharts(withDefaultRegisterables()),

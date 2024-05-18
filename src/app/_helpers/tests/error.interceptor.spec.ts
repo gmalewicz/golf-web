@@ -4,7 +4,8 @@ import { HttpClientTestingModule, HttpTestingController} from '@angular/common/h
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ErrorInterceptor } from '../error.interceptor';
-import { alertServiceStub, MyRouterStub} from '../test.helper';
+import { alertServiceStub, authenticationServiceStub, MyRouterStub} from '../test.helper';
+import { AuthenticationService } from '@/_services/authentication.service';
 
 describe('error.interceptor', () => {
 
@@ -19,7 +20,8 @@ describe('error.interceptor', () => {
       providers: [
         { provide: AlertService, useValue: alertServiceStub },
         { provide: Router, useClass: MyRouterStub },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
       ]
     });
 
@@ -125,6 +127,46 @@ describe('error.interceptor', () => {
     tick(200);
 
     expect(errResponse).toMatch('Error: 401');
+
+  }));
+
+  it('repsonse error 998', fakeAsync(() => {
+
+    let errResponse: string;
+
+
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
+
+    const req = httpMock.expectOne('/rest/Courses');
+
+    req.error(new ProgressEvent('Error 998'), {
+      status: 998,
+      statusText: '998',
+    });
+
+    tick(200);
+
+    expect(errResponse).toMatch('Error: 998');
+
+  }));
+
+  it('repsonse error 403', fakeAsync(() => {
+
+    let errResponse: string;
+
+
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
+
+    const req = httpMock.expectOne('/rest/Courses');
+
+    req.error(new ProgressEvent('Error 403'), {
+      status: 403,
+      statusText: '403',
+    });
+
+    tick(200);
+
+    expect(errResponse).toMatch('Error: 403');
 
   }));
 });

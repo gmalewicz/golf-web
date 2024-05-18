@@ -12,6 +12,7 @@
         <th id="sDate" i18n="@@tour-startdDate">Start Date</th>
         <th id="eDate" i18n="@@tour-enddDate">End Date</th>
         <th id="bResults" i18n="@@tour-bestRnd">Best rounds</th>
+        <th id="bResults">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,8 @@
         <td>{{ tournament.endDate | date: "mediumDate"}}</td>
         <td *ngIf="tournament.bestRounds === 0">All</td>
         <td *ngIf="tournament.bestRounds !== 0">{{tournament.bestRounds}}</td>
+        <td *ngIf="tournament.status === statusOpen" i18n="@@tour-open">Opened</td>
+        <td *ngIf="tournament.status === statusClose" i18n="@@tour-close">Closed</td>
       </tr>
     </tbody>
   </table>

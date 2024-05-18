@@ -18,9 +18,13 @@
     <br/>
 
 
-    <mat-checkbox formControlName="female" (click)="sexClick(true)" i18n="@@registerPlr-fem">Female</mat-checkbox>
+    <mat-checkbox formControlName="female" (click)="sexClick(true)" i18n="@@registerPlr-fem" onKeyDown="sexClick(true)">
+      Female
+    </mat-checkbox>
     &nbsp;
-    <mat-checkbox formControlName="male" (click)="sexClick(false)" i18n="@@registerPlr-mal">Male</mat-checkbox>
+    <mat-checkbox formControlName="male" (click)="sexClick(false)" i18n="@@registerPlr-mal" onKeyDown="sexClick(false)">
+      Male
+    </mat-checkbox>
 
     <mat-dialog-actions>
       <button mat-raised-button color="primary" (click)="close()" i18n="@@registerPlr-cancel">

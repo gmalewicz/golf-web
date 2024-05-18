@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AlertService } from '@/_services';
+import { AlertService, AuthenticationService } from '@/_services';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private authenticationService: AuthenticationService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {
 
       if (request.url.endsWith('assets/app-config.json')) {
         return;
+      }
+
+      if (err.status === 998) {
+        this.authenticationService.logout();
+        this.alertService.error($localize`:@@errorInterceptor-sessionExpired:Session expired. Please sign on again.`, true);
+        this.router.navigate(['']).catch(error => console.log(error));
+        return throwError(() => new Error(err.statusText.toString()));
       }
 
       if (err.status === 403) {

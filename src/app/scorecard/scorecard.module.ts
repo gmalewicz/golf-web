@@ -10,7 +10,7 @@ import { OnlineScoreCardComponent } from './online-score-card/online-score-card.
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ErrorInterceptor, JwtInterceptor } from '@/_helpers';
+import { ErrorInterceptor } from '@/_helpers';
 import { ScorecardHttpService } from './_services/scorecardHttp.service';
 import { routing } from './scorecard.routing';
 import { OnlineMatchplayComponent } from './online-matchplay/online-matchplay.component';
@@ -57,7 +57,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ],
     providers: [ScorecardHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
         { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService] },
         { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },

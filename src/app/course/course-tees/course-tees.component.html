@@ -20,7 +20,9 @@
         <td *ngIf="row.teeType === 0">1-18</td>
         <td *ngIf="row.teeType === 1">1-9</td>
         <td *ngIf="row.teeType === 2">10-18</td>
-        <td *ngIf="courseNavigationService.removeTee()"><fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteTee(row)"></fa-icon></td>
+        <td *ngIf="courseNavigationService.removeTee()">
+          <fa-icon [icon]="faMinusCircle" class="golf-green" (click)="deleteTee(row)" onKeyDown="deleteTee(row)"></fa-icon>
+        </td>
       </tr>
     </tbody>
   </table>
