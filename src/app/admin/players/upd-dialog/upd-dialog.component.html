@@ -24,9 +24,9 @@
     <br/>
     <br/>
 
-    <mat-checkbox formControlName="female" (click)="sexClick(true)">Female</mat-checkbox>
+    <mat-checkbox formControlName="female" (click)="sexClick(true)" onKeyDown="sexClick(true)">Female</mat-checkbox>
     &nbsp;
-    <mat-checkbox formControlName="male" (click)="sexClick(false)">Male</mat-checkbox>
+    <mat-checkbox formControlName="male" (click)="sexClick(false)" onKeyDown="sexClick(false)">Male</mat-checkbox>
 
     <mat-dialog-actions>
       <button mat-raised-button color="primary" (click)="close()">Cancel</button>

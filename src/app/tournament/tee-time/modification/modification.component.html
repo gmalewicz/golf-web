@@ -11,7 +11,9 @@
   <tbody>
     <tr *ngFor="let row of navigationService.teeTimes(), let idx = index">
       @if (idx == 0 || navigationService.teeTimes()[idx].flight != navigationService.teeTimes()[idx - 1].flight) {
-        <td [ngClass]="modBackCls[idx]" (click)="modifyFlight(idx)">{{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}</td>
+        <td [ngClass]="modBackCls[idx]" (click)="modifyFlight(idx)" onKeyDown="modifyFlight(idx)">
+          {{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}
+        </td>
         <td [ngClass]="modBackCls[idx]">{{row.time}}</td>
         <td [ngClass]="modBackCls[idx]">1</td>
       } @else {
@@ -19,7 +21,9 @@
         <td [ngClass]="modBackCls[idx]"></td>
         <td [ngClass]="modBackCls[idx]"></td>
       }
-      <td [ngClass]="modBackCls[idx]" (click)="modifyPlayer(idx)">{{row.nick}}</td>
+      <td [ngClass]="modBackCls[idx]" (click)="modifyPlayer(idx)" onKeyDown="modifyPlayer(idx)">
+        {{row.nick}}
+      </td>
       <td [ngClass]="modBackCls[idx]">{{row.hcp}}</td>
     </tr>
   </tbody>

@@ -14,7 +14,8 @@
     <td>{{j + 1}}</td>
     <td>
       <span *ngIf="tournamentRound.roundId !== null">
-        <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerRound(tournamentRound.roundId)"></fa-icon>
+        <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"
+          (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>
         &nbsp;
       </span>
       {{tournamentRound.courseName}}

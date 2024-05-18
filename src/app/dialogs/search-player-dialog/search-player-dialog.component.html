@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let player of players" (click)="addPlayer(player)">
+        <tr *ngFor="let player of players" (click)="addPlayer(player)" onKeyDown="addPlayer(player)">
           <td>{{ player.nick }}</td>
           <td>
             <span *ngIf="player.sex">F</span>

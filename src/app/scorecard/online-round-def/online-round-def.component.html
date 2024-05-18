@@ -46,20 +46,20 @@
 
     <div class="row golf-margin-top-15">
       <div class="col">
-        <div class="btn-group" role="group" aria-label="Number of players">
-          <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)">
+        <div class="btn-group" aria-label="Number of players">
+          <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
             i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</span>
 
-          <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)">
+          <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
             i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</span>
 
-          <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)">
+          <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
             i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</span>
 
-          <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)">
+          <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
             i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</span>
         </div>
@@ -105,7 +105,7 @@
         <div class="col-auto golf-width-210">
 
           @if (players[1] == null) {
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2" (click)="onSearchPlayer(1)">
+            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2" (click)="onSearchPlayer(1)" onKeyDown="onSearchPlayer(1)">
               Player 2 username
             </span>
             <span class="golf-padding">
@@ -186,7 +186,7 @@
 
         @if (players[2] != null) {
           <div class="col-auto">
-            <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)">
+            <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)" onKeyDown="updateWHS(2)">
               <span *ngIf="!searchInProgress[2]" i18n="@@onlnRndDef-hcpUpd">HCP update</span>
               <span *ngIf="searchInProgress[2]" class="spinner-border spinner-border-sm mr-1" ></span>
             </button>
@@ -201,7 +201,7 @@
         <div class="col-auto golf-width-210">
 
           @if (players[3] == null) {
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4" (click)="onSearchPlayer(3)">
+            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4" (click)="onSearchPlayer(3)" onKeyDown="onSearchPlayer(3)">
               Player 4 username
             </span>
             <span class="golf-padding">

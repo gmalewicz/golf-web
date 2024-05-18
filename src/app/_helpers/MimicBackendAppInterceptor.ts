@@ -45,7 +45,9 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/Player/Other2') || req.url.endsWith('rest/GetSocialPlayer')) {
+    } else if (req.url.endsWith('rest/Player/Other2') ||
+               req.url.endsWith('rest/GetSocialPlayer') ||
+               req.url.endsWith('rest/Authenticate')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 

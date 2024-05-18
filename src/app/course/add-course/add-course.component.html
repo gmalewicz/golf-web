@@ -1,5 +1,5 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
 </div>
 <div *ngIf="display">
   <div class="container-float">
@@ -59,7 +59,8 @@
           Hole:
         </div>
         <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-          <span *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole" [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)">
+          <span *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-hole"
+            [ngClass]="holeSelectorActive[i]" (click)="selectHole(i)" onKeyDown="selectHole(i)">
             {{ i + 1 }}
           </span>
         </div>
@@ -70,7 +71,8 @@
         Par:
       </div>
       <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-        <span *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par" [ngClass]="parSelectorActive[i]" (click)="selectPar(par)">
+        <span *ngFor="let par of parButtons; let i = index" class="btn btn-outline-success buttonWidth input-par"
+            [ngClass]="parSelectorActive[i]" (click)="selectPar(par)" onKeyDown="selectPar(par)">
           {{ par }}
         </span>
       </div>
@@ -81,7 +83,8 @@
         SI:
       </div>
       <div class="col-9 btn-group-toggle flex-wrap" data-toggle="buttons">
-        <span *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si" [ngClass]="siSelectorActive[i]" (click)="selectSi(i)">
+        <span *ngFor="let si of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth input-si"
+            [ngClass]="siSelectorActive[i]" (click)="selectSi(i)" onKeyDown="selectSi(i)">
           {{ i + 1 }}
         </span>
       </div>
