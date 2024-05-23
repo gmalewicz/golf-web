@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { combineLatest, tap } from 'rxjs';
+import { combineLatest, firstValueFrom, map, mergeMap, tap } from 'rxjs';
 import { NgIf, NgFor, NgStyle } from '@angular/common';
 
 @Component({
@@ -30,6 +30,7 @@ export class LeagueComponent  implements OnInit {
 
   private loadingClose: WritableSignal<boolean>;
   private loadingDelete: WritableSignal<boolean>;
+  private loadingNotify: WritableSignal<boolean>;
 
   @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef | undefined;
 
@@ -50,6 +51,7 @@ export class LeagueComponent  implements OnInit {
     } else {
       this.loadingClose  = signal(false);
       this.loadingDelete = signal(false);
+      this.loadingNotify = signal(false);
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -139,7 +141,28 @@ export class LeagueComponent  implements OnInit {
     });
   }
 
+  sendNotification(): void {
 
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef.componentInstance.confirmMessage = $localize`:@@notifications-PublishConf:Are you sure you want to send notifications to subscribers?`;
+    dialogRef.afterClosed()
+    .pipe(
+      mergeMap((result: boolean) => {
+        if (result) {
+          this.loadingNotify.set(true);
+          return firstValueFrom(this.leagueHttpService.notify(this.navigationService.league().id, this.navigationService.results()).pipe(map(() => true)));
+        }
+        return Promise.resolve(false);
+      })
+    ).subscribe((status: boolean) => {
+      if (status === true) {
+        this.loadingNotify.set(false);
+        this.alertService.success($localize`:@@notifications-PublishMsg:Notifications has been sent.`, false);
+      }
+    });
+  }
 
   async loadComponent(comp: number) {
 
@@ -163,5 +186,9 @@ export class LeagueComponent  implements OnInit {
 
   isLoadingDelete() {
     return this.loadingDelete();
+  }
+
+  isLoadingNotify() {
+    return this.loadingNotify();
   }
 }

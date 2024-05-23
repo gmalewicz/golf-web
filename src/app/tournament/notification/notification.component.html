@@ -14,14 +14,32 @@
     <span i18n="@@notification-unsubscribe">Unsubscribe from notifications</span>
   }
 </button>
-@if (navigationService.tournament().player.id === playerId) {
-  &nbsp;
-  <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="sendNotification()">
-    @if (loadingNotify()) {
-      <span class="spinner-border spinner-border-sm mr-1"></span>
-    } @else {
-      <span i18n="@@notification-notify">Send notifications</span>
-    }
-  </button>
-}
 <p>Note: You need to have email address defined in order to make that functionality working. Email address can be added in account settings.</p>
+@if (navigationService.tournament().player.id === playerId) {
+  <form [formGroup]="notificationForm">
+    <div class="row">
+      <div class="col">
+        <input type="radio" name="sort" id="sort1" value="1" formControlName="sort"  class="form-check-input form-check-input-green">
+        <label class="custom-control-label green" for="sort1">STB Net.</label>
+        &nbsp;
+        <input type="radio" name="sort" id="sort2" value="2" formControlName="sort"  class="form-check-input form-check-input-green">
+        <label class="custom-control-label green" for="sort2">STB</label>
+        &nbsp;
+        <input type="radio" name="sort" id="sort3" value="3" formControlName="sort"  class="form-check-input form-check-input-green" checked>
+        <label class="custom-control-label green" for="sort3">STR Net.</label>
+        &nbsp;
+        <input type="radio" name="sort" id="sort4" value="4" formControlName="sort"  class="form-check-input form-check-input-green">
+        <label class="custom-control-label green" for="sort4">STR</label>
+      </div>
+    </div>
+    <br/>
+    <button type="button" class="btn btn-success golf-width-300" (click)="sendNotification()">
+      @if (loadingNotify()) {
+        <span class="spinner-border spinner-border-sm mr-1"></span>
+      } @else {
+        <span i18n="@@notification-notify">Send notifications</span>
+      }
+    </button>
+  </form>
+}
+

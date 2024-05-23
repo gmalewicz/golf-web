@@ -5,11 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { firstValueFrom, map, mergeMap } from 'rxjs';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-notification',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {
@@ -18,13 +19,15 @@ export class NotificationComponent implements OnInit {
   loadingUnsubscribe: WritableSignal<boolean>;
   loadingNotify: WritableSignal<boolean>;
   playerId: number;
+  notificationForm: FormGroup;
 
   constructor(private tournamentHttpService: TournamentHttpService,
     private router: Router,
     private alertService: AlertService,
     private dialog: MatDialog,
     public navigationService: TournamentNavigationService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -32,6 +35,10 @@ export class NotificationComponent implements OnInit {
     this.loadingUnsubscribe = signal(false);
     this.loadingNotify = signal(false);
     this.playerId = this.authenticationService.currentPlayerValue.id;
+
+    this.notificationForm = this.formBuilder.group({
+      sort: ['3', Validators.required]
+    });
   }
 
   onSubscribe(): void {
@@ -79,6 +86,11 @@ export class NotificationComponent implements OnInit {
     });
   }
 
+   // convenience getter for easy access to form fields
+  get f() {
+    return this.notificationForm.controls;
+  }
+
   sendNotification(): void {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -90,7 +102,7 @@ export class NotificationComponent implements OnInit {
       mergeMap((result: boolean) => {
         if (result) {
           this.loadingNotify.set(true);
-          return firstValueFrom(this.tournamentHttpService.notify(this.navigationService.tournament().id).pipe(map(() => true)));
+          return firstValueFrom(this.tournamentHttpService.notify(this.navigationService.tournament().id, this.f.sort.value).pipe(map(() => true)));
         }
         return Promise.resolve(false);
       })
