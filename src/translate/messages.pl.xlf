@@ -4137,16 +4137,16 @@
         </context-group>
       </trans-unit>
       <trans-unit id="notifications-NotifyConf" datatype="html">
-        <source>Are you sure you want to be notified about tournament changes? Make sure you provided email address in account settings.</source>
-        <target>Na pewno chesz dostawać wiadomość o zmianach w turnieju? Czy adres email został podany w ustawieniach konta?</target>
+        <source>Are you sure you want to be notified about changes? Make sure you provided email address in account settings.</source>
+        <target>Na pewno chesz dostawać wiadomość o zmianach? Czy adres email został podany w ustawieniach konta?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notifications-NotifyMsg" datatype="html">
-        <source>You will be nofified about tournament changes via emails</source>
-        <target>Zmiany w turnieju będą komunikowane poprzez wiadomości email</target>
+        <source>You will be nofified about changes via emails</source>
+        <target>Zmiany będą komunikowane poprzez wiadomości email</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>
@@ -4178,15 +4178,15 @@
       </trans-unit>
       <trans-unit id="notifications-UnsubscribeConf" datatype="html">
         <source>Are you sure you want to unsubscribe from notifications?</source>
-        <target>Na pewno nie chcesz dostawać powiadomień dla tego turnieju?</target>
+        <target>Na pewno nie chcesz dostawać powiadomień?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notifications-UnsubscribeMsg" datatype="html">
-        <source>You will not be nofified about tournament changes</source>
-        <target>Powiadomienia dla tego turnieju nie będą wysyłane.</target>
+        <source>You will not be nofified about changes</source>
+        <target>Powiadomienia nie będą wysyłane.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>

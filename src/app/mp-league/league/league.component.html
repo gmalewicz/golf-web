@@ -20,6 +20,10 @@
       <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
         role="tab" aria-controls="players" aria-selected="false" i18n="@@league-players" (click)="loadComponent(0)">Players</button>
     </li>
+    <li class="nav-item" *ngIf="this.navigationService.league().status === false">
+      <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
+        role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(1)">Notifications</button>
+    </li>
   </ul>
   <br/>
 
@@ -77,6 +81,9 @@
     </div>
     <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
       <ng-container #leagueContainer></ng-container>
+    </div>
+    <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+      <ng-container #notificationContainer></ng-container>
     </div>
   </div>
   <br />

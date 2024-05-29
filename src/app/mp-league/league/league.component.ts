@@ -33,6 +33,7 @@ export class LeagueComponent  implements OnInit {
   private loadingNotify: WritableSignal<boolean>;
 
   @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef | undefined;
+  @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
 
   constructor(private leagueHttpService: LeagueHttpService,
               public navigationService: NavigationService,
@@ -169,10 +170,16 @@ export class LeagueComponent  implements OnInit {
     if (this.leagueContainerRef !== undefined) {
       this.leagueContainerRef.clear();
     }
+    if (this.notificationContainerRef !== undefined) {
+      this.notificationContainerRef.clear();
+    }
 
     if (comp === 0) {
       const {LeaguePlayerComponent} = await import('../league-player/league-player.component');
       this.leagueContainerRef.createComponent(LeaguePlayerComponent);
+    } else if (comp === 1) {
+      const {NotificationComponent} = await import('../notification/notification.component');
+      this.notificationContainerRef.createComponent(NotificationComponent);
     }
   }
 

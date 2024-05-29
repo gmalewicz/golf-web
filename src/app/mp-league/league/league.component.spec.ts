@@ -85,4 +85,13 @@ describe('LeagueComponent', () => {
     component.updateNicks();
     expect(component.navigationService.matches()[0].winnerNick).toBe('Test 1');
   });
+
+  it('should execute sendNotifications', () => {
+    spyOnProperty(component.authenticationService , 'playerRole').and.returnValue('PLAYER');
+    currentPlayerValueSpy.and.returnValue({nick: 'test', id: 1});
+    fixture.detectChanges();
+    component.sendNotification();
+    expect(component).toBeTruthy();
+  });
+
 });

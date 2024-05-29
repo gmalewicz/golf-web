@@ -67,8 +67,16 @@ export class LeagueHttpService {
   // sends notifications to players
   notify(leagueId: number, results: Result[]): Observable<void> {
 
-    return this.http.post<void>('rest/League/Notifiation/' + leagueId, results);
+    return this.http.post<void>('rest/League/Notification/' + leagueId, results);
 
+  }
+
+  subscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/League/AddNotification/' + tournamentId, {});
+  }
+
+  unsubscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/League/RemoveNotification/' + tournamentId, {});
   }
 }
 
