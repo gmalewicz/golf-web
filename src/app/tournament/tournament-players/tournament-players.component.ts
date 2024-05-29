@@ -66,6 +66,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
           })
       ).subscribe();
     } else {
+      console.log("no need call db for players");
       this.display = true;
     }
   }

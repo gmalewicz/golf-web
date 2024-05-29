@@ -127,6 +127,7 @@ export class TeeTimeComponent implements OnInit {
         })
       ).subscribe((status: boolean) => {
         if (status === true) {
+          this.navigationService.loadTeeTimesFlag = true;
           this.navigationService.teeTimeParameters().teeTimes = this.navigationService.teeTimes();
           this.alertService.success($localize`:@@teeTime-savTimeCnfMsg:Tee times successfuly saved`, false);
           this.saveInProgress.set(false);
@@ -154,6 +155,7 @@ export class TeeTimeComponent implements OnInit {
         })
       ).subscribe((status: boolean) => {
         if (status === true) {
+          this.navigationService.loadTeeTimesFlag = true;
           this.navigationService.teeTimeParameters().teeTimes = this.navigationService.teeTimes();
           this.navigationService.teeTimeParameters().published = TeeTimePublishStatus.STATUS_PUBLISHED;
           this.mode.set(this.MODE_ADMIN_TEETIMES_PUBLISHED);
@@ -180,6 +182,7 @@ export class TeeTimeComponent implements OnInit {
         })
       ).subscribe((status: boolean) => {
         if (status === true) {
+          this.navigationService.loadTeeTimesFlag = false;
           this.getPlayers();
           this.mode.set(this.MODE_ADMIN_TEETIMES_NOT_PUBLISHED);
           this.alertService.success($localize`:@@teeTime-delTeeTimeCnfMsg:Tee times successfuly deleted`, false);
