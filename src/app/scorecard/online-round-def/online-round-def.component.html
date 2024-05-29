@@ -49,19 +49,19 @@
         <div class="btn-group" aria-label="Number of players">
           <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
-            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</span>
+            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)" onKeyDown="nPlayers(1);" tabindex="-1">1 player</span>
 
           <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
-            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</span>
+            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)" onKeyDown="nPlayers(2);" tabindex="-2">2 players</span>
 
           <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
-            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</span>
+            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)" onKeyDown="nPlayers(3);" tabindex="-3">3 players</span>
 
           <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
           <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
-            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</span>
+            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)" onKeyDown="nPlayers(4);" tabindex="-4">4 players</span>
         </div>
       </div>
     </div>
