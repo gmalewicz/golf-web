@@ -11,7 +11,7 @@ export function updateTeeTimes(teeTimeParameters: TeeTimeParameters,
                                modification: boolean,
                                loadTeeTimesFlag: boolean): TeeTime[] {
 
-  if (loadTeeTimesFlag) {
+  if (loadTeeTimesFlag && !modification) {
     return teeTimeParameters.teeTimes
   } else if (modification) {
     return modifyTeeTimes(teeTimeModification, teeTimeParameters.teeTimes);
