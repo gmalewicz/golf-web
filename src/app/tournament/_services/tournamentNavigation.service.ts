@@ -25,8 +25,6 @@ export class TournamentNavigationService {
                                                this.modification,
                                                this.loadTeeTimesFlag);
     this.modification = false;
-    //this.loadTeeTimesFlag = false;
-
     return teeTimes;
 
   });

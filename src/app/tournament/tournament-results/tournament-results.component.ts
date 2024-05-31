@@ -57,7 +57,6 @@ export class TournamentResultsComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-      // this.navigationService.init();
       this.display = false;
 
       this.loadingClose = false;
