@@ -20,6 +20,10 @@
       <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
         role="tab" aria-controls="players" aria-selected="false" i18n="@@league-players" (click)="loadComponent(0)">Players</button>
     </li>
+    <li class="nav-item" *ngIf="this.navigationService.league().status === false">
+      <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
+        role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(1)">Notifications</button>
+    </li>
   </ul>
   <br/>
 
@@ -78,7 +82,9 @@
     <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
       <ng-container #leagueContainer></ng-container>
     </div>
-
+    <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+      <ng-container #notificationContainer></ng-container>
+    </div>
   </div>
   <br />
   <div class="row">
@@ -104,6 +110,11 @@
       <button type="button" class="btn btn-success del golf-margin-bottom-6" (click)="deleteLeague()">
         <span *ngIf="isLoadingDelete()" class="spinner-border spinner-border-sm mr-1"></span>
         <span i18n="@@league-delete">Delete league</span>
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-success del golf-margin-bottom-6 golf-width-300" (click)="sendNotification()">
+        <span *ngIf="isLoadingNotify()" class="spinner-border spinner-border-sm mr-1"></span>
+        <span i18n="@@notification-notify">Notify</span>
       </button>
     </span>
   </span>

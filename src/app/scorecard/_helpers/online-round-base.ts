@@ -493,7 +493,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     } else if (onlineScoreCards[0].length === 0) {
       this.curHoleIdx = 0;
     } else {
-      this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p) - 1;
+      this.curHoleIdx = onlineScoreCards[0].map(scoreCard => scoreCard.hole).reduce((p, c) => p < c ? c : p, 0) - 1;
     }
   }
 

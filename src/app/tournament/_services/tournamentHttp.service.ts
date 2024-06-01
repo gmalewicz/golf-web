@@ -108,8 +108,8 @@ export class TournamentHttpService {
     return this.http.post<void>('rest/Tournament/RemoveNotification/' + tournamentId, {});
   }
 
-  notify(tournamentId: number): Observable<void> {
-    return this.http.post<void>('rest/Tournament/Notification/' + tournamentId, {});
+  notify(tournamentId: number, sort: number): Observable<void> {
+    return this.http.post<void>('rest/Tournament/Notification/' + tournamentId + "/" + sort, {});
   }
 }
 

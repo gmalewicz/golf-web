@@ -1,5 +1,5 @@
 <div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
 </div>
 <div *ngIf="display">
   <form [formGroup]="defScoreCardForm">
@@ -48,20 +48,20 @@
       <div class="col">
         <div class="btn-group" aria-label="Number of players">
           <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
-          <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
-            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</span>
+          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
+            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
 
           <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
-          <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
-            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</span>
+          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
+            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
 
           <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
-          <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
-            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</span>
+          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
+            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</button>
 
           <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
-          <span class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
-            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</span>
+          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
+            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</button>
         </div>
       </div>
     </div>

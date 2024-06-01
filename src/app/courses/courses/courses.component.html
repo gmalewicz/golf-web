@@ -38,7 +38,7 @@
     </form>
     <br/>
     <div *ngIf="loading" class="d-flex justify-content-center">
-      <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+      <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
     </div>
     <app-list-courses *ngIf="!loading && selectedTab == 1" [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
   </div>

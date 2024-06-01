@@ -124,7 +124,7 @@ describe('ModificationComponent', () => {
 
 
     component.modifyFlight(3);
-    tick(2000);
+    tick(3000);
     expect(tournamentNavigationService.teeTimes().filter(tt => tt.flight === 2).length).toBe(4);
   }));
 

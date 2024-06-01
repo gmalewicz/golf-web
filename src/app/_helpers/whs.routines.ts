@@ -48,11 +48,11 @@ export function getPlayedCoursePar(holes: Hole[], teeType: number, coursePar: nu
   let par = 0;
   switch (teeType) {
     case teeTypes.TEE_TYPE_FIRST_9: {
-      par = holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      par = holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
       break;
     }
     case teeTypes.TEE_TYPE_LAST_9: {
-      par = holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } });
+      par = holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
       break;
     }
     default: {

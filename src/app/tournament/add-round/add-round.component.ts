@@ -197,13 +197,13 @@ export class AddRoundComponent implements OnInit {
     if (this.score.slice(0, 9).includes('x')) {
       this.first9Total = -1;
     } else {
-      this.first9Total = this.score.slice(0, 9).map(s => +s).reduce((p, n) => p + n);
+      this.first9Total = this.score.slice(0, 9).map(s => +s).reduce((p, n) => p + n, 0);
     }
 
     if (this.score.slice(9, 18).includes('x')) {
       this.last9Total = -1;
     } else {
-      this.last9Total = this.score.slice(9, 18).map(s => +s).reduce((p, n) => p + n);
+      this.last9Total = this.score.slice(9, 18).map(s => +s).reduce((p, n) => p + n, 0);
     }
 
     if (this.first9Total === -1 || this.last9Total === -1) {

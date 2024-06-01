@@ -1,6 +1,6 @@
 
 <div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status"></span>
+  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
 </div>
 <div *ngIf="display">
   <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
@@ -39,7 +39,7 @@
         <span *ngIf="!defRoundForm.invalid" class="search col-auto golf-padding">
           <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
         </span>
-        <span *ngIf="searchInProgress" class="spinner-border text-success" role="status"></span>
+        <span *ngIf="searchInProgress" class="spinner-border text-success"></span>
       </div>
     </div>
   </form>

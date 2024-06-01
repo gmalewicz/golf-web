@@ -1,3 +1,4 @@
+import { Result } from './../_models/result';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -61,6 +62,21 @@ export class LeagueHttpService {
   // deletes league
   deleteLeague(leagueId: number): Observable<void> {
     return this.http.delete<void>('rest/League/' + leagueId);
+  }
+
+  // sends notifications to players
+  notify(leagueId: number, results: Result[]): Observable<void> {
+
+    return this.http.post<void>('rest/League/Notification/' + leagueId, results);
+
+  }
+
+  subscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/League/AddNotification/' + tournamentId, {});
+  }
+
+  unsubscribe(tournamentId: number): Observable<void> {
+    return this.http.post<void>('rest/League/RemoveNotification/' + tournamentId, {});
   }
 }
 
