@@ -10,13 +10,14 @@ import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPRe
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
     selector: 'app-online-score-card-view',
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, RouterLink, DecimalPipe]
+    imports: [NgIf, NgFor, NgClass, RouterLink, DecimalPipe, GoogleMapsModule]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
@@ -53,9 +54,18 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
+  mapOptions: google.maps.MapOptions = {
+    center: { lat: 52.534090, lng: 20.655618 },
+    zoom : 17
+ }
+ marker = {
+    position: { lat: 52.534090, lng: 20.655618 },
+    label: 'x',
+ }
+
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
-              private authenticationService: AuthenticationService,
+              public authenticationService: AuthenticationService,
               private router: Router,
               private navigationService: NavigationService,
               private rxStompService: RxStompService) { }
@@ -388,6 +398,12 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.mpResultHistory = createMPResultHistory(this.mpScore);
     } else {
       this.handleStrokeMessage(onlineScoreCard);
+    }
+
+    if (onlineScoreCard.lat !== undefined) {
+      this.marker.label = onlineScoreCard.player.nick;
+      this.mapOptions.center = {lat: onlineScoreCard.lat, lng: onlineScoreCard.lng};
+      this.marker.position = {lat: onlineScoreCard.lat, lng: onlineScoreCard.lng};
     }
   }
 
