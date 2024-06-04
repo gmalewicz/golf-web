@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { AuthenticationService } from "./authentication.service";
 import { HttpService } from "./http.service";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MimicBackendAppInterceptor } from "@/_helpers/MimicBackendAppInterceptor";
 
 describe('autentication service', () => {
@@ -11,15 +11,14 @@ describe('autentication service', () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
-      providers: [
+    imports: [],
+    providers: [
         HttpService,
-         AuthenticationService,
-         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-      ]
-    });
+        AuthenticationService,
+        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});
 
     authenticationService = TestBed.inject(AuthenticationService);
     authenticationService.loginSocial({nick: 'test', id: 1, password: 'test', whs: 10.2, role: 0});
