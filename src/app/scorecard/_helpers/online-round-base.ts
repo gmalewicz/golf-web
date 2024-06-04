@@ -382,15 +382,13 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
         onlineScoreCard.lat = position.coords.latitude;
         onlineScoreCard.lng = position.coords.longitude;
-        console.log('geolocation saved');
+        this.processSendingWS(onlineScoreCard);
+      }, () => {
         this.processSendingWS(onlineScoreCard);
       });
     } else {
-      console.log('geolocation not received');
       this.processSendingWS(onlineScoreCard);
     }
-
-
   }
 
   private processSendingWS(onlineScoreCard: OnlineScoreCard) {
