@@ -109,6 +109,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="my-google-map" *ngIf="authenticationService.playerRole.includes('ADMIN')">
+      <google-map [options]="mapOptions" [center]="marker.position" [mapTypeId]="'satellite'">
+        <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
+      </google-map>
+    </div>
   </div>
   <div *ngIf="owner != null">
     <h3 *ngIf="mpResult[1] === null">
