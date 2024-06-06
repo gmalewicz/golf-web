@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlayerResultsComponent } from './player-results.component';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { Router } from '@angular/router';
 import { MyRouterStub } from '@/_helpers/test.helper';
@@ -12,14 +12,16 @@ describe('PlayerResultsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [PlayerResultsComponent],
-    providers: [
+      imports: [
+        HttpClientModule,
+        PlayerResultsComponent
+      ],
+      providers: [
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        { provide: Router, useClass: MyRouterStub },
-        provideHttpClient(withInterceptorsFromDi())
-    ]
-})
+        { provide: Router, useClass: MyRouterStub }
+      ]
+    })
     .compileComponents();
   }));
 

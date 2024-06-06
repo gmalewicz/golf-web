@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ParametersComponent } from '../parameters/parameters.component';
 import { PreviewComponent } from '../preview/preview.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { MatDialogMock, authenticationServiceStub } from '@/_helpers/test.helper';
 import { TournamentNavigationService } from '@/tournament/_services/tournamentNavigation.service';
@@ -30,21 +30,20 @@ describe('TeeTimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [TeeTimeComponent,
-        CommonModule,
-        ReactiveFormsModule,
-        MatTabsModule,
-        ParametersComponent,
-        PreviewComponent,
-        BrowserAnimationsModule],
-    providers: [
-        { provide: TournamentNavigationService, useValue: tournamentNavigationService },
-        { provide: AuthenticationService, useValue: authenticationServiceStub },
-        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        { provide: MatDialog, useValue: dialog },
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-})
+      imports: [TeeTimeComponent,
+                CommonModule,
+                ReactiveFormsModule,
+                MatTabsModule,
+                ParametersComponent,
+                PreviewComponent,
+                HttpClientModule,
+                BrowserAnimationsModule],
+      providers: [
+                  { provide: TournamentNavigationService, useValue: tournamentNavigationService},
+                  { provide: AuthenticationService, useValue: authenticationServiceStub },
+                  { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
+                  { provide: MatDialog, useValue: dialog},]
+    })
     .compileComponents();
   });
 

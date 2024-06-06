@@ -1,6 +1,6 @@
 import { AlertService } from '@/_services/alert.service';
-import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ErrorInterceptor } from '../error.interceptor';
@@ -14,16 +14,16 @@ describe('error.interceptor', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
         { provide: AlertService, useValue: alertServiceStub },
         { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-    ]
-});
+      ]
+    });
 
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);

@@ -236,18 +236,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         }
         this.lstUpdTime = this.compareTime(this.lstUpdTime, sc.time);
         this.resetCounter();
-
-         // added for geolocation
-
-       if (sc.lat !== undefined) {
-        this.marker.label = sc.player.nick;
-        this.mapOptions.center = {lat: sc.lat, lng: sc.lng};
-        this.marker.position = {lat: sc.lat, lng: sc.lng};
-       }
-
-       // end of geolocation
       }
-
     });
   }
 
@@ -289,17 +278,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds[0].last9score = 0;
 
         let idx = retScoreCards.length;
-
-        // added for geolocation
-
-        if (retScoreCards[idx - 1].lat !== undefined) {
-          this.marker.label = retScoreCards[idx - 1].player.nick;
-          this.mapOptions.center = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
-          this.marker.position = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
-        }
-
-        // end of geolocation
-
         while (idx > 0) {
           onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
 
@@ -362,9 +340,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
-          let lastIdx = 0;
-
-          retScoreCardAPI.forEach((scoreCardAPI, id) => {
+          retScoreCardAPI.forEach((scoreCardAPI) => {
             // set ball picked up for a player
             this.setBallPickUp(scoreCardAPI, idx);
 
@@ -381,23 +357,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
             this.lstUpdTime = this.compareTime(this.lstUpdTime, scoreCardAPI.time);
             this.resetCounter();
-
-            if (id > lastIdx) {
-              lastIdx = id;
-            }
           });
-
-          // added for geolocation
-
-          if (retScoreCardAPI[lastIdx].lat !== undefined) {
-            this.marker.label = retScoreCardAPI[lastIdx].player.nick;
-            this.mapOptions.center = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
-            this.marker.position = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
-          }
-
-          // end of geolocation
-
-
           this.onlineRounds = retOnlineRounds;
         });
 
