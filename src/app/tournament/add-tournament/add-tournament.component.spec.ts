@@ -1,5 +1,5 @@
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddTournamentComponent } from './add-tournament.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
@@ -36,7 +36,6 @@ describe('AddTournamentComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: AlertService, useValue: alertServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)), provideHttpClient(withInterceptorsFromDi()),]
 })
     .compileComponents();
