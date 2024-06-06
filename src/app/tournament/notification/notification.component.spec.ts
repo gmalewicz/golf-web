@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationComponent } from './notification.component';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { MatDialogMock, MyRouterStub, alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
@@ -16,17 +16,18 @@ describe('NotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationComponent, HttpClientModule],
-      providers: [
+    imports: [NotificationComponent],
+    providers: [
         TournamentHttpService,
         HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        { provide: MatDialog, useValue: dialog},
+        { provide: MatDialog, useValue: dialog },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NotificationComponent);
