@@ -1,7 +1,7 @@
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { getTestRound } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RoundViewWHSComponent } from './round-view-whs.component';
@@ -13,9 +13,13 @@ describe('RoundViewWHSComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [RoundViewWHSComponent],
+    imports: [
+        HttpClientModule,
+        RoundViewWHSComponent,
+    ],
     providers: [HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi()),]
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+       ]
 })
     .compileComponents();
   }));

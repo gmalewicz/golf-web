@@ -2,7 +2,7 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { MatDialogMock } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,20 +21,22 @@ describe('TournamentPlayersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [TournamentPlayersComponent,
+      imports: [
+        TournamentPlayersComponent,
+        HttpClientModule,
         CommonModule,
         ReactiveFormsModule,
-        FontAwesomeModule],
-    providers: [
+        FontAwesomeModule
+      ],
+      providers: [
         HttpService,
         TournamentHttpService,
         TournamentNavigationService,
-        { provide: MatDialog, useValue: dialog },
+        { provide: MatDialog, useValue: dialog},
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-})
+      ]
+    })
     .compileComponents();
 
     fixture = TestBed.createComponent(TournamentPlayersComponent);
