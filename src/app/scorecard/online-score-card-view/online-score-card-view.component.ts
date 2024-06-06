@@ -291,7 +291,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // added for geolocation
 
-        if (retScoreCards[idx - 1].lat !== undefined) {
+        if (idx > 0 && retScoreCards[idx - 1].lat !== undefined) {
           this.marker.label = retScoreCards[idx - 1].player.nick;
           this.mapOptions.center = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
           this.marker.position = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
@@ -388,7 +388,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
           // added for geolocation
 
-          if (retScoreCardAPI[lastIdx].lat !== undefined) {
+          if (retScoreCardAPI.length > 0 && retScoreCardAPI[lastIdx].lat !== undefined) {
             this.marker.label = retScoreCardAPI[lastIdx].player.nick;
             this.mapOptions.center = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
             this.marker.position = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
