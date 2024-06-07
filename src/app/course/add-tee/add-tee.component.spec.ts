@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CourseNavigationService } from '../_services/course-navigation.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MimicBackendCourseInterceptor } from '../_helpers/MimicBackendCourseInterceptor';
 import { CourseHttpService } from '../_services/courseHttp.service';
 import { getTestCourse } from '@/_helpers/test.helper';
@@ -21,21 +21,19 @@ describe('AddTeeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AddTeeComponent,
+    imports: [AddTeeComponent,
         CommonModule,
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
-        HttpClientModule
-      ],
-      providers: [
+        BrowserAnimationsModule],
+    providers: [
         CourseHttpService,
-        { provide: CourseNavigationService, useValue: courseNavigationService} ,
+        { provide: CourseNavigationService, useValue: courseNavigationService },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCourseInterceptor, multi: true },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(AddTeeComponent);

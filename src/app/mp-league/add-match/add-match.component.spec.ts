@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddMatchComponent } from './add-match.component';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MyRouterStub, alertServiceStub } from '@/_helpers/test.helper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
@@ -19,20 +19,16 @@ describe('AddMatchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
-        HttpClientModule,
-        ReactiveFormsModule,
+    imports: [ReactiveFormsModule,
         MatSelectModule,
         BrowserAnimationsModule,
-        AddMatchComponent
-    ],
+        AddMatchComponent],
     providers: [HttpService,
         LeagueHttpService,
         { provide: AlertService, useValue: alertServiceStub },
         { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
-        provideRouter(routing, withPreloading(PreloadAllModules)),
-      ]
+        provideRouter(routing, withPreloading(PreloadAllModules)), provideHttpClient(withInterceptorsFromDi()),]
 });
     fixture = TestBed.createComponent(AddMatchComponent);
     component = fixture.componentInstance;

@@ -17,7 +17,7 @@ import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2
 import { PlayerDataInterceptor } from './app/_helpers/playerData.interceptor';
 import { SessionRecoveryInterceptor } from './app/_helpers/session.interceptor';
 import { ErrorInterceptor } from '@/_helpers';
-import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient, HttpClientXsrfModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
 import { HttpService } from '@/_services';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 
