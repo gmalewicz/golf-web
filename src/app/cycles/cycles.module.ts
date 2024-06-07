@@ -35,5 +35,5 @@ import { PlayerDataInterceptor } from '@/_helpers/playerData.interceptor';
         AddTournamentDialogComponent], providers: [CycleHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi(), withXsrfConfiguration()),] })
+        { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi())] })
 export class CyclesModule { }

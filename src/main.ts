@@ -27,7 +27,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, HttpClientXsrfModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
+        importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
         HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
