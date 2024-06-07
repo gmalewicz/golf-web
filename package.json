@@ -44,7 +44,7 @@
     "tslib": "^2.5.0",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
-    "zone.js": "^0.14.6"
+    "zone.js": "^0.14.7"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1702.3",
