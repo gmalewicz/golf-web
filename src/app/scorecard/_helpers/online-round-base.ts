@@ -378,6 +378,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   private sendMessage(onlineScoreCard: OnlineScoreCard) {
     this.inProgress = true;
     if (navigator.geolocation) {
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
       navigator.geolocation.getCurrentPosition(position => {
 
         onlineScoreCard.lat = position.coords.latitude;
@@ -385,7 +390,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.processSendingWS(onlineScoreCard);
       }, () => {
         this.processSendingWS(onlineScoreCard);
-      });
+      }, options);
     } else {
       this.processSendingWS(onlineScoreCard);
     }

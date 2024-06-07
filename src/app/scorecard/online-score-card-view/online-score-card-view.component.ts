@@ -363,6 +363,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
           let lastIdx = 0;
 
+          retScoreCardAPI.forEach(sc => console.log(retOnlineRound.player.nick + ' ' + sc.lat + ',' + sc.lng));
+
           retScoreCardAPI.forEach((scoreCardAPI, id) => {
             // set ball picked up for a player
             this.setBallPickUp(scoreCardAPI, idx);
