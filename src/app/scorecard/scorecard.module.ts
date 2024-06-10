@@ -7,7 +7,7 @@ import { OnlineRoundDefComponent } from './online-round-def/online-round-def.com
 import { OnlineRoundComponent } from './online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from './online-score-card-view/online-score-card-view.component';
 import { OnlineScoreCardComponent } from './online-score-card/online-score-card.component';
-import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorInterceptor } from '@/_helpers';
@@ -30,14 +30,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
-@NgModule({
-    imports: [
-        routing,
+@NgModule({ exports: [], imports: [routing,
         CommonModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        HttpClientModule,
-        HttpClientXsrfModule,
         MatInputModule,
         MatDialogModule,
         MatSelectModule,
@@ -53,17 +49,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         UpdateWhsDialogComponent,
         CommonDialogComponent,
         CommonScorecardComponent,
-        CommonScorecardTopComponent
-    ],
-    providers: [ScorecardHttpService,
+        CommonScorecardTopComponent], providers: [ScorecardHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
         { provide: RxStompService, useFactory: rxStompServiceFactory, deps: [AuthenticationService, ScorecardHttpService] },
         { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
-        NavigationService,
-    ],
-    exports: []
-})
+        NavigationService, provideHttpClient(withInterceptorsFromDi())] })
 export class ScorecardModule { }
 
 
