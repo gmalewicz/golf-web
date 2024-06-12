@@ -1,6 +1,6 @@
-FROM httpd:2.4.58-alpine
+FROM httpd:2.4.59-alpine
 LABEL maintainer="Grzegorz Malewicz"
-ARG APP=./dist/golf-web/
+ARG APP=./dist/golf-web/browser
 
 COPY ${APP} /usr/local/apache2/htdocs/
 
