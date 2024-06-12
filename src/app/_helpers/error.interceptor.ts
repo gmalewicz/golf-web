@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       if (err.status === 998) {
         this.authenticationService.logout();
         this.alertService.error($localize`:@@errorInterceptor-sessionExpired:Session expired. Please sign on again.`, true);
-        this.router.navigate(['']).catch(error => console.log(error));
+        this.router.navigate(['/login']).catch(error => console.log(error));
         return throwError(() => new Error(err.statusText.toString()));
       }
 
