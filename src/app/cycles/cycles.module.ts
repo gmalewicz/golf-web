@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { routing } from './cycles.routing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CycleHttpService } from './_services/cycleHttp.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXsrfConfiguration } from '@angular/common/http';
 import { ErrorInterceptor } from '@/_helpers/error.interceptor';
 import { SessionRecoveryInterceptor } from '@/_helpers/session.interceptor';
 import { AddCycleComponent } from './add-cycle/add-cycle.component';

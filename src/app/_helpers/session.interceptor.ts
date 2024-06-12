@@ -25,7 +25,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
         this.refreshSubject.complete();
         this.refreshSubject = new Subject<unknown>();
         this.authenticationService.logout();
-        this.router.navigate(['/login']).catch(error => console.log(error));
+        this.router.navigate(['']).catch(error => console.log(error));
       }
     });
     if (this.refreshSubject.observed) {
