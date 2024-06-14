@@ -47,7 +47,6 @@ export class CycleDetailsComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-
       this.loadingClose = false;
       this.loadingDeleteTour = false;
       this.loadingDeleteCycle = false;
@@ -155,8 +154,8 @@ export class CycleDetailsComponent implements OnInit {
         this.loadingDeleteTour = true;
         this.cycleHttpService.deleteLastTournament(this.cycle).pipe(tap(
           () => {
-            this.alertService.success($localize`:@@cycleDetails-CloseDelTourMsg:The last tournament successfully deleted`, false);
-            this.ngOnInit();
+            this.alertService.success($localize`:@@cycleDetails-CloseDelTourMsg:The last tournament successfully deleted`, true);
+            this.router.navigate(['/cycles']).catch(error => console.log(error));
           })
         ).subscribe();
       }

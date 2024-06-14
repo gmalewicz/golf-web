@@ -1,246 +1,340 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <br/>
-  <p *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-    <span i18n="@@roundViewWhs-courseHcp">Course HCP:</span> &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
-    &nbsp; <span i18n="@@roundViewWhs-scorDiff">Score Differential:</span> &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
-  </p>
-  <div class="table-responsive">
-    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View stroke play round">
-      <thead>
-        <tr>
-          <th id="hole" class="w-15" i18n="@@roundViewWhs-hole">Hole</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{round.scoreCard[i].hole}}
-            </th>
-            <th id="out" class="center w-10">OUT</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{round.scoreCard[i + 9].hole}}
-            </th>
-            <th id="in" class="center w-10" >IN</th>
-          </ng-container>
-          <th id="total" class="center w-10" i18n="@@roundViewWhs-total">TOTAL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th id="par">PAR</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.course.holes[i].par}}
-            </td>
-            <th id="fpar" class="center">{{first9par}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.course.holes[i + 9].par}}
-            </td>
-            <th id="lpar" class="center">{{last9par}}</th>
-          </ng-container>
-          <th id="tpar"class="center">{{first9par + last9par}}</th>
-        </tr>
-        <tr>
-          <th id="si">SI</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.course.holes[i].si}}
-            </td>
-            <th id="empty"></th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.course.holes[i + 9].si}}
-            </td>
-            <th id="empty"></th>
-          </ng-container>
-          <th id="empty"></th>
-        </tr>
-        <tr>
-          <th id="score" i18n="@@roundViewWhs-score">Score</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i]" class="center">
-              <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
-                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke === 16">
-                  x
-                </span>
-                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke < 16">
-                  {{round.scoreCard[i + (playerOffset * 18)].stroke}}
-                </span>
-              </span>
-            </td>
-            <th id="f9" class="center">
-              <span *ngIf="!ballPickedUp">
-                {{first9score}}
-              </span>
-            </th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreBruttoClass[i + 9]" class="center">
-              <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
-                <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
-                  <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke === 16">
-                    x
-                  </span>
-                  <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16">
-                    {{round.scoreCard[i + (playerOffset * 18) + 9].stroke}}
-                  </span>
-                </span>
-              </span>
-            </td>
-            <th id="l9" class="center">
-              <span *ngIf="!ballPickedUp">
-                {{last9score}}
-              </span>
-            </th>
-          </ng-container>
-          <th id="b9" class="center">
-            <span *ngIf="!ballPickedUp">
-              {{first9score + last9score}}
-            </span>
-          </th>
-        </tr>
-        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="hcp">HCP</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].hcp}}
-            </td>
-            <th id="empty"></th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-                {{round.scoreCard[i + (playerOffset * 18) + 9].hcp}}
-            </td>
-            <th id="empty"></th>
-          </ng-container>
-          <th id="empty"></th>
-        </tr>
-        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="ns" i18n="@@roundViewWhs-netScore">Net Score</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i]" class="center">
-              <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke > 0">
-                <span *ngIf="round.scoreCard[i + (playerOffset * 18)].stroke < 16">
-                  {{round.scoreCard[i + (playerOffset * 18)].scoreNetto}}
-                </span>
-              </span>
-            </td>
-            <th id="f9n" class="center">
-              <span *ngIf="!ballPickedUp">
-                {{first9scoreNetto}}
-              </span>
-            </th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" [ngClass]="scoreNettoClass[i + 9]" class="center">
-              <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0">
-                <span *ngIf="round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16">
-                  {{round.scoreCard[i + (playerOffset * 18) + 9].scoreNetto}}
-                </span>
-              </span>
-            </td>
-            <th id="l9n" class="center">
-              <span *ngIf="!ballPickedUp">
-                {{last9scoreNetto}}
-              </span>
-            </th>
-          </ng-container>
-          <th id="b9t" class="center">
-            <span *ngIf="!ballPickedUp">
-              {{first9scoreNetto + last9scoreNetto}}
-            </span>
-          </th>
-        </tr>
-        <tr  *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="cs">Cor. Score</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].corScoreBrutto}}
-            </td>
-            <th id="f9b" class="center">{{first9CorScorBrutto}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].corScoreBrutto}}
-            </td>
-            <th id="l9b" class="center">{{last9CorScorBrutto}}</th>
-          </ng-container>
-          <th id="b9b" class="center">
-            {{first9CorScorBrutto + last9CorScorBrutto}}
-          </th>
-        </tr>
-        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="sn">STB Net</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].stbNetto}}
-            </td>
-            <th id="f9sn" class="center">{{first9StbNetto}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].stbNetto}}
-            </td>
-            <th id="l9sn" class="center">{{last9StbNetto}}</th>
-          </ng-container>
-          <th id="b9sn" class="center">
-            {{first9StbNetto + last9StbNetto}}
-          </th>
-        </tr>
-        <tr *ngIf="round.player[playerOffset].roundDetails.ninesFull >= 0">
-          <th id="s">STB</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].stbBrutto}}
-            </td>
-            <th id="f9b" class="center">{{first9StbBrutto}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].stbBrutto}}
-            </td>
-            <th id="l9b" class="center">{{last9StbBrutto}}</th>
-          </ng-container>
-          <th id="b9b" class="center">{{first9StbBrutto + last9StbBrutto}}</th>
-        </tr>
-        <tr>
-          <th id="pu" i18n="@@roundViewWhs-putts">Putts</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].pats}}
-            </td>
-            <th id="f9p" class="center"> {{first9Putt}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].pats}}
-            </td>
-            <th id="l9p" class="center">{{last9Putt}}</th>
-          </ng-container>
-          <th id="b9p" class="center">{{first9Putt + last9Putt}}</th>
-        </tr>
-        <tr>
-          <th id="pen" i18n="@@roundViewWhs-penalt">Penalties</th>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 2">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18)].penalty}}
-            </td>
-            <th id="f9p" class="center">{{first9Penalty}}</th>
-          </ng-container>
-          <ng-container *ngIf="round.player[playerOffset].roundDetails.ninesFull !== 1">
-            <td *ngFor="let i = index of counter(9)" class="center">
-              {{round.scoreCard[i + (playerOffset * 18) + 9].penalty}}
-            </td>
-            <th id="l9p" class="center">{{last9Penalty}}</th>
-          </ng-container>
-          <th id="b9p" class="center">{{first9Penalty + last9Penalty}}</th>
-        </tr>
-      </tbody>
-    </table>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
-</div>
+}
+@if (display) {
+  <div>
+    <br/>
+    @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+      <p>
+        <span i18n="@@roundViewWhs-courseHcp">Course HCP:</span> &nbsp; {{ round.player[playerOffset].roundDetails.courseHCP }}
+        &nbsp; <span i18n="@@roundViewWhs-scorDiff">Score Differential:</span> &nbsp; {{ round.player[playerOffset].roundDetails.scoreDiff | number: '1.0-1'}}
+      </p>
+    }
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View stroke play round">
+        <thead>
+          <tr>
+            <th id="hole" class="w-15" i18n="@@roundViewWhs-hole">Hole</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <th id="no" class="w-5">
+                  {{round.scoreCard[i].hole}}
+                </th>
+              }
+              <th id="out" class="center w-10">OUT</th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <th id="no" class="w-5">
+                  {{round.scoreCard[i + 9].hole}}
+                </th>
+              }
+              <th id="in" class="center w-10" >IN</th>
+            }
+            <th id="total" class="center w-10" i18n="@@roundViewWhs-total">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th id="par">PAR</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.course.holes[i].par}}
+                </td>
+              }
+              <th id="fpar" class="center">{{first9par}}</th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.course.holes[i + 9].par}}
+                </td>
+              }
+              <th id="lpar" class="center">{{last9par}}</th>
+            }
+            <th id="tpar"class="center">{{first9par + last9par}}</th>
+          </tr>
+          <tr>
+            <th id="si">SI</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.course.holes[i].si}}
+                </td>
+              }
+              <th id="empty"></th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.course.holes[i + 9].si}}
+                </td>
+              }
+              <th id="empty"></th>
+            }
+            <th id="empty"></th>
+          </tr>
+          <tr>
+            <th id="score" i18n="@@roundViewWhs-score">Score</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td [ngClass]="scoreBruttoClass[i]" class="center">
+                  @if (round.scoreCard[i + (playerOffset * 18)].stroke > 0) {
+                    <span>
+                      @if (round.scoreCard[i + (playerOffset * 18)].stroke === 16) {
+                        <span>
+                          x
+                        </span>
+                      }
+                      @if (round.scoreCard[i + (playerOffset * 18)].stroke < 16) {
+                        <span>
+                          {{round.scoreCard[i + (playerOffset * 18)].stroke}}
+                        </span>
+                      }
+                    </span>
+                  }
+                </td>
+              }
+              <th id="f9" class="center">
+                @if (!ballPickedUp) {
+                  <span>
+                    {{first9score}}
+                  </span>
+                }
+              </th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td [ngClass]="scoreBruttoClass[i + 9]" class="center">
+                  @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0) {
+                    <span>
+                      @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0) {
+                        <span>
+                          @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke === 16) {
+                            <span>
+                              x
+                            </span>
+                          }
+                          @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16) {
+                            <span>
+                              {{round.scoreCard[i + (playerOffset * 18) + 9].stroke}}
+                            </span>
+                          }
+                        </span>
+                      }
+                    </span>
+                  }
+                </td>
+              }
+              <th id="l9" class="center">
+                @if (!ballPickedUp) {
+                  <span>
+                    {{last9score}}
+                  </span>
+                }
+              </th>
+            }
+            <th id="b9" class="center">
+              @if (!ballPickedUp) {
+                <span>
+                  {{first9score + last9score}}
+                </span>
+              }
+            </th>
+          </tr>
+          @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+            <tr>
+              <th id="hcp">HCP</th>
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18)].hcp}}
+                  </td>
+                }
+                <th id="empty"></th>
+              }
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18) + 9].hcp}}
+                  </td>
+                }
+                <th id="empty"></th>
+              }
+              <th id="empty"></th>
+            </tr>
+          }
+          @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+            <tr>
+              <th id="ns" i18n="@@roundViewWhs-netScore">Net Score</th>
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td [ngClass]="scoreNettoClass[i]" class="center">
+                    @if (round.scoreCard[i + (playerOffset * 18)].stroke > 0) {
+                      <span>
+                        @if (round.scoreCard[i + (playerOffset * 18)].stroke < 16) {
+                          <span>
+                            {{round.scoreCard[i + (playerOffset * 18)].scoreNetto}}
+                          </span>
+                        }
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="f9n" class="center">
+                  @if (!ballPickedUp) {
+                    <span>
+                      {{first9scoreNetto}}
+                    </span>
+                  }
+                </th>
+              }
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td [ngClass]="scoreNettoClass[i + 9]" class="center">
+                    @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke > 0) {
+                      <span>
+                        @if (round.scoreCard[i + (playerOffset * 18) + 9].stroke < 16) {
+                          <span>
+                            {{round.scoreCard[i + (playerOffset * 18) + 9].scoreNetto}}
+                          </span>
+                        }
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="l9n" class="center">
+                  @if (!ballPickedUp) {
+                    <span>
+                      {{last9scoreNetto}}
+                    </span>
+                  }
+                </th>
+              }
+              <th id="b9t" class="center">
+                @if (!ballPickedUp) {
+                  <span>
+                    {{first9scoreNetto + last9scoreNetto}}
+                  </span>
+                }
+              </th>
+            </tr>
+          }
+          @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+            <tr >
+              <th id="cs">Cor. Score</th>
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18)].corScoreBrutto}}
+                  </td>
+                }
+                <th id="f9b" class="center">{{first9CorScorBrutto}}</th>
+              }
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18) + 9].corScoreBrutto}}
+                  </td>
+                }
+                <th id="l9b" class="center">{{last9CorScorBrutto}}</th>
+              }
+              <th id="b9b" class="center">
+                {{first9CorScorBrutto + last9CorScorBrutto}}
+              </th>
+            </tr>
+          }
+          @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+            <tr>
+              <th id="sn">STB Net</th>
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18)].stbNetto}}
+                  </td>
+                }
+                <th id="f9sn" class="center">{{first9StbNetto}}</th>
+              }
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18) + 9].stbNetto}}
+                  </td>
+                }
+                <th id="l9sn" class="center">{{last9StbNetto}}</th>
+              }
+              <th id="b9sn" class="center">
+                {{first9StbNetto + last9StbNetto}}
+              </th>
+            </tr>
+          }
+          @if (round.player[playerOffset].roundDetails.ninesFull >= 0) {
+            <tr>
+              <th id="s">STB</th>
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18)].stbBrutto}}
+                  </td>
+                }
+                <th id="f9b" class="center">{{first9StbBrutto}}</th>
+              }
+              @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+                @for (index of counter(9); track index; let i = $index) {
+                  <td class="center">
+                    {{round.scoreCard[i + (playerOffset * 18) + 9].stbBrutto}}
+                  </td>
+                }
+                <th id="l9b" class="center">{{last9StbBrutto}}</th>
+              }
+              <th id="b9b" class="center">{{first9StbBrutto + last9StbBrutto}}</th>
+            </tr>
+          }
+          <tr>
+            <th id="pu" i18n="@@roundViewWhs-putts">Putts</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.scoreCard[i + (playerOffset * 18)].pats}}
+                </td>
+              }
+              <th id="f9p" class="center"> {{first9Putt}}</th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.scoreCard[i + (playerOffset * 18) + 9].pats}}
+                </td>
+              }
+              <th id="l9p" class="center">{{last9Putt}}</th>
+            }
+            <th id="b9p" class="center">{{first9Putt + last9Putt}}</th>
+          </tr>
+          <tr>
+            <th id="pen" i18n="@@roundViewWhs-penalt">Penalties</th>
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 2) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.scoreCard[i + (playerOffset * 18)].penalty}}
+                </td>
+              }
+              <th id="f9p" class="center">{{first9Penalty}}</th>
+            }
+            @if (round.player[playerOffset].roundDetails.ninesFull !== 1) {
+              @for (index of counter(9); track index; let i = $index) {
+                <td class="center">
+                  {{round.scoreCard[i + (playerOffset * 18) + 9].penalty}}
+                </td>
+              }
+              <th id="l9p" class="center">{{last9Penalty}}</th>
+            }
+            <th id="b9p" class="center">{{first9Penalty + last9Penalty}}</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
