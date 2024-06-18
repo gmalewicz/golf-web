@@ -1,171 +1,236 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
-                            [curPlayerIdx] = 'curPlayerIdx'
-                            [puttSelectorActive] = 'puttSelectorActive'
-                            [rounds] = 'onlineRounds'
-                            [curHolePutts] = 'curHolePutts'
-                            [penaltySelectorActive] = 'penaltySelectorActive'
-                            [curHolePenalties] = 'curHolePenalties'
-                            [addScore] = 'addScore.bind(this)'
-                            [curHoleIdx] = 'curHoleIdx'
-                            [ballPickedUp] = 'ballPickedUp'
-                            [totalStrokes] = 'totalStrokes'
-                            [counter] = 'counter.bind(this)'
-                            [calculateStyle] = 'calculateStyle.bind(this)'
-                            [inProgress] = 'inProgress'>
-  </app-common-scorecard-top>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
   <div>
+    <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
+      [curPlayerIdx] = 'curPlayerIdx'
+      [puttSelectorActive] = 'puttSelectorActive'
+      [rounds] = 'onlineRounds'
+      [curHolePutts] = 'curHolePutts'
+      [penaltySelectorActive] = 'penaltySelectorActive'
+      [curHolePenalties] = 'curHolePenalties'
+      [addScore] = 'addScore.bind(this)'
+      [curHoleIdx] = 'curHoleIdx'
+      [ballPickedUp] = 'ballPickedUp'
+      [totalStrokes] = 'totalStrokes'
+      [counter] = 'counter.bind(this)'
+      [calculateStyle] = 'calculateStyle.bind(this)'
+      [inProgress] = 'inProgress'>
+    </app-common-scorecard-top>
     <div>
-      <h3>
-        <span i18n="@@onlnRnd-score">
+      <div>
+        <h3>
+          <span i18n="@@onlnRnd-score">
           Score Card
         </span>
-        &nbsp;
-        <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
-          STR
-        </button>
-        &nbsp;
-        <button class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
-          STN
-        </button>
-        &nbsp;
-        <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
-          STB
-        </button>
-      </h3>
+          &nbsp;
+          <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
+            STR
+          </button>
+          &nbsp;
+          <button class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
+            STN
+          </button>
+          &nbsp;
+          <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
+            STB
+          </button>
+        </h3>
+      </div>
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round score card">
+        <thead>
+          <tr>
+            <th id="nav"></th>
+            <ng-template [ngTemplateOutlet]="TableHeader"></ng-template>
+            <th id="par">Par</th>
+            <th id="si">Si</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (stroke of strokes; track stroke; let i = $index) {
+            <tr [ngClass]="i === curHoleIdx ? 'fw-bolder' : {}">
+              @if (i === curHoleIdx) {
+                <td>
+                  <a>
+                    <fa-icon [icon]="faPlay" class="golf-green fa-xl"></fa-icon>
+                  </a>
+                </td>
+              }
+              @if (i != curHoleIdx) {
+                <td>
+                  <a (click)="selectHole(i)">
+                    <fa-icon [icon]="faPlay" class="golf-gray"></fa-icon>
+                  </a>
+                </td>
+              }
+              <td>
+                {{i + 1}}
+              </td>
+              @for (onlineRound of onlineRounds; track onlineRound; let pl = $index) {
+                <td>
+                  @if (stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0) {
+                    <span>{{stroke[pl]}}</span>
+                  }
+                  @if (stroke[pl] === 16  && displayMode === 0) {
+                    <span>x</span>
+                  }
+                  @if (stroke[pl] > 0 && displayMode === 1) {
+                    <span>{{stbNet[pl][i]}}</span>
+                  }
+                  @if (stroke[pl] > 0 && displayMode === 2) {
+                    <span>{{strNet[pl][i]}}</span>
+                  }
+                  <span class="supsub">
+                    <span class="superscript">
+                      <span class="dotSeparator"></span>
+                      @for (putt of counter(putts[i][pl]); track putt) {
+                        <span>
+                          <span class="blackDot"></span>
+                          <span class="dotSeparator"></span>
+                        </span>
+                      }
+                    </span>
+                    <span class="subscript">
+                      <span class="dotSeparator"></span>
+                      @for (penalty of counter(penalties[i][pl]); track penalty) {
+                        <span>
+                          <span class="redDot"></span>
+                          <span class="dotSeparator"></span>
+                        </span>
+                      }
+                    </span>
+                  </span>
+                </td>
+              }
+              <td>
+                {{course.holes[i].par}}
+              </td>
+              <td>
+                {{course.holes[i].si}}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Online round score card">
-      <thead>
-        <tr>
-          <th id="nav"></th>
-          <ng-template [ngTemplateOutlet]="TableHeader"></ng-template>
-          <th id="par">Par</th>
-          <th id="si">Si</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let stroke of strokes, let i = index" [ngClass]="i === curHoleIdx ? 'fw-bolder' : {}">
-          <td *ngIf="i === curHoleIdx">
-            <a>
-              <fa-icon [icon]="faPlay" class="golf-green fa-xl"></fa-icon>
-            </a>
-          </td>
-          <td *ngIf="i != curHoleIdx">
-            <a (click)="selectHole(i)">
-              <fa-icon [icon]="faPlay" class="golf-gray"></fa-icon>
-            </a>
-          </td>
-          <td>
-            {{i + 1}}
-          </td>
-          <td *ngFor="let pl = index of onlineRounds">
-            <span *ngIf="stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0">{{stroke[pl]}}</span>
-            <span *ngIf="stroke[pl] === 16  && displayMode === 0">x</span>
-            <span *ngIf="stroke[pl] > 0 && displayMode === 1">{{stbNet[pl][i]}}</span>
-            <span *ngIf="stroke[pl] > 0 && displayMode === 2">{{strNet[pl][i]}}</span>
-            <span class="supsub">
-              <span class="superscript">
-                <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(putts[i][pl])">
-                  <span class="blackDot"></span>
-                  <span class="dotSeparator"></span>
-                </span>
-              </span>
-              <span class="subscript">
-                <span class="dotSeparator"></span>
-                <span *ngFor="let i = index of counter(penalties[i][pl])">
-                  <span class="redDot"></span>
-                  <span class="dotSeparator"></span>
-                </span>
-              </span>
-            </span>
-          </td>
-          <td>
-            {{course.holes[i].par}}
-          </td>
-          <td>
-            {{course.holes[i].si}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <br />
-    <div class="form-group">
-      <button type="button" mat-raised-button color="warn" (click)="onDelete()">
-        <span *ngIf="loadingDel" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@onlnRnd-delete">Delete</span>
-      </button>
-      &nbsp;
-      <button type="button" mat-raised-button color="primary" (click)="onFinal()">
-        <span *ngIf="loadingFin" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@onlnRnd-fin">Finalize</span>
-      </button>
+    <div>
+      <br />
+      <div class="form-group">
+        <button type="button" mat-raised-button color="warn" (click)="onDelete()">
+          @if (loadingDel) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@onlnRnd-delete">Delete</span>
+        </button>
+        &nbsp;
+        <button type="button" mat-raised-button color="primary" (click)="onFinal()">
+          @if (loadingFin) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@onlnRnd-fin">Finalize</span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
+}
 
 <ng-template #TableHeader >
   <th id="hole" i18n="@@onlnRnd-hole">Hole</th>
   <th id="p1str">{{onlineRounds[0].player.nick}}
-    <span *ngIf="ballPickedUp[0] && displayMode === 0">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[0] && displayMode === 0">
-      ({{totalStrokes[0]}})
-    </span>
-    <span *ngIf="displayMode === 1">
-      ({{totalStbNet[0]}})
-    </span>
-    <span *ngIf="displayMode === 2">
-      ({{totalStrNet[0]}})
-    </span>
+    @if (ballPickedUp[0] && displayMode === 0) {
+      <span>
+        (x)
+      </span>
+    }
+    @if (!ballPickedUp[0] && displayMode === 0) {
+      <span>
+        ({{totalStrokes[0]}})
+      </span>
+    }
+    @if (displayMode === 1) {
+      <span>
+        ({{totalStbNet[0]}})
+      </span>
+    }
+    @if (displayMode === 2) {
+      <span>
+        ({{totalStrNet[0]}})
+      </span>
+    }
   </th>
-  <th id="p2str" *ngIf="onlineRounds.length > 1">{{onlineRounds[1].player.nick}}
-    <span *ngIf="ballPickedUp[1]  && displayMode === 0">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[1]  && displayMode === 0">
-      ({{totalStrokes[1]}})
-    </span>
-    <span *ngIf="displayMode === 1">
-      ({{totalStbNet[1]}})
-    </span>
-    <span *ngIf="displayMode === 2">
-      ({{totalStrNet[1]}})
-    </span>
-  </th>
-  <th id="p3str" *ngIf="onlineRounds.length > 2">{{onlineRounds[2].player.nick}}
-    <span *ngIf="ballPickedUp[2]  && displayMode === 0">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[2]  && displayMode === 0">
-      ({{totalStrokes[2]}})
-    </span>
-    <span *ngIf="displayMode === 1">
-      ({{totalStbNet[2]}})
-    </span>
-    <span *ngIf="displayMode === 2">
-      ({{totalStrNet[2]}})
-    </span>
-  </th>
-  <th id="p4str" *ngIf="onlineRounds.length > 3">{{onlineRounds[3].player.nick}}
-    <span *ngIf="ballPickedUp[3]  && displayMode === 0">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[3] && displayMode === 0">
-      ({{totalStrokes[3]}})
-    </span>
-    <span *ngIf="displayMode === 1">
-      ({{totalStbNet[3]}})
-    </span>
-    <span *ngIf="displayMode === 2">
-      ({{totalStrNet[3]}})
-    </span>
-  </th>
+  @if (onlineRounds.length > 1) {
+    <th id="p2str">{{onlineRounds[1].player.nick}}
+      @if (ballPickedUp[1]  && displayMode === 0) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[1]  && displayMode === 0) {
+        <span>
+          ({{totalStrokes[1]}})
+        </span>
+      }
+      @if (displayMode === 1) {
+        <span>
+          ({{totalStbNet[1]}})
+        </span>
+      }
+      @if (displayMode === 2) {
+        <span>
+          ({{totalStrNet[1]}})
+        </span>
+      }
+    </th>
+  }
+  @if (onlineRounds.length > 2) {
+    <th id="p3str">{{onlineRounds[2].player.nick}}
+      @if (ballPickedUp[2]  && displayMode === 0) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[2]  && displayMode === 0) {
+        <span>
+          ({{totalStrokes[2]}})
+        </span>
+      }
+      @if (displayMode === 1) {
+        <span>
+          ({{totalStbNet[2]}})
+        </span>
+      }
+      @if (displayMode === 2) {
+        <span>
+          ({{totalStrNet[2]}})
+        </span>
+      }
+    </th>
+  }
+  @if (onlineRounds.length > 3) {
+    <th id="p4str">{{onlineRounds[3].player.nick}}
+      @if (ballPickedUp[3]  && displayMode === 0) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[3] && displayMode === 0) {
+        <span>
+          ({{totalStrokes[3]}})
+        </span>
+      }
+      @if (displayMode === 1) {
+        <span>
+          ({{totalStbNet[3]}})
+        </span>
+      }
+      @if (displayMode === 2) {
+        <span>
+          ({{totalStrNet[3]}})
+        </span>
+      }
+    </th>
+  }
 </ng-template>

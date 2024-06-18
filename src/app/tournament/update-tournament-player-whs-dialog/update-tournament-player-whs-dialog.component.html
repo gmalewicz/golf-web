@@ -3,10 +3,18 @@
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
       <input matInput maxlength="4" i18n-placeholder="@@updTourPlrDlg-whs" placeholder="Player whs (X.X)" formControlName="whs" />
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required" i18n="@@updTourPlrDlg-whsReq">WHS is required</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.max" i18n="@@updTourPlrDlg-whsTooHigh">WHS is caannot be higer than 54</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min" i18n="@@updTourPlrDlg-whsTooLow">WHS is caannot be lower than -5</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern" i18n="@@updTourPlrDlg-patrn">Provide valid value</mat-error>
+      @if (form.controls.whs.errors && form.controls.whs.errors.required) {
+        <mat-error i18n="@@updTourPlrDlg-whsReq">WHS is required</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.max) {
+        <mat-error i18n="@@updTourPlrDlg-whsTooHigh">WHS is caannot be higer than 54</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.min) {
+        <mat-error i18n="@@updTourPlrDlg-whsTooLow">WHS is caannot be lower than -5</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.pattern) {
+        <mat-error i18n="@@updTourPlrDlg-patrn">Provide valid value</mat-error>
+      }
     </mat-form-field>
 
     <mat-dialog-actions>

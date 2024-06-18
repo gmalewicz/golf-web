@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
 import { Player } from '@/_models';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { firstValueFrom } from 'rxjs';
@@ -13,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-update-player',
     templateUrl: './update-player.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdatePlayerComponent implements OnInit {
 

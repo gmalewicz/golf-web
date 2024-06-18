@@ -3,16 +3,20 @@
   <div mat-dialog-content>{{ confirmMessage }}</div>
   <div mat-dialog-content>
     <div mat-dialog-actions>
-      <button  *ngIf="makeItDanger" mat-raised-button color="warn" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
+      @if (makeItDanger) {
+        <button  mat-raised-button color="warn" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirm">
         Confirm
       </button>
-      <button  *ngIf="!makeItDanger" mat-raised-button color="primary" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirmWrn">
+      }
+      @if (!makeItDanger) {
+        <button  mat-raised-button color="primary" (click)="dialogRef.close(true)" i18n="@@confirmDlg-confirmWrn">
         Confirm
       </button>
+      }
       &nbsp;
       <button mat-raised-button color="primary" (click)="dialogRef.close(false)" i18n="@@confirmDlg-cancel">
         Cancel
       </button>
     </div>
-</div>
+  </div>
 </div>

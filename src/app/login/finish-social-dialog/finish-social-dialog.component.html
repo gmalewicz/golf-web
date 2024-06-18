@@ -3,30 +3,38 @@
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
       <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required"
-        >WHS is required</mat-error
-      >
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.max"
-        >WHS is caannot be higer than 54.0</mat-error
-      >
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min"
-        >WHS is caannot be lower than -5.0</mat-error
-      >
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern"
-        >Provide valid value</mat-error
-      >
-    </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-content [formGroup]="form">
-    <mat-checkbox formControlName="female" (click)="sexClick(true)"
-      >Female</mat-checkbox
-    >
-    &nbsp;
-    <mat-checkbox formControlName="male" (click)="sexClick(false)"
-      >Male</mat-checkbox
-    >
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
-  </mat-dialog-actions>
-</div>
+      @if (form.controls.whs.errors && form.controls.whs.errors.required) {
+        <mat-error
+          >WHS is required</mat-error
+          >
+        }
+        @if (form.controls.whs.errors && form.controls.whs.errors.max) {
+          <mat-error
+            >WHS is caannot be higer than 54.0</mat-error
+            >
+          }
+          @if (form.controls.whs.errors && form.controls.whs.errors.min) {
+            <mat-error
+              >WHS is caannot be lower than -5.0</mat-error
+              >
+            }
+            @if (form.controls.whs.errors && form.controls.whs.errors.pattern) {
+              <mat-error
+                >Provide valid value</mat-error
+                >
+              }
+            </mat-form-field>
+          </mat-dialog-content>
+          <mat-dialog-content [formGroup]="form">
+            <mat-checkbox formControlName="female" (click)="sexClick(true)"
+              >Female</mat-checkbox
+              >
+              &nbsp;
+              <mat-checkbox formControlName="male" (click)="sexClick(false)"
+                >Male</mat-checkbox
+                >
+              </mat-dialog-content>
+              <mat-dialog-actions>
+                <button mat-raised-button color="primary" (click)="save()">Save</button>
+              </mat-dialog-actions>
+            </div>

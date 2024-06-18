@@ -6,13 +6,13 @@ import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-add-cycle',
     templateUrl: './add-cycle.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddCycleComponent implements OnInit {
 

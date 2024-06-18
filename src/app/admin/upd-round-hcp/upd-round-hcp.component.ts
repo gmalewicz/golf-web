@@ -1,6 +1,6 @@
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
     selector: 'app-upd-round-hcp',
     templateUrl: './upd-round-hcp.component.html',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass, NgIf, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdRoundHcpComponent implements OnInit {
 

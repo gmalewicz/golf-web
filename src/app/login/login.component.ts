@@ -9,13 +9,13 @@ import { Player } from '@/_models';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FinishSocialDialogComponent } from './finish-social-dialog/finish-social-dialog.component';
 import { of } from 'rxjs';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;

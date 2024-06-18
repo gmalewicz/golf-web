@@ -17,25 +17,24 @@ import { MatSelect } from '@angular/material/select';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-online-round-def',
     templateUrl: './online-round-def.component.html',
     standalone: true,
     imports: [
-        NgIf,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatError,
-        NgClass,
-        FaIconComponent,
-        MatSelect,
-        MatOption,
-        RouterLink,
-    ],
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    NgClass,
+    FaIconComponent,
+    MatSelect,
+    MatOption,
+    RouterLink
+],
 })
 export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
   course: Course;

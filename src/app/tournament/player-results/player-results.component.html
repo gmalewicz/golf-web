@@ -10,22 +10,34 @@
       <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
     </tr>
   </thead>
-  <tbody *ngFor="let tournamentRound of tournamentResult.tournamentRounds,  let j = index">
-    <td>{{j + 1}}</td>
-    <td>
-      <span *ngIf="tournamentRound.roundId !== null">
-        <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"
-          (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>
-        &nbsp;
-      </span>
-      {{tournamentRound.courseName}}
-    </td>
-    <td>{{tournamentRound.stbNet}}</td>
-    <td>{{tournamentRound.stbGross}}</td>
-    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>
-    <td *ngIf="!tournamentRound.strokes">x</td>
-    <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesNetto}}</td>
-    <td *ngIf="!tournamentRound.strokes">x</td>
-    <td>{{tournamentRound.scrDiff}}</td>
-  </tbody>
+  @for (tournamentRound of tournamentResult.tournamentRounds; track tournamentRound; let j = $index) {
+    <tbody>
+      <td>{{j + 1}}</td>
+      <td>
+        @if (tournamentRound.roundId !== null) {
+          <span>
+            <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"
+            (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>
+            &nbsp;
+          </span>
+        }
+        {{tournamentRound.courseName}}
+      </td>
+      <td>{{tournamentRound.stbNet}}</td>
+      <td>{{tournamentRound.stbGross}}</td>
+      @if (tournamentRound.strokes) {
+        <td>{{tournamentRound.strokesBrutto}}</td>
+      }
+      @if (!tournamentRound.strokes) {
+        <td>x</td>
+      }
+      @if (tournamentRound.strokes) {
+        <td>{{tournamentRound.strokesNetto}}</td>
+      }
+      @if (!tournamentRound.strokes) {
+        <td>x</td>
+      }
+      <td>{{tournamentRound.scrDiff}}</td>
+    </tbody>
+  }
 </table>

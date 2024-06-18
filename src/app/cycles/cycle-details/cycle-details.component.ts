@@ -14,13 +14,13 @@ import { CycleTournament } from '../_models/cycleTournament';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.component';
 import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details.component.html',
     standalone: true,
-    imports: [NgIf, CycleResultsComponent, CycleTournamentComponent, RouterLink]
+    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink]
 })
 export class CycleDetailsComponent implements OnInit {
 

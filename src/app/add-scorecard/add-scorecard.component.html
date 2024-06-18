@@ -1,123 +1,125 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display" class="container-float">
-  <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
-  <form [formGroup]="addScorecardForm">
-  <div class="row">
-
-    <div class="col-auto">
-      <mat-form-field>
-        <input matInput maxlength="10" [formControlName]="'date'"/>
-        @if (f.date.invalid && f.date.errors.required)  {
-          <mat-error i18n="@@addScorecard-dateReq">Date is required</mat-error>
-        }
-        @if (f.date.invalid && f.date.errors.pattern)  {
-          <mat-error i18n="@@addScorecard-dateFrmt">Provide the date in the YYYY/MM/DD format</mat-error>
-        }
-      </mat-form-field>
-    </div>
-
-    <div class="col-auto">
-      <mat-form-field>
-        <input matInput maxlength="5" [formControlName]="'teeTime'"/>
-        @if (f.teeTime.invalid && f.teeTime.errors.required)  {
-          <mat-error i18n="@@addScorecard-teeTimeReq">Tee time is required</mat-error>
-        }
-        @if (f.teeTime.invalid && f.teeTime.errors.pattern)  {
-          <mat-error i18n="@@addScorecard-teeValid">Provide the valid tee time</mat-error>
-        }
-      </mat-form-field>
-    </div>
-
-    <div class="col-auto">
-      <mat-form-field>
-        <mat-label>tee</mat-label>
-        <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(true)">
-          @for (tee of teeOptions; track teeOptions) {
-            <mat-option [value]="tee.value">{{tee.label}}</mat-option>
-          }
-        </mat-select>
-        @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
-          <mat-error i18n="@@addScorecard-teeReq">Tee is required</mat-error>
-        }
-      </mat-form-field>
-    </div>
-
-    <br />
-    <br />
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
-  <div style="display: block">
-    <canvas
-      baseChart class="chart"
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [legend]="barChartLegend"
-      [type]="barChartType"
-    >
-    </canvas>
-  </div>
-  <br />
-
-  <div class="row">
-    <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-hole">
+}
+@if (display) {
+  <div class="container-float">
+    <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
+    <form [formGroup]="addScorecardForm">
+      <div class="row">
+        <div class="col-auto">
+          <mat-form-field>
+            <input matInput maxlength="10" [formControlName]="'date'"/>
+            @if (f.date.invalid && f.date.errors.required)  {
+              <mat-error i18n="@@addScorecard-dateReq">Date is required</mat-error>
+            }
+            @if (f.date.invalid && f.date.errors.pattern)  {
+              <mat-error i18n="@@addScorecard-dateFrmt">Provide the date in the YYYY/MM/DD format</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <input matInput maxlength="5" [formControlName]="'teeTime'"/>
+            @if (f.teeTime.invalid && f.teeTime.errors.required)  {
+              <mat-error i18n="@@addScorecard-teeTimeReq">Tee time is required</mat-error>
+            }
+            @if (f.teeTime.invalid && f.teeTime.errors.pattern)  {
+              <mat-error i18n="@@addScorecard-teeValid">Provide the valid tee time</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(true)">
+              @for (tee of teeOptions; track tee) {
+                <mat-option [value]="tee.value">{{tee.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
+              <mat-error i18n="@@addScorecard-teeReq">Tee is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div style="display: block">
+        <canvas
+          baseChart class="chart"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [type]="barChartType"
+          >
+        </canvas>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-hole">
       Hole:
     </div>
-    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <button *ngFor="let hole of barChartLabels; let i = index" class="btn btn-outline-success buttonWidth radio-hole"
-            [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
-        {{ hole }}
-      </button>
-    </div>
-  </div>
-
-  <br />
-
-  <div class="row">
-    <div  class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-strokes">
+        <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+          @for (hole of barChartLabels; track hole; let i = $index) {
+            <button class="btn btn-outline-success buttonWidth radio-hole"
+              [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
+              {{ hole }}
+            </button>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div  class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-strokes">
       Strokes:
     </div>
-    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <button *ngFor="let stroke of strokeButtons; let i = index" class="btn btn-outline-success buttonWidth radio-stroke"
-          [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
-        {{ stroke }}
-      </button>
-    </div>
-  </div>
-
-  <br />
-
-  <div class="row">
-    <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-putts">
+        <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+          @for (stroke of strokeButtons; track stroke; let i = $index) {
+            <button class="btn btn-outline-success buttonWidth radio-stroke"
+              [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
+              {{ stroke }}
+            </button>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-sm-1 btn" style="cursor: default;" i18n="@@addScorecard-putts">
       Putts:
     </div>
-    <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-      <button *ngFor="let pat of patButtons; let i = index" class="btn btn-outline-success buttonWidth radio-put"
-          [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
-        {{ pat }}
-      </button>
-    </div>
-  </div>
-
-  <div>
-    <br />
-    <div class="form-group">
-    <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@addScorecard-save">Save</span>
-    </button>
-    &nbsp;
-    <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addScorecard-clear">
+        <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
+          @for (pat of patButtons; track pat; let i = $index) {
+            <button class="btn btn-outline-success buttonWidth radio-put"
+              [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
+              {{ pat }}
+            </button>
+          }
+        </div>
+      </div>
+      <div>
+        <br />
+        <div class="form-group">
+          <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
+            @if (loading) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@addScorecard-save">Save</span>
+          </button>
+          &nbsp;
+          <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addScorecard-clear">
       Clear
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()" i18n="@@addScorecard-cancel">
+          &nbsp;
+          <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()" i18n="@@addScorecard-cancel">
       Cancel
     </button>
-    </div>
+        </div>
+      </div>
+    </form>
   </div>
-</form>
-</div>
+}
 
 

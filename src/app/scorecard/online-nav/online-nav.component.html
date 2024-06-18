@@ -9,12 +9,16 @@
       &lt;
     </button>
   </div>
-  <div class="col-auto fw-bolder fs-2" *ngIf="curHoleStrokes[curPlayerIdx] === 16">
-    x
-  </div>
-  <div class="col-auto fw-bolder fs-2" *ngIf="curHoleStrokes[curPlayerIdx] !== 16">
-    {{curHoleStrokes[curPlayerIdx]}}
-  </div>
+  @if (curHoleStrokes[curPlayerIdx] === 16) {
+    <div class="col-auto fw-bolder fs-2">
+      x
+    </div>
+  }
+  @if (curHoleStrokes[curPlayerIdx] !== 16) {
+    <div class="col-auto fw-bolder fs-2">
+      {{curHoleStrokes[curPlayerIdx]}}
+    </div>
+  }
   <div class="col-auto">
     <button type="button" class="btn-lg btn btn-success fw-bolder" (click)="onIncrease()">
       &gt;
@@ -22,41 +26,53 @@
   </div>
   <div  class="col-auto">
     <button type="button" style="width: 6rem;" class="btn-lg btn btn-success fw-bolder" (click)="addScore()" [disabled]="isActive ? (inProgress ? true : false) : true">
-      <span *ngIf="isActive && !inProgress" i18n="@@onlnNav-save">
+      @if (isActive && !inProgress) {
+        <span i18n="@@onlnNav-save">
         Save
       </span>
-      <span *ngIf="!isActive || inProgress" class="spinner-border spinner-border-sm mr-1">
-      </span>
+      }
+      @if (!isActive || inProgress) {
+        <span class="spinner-border spinner-border-sm mr-1">
+        </span>
+      }
     </button>
   </div>
 </div>
-<div *ngIf="rounds[0].putts">
-  <br/>
+@if (rounds[0].putts) {
   <div>
-    <span i18n="@@onlnNav-putts">Putts</span>
-    <span class="blackDot"></span>
-  </div>
-  <div>
-    <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <button *ngFor="let putt of buttons; let i = index" class="btn btn-outline-success btn-lg"
-          [ngClass]="puttSelectorActive[i]" (click)="selectPutt(i)">
-        {{i}}
-      </button>
+    <br/>
+    <div>
+      <span i18n="@@onlnNav-putts">Putts</span>
+      <span class="blackDot"></span>
+    </div>
+    <div>
+      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+        @for (putt of buttons; track putt; let i = $index) {
+          <button class="btn btn-outline-success btn-lg"
+            [ngClass]="puttSelectorActive[i]" (click)="selectPutt(i)">
+            {{i}}
+          </button>
+        }
+      </div>
     </div>
   </div>
-</div>
-<div *ngIf="rounds[0].penalties">
+}
+@if (rounds[0].penalties) {
   <div>
-    <span i18n="@@onlnNav-pnlt">Penalties</span>
-    <span class="redDot"></span>
-  </div>
-  <div>
-    <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-      <button *ngFor="let penalty of buttons; let i = index" class="btn btn-outline-success btn-lg"
-          [ngClass]="penaltySelectorActive[i]" (click)="selectPenalty(i)">
-        {{i}}
-      </button>
+    <div>
+      <span i18n="@@onlnNav-pnlt">Penalties</span>
+      <span class="redDot"></span>
+    </div>
+    <div>
+      <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
+        @for (penalty of buttons; track penalty; let i = $index) {
+          <button class="btn btn-outline-success btn-lg"
+            [ngClass]="penaltySelectorActive[i]" (click)="selectPenalty(i)">
+            {{i}}
+          </button>
+        }
+      </div>
     </div>
   </div>
-</div>
+}
 <br/>

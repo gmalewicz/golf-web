@@ -13,7 +13,7 @@ import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
 import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.component';
 import { RoundSummaryComponent } from '../round-summary/round-summary.component';
 import { RoundViewComponent } from '../round-view/round-view.component';
-import { NgIf } from '@angular/common';
+
 
 
 
@@ -21,7 +21,7 @@ import { NgIf } from '@angular/common';
     selector: 'app-round',
     templateUrl: './round.component.html',
     standalone: true,
-    imports: [NgIf, RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent]
+    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent]
 })
 export class RoundComponent implements OnInit {
 

@@ -6,29 +6,37 @@
       <input matInput i18n-placeholder="@@searchPlayerDialog-nick" placeholder="Player nick" formControlName="nick" (keyup)="onKey()"/>
     </mat-form-field>
 
-    <table *ngIf="dispPlayers" class="table table-striped" aria-describedby="Players" style="width: 230px;">
-      <thead>
-        <tr>
-          <th id="nick" i18n="@@searchPlayerDialog-nck" style="width: 40px;">Nick</th>
-          <th id="sex" i18n="@@searchPlayerDialog-sex" style="width: 20px;">Sex</th>
-          <th id="hcp" style="width: 20px;">HCP</th>
-          <th id="nav"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let player of players" (click)="addPlayer(player)" onKeyDown="addPlayer(player)">
-          <td>{{ player.nick }}</td>
-          <td>
-            <span *ngIf="player.sex">F</span>
-            <span *ngIf="!player.sex">M</span>
-          </td>
-          <td>{{ player.whs }}</td>
-          <td>
-            <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    @if (dispPlayers) {
+      <table class="table table-striped" aria-describedby="Players" style="width: 230px;">
+        <thead>
+          <tr>
+            <th id="nick" i18n="@@searchPlayerDialog-nck" style="width: 40px;">Nick</th>
+            <th id="sex" i18n="@@searchPlayerDialog-sex" style="width: 20px;">Sex</th>
+            <th id="hcp" style="width: 20px;">HCP</th>
+            <th id="nav"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (player of players; track player) {
+            <tr (click)="addPlayer(player)" onKeyDown="addPlayer(player)">
+              <td>{{ player.nick }}</td>
+              <td>
+                @if (player.sex) {
+                  <span>F</span>
+                }
+                @if (!player.sex) {
+                  <span>M</span>
+                }
+              </td>
+              <td>{{ player.whs }}</td>
+              <td>
+                <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
 
     <div>
       <br />

@@ -1,130 +1,188 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <h2>{{ course.name }}
-    <span *ngIf="!finalized" style="color: red;">
-      {{elapsed.hours | number:'2.0'}}:{{elapsed.minutes | number:'2.0'}}:{{elapsed.seconds | number:'2.0'}}
-    </span>
-  </h2>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
   <div>
-    <span i18n="@@onlnScorView-lstUpd">Last update:</span> {{lstUpdTime}}
-  </div>
-  <br/>
-  <div class="table-responsive">
-    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="online scorecard view">
-      <thead>
-        <tr>
-          <th id="hole" i18n="@@onlnScorView-hole">Hole</th>
-          <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
-            {{i + 1}}
-          </th>
-          <th id="out">OUT</th>
-          <th id="hNo" *ngFor="let i = index of counter(9)" class="w-5">
-            {{i + 10}}
-          </th>
-          <th id="in">IN</th>
-          <th id="total" i18n="@@onlnScorView-total">TOTAL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th id="par">PAR</th>
-          <td *ngFor="let i = index of counter(9)" class="center">
-            {{course.holes[i].par}}
-          </td>
-          <th id="f9par" class="center">{{first9par}}</th>
-          <td *ngFor="let i = index of counter(9)" class="center">
-            {{course.holes[i + 9].par}}
-          </td>
-          <th id="l9par" class="center">{{last9par}}</th>
-          <th id="b9par" class="center">{{first9par + last9par}}</th>
-        </tr>
-        <tr>
-          <th id="si">SI</th>
-          <td *ngFor="let i = index of counter(9)" class="center">
-            {{course.holes[i].si}}
-          </td>
-          <th id="empty"></th>
-          <td *ngFor="let i = index of counter(9)" class="center">
-            {{course.holes[i + 9].si}}
-          </td>
-          <th id="empty"></th>
-          <th id="empty"></th>
-        </tr>
-        <tr *ngFor="let onlineRound of onlineRounds, let idx = index" class="center">
-            <th id="nick">{{onlineRound.player.nick}}</th>
-            <ng-container *ngIf="owner === null">
-              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="scoreBruttoClass[idx][i]">
-                <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-                  <span *ngIf="onlineRound.scoreCardAPI[i].stroke === 16">
-                    x
-                  </span>
-                  <span *ngIf="onlineRound.scoreCardAPI[i].stroke < 16">
-                    {{onlineRound.scoreCardAPI[i].stroke}}
-                  </span>
-                </span>
-              </td>
-              <th id="f9s" class="center">
-                <span *ngIf="!first9ballPickedUp[idx]">
-                  {{onlineRound.first9score}}
-                </span>
-              </th>
-              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="scoreBruttoClass[idx][i + 9]">
-                <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-                  <span *ngIf="onlineRound.scoreCardAPI[i + 9].stroke === 16">
-                    x
-                  </span>
-                  <span *ngIf="onlineRound.scoreCardAPI[i + 9].stroke < 16">
-                    {{onlineRound.scoreCardAPI[i + 9].stroke}}
-                  </span>
-                </span>
-              </td>
-              <th id="l9s" class="center">
-                <span *ngIf="!last9ballPickedUp[idx]">
-                  {{onlineRound.last9score}}
-                </span>
-              </th>
-              <th id="b9s" class="center">
-                <span *ngIf="!first9ballPickedUp[idx] && !last9ballPickedUp[idx]">
-                  {{onlineRound.first9score + onlineRound.last9score}}
-                </span>
-              </th>
-            </ng-container>
-            <ng-container *ngIf="owner != null">
-              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i, idx)">
-                <span *ngIf="onlineRound.scoreCardAPI[i] != null">
-                  {{mpResultHistory[idx][i]}}
-                </span>
-              </td>
-              <th id="f9s" class="center"></th>
-              <td *ngFor="let i = index of counter(9)" class="center" [ngClass]="highlightHcp(i + 9, idx)">
-                <span *ngIf="onlineRound.scoreCardAPI[i + 9] != null">
-                  {{mpResultHistory[idx][i + 9]}}
-                </span>
-              </td>
-              <th id="l9s" class="center"></th>
-              <th id="b9s" class="center"></th>
-          </ng-container>
-        </tr>
-      </tbody>
-    </table>
-    <div class="my-google-map" *ngIf="authenticationService.playerRole.includes('ADMIN')">
-      <google-map [options]="mapOptions" [center]="marker.position" [mapTypeId]="'satellite'">
-        <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
-      </google-map>
+    <h2>{{ course.name }}
+      @if (!finalized) {
+        <span style="color: red;">
+          {{elapsed.hours | number:'2.0'}}:{{elapsed.minutes | number:'2.0'}}:{{elapsed.seconds | number:'2.0'}}
+        </span>
+      }
+    </h2>
+    <div>
+      <span i18n="@@onlnScorView-lstUpd">Last update:</span> {{lstUpdTime}}
     </div>
-  </div>
-  <div *ngIf="owner != null">
-    <h3 *ngIf="mpResult[1] === null">
-      {{mpResult[0]}}
-    </h3>
-    <h3 *ngIf="mpResult[1] !== null" style="color: red; font-weight: bold;">
-      {{mpResult[1]}}
-    </h3>
-  </div>
-  <br />
-  <button type="button" class="btn btn-success" routerLink="/scorecard" i18n="@@onlnScorView-cancel">
+    <br/>
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="online scorecard view">
+        <thead>
+          <tr>
+            <th id="hole" i18n="@@onlnScorView-hole">Hole</th>
+            @for (index of counter(9); track index;) {
+              <th id="hNo" class="w-5">
+                {{index + 1}}
+              </th>
+            }
+            <th id="out">OUT</th>
+            @for (index of counter(9); track index;) {
+              <th id="hNo" class="w-5">
+                {{index + 10}}
+              </th>
+            }
+            <th id="in">IN</th>
+            <th id="total" i18n="@@onlnScorView-total">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th id="par">PAR</th>
+            @for (index of counter(9); track index;) {
+              <td class="center">
+                {{course.holes[index].par}}
+              </td>
+            }
+            <th id="f9par" class="center">{{first9par}}</th>
+            @for (index of counter(9); track index;) {
+              <td class="center">
+                {{course.holes[index + 9].par}}
+              </td>
+            }
+            <th id="l9par" class="center">{{last9par}}</th>
+            <th id="b9par" class="center">{{first9par + last9par}}</th>
+          </tr>
+          <tr>
+            <th id="si">SI</th>
+            @for (index of counter(9); track index;) {
+              <td class="center">
+                {{course.holes[index].si}}
+              </td>
+            }
+            <th id="empty"></th>
+            @for (index of counter(9); track index;) {
+              <td class="center">
+                {{course.holes[index + 9].si}}
+              </td>
+            }
+            <th id="empty"></th>
+            <th id="empty"></th>
+          </tr>
+          @for (onlineRound of onlineRounds; track onlineRound; let idx = $index) {
+            <tr class="center">
+              <th id="nick">{{onlineRound.player.nick}}</th>
+              @if (owner === null) {
+                @for (index of counter(9); track index;) {
+                  <td class="center" [ngClass]="scoreBruttoClass[idx][index]">
+                    @if (onlineRound.scoreCardAPI[index] != null) {
+                      <span>
+                        @if (onlineRound.scoreCardAPI[index].stroke === 16) {
+                          <span>
+                            x
+                          </span>
+                        }
+                        @if (onlineRound.scoreCardAPI[index].stroke < 16) {
+                          <span>
+                            {{onlineRound.scoreCardAPI[index].stroke}}
+                          </span>
+                        }
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="f9s" class="center">
+                  @if (!first9ballPickedUp[idx]) {
+                    <span>
+                      {{onlineRound.first9score}}
+                    </span>
+                  }
+                </th>
+                @for (index of counter(9); track index;) {
+                  <td class="center" [ngClass]="scoreBruttoClass[idx][index + 9]">
+                    @if (onlineRound.scoreCardAPI[index + 9] != null) {
+                      <span>
+                        @if (onlineRound.scoreCardAPI[index + 9].stroke === 16) {
+                          <span>
+                            x
+                          </span>
+                        }
+                        @if (onlineRound.scoreCardAPI[index + 9].stroke < 16) {
+                          <span>
+                            {{onlineRound.scoreCardAPI[index + 9].stroke}}
+                          </span>
+                        }
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="l9s" class="center">
+                  @if (!last9ballPickedUp[idx]) {
+                    <span>
+                      {{onlineRound.last9score}}
+                    </span>
+                  }
+                </th>
+                <th id="b9s" class="center">
+                  @if (!first9ballPickedUp[idx] && !last9ballPickedUp[idx]) {
+                    <span>
+                      {{onlineRound.first9score + onlineRound.last9score}}
+                    </span>
+                  }
+                </th>
+              }
+              @if (owner != null) {
+                @for (index of counter(9); track index;) {
+                  <td class="center" [ngClass]="highlightHcp(index, idx)">
+                    @if (onlineRound.scoreCardAPI[index] != null) {
+                      <span>
+                        {{mpResultHistory[idx][index]}}
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="f9s" class="center"></th>
+                @for (index of counter(9); track index;) {
+                  <td class="center" [ngClass]="highlightHcp(index + 9, idx)">
+                    @if (onlineRound.scoreCardAPI[index + 9] != null) {
+                      <span>
+                        {{mpResultHistory[idx][index + 9]}}
+                      </span>
+                    }
+                  </td>
+                }
+                <th id="l9s" class="center"></th>
+                <th id="b9s" class="center"></th>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+      @if (authenticationService.playerRole.includes('ADMIN')) {
+        <div class="my-google-map">
+          <google-map [options]="mapOptions" [center]="marker.position" [mapTypeId]="'satellite'">
+            <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
+          </google-map>
+        </div>
+      }
+    </div>
+    @if (owner != null) {
+      <div>
+        @if (mpResult[1] === null) {
+          <h3>
+            {{mpResult[0]}}
+          </h3>
+        }
+        @if (mpResult[1] !== null) {
+          <h3 style="color: red; font-weight: bold;">
+            {{mpResult[1]}}
+          </h3>
+        }
+      </div>
+    }
+    <br />
+    <button type="button" class="btn btn-success" routerLink="/scorecard" i18n="@@onlnScorView-cancel">
     Cancel
   </button>
-</div>
+  </div>
+}

@@ -12,7 +12,7 @@
           <tr>
             <th id="hno" i18n="@@cycleResults-no">No.</th>
             <th id="hname" i18n="@@cycleResults-name">Name</th>
-            @for (index of counter(rounds.length); track index; let i = $index) {
+            @for (i of counter(rounds.length); track i;) {
               <th id="hr23" class="w-5">
                 <tr style="font-size:x-small;">
                   {{cycleTournaments[names[i]].name}}
@@ -31,7 +31,7 @@
             <tr >
               <td id="no">{{ idx + 1 }}</td>
               <td id="name">{{ cycleResult.name }}</td>
-              @for (index of counter(rounds.length); track index; let i = $index) {
+              @for (i of counter(rounds.length); track i;) {
                 <td id="r" class="w-5">{{cycleResults[idx].r[rounds[i]]}}</td>
               }
               <th id="result">{{ cycleResult.cycleResult }}</th>

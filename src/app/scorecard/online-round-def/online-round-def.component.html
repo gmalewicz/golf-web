@@ -1,270 +1,263 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <form [formGroup]="defScoreCardForm">
-    <div>
-      <h2>
-        {{course.name}}
-      </h2>
-    </div>
-    <div class="golf-margin-top-15">
-      <mat-form-field>
-        <mat-label>Tee time</mat-label>
-        <input matInput maxlength="5" [formControlName]="'teeTime'" />
-        @if (f.teeTime.invalid && f.teeTime.errors.required) {
-          <mat-error i18n="@@onlnRndDef-timReq">Tee time is required</mat-error>
-        }
-        @if (f.teeTime.invalid && f.teeTime.errors.pattern) {
-          <mat-error i18n="@@onlnRndDef-timPatt">Provide the valid tee time</mat-error>
-        }
-
-      </mat-form-field>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
-
-    <div >
-      <input type="checkbox" class="form-check-input form-check-input-green" id="matchPlay" formControlName="matchPlay"
-        (ngModelChange)="onMatchPlayChange($event)">
-      <label for="matchPlay">&nbsp; <span i18n="@@onlnRndDef-mpRnd">Match Play Round</span></label>
-    </div>
-
-    <div *ngIf="f.matchPlay.value" class="row golf-margin-top">
-      <div class="col">
-        <input type="radio" name="mpFormat" id="mpFormat1" value="1" formControlName="mpFormat"  class="form-check-input form-check-input-green">
-        <label class="custom-control-label green" for="mpFormat1">100%</label>
-        &nbsp;
-        <input type="radio" name="mpFormat" id="mpFormat2" value="0.9" formControlName="mpFormat"  class="form-check-input form-check-input-green">
-        <label class="custom-control-label green" for="mpFormat2">90%</label>
-        &nbsp;
-        <input type="radio" name="mpFormat" id="mpFormat3" value="0.75" formControlName="mpFormat"  class="form-check-input form-check-input-green" checked>
-        <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
-        &nbsp;
-        <input type="radio" name="mpFormat" id="mpFormat4" value="0.50" formControlName="mpFormat"  class="form-check-input form-check-input-green">
-        <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+}
+@if (display) {
+  <div>
+    <form [formGroup]="defScoreCardForm">
+      <div>
+        <h2>
+          {{course.name}}
+        </h2>
       </div>
-    </div>
-
-    <div class="row golf-margin-top-15">
-      <div class="col">
-        <div class="btn-group" aria-label="Number of players">
-          <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
-          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
-            i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
-
-          <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
-          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
-            i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
-
-          <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
-          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
-            i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</button>
-
-          <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
-          <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
-            i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="row golf-margin-top-15">
-
-      <div class="col-auto golf-width-210">
-        <span class="golf-margin-top golf-thick">
-          {{players[0].nick}} HCP: {{players[0].whs}}
-        </span>
-        <span class="golf-padding golf-thick">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-      </div>
-
-      <div class="col-auto">
-        <mat-form-field class="golf-width-150">
-          <mat-label>tee</mat-label>
-          <mat-select [formControlName]="'teeDropDown1'" (selectionChange)="teeChange(0)">
-            @for (teeOption of getTeeOptions(0); track teeOption) {
-              <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
-            }
-          </mat-select>
-          @if (f.teeDropDown1.invalid && f.teeDropDown1.errors) {
-            <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+      <div class="golf-margin-top-15">
+        <mat-form-field>
+          <mat-label>Tee time</mat-label>
+          <input matInput maxlength="5" [formControlName]="'teeTime'" />
+          @if (f.teeTime.invalid && f.teeTime.errors.required) {
+            <mat-error i18n="@@onlnRndDef-timReq">Tee time is required</mat-error>
+          }
+          @if (f.teeTime.invalid && f.teeTime.errors.pattern) {
+            <mat-error i18n="@@onlnRndDef-timPatt">Provide the valid tee time</mat-error>
           }
         </mat-form-field>
       </div>
-
-      <div class="col-auto">
-        <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
-          <span *ngIf="!searchInProgress[0]" i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-          <span *ngIf="searchInProgress[0]" class="spinner-border spinner-border-sm mr-1" ></span>
-        </button>
-      </div>
-    </div>
-
-    @if (noOfPlayers > 1) {
-      <div class="row golf-margin-top-15">
-
-        <div class="col-auto golf-width-210">
-
-          @if (players[1] == null) {
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2">
+      <div >
+        <input type="checkbox" class="form-check-input form-check-input-green" id="matchPlay" formControlName="matchPlay"
+          (ngModelChange)="onMatchPlayChange($event)">
+          <label for="matchPlay">&nbsp; <span i18n="@@onlnRndDef-mpRnd">Match Play Round</span></label>
+        </div>
+        @if (f.matchPlay.value) {
+          <div class="row golf-margin-top">
+            <div class="col">
+              <input type="radio" name="mpFormat" id="mpFormat1" value="1" formControlName="mpFormat"  class="form-check-input form-check-input-green">
+              <label class="custom-control-label green" for="mpFormat1">100%</label>
+              &nbsp;
+              <input type="radio" name="mpFormat" id="mpFormat2" value="0.9" formControlName="mpFormat"  class="form-check-input form-check-input-green">
+              <label class="custom-control-label green" for="mpFormat2">90%</label>
+              &nbsp;
+              <input type="radio" name="mpFormat" id="mpFormat3" value="0.75" formControlName="mpFormat"  class="form-check-input form-check-input-green" checked>
+              <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
+              &nbsp;
+              <input type="radio" name="mpFormat" id="mpFormat4" value="0.50" formControlName="mpFormat"  class="form-check-input form-check-input-green">
+              <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+            </div>
+          </div>
+        }
+        <div class="row golf-margin-top-15">
+          <div class="col">
+            <div class="btn-group" aria-label="Number of players">
+              <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
+              i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
+              <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
+              i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
+              <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
+              i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</button>
+              <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
+              i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</button>
+            </div>
+          </div>
+        </div>
+        <div class="row golf-margin-top-15">
+          <div class="col-auto golf-width-210">
+            <span class="golf-margin-top golf-thick">
+              {{players[0].nick}} HCP: {{players[0].whs}}
+            </span>
+            <span class="golf-padding golf-thick">
+              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            </span>
+          </div>
+          <div class="col-auto">
+            <mat-form-field class="golf-width-150">
+              <mat-label>tee</mat-label>
+              <mat-select [formControlName]="'teeDropDown1'" (selectionChange)="teeChange(0)">
+                @for (teeOption of getTeeOptions(0); track teeOption) {
+                  <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                }
+              </mat-select>
+              @if (f.teeDropDown1.invalid && f.teeDropDown1.errors) {
+                <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div class="col-auto">
+            <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
+              @if (!searchInProgress[0]) {
+                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+              }
+              @if (searchInProgress[0]) {
+                <span class="spinner-border spinner-border-sm mr-1" ></span>
+              }
+            </button>
+          </div>
+        </div>
+        @if (noOfPlayers > 1) {
+          <div class="row golf-margin-top-15">
+            <div class="col-auto golf-width-210">
+              @if (players[1] == null) {
+                <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2">
               Player 2
             </span>
-            <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
-            </span>
-          } @else {
-            <span class="golf-margin-top golf-thick">
-              {{players[1].nick}} HCP: {{players[1].whs}}
-            </span>
-            <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-            </span>
-          }
-
-        </div>
-
-        <div class="col-auto">
-          <mat-form-field class="golf-width-150">
-            <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown2'" (selectionChange)="teeChange(1)">
-              @for (teeOption of getTeeOptions(1); track teeOption) {
-                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                <span class="golf-padding">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)"></fa-icon>
+                </span>
+              } @else {
+                <span class="golf-margin-top golf-thick">
+                  {{players[1].nick}} HCP: {{players[1].whs}}
+                </span>
+                <span class="golf-padding golf-thick">
+                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                </span>
               }
-            </mat-select>
-            @if (f.teeDropDown2.invalid && f.teeDropDown2.errors) {
-              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            </div>
+            <div class="col-auto">
+              <mat-form-field class="golf-width-150">
+                <mat-label>tee</mat-label>
+                <mat-select [formControlName]="'teeDropDown2'" (selectionChange)="teeChange(1)">
+                  @for (teeOption of getTeeOptions(1); track teeOption) {
+                    <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                  }
+                </mat-select>
+                @if (f.teeDropDown2.invalid && f.teeDropDown2.errors) {
+                  <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+            @if (players[1] != null) {
+              <div class="col-auto">
+                <button type="button" id="p1Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(1)">
+                  @if (!searchInProgress[1]) {
+                    <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+                  }
+                  @if (searchInProgress[1]) {
+                    <span class="spinner-border spinner-border-sm mr-1" ></span>
+                  }
+                </button>
+              </div>
             }
-          </mat-form-field>
-        </div>
-
-        @if (players[1] != null) {
-          <div class="col-auto">
-            <button type="button" id="p1Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(1)">
-              <span *ngIf="!searchInProgress[1]" i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              <span *ngIf="searchInProgress[1]" class="spinner-border spinner-border-sm mr-1" ></span>
-            </button>
           </div>
         }
-      </div>
-    }
-
-    @if (noOfPlayers > 2) {
-      <div class="row golf-margin-top-15">
-
-        <div class="col-auto golf-width-210">
-
-          @if (players[2] == null) {
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p3">
+        @if (noOfPlayers > 2) {
+          <div class="row golf-margin-top-15">
+            <div class="col-auto golf-width-210">
+              @if (players[2] == null) {
+                <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p3">
               Player 3
             </span>
-            <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
-            </span>
-          } @else {
-            <span class="golf-margin-top golf-thick">
-              {{players[2].nick}} HCP: {{players[2].whs}}
-            </span>
-            <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-            </span>
-          }
-
-        </div>
-
-        <div class="col-auto">
-          <mat-form-field class="golf-width-150">
-            <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown3'" (selectionChange)="teeChange(2)">
-              @for (teeOption of getTeeOptions(2); track teeOption) {
-                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                <span class="golf-padding">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)"></fa-icon>
+                </span>
+              } @else {
+                <span class="golf-margin-top golf-thick">
+                  {{players[2].nick}} HCP: {{players[2].whs}}
+                </span>
+                <span class="golf-padding golf-thick">
+                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                </span>
               }
-            </mat-select>
-            @if (f.teeDropDown3.invalid && f.teeDropDown3.errors) {
-              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            </div>
+            <div class="col-auto">
+              <mat-form-field class="golf-width-150">
+                <mat-label>tee</mat-label>
+                <mat-select [formControlName]="'teeDropDown3'" (selectionChange)="teeChange(2)">
+                  @for (teeOption of getTeeOptions(2); track teeOption) {
+                    <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                  }
+                </mat-select>
+                @if (f.teeDropDown3.invalid && f.teeDropDown3.errors) {
+                  <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+            @if (players[2] != null) {
+              <div class="col-auto">
+                <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)" onKeyDown="updateWHS(2)">
+                  @if (!searchInProgress[2]) {
+                    <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+                  }
+                  @if (searchInProgress[2]) {
+                    <span class="spinner-border spinner-border-sm mr-1" ></span>
+                  }
+                </button>
+              </div>
             }
-          </mat-form-field>
-        </div>
-
-        @if (players[2] != null) {
-          <div class="col-auto">
-            <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)" onKeyDown="updateWHS(2)">
-              <span *ngIf="!searchInProgress[2]" i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              <span *ngIf="searchInProgress[2]" class="spinner-border spinner-border-sm mr-1" ></span>
-            </button>
           </div>
         }
-      </div>
-    }
-
-    @if (noOfPlayers > 3) {
-      <div class="row golf-margin-top-15">
-
-        <div class="col-auto golf-width-210">
-
-          @if (players[3] == null) {
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4">
+        @if (noOfPlayers > 3) {
+          <div class="row golf-margin-top-15">
+            <div class="col-auto golf-width-210">
+              @if (players[3] == null) {
+                <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4">
               Player 4
             </span>
-            <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
-            </span>
-          } @else {
-            <span class="golf-margin-top golf-thick">
-              {{players[3].nick}} HCP: {{players[3].whs}}
-            </span>
-            <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-            </span>
-          }
-
-        </div>
-
-        <div class="col-auto">
-          <mat-form-field class="golf-width-150">
-            <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown4'" (selectionChange)="teeChange(3)">
-              @for (teeOption of getTeeOptions(3); track teeOption) {
-                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                <span class="golf-padding">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)"></fa-icon>
+                </span>
+              } @else {
+                <span class="golf-margin-top golf-thick">
+                  {{players[3].nick}} HCP: {{players[3].whs}}
+                </span>
+                <span class="golf-padding golf-thick">
+                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                </span>
               }
-            </mat-select>
-            @if (f.teeDropDown4.invalid && f.teeDropDown4.errors) {
-              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            </div>
+            <div class="col-auto">
+              <mat-form-field class="golf-width-150">
+                <mat-label>tee</mat-label>
+                <mat-select [formControlName]="'teeDropDown4'" (selectionChange)="teeChange(3)">
+                  @for (teeOption of getTeeOptions(3); track teeOption) {
+                    <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+                  }
+                </mat-select>
+                @if (f.teeDropDown4.invalid && f.teeDropDown4.errors) {
+                  <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+            @if (players[3] != null) {
+              <div class="col-auto">
+                <button type="button" id="p3Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(3)">
+                  @if (!searchInProgress[3]) {
+                    <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+                  }
+                  @if (searchInProgress[3]) {
+                    <span class="spinner-border spinner-border-sm mr-1" ></span>
+                  }
+                </button>
+              </div>
             }
-          </mat-form-field>
-        </div>
-
-        @if (players[3] != null) {
-          <div class="col-auto">
-            <button type="button" id="p3Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(3)">
-              <span *ngIf="!searchInProgress[3]" i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              <span *ngIf="searchInProgress[3]" class="spinner-border spinner-border-sm mr-1" ></span>
-            </button>
           </div>
         }
-      </div>
-    }
-
-    <div class="golf-margin-top">
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts"/>
-      <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>
-    </div>
-    <div>
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties"/>
-      <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
-    </div>
-
-  </form>
-  <div>
-    <br />
-    <div class="form-group">
-      <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlnRndDef-cancel">
+        <div class="golf-margin-top">
+          <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" formControlName="putts"/>
+          <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>
+        </div>
+        <div>
+          <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" formControlName="penalties"/>
+          <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
+        </div>
+      </form>
+      <div>
+        <br />
+        <div class="form-group">
+          <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlnRndDef-cancel">
         Cancel
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-success" (click)="onStartOnlineRound()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@onlnRndDef-start">Start</span>
-      </button>
+          &nbsp;
+          <button type="button" class="btn btn-success" (click)="onStartOnlineRound()">
+            @if (loading) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@onlnRndDef-start">Start</span>
+          </button>
+        </div>
+        <span i18n="@@onlnRndDef-note">Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</span>
+      </div>
     </div>
-    <span i18n="@@onlnRndDef-note">Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</span>
-  </div>
-</div>
+  }

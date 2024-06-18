@@ -165,7 +165,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 
   calculateStyle(playerIdx: number) {

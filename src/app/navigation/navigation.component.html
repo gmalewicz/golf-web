@@ -1,51 +1,60 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v3.6.11</a>
-    <p *ngIf="currentPlayer" class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;">
-      HCP:{{currentPlayer.whs}}
-    </p>
+    <a class="navbar-brand" href="#">DGNG v3.6.12</a>
+    @if (currentPlayer) {
+      <p class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;">
+        HCP:{{currentPlayer.whs}}
+      </p>
+    }
     <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
-      <option *ngFor="let locale of locales" [value]="locale.code">
-        &nbsp;
-        {{locale.name}}
-      </option>
+      @for (locale of locales; track locale) {
+        <option [value]="locale.code">
+          &nbsp;
+          {{locale.name}}
+        </option>
+      }
     </select>
 
-    <button *ngIf="!currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="logout"
-      data-bs-target="#navbarToggleLogOut" (click)="onClick()"
-      aria-controls="navbarToggleLogOut" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    @if (!currentPlayer) {
+      <button class="navbar-toggler" type="button" data-bs-toggle="logout"
+        data-bs-target="#navbarToggleLogOut" (click)="onClick()"
+        aria-controls="navbarToggleLogOut" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    }
 
-    <button *ngIf="currentPlayer" class="navbar-toggler" type="button" data-bs-toggle="login"
-      data-bs-target="#navbarToggleLogIn" (click)="onClick()"
-      aria-controls="navbarToggleLogIn" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    @if (currentPlayer) {
+      <button class="navbar-toggler" type="button" data-bs-toggle="login"
+        data-bs-target="#navbarToggleLogIn" (click)="onClick()"
+        aria-controls="navbarToggleLogIn" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    }
 
-    <div *ngIf="currentPlayer && display" class="navbar-collapse login p-4" id="navbarToggleLogIn">
+    @if (currentPlayer && display) {
+      <div class="navbar-collapse login p-4" id="navbarToggleLogIn">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/mpLeagues" (click)="onClick()" i18n="@@nav-leagues">Match Play Ligues</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
+          <li class="nav-item"><a class="nav-link" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()" i18n="@@nav-account">My Account</a></li>
+        </ul>
+      </div>
+    }
 
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/mpLeagues" (click)="onClick()" i18n="@@nav-leagues">Match Play Ligues</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/changeLog" (click)="onClick()" i18n="@@nav-changes">Change Log</a></li>
-        <li class="nav-item"><a class="nav-link" (click)="logout()" data-test="logout" i18n="@@nav-logout">Logout</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/updatePlayer" (click)="onClick()" i18n="@@nav-account">My Account</a></li>
-      </ul>
-    </div>
-
-    <div *ngIf="!currentPlayer && display" class="navbar-collapse logout p-4" id="navbarToggleLogOut">
-
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()" i18n="@@nav-login">Login</a></li>
-      </ul>
-
-    </div>
+    @if (!currentPlayer && display) {
+      <div class="navbar-collapse logout p-4" id="navbarToggleLogOut">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" href="#" routerLink="/login" (click)="onClick()" i18n="@@nav-login">Login</a></li>
+        </ul>
+      </div>
+    }
 
   </div>
 </nav>

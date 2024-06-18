@@ -7,14 +7,14 @@ import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs/operators';
 import { BaseChartDirective } from 'ng2-charts';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-round-view',
     templateUrl: './round-view.component.html',
     styleUrls: ['./round-view.component.css'],
     standalone: true,
-    imports: [NgIf, BaseChartDirective]
+    imports: [BaseChartDirective]
 })
 export class RoundViewComponent implements OnInit {
 

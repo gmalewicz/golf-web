@@ -1,42 +1,58 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
   <div>
-    <button style="width: 100%" type="button" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
+    <div>
+      <button style="width: 100%" type="button" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
       Search or create Player
     </button>
+    </div>
+    @if (navigationService.tournamentPlayers()?.length > 0) {
+      <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
+        <thead>
+          <tr>
+            <th id="no">No.</th>
+            <th id="nick">Nick</th>
+            <th id="whs">HCP</th>
+            <th id="delete" data-html2canvas-ignore="true">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of navigationService.tournamentPlayers(); track row; let idx = $index) {
+            <tr>
+              <td>{{idx + 1}}</td>
+              <td>{{ row.nick }}</td>
+              @if (!updWhsInProgress) {
+                <td (click)="updateWHS(idx)" onKeyDown="updateWHS(idx)">
+                  {{ row.whs | number: '1.1-1'}}
+                  &nbsp;
+                  <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"></fa-icon>
+                </td>
+              }
+              @if (updWhsInProgress && playerIdx === idx) {
+                <td>{{ row.whs | number: '1.1-1' }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+              }
+              @if (updWhsInProgress && playerIdx !== idx) {
+                <td>{{ row.whs | number: '1.1-1' }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
+              }
+              @if (!deletePlayerinProgress) {
+                <td (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true" onKeyDown="deletePlayer(row, idx)">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
+                </td>
+              }
+              @if (deletePlayerinProgress && playerIdx === idx) {
+                <td> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+              }
+              @if (deletePlayerinProgress && playerIdx !== idx) {
+                <td> <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </div>
-
-  <table *ngIf="navigationService.tournamentPlayers()?.length > 0" id="tee-tbl" class="table table-striped" aria-describedby="Tees">
-    <thead>
-      <tr>
-        <th id="no">No.</th>
-        <th id="nick">Nick</th>
-        <th id="whs">HCP</th>
-        <th id="delete" data-html2canvas-ignore="true">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of navigationService.tournamentPlayers(), let idx = index">
-        <td>{{idx + 1}}</td>
-        <td>{{ row.nick }}</td>
-        <td *ngIf="!updWhsInProgress" (click)="updateWHS(idx)" onKeyDown="updateWHS(idx)">
-          {{ row.whs | number: '1.1-1'}}
-          &nbsp;
-          <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"></fa-icon>
-        </td>
-        <td *ngIf="updWhsInProgress && playerIdx === idx">{{ row.whs | number: '1.1-1' }} &nbsp; <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
-        <td *ngIf="updWhsInProgress && playerIdx !== idx">{{ row.whs | number: '1.1-1' }} &nbsp; <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon></td>
-
-        <td *ngIf="!deletePlayerinProgress" (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true" onKeyDown="deletePlayer(row, idx)">
-          <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
-        </td>
-        <td *ngIf="deletePlayerinProgress && playerIdx === idx"> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
-        <td *ngIf="deletePlayerinProgress && playerIdx !== idx"> <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
-
-      </tr>
-    </tbody>
-  </table>
-</div>
+}

@@ -6,13 +6,13 @@ import { AlertService } from '@/_services/alert.service';
 import { Router, RouterLink } from '@angular/router';
 import { League, LeagueStatus } from '../_models/league';
 import { tap } from 'rxjs/operators';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-add-league',
     templateUrl: './add-league.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddLeagueComponent implements OnInit {
 

@@ -161,6 +161,6 @@ export class RoundViewWHSComponent implements OnInit {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 }

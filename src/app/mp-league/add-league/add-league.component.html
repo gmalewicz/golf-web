@@ -1,25 +1,36 @@
-<div *ngIf="!isDisplay()" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div  *ngIf="isDisplay()">
-  <h2 class="col" i18n="@@addLeague-AddLbl">Add the new league:</h2>
-  <form [formGroup]="addLeagueForm" (ngSubmit)="onSubmit()">
-    <div class="form-group col">
-      <label for="name" i18n="@@addLeague-name">League name</label>
-      <input type="text" formControlName="name" class="form-control"
-        [ngClass]="{ 'is-invalid': isSubmitted() && f.name.errors }" />
-      <div *ngIf="isSubmitted() && f.name.errors" class="invalid-feedback">
-        <div *ngIf="f.name.errors.required" i18n="@@addLeague-LeagueReq">League name must be provided</div>
-        <div *ngIf="f.name.errors.minlength" i18n="@@addLeague-LeagueLength">League name must be at least 3 characters long</div>
-
-      </div>
+@if (!isDisplay()) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (isDisplay()) {
+  <div >
+    <h2 class="col" i18n="@@addLeague-AddLbl">Add the new league:</h2>
+    <form [formGroup]="addLeagueForm" (ngSubmit)="onSubmit()">
+      <div class="form-group col">
+        <label for="name" i18n="@@addLeague-name">League name</label>
+        <input type="text" formControlName="name" class="form-control"
+          [ngClass]="{ 'is-invalid': isSubmitted() && f.name.errors }" />
+          @if (isSubmitted() && f.name.errors) {
+            <div class="invalid-feedback">
+              @if (f.name.errors.required) {
+                <div i18n="@@addLeague-LeagueReq">League name must be provided</div>
+              }
+              @if (f.name.errors.minlength) {
+                <div i18n="@@addLeague-LeagueLength">League name must be at least 3 characters long</div>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group col golf-margin-top">
+          <button [disabled]="isLoading()" class="btn btn-success">
+            @if (isLoading()) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@addLeague-create">Create</span>
+          </button>
+          <a routerLink="/mpLeagues" class="btn btn-link text-success" i18n="@@addLeague-cancel">Cancel</a>
+        </div>
+      </form>
     </div>
-    <div class="form-group col golf-margin-top">
-      <button [disabled]="isLoading()" class="btn btn-success">
-        <span *ngIf="isLoading()" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@addLeague-create">Create</span>
-      </button>
-      <a routerLink="/mpLeagues" class="btn btn-link text-success" i18n="@@addLeague-cancel">Cancel</a>
-    </div>
-  </form>
-</div>
+  }

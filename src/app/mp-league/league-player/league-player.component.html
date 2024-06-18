@@ -1,36 +1,52 @@
-<div *ngIf="!isDisplayed()" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="isDisplayed()">
-  <div *ngIf="navigationService.league().status === false">
-    <div>
-      <button type="button" style="width: 100%" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
+@if (!isDisplayed()) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (isDisplayed()) {
+  <div>
+    @if (navigationService.league().status === false) {
+      <div>
+        <div>
+          <button type="button" style="width: 100%" class="btn btn-success" (click)="onSearchPlayer(undefined)" i18n="@@tournamentPlayer-search">
         Search or create Player
       </button>
-    </div>
+        </div>
+      </div>
+    }
+    @if (navigationService.players().length > 0) {
+      <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
+        <thead>
+          <tr>
+            <th id="no">No.</th>
+            <th id="nick">Nick</th>
+            @if (navigationService.league().status === false) {
+              <th id="delete" data-html2canvas-ignore="true">Delete</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of navigationService.players(); track row; let idx = $index) {
+            <tr>
+              <td>{{idx + 1}}</td>
+              <td>{{ row.nick }}</td>
+              @if (!isDeletePlayerInProgress() && navigationService.league().status === false) {
+                <td
+                  (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true" onKeyDown="deletePlayer(row, idx)">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
+                </td>
+              }
+              @if (isDeletePlayerInProgress() && playerIdx === idx) {
+                <td> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
+              }
+              @if (isDeletePlayerInProgress() && playerIdx !== idx) {
+                <td> <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </div>
-
-  <table *ngIf="navigationService.players().length > 0" id="tee-tbl" class="table table-striped" aria-describedby="Tees">
-    <thead>
-      <tr>
-        <th id="no">No.</th>
-        <th id="nick">Nick</th>
-        <th id="delete" data-html2canvas-ignore="true" *ngIf="navigationService.league().status === false">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of navigationService.players(), let idx = index">
-        <td>{{idx + 1}}</td>
-        <td>{{ row.nick }}</td>
-        <td *ngIf="!isDeletePlayerInProgress() && navigationService.league().status === false"
-              (click)="deletePlayer(row, idx)" data-html2canvas-ignore="true" onKeyDown="deletePlayer(row, idx)">
-            <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
-        </td>
-        <td *ngIf="isDeletePlayerInProgress() && playerIdx === idx"> <span class="text-success spinner-border spinner-border-sm mr-1"></span></td>
-        <td *ngIf="isDeletePlayerInProgress() && playerIdx !== idx"> <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon></td>
-
-      </tr>
-    </tbody>
-  </table>
-</div>
+}
 

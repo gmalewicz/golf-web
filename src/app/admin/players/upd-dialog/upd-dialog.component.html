@@ -4,8 +4,12 @@
 
     <mat-form-field>
       <input matInput placeholder="Player nick" formControlName="nick" />
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.required">Nick is required</mat-error>
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength">Nick can be up to 10 characters long</mat-error>
+      @if (f.nick.errors && f.nick.errors.required) {
+        <mat-error>Nick is required</mat-error>
+      }
+      @if (f.nick.errors && f.nick.errors.maxlength) {
+        <mat-error>Nick can be up to 10 characters long</mat-error>
+      }
     </mat-form-field>
 
     <br/>
@@ -14,10 +18,18 @@
 
     <mat-form-field>
       <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.required">WHS is required</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.max">WHS is caannot be higer than 54</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.min">WHS is caannot be lower than -5</mat-error>
-      <mat-error *ngIf="form.controls.whs.errors && form.controls.whs.errors.pattern">Provide valid value</mat-error>
+      @if (form.controls.whs.errors && form.controls.whs.errors.required) {
+        <mat-error>WHS is required</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.max) {
+        <mat-error>WHS is caannot be higer than 54</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.min) {
+        <mat-error>WHS is caannot be lower than -5</mat-error>
+      }
+      @if (form.controls.whs.errors && form.controls.whs.errors.pattern) {
+        <mat-error>Provide valid value</mat-error>
+      }
     </mat-form-field>
 
     <br/>

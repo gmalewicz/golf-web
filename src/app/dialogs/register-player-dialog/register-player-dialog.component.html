@@ -4,8 +4,12 @@
   <mat-dialog-content [formGroup]="form" style="width: 290px;">
     <mat-form-field>
       <input matInput i18n-placeholder="@@registerPlr-nick" placeholder="Player nick" formControlName="nick" />
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.required" i18n="@@registerPlr-nickReq">Nick is required</mat-error>
-      <mat-error *ngIf="f.nick.errors && f.nick.errors.maxlength" i18n="@@registerPlr-nickTooLng">Nick can be up to 10 characters long</mat-error>
+      @if (f.nick.errors && f.nick.errors.required) {
+        <mat-error i18n="@@registerPlr-nickReq">Nick is required</mat-error>
+      }
+      @if (f.nick.errors && f.nick.errors.maxlength) {
+        <mat-error i18n="@@registerPlr-nickTooLng">Nick can be up to 10 characters long</mat-error>
+      }
     </mat-form-field>
 
     <br/>
