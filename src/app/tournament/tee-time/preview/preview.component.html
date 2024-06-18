@@ -9,18 +9,20 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of navigationService.teeTimes(), let idx = index">
-      @if (idx == 0 || navigationService.teeTimes()[idx].flight != navigationService.teeTimes()[idx - 1].flight) {
-        <td>{{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}</td>
-        <td>{{row.time}}</td>
-        <td>1</td>
-      } @else {
-        <td></td>
-        <td></td>
-        <td></td>
-      }
-      <td>{{row.nick}}</td>
-      <td>{{row.hcp}}</td>
-    </tr>
+    @for (row of navigationService.teeTimes(); track row; let idx = $index) {
+      <tr>
+        @if (idx == 0 || navigationService.teeTimes()[idx].flight != navigationService.teeTimes()[idx - 1].flight) {
+          <td>{{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}</td>
+          <td>{{row.time}}</td>
+          <td>1</td>
+        } @else {
+          <td></td>
+          <td></td>
+          <td></td>
+        }
+        <td>{{row.nick}}</td>
+        <td>{{row.hcp}}</td>
+      </tr>
+    }
   </tbody>
 </table>

@@ -5,7 +5,7 @@ import { ParametersComponent } from '../parameters/parameters.component';
 import { TournamentHttpService } from '@/tournament/_services/tournamentHttp.service';
 import { firstValueFrom, map, mergeMap, tap } from 'rxjs';
 import { TournamentNavigationService } from '@/tournament/_services';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { TeeTimeParameters } from '@/tournament/_models/teeTimeParameters';
@@ -19,7 +19,7 @@ import { ModificationComponent } from '../modification/modification.component';
 @Component({
   selector: 'app-tee-time',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent, ModificationComponent],
+  imports: [ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent, ModificationComponent],
   templateUrl: './tee-time.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

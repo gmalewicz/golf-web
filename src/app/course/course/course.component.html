@@ -1,13 +1,16 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <div>
-    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
-    </canvas>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
+}
+@if (display) {
   <div>
-    @defer {
+    <div>
+      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
+      </canvas>
+    </div>
+    <div>
+      @defer {
       @if (displayTees) {
         <app-course-tees></app-course-tees>
       }
@@ -23,25 +26,34 @@
     </button>
     &nbsp;
     <button type="button" class="btn btn-success btn-showTees golf-margin-bottom-6" (click)="onShowTees()">
-      <span *ngIf="loadingTees" class="spinner-border spinner-border-sm mr-1"></span>
+      @if (loadingTees) {
+        <span class="spinner-border spinner-border-sm mr-1"></span>
+      }
       {{showTeesLbl}}
     </button>
     &nbsp;
     <button type="button" class="btn btn-success btn-addTee golf-margin-bottom-6" (click)="addTee()">
       <span i18n="@@course-addTee">Add tee</span>
     </button>
-    <span *ngIf="authenticationService.playerRole.includes('ADMIN')">
-      &nbsp;
-      <button type="button" class="btn btn-success btn-delete golf-margin-bottom-6" (click)="delete()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@course-delete">Delete</span>
-      </button>
-      &nbsp;
-      <button type="button" class="btn btn-success btn-clone golf-margin-bottom-6" (click)="clone()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@course-clone">Clone</span>
-      </button>
-    </span>
+    @if (authenticationService.playerRole.includes('ADMIN')) {
+      <span>
+        &nbsp;
+        <button type="button" class="btn btn-success btn-delete golf-margin-bottom-6" (click)="delete()">
+          @if (loading) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@course-delete">Delete</span>
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-success btn-clone golf-margin-bottom-6" (click)="clone()">
+          @if (loading) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@course-clone">Clone</span>
+        </button>
+      </span>
+    }
   </div>
 </div>
+}
 

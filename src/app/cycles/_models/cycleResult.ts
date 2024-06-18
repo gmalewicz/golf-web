@@ -3,4 +3,5 @@ export interface CycleResult {
   total: number;
   r: number[];
   cycleResult: number;
+  name?: string;
 }

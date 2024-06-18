@@ -9,7 +9,7 @@ import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
-import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
+import { NgClass, DecimalPipe } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
@@ -17,7 +17,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, RouterLink, DecimalPipe, GoogleMapsModule]
+    imports: [NgClass, RouterLink, DecimalPipe, GoogleMapsModule]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
@@ -424,7 +424,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 
   // process score card received from the web socket

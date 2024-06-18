@@ -6,7 +6,7 @@ import { ScorecardHttpService } from '../_services';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy, NgIf, NgClass, NgTemplateOutlet, NgFor } from '@angular/common';
+import { LocationStrategy, NgClass, NgTemplateOutlet } from '@angular/common';
 import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -17,7 +17,7 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
     templateUrl: './online-round.component.html',
     styleUrls: ['./online-round.component.css'],
     standalone: true,
-    imports: [NgIf, CommonScorecardTopComponent, NgClass, NgTemplateOutlet, NgFor, FaIconComponent, MatButton]
+    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton]
 })
 export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
@@ -48,7 +48,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 
   protected prepareAndCalculateNetStatistic() {

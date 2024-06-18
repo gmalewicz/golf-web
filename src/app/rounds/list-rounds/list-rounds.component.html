@@ -6,30 +6,46 @@
       <th id="date" i18n="@@listRounds-date">Date</th>
       <th id="teeTime">Tee Time</th>
       <th id="course" i18n="@@listRounds-course">Course</th>
-      <th id="players" *ngIf="roundsNavigationService.getSelectedTab() === 1" i18n="@@listRounds-players">Players</th>
+      @if (roundsNavigationService.getSelectedTab() === 1) {
+        <th id="players" i18n="@@listRounds-players">Players</th>
+      }
       <th id="type" i18n="@@listRounds-type">Type</th>
-      <th id="id" *ngIf="authenticationService.playerRole.includes('ADMIN')">ID</th>
+      @if (authenticationService.playerRole.includes('ADMIN')) {
+        <th id="id">ID</th>
+      }
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let round of roundsNavigationService.getRounds()">
-      <td>
-        <a href="#" routerLink ="/round" [state]="{data: {round: round, back: true}}">
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td>{{ round.roundDate | date: "mediumDate" }}</td>
-      <td>{{ round.roundDate | date: "H:mm"}}</td>
-      <td>{{ round.course.name }}</td>
-      <td *ngIf="roundsNavigationService.getSelectedTab() === 1">
-        <span *ngFor="let player of round.player">
-          {{player.nick}}<br/>
-        </span>
-      </td>
-      <td *ngIf="round.matchPlay">MP</td>
-      <td *ngIf="!round.matchPlay">SP</td>
-      <td *ngIf="authenticationService.playerRole.includes('ADMIN')">{{round.id}}</td>
-    </tr>
+    @for (round of roundsNavigationService.getRounds(); track round) {
+      <tr>
+        <td>
+          <a href="#" routerLink ="/round" [state]="{data: {round: round, back: true}}">
+            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td>{{ round.roundDate | date: "mediumDate" }}</td>
+        <td>{{ round.roundDate | date: "H:mm"}}</td>
+        <td>{{ round.course.name }}</td>
+        @if (roundsNavigationService.getSelectedTab() === 1) {
+          <td>
+            @for (player of round.player; track player) {
+              <span>
+                {{player.nick}}<br/>
+              </span>
+            }
+          </td>
+        }
+        @if (round.matchPlay) {
+          <td>MP</td>
+        }
+        @if (!round.matchPlay) {
+          <td>SP</td>
+        }
+        @if (authenticationService.playerRole.includes('ADMIN')) {
+          <td>{{round.id}}</td>
+        }
+      </tr>
+    }
   </tbody>
 </table>
 

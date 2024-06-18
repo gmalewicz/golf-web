@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
@@ -14,11 +14,7 @@ import { AddTeeComponent } from '../add-tee/add-tee.component';
 @Component({
   selector: 'app-course',
   standalone: true,
-  imports: [BaseChartDirective,
-            CourseTeesComponent,
-            CommonModule,
-            RouterModule,
-            AddTeeComponent],
+  imports: [BaseChartDirective, CourseTeesComponent, RouterModule, AddTeeComponent],
   templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {

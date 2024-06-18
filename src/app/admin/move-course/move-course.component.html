@@ -6,25 +6,31 @@
       formControlName="courseId"
       class="form-control"
       [ngClass]="{ 'is-invalid': submittedMoveCourse && fMove.courseId.errors }"
-    />
-    <div
-      *ngIf="submittedMoveCourse && fMove.courseId.errors"
-      class="invalid-feedback"
-    >
-      <div *ngIf="fMove.courseId.errors.required">Course id is required</div>
-      <div *ngIf="fMove.courseId.errors.pattern">
-        Course id can be up to 10 digits long and can not start from 0
-      </div>
+      />
+      @if (submittedMoveCourse && fMove.courseId.errors) {
+        <div
+          class="invalid-feedback"
+          >
+          @if (fMove.courseId.errors.required) {
+            <div>Course id is required</div>
+          }
+          @if (fMove.courseId.errors.pattern) {
+            <div>
+              Course id can be up to 10 digits long and can not start from 0
+            </div>
+          }
+        </div>
+      }
     </div>
-  </div>
-  <div class="form-group golf-margin-top">
-    <button [disabled]="moveLoading" class="btn btn-success">
-      <span
-        *ngIf="moveLoading"
-        class="spinner-border spinner-border-sm mr-1"
-      ></span>
-      Move
-    </button>
-    <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
-  </div>
-</form>
+    <div class="form-group golf-margin-top">
+      <button [disabled]="moveLoading" class="btn btn-success">
+        @if (moveLoading) {
+          <span
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+        }
+        Move
+      </button>
+      <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+    </div>
+  </form>

@@ -3,12 +3,12 @@ import { CourseNavigationService } from '../_services/course-navigation.service'
 import { IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Tee } from '@/_models/tee';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-course-tees',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule],
+  imports: [FontAwesomeModule],
   templateUrl: './course-tees.component.html'
 })
 export class CourseTeesComponent {

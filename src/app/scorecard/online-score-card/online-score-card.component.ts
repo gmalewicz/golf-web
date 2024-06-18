@@ -8,13 +8,13 @@ import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 
 @Component({
     selector: 'app-online-score-card',
     templateUrl: './online-score-card.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, FaIconComponent, RouterLink, KeyValuePipe]
+    imports: [FaIconComponent, RouterLink, KeyValuePipe]
 })
 export class OnlineScoreCardComponent implements OnInit {
 

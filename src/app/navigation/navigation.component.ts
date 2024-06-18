@@ -3,13 +3,13 @@ import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, FormsModule, NgFor, RouterLink]
+    imports: [ReactiveFormsModule, FormsModule, RouterLink]
 })
 export class NavigationComponent implements OnInit {
 

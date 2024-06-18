@@ -10,7 +10,7 @@ import { NavigationService } from '../_services/navigation.service';
 import { map, tap, firstValueFrom } from 'rxjs';
 import { Player } from '@/_models/player';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { CommonModule } from '@angular/common';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,12 +20,7 @@ import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base
 @Component({
   selector: 'app-league-player',
   standalone: true,
-  imports: [CommonModule,
-            FontAwesomeModule,
-            ReactiveFormsModule,
-            MatButtonModule,
-            MatCheckboxModule
-          ],
+  imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule],
   templateUrl: './league-player.component.html',
 })
 export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements OnInit {

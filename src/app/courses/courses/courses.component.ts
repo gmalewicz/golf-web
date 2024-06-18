@@ -9,13 +9,13 @@ import { HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '@/tournament/_models/tournament';
 import { ListCoursesComponent } from '../list-courses/list-courses.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-courses',
     templateUrl: './courses.component.html',
     standalone: true,
-    imports: [NgIf, ListCoursesComponent, ReactiveFormsModule, RouterLink]
+    imports: [ListCoursesComponent, ReactiveFormsModule, RouterLink]
 })
 export class CoursesComponent implements OnInit {
 

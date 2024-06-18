@@ -4,14 +4,14 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor]
+    imports: []
 })
 export class CycleResultsComponent implements OnInit {
 
@@ -52,6 +52,6 @@ export class CycleResultsComponent implements OnInit {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 }

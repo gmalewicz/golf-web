@@ -9,14 +9,14 @@ import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@for
 import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest, firstValueFrom, map, mergeMap, tap } from 'rxjs';
-import { NgIf, NgFor, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-league',
     templateUrl: './league.component.html',
     styleUrls: ['./league.component.css'],
     standalone: true,
-    imports: [NgIf, NgFor, NgStyle, RouterLink]
+    imports: [NgStyle, RouterLink]
 })
 export class LeagueComponent  implements OnInit {
 

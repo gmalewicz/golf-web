@@ -15,14 +15,14 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-add-scorecard',
     templateUrl: './add-scorecard.component.html',
     styleUrls: ['./add-scorecard.component.css'],
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgFor, NgClass]
+    imports: [ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgClass]
 })
 export class AddScorecardComponent implements OnInit {
 

@@ -1,7 +1,7 @@
 import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -11,11 +11,10 @@ import { tap } from 'rxjs/operators';
     templateUrl: './reset-password.component.html',
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        NgClass,
-        NgIf,
-        RouterLink,
-    ],
+    ReactiveFormsModule,
+    NgClass,
+    RouterLink
+],
 })
 export class ResetPasswordComponent implements OnInit {
 

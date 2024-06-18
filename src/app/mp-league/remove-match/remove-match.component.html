@@ -1,61 +1,61 @@
 
-<div *ngIf="!isDisplay()" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="isDisplay()">
-  <h2 span i18n="@@removeMatch-hdr">Remove match results from league: {{navigationService.league().name}}</h2>
-  <br/>
-  <form [formGroup]="matchRemoveForm">
-    <div class="row align-items-start">
-      <div class="col-auto">
-
-        <mat-form-field>
-          <mat-label>nick</mat-label>
-          <mat-select [formControlName]="'winnerDropDown'">
-            @for (player of playerOptions; track player) {
-              <mat-option [value]="player.value">{{player.label}}</mat-option>
-            }
-          </mat-select>
-          @if (f.winnerDropDown.invalid  && f.winnerDropDown.errors) {
-            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
-          }
-        </mat-form-field>
-
-        <span class="golf-padding">
-          vs
-        </span>
-
-        <mat-form-field>
-          <mat-label>nick</mat-label>
-          <mat-select [formControlName]="'looserDropDown'">
-            @for (player of playerOptions; track player) {
-              <mat-option [value]="player.value">{{player.label}}</mat-option>
-            }
-          </mat-select>
-          @if (f.looserDropDown.invalid  && f.looserDropDown.errors) {
-            <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
-          }
-        </mat-form-field>
-
-      </div>
-    </div>
-  </form>
-  <br/>
+@if (!isDisplay()) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (isDisplay()) {
   <div>
-    <div class="form-group">
-      <button type="button" class="btn btn-success btn-clear w-80" routerLink="/mpLeagues/league" i18n="@@removeMatch-cancel">
+    <h2 span i18n="@@removeMatch-hdr">Remove match results from league: {{navigationService.league().name}}</h2>
+    <br/>
+    <form [formGroup]="matchRemoveForm">
+      <div class="row align-items-start">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>nick</mat-label>
+            <mat-select [formControlName]="'winnerDropDown'">
+              @for (player of playerOptions; track player) {
+                <mat-option [value]="player.value">{{player.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.winnerDropDown.invalid  && f.winnerDropDown.errors) {
+              <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+            }
+          </mat-form-field>
+          <span class="golf-padding">
+            vs
+          </span>
+          <mat-form-field>
+            <mat-label>nick</mat-label>
+            <mat-select [formControlName]="'looserDropDown'">
+              @for (player of playerOptions; track player) {
+                <mat-option [value]="player.value">{{player.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.looserDropDown.invalid  && f.looserDropDown.errors) {
+              <mat-error i18n="@@addMatch-nickReq">Winner and looser are required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <br/>
+    <div>
+      <div class="form-group">
+        <button type="button" class="btn btn-success btn-clear w-80" routerLink="/mpLeagues/league" i18n="@@removeMatch-cancel">
         Cancel
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addMatch-clear">
+        &nbsp;
+        <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addMatch-clear">
         Clear
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-success btn-submit w-80" (click)="removeMatchResult()" i18n="@@addMatch-remove">
+        &nbsp;
+        <button type="button" class="btn btn-success btn-submit w-80" (click)="removeMatchResult()" i18n="@@addMatch-remove">
         Remove
       </button>
+      </div>
     </div>
   </div>
-</div>
+}
 
 

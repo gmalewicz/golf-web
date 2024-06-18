@@ -1,45 +1,61 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <h2 i18n="@@cycles-list">List of cycles:</h2>
-  <br/>
-  <table class="table table-striped" aria-describedby="Tournament list">
-    <thead>
-      <tr>
-        <th id="nav"></th>
-        <th id="name" i18n="@@cycles-name">Name</th>
-        <th id="name" i18n="@@cycles-BestRes">Best results</th>
-        <th id="handicap" i18n="@@cycles-maxHcp">Max. handicap</th>
-        <th id="sDate" i18n="@@cycles-status">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cycle of cycles">
-        <td>
-          <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
-            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
-        </td>
-        <td>{{ cycle.name }}</td>
-        <td *ngIf="cycle.bestRounds === 0">All</td>
-        <td *ngIf="cycle.bestRounds !== 0">{{cycle.bestRounds}}</td>
-        <td>{{cycle.maxWhs}}</td>
-        <td *ngIf="cycle.status === statusOpen" i18n="@@cycles-open">Opened</td>
-        <td *ngIf="cycle.status === statusClose" i18n="@@cycles-close">Closed</td>
-      </tr>
-    </tbody>
-  </table>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
   <div>
-    <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@cycles-cancel">
+    <h2 i18n="@@cycles-list">List of cycles:</h2>
+    <br/>
+    <table class="table table-striped" aria-describedby="Tournament list">
+      <thead>
+        <tr>
+          <th id="nav"></th>
+          <th id="name" i18n="@@cycles-name">Name</th>
+          <th id="name" i18n="@@cycles-BestRes">Best results</th>
+          <th id="handicap" i18n="@@cycles-maxHcp">Max. handicap</th>
+          <th id="sDate" i18n="@@cycles-status">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cycle of cycles; track cycle) {
+          <tr>
+            <td>
+              <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
+                <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+              </a>
+            </td>
+            <td>{{ cycle.name }}</td>
+            @if (cycle.bestRounds === 0) {
+              <td>All</td>
+            }
+            @if (cycle.bestRounds !== 0) {
+              <td>{{cycle.bestRounds}}</td>
+            }
+            <td>{{cycle.maxWhs}}</td>
+            @if (cycle.status === statusOpen) {
+              <td i18n="@@cycles-open">Opened</td>
+            }
+            @if (cycle.status === statusClose) {
+              <td i18n="@@cycles-close">Closed</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div>
+      <br />
+      <button type="button" class="btn btn-success" routerLink="/home" i18n="@@cycles-cancel">
       Cancel
     </button>
-    &nbsp;
-    <button *ngIf="authenticationService.playerRole.includes('ADMIN')" type="button" class="btn btn-success" routerLink="addCycle" i18n="@@cycles-add">
+      &nbsp;
+      @if (authenticationService.playerRole.includes('ADMIN')) {
+        <button type="button" class="btn btn-success" routerLink="addCycle" i18n="@@cycles-add">
       Add
     </button>
+      }
+    </div>
   </div>
-</div>
+}
 
 

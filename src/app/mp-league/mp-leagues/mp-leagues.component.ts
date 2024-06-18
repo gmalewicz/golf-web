@@ -7,13 +7,13 @@ import { League, LeagueStatus } from '../_models';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { NavigationService } from '../_services/navigation.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-mp-ligues',
     templateUrl: './mp-leagues.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, FaIconComponent, RouterLink]
+    imports: [FaIconComponent, RouterLink]
 })
 export class MpLeaguesComponent implements OnInit {
 

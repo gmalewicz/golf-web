@@ -6,63 +6,79 @@
       formControlName="oldPlrId"
       class="form-control"
       [ngClass]="{ 'is-invalid': submittedUpdPlrRnd && fupdPlrRnd.oldPlrId.errors }"
-    />
-    <div
-      *ngIf="submittedUpdPlrRnd && fupdPlrRnd.oldPlrId.errors"
-      class="invalid-feedback"
-    >
-      <div *ngIf="fupdPlrRnd.oldPlrId.errors.required">Old player id is required</div>
-      <div *ngIf="fupdPlrRnd.newPlrId.errors.pattern">
-        Old Player id can be number up to 6 characters long
+      />
+      @if (submittedUpdPlrRnd && fupdPlrRnd.oldPlrId.errors) {
+        <div
+          class="invalid-feedback"
+          >
+          @if (fupdPlrRnd.oldPlrId.errors.required) {
+            <div>Old player id is required</div>
+          }
+          @if (fupdPlrRnd.newPlrId.errors.pattern) {
+            <div>
+              Old Player id can be number up to 6 characters long
+            </div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group">
+      <label for="newPlrId">New player Id</label>
+      <input
+        type="text"
+        formControlName="newPlrId"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submittedUpdPlrRnd && fupdPlrRnd.newPlrId.errors }"
+        />
+        @if (submittedUpdPlrRnd && fupdPlrRnd.newPlrId.errors) {
+          <div
+            class="invalid-feedback"
+            >
+            @if (fupdPlrRnd.newPlrId.errors.required) {
+              <div>New player id is required</div>
+            }
+            @if (fupdPlrRnd.newPlrId.errors.pattern) {
+              <div>
+                New Player id can be number up to 6 characters long
+              </div>
+            }
+          </div>
+        }
       </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="newPlrId">New player Id</label>
-    <input
-      type="text"
-      formControlName="newPlrId"
-      class="form-control"
-      [ngClass]="{ 'is-invalid': submittedUpdPlrRnd && fupdPlrRnd.newPlrId.errors }"
-    />
-    <div
-      *ngIf="submittedUpdPlrRnd && fupdPlrRnd.newPlrId.errors"
-      class="invalid-feedback"
-    >
-      <div *ngIf="fupdPlrRnd.newPlrId.errors.required">New player id is required</div>
-      <div *ngIf="fupdPlrRnd.newPlrId.errors.pattern">
-        New Player id can be number up to 6 characters long
-      </div>
-    </div>
-  </div>
 
-  <div class="form-group">
-    <label for="roundId">Round id</label>
-    <input
-      type="text"
-      formControlName="roundId"
-      class="form-control"
-      [ngClass]="{ 'is-invalid': submittedUpdPlrRnd && fupdPlrRnd.roundId.errors }"
-    />
-    <div
-      *ngIf="submittedUpdPlrRnd && fupdPlrRnd.roundId.errors"
-      class="invalid-feedback"
-    >
-    <div *ngIf="fupdPlrRnd.roundId.errors.required">Round id is required</div>
-    <div *ngIf="fupdPlrRnd.roundId.errors.pattern">
-      Round id can be number up to 6 characters long
-    </div>
-    </div>
-  </div>
+      <div class="form-group">
+        <label for="roundId">Round id</label>
+        <input
+          type="text"
+          formControlName="roundId"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submittedUpdPlrRnd && fupdPlrRnd.roundId.errors }"
+          />
+          @if (submittedUpdPlrRnd && fupdPlrRnd.roundId.errors) {
+            <div
+              class="invalid-feedback"
+              >
+              @if (fupdPlrRnd.roundId.errors.required) {
+                <div>Round id is required</div>
+              }
+              @if (fupdPlrRnd.roundId.errors.pattern) {
+                <div>
+                  Round id can be number up to 6 characters long
+                </div>
+              }
+            </div>
+          }
+        </div>
 
-  <div class="form-group golf-margin-top">
-    <button [disabled]="updPlrRndLoading" class="btn btn-success">
-      <span
-        *ngIf="updPlrRndLoading"
-        class="spinner-border spinner-border-sm mr-1"
-      ></span>
-      Update
-    </button>
-    <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
-  </div>
-</form>
+        <div class="form-group golf-margin-top">
+          <button [disabled]="updPlrRndLoading" class="btn btn-success">
+            @if (updPlrRndLoading) {
+              <span
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+            }
+            Update
+          </button>
+          <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+        </div>
+      </form>

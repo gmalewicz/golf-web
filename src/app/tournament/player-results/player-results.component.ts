@@ -6,15 +6,14 @@ import { tap } from 'rxjs';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-player-results',
   standalone: true,
   imports: [
-    FontAwesomeModule,
-    CommonModule,
-    ],
+    FontAwesomeModule
+],
   templateUrl: './player-results.component.html'
 })
 export class PlayerResultsComponent implements OnInit {

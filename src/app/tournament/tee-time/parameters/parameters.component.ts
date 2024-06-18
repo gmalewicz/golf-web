@@ -1,6 +1,6 @@
 import { TournamentNavigationService } from '@/tournament/_services';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +10,7 @@ import { TeeTimeParameters } from '@/tournament/_models';
 @Component({
   selector: 'app-parameters',
   standalone: true,
-  imports: [ReactiveFormsModule, MatSelectModule,  MatInputModule, CommonModule],
+  imports: [ReactiveFormsModule, MatSelectModule, MatInputModule],
   templateUrl: './parameters.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

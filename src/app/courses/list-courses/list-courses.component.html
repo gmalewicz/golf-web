@@ -1,52 +1,72 @@
 <p></p>
-<div *ngIf="dispProgress" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="!dispProgress">
-  <table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
-  <thead>
-    <tr>
-      <th id="nav"></th>
-      <th id="name" i18n="@@listCourses-name">Name</th>
-      <th id="par">Par</th>
-      <th id="parent" *ngIf="data.parent === 'courses'" i18n="@@listCourses-favourites">Favourites</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of courseLst">
-      <td *ngIf="data.parent === 'courses'">
-        <a [routerLink]="['/course']" [state]="{data: {course: row}}">
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td *ngIf="data.parent === 'addRound'">
-        <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td *ngIf="data.parent === 'addOnlineRound'">
-        <a routerLink="/scorecard/onlineRoundDef"
-          [state]="{ data: { course: row } }"
-        >
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td *ngIf="data.parent === 'roundOnBehalf'">
-        <a routerLink="/tournaments/addRound"
-          [state]="{ data: { course: row, tournament: data.tournament } }"
-        >
-          <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td>{{ row.name }}</td>
-      <td>{{ row.par }}</td>
-      <td *ngIf="data.parent === 'courses'">
-        <a (click)="onClickFavourite(row)">
-          <span *ngIf="loadingFav" class="spinner-border spinner-border-sm mr-1"></span>
-          <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-  </table>
-</div>
+@if (dispProgress) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (!dispProgress) {
+  <div>
+    <table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
+      <thead>
+        <tr>
+          <th id="nav"></th>
+          <th id="name" i18n="@@listCourses-name">Name</th>
+          <th id="par">Par</th>
+          @if (data.parent === 'courses') {
+            <th id="parent" i18n="@@listCourses-favourites">Favourites</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of courseLst; track row) {
+          <tr>
+            @if (data.parent === 'courses') {
+              <td>
+                <a [routerLink]="['/course']" [state]="{data: {course: row}}">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+            @if (data.parent === 'addRound') {
+              <td>
+                <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+            @if (data.parent === 'addOnlineRound') {
+              <td>
+                <a routerLink="/scorecard/onlineRoundDef"
+                  [state]="{ data: { course: row } }"
+                  >
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+            @if (data.parent === 'roundOnBehalf') {
+              <td>
+                <a routerLink="/tournaments/addRound"
+                  [state]="{ data: { course: row, tournament: data.tournament } }"
+                  >
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+            <td>{{ row.name }}</td>
+            <td>{{ row.par }}</td>
+            @if (data.parent === 'courses') {
+              <td>
+                <a (click)="onClickFavourite(row)">
+                  @if (loadingFav) {
+                    <span class="spinner-border spinner-border-sm mr-1"></span>
+                  }
+                  <fa-icon [icon]="getIcon()" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

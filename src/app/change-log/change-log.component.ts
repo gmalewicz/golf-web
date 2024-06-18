@@ -3,13 +3,13 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-change-log',
     templateUrl: './change-log.component.html',
     standalone: true,
-    imports: [NgIf, RouterLink]
+    imports: [RouterLink]
 })
 export class ChangeLogComponent implements OnInit {
 

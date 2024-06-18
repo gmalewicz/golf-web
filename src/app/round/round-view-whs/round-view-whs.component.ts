@@ -1,14 +1,14 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { Round } from '@/_models';
 import { ballPickedUpStrokes } from '@/_helpers/common';
-import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
+import { NgClass, DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-round-view-whs',
     templateUrl: './round-view-whs.component.html',
     styleUrls: ['./round-view-whs.component.css'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, DecimalPipe]
+    imports: [NgClass, DecimalPipe]
 })
 export class RoundViewWHSComponent implements OnInit {
 
@@ -161,6 +161,6 @@ export class RoundViewWHSComponent implements OnInit {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 }

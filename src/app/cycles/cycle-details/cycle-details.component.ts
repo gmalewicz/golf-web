@@ -14,13 +14,13 @@ import { CycleTournament } from '../_models/cycleTournament';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.component';
 import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details.component.html',
     standalone: true,
-    imports: [NgIf, CycleResultsComponent, CycleTournamentComponent, RouterLink]
+    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink]
 })
 export class CycleDetailsComponent implements OnInit {
 
@@ -47,7 +47,6 @@ export class CycleDetailsComponent implements OnInit {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
-
       this.loadingClose = false;
       this.loadingDeleteTour = false;
       this.loadingDeleteCycle = false;
@@ -155,8 +154,8 @@ export class CycleDetailsComponent implements OnInit {
         this.loadingDeleteTour = true;
         this.cycleHttpService.deleteLastTournament(this.cycle).pipe(tap(
           () => {
-            this.alertService.success($localize`:@@cycleDetails-CloseDelTourMsg:The last tournament successfully deleted`, false);
-            this.ngOnInit();
+            this.alertService.success($localize`:@@cycleDetails-CloseDelTourMsg:The last tournament successfully deleted`, true);
+            this.router.navigate(['/cycles']).catch(error => console.log(error));
           })
         ).subscribe();
       }

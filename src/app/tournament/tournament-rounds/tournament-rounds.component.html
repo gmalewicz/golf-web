@@ -11,21 +11,25 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let round of rounds">
-      <td>
-        <a (click)="addRound(round)">
-          <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
-        </a>
-      </td>
-      <td>{{ round.roundDate | date: "mediumDate" }}</td>
-      <td>{{ round.roundDate | date: "H:mm"}}</td>
-      <td>{{ round.course.name }}</td>
-      <td>
-        <span *ngFor="let player of round.player">
-          {{player.nick}}<br/>
-        </span>
-      </td>
-    </tr>
+    @for (round of rounds; track round) {
+      <tr>
+        <td>
+          <a (click)="addRound(round)">
+            <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
+          </a>
+        </td>
+        <td>{{ round.roundDate | date: "mediumDate" }}</td>
+        <td>{{ round.roundDate | date: "H:mm"}}</td>
+        <td>{{ round.course.name }}</td>
+        <td>
+          @for (player of round.player; track player) {
+            <span>
+              {{player.nick}}<br/>
+            </span>
+          }
+        </td>
+      </tr>
+    }
   </tbody>
 </table>
 <div>

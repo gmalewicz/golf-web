@@ -1,53 +1,67 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <h2 i18n="@@tour-lst">List of tournaments:</h2>
-  <br/>
-  <table class="table table-striped" aria-describedby="Tournament list">
-    <thead>
-      <tr>
-        <th id="nav"></th>
-        <th id="name" i18n="@@tour-name">Name</th>
-        <th id="sDate" i18n="@@tour-startdDate">Start Date</th>
-        <th id="eDate" i18n="@@tour-enddDate">End Date</th>
-        <th id="bResults" i18n="@@tour-bestRnd">Best rounds</th>
-        <th id="bResults">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tournament of tournaments">
-        <td>
-          <a href="#"  routerLink ="tournamentResults" (click)="showTournament(tournament)">
-            <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-          </a>
-        </td>
-        <td>{{ tournament.name }}</td>
-        <td>{{ tournament.startDate | date: "mediumDate" }}</td>
-        <td>{{ tournament.endDate | date: "mediumDate"}}</td>
-        <td *ngIf="tournament.bestRounds === 0">All</td>
-        <td *ngIf="tournament.bestRounds !== 0">{{tournament.bestRounds}}</td>
-        <td *ngIf="tournament.status === statusOpen" i18n="@@tour-open">Opened</td>
-        <td *ngIf="tournament.status === statusClose" i18n="@@tour-close">Closed</td>
-      </tr>
-    </tbody>
-  </table>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
   <div>
-    <br />
-    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@rounds-cancel" i18n="@@tour-cancel">
+    <h2 i18n="@@tour-lst">List of tournaments:</h2>
+    <br/>
+    <table class="table table-striped" aria-describedby="Tournament list">
+      <thead>
+        <tr>
+          <th id="nav"></th>
+          <th id="name" i18n="@@tour-name">Name</th>
+          <th id="sDate" i18n="@@tour-startdDate">Start Date</th>
+          <th id="eDate" i18n="@@tour-enddDate">End Date</th>
+          <th id="bResults" i18n="@@tour-bestRnd">Best rounds</th>
+          <th id="bResults">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tournament of tournaments; track tournament) {
+          <tr>
+            <td>
+              <a href="#"  routerLink ="tournamentResults" (click)="showTournament(tournament)">
+                <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+              </a>
+            </td>
+            <td>{{ tournament.name }}</td>
+            <td>{{ tournament.startDate | date: "mediumDate" }}</td>
+            <td>{{ tournament.endDate | date: "mediumDate"}}</td>
+            @if (tournament.bestRounds === 0) {
+              <td>All</td>
+            }
+            @if (tournament.bestRounds !== 0) {
+              <td>{{tournament.bestRounds}}</td>
+            }
+            @if (tournament.status === statusOpen) {
+              <td i18n="@@tour-open">Opened</td>
+            }
+            @if (tournament.status === statusClose) {
+              <td i18n="@@tour-close">Closed</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div>
+      <br />
+      <button type="button" class="btn btn-success" routerLink="/home" i18n="@@rounds-cancel" i18n="@@tour-cancel">
       Cancel
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@tour-previous">
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onPrevious()" [disabled]="page === 0" i18n="@@tour-previous">
       Previous
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="tournaments == undefined || tournaments.length < PAGE_SIZE" i18n="@@tour-next">
+      &nbsp;
+      <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="tournaments == undefined || tournaments.length < PAGE_SIZE" i18n="@@tour-next">
       Next
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success" routerLink= "addTournament" i18n="@@tour-add">
+      &nbsp;
+      <button type="button" class="btn btn-success" routerLink= "addTournament" i18n="@@tour-add">
       Add
     </button>
+    </div>
   </div>
-</div>
+}

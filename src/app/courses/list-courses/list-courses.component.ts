@@ -9,13 +9,13 @@ import { faMinusCircle, faPlusCircle, faSearchPlus, IconDefinition } from '@fort
 import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-list-courses',
     templateUrl: './list-courses.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, RouterLink, FaIconComponent]
+    imports: [RouterLink, FaIconComponent]
 })
 export class ListCoursesComponent implements OnInit {
 

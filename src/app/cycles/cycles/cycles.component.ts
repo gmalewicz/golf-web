@@ -6,13 +6,13 @@ import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-cycles',
     templateUrl: './cycles.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, RouterLink, FaIconComponent]
+    imports: [RouterLink, FaIconComponent]
 })
 
 export class CyclesComponent implements OnInit {

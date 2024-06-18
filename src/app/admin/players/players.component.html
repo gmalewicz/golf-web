@@ -1,56 +1,80 @@
-<div *ngIf="!display || loading" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
+@if (!display || loading) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
 
 <br/>
-<div *ngIf="display">
-  <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
-    <thead>
-      <tr>
-        <th id="no">No.</th>
-        <th id="nick">Nick</th>
-        <th id="sex">Sex</th>
-        <th id="whs">WHS</th>
-        <th id="role">Role</th>
-        <th id="type">Type</th>
-        <th id="id">ID</th>
-        <th id="roundCnt">Rounds</th>
-        <th id="delete">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of playerRound, let idx = index">
-        <td>{{idx + 1}}</td>
-        <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
-        <td (click)="onClickUpdate(idx)">
-          <span *ngIf="row.sex">F</span>
-          <span *ngIf="!row.sex">M</span>
-        </td>
-        <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
-        <td (click)="onClickUpdate(idx)">
-          <span *ngIf="row.role === 0">ADMIN</span>
-          <span *ngIf="row.role === 1">PLAYER</span>
-        </td>
-        <td>
-          <span *ngIf="row.type === 0">LOCAL</span>
-          <span *ngIf="row.type === 1">FACEBOOK</span>
-          <span *ngIf="row.type === 2">GOOGLE</span>
-        </td>
-        <td>
-          {{row.id}}
-        </td>
-        <td>{{ row.roundCnt }}</td>
-        <td *ngIf="row.roundCnt === 0">
-          <a (click)="onClickDelete(row.id)">
-            <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
-          </a>
-        </td>
-        <td *ngIf="row.roundCnt > 0">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="form-group">
-    <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+@if (display) {
+  <div>
+    <table id="tee-tbl" class="table table-striped" aria-describedby="Tees">
+      <thead>
+        <tr>
+          <th id="no">No.</th>
+          <th id="nick">Nick</th>
+          <th id="sex">Sex</th>
+          <th id="whs">WHS</th>
+          <th id="role">Role</th>
+          <th id="type">Type</th>
+          <th id="id">ID</th>
+          <th id="roundCnt">Rounds</th>
+          <th id="delete">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of playerRound; track row; let idx = $index) {
+          <tr>
+            <td>{{idx + 1}}</td>
+            <td (click)="onClickUpdate(idx)">{{ row.nick }}</td>
+            <td (click)="onClickUpdate(idx)">
+              @if (row.sex) {
+                <span>F</span>
+              }
+              @if (!row.sex) {
+                <span>M</span>
+              }
+            </td>
+            <td (click)="onClickUpdate(idx)">{{ row.whs }}</td>
+            <td (click)="onClickUpdate(idx)">
+              @if (row.role === 0) {
+                <span>ADMIN</span>
+              }
+              @if (row.role === 1) {
+                <span>PLAYER</span>
+              }
+            </td>
+            <td>
+              @if (row.type === 0) {
+                <span>LOCAL</span>
+              }
+              @if (row.type === 1) {
+                <span>FACEBOOK</span>
+              }
+              @if (row.type === 2) {
+                <span>GOOGLE</span>
+              }
+            </td>
+            <td>
+              {{row.id}}
+            </td>
+            <td>{{ row.roundCnt }}</td>
+            @if (row.roundCnt === 0) {
+              <td>
+                <a (click)="onClickDelete(row.id)">
+                  <fa-icon [icon]="faMinusCircle" class="golf-green"></fa-icon>
+                </a>
+              </td>
+            }
+            @if (row.roundCnt > 0) {
+              <td>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div class="form-group">
+      <a routerLink="/home" class="btn btn-link text-success">Cancel</a>
+    </div>
   </div>
-</div>
+}

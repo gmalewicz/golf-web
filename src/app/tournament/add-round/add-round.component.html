@@ -1,100 +1,119 @@
 
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
-  <div>{{course.name}}</div>
-  <br/>
-  <form [formGroup]="defRoundForm">
-    <div class="row">
-
-      <div class="col-auto">
-        <mat-form-field>
-          <mat-label i18n="@@addRound-nick">nick</mat-label>
-          <mat-select [formControlName]="'nickDropDown'" (selectionChange)="nickChange()">
-            @for (player of tournamentPlayersOptions; track player) {
-              <mat-option [value]="player.value">{{player.label}}</mat-option>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
+  <div>
+    <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
+    <div>{{course.name}}</div>
+    <br/>
+    <form [formGroup]="defRoundForm">
+      <div class="row">
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label i18n="@@addRound-nick">nick</mat-label>
+            <mat-select [formControlName]="'nickDropDown'" (selectionChange)="nickChange()">
+              @for (player of tournamentPlayersOptions; track player) {
+                <mat-option [value]="player.value">{{player.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.nickDropDown.invalid  && f.nickDropDown.errors) {
+              <mat-error i18n="@@addRound-nickReq">Nick is required</mat-error>
             }
-          </mat-select>
-          @if (f.nickDropDown.invalid  && f.nickDropDown.errors) {
-            <mat-error i18n="@@addRound-nickReq">Nick is required</mat-error>
-          }
-        </mat-form-field>
-      </div>
-
-      <div class="col-auto">
-        <mat-form-field>
-          <mat-label>tee</mat-label>
-          <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange()">
-            @for (tee of getTeeOptions(); track tee) {
-              <mat-option [value]="tee.value">{{tee.label}}</mat-option>
+          </mat-form-field>
+        </div>
+        <div class="col-auto">
+          <mat-form-field>
+            <mat-label>tee</mat-label>
+            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange()">
+              @for (tee of getTeeOptions(); track tee) {
+                <mat-option [value]="tee.value">{{tee.label}}</mat-option>
+              }
+            </mat-select>
+            @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
+              <mat-error i18n="@@addRound-teeReq">Tee is required</mat-error>
             }
-          </mat-select>
-          @if (f.teeDropDown.invalid  && f.teeDropDown.errors) {
-            <mat-error i18n="@@addRound-teeReq">Tee is required</mat-error>
+          </mat-form-field>
+          @if (!defRoundForm.invalid) {
+            <span class="search col-auto golf-padding">
+              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+            </span>
           }
-        </mat-form-field>
-
-        <span *ngIf="!defRoundForm.invalid" class="search col-auto golf-padding">
-          <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
-        </span>
-        <span *ngIf="searchInProgress" class="spinner-border text-success"></span>
+          @if (searchInProgress) {
+            <span class="spinner-border text-success"></span>
+          }
+        </div>
       </div>
-    </div>
-  </form>
-  <br/>
-  <div class="table-responsive">
-    <table id="holeStake-tbl" class="table" aria-describedby="View stroke play round">
-      <thead>
-        <tr>
-          <th id="hole" class="w-10" i18n="@@addRound-hole">Hole</th>
-
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{i + 1}}
-            </th>
+    </form>
+    <br/>
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table" aria-describedby="View stroke play round">
+        <thead>
+          <tr>
+            <th id="hole" class="w-10" i18n="@@addRound-hole">Hole</th>
+            @for (i of counter(9); track i;) {
+              <th id="no" class="w-5">
+                {{i + 1}}
+              </th>
+            }
             <th id="out" class="center w-10">OUT</th>
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{i + 10}}
-            </th>
+            @for (i of counter(9); track i;) {
+              <th id="no" class="w-5">
+                {{i + 10}}
+              </th>
+            }
             <th id="in" class="center w-10" >IN</th>
-
-          <th id="total" class="center w-10" i18n="@@addRound-total">TOTAL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th id="hole" class="w-10">Par</th>
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{holes[i].par}}
-            </th>
+            <th id="total" class="center w-10" i18n="@@addRound-total">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th id="hole" class="w-10">Par</th>
+            @for (i of counter(9); track i;) {
+              <th id="no" class="w-5">
+                {{holes[i].par}}
+              </th>
+            }
             <th id="out" class="center w-10"></th>
-            <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-              {{holes[i + 9].par}}
-            </th>
+            @for (i of counter(9); track i;) {
+              <th id="no" class="w-5">
+                {{holes[i + 9].par}}
+              </th>
+            }
             <th id="in" class="center w-10" ></th>
-          <th id="total" class="center w-10"></th>
-        </tr>
-        <tr>
-          <th id="hole" class="w-15" i18n="@@addRound-score">Score</th>
-          <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-            <input  #box
-                    [id]="'hl' + i"
-                    type="text"
-                    [(ngModel)]="score[i]"
-                    maxlength="2"
-                    size="1"
-                    class="input"
-                    (keyup)="onKey(box.value, i)"
-                    [appAutoTab]="'hl' + (i + 1)"/>
-          </th>
-          <th id="out" class="center w-10">
-            <span *ngIf="first9Total === 0"></span>
-            <span *ngIf="first9Total === -1">x</span>
-            <span *ngIf="first9Total > 0">{{first9Total}}</span>
-          </th>
-          <th id="no" *ngFor="let i = index of counter(9)" class="w-5">
-            <input  #box
+            <th id="total" class="center w-10"></th>
+          </tr>
+          <tr>
+            <th id="hole" class="w-15" i18n="@@addRound-score">Score</th>
+            @for (i of counter(9); track i;) {
+              <th id="no" class="w-5">
+                <input  #box
+                  [id]="'hl' + i"
+                  type="text"
+                  [(ngModel)]="score[i]"
+                  maxlength="2"
+                  size="1"
+                  class="input"
+                  (keyup)="onKey(box.value, i)"
+                  [appAutoTab]="'hl' + (i + 1)"/>
+                </th>
+              }
+              <th id="out" class="center w-10">
+                @if (first9Total === 0) {
+                  <span></span>
+                }
+                @if (first9Total === -1) {
+                  <span>x</span>
+                }
+                @if (first9Total > 0) {
+                  <span>{{first9Total}}</span>
+                }
+              </th>
+              @for (i of counter(9); track i;) {
+                <th id="no" class="w-5">
+                  <input  #box
                     [id]="'hl' + (i + 9)"
                     type="text"
                     [(ngModel)]="score[i + 9]"
@@ -103,63 +122,89 @@
                     class="input"
                     (keyup)="onKey(box.value, i + 9)"
                     [appAutoTab]="'hl' + (i + 10)"/>
-          </th>
-          <th id="in" class="center w-10" >
-            <span *ngIf="last9Total === 0"></span>
-            <span *ngIf="last9Total === -1">x</span>
-            <span *ngIf="last9Total > 0">{{last9Total}}</span>
-          </th>
-          <th id="total" class="center w-10">
-            <span *ngIf="grandTotal === 0"></span>
-            <span *ngIf="grandTotal === -1">x</span>
-            <span *ngIf="grandTotal > 0">{{grandTotal}}</span>
-          </th>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <br />
-    <div class="form-group">
-      <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addRound-clear">
+                  </th>
+                }
+                <th id="in" class="center w-10" >
+                  @if (last9Total === 0) {
+                    <span></span>
+                  }
+                  @if (last9Total === -1) {
+                    <span>x</span>
+                  }
+                  @if (last9Total > 0) {
+                    <span>{{last9Total}}</span>
+                  }
+                </th>
+                <th id="total" class="center w-10">
+                  @if (grandTotal === 0) {
+                    <span></span>
+                  }
+                  @if (grandTotal === -1) {
+                    <span>x</span>
+                  }
+                  @if (grandTotal > 0) {
+                    <span>{{grandTotal}}</span>
+                  }
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <br />
+          <div class="form-group">
+            <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addRound-clear">
         Clear
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
+            &nbsp;
+            <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
         Add
       </button>
-    </div>
-  </div>
-  <div *ngIf="tournamentRounds.length > 0">
-    <br/>
-    <td colspan="7">
-      <table class="table table-striped" aria-describedby="tournament details">
-        <thead>
-          <tr>
-            <th id="no" i18n="@@addRound-no">No</th>
-            <th id="plr" i18n="@@addRound-plrs">Player</th>
-            <th id="cour" i18n="@@addRound-course">Course</th>
-            <th id="nstb" i18n="@@addRound-netStb">Net STB</th>
-            <th id="gstb">STB</th>
-            <th id="gstr" i18n="@@addRound-strks">Strokes</th>
-            <th id="nstr" i18n="@@addRound-netStrks">Net Strokes</th>
-            <th id="sDiff" i18n="@@addRound-scrDif">Score Differential</th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let tournamentRound of tournamentRounds,  let j = index">
-          <td>{{j + 1}}</td>
-          <td>{{tournamentRound.nick}}</td>
-          <td>{{tournamentRound.courseName}}</td>
-          <td>{{tournamentRound.stbNet}}</td>
-          <td>{{tournamentRound.stbGross}}</td>
-          <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesBrutto}}</td>
-          <td *ngIf="!tournamentRound.strokes">x</td>
-          <td *ngIf="tournamentRound.strokes">{{tournamentRound.strokesNetto}}</td>
-          <td *ngIf="!tournamentRound.strokes">x</td>
-          <td>{{tournamentRound.scrDiff | number: '1.1-1'}}</td>
-        </tbody>
-      </table>
-    </td>
-  </div>
-</div>
+          </div>
+        </div>
+        @if (tournamentRounds.length > 0) {
+          <div>
+            <br/>
+            <td colspan="7">
+              <table class="table table-striped" aria-describedby="tournament details">
+                <thead>
+                  <tr>
+                    <th id="no" i18n="@@addRound-no">No</th>
+                    <th id="plr" i18n="@@addRound-plrs">Player</th>
+                    <th id="cour" i18n="@@addRound-course">Course</th>
+                    <th id="nstb" i18n="@@addRound-netStb">Net STB</th>
+                    <th id="gstb">STB</th>
+                    <th id="gstr" i18n="@@addRound-strks">Strokes</th>
+                    <th id="nstr" i18n="@@addRound-netStrks">Net Strokes</th>
+                    <th id="sDiff" i18n="@@addRound-scrDif">Score Differential</th>
+                  </tr>
+                </thead>
+                @for (tournamentRound of tournamentRounds; track tournamentRound; let j = $index) {
+                  <tbody>
+                    <td>{{j + 1}}</td>
+                    <td>{{tournamentRound.nick}}</td>
+                    <td>{{tournamentRound.courseName}}</td>
+                    <td>{{tournamentRound.stbNet}}</td>
+                    <td>{{tournamentRound.stbGross}}</td>
+                    @if (tournamentRound.strokes) {
+                      <td>{{tournamentRound.strokesBrutto}}</td>
+                    }
+                    @if (!tournamentRound.strokes) {
+                      <td>x</td>
+                    }
+                    @if (tournamentRound.strokes) {
+                      <td>{{tournamentRound.strokesNetto}}</td>
+                    }
+                    @if (!tournamentRound.strokes) {
+                      <td>x</td>
+                    }
+                    <td>{{tournamentRound.scrDiff | number: '1.1-1'}}</td>
+                  </tbody>
+                }
+              </table>
+            </td>
+          </div>
+        }
+      </div>
+    }
 

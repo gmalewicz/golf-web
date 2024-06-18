@@ -3,13 +3,13 @@ import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-round-view-mp',
     templateUrl: './round-view-mp.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, NgClass]
+    imports: [NgClass]
 })
 export class RoundViewMPComponent implements OnInit {
 
@@ -142,7 +142,7 @@ export class RoundViewMPComponent implements OnInit {
 
   // helper function to provide verious arrays for html
   counter(i: number) {
-    return new Array(i);
+    return [...Array(i).keys()];
   }
 
   highlightHcp(hole: number, player: number) {

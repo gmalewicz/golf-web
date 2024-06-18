@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseNavigationService } from '../_services/course-navigation.service';
@@ -12,7 +12,7 @@ import { AlertService } from '@/_services';
 @Component({
   selector: 'app-add-tee',
   standalone: true,
-  imports: [CommonModule, MatInputModule, MatSelectModule, ReactiveFormsModule],
+  imports: [MatInputModule, MatSelectModule, ReactiveFormsModule],
   providers: [CourseHttpService],
   templateUrl: './add-tee.component.html'
 })

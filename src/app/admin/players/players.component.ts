@@ -1,5 +1,5 @@
 import { PlayerRndCnt } from './../../_models/playerRndCnt';
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { HttpService } from '@/_services/http.service';
 import { tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
     selector: 'app-players',
     templateUrl: './players.component.html',
     standalone: true,
-    imports: [NgIf, NgFor, FaIconComponent, RouterLink]
+    imports: [FaIconComponent, RouterLink]
 })
 export class PlayersComponent implements OnInit {
 

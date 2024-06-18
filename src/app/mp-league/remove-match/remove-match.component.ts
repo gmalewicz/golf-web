@@ -10,14 +10,14 @@ import { tap } from 'rxjs';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
+
 
 
 @Component({
     selector: 'app-remove-match',
     templateUrl: './remove-match.component.html',
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
 })
 export class RemoveMatchComponent implements OnInit {
 

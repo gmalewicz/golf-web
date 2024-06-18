@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
-import { NgTemplateOutlet, NgClass, NgIf, NgFor } from '@angular/common';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-common-scorecard',
@@ -17,126 +17,186 @@ import { NgTemplateOutlet, NgClass, NgIf, NgFor } from '@angular/common';
         {{curHoleIdx + 1}}
       </td>
       <td [ngClass]="calculateStyle(0)">
-        <span *ngIf="curHoleStrokes[0] > 0 && curHoleStrokes[0] < 16">{{curHoleStrokes[0]}}</span>
-        <span *ngIf="curHoleStrokes[0] === 16">x</span>
+        @if (curHoleStrokes[0] > 0 && curHoleStrokes[0] < 16) {
+          <span>{{curHoleStrokes[0]}}</span>
+        }
+        @if (curHoleStrokes[0] === 16) {
+          <span>x</span>
+        }
         <span class="supsub">
           <span class="superscript">
             <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePutts[0])">
-              <span class="blackDot"></span>
-              <span class="dotSeparator"></span>
-            </span>
+            @for (index of counter(curHolePutts[0]); track index) {
+              <span>
+                <span class="blackDot"></span>
+                <span class="dotSeparator"></span>
+              </span>
+            }
           </span>
           <span class="subscript">
             <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePenalties[0])">
-              <span class="redDot"></span>
-              <span class="dotSeparator"></span>
-            </span>
+            @for (index of counter(curHolePenalties[0]); track index) {
+              <span>
+                <span class="redDot"></span>
+                <span class="dotSeparator"></span>
+              </span>
+            }
           </span>
         </span>
       </td>
-      <td *ngIf="rounds.length > 1" [ngClass]="calculateStyle(1)">
-        <span *ngIf="curHoleStrokes[1] > 0 && curHoleStrokes[1] < 16">{{curHoleStrokes[1]}}</span>
-        <span *ngIf="curHoleStrokes[1] === 16">x</span>
-        <span class="supsub">
-          <span class="superscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePutts[1])">
-              <span class="blackDot"></span>
+      @if (rounds.length > 1) {
+        <td [ngClass]="calculateStyle(1)">
+          @if (curHoleStrokes[1] > 0 && curHoleStrokes[1] < 16) {
+            <span>{{curHoleStrokes[1]}}</span>
+          }
+          @if (curHoleStrokes[1] === 16) {
+            <span>x</span>
+          }
+          <span class="supsub">
+            <span class="superscript">
               <span class="dotSeparator"></span>
+              @for (index of counter(curHolePutts[1]); track index) {
+                <span>
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
+            </span>
+            <span class="subscript">
+              <span class="dotSeparator"></span>
+              @for (index of counter(curHolePenalties[1]); track index) {
+                <span>
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
             </span>
           </span>
-          <span class="subscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePenalties[1])">
-              <span class="redDot"></span>
+        </td>
+      }
+      @if (rounds.length > 2) {
+        <td [ngClass]="calculateStyle(2)">
+          @if (curHoleStrokes[2] > 0 && curHoleStrokes[2] < 16) {
+            <span>{{curHoleStrokes[2]}}</span>
+          }
+          @if (curHoleStrokes[2] === 16) {
+            <span>x</span>
+          }
+          <span class="supsub">
+            <span class="superscript">
               <span class="dotSeparator"></span>
+              @for (putt of counter(curHolePutts[2]); track putt) {
+                <span>
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
+            </span>
+            <span class="subscript">
+              <span class="dotSeparator"></span>
+              @for (penalty of counter(curHolePenalties[2]); track penalty) {
+                <span>
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
             </span>
           </span>
-        </span>
-      </td>
-      <td *ngIf="rounds.length > 2" [ngClass]="calculateStyle(2)">
-        <span *ngIf="curHoleStrokes[2] > 0 && curHoleStrokes[2] < 16">{{curHoleStrokes[2]}}</span>
-        <span *ngIf="curHoleStrokes[2] === 16">x</span>
-        <span class="supsub">
-          <span class="superscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePutts[2])">
-              <span class="blackDot"></span>
+        </td>
+      }
+      @if (rounds.length > 3) {
+        <td [ngClass]="calculateStyle(3)">
+          @if (curHoleStrokes[3] > 0 && curHoleStrokes[3] < 16) {
+            <span>{{curHoleStrokes[3]}}</span>
+          }
+          @if (curHoleStrokes[3] === 16) {
+            <span>x</span>
+          }
+          <span class="supsub">
+            <span class="superscript">
               <span class="dotSeparator"></span>
+              @for (putt of counter(curHolePutts[3]); track putt) {
+                <span>
+                  <span class="blackDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
+            </span>
+            <span class="subscript">
+              <span class="dotSeparator"></span>
+              @for (penalty of counter(curHolePenalties[3]); track penalty) {
+                <span>
+                  <span class="redDot"></span>
+                  <span class="dotSeparator"></span>
+                </span>
+              }
             </span>
           </span>
-          <span class="subscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePenalties[2])">
-              <span class="redDot"></span>
-              <span class="dotSeparator"></span>
-            </span>
-          </span>
-        </span>
-      </td>
-      <td *ngIf="rounds.length > 3" [ngClass]="calculateStyle(3)">
-        <span *ngIf="curHoleStrokes[3] > 0 && curHoleStrokes[3] < 16">{{curHoleStrokes[3]}}</span>
-        <span *ngIf="curHoleStrokes[3] === 16">x</span>
-        <span class="supsub">
-          <span class="superscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePutts[3])">
-              <span class="blackDot"></span>
-              <span class="dotSeparator"></span>
-            </span>
-          </span>
-          <span class="subscript">
-            <span class="dotSeparator"></span>
-            <span *ngFor="let i = index of counter(curHolePenalties[3])">
-              <span class="redDot"></span>
-              <span class="dotSeparator"></span>
-            </span>
-          </span>
-        </span>
-      </td>
+        </td>
+      }
     </tr>
   </tbody>
 </table>
 <ng-template #TableHeader >
   <th id="hole" i18n="@@comScor-hole">Hole</th>
   <th id="p1str">{{rounds[0].player.nick}}
-    <span *ngIf="ballPickedUp[0]">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[0]">
-      ({{totalStrokes[0]}})
-    </span>
+    @if (ballPickedUp[0]) {
+      <span>
+        (x)
+      </span>
+    }
+    @if (!ballPickedUp[0]) {
+      <span>
+        ({{totalStrokes[0]}})
+      </span>
+    }
   </th>
-  <th id="p2str" *ngIf="rounds.length > 1">{{rounds[1].player.nick}}
-    <span *ngIf="ballPickedUp[1]">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[1]">
-      ({{totalStrokes[1]}})
-    </span>
-  </th>
-  <th id="p3str" *ngIf="rounds.length > 2">{{rounds[2].player.nick}}
-    <span *ngIf="ballPickedUp[2]">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[2]">
-      ({{totalStrokes[2]}})
-    </span>
-  </th>
-  <th id="p4str" *ngIf="rounds.length > 3">{{rounds[3].player.nick}}
-    <span *ngIf="ballPickedUp[3]">
-      (x)
-    </span>
-    <span *ngIf="!ballPickedUp[3]">
-      ({{totalStrokes[3]}})
-    </span>
-  </th>
+  @if (rounds.length > 1) {
+    <th id="p2str">{{rounds[1].player.nick}}
+      @if (ballPickedUp[1]) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[1]) {
+        <span>
+          ({{totalStrokes[1]}})
+        </span>
+      }
+    </th>
+  }
+  @if (rounds.length > 2) {
+    <th id="p3str">{{rounds[2].player.nick}}
+      @if (ballPickedUp[2]) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[2]) {
+        <span>
+          ({{totalStrokes[2]}})
+        </span>
+      }
+    </th>
+  }
+  @if (rounds.length > 3) {
+    <th id="p4str">{{rounds[3].player.nick}}
+      @if (ballPickedUp[3]) {
+        <span>
+          (x)
+        </span>
+      }
+      @if (!ballPickedUp[3]) {
+        <span>
+          ({{totalStrokes[3]}})
+        </span>
+      }
+    </th>
+  }
 </ng-template>
-  `,
+`,
     standalone: true,
-    imports: [NgTemplateOutlet, NgClass, NgIf, NgFor]
+    imports: [NgTemplateOutlet, NgClass]
 })
 export class CommonScorecardComponent implements OnInit {
 

@@ -4,44 +4,72 @@
     <label for="name" i18n="@@addTour-name">Tournament name</label>
     <input type="text" formControlName="name" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-      <div *ngIf="f.name.errors.required" i18n="@@addTour-nameReq">Name is required</div>
-      <div *ngIf="f.name.errors.minlength" i18n="@@addTour-TourTooShort">Tournament name must be at least 3 characters</div>
+      @if (submitted && f.name.errors) {
+        <div class="invalid-feedback">
+          @if (f.name.errors.required) {
+            <div i18n="@@addTour-nameReq">Name is required</div>
+          }
+          @if (f.name.errors.minlength) {
+            <div i18n="@@addTour-TourTooShort">Tournament name must be at least 3 characters</div>
+          }
+        </div>
+      }
     </div>
-  </div>
-  <div class="form-group">
-    <label for="name">Start date</label>
-    <input type="text" maxlength="10" formControlName="startDate" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" placeholder="YYYY/MM/DD" />
-    <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
-      <div *ngIf="f.startDate.errors.required" i18n="@@addTour-dateReq">Date is required</div>
-      <div *ngIf="f.startDate.errors.pattern" i18n="@@addTour-datePattern">Provide the date in the YYYY/MM/DD format</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="name">End date</label>
-    <input type="text" maxlength="10" formControlName="endDate" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" placeholder="YYYY/MM/DD" />
-    <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
-      <div *ngIf="f.endDate.errors.required" i18n="@@addTour-dateReq">Date is required</div>
-      <div *ngIf="f.endDate.errors.pattern" i18n="@@addTour-datePattern">Provide the date in the YYYY/MM/DD format</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="name" i18n="@@addTour-noBestRnd">No. of best rounds (or 0 if all rounds shall be included)</label>
-    <input type="text" maxlength="10" formControlName="bestRounds" class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }"/>
-    <div *ngIf="submitted && f.bestRounds.errors" class="invalid-feedback">
-      <div *ngIf="f.bestRounds.errors.required" i18n="@@addTour-noBestRndReq">No. of best rounds is required</div>
-      <div *ngIf="f.bestRounds.errors.min" i18n="@@addTour-noBestRndTooShrt">No. of best rounds must be greater or equal 0</div>
-      <div *ngIf="f.bestRounds.errors.max" i18n="@@addTour-noBestRndTooBig">No. of best rounds must be lower or equal 10</div>
-    </div>
-  </div>
-  <div class="golf-margin-top">
-    <button [disabled]="loading" class="btn btn-success">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-      <span i18n="@@addTour-create">Create</span>
-    </button>
-    <a routerLink="/tournaments" class="btn btn-link text-success" i18n="@@addTour-cancel">Cancel</a>
-  </div>
-</form>
+    <div class="form-group">
+      <label for="name">Start date</label>
+      <input type="text" maxlength="10" formControlName="startDate" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" placeholder="YYYY/MM/DD" />
+        @if (submitted && f.startDate.errors) {
+          <div class="invalid-feedback">
+            @if (f.startDate.errors.required) {
+              <div i18n="@@addTour-dateReq">Date is required</div>
+            }
+            @if (f.startDate.errors.pattern) {
+              <div i18n="@@addTour-datePattern">Provide the date in the YYYY/MM/DD format</div>
+            }
+          </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="name">End date</label>
+        <input type="text" maxlength="10" formControlName="endDate" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" placeholder="YYYY/MM/DD" />
+          @if (submitted && f.endDate.errors) {
+            <div class="invalid-feedback">
+              @if (f.endDate.errors.required) {
+                <div i18n="@@addTour-dateReq">Date is required</div>
+              }
+              @if (f.endDate.errors.pattern) {
+                <div i18n="@@addTour-datePattern">Provide the date in the YYYY/MM/DD format</div>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="name" i18n="@@addTour-noBestRnd">No. of best rounds (or 0 if all rounds shall be included)</label>
+          <input type="text" maxlength="10" formControlName="bestRounds" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }"/>
+            @if (submitted && f.bestRounds.errors) {
+              <div class="invalid-feedback">
+                @if (f.bestRounds.errors.required) {
+                  <div i18n="@@addTour-noBestRndReq">No. of best rounds is required</div>
+                }
+                @if (f.bestRounds.errors.min) {
+                  <div i18n="@@addTour-noBestRndTooShrt">No. of best rounds must be greater or equal 0</div>
+                }
+                @if (f.bestRounds.errors.max) {
+                  <div i18n="@@addTour-noBestRndTooBig">No. of best rounds must be lower or equal 10</div>
+                }
+              </div>
+            }
+          </div>
+          <div class="golf-margin-top">
+            <button [disabled]="loading" class="btn btn-success">
+              @if (loading) {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+              }
+              <span i18n="@@addTour-create">Create</span>
+            </button>
+            <a routerLink="/tournaments" class="btn btn-link text-success" i18n="@@addTour-cancel">Cancel</a>
+          </div>
+        </form>

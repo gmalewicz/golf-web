@@ -1,72 +1,89 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <br/>
-  <p>
-    <span *ngIf="dipslayPlayers[0]">{{ players[0].nick }}: &nbsp; {{dipslayPlayerResult[0]}}</span>
-    <span *ngIf="dipslayPlayers[1]">&nbsp; {{ players[1].nick }}: &nbsp; {{dipslayPlayerResult[1]}} </span>
-    <span *ngIf="dipslayPlayers[2]">&nbsp; {{ players[2].nick }}: &nbsp; {{dipslayPlayerResult[2]}}</span>
-    <span *ngIf="dipslayPlayers[3]">&nbsp; {{ players[3].nick }}: &nbsp; {{dipslayPlayerResult[3]}}</span>
-  </p>
-  <div style="display: block;">
-    <canvas
-      baseChart
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [legend]="barChartLegend"
-      [type]="barChartType"
-    >
-    </canvas>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
+}
+@if (display) {
   <div>
-    <br />
-    <button type="button" class="btn btn-outline-success both9" (click)="onBoth9()" i18n="@@roundView-both">
+    <br/>
+    <p>
+      @if (dipslayPlayers[0]) {
+        <span>{{ players[0].nick }}: &nbsp; {{dipslayPlayerResult[0]}}</span>
+      }
+      @if (dipslayPlayers[1]) {
+        <span>&nbsp; {{ players[1].nick }}: &nbsp; {{dipslayPlayerResult[1]}} </span>
+      }
+      @if (dipslayPlayers[2]) {
+        <span>&nbsp; {{ players[2].nick }}: &nbsp; {{dipslayPlayerResult[2]}}</span>
+      }
+      @if (dipslayPlayers[3]) {
+        <span>&nbsp; {{ players[3].nick }}: &nbsp; {{dipslayPlayerResult[3]}}</span>
+      }
+    </p>
+    <div style="display: block;">
+      <canvas
+        baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [legend]="barChartLegend"
+        [type]="barChartType"
+        >
+      </canvas>
+    </div>
+    <div>
+      <br />
+      <button type="button" class="btn btn-outline-success both9" (click)="onBoth9()" i18n="@@roundView-both">
       Both 9
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-outline-success first9" (click)="onFirst9()" i18n="@@roundView-first">
+      &nbsp;
+      <button type="button" class="btn btn-outline-success first9" (click)="onFirst9()" i18n="@@roundView-first">
       First 9
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-outline-success last9" (click)="onLast9()" i18n="@@roundView-last">
+      &nbsp;
+      <button type="button" class="btn btn-outline-success last9" (click)="onLast9()" i18n="@@roundView-last">
       Last 9
     </button>
-    <br />
-    <br />
-    <div class="row">
-      <div class="col-12">
-        <span i18n="@@roundView-showPlr">Show player:</span>
-        &nbsp;
-        <input type="checkbox" class="form-check-input form-check-input-green" id="player0" checked="checked" (change)="onChecked($event, 0)">
-        &nbsp;
-        <label for="player0">{{ players[0].nick }}</label>
-
-        <span *ngIf="players.length > 1">
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <span i18n="@@roundView-showPlr">Show player:</span>
           &nbsp;
+          <input type="checkbox" class="form-check-input form-check-input-green" id="player0" checked="checked" (change)="onChecked($event, 0)">
           &nbsp;
-          <input type="checkbox" class="form-check-input form-check-input-green" id="player1" checked="checked" (change)="onChecked($event, 1)">
-          &nbsp;
-          <label for="player1">{{ players[1].nick }}</label>
-        </span>
-        <span *ngIf="players.length > 2">
-          &nbsp;
-          &nbsp;
-          <input type="checkbox" class="form-check-input form-check-input-green" id="player2" checked="checked" (change)="onChecked($event, 2)">
-          &nbsp;
-          <label for="player2">{{ players[2].nick }}</label>
-        </span>
-        <span *ngIf="players.length > 3">
-          &nbsp;
-          &nbsp;
-          <input type="checkbox" class="form-check-input form-check-input-green" id="player3" checked="checked" (change)="onChecked($event, 3)">
-          &nbsp;
-          <label for="player3">{{ players[3].nick }}</label>
-        </span>
+          <label for="player0">{{ players[0].nick }}</label>
+          @if (players.length > 1) {
+            <span>
+              &nbsp;
+              &nbsp;
+              <input type="checkbox" class="form-check-input form-check-input-green" id="player1" checked="checked" (change)="onChecked($event, 1)">
+              &nbsp;
+              <label for="player1">{{ players[1].nick }}</label>
+            </span>
+          }
+          @if (players.length > 2) {
+            <span>
+              &nbsp;
+              &nbsp;
+              <input type="checkbox" class="form-check-input form-check-input-green" id="player2" checked="checked" (change)="onChecked($event, 2)">
+              &nbsp;
+              <label for="player2">{{ players[2].nick }}</label>
+            </span>
+          }
+          @if (players.length > 3) {
+            <span>
+              &nbsp;
+              &nbsp;
+              <input type="checkbox" class="form-check-input form-check-input-green" id="player3" checked="checked" (change)="onChecked($event, 3)">
+              &nbsp;
+              <label for="player3">{{ players[3].nick }}</label>
+            </span>
+          }
+        </div>
       </div>
     </div>
   </div>
-</div>
+}
 
 
