@@ -377,26 +377,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   private sendMessage(onlineScoreCard: OnlineScoreCard) {
     this.inProgress = true;
-    if (navigator.geolocation) {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
-      navigator.geolocation.getCurrentPosition(position => {
 
-        onlineScoreCard.lat = position.coords.latitude;
-        onlineScoreCard.lng = position.coords.longitude;
-        this.processSendingWS(onlineScoreCard);
-      }, () => {
-        this.processSendingWS(onlineScoreCard);
-      }, options);
-    } else {
-      this.processSendingWS(onlineScoreCard);
-    }
-  }
-
-  private processSendingWS(onlineScoreCard: OnlineScoreCard) {
     const receiptId = '' + Math.random() * 10000;
     this.rxStompService.publish({ destination: '/app/hole', headers: {receipt: receiptId}, body: JSON.stringify(onlineScoreCard) });
     const prom = this.rxStompService.asyncReceipt(receiptId);

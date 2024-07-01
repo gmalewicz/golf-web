@@ -4,13 +4,19 @@
 <div *ngIf="display" id="pdfData">
   <h2>
     {{navigationService.tournament().name}}
-    <span *ngIf="this.navigationService.tournament().bestRounds > 0">
+    @if (this.navigationService.tournament().bestRounds > 0) {
       <span i18n="@@tourRes-bst"> - best </span>
       {{this.navigationService.tournament().bestRounds}}
       <span i18n="@@tourRes-rnds"> round(s)</span>
-    </span>
+    }
   </h2>
-
+  <span i18n="@@addTour-maxPlayHcp">Max. playing hcp</span>
+  {{navigationService.tournament().maxPlayHcp}}
+  &nbsp;
+  &nbsp;
+  <span i18n="@@addTour-plyMplr">Playing hcp multiplier</span>
+  {{navigationService.tournament().playHcpMultiplayer}}
+  <br/>
   <br/>
   <ul class="nav nav-tabs" id="myTab" data-html2canvas-ignore="true">
     <li class="nav-item">

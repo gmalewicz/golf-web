@@ -10,14 +10,13 @@ import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPRe
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgClass, DecimalPipe } from '@angular/common';
-import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
     selector: 'app-online-score-card-view',
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
     standalone: true,
-    imports: [NgClass, RouterLink, DecimalPipe, GoogleMapsModule]
+    imports: [NgClass, RouterLink, DecimalPipe ]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
@@ -54,18 +53,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  mapOptions: google.maps.MapOptions = {
-    center: { lat: 52.534090, lng: 20.655618 },
-    zoom : 17
- }
- marker = {
-    position: { lat: 52.534090, lng: 20.655618 },
-    label: 'x',
- }
-
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
-              public authenticationService: AuthenticationService,
+              private authenticationService: AuthenticationService,
               private router: Router,
               private navigationService: NavigationService,
               private rxStompService: RxStompService) { }
@@ -236,16 +226,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         }
         this.lstUpdTime = this.compareTime(this.lstUpdTime, sc.time);
         this.resetCounter();
-
-         // added for geolocation
-
-        if (sc.lat !== undefined) {
-          this.marker.label = sc.player.nick;
-          this.mapOptions.center = {lat: sc.lat, lng: sc.lng};
-          this.marker.position = {lat: sc.lat, lng: sc.lng};
-        }
-
-        // end of geolocation
       }
     });
   }
@@ -288,16 +268,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds[0].last9score = 0;
 
         let idx = retScoreCards.length;
-
-        // added for geolocation
-
-        if (idx > 0 && retScoreCards[idx - 1].lat !== undefined) {
-          this.marker.label = retScoreCards[idx - 1].player.nick;
-          this.mapOptions.center = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
-          this.marker.position = {lat: retScoreCards[idx - 1].lat, lng: retScoreCards[idx - 1].lng};
-        }
-
-        // end of geolocation
 
         while (idx > 0) {
           onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
@@ -363,8 +333,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
           let lastIdx = 0;
 
-          retScoreCardAPI.forEach(sc => console.log(retOnlineRound.player.nick + ' ' + sc.lat + ',' + sc.lng));
-
           retScoreCardAPI.forEach((scoreCardAPI, id) => {
             // set ball picked up for a player
             this.setBallPickUp(scoreCardAPI, idx);
@@ -387,16 +355,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               lastIdx = id;
             }
           });
-
-          // added for geolocation
-
-          if (retScoreCardAPI.length > 0 && retScoreCardAPI[lastIdx].lat !== undefined) {
-            this.marker.label = retScoreCardAPI[lastIdx].player.nick;
-            this.mapOptions.center = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
-            this.marker.position = {lat: retScoreCardAPI[lastIdx].lat, lng: retScoreCardAPI[lastIdx].lng};
-          }
-
-          // end of geolocation
 
           this.onlineRounds = retOnlineRounds;
         });
@@ -438,12 +396,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.mpResultHistory = createMPResultHistory(this.mpScore);
     } else {
       this.handleStrokeMessage(onlineScoreCard);
-    }
-
-    if (onlineScoreCard.lat !== undefined) {
-      this.marker.label = onlineScoreCard.player.nick;
-      this.mapOptions.center = {lat: onlineScoreCard.lat, lng: onlineScoreCard.lng};
-      this.marker.position = {lat: onlineScoreCard.lat, lng: onlineScoreCard.lng};
     }
   }
 

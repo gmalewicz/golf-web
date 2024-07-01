@@ -104,11 +104,11 @@
       }
       @if (!viewOnly) {
         <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" i18n="@@round-edit">
-      Edit
-    </button>
+          Edit
+        </button>
       }
-      &nbsp;
       @if (!viewOnly) {
+        &nbsp;
         <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
           @if (loading) {
             <span class="spinner-border spinner-border-sm mr-1"></span>

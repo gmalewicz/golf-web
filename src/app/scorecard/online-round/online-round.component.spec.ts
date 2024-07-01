@@ -1,4 +1,3 @@
-import { waitForAsync } from '@angular/core/testing';
 import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
@@ -78,7 +77,6 @@ describe('OnlineRoundComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.curHoleStrokes[component.curPlayerIdx] = 10;
-    spyOnProperty(navigator, 'geolocation', 'get').and.returnValue(null);
     component.addScore();
     tick(200);
     expect(component.curHoleIdx).toBe(1);

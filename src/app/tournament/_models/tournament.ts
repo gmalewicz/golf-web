@@ -10,7 +10,9 @@ export interface Tournament {
   rounds?: Round[];
   tournamentResults?: TournamentResult[];
   bestRounds?: number;
-  status?: boolean
+  status?: boolean,
+  playHcpMultiplayer?: number,
+  maxPlayHcp?: number
 }
 
 export const TournamentStatus = {
