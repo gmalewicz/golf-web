@@ -12,6 +12,4 @@ export interface OnlineScoreCard {
   penalty: number;
   mpResult?: number;
   time: string;
-  lat?: number;
-  lng?: number
 }

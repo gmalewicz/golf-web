@@ -158,13 +158,6 @@
           }
         </tbody>
       </table>
-      @if (authenticationService.playerRole.includes('ADMIN')) {
-        <div class="my-google-map">
-          <google-map [options]="mapOptions" [center]="marker.position" [mapTypeId]="'satellite'">
-            <map-marker [position]="marker.position" [label]="marker.label"></map-marker>
-          </google-map>
-        </div>
-      }
     </div>
     @if (owner != null) {
       <div>
