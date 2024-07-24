@@ -2702,7 +2702,7 @@
       </trans-unit>
       <trans-unit id="addTour-noBestRnd" datatype="html">
         <source>No. of best rounds (or 0 if all rounds shall be included)</source>
-        <target>Ilość najlepszych rund (lub 0 jeżeli wszystkie rundy są wliczane)</target>
+        <target>Ilość najlepszych rund (0 - wszystkie)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/add-tournament/add-tournament.component.html</context>
           <context context-type="linenumber">31</context>
@@ -4270,6 +4270,70 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tee-time/parameters/parameters.component.html</context>
           <context context-type="linenumber">35,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-startDate" datatype="html">
+        <source>Start date (YYYY/MM/DD)</source>
+        <target>Start turnieju (YYYY/MM/DD)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-endDate" datatype="html">
+        <source>End date (YYYY/MM/DD)</source>
+        <target>Koniec turnieju (YYYY/MM/DD)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-plyMplr" datatype="html">
+        <source>Playing HCP Multiplayer</source>
+        <target>Mnożnik hcp gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-maxPlayHcp" datatype="html">
+        <source>Max. playing Hcp</source>
+        <target>Maks. hcp gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-maxPlayHcpReq" datatype="html">
+        <source>Max. playing hcp is required</source>
+        <target>Maks. hcp gry jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-maxPlayHcpTooShrt" datatype="html">
+        <source>Max. playing hcp must be greater or equal 0</source>
+        <target>Maks. hcp gry musi być większy lub równy 0</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-maxPlayHcpTooBig" datatype="html">
+        <source>Max. playing hcp must be lower or equal 54</source>
+        <target>Maks. hcp gry musi być mniejszy lub równy 54</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addTour-maxPlayHcpPattern" datatype="html">
+        <source>Max. playing hcp must be integer</source>
+        <target>Maks. hcp gry musi być liczbą całkowitą</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
     </body>

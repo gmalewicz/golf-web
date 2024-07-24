@@ -6,13 +6,20 @@ import { TournamentHttpService } from '../_services';
 import { Tournament } from '../_models/tournament';
 import { tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+
 
 @Component({
   selector: 'app-add-tournament',
   standalone: true,
   imports: [RouterModule,
             CommonModule,
-            ReactiveFormsModule],
+            ReactiveFormsModule,
+            MatFormField,
+            MatLabel,
+            MatError,
+            MatInput],
   providers: [TournamentHttpService],
   templateUrl: './add-tournament.component.html'
 })
@@ -34,7 +41,9 @@ export class AddTournamentComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       startDate: ['', [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],
       endDate: ['', [Validators.required, Validators.pattern('([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})')]],
-      bestRounds: ['0', [Validators.required,  Validators.min(0), Validators.max(10)]]
+      bestRounds: ['0', [Validators.required,  Validators.min(0), Validators.max(10)]],
+      playHcpMultiplayer: ['1', Validators.required],
+      maxPlayHcp: ['54', [Validators.required,  Validators.min(0), Validators.max(54), Validators.pattern('^[0-9]$|^[1-4]\\d$|^5[0-4]$')]],
     });
 
     if (this.authenticationService.currentPlayerValue === null) {
@@ -64,7 +73,9 @@ export class AddTournamentComponent implements OnInit {
       name: this.f.name.value,
       startDate: this.f.startDate.value,
       endDate: this.f.endDate.value,
-      bestRounds: this.f.bestRounds.value
+      bestRounds: this.f.bestRounds.value,
+      playHcpMultiplayer: this.f.playHcpMultiplayer.value,
+      maxPlayHcp: this.f.maxPlayHcp.value
     };
 
     if (tournament.startDate > tournament.endDate) {
@@ -79,7 +90,7 @@ export class AddTournamentComponent implements OnInit {
         () => {
           this.alertService.success($localize`:@@addTour-tourSucc:Tournament successfully created`, true);
           this.loading = false;
-          this.router.navigate(['/home']).catch(error => console.log(error));
+          this.router.navigate(['/tournaments']).catch(error => console.log(error));
         })
     ).subscribe();
   }

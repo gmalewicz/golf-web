@@ -1,6 +1,6 @@
 {
   "name": "golf-web",
-  "version": "3.6.12",
+  "version": "3.6.13",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,7 +20,6 @@
     "@angular/compiler": "^18.0.2",
     "@angular/core": "^18.0.2",
     "@angular/forms": "^18.0.2",
-    "@angular/google-maps": "^18.0.2",
     "@angular/material": "^18.0.2",
     "@angular/platform-browser": "^18.0.2",
     "@angular/platform-browser-dynamic": "^18.0.2",
