@@ -153,13 +153,17 @@
         <div>
           <br />
           <div class="form-group">
+            <button type="button" class="btn btn-success" routerLink="/tournaments/tournamentResults" i18n="@@tour-cancel">
+              Cancel
+            </button>
+            &nbsp;
             <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addRound-clear">
-        Clear
-      </button>
+              Clear
+            </button>
             &nbsp;
             <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
-        Add
-      </button>
+              Add
+            </button>
           </div>
         </div>
         @if (tournamentRounds.length > 0) {

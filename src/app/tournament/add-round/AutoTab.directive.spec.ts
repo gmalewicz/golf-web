@@ -1,25 +1,60 @@
 /* tslint:disable:no-unused-variable */
 
+import { Component } from '@angular/core';
 import { AutoTabDirective } from './AutoTab.directive';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+@Component({
+  selector: 'my-test-component',
+  template: '<input id="1" type="text" class="test" [appAutoTab]="1"/>',
+  standalone: true,
+  imports: [AutoTabDirective]
+})
+class TestComponent {}
 
 describe('Directive: AutoTab', () => {
-  it('should create an instance', () => {
-    const directive = new AutoTabDirective();
-    expect(directive).toBeTruthy();
+
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
+
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [AutoTabDirective, TestComponent]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+
   });
 
   it('should verify input with incorrect string', () => {
-    const directive = new AutoTabDirective();
-    directive.onInput( {value: 't'});
 
-    expect(directive).toBeTruthy();
+    fixture.detectChanges();
+    const directiveEl = fixture.debugElement.query(By.directive(AutoTabDirective));
+    expect(directiveEl).not.toBeNull();
+
+    const directiveInstance = directiveEl.injector.get(AutoTabDirective);
+
+    directiveInstance.onInput({value: 't'});
+
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
   });
 
   it('should verify input with correct string', () => {
-    const directive = new AutoTabDirective();
-    directive.onInput( {value: 'x'});
+    fixture.detectChanges();
 
-    expect(directive).toBeTruthy();
+    const inputEl = fixture.debugElement.query(By.css('.test'));
+    expect(inputEl).not.toBeNull();
+    inputEl.nativeElement.value = 'x';
+    inputEl.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
-
 });

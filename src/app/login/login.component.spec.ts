@@ -4,13 +4,13 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ActivatedRoute, PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponent } from './login.component';
-import { routing } from '@/app.routing';
 import { NgModule } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
@@ -31,6 +31,21 @@ describe('LoginComponent', () => {
     }
   };
 
+  const myRouterStub = {
+    routerState:  { root: '' },
+    navigate(): Promise<boolean> {
+      return new Promise(() => {
+        return true;
+      });
+    },
+    events: new Observable(observer => {
+      observer.complete();
+    }),
+    createUrlTree(): null {
+      return null;
+    }
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
     imports: [
@@ -45,8 +60,9 @@ describe('LoginComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: AlertService, useValue: alertServiceStub },
+        { provide: Router, useValue: myRouterStub},
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(routing, withPreloading(PreloadAllModules))]
+        ]
 })
     .compileComponents();
   }));

@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let cycleTournament of cycleTournaments, let idx = index">
+      <tr *ngFor="let cycleTournament of cycleTournaments(), let idx = index">
         <td id="no">{{ idx + 1 }}</td>
         <td id="name">{{ cycleTournament.name }}</td>
         <td id="rounds">{{ cycleTournament.rounds }}</td>

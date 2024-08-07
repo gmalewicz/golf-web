@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, OnInit, input} from '@angular/core';
 import { Round } from '@/_models';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { NgClass, DecimalPipe } from '@angular/common';
@@ -12,8 +12,8 @@ import { NgClass, DecimalPipe } from '@angular/common';
 })
 export class RoundViewWHSComponent implements OnInit {
 
-  @Input() round: Round;
-  @Input() playerOffset: number;
+  round = input.required<Round>();
+  playerOffset = input.required<number>();
 
   first9par: number;
   last9par: number;
@@ -46,56 +46,56 @@ export class RoundViewWHSComponent implements OnInit {
 
 
     // check if at least for one hole the ball was picked up
-    this.ballPickedUp = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 18)
+    this.ballPickedUp = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 18)
       .some(v => v != null && v.stroke === ballPickedUpStrokes);
 
     // create pars for first and last 9
-    this.first9par = this.round.course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
-    this.last9par = this.round.course.par - this.first9par;
-    if (this.round.player[this.playerOffset].roundDetails.ninesFull === 1) {
+    this.first9par = this.round().course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+    this.last9par = this.round().course.par - this.first9par;
+    if (this.round().player[this.playerOffset()].roundDetails.ninesFull === 1) {
       this.last9par = 0;
-    } else if (this.round.player[this.playerOffset].roundDetails.ninesFull === 2) {
+    } else if (this.round().player[this.playerOffset()].roundDetails.ninesFull === 2) {
       this.first9par = 0;
     }
     // create player score for each 9
-    this.first9score = this.round.scoreCard.map(s => s.stroke).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
+    this.first9score = this.round().scoreCard.map(s => s.stroke).slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
       .reduce((p, n) =>  p + n, 0);
-    this.last9score = this.round.scoreCard.map(s => s.stroke).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
+    this.last9score = this.round().scoreCard.map(s => s.stroke).slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
       .reduce((p, n) =>  p + n, 0);
     // create player putt for each 9
-    this.first9Putt = this.round.scoreCard.map(s => s.pats).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
+    this.first9Putt = this.round().scoreCard.map(s => s.pats).slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
       .reduce((p, n) =>  p + n, 0);
-    this.last9Putt = this.round.scoreCard.map(s => s.pats).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
+    this.last9Putt = this.round().scoreCard.map(s => s.pats).slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
       .reduce((p, n) =>  p + n, 0);
     // create player penalty for each 9
-    this.first9Penalty = this.round.scoreCard.map(s => s.penalty).slice(this.playerOffset * 18, (this.playerOffset * 18) + 9)
+    this.first9Penalty = this.round().scoreCard.map(s => s.penalty).slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
       .reduce((p, n) =>  p + n, 0);
-    this.last9Penalty = this.round.scoreCard.map(s => s.penalty).slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
+    this.last9Penalty = this.round().scoreCard.map(s => s.penalty).slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
       .reduce((p, n) =>  p + n, 0);
 
     // tslint:disable-next-line: variable-name
     this.scoreBruttoClass.forEach((_v, i) => {
 
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === 0) {
+      if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke === 0) {
 
         this.scoreBruttoClass[i] = 'par';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke < this.round.course.holes[i].par - 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke < this.round().course.holes[i].par - 1) {
 
         this.scoreBruttoClass[i] = 'eagle';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke < this.round.course.holes[i].par) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke < this.round().course.holes[i].par) {
 
         this.scoreBruttoClass[i] = 'birdie';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === this.round.course.holes[i].par) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke === this.round().course.holes[i].par) {
 
         this.scoreBruttoClass[i] = 'par';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === this.round.course.holes[i].par + 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke === this.round().course.holes[i].par + 1) {
         this.scoreBruttoClass[i] = 'boggey';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke > this.round.course.holes[i].par + 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke > this.round().course.holes[i].par + 1) {
         this.scoreBruttoClass[i] = 'doubleBoggey';
 
       }
@@ -110,50 +110,50 @@ export class RoundViewWHSComponent implements OnInit {
     // tslint:disable-next-line: variable-name
     this.scoreNettoClass.forEach((_v, i) => {
 
-      if (this.round.scoreCard[i + (this.playerOffset * 18)].stroke === 0) {
+      if (this.round().scoreCard[i + (this.playerOffset() * 18)].stroke === 0) {
 
         this.scoreNettoClass[i] = 'par';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto < this.round.course.holes[i].par - 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].scoreNetto < this.round().course.holes[i].par - 1) {
 
         this.scoreNettoClass[i] = 'eagle';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto < this.round.course.holes[i].par) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].scoreNetto < this.round().course.holes[i].par) {
 
         this.scoreNettoClass[i] = 'birdie';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto === this.round.course.holes[i].par) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].scoreNetto === this.round().course.holes[i].par) {
 
         this.scoreNettoClass[i] = 'par';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto === this.round.course.holes[i].par + 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].scoreNetto === this.round().course.holes[i].par + 1) {
         this.scoreNettoClass[i] = 'boggey';
 
-      } else if (this.round.scoreCard[i + (this.playerOffset * 18)].scoreNetto > this.round.course.holes[i].par + 1) {
+      } else if (this.round().scoreCard[i + (this.playerOffset() * 18)].scoreNetto > this.round().course.holes[i].par + 1) {
         this.scoreNettoClass[i] = 'doubleBoggey';
 
       }
     });
 
     // create player score for each 9
-    this.first9scoreNetto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.scoreNetto)
+    this.first9scoreNetto = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9).map(s => s.scoreNetto)
       .reduce((p, n) => p + n, 0);
-    this.last9scoreNetto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.scoreNetto)
+    this.last9scoreNetto = this.round().scoreCard.slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18).map(s => s.scoreNetto)
       .reduce((p, n) => p + n, 0);
     // create player STB netto for each 9
-    this.first9StbNetto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.stbNetto)
+    this.first9StbNetto = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9).map(s => s.stbNetto)
       .reduce((p, n) => p + n, 0);
-    this.last9StbNetto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.stbNetto)
+    this.last9StbNetto = this.round().scoreCard.slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18).map(s => s.stbNetto)
       .reduce((p, n) => p + n, 0);
     // create player STB brutto for each 9
-    this.first9StbBrutto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.stbBrutto)
+    this.first9StbBrutto = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9).map(s => s.stbBrutto)
       .reduce((p, n) => p + n, 0);
-    this.last9StbBrutto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18).map(s => s.stbBrutto)
+    this.last9StbBrutto = this.round().scoreCard.slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18).map(s => s.stbBrutto)
       .reduce((p, n) => p + n, 0);
     // create player corrected score brutto for each 9
-    this.first9CorScorBrutto = this.round.scoreCard.slice(this.playerOffset * 18, (this.playerOffset * 18) + 9).map(s => s.corScoreBrutto)
+    this.first9CorScorBrutto = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9).map(s => s.corScoreBrutto)
       .reduce((p, n) => p + n, 0);
-    this.last9CorScorBrutto = this.round.scoreCard.slice((this.playerOffset * 18) + 9, (this.playerOffset * 18) + 18)
+    this.last9CorScorBrutto = this.round().scoreCard.slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
       .map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
 
     this.display = true;

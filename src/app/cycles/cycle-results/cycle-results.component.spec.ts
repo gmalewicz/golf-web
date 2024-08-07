@@ -7,10 +7,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CycleResultsComponent } from './cycle-results.component';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { ComponentRef } from '@angular/core';
 
 describe('CycleResultsComponent', () => {
   let component: CycleResultsComponent;
   let fixture: ComponentFixture<CycleResultsComponent>;
+  let componentRef: ComponentRef<CycleResultsComponent>;
   let authenticationService: AuthenticationService;
 
   beforeEach(waitForAsync(() => {
@@ -31,13 +33,15 @@ describe('CycleResultsComponent', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
     fixture = TestBed.createComponent(CycleResultsComponent);
     component = fixture.componentInstance;
-    component.cycleResults = [];
-    component.cycleTournaments = [{
+    componentRef = fixture.componentRef
+
+    componentRef.setInput('cycleResults', []);
+    componentRef.setInput('cycleTournaments', [{
       id: 20,
       name: 'Sobienie Królewskie',
       rounds: 1,
       bestOf: false
-    }];
+    }]);
     fixture.detectChanges();
   });
 

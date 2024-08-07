@@ -10,7 +10,7 @@
       <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
     </tr>
   </thead>
-  @for (tournamentRound of tournamentResult.tournamentRounds; track tournamentRound; let j = $index) {
+  @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound; let j = $index) {
     <tbody>
       <td>{{j + 1}}</td>
       <td>

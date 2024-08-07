@@ -6,10 +6,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonDialogComponent } from './common-dialog.component';
+import { ComponentRef } from '@angular/core';
 
 describe('CommonScorecardComponent', () => {
   let component: CommonDialogComponent;
   let fixture: ComponentFixture<CommonDialogComponent>;
+  let componentRef: ComponentRef<CommonDialogComponent>;
   const fb: FormBuilder = new FormBuilder();
 
   beforeEach(waitForAsync(() => {
@@ -29,7 +31,9 @@ describe('CommonScorecardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CommonDialogComponent);
     component = fixture.componentInstance;
-    component.form = fb.group({
+    componentRef = fixture.componentRef
+
+    componentRef.setInput('form', fb.group({
       whs: [
         '',
         [
@@ -39,7 +43,7 @@ describe('CommonScorecardComponent', () => {
           Validators.max(54),
         ],
       ],
-    });
+    }));
     fixture.detectChanges();
   });
 

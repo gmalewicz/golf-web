@@ -5,11 +5,13 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RoundViewWHSComponent } from './round-view-whs.component';
+import { ComponentRef } from '@angular/core';
 
 describe('RoundViewWHSComponent', () => {
 
   let component: RoundViewWHSComponent;
   let fixture: ComponentFixture<RoundViewWHSComponent>;
+  let componentRef: ComponentRef<RoundViewWHSComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -23,8 +25,10 @@ describe('RoundViewWHSComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoundViewWHSComponent);
     component = fixture.componentInstance;
-    component.playerOffset = 0;
-    component.round = getTestRound();
+    componentRef = fixture.componentRef;
+    componentRef.setInput('round', getTestRound());
+    componentRef.setInput('playerOffset', 0);
+
     fixture.detectChanges();
   });
 

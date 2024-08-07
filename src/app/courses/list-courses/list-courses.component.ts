@@ -3,12 +3,13 @@ import { Courses } from '@/_models/courses';
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { faMinusCircle, faPlusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
+import { Tournament } from '@/tournament/_models/tournament';
 
 
 @Component({
@@ -19,10 +20,9 @@ import { RouterLink } from '@angular/router';
 })
 export class ListCoursesComponent implements OnInit {
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  @Input() data: any;
-  @Input() courses: Courses;
-  @Input() selectedTab: number;
+  data = input.required<{parent: string, tournament?: Tournament}>();
+  courses = input.required<Courses>();
+  selectedTab = input.required<number>();
 
   dispProgress: boolean;
   loadingFav: boolean;
@@ -45,47 +45,47 @@ export class ListCoursesComponent implements OnInit {
     this.dispProgress = false;
     this.loadingFav = false;
 
-    if (this.selectedTab === 0 && this.courses.favourites === undefined) {
+    if (this.selectedTab() === 0 && this.courses().favourites === undefined) {
 
       this.dispProgress = true;
 
       this.httpService.getFavouriteCourses(this.authenticationService.currentPlayerValue.id).pipe(
         tap(
           retCourses => {
-            this.courses.favourites = retCourses;
+            this.courses().favourites = retCourses;
             this.courseLst = retCourses;
             this.dispProgress = false;
           })
       ).subscribe();
-    } else if  (this.selectedTab === 1) {
-      this.courseLst = this.courses.searchRes;
-    } else if  (this.selectedTab === 2 && this.courses.all === undefined) {
+    } else if  (this.selectedTab() === 1) {
+      this.courseLst = this.courses().searchRes;
+    } else if  (this.selectedTab() === 2 && this.courses().all === undefined) {
       this.dispProgress = true;
       this.httpService.getCourses().pipe(
         tap(
           retCourses => {
-            this.courses.all = retCourses;
+            this.courses().all = retCourses;
             this.courseLst = retCourses;
 
             this.dispProgress = false;
           })
       ).subscribe();
-    } else if (this.selectedTab === 0 ) {
-      this.courseLst = this.courses.favourites;
+    } else if (this.selectedTab() === 0 ) {
+      this.courseLst = this.courses().favourites;
     } else {
-      this.courseLst = this.courses.all;
+      this.courseLst = this.courses().all;
     }
   }
 
   getIcon() {
-    if (this.selectedTab === 0) {
+    if (this.selectedTab() === 0) {
         return this.faMinusCircle;
     }
     return this.faPlusCircle;
   }
 
   private isInFavourites(course: Course): boolean {
-    if (this.courses.favourites.find(c => c.id === course.id) != null) {
+    if (this.courses().favourites.find(c => c.id === course.id) != null) {
       return true;
     }
     return false;
@@ -93,12 +93,12 @@ export class ListCoursesComponent implements OnInit {
 
   onClickFavourite(course: Course) {
     this.loadingFav = true;
-    if (this.selectedTab !== 0) {
+    if (this.selectedTab() !== 0) {
       if (!this.isInFavourites(course)) {
         this.httpService.addToFavouriteCourses(course, this.authenticationService.currentPlayerValue.id).pipe(
           tap(
             () => {
-              this.courses.favourites.push(course);
+              this.courses().favourites.push(course);
               this.alertService.success($localize`:@@listCourses-addedFavourites:${course.name} added to favourites.`, false);
 
               this.loadingFav = false;
@@ -113,8 +113,8 @@ export class ListCoursesComponent implements OnInit {
         tap(
           () => {
             this.alertService.success($localize`:@@listCourses-removeFavourites:${course.name} removed from favourites.`, false);
-            this.courses.favourites = this.courses.favourites.filter(c => c.id !== course.id);
-            this.courseLst = this.courses.favourites;
+            this.courses().favourites = this.courses().favourites.filter(c => c.id !== course.id);
+            this.courseLst = this.courses().favourites;
             this.loadingFav = false;
           })
       ).subscribe();

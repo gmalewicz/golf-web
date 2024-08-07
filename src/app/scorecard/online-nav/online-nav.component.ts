@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, input } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgClass } from '@angular/common';
@@ -12,17 +12,19 @@ import { NgClass } from '@angular/common';
 })
 export class OnlineNavComponent implements OnInit, OnDestroy {
 
-  @Input() curHoleStrokes: number[];
-  @Input() curPlayerIdx: number;
-  @Input() puttSelectorActive: { active: boolean }[];
-  @Input() rounds: OnlineRound[];
-  @Input() curHolePutts: number[];
-  @Input() curHolePenalties: number[];
-  @Input() penaltySelectorActive: { active: boolean }[];
+  curHoleStrokes = input.required<number[]>();
+  curPlayerIdx = input.required<number>();
+  puttSelectorActive = input.required<{active: boolean}[]>();
+  rounds = input.required<OnlineRound[]>();
+  curHolePutts = input.required<number[]>();
+  curHolePenalties = input.required<number[]>();
+  penaltySelectorActive = input.required<{active: boolean}[]>();
+  inProgress = input.required<boolean>();
+
   @Input() public addScore: () => void;
 
   public buttons: number[];
-  @Input() public inProgress: boolean;
+
 
 
   public isActive: boolean;
@@ -47,38 +49,38 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
 
   onPickUp() {
     // 16 is agreed number of pick up hole
-    this.curHoleStrokes[this.curPlayerIdx] = 16;
+    this.curHoleStrokes()[this.curPlayerIdx()] = 16;
   }
 
   onDecrease() {
     // number of strokes canot be lower than 1
-    if (this.curHoleStrokes[this.curPlayerIdx] === 0) {
+    if (this.curHoleStrokes()[this.curPlayerIdx()] === 0) {
       return;
     }
-    this.curHoleStrokes[this.curPlayerIdx]--;
+    this.curHoleStrokes()[this.curPlayerIdx()]--;
 
   }
 
   onIncrease() {
 
     // number of strokes canot be greater than 15
-    if (this.curHoleStrokes[this.curPlayerIdx] >= 15) {
+    if (this.curHoleStrokes()[this.curPlayerIdx()] >= 15) {
       return;
     }
-    this.curHoleStrokes[this.curPlayerIdx]++;
+    this.curHoleStrokes()[this.curPlayerIdx()]++;
   }
 
   selectPutt(putts: number) {
     // clean up par, hole and si pressed buttons
-    this.puttSelectorActive.fill({ active: false });
-    this.puttSelectorActive[putts] = { active: true };
-    this.curHolePutts[this.curPlayerIdx] = putts;
+    this.puttSelectorActive().fill({ active: false });
+    this.puttSelectorActive()[putts] = { active: true };
+    this.curHolePutts()[this.curPlayerIdx()] = putts;
   }
 
   selectPenalty(penalties: number) {
-    this.penaltySelectorActive.fill({ active: false });
-    this.penaltySelectorActive[penalties] = { active: true };
-    this.curHolePenalties[this.curPlayerIdx] = penalties;
+    this.penaltySelectorActive().fill({ active: false });
+    this.penaltySelectorActive()[penalties] = { active: true };
+    this.curHolePenalties()[this.curPlayerIdx()] = penalties;
   }
 
   private handleAppConnectivityChanges(): void {

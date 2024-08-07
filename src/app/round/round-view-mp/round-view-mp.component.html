@@ -31,13 +31,13 @@
             <th  id="par">PAR</th>
             @for (i of counter(9); track i;) {
               <td class="center">
-                {{round.course.holes[i].par}}
+                {{round().course.holes[i].par}}
               </td>
             }
             <th  id="firstPar" class="center">{{first9par}}</th>
             @for (i of counter(9); track i;) {
               <td class="center">
-                {{round.course.holes[i + 9].par}}
+                {{round().course.holes[i + 9].par}}
               </td>
             }
             <th  id="lpar" class="center">{{last9par}}</th>
@@ -47,13 +47,13 @@
             <th  id="si">SI</th>
             @for (i of counter(9); track i;) {
               <td class="center">
-                {{round.course.holes[i].si}}
+                {{round().course.holes[i].si}}
               </td>
             }
             <th  id="empty"></th>
             @for (i of counter(9); track i;) {
               <td class="center">
-                {{round.course.holes[i + 9].si}}
+                {{round().course.holes[i + 9].si}}
               </td>
             }
             <th  id="empty"></th>
@@ -61,7 +61,7 @@
           </tr>
           @for (idx of counter(2); track idx;) {
             <tr class="center">
-              <th  id="bck">{{round.player[idx].nick}}</th>
+              <th  id="bck">{{round().player[idx].nick}}</th>
               @for (i of counter(9); track i;) {
                 <td class="center" [ngClass]="highlightHcp(i, idx)">
                   {{mpResultHistory[idx][i]}}
