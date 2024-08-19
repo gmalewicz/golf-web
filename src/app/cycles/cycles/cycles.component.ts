@@ -1,18 +1,22 @@
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
 import { Cycle, CycleStatus } from '../_models/cycle';
 import { CycleHttpService } from '../_services/cycleHttp.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { AuthGuard } from '@/_helpers/auth.guard';
+import { AddCycleComponent } from '../add-cycle/add-cycle.component';
+import { CycleDetailsComponent } from '../cycle-details/cycle-details.component';
 
 
 @Component({
     selector: 'app-cycles',
     templateUrl: './cycles.component.html',
     standalone: true,
-    imports: [RouterLink, FaIconComponent]
+    imports: [RouterLink, FaIconComponent],
+    providers: [CycleHttpService]
 })
 
 export class CyclesComponent implements OnInit {
@@ -38,6 +42,7 @@ export class CyclesComponent implements OnInit {
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       this.faSearchPlus = faSearchPlus;
+
       this.cycleHttpService.getCycles().pipe(
         tap (
           (retCycles: Cycle[]) => {
@@ -48,3 +53,11 @@ export class CyclesComponent implements OnInit {
     }
   }
 }
+
+export const cyclesRoutes: Routes = [
+
+  { path: '', component: CyclesComponent, canActivate: [AuthGuard] },
+  { path: 'addCycle', component: AddCycleComponent, canActivate: [AuthGuard] },
+  { path: 'cycleDetails', component: CycleDetailsComponent, canActivate: [AuthGuard] },
+
+];

@@ -12,6 +12,7 @@ import { NgClass } from '@angular/common';
     selector: 'app-add-league',
     templateUrl: './add-league.component.html',
     standalone: true,
+    providers: [LeagueHttpService],
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddLeagueComponent implements OnInit {
