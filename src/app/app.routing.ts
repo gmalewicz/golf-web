@@ -27,13 +27,12 @@ export const routing: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [() => inject(AuthGuard).canActivate(),
                                                             () => inject(RoleGuard).canActivate('ADMIN')]},
 
-  { path: 'scorecard', loadChildren: () => import('./scorecard/scorecard.module').then(m => m.ScorecardModule)},
-  { path: 'cycles', loadChildren: () => import('./cycles/cycles.module').then(m => m.CyclesModule)},
-  { path: 'mpLeagues', loadChildren: () => import('./mp-league/mp-league.module').then(m => m.MpLeagueModule)},
-
+  { path: 'scorecard', loadChildren: () => import('./scorecard/online-score-card/online-score-card.component').then((m) => m.onlineScoreCardRouts)},
   { path: 'course', loadChildren: () => import('./course/course/course.component').then((m) => m.courseRoutes) },
   { path: 'addCourse', loadChildren: () => import('./course/add-course/add-course.component').then((m) => m.addCourseRoutes)  },
   { path: 'tournaments', loadChildren: () => import('./tournament/tournaments/tournaments.component').then((m) => m.tournamentRoutes)},
+  { path: 'cycles', loadChildren: () => import('./cycles/cycles/cycles.component').then((m) => m.cyclesRoutes)},
+  { path: 'mpLeagues', loadChildren: () => import('./mp-league/mp-leagues/mp-leagues.component').then((m) => m.mpLeaguesRoutes)},
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent }

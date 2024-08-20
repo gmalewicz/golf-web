@@ -6,7 +6,7 @@ import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { AppConfig } from '../_models/appConfig';
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ScorecardHttpService {
 
   constructor(private http: HttpClient) { }

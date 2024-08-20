@@ -1,5 +1,5 @@
 import { Round } from '@/_models/round';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs';
@@ -18,7 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class PlayerResultsComponent implements OnInit {
 
-  @Input() tournamentResult: TournamentResult;
+  tournamentResult = input.required<TournamentResult>();
 
   faSearchPlus: IconDefinition;
 

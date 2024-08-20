@@ -17,7 +17,8 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
     templateUrl: './online-matchplay.component.html',
     styleUrls: ['./online-matchplay.component.css'],
     standalone: true,
-    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton]
+    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton],
+    providers: [NavigationService]
 })
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
 

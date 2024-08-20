@@ -21,10 +21,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pl of round.player; let i = index">
+        <tr *ngFor="let pl of round().player; let i = index">
           <th id="nick">{{pl.nick}}</th>
           <td>{{pl.roundDetails.whs}}</td>
-          <ng-container *ngIf="round.player[i].roundDetails.ninesFull !== -1">
+          <ng-container *ngIf="round().player[i].roundDetails.ninesFull !== -1">
             <td>{{pl.roundDetails.courseHCP}}</td>
             <td>
               <span *ngIf="!ballPickedUp[i]">
@@ -41,7 +41,7 @@
             <td>{{stbGross[i]}}</td>
             <td>{{pl.roundDetails.scoreDiff | number: '1.1-1'}}</td>
           </ng-container>
-          <ng-container *ngIf="round.player[i].roundDetails.ninesFull == -1">
+          <ng-container *ngIf="round().player[i].roundDetails.ninesFull == -1">
             <td>{{pl.roundDetails.courseHCP}}</td>
             <td>
               <span *ngIf="!ballPickedUp[i]">

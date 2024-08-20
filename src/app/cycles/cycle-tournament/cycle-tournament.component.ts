@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleTournament } from '../_models/cycleTournament';
@@ -14,8 +14,8 @@ import { NgIf, NgFor } from '@angular/common';
 })
 export class CycleTournamentComponent implements OnInit {
 
-  @Input() cycle: Cycle;
-  @Input() cycleTournaments: CycleTournament[];
+  cycle = input.required<Cycle>();
+  cycleTournaments = input.required<CycleTournament[]>();
   display: boolean;
 
   constructor(public authenticationService: AuthenticationService,

@@ -8,10 +8,12 @@ import { By } from '@angular/platform-browser';
 import { RoundViewComponent } from './round-view.component';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { ComponentRef } from '@angular/core';
 
 describe('RoundViewComponent', () => {
   let component: RoundViewComponent;
   let fixture: ComponentFixture<RoundViewComponent>;
+  let componentRef: ComponentRef<RoundViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,7 +38,8 @@ describe('RoundViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoundViewComponent);
     component = fixture.componentInstance;
-    component.round = getTestRound();
+    componentRef = fixture.componentRef;
+    componentRef.setInput('round', getTestRound());
     fixture.detectChanges();
   });
 

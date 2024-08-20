@@ -73,7 +73,7 @@ export class NotificationComponent implements OnInit {
       ).subscribe((status: boolean) => {
         if (status === true) {
           this.alertService.success($localize`:@@notifications-UnsubscribeMsg:You will not be nofified about changes`, true);
-          this.router.navigate(['/leagues']).catch(error => console.log(error));
+          this.router.navigate(['/mpLeagues']).catch(error => console.log(error));
         }
     });
   }

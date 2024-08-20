@@ -1,7 +1,7 @@
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { NgClass } from '@angular/common';
 })
 export class RoundViewMPComponent implements OnInit {
 
-  @Input() round: Round;
+  round = input.required<Round>();
 
   holeHCP: number[][];
   holeMpResult: number[][];
@@ -41,12 +41,12 @@ export class RoundViewMPComponent implements OnInit {
 
   private calculateResults() {
 
-    if (this.round.player[0].roundDetails === undefined) {
+    if (this.round().player[0].roundDetails === undefined) {
 
-      this.httpService.getPlayersRoundDetails(this.round.id).pipe(tap(
+      this.httpService.getPlayersRoundDetails(this.round().id).pipe(tap(
         prList => {
           prList.forEach(pr => {
-            this.round.player.forEach(pl => {
+            this.round().player.forEach(pl => {
               if (pl.id === pr.playerId) {
                 pl.roundDetails = pr;
               }
@@ -65,19 +65,19 @@ export class RoundViewMPComponent implements OnInit {
 
   private updMPresults() {
 
-    this.round.player.forEach((pl) => {
+    this.round().player.forEach((pl) => {
 
       pl.roundDetails.courseHCP = calculateCourseHCP(pl.roundDetails.teeType,
                                                     pl.roundDetails.whs,
                                                     pl.roundDetails.sr,
                                                     pl.roundDetails.cr,
-                                                    getPlayedCoursePar(this.round.course.holes ,
+                                                    getPlayedCoursePar(this.round().course.holes ,
                                                                       pl.roundDetails.teeType,
-                                                                      this.round.course.par));
+                                                                      this.round().course.par));
     });
 
-    const hcpDiff = this.round.player[0].roundDetails.courseHCP - this.round.player[1].roundDetails.courseHCP;
-    let corHcpDiff = Math.abs(hcpDiff * this.round.mpFormat);
+    const hcpDiff = this.round().player[0].roundDetails.courseHCP - this.round().player[1].roundDetails.courseHCP;
+    let corHcpDiff = Math.abs(hcpDiff * this.round().mpFormat);
     if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
       corHcpDiff = Math.ceil(corHcpDiff);
     } else {
@@ -85,48 +85,48 @@ export class RoundViewMPComponent implements OnInit {
     }
 
     if (hcpDiff >= 0) {
-      this.round.player[0].roundDetails.mpHCP = corHcpDiff;
-      this.round.player[1].roundDetails.mpHCP = 0;
+      this.round().player[0].roundDetails.mpHCP = corHcpDiff;
+      this.round().player[1].roundDetails.mpHCP = 0;
     } else {
-      this.round.player[0].roundDetails.mpHCP = 0;
-      this.round.player[1].roundDetails.mpHCP = corHcpDiff;
+      this.round().player[0].roundDetails.mpHCP = 0;
+      this.round().player[1].roundDetails.mpHCP = corHcpDiff;
     }
 
     calculateHoleHCP( 0,
-      this.round.player[0].roundDetails.teeType,
-      this.round.player[0].roundDetails.mpHCP,
+      this.round().player[0].roundDetails.teeType,
+      this.round().player[0].roundDetails.mpHCP,
        this.holeHCP,
-       this.round.course);
+       this.round().course);
 
     calculateHoleHCP( 1,
-      this.round.player[1].roundDetails.teeType,
-      this.round.player[1].roundDetails.mpHCP,
+      this.round().player[1].roundDetails.teeType,
+      this.round().player[1].roundDetails.mpHCP,
       this.holeHCP,
-      this.round.course);
+      this.round().course);
 
     this.calculateMpResult();
     // calculate MP result texts
-    this.mpResult = createMPResultText(this.round.player[0].nick, this.round.player[1].nick, this.mpScore);
+    this.mpResult = createMPResultText(this.round().player[0].nick, this.round().player[1].nick, this.mpScore);
     // calculate MP result history
     this.mpResultHistory = createMPResultHistory(this.mpScore);
 
-    this.first9par = this.round.course.holes.map(h => h.par).
+    this.first9par = this.round().course.holes.map(h => h.par).
             reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
-    this.last9par = this.round.course.par - this.first9par;
+    this.last9par = this.round().course.par - this.first9par;
   }
 
   private calculateMpResult() {
 
-    this.round.scoreCard.slice(0, 18).forEach((sc, index) => {
+    this.round().scoreCard.slice(0, 18).forEach((sc, index) => {
 
       // skip holes that are not played
-      if (sc.stroke === 0 || this.round.scoreCard[18 + index].stroke === 0) {
+      if (sc.stroke === 0 || this.round().scoreCard[18 + index].stroke === 0) {
         return;
       }
 
       // calculate mp result
       const result = sc.stroke - this.holeHCP[0][index] -
-      (this.round.scoreCard[18 + index].stroke - this.holeHCP[1][index]);
+      (this.round().scoreCard[18 + index].stroke - this.holeHCP[1][index]);
 
       if (result < 0) {
         this.holeMpResult[0][index] = 1;

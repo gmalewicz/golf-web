@@ -17,7 +17,8 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
     templateUrl: './online-round.component.html',
     styleUrls: ['./online-round.component.css'],
     standalone: true,
-    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton]
+    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton],
+    providers: [NavigationService]
 })
 export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 

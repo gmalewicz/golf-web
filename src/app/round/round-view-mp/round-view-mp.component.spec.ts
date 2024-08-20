@@ -4,11 +4,13 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoundViewMPComponent } from './round-view-mp.component';
+import { ComponentRef } from '@angular/core';
 
 describe('RoundViewMPComponent', () => {
 
   let component: RoundViewMPComponent;
   let fixture: ComponentFixture<RoundViewMPComponent>;
+  let componentRef: ComponentRef<RoundViewMPComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -19,9 +21,12 @@ describe('RoundViewMPComponent', () => {
   });
 
   beforeEach(() => {
+
     fixture = TestBed.createComponent(RoundViewMPComponent);
     component = fixture.componentInstance;
-    component.round = getTestRound();
+    componentRef = fixture.componentRef;
+    componentRef.setInput('round', getTestRound());
+
     fixture.detectChanges();
   });
 

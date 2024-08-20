@@ -24,17 +24,18 @@ import { NgClass } from '@angular/common';
     templateUrl: './online-round-def.component.html',
     standalone: true,
     imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    NgClass,
-    FaIconComponent,
-    MatSelect,
-    MatOption,
-    RouterLink
-],
+      ReactiveFormsModule,
+      MatFormField,
+      MatLabel,
+      MatInput,
+      MatError,
+      NgClass,
+      FaIconComponent,
+      MatSelect,
+      MatOption,
+      RouterLink
+    ],
+    providers: [NavigationService]
 })
 export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
   course: Course;

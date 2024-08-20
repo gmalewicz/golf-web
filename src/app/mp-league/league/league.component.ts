@@ -16,6 +16,7 @@ import { NgStyle } from '@angular/common';
     templateUrl: './league.component.html',
     styleUrls: ['./league.component.css'],
     standalone: true,
+    providers: [LeagueHttpService],
     imports: [NgStyle, RouterLink]
 })
 export class LeagueComponent  implements OnInit {

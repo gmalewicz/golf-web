@@ -16,7 +16,7 @@ describe('RoundComponent', () => {
   let component: RoundComponent;
   let fixture: ComponentFixture<RoundComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
     imports: [
         MatDialogModule,
@@ -36,7 +36,7 @@ describe('RoundComponent', () => {
         provideRouter(routing, withPreloading(PreloadAllModules))]
 })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RoundComponent);

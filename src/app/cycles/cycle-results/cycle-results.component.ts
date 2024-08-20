@@ -1,6 +1,6 @@
 import { CycleTournament } from './../_models/cycleTournament';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
@@ -15,9 +15,10 @@ import { CycleResult } from '../_models/cycleResult';
 })
 export class CycleResultsComponent implements OnInit {
 
-  @Input() cycle: Cycle;
-  @Input() cycleResults: CycleResult[];
-  @Input() cycleTournaments: CycleTournament[];
+
+  cycle = input.required<Cycle>();
+  cycleResults = input.required<CycleResult[]>();
+  cycleTournaments = input.required<CycleTournament[]>();
   display: boolean;
   rounds: number[];
   names: number[];
@@ -33,10 +34,10 @@ export class CycleResultsComponent implements OnInit {
 
       this.rounds = [];
       this.names = [];
-      if (this.cycleTournaments.length > 0) {
+      if (this.cycleTournaments().length > 0) {
 
         let offset = 0;
-        this.cycleTournaments.map(v => v.rounds).forEach((n, idx) => {
+        this.cycleTournaments().map(v => v.rounds).forEach((n, idx) => {
 
           for (let i = 0; i < n; i++) {
             this.rounds.push(offset + i);

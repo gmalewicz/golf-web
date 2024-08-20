@@ -12,7 +12,7 @@
           <th id="nav"></th>
           <th id="name" i18n="@@listCourses-name">Name</th>
           <th id="par">Par</th>
-          @if (data.parent === 'courses') {
+          @if (data().parent === 'courses') {
             <th id="parent" i18n="@@listCourses-favourites">Favourites</th>
           }
         </tr>
@@ -20,21 +20,21 @@
       <tbody>
         @for (row of courseLst; track row) {
           <tr>
-            @if (data.parent === 'courses') {
+            @if (data().parent === 'courses') {
               <td>
                 <a [routerLink]="['/course']" [state]="{data: {course: row}}">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
               </td>
             }
-            @if (data.parent === 'addRound') {
+            @if (data().parent === 'addRound') {
               <td>
                 <a [routerLink]="['/addScorecard', row.id, row.name, row.par]">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
               </td>
             }
-            @if (data.parent === 'addOnlineRound') {
+            @if (data().parent === 'addOnlineRound') {
               <td>
                 <a routerLink="/scorecard/onlineRoundDef"
                   [state]="{ data: { course: row } }"
@@ -43,10 +43,10 @@
                 </a>
               </td>
             }
-            @if (data.parent === 'roundOnBehalf') {
+            @if (data().parent === 'roundOnBehalf') {
               <td>
                 <a routerLink="/tournaments/addRound"
-                  [state]="{ data: { course: row, tournament: data.tournament } }"
+                  [state]="{ data: { course: row, tournament: data().tournament } }"
                   >
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
@@ -54,7 +54,7 @@
             }
             <td>{{ row.name }}</td>
             <td>{{ row.par }}</td>
-            @if (data.parent === 'courses') {
+            @if (data().parent === 'courses') {
               <td>
                 <a (click)="onClickFavourite(row)">
                   @if (loadingFav) {

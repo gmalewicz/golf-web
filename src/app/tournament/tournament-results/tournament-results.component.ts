@@ -224,7 +224,6 @@ export class TournamentResultsComponent implements OnInit {
   }
 
   onCancel() {
-    this.navigationService.init();
     this.router.navigate(['tournaments']).catch(error => console.log(error));
   }
 }

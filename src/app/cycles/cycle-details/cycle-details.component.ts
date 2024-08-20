@@ -20,7 +20,8 @@ import { CycleResultsComponent } from '../cycle-results/cycle-results.component'
     selector: 'app-cycle-details',
     templateUrl: './cycle-details.component.html',
     standalone: true,
-    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink]
+    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink],
+    providers: [CycleHttpService]
 })
 export class CycleDetailsComponent implements OnInit {
 

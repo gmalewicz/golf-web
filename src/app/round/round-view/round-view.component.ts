@@ -1,7 +1,7 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Round, Player } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
@@ -18,7 +18,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class RoundViewComponent implements OnInit {
 
-  @Input() round: Round;
+  round = input.required<Round>();
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
@@ -65,8 +65,8 @@ export class RoundViewComponent implements OnInit {
     this.barChartLabels = [];
     this.loading = false;
     this.display = false;
-    this.players = this.round.player;
-    this.dipslayPlayers.fill(true, 0, this.round.player.length);
+    this.players = this.round().player;
+    this.dipslayPlayers.fill(true, 0, this.round().player.length);
 
     this.generateLabelsAndData(1, 18);
     this.generateRoundResults();
@@ -75,7 +75,7 @@ export class RoundViewComponent implements OnInit {
   }
 
   private generateStrokesAndPutts(startHole: number, endHole: number) {
-    for (let score = 0; score < this.round.scoreCard.length; score++) {
+    for (let score = 0; score < this.round().scoreCard.length; score++) {
 
       if (score % 18 === 0) {
         this.strokes.push([]);
@@ -83,13 +83,13 @@ export class RoundViewComponent implements OnInit {
       }
       // include first 9
       if (startHole === 1 && Math.floor(score / 9) % 2 === 0) {
-        this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
-        this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
+        this.strokes[Math.floor(score / 18)].push(this.round().scoreCard[score].stroke - this.round().scoreCard[score].pats);
+        this.pats[Math.floor(score / 18)].push(this.round().scoreCard[score].pats);
       }
       // include second 9
       if (endHole === 18 && Math.floor(score / 9) % 2 === 1) {
-        this.strokes[Math.floor(score / 18)].push(this.round.scoreCard[score].stroke - this.round.scoreCard[score].pats);
-        this.pats[Math.floor(score / 18)].push(this.round.scoreCard[score].pats);
+        this.strokes[Math.floor(score / 18)].push(this.round().scoreCard[score].stroke - this.round().scoreCard[score].pats);
+        this.pats[Math.floor(score / 18)].push(this.round().scoreCard[score].pats);
       }
 
     }
@@ -100,7 +100,7 @@ export class RoundViewComponent implements OnInit {
     this.generateStrokesAndPutts(startHole, endHole);
 
     for (let hole = startHole - 1; hole < endHole; hole++) {
-      this.par.push(this.round.course.holes[hole].par);
+      this.par.push(this.round().course.holes[hole].par);
       this.barChartLabels.push(hole + 1);
     }
 
@@ -166,7 +166,7 @@ export class RoundViewComponent implements OnInit {
 
         this.loading = true;
 
-        this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(
+        this.httpService.deleteScoreCard(this.authenticationService.currentPlayerValue.id, this.round().id).pipe(
           tap(
             () => {
               this.alertService.success($localize`:@@roundView-delConfSuccess:The scorecard has been successfully deleted`, false);
