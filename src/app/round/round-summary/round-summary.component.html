@@ -8,8 +8,10 @@
       <thead>
         <tr>
           <th id="player" i18n="@@roundSummary-player">Player</th>
-          <th id="whs" i18n="@@roundSummary-whs">WHS</th>
+          <th id="whs" i18n="@@roundSummary-whs">HCP</th>
           <th id="cHCP" i18n="@@roundSummary-courseHcp">Course HCP</th>
+          <th id="cCr">CR</th>
+          <th id="cCr">SR</th>
           <th id="scor" i18n="@@roundSummary-scor">Score</th>
           <th id="cscor" i18n="@@roundSummary-corScor">Cor. Score</th>
           <th id="nscor" i18n="@@roundSummary-netScr">Net Score</th>
@@ -26,6 +28,8 @@
           <td>{{pl.roundDetails.whs}}</td>
           <ng-container *ngIf="round().player[i].roundDetails.ninesFull !== -1">
             <td>{{pl.roundDetails.courseHCP}}</td>
+            <td>{{pl.roundDetails.cr}}</td>
+            <td>{{pl.roundDetails.sr}}</td>
             <td>
               <span *ngIf="!ballPickedUp[i]">
                 {{score[i]}}
