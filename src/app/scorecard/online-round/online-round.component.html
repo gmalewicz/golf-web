@@ -23,9 +23,9 @@
     <div>
       <div>
         <h3>
-          <span i18n="@@onlnRnd-score">
-          Score Card
-        </span>
+          <span>
+            SC
+          </span>
           &nbsp;
           <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
             STR
@@ -37,6 +37,10 @@
           &nbsp;
           <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
             STB
+          </button>
+          &nbsp;
+          <button class="btn btn-outline-success" (click)="selectMode(3)" [ngClass]="{'golf-red': displayMode === 3}">
+            SKN
           </button>
         </h3>
       </div>
@@ -73,6 +77,26 @@
                 <td>
                   @if (stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0) {
                     <span>{{stroke[pl]}}</span>
+                    <span class="supsub">
+                      <span class="superscript">
+                        <span class="dotSeparator"></span>
+                        @for (putt of counter(putts[i][pl]); track putt) {
+                          <span>
+                            <span class="blackDot"></span>
+                            <span class="dotSeparator"></span>
+                          </span>
+                        }
+                      </span>
+                      <span class="subscript">
+                        <span class="dotSeparator"></span>
+                        @for (penalty of counter(penalties[i][pl]); track penalty) {
+                          <span>
+                            <span class="redDot"></span>
+                            <span class="dotSeparator"></span>
+                          </span>
+                        }
+                      </span>
+                    </span>
                   }
                   @if (stroke[pl] === 16  && displayMode === 0) {
                     <span>x</span>
@@ -83,26 +107,9 @@
                   @if (stroke[pl] > 0 && displayMode === 2) {
                     <span>{{strNet[pl][i]}}</span>
                   }
-                  <span class="supsub">
-                    <span class="superscript">
-                      <span class="dotSeparator"></span>
-                      @for (putt of counter(putts[i][pl]); track putt) {
-                        <span>
-                          <span class="blackDot"></span>
-                          <span class="dotSeparator"></span>
-                        </span>
-                      }
-                    </span>
-                    <span class="subscript">
-                      <span class="dotSeparator"></span>
-                      @for (penalty of counter(penalties[i][pl]); track penalty) {
-                        <span>
-                          <span class="redDot"></span>
-                          <span class="dotSeparator"></span>
-                        </span>
-                      }
-                    </span>
-                  </span>
+                  @if (displayMode === 3) {
+                    <span>{{skin[pl][i]}}</span>
+                  }
                 </td>
               }
               <td>
@@ -160,6 +167,11 @@
         ({{totalStrNet[0]}})
       </span>
     }
+    @if (displayMode === 3) {
+      <span>
+        ({{totalSkin[0]}})
+      </span>
+    }
   </th>
   @if (onlineRounds.length > 1) {
     <th id="p2str">{{onlineRounds[1].player.nick}}
@@ -181,6 +193,11 @@
       @if (displayMode === 2) {
         <span>
           ({{totalStrNet[1]}})
+        </span>
+      }
+      @if (displayMode === 3) {
+        <span>
+          ({{totalSkin[1]}})
         </span>
       }
     </th>
@@ -207,6 +224,11 @@
           ({{totalStrNet[2]}})
         </span>
       }
+      @if (displayMode === 3) {
+        <span>
+          ({{totalSkin[2]}})
+        </span>
+      }
     </th>
   }
   @if (onlineRounds.length > 3) {
@@ -229,6 +251,11 @@
       @if (displayMode === 2) {
         <span>
           ({{totalStrNet[3]}})
+        </span>
+      }
+      @if (displayMode === 3) {
+        <span>
+          ({{totalSkin[3]}})
         </span>
       }
     </th>

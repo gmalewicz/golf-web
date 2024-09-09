@@ -30,6 +30,10 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   strNet: number[][];
   totalStrNet: number[];
 
+  skin: string[][];
+  totalSkin: number[];
+
+
   // 0 - strokes brutto
   // 1 - stb netto
   // 2 - strokes netto
@@ -62,6 +66,8 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     this.strNet = Array(this.onlineRounds.length).fill(0).map(() => new Array(18).fill(0));
     this.totalStrNet = new Array(this.onlineRounds.length).fill(0);
 
+    this.skin = Array(this.onlineRounds.length).fill("").map(() => new Array(18).fill(""));
+    this.totalSkin = new Array(this.onlineRounds.length).fill(0);
 
     this.onlineRounds.forEach( (onlineRound, idx) => {
       const courseHcp = calculateCourseHCP(
@@ -92,6 +98,10 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
       this.totalStbNet[idx] = this.stbNet[idx].reduce((p, n) => p + n, 0);
       this.totalStrNet[idx] = this.strNet[idx].reduce((p, n) => p + n, 0);
     })
+
+    this.counter(18).forEach(id => this.calculateSkins(id));
+    // calculate total skins per player
+    this.calculateTotalSkins();
   }
 
   protected updateNetStatistic() {
@@ -109,10 +119,78 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     this.strNet[this.curPlayerIdx][this.curHoleIdx] = this.curHoleStrokes[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdx];
     this.totalStrNet[this.curPlayerIdx] = this.strNet[this.curPlayerIdx].reduce((p, n) => p + n, 0);
 
+    // calculate hole result for skin game
+    this.calculateSkins(this.curHoleIdx);
+    // calculate total skins per player
+    this.calculateTotalSkins();
   }
 
   selectMode(mode: number) {
     this.displayMode = mode;
+  }
+
+  private calculateTotalSkins() : void {
+
+    // clear totals before recalculation
+    this.totalSkin = Array(this.onlineRounds.length).fill(0);
+
+    let cumulation: number = 0;
+
+    this.counter(18).forEach((idx) => {
+
+      let increaseCumulation: boolean = false;
+
+      for (let plr = 0; plr < this.onlineRounds.length; plr++) {
+        if (this.skin[plr][idx] != 'SKIN' && this.skin[plr][idx] !='') {
+          increaseCumulation = false;
+          break;
+        } else if (this.skin[plr][idx] === 'SKIN') {
+
+          this.totalSkin[plr] += (cumulation + 1);
+          cumulation = 0;
+          increaseCumulation = false;
+          break;
+        }
+        increaseCumulation = true;
+      }
+
+      if (increaseCumulation) {
+        cumulation++;
+      }
+
+    })
+  }
+
+  private calculateSkins(hole: number) : void {
+
+    let plr: number = 0;
+    let minResult = 17;
+    let plrIdx = 0;
+    let tie: boolean = false;
+
+
+    while (plr < this.onlineRounds.length) {
+
+      if (this.strokes[hole][plr] === 0) {
+        this.skin[plr][hole] = this.holeHcp[plr][hole]+ "";
+        plr++;
+        continue;
+      }
+
+      if (this.strokes[hole][plr] - this.holeHcp[plr][hole] < minResult) {
+        minResult = this.strokes[hole][plr] - this.holeHcp[plr][hole];
+        tie = false;
+        plrIdx = plr;
+      } else if (this.strokes[hole][plr] - this.holeHcp[plr][hole] == minResult) {
+        tie = true;
+      }
+      this.skin[plr][hole] = "";
+      plr++;
+    }
+    if (minResult < 17 && !tie) {
+      this.skin[plrIdx][hole] = "SKIN"
+    }
+
   }
 }
 
