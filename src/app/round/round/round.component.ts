@@ -13,6 +13,7 @@ import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
 import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.component';
 import { RoundSummaryComponent } from '../round-summary/round-summary.component';
 import { RoundViewComponent } from '../round-view/round-view.component';
+import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.component';
 
 
 
@@ -21,7 +22,7 @@ import { RoundViewComponent } from '../round-view/round-view.component';
     selector: 'app-round',
     templateUrl: './round.component.html',
     standalone: true,
-    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent]
+    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent]
 })
 export class RoundComponent implements OnInit {
 
