@@ -11,8 +11,6 @@ import { Component, input, OnInit } from '@angular/core';
 export class RoundViewSkinsComponent implements OnInit {
 
   round = input.required<Round>();
-
-  display: boolean;
   first9par: number;
   last9par: number;
 
@@ -22,7 +20,6 @@ export class RoundViewSkinsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.display = true;
     this.first9par = this.round().course.holes.map(h => h.par).
             reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
     this.last9par = this.round().course.par - this.first9par;
