@@ -12,7 +12,8 @@ import { NgClass } from '@angular/common';
     selector: 'app-add-cycle',
     templateUrl: './add-cycle.component.html',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink],
+    providers: [CycleHttpService]
 })
 export class AddCycleComponent implements OnInit {
 

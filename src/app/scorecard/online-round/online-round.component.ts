@@ -141,10 +141,8 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
       let increaseCumulation: boolean = false;
 
       for (let plr = 0; plr < this.onlineRounds.length; plr++) {
-        if (this.skin[plr][idx] != 'SKIN' && this.skin[plr][idx] !='') {
-          increaseCumulation = false;
-          break;
-        } else if (this.skin[plr][idx] === 'SKIN') {
+
+        if (this.skin[plr][idx] === 'highlight') {
 
           this.totalSkin[plr] += (cumulation + 1);
           cumulation = 0;
@@ -188,7 +186,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
       plr++;
     }
     if (minResult < 17 && !tie) {
-      this.skin[plrIdx][hole] = "SKIN"
+      this.skin[plrIdx][hole] = "highlight"
     }
 
   }

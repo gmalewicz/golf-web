@@ -1,10 +1,10 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v3.7.0</a>
+    <a class="navbar-brand" href="#">DGNG v3.7.1</a>
     @if (currentPlayer) {
-      <p class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;">
+      <a class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;" routerLink="/updatePlayer">
         HCP:{{currentPlayer.whs}}
-      </p>
+      </a>
     }
     <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
       @for (locale of locales; track locale) {

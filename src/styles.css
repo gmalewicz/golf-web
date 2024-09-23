@@ -135,3 +135,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 .golf-background-red {
   background-color: red !important;
 }
+
+.w-5 {
+  width: 4% !important;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+  vertical-align: middle;
+}

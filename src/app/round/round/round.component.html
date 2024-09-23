@@ -43,6 +43,12 @@
           role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
         }
       </li>
+      <li>
+        @if (!round.matchPlay && round.player.length > 2) {
+          <button class="nav-link" id="skins-tab" data-bs-toggle="tab" data-bs-target="#skins" type="button"
+          role="tab" aria-controls="skins" aria-selected="false" (click)="onTabClick(7)">Skins</button>
+        }
+      </li>
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
@@ -84,39 +90,45 @@
           <app-round-view-mp [round]='round'></app-round-view-mp>
         }
       </div>
+      <div class="tab-pane fade" id="skins" role="tabpanel" aria-labelledby="mp-tab"></div>
+        @if (!round.matchPlay && selectedTab == 7) {
+          @defer {
+            <app-round-view-skins [round]='round'></app-round-view-skins>
+          }
+        }
+      </div>
     </div>
     <div data-html2canvas-ignore="true">
       <br />
       <button type="button" class="btn btn-success" (click)="onCancel()" i18n="@@round-cancel">
       Cancel
     </button>
-      &nbsp;
-      @if (selectedTab > 0) {
-        <span>
-          <button type="button" class="btn btn-success" (click)="displayPDF(round.course.name + ' ' + round.roundDate)">
-            @if (loadingPDF) {
-              <span class="spinner-border spinner-border-sm mr-1"></span>
-            }
-            <span>PDF</span>
-          </button>
-          &nbsp;
-        </span>
-      }
-      @if (!viewOnly) {
-        <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" i18n="@@round-edit">
-          Edit
-        </button>
-      }
-      @if (!viewOnly) {
-        &nbsp;
-        <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
-          @if (loading) {
+    &nbsp;
+    @if (selectedTab > 0) {
+      <span>
+        <button type="button" class="btn btn-success" (click)="displayPDF(round.course.name + ' ' + round.roundDate)">
+          @if (loadingPDF) {
             <span class="spinner-border spinner-border-sm mr-1"></span>
           }
-          <span i18n="@@round-delete">Delete</span>
+          <span>PDF</span>
         </button>
-      }
-    </div>
+        &nbsp;
+      </span>
+    }
+    @if (!viewOnly) {
+      <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" i18n="@@round-edit">
+        Edit
+      </button>
+    }
+    @if (!viewOnly) {
+      &nbsp;
+      <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
+        @if (loading) {
+          <span class="spinner-border spinner-border-sm mr-1"></span>
+        }
+        <span i18n="@@round-delete">Delete</span>
+      </button>
+    }
   </div>
 }
 
