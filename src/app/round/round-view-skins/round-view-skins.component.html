@@ -6,13 +6,13 @@
         <tr>
           <th id="hole" i18n="@@roundViewMp-hole">Hole</th>
           @for (i of counter(9); track i;) {
-            <th  id="no" class="w-5">
+            <th  id="no" class="w-5 test">
               {{i + 1}}
             </th>
           }
           <th  id="out" class="center">OUT</th>
           @for (index of counter(9); track index; let i = $index) {
-            <th  id="no" class="w-5">
+            <th  id="no" class="w-5 test">
               {{i + 10}}
             </th>
           }
@@ -41,7 +41,7 @@
           <tr class="center">
             <th  id="bck">{{round().player[idx].nick}}</th>
             @for (i of counter(9); track i;) {
-              <td class="center" class="center" [ngClass]="skin[idx][i]">
+              <td class="center" [ngClass]="skin[idx][i]">
               </td>
             }
             <th  id="mpr" class="center">
