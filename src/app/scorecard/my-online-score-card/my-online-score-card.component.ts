@@ -9,7 +9,6 @@ import { KeyValuePipe } from '@angular/common';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { OnlineRoundComponent } from '../online-round/online-round.component';
 import { OnlineScoreCardComponent } from '../online-score-card/online-score-card.component';
-import { OnlineScoreCardViewComponent } from '../online-score-card-view/online-score-card-view.component';
 import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.component';
 import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.component';
 
@@ -25,10 +24,10 @@ export class MyOnlineScoreCardComponent implements OnInit {
   display: boolean;
   myOnlineRounds: OnlineRound[];
 
-  constructor(private scorecardHttpService: ScorecardHttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router,
-              private navigationService: NavigationService) {
+  constructor(private readonly scorecardHttpService: ScorecardHttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly navigationService: NavigationService) {
   }
 
   ngOnInit(): void {

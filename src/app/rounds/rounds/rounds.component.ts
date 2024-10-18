@@ -21,8 +21,8 @@ export class RoundsComponent implements OnInit, OnDestroy {
   dispRounds: boolean;
   savedPage: number;
 
-  constructor(private httpService: HttpService,
-              private authenticationService: AuthenticationService,
+  constructor(private readonly httpService: HttpService,
+              private readonly authenticationService: AuthenticationService,
               public roundsNavigationService: RoundsNavigationService) {
   }
 

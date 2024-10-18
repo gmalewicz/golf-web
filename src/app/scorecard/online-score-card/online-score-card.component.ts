@@ -29,10 +29,10 @@ export class OnlineScoreCardComponent implements OnInit {
   faSearchPlus: IconDefinition;
   courses: Map<number, Course>;
 
-  constructor(private scorecardHttpService: ScorecardHttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router,
-              private navigationService: NavigationService) {
+  constructor(private readonly scorecardHttpService: ScorecardHttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly navigationService: NavigationService) {
   }
 
   ngOnInit(): void {

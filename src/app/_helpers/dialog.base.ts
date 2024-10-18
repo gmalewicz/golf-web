@@ -49,11 +49,12 @@ close() {
   this.dialogRef.close();
 }
 
-sexClick(sex: boolean) {
-  if (sex) {
-    this.f.male.setValue(false);
-  } else {
-    this.f.female.setValue(false);
-  }
+maleClick() {
+  this.f.female.setValue(false);
 }
+
+femaleClick() {
+  this.f.male.setValue(false);
+}
+
 }
