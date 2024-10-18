@@ -5,7 +5,7 @@ import { MatDialogMock, MyRouterStub, alertServiceStub, authenticationServiceStu
 import { AlertService, AuthenticationService } from '@/_services';
 import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';

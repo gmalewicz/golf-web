@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v3.7.2</a>
+    <a class="navbar-brand" href="#">DGNG v3.7.3</a>
     @if (currentPlayer) {
       <a class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;" routerLink="/updatePlayer">
         HCP:{{currentPlayer.whs}}
@@ -34,7 +34,8 @@
     @if (currentPlayer && display) {
       <div class="navbar-collapse login p-4" id="navbarToggleLogIn">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Start/View On-line Score Cards</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/myScorecard" (click)="onClick()" i18n="@@nav-MyScorecard">My Score Card</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/scorecard" (click)="onClick()" i18n="@@nav-scorecard">Today's Score Cards</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>

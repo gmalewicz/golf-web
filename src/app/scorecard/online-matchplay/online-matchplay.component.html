@@ -5,21 +5,27 @@
 }
 @if (display) {
   <div>
-    <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
-      [curPlayerIdx] = 'curPlayerIdx'
-      [puttSelectorActive] = 'puttSelectorActive'
-      [rounds] = 'onlineRounds'
-      [curHolePutts] = 'curHolePutts'
-      [penaltySelectorActive] = 'penaltySelectorActive'
-      [curHolePenalties] = 'curHolePenalties'
-      [addScore] = 'addScore.bind(this)'
-      [curHoleIdx] = 'curHoleIdx'
-      [ballPickedUp] = 'ballPickedUp'
-      [totalStrokes] = 'totalStrokes'
-      [counter] = 'counter.bind(this)'
-      [calculateStyle] = 'calculateStyle.bind(this)'
-      [inProgress] = 'inProgress'>
-    </app-common-scorecard-top>
+    @if (loggedId === ownerId) {
+      <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
+        [curPlayerIdx] = 'curPlayerIdx'
+        [puttSelectorActive] = 'puttSelectorActive'
+        [rounds] = 'onlineRounds'
+        [curHolePutts] = 'curHolePutts'
+        [penaltySelectorActive] = 'penaltySelectorActive'
+        [curHolePenalties] = 'curHolePenalties'
+        [addScore] = 'addScore.bind(this)'
+        [curHoleIdx] = 'curHoleIdx'
+        [ballPickedUp] = 'ballPickedUp'
+        [totalStrokes] = 'totalStrokes'
+        [counter] = 'counter.bind(this)'
+        [calculateStyle] = 'calculateStyle.bind(this)'
+        [inProgress] = 'inProgress'>
+      </app-common-scorecard-top>
+    } @else {
+      <button type="button" class="btn btn-success" (click)="refresh()">Refresh</button>
+      <br />
+      <br />
+    }
     <div>
       <div>
         @if (mpResult[1] === undefined) {
