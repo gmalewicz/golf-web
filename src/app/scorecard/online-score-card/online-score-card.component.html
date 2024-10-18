@@ -136,30 +136,6 @@
 @if (display) {
   <div>
     <br />
-    @if (display && myOnlineRounds.length === 0) {
-      <span >
-        <button type="button" class="btn btn-success" routerLink= "/courses" [state]="{ data: { parent: 'addOnlineRound' } }" i18n="@@onlineScoreCard-start">
-          Start Round
-        </button>
-        &nbsp;
-      </span>
-    }
-    @if (display && myOnlineRounds.length > 0 && !myOnlineRounds[0].matchPlay) {
-      <span>
-        <button type="button" class="btn btn-success" (click)="continueRound('onlineRound')" i18n="@@onlineScoreCard-continue">
-          Continue Round
-        </button>
-        &nbsp;
-      </span>
-    }
-    @if (display && myOnlineRounds.length > 0 && myOnlineRounds[0].matchPlay) {
-      <span>
-        <button type="button" class="btn btn-success" (click)="continueRound('onlineMatchplay')" i18n="@@onlineScoreCard-continue">
-          Continue Round
-        </button>
-        &nbsp;
-      </span>
-    }
     <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlineScoreCard-cancel">Cancel</button>
   </div>
 }

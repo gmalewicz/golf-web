@@ -21,8 +21,8 @@ export class RoundsComponent implements OnInit, OnDestroy {
   dispRounds: boolean;
   savedPage: number;
 
-  constructor(private httpService: HttpService,
-              private authenticationService: AuthenticationService,
+  constructor(private readonly httpService: HttpService,
+              private readonly authenticationService: AuthenticationService,
               public roundsNavigationService: RoundsNavigationService) {
   }
 
@@ -45,6 +45,7 @@ export class RoundsComponent implements OnInit, OnDestroy {
   onNext() {
     if (this.roundsNavigationService.getRounds().length === this.roundsNavigationService.getPageSize()) {
       this.roundsNavigationService.increasePage();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.roundsNavigationService.getSelectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }
@@ -52,6 +53,7 @@ export class RoundsComponent implements OnInit, OnDestroy {
   onPrevious() {
     if (this.roundsNavigationService.getPage() > 0) {
       this.roundsNavigationService.decreasePage();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.roundsNavigationService.getSelectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }

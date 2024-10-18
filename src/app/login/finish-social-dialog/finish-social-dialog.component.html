@@ -26,11 +26,11 @@
             </mat-form-field>
           </mat-dialog-content>
           <mat-dialog-content [formGroup]="form">
-            <mat-checkbox formControlName="female" (click)="sexClick(true)"
+            <mat-checkbox formControlName="female" (click)="femaleClick()"
               >Female</mat-checkbox
               >
               &nbsp;
-              <mat-checkbox formControlName="male" (click)="sexClick(false)"
+              <mat-checkbox formControlName="male" (click)="maleClick()"
                 >Male</mat-checkbox
                 >
               </mat-dialog-content>

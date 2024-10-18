@@ -1,0 +1,25 @@
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display && myOnlineRounds.length === 0) {
+  <div>
+    <h2 i18n="@@onlineScoreCard-noCards">No active score cards</h2>
+  </div>
+}
+@if (display) {
+  <div>
+    <br />
+    @if (display && myOnlineRounds.length === 0) {
+      <span >
+        <button type="button" class="btn btn-success" routerLink= "/courses" [state]="{ data: { parent: 'addOnlineRound' } }" i18n="@@onlineScoreCard-start">
+          Start Round
+        </button>
+        &nbsp;
+      </span>
+    }
+    <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlineScoreCard-cancel">Cancel</button>
+  </div>
+}
+

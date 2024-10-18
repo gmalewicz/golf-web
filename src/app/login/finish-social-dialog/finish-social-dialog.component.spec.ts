@@ -44,12 +44,12 @@ describe('UpdDialogComponent', () => {
   });
 
   it('should click female sex', () => {
-    component.sexClick(false);
+    component.femaleClick();
     expect(component.form.controls.male.value).toBeFalsy();
   });
 
   it('should click male sex', () => {
-    component.sexClick(true);
+    component.maleClick();
     expect(component.form.controls.female.value).toBeFalsy();
   });
 

@@ -27,13 +27,12 @@ export class OnlineScoreCardComponent implements OnInit {
   display: boolean;
   onlineRounds: OnlineRound[];
   faSearchPlus: IconDefinition;
-  myOnlineRounds: OnlineRound[];
   courses: Map<number, Course>;
 
-  constructor(private scorecardHttpService: ScorecardHttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router,
-              private navigationService: NavigationService) {
+  constructor(private readonly scorecardHttpService: ScorecardHttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly navigationService: NavigationService) {
   }
 
   ngOnInit(): void {
@@ -43,19 +42,12 @@ export class OnlineScoreCardComponent implements OnInit {
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
-      // initialize configuration for websocket
-      // this.appConfigService.loadAppConfig();
-
       // initialization
       this.display = false;
       this.faSearchPlus = faSearchPlus;
       this.navigationService.clear();
 
       this.scorecardHttpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
-
-        // initialize this player open round if any
-        this.myOnlineRounds = retOnlineRounds.filter(v => v.owner ===
-          this.authenticationService.currentPlayerValue.id && v.finalized === false);
 
         // set all rounds except the open one for this player
         this.onlineRounds = retOnlineRounds.filter(v => v.owner !==
@@ -68,12 +60,6 @@ export class OnlineScoreCardComponent implements OnInit {
         this.display = true;
       });
     }
-  }
-
-  continueRound(navigation: string) {
-    this.navigationService.setCourse(this.myOnlineRounds[0].course);
-    this.navigationService.setOnlineRounds(this.myOnlineRounds);
-    this.router.navigate(['/scorecard/' + navigation]).catch(error => console.log(error));
   }
 
   viewRound(viewType: number, course: Course, onlineRound: OnlineRound) {

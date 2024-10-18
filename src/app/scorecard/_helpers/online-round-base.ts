@@ -71,6 +71,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   // waiting for server response
   inProgress: boolean;
 
+  loggedId: number;
+  ownerId: number;
+
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
               protected alertService: AlertService,
@@ -102,6 +105,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       // get passed data
       this.onlineRounds = this.navigationService.getOnlineRounds();
+
+       // set owner and logged in user
+       this.loggedId = this.authenticationService.currentPlayerValue.id;
+       this.ownerId = this.onlineRounds[0].owner;
 
       // 2.0.0 - adding sort of the array to have always the same sequence of players even
       // if retreiving from backend
@@ -522,5 +529,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
     }));
 
+  }
+
+  refresh() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.ngOnInit();
   }
 }
