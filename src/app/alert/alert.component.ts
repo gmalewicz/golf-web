@@ -13,7 +13,8 @@ export class AlertComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     message: Message;
 
-    constructor(private alertService: AlertService, private _snackBar: MatSnackBar) { }
+    constructor(private readonly alertService: AlertService,
+                private readonly _snackBar: MatSnackBar) { }
 
     ngOnInit() {
         this.subscription = this.alertService.getAlert()

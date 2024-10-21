@@ -37,11 +37,11 @@ export class TeeTimeComponent implements OnInit {
 
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
               public navigationService: TournamentNavigationService,
-              private authenticationService: AuthenticationService,
-              private alertService: AlertService,
-              private dialog: MatDialog) {}
+              private readonly authenticationService: AuthenticationService,
+              private readonly alertService: AlertService,
+              private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
 

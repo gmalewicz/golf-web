@@ -36,12 +36,12 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
   playerIdx: number;
   player: Player;
 
-  constructor(private leagueHttpService: LeagueHttpService,
+  constructor(private readonly leagueHttpService: LeagueHttpService,
               protected alertService: AlertService,
               protected httpService: HttpService,
               protected dialog: MatDialog,
               public navigationService: NavigationService,
-              private authenticationService: AuthenticationService) {
+              private readonly authenticationService: AuthenticationService) {
                 super(alertService, dialog, httpService);
               }
 

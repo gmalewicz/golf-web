@@ -7,7 +7,7 @@ import { Tee } from '@/_models/tee';
 @Injectable()
 export class CourseHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   // add cycle
   addTee(tee: Tee, courseId: number): Observable<void> {

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
     private httpService: HttpService,
-    private dialog: MatDialog
+    private readonly dialog: MatDialog
   ) { }
 
   ngOnInit() {

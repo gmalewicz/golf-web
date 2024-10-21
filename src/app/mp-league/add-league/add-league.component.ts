@@ -24,9 +24,9 @@ export class AddLeagueComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               public authenticationService: AuthenticationService,
-              private leagueHttpService: LeagueHttpService,
-              private alertService: AlertService,
-              private router: Router) { }
+              private readonly leagueHttpService: LeagueHttpService,
+              private readonly alertService: AlertService,
+              private readonly router: Router) { }
 
   ngOnInit(): void {
 

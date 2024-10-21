@@ -28,10 +28,9 @@ export class SearchPlayerDialogComponent {
   faPlusCircle: IconDefinition;
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<SearchPlayerDialogComponent>,
-    private httpService: HttpService,
-    // @Inject(MAT_DIALOG_DATA) data
+    private readonly fb: FormBuilder,
+    private readonly dialogRef: MatDialogRef<SearchPlayerDialogComponent>,
+    private readonly httpService: HttpService,
   ) {
     this.faPlusCircle = faPlusCircle;
     this.dispPlayers = true;

@@ -28,12 +28,12 @@ export class RemoveMatchComponent implements OnInit {
 
   playerOptions = [];
 
-  constructor(private alertService: AlertService,
+  constructor(private readonly alertService: AlertService,
               public authenticationService: AuthenticationService,
-              private formBuilder: FormBuilder,
+              private readonly formBuilder: FormBuilder,
               public navigationService: NavigationService,
-              private router: Router,
-              private leagueHttpService: LeagueHttpService) { }
+              private readonly router: Router,
+              private readonly leagueHttpService: LeagueHttpService) { }
 
   ngOnInit(): void {
 

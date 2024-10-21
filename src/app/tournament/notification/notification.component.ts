@@ -21,13 +21,13 @@ export class NotificationComponent implements OnInit {
   playerId: number;
   notificationForm: FormGroup;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
-    private router: Router,
-    private alertService: AlertService,
-    private dialog: MatDialog,
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
+    private readonly router: Router,
+    private readonly alertService: AlertService,
+    private readonly dialog: MatDialog,
     public navigationService: TournamentNavigationService,
-    private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder) {
+    private readonly authenticationService: AuthenticationService,
+    private readonly formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {

@@ -40,8 +40,8 @@ export class CourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private alertService: AlertService,
               public authenticationService: AuthenticationService,
-              private router: Router,
-              private courseNavigationService: CourseNavigationService) { }
+              private readonly router: Router,
+              private readonly courseNavigationService: CourseNavigationService) { }
 
   ngOnInit(): void {
 

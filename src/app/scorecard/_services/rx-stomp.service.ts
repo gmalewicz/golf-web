@@ -12,8 +12,8 @@ export class RxStompService extends RxStomp {
   wsEndpointStr: string;
   activePending = false;
 
-  constructor(private authenticationService: AuthenticationService,
-              private scorecardHttpService: ScorecardHttpService) {
+  constructor(private readonly authenticationService: AuthenticationService,
+              private readonly scorecardHttpService: ScorecardHttpService) {
 
     super();
 

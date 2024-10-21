@@ -17,8 +17,8 @@ export class ChangeLogComponent implements OnInit {
   display: boolean;
 
   constructor( public authenticationService: AuthenticationService,
-               private router: Router,
-               private httpService: HttpService,) { }
+               private readonly router: Router,
+               private readonly httpService: HttpService,) { }
 
   ngOnInit(): void {
 

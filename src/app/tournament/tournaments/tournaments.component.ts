@@ -35,8 +35,8 @@ export class TournamentsComponent implements OnInit {
 
   constructor(private tournamentHttpService: TournamentHttpService,
               public authenticationService: AuthenticationService,
-              private router: Router,
-              private navigationService: TournamentNavigationService) {}
+              private readonly router: Router,
+              private readonly navigationService: TournamentNavigationService) {}
 
   ngOnInit(): void {
 

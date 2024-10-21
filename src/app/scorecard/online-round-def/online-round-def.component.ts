@@ -62,7 +62,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
     private authenticationService: AuthenticationService,
     private router: Router,
     protected dialog: MatDialog,
-    private navigationService: NavigationService
+    private readonly navigationService: NavigationService
   ) {
     super(alertService, dialog, httpService);
     }

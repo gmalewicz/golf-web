@@ -31,12 +31,12 @@ export class AddMatchComponent implements OnInit {
   playerOptions = [];
   resultOptions = [];
 
-  constructor(private leagueHttpService: LeagueHttpService,
+  constructor(private readonly leagueHttpService: LeagueHttpService,
               private alertService: AlertService,
-              public authenticationService: AuthenticationService,
-              private formBuilder: FormBuilder,
+              public readonly authenticationService: AuthenticationService,
+              private readonly formBuilder: FormBuilder,
               public navigationService: NavigationService,
-              private router: Router) {
+              private readonly router: Router) {
                 // This is intentional
               }
 
