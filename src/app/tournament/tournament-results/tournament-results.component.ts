@@ -49,7 +49,7 @@ export class TournamentResultsComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private router: Router,
               private alertService: AlertService,
-              private dialog: MatDialog,
+              private readonly dialog: MatDialog,
               public navigationService: TournamentNavigationService) {}
 
   ngOnInit(): void {

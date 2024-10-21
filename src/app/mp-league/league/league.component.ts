@@ -36,12 +36,12 @@ export class LeagueComponent  implements OnInit {
   @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef | undefined;
   @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
 
-  constructor(private leagueHttpService: LeagueHttpService,
+  constructor(private readonly leagueHttpService: LeagueHttpService,
               public navigationService: NavigationService,
               public authenticationService: AuthenticationService,
-              private router: Router,
-              private alertService: AlertService,
-              private dialog: MatDialog) {}
+              private readonly router: Router,
+              private readonly alertService: AlertService,
+              private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
 

@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit {
       private router: Router,
       private authenticationService: AuthenticationService,
       private alertService: AlertService,
-      private httpService: HttpService
+      private readonly httpService: HttpService
   ) {}
 
   ngOnInit() {

@@ -6,7 +6,7 @@ import { Player } from '@/_models';
 
 @Injectable()
 export class PlayerDataInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private readonly authenticationService: AuthenticationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 

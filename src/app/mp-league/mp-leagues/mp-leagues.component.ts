@@ -34,10 +34,10 @@ export class MpLeaguesComponent implements OnInit {
   statusClose: boolean = LeagueStatus.STATUS_CLOSE;
 
 
-  constructor(private leagueHttpService: LeagueHttpService,
-              private navigationService: NavigationService,
+  constructor(private readonly leagueHttpService: LeagueHttpService,
+              private readonly navigationService: NavigationService,
               public authenticationService: AuthenticationService,
-              private router: Router) {}
+              private readonly router: Router) {}
 
   ngOnInit(): void {
 

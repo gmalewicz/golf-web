@@ -7,7 +7,7 @@ import { League, LeagueMatch, LeaguePlayer } from '../_models';
 @Injectable()
 export class LeagueHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   // get leagues
   getLeagues(pageId: number): Observable<Array<League>> {

@@ -28,8 +28,8 @@ export class UpdatePlayerComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
-    private httpService: HttpService,
-    private dialog: MatDialog
+    private readonly httpService: HttpService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {

@@ -41,7 +41,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
   deletePlayerinProgress: boolean;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
               protected alertService: AlertService,
               protected httpService: HttpService,
               protected dialog: MatDialog,

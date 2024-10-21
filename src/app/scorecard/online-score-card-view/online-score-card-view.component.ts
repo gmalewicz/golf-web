@@ -56,10 +56,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private scorecardHttpService: ScorecardHttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router,
-              private navigationService: NavigationService,
-              private rxStompService: RxStompService) { }
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly navigationService: NavigationService,
+              private readonly rxStompService: RxStompService) { }
 
   ngOnDestroy(): void {
 

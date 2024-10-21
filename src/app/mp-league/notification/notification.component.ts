@@ -19,11 +19,11 @@ export class NotificationComponent implements OnInit {
   loadingUnsubscribe: WritableSignal<boolean>;
   playerId: number;
 
-  constructor(private leagueHttpService: LeagueHttpService,
-    private router: Router,
-    private alertService: AlertService,
-    private dialog: MatDialog,
-    private authenticationService: AuthenticationService,
+  constructor(private readonly leagueHttpService: LeagueHttpService,
+    private readonly router: Router,
+    private readonly alertService: AlertService,
+    private readonly dialog: MatDialog,
+    private readonly authenticationService: AuthenticationService,
     public navigationService: NavigationService) {
   }
 

@@ -25,10 +25,10 @@ export class AddTeeComponent implements OnInit {
   public saveTee = signal<boolean>(false);
 
   constructor(
-    private formBuilder: FormBuilder,
-    private courseNavigationService: CourseNavigationService,
-    private courseHttpService: CourseHttpService,
-    private alertService: AlertService) {
+    private readonly formBuilder: FormBuilder,
+    private readonly courseNavigationService: CourseNavigationService,
+    private readonly courseHttpService: CourseHttpService,
+    private readonly alertService: AlertService) {
 }
 
   ngOnInit(): void {

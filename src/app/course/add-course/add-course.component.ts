@@ -57,9 +57,9 @@ export class AddCourseComponent implements OnInit {
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
               private router: Router,
-              private authenticationService: AuthenticationService,
-              private alertService: AlertService,
-              private courseNavigationService: CourseNavigationService) {
+              private readonly authenticationService: AuthenticationService,
+              private readonly alertService: AlertService,
+              private readonly courseNavigationService: CourseNavigationService) {
   }
 
   ngOnInit(): void {

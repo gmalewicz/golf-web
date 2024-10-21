@@ -6,7 +6,7 @@ import { AuthenticationService} from '@/_services';
 export class AuthGuard {
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService
+        private readonly authenticationService: AuthenticationService
     ) {}
 
     canActivate() {

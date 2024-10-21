@@ -22,8 +22,8 @@ export class PlayerResultsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
-              private router: Router) { }
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
+              private readonly router: Router) { }
 
   ngOnInit() {
 

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router,
-              private alertService: AlertService,
-              private authenticationService: AuthenticationService) { }
+              private readonly alertService: AlertService,
+              private readonly authenticationService: AuthenticationService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {

@@ -18,8 +18,8 @@ export class ModificationComponent implements OnInit {
   public modBackCls: string[] = Array(this.navigationService.tournamentPlayers().length).fill('');
 
   constructor(public navigationService: TournamentNavigationService,
-              private cd: ChangeDetectorRef,
-              private alertService: AlertService) {}
+              private readonly cd: ChangeDetectorRef,
+              private readonly alertService: AlertService) {}
 
   ngOnInit(): void {
     // this is intentional

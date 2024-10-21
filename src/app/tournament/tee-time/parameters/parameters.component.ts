@@ -20,7 +20,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   _formChanges: Subscription;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     public tournamentNavigationService: TournamentNavigationService
   ) {}
 

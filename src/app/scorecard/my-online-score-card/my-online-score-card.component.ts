@@ -52,7 +52,7 @@ export class MyOnlineScoreCardComponent implements OnInit {
         }
 
         // set all rounds except the open one that is written by this player
-        const activeOnlineRound: OnlineRound = retOnlineRounds.find(v => v.player.id !==
+        const activeOnlineRound: OnlineRound = retOnlineRounds.find(v => v.player.id ===
           this.authenticationService.currentPlayerValue.id && v.finalized === false);
 
         if (activeOnlineRound) {
