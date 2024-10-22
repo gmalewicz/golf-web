@@ -43,10 +43,10 @@ export class RoundViewComponent implements OnInit {
   // 0 - full, 1 - first, 2 - second
   display9: number;
 
-  constructor(private httpService: HttpService,
-              private alertService: AlertService,
-              private router: Router,
-              private authenticationService: AuthenticationService,
+  constructor(private readonly httpService: HttpService,
+              private readonly alertService: AlertService,
+              private readonly router: Router,
+              private readonly authenticationService: AuthenticationService,
               public dialog: MatDialog) {
 
   }

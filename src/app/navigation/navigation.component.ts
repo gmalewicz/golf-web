@@ -21,9 +21,9 @@ export class NavigationComponent implements OnInit {
     { code: 'pl', name: 'Polski' },
   ];
 
-  constructor(private authenticationService: AuthenticationService,
-              private router: Router,
-              private alertService: AlertService,
+  constructor(private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly alertService: AlertService,
               @Inject(LOCALE_ID) public activeLocale: string) {
   }
 

@@ -28,9 +28,9 @@ export class CyclesComponent implements OnInit {
   statusClose: boolean = CycleStatus.STATUS_CLOSE;
 
 
-  constructor(private cycleHttpService: CycleHttpService,
+  constructor(private readonly cycleHttpService: CycleHttpService,
               public authenticationService: AuthenticationService,
-              private router: Router) {}
+              private readonly router: Router) {}
 
   ngOnInit(): void {
 

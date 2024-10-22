@@ -56,11 +56,11 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
 
   constructor(
     protected httpService: HttpService,
-    private scorecardHttpService: ScorecardHttpService,
-    private formBuilder: FormBuilder,
+    private readonly scorecardHttpService: ScorecardHttpService,
+    private readonly formBuilder: FormBuilder,
     protected alertService: AlertService,
-    private authenticationService: AuthenticationService,
-    private router: Router,
+    private readonly authenticationService: AuthenticationService,
+    private readonly router: Router,
     protected dialog: MatDialog,
     private readonly navigationService: NavigationService
   ) {

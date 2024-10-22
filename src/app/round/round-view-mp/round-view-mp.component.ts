@@ -28,7 +28,7 @@ export class RoundViewMPComponent implements OnInit {
   mpResult: string[];
   mpResultHistory: string[][];
 
-  constructor(private httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) { }
 
   ngOnInit(): void {
 

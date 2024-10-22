@@ -36,10 +36,10 @@ export class RoundComponent implements OnInit {
   selectedTab: number;
   loadingPDF: boolean;
 
-  constructor(private httpService: HttpService,
-              private alertService: AlertService,
-              private router: Router,
-              private authenticationService: AuthenticationService,
+  constructor(private readonly httpService: HttpService,
+              private readonly alertService: AlertService,
+              private readonly router: Router,
+              private readonly authenticationService: AuthenticationService,
               public dialog: MatDialog,
               public roundsNavigationService: RoundsNavigationService) {
 

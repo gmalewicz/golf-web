@@ -24,7 +24,7 @@ export class CycleResultsComponent implements OnInit {
   names: number[];
 
   constructor(public authenticationService: AuthenticationService,
-              private router: Router) { }
+              private readonly router: Router) { }
 
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null) {

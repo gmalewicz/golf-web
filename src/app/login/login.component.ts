@@ -27,12 +27,12 @@ export class LoginComponent implements OnInit {
   urlGoogle: string = environment.URL_STR + 'oauth2/authorization/google';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private alertService: AlertService,
-    private httpService: HttpService,
+    private readonly formBuilder: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly authenticationService: AuthenticationService,
+    private readonly alertService: AlertService,
+    private readonly httpService: HttpService,
     private readonly dialog: MatDialog
   ) { }
 

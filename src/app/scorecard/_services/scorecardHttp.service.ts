@@ -9,7 +9,7 @@ import { AppConfig } from '../_models/appConfig';
 @Injectable({ providedIn: 'root' })
 export class ScorecardHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getOnlineRounds(): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRound');

@@ -54,9 +54,9 @@ export class AddCourseComponent implements OnInit {
 
   nbrHoles: { label: string; value: number; }[];
 
-  constructor(private httpService: HttpService,
-              private formBuilder: FormBuilder,
-              private router: Router,
+  constructor(private readonly httpService: HttpService,
+              private readonly formBuilder: FormBuilder,
+              private readonly router: Router,
               private readonly authenticationService: AuthenticationService,
               private readonly alertService: AlertService,
               private readonly courseNavigationService: CourseNavigationService) {

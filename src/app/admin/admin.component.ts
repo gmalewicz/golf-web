@@ -17,8 +17,8 @@ export class AdminComponent implements OnInit {
   @ViewChild('adminContainer', {read: ViewContainerRef}) adminContainerRef: ViewContainerRef;
 
   constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
+    private readonly router: Router,
+    private readonly authenticationService: AuthenticationService
   ) {}
 
   ngOnInit(): void {

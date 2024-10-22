@@ -3,7 +3,6 @@ import { Course } from '@/_models/course';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Courses } from '@/_models/courses';
-import { AlertService } from '@/_services/alert.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
@@ -32,10 +31,9 @@ export class CoursesComponent implements OnInit {
   public searchCourseForm: FormGroup;
 
   constructor(public authenticationService: AuthenticationService,
-              private router: Router,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService,
-              private httpService: HttpService) {
+              private readonly router: Router,
+              private readonly formBuilder: FormBuilder,
+              private readonly httpService: HttpService) {
   }
 
   ngOnInit(): void {

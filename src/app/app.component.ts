@@ -14,6 +14,6 @@ export class AppComponent {
   title = 'golf-web';
 
   constructor(
-    private router: Router
+    private readonly router: Router
   ) { }
 }
