@@ -9,7 +9,7 @@ import { Tournament, TournamentPlayer, TournamentResult, TournamentRound } from 
 @Injectable({ providedIn: 'root' })
 export class TournamentHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
     // gets tournaments
   getTournaments(page: number): Observable<Array<Tournament>> {

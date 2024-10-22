@@ -26,10 +26,10 @@ export class TournamentRoundsComponent implements OnInit {
   tournament: Tournament;
   rounds: Round[];
 
-  constructor(private tournamentHttpService: TournamentHttpService,
-              private alertService: AlertService,
-              private authenticationService: AuthenticationService,
-              private router: Router) {}
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
+              private readonly alertService: AlertService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router) {}
 
   ngOnInit(): void {
 

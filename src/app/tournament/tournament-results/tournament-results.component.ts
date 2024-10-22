@@ -45,10 +45,10 @@ export class TournamentResultsComponent implements OnInit {
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
   @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router,
-              private alertService: AlertService,
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router,
+              private readonly alertService: AlertService,
               private readonly dialog: MatDialog,
               public navigationService: TournamentNavigationService) {}
 

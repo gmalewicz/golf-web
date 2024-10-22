@@ -24,10 +24,10 @@ export class UpdatePlayerComponent implements OnInit {
   removeEmail: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private alertService: AlertService,
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly authenticationService: AuthenticationService,
+    private readonly alertService: AlertService,
     private readonly httpService: HttpService,
     private readonly dialog: MatDialog
   ) {}

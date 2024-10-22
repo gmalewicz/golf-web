@@ -33,7 +33,7 @@ export class TournamentsComponent implements OnInit {
   statusOpen: boolean = TournamentStatus.STATUS_OPEN;
   statusClose: boolean = TournamentStatus.STATUS_CLOSE;
 
-  constructor(private tournamentHttpService: TournamentHttpService,
+  constructor(private readonly tournamentHttpService: TournamentHttpService,
               public authenticationService: AuthenticationService,
               private readonly router: Router,
               private readonly navigationService: TournamentNavigationService) {}
