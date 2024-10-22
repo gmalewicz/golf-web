@@ -46,14 +46,14 @@ describe('RegisterPlayerDialogComponent', () => {
   });
 
   it('should click female', () => {
-    component.sexClick(true);
+    component.femaleClick();
     expect(component.f.male.value).toBeFalsy();
   });
 
   it('should click male', () => {
     component.f.female.setValue(true);
     component.f.male.setValue(false);
-    component.sexClick(false);
+    component.maleClick();
     expect(component.f.female.value).toBeFalsy();
   });
 
