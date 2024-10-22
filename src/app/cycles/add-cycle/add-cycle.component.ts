@@ -22,11 +22,11 @@ export class AddCycleComponent implements OnInit {
   loading: boolean;
   display: boolean;
 
-  constructor(private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
-              private cycleHttpService: CycleHttpService,
-              private alertService: AlertService,
-              private router: Router) { }
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly authenticationService: AuthenticationService,
+              private readonly cycleHttpService: CycleHttpService,
+              private readonly alertService: AlertService,
+              private readonly router: Router) { }
 
   ngOnInit(): void {
 

@@ -61,14 +61,13 @@ export class AddScorecardComponent implements OnInit {
   displayResult: string;
   first9Par: number;
 
-  constructor(private httpService: HttpService,
-              private route: ActivatedRoute,
-              private authenticationService: AuthenticationService,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private alertService: AlertService,
-              private dialog: MatDialog) {
-
+  constructor(private readonly httpService: HttpService,
+              private readonly route: ActivatedRoute,
+              private readonly authenticationService: AuthenticationService,
+              private readonly formBuilder: FormBuilder,
+              private readonly router: Router,
+              private readonly alertService: AlertService,
+              private readonly dialog: MatDialog) {
 
   }
 

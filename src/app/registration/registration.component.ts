@@ -20,10 +20,10 @@ export class RegistrationComponent implements OnInit {
   submitted: boolean;
 
   constructor(
-      private formBuilder: FormBuilder,
-      private router: Router,
-      private authenticationService: AuthenticationService,
-      private alertService: AlertService,
+      private readonly formBuilder: FormBuilder,
+      private readonly router: Router,
+      private readonly authenticationService: AuthenticationService,
+      private readonly alertService: AlertService,
       private readonly httpService: HttpService
   ) {}
 

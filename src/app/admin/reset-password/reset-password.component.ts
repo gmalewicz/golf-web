@@ -22,10 +22,10 @@ export class ResetPasswordComponent implements OnInit {
   submittedReset: boolean;
   resetLoading: boolean;
 
-  constructor(private formBuilder: FormBuilder,
-              private alertService: AlertService,
-              private httpService: HttpService,
-              private router: Router) { }
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly alertService: AlertService,
+              private readonly httpService: HttpService,
+              private readonly router: Router) { }
 
   ngOnInit(): void {
 

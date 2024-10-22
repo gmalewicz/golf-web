@@ -18,8 +18,8 @@ export class RegisterPlayerDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RegisterPlayerDialogComponent>,
+    private readonly fb: FormBuilder,
+    private readonly dialogRef: MatDialogRef<RegisterPlayerDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.form = this.fb.group({
@@ -47,12 +47,12 @@ export class RegisterPlayerDialogComponent implements OnInit {
     return this.form.controls;
   }
 
-  sexClick(sex: boolean) {
-    if (sex) {
-      this.f.male.setValue(false);
-    } else {
-      this.f.female.setValue(false);
-    }
+  maleClick() {
+    this.f.female.setValue(false);
+  }
+
+  femaleClick() {
+    this.f.male.setValue(false);
   }
 
   save() {

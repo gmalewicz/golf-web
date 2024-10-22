@@ -5,9 +5,9 @@ import { AuthenticationService, AlertService } from '@/_services';
 @Injectable({ providedIn: 'root' })
 export class RoleGuard {
     constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService,
-        private alertService: AlertService
+        private readonly router: Router,
+        private readonly authenticationService: AuthenticationService,
+        private readonly alertService: AlertService
     ) {}
 
     canActivate(routeRole: string): boolean {

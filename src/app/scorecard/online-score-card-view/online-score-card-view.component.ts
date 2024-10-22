@@ -54,8 +54,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private httpService: HttpService,
-              private scorecardHttpService: ScorecardHttpService,
+  constructor(private readonly httpService: HttpService,
+              private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
               private readonly router: Router,
               private readonly navigationService: NavigationService,

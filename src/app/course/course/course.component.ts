@@ -37,8 +37,8 @@ export class CourseComponent implements OnInit {
 
   displayAddTee: boolean;
 
-  constructor(private httpService: HttpService,
-              private alertService: AlertService,
+  constructor(private readonly httpService: HttpService,
+              private readonly alertService: AlertService,
               public authenticationService: AuthenticationService,
               private readonly router: Router,
               private readonly courseNavigationService: CourseNavigationService) { }

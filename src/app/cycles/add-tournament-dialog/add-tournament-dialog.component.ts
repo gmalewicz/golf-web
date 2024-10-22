@@ -18,8 +18,8 @@ export class AddTournamentDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddTournamentDialogComponent>,
+    private readonly fb: FormBuilder,
+    private readonly dialogRef: MatDialogRef<AddTournamentDialogComponent>,
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(30)]],

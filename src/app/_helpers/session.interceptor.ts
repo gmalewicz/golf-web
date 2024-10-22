@@ -10,9 +10,9 @@ import { catchError, switchMap } from 'rxjs/operators';
 @Injectable()
 export class SessionRecoveryInterceptor implements HttpInterceptor {
 
-  constructor(private httpService: HttpService,
-              private authenticationService: AuthenticationService,
-              private router: Router) {}
+  constructor(private readonly httpService: HttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly router: Router) {}
 
   private refreshSubject: Subject<unknown> = new Subject<unknown>();
 

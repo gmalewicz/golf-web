@@ -22,7 +22,7 @@ export class AddLeagueComponent implements OnInit {
   private loading: WritableSignal<boolean>;
   private display: WritableSignal<boolean>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private readonly formBuilder: FormBuilder,
               public authenticationService: AuthenticationService,
               private readonly leagueHttpService: LeagueHttpService,
               private readonly alertService: AlertService,

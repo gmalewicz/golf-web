@@ -32,7 +32,7 @@ export class AddMatchComponent implements OnInit {
   resultOptions = [];
 
   constructor(private readonly leagueHttpService: LeagueHttpService,
-              private alertService: AlertService,
+              private readonly alertService: AlertService,
               public readonly authenticationService: AuthenticationService,
               private readonly formBuilder: FormBuilder,
               public navigationService: NavigationService,

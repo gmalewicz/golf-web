@@ -36,10 +36,10 @@ export class CycleDetailsComponent implements OnInit {
   loadingDeleteCycle: boolean;
 
   constructor(public authenticationService: AuthenticationService,
-              private router: Router,
-              private dialog: MatDialog,
-              private cycleHttpService: CycleHttpService,
-              private alertService: AlertService
+              private readonly router: Router,
+              private readonly dialog: MatDialog,
+              private readonly cycleHttpService: CycleHttpService,
+              private readonly alertService: AlertService
               ) { }
 
   ngOnInit(): void {

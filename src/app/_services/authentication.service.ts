@@ -7,10 +7,10 @@ import { HttpResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentPlayerSubject: BehaviorSubject<Player>;
+  private readonly currentPlayerSubject: BehaviorSubject<Player>;
   public currentPlayer: Observable<Player>;
 
-  constructor(private httpService: HttpService) {
+  constructor(private readonly httpService: HttpService) {
     this.currentPlayerSubject = new BehaviorSubject<Player>(JSON.parse(localStorage.getItem('currentPlayer')));
     this.currentPlayer = this.currentPlayerSubject.asObservable();
   }

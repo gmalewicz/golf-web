@@ -9,7 +9,7 @@ import { CycleResult } from '../_models/cycleResult';
 @Injectable()
 export class CycleHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   // gets cycles
   getCycles(): Observable<Array<Cycle>> {

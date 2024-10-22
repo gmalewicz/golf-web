@@ -30,9 +30,9 @@ export class PlayersComponent implements OnInit {
 
   // dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
-  constructor(private httpService: HttpService,
-              private dialog: MatDialog,
-              private alertService: AlertService) { }
+  constructor(private readonly httpService: HttpService,
+              private readonly dialog: MatDialog,
+              private readonly alertService: AlertService) { }
 
   ngOnInit(): void {
 

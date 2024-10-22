@@ -8,7 +8,7 @@ import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Versio
 @Injectable()
 export class HttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getCourses(): Observable<Array<Course>> {
 

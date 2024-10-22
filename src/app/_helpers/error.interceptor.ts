@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router,
+  constructor(private readonly router: Router,
               private readonly alertService: AlertService,
               private readonly authenticationService: AuthenticationService) { }
 

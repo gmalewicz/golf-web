@@ -33,9 +33,9 @@ export class ListCoursesComponent implements OnInit {
   faMinusCircle: IconDefinition;
   faPlusCircle: IconDefinition;
 
-  constructor(private httpService: HttpService,
-              private authenticationService: AuthenticationService,
-              private alertService: AlertService) { }
+  constructor(private readonly httpService: HttpService,
+              private readonly authenticationService: AuthenticationService,
+              private readonly alertService: AlertService) { }
 
   ngOnInit(): void {
 
