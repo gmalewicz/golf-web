@@ -29,11 +29,11 @@ export class AddTournamentComponent implements OnInit {
   submitted: boolean;
   loading: boolean;
 
-  constructor(private formBuilder: FormBuilder,
-              private authenticationService: AuthenticationService,
-              private tournamentHttpService: TournamentHttpService,
-              private alertService: AlertService,
-              private router: Router) { }
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly authenticationService: AuthenticationService,
+              private readonly tournamentHttpService: TournamentHttpService,
+              private readonly alertService: AlertService,
+              private readonly router: Router) { }
 
   ngOnInit(): void {
 
