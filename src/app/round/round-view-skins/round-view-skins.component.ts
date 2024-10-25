@@ -15,6 +15,7 @@ export class RoundViewSkinsComponent implements OnInit {
   last9par: number;
 
   skin: string[][];
+  skinCount: string[][];
   first9Skin: number[];
   totalSkin: number[];
 
@@ -25,6 +26,8 @@ export class RoundViewSkinsComponent implements OnInit {
     this.last9par = this.round().course.par - this.first9par;
 
     this.skin = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
+    this.skinCount = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
+
     this.counter(18).forEach(id => this.calculateSkins(id));
     this.calculateTotalSkins();
   }
@@ -80,6 +83,7 @@ export class RoundViewSkinsComponent implements OnInit {
           }
 
           this.totalSkin[plr] += (cumulation + 1);
+          this.skinCount[plr][idx] = "" + (cumulation + 1);
           cumulation = 0;
           increaseCumulation = false;
           break;

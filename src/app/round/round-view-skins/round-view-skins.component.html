@@ -42,6 +42,7 @@
             <th  id="bck">{{round().player[idx].nick}}</th>
             @for (i of counter(9); track i;) {
               <td class="center" [ngClass]="skin[idx][i]">
+                {{skinCount[idx][i]}}
               </td>
             }
             <th  id="mpr" class="center">
@@ -49,6 +50,7 @@
             </th>
             @for (index2 of counter(9); track index2; let i = $index) {
               <td class="center" [ngClass]="skin[idx][index2 + 9]">
+                {{skinCount[idx][index2 + 9]}}
               </td>
             }
             <th  id="mpt2" class="center">
