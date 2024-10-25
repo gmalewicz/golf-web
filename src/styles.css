@@ -72,7 +72,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 
 .highlight {
   background-color: #198754 !important;
-  color: white;
+  color: white !important;
 }
 
 .no-highlight {
