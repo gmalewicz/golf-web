@@ -10,14 +10,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-tournament-rounds',
-  standalone: true,
-  imports: [RouterModule,
-            FontAwesomeModule,
-            CommonModule],
-  providers: [TournamentHttpService],
-  templateUrl: './tournament-rounds.component.html',
-  styleUrls: ['./tournament-rounds.component.css']
+    selector: 'app-tournament-rounds',
+    imports: [RouterModule,
+        FontAwesomeModule,
+        CommonModule],
+    providers: [TournamentHttpService],
+    templateUrl: './tournament-rounds.component.html',
+    styleUrls: ['./tournament-rounds.component.css']
 })
 export class TournamentRoundsComponent implements OnInit {
 

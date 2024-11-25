@@ -15,18 +15,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { AuthGuard } from '@/_helpers/auth.guard';
 
 @Component({
-  selector: 'app-add-course',
-  standalone: true,
-  imports: [CourseTeesComponent,
-            AddTeeComponent,
-            CommonModule,
-            BaseChartDirective,
-            MatInputModule,
-            ReactiveFormsModule,
-            MatSelectModule,
-            RouterModule],
-  templateUrl: './add-course.component.html',
-  styleUrls: ['./add-course.component.css']
+    selector: 'app-add-course',
+    imports: [CourseTeesComponent,
+        AddTeeComponent,
+        CommonModule,
+        BaseChartDirective,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        RouterModule],
+    templateUrl: './add-course.component.html',
+    styleUrls: ['./add-course.component.css']
 })
 export class AddCourseComponent implements OnInit {
 

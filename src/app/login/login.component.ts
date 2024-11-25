@@ -14,7 +14,6 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {

@@ -21,7 +21,6 @@ import { NgClass } from '@angular/common';
     selector: 'app-add-scorecard',
     templateUrl: './add-scorecard.component.html',
     styleUrls: ['./add-scorecard.component.css'],
-    standalone: true,
     imports: [ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgClass]
 })
 export class AddScorecardComponent implements OnInit {

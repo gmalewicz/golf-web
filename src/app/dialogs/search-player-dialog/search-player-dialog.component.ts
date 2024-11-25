@@ -3,8 +3,7 @@ import { HttpService } from '@/_services/http.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
@@ -14,7 +13,6 @@ import { MatFormField } from '@angular/material/form-field';
 @Component({
     selector: 'app-search-player-dialog',
     templateUrl: './search-player-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {

@@ -23,18 +23,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-add-round',
-  standalone: true,
-  imports: [RouterModule,
-            MatSelectModule,
-            CommonModule,
-            ReactiveFormsModule,
-            AutoTabDirective,
-            FontAwesomeModule,
-            FormsModule],
-  providers: [TournamentHttpService],
-  templateUrl: './add-round.component.html',
-  styleUrls: ['./add-round.component.css']
+    selector: 'app-add-round',
+    imports: [RouterModule,
+        MatSelectModule,
+        CommonModule,
+        ReactiveFormsModule,
+        AutoTabDirective,
+        FontAwesomeModule,
+        FormsModule],
+    providers: [TournamentHttpService],
+    templateUrl: './add-round.component.html',
+    styleUrls: ['./add-round.component.css']
 })
 export class AddRoundComponent implements OnInit {
 

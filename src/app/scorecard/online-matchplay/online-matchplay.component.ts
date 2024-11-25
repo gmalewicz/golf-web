@@ -16,7 +16,6 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
     selector: 'app-online-matchplay',
     templateUrl: './online-matchplay.component.html',
     styleUrls: ['./online-matchplay.component.css'],
-    standalone: true,
     imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton],
     providers: [NavigationService]
 })

@@ -19,15 +19,14 @@ import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base
 import { TournamentNavigationService } from '../_services';
 
 @Component({
-  selector: 'app-tournament-players',
-  standalone: true,
-  imports: [CommonModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCheckboxModule],
-  templateUrl: './tournament-players.component.html',
-  styleUrls: ['./tournament-players.component.css']
+    selector: 'app-tournament-players',
+    imports: [CommonModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCheckboxModule],
+    templateUrl: './tournament-players.component.html',
+    styleUrls: ['./tournament-players.component.css']
 })
 export class TournamentPlayersComponent extends CreateOrSearchDialogBase implements OnInit {
 

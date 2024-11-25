@@ -22,18 +22,17 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-online-round-def',
     templateUrl: './online-round-def.component.html',
-    standalone: true,
     imports: [
-      ReactiveFormsModule,
-      MatFormField,
-      MatLabel,
-      MatInput,
-      MatError,
-      NgClass,
-      FaIconComponent,
-      MatSelect,
-      MatOption,
-      RouterLink
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        MatError,
+        NgClass,
+        FaIconComponent,
+        MatSelect,
+        MatOption,
+        RouterLink
     ],
     providers: [NavigationService]
 })

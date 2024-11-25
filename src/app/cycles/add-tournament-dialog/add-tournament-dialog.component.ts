@@ -10,7 +10,6 @@ import { MatFormField, MatError } from '@angular/material/form-field';
 @Component({
     selector: 'app-add-tournament-dialog',
     templateUrl: './add-tournament-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class AddTournamentDialogComponent implements OnInit {

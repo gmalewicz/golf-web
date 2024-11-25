@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TournamentNavigationService } from '@/tournament/_services';
 
 @Component({
-  selector: 'app-preview',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './preview.component.html',
+    selector: 'app-preview',
+    imports: [CommonModule],
+    templateUrl: './preview.component.html'
 })
 export class PreviewComponent {
 

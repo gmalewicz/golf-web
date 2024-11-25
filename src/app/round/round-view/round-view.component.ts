@@ -13,7 +13,6 @@ import { BaseChartDirective } from 'ng2-charts';
     selector: 'app-round-view',
     templateUrl: './round-view.component.html',
     styleUrls: ['./round-view.component.css'],
-    standalone: true,
     imports: [BaseChartDirective]
 })
 export class RoundViewComponent implements OnInit {

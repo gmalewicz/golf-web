@@ -10,7 +10,6 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass, RecaptchaModule, RecaptchaFormsModule, RouterLink]
 })
 export class RegistrationComponent implements OnInit {

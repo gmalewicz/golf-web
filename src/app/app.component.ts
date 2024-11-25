@@ -6,7 +6,6 @@ import { NavigationComponent } from './navigation/navigation.component';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    standalone: true,
     imports: [NavigationComponent, AlertComponent, RouterOutlet]
 })
 export class AppComponent {

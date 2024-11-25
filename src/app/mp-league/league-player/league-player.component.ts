@@ -18,10 +18,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
 
 @Component({
-  selector: 'app-league-player',
-  standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule],
-  templateUrl: './league-player.component.html',
+    selector: 'app-league-player',
+    imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule],
+    templateUrl: './league-player.component.html'
 })
 export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements OnInit {
 

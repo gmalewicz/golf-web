@@ -17,11 +17,10 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { ModificationComponent } from '../modification/modification.component';
 
 @Component({
-  selector: 'app-tee-time',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent, ModificationComponent],
-  templateUrl: './tee-time.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-tee-time',
+    imports: [ReactiveFormsModule, MatTabsModule, ParametersComponent, PreviewComponent, ModificationComponent],
+    templateUrl: './tee-time.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TeeTimeComponent implements OnInit {
 

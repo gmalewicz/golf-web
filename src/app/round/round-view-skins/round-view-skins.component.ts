@@ -3,10 +3,9 @@ import { NgClass } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-round-view-skins',
-  standalone: true,
-  imports: [NgClass],
-  templateUrl: './round-view-skins.component.html'
+    selector: 'app-round-view-skins',
+    imports: [NgClass],
+    templateUrl: './round-view-skins.component.html'
 })
 export class RoundViewSkinsComponent implements OnInit {
 

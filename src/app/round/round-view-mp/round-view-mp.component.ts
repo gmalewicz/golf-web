@@ -8,7 +8,6 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-round-view-mp',
     templateUrl: './round-view-mp.component.html',
-    standalone: true,
     imports: [NgClass]
 })
 export class RoundViewMPComponent implements OnInit {

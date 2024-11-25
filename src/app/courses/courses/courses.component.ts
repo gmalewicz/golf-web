@@ -13,7 +13,6 @@ import { ListCoursesComponent } from '../list-courses/list-courses.component';
 @Component({
     selector: 'app-courses',
     templateUrl: './courses.component.html',
-    standalone: true,
     imports: [ListCoursesComponent, ReactiveFormsModule, RouterLink]
 })
 export class CoursesComponent implements OnInit {

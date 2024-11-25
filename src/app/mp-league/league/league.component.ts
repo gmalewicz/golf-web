@@ -15,7 +15,6 @@ import { NgStyle } from '@angular/common';
     selector: 'app-league',
     templateUrl: './league.component.html',
     styleUrls: ['./league.component.css'],
-    standalone: true,
     providers: [LeagueHttpService],
     imports: [NgStyle, RouterLink]
 })

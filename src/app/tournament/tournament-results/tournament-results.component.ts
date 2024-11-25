@@ -14,15 +14,14 @@ import { PlayerResultsComponent } from '../player-results/player-results.compone
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-tournament-results',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    RouterModule,
-    PlayerResultsComponent
+    selector: 'app-tournament-results',
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        RouterModule,
+        PlayerResultsComponent
     ],
-  templateUrl: './tournament-results.component.html'
+    templateUrl: './tournament-results.component.html'
 })
 export class TournamentResultsComponent implements OnInit {
 

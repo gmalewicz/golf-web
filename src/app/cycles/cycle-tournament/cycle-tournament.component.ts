@@ -9,7 +9,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'app-cycle-tournament',
     templateUrl: './cycle-tournament.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgIf, NgFor]
 })
 export class CycleTournamentComponent implements OnInit {

@@ -7,7 +7,6 @@ import { NgClass, DecimalPipe } from '@angular/common';
     selector: 'app-round-view-whs',
     templateUrl: './round-view-whs.component.html',
     styleUrls: ['./round-view-whs.component.css'],
-    standalone: true,
     imports: [NgClass, DecimalPipe]
 })
 export class RoundViewWHSComponent implements OnInit {

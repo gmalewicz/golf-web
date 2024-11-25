@@ -8,10 +8,9 @@ import { TournamentHttpService, TournamentNavigationService } from '../_services
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-notification',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './notification.component.html'
+    selector: 'app-notification',
+    imports: [ReactiveFormsModule],
+    templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {
 

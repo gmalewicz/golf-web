@@ -15,7 +15,6 @@ import { Tournament } from '@/tournament/_models/tournament';
 @Component({
     selector: 'app-list-courses',
     templateUrl: './list-courses.component.html',
-    standalone: true,
     imports: [RouterLink, FaIconComponent]
 })
 export class ListCoursesComponent implements OnInit {

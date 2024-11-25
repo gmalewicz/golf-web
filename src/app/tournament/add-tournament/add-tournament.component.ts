@@ -11,17 +11,16 @@ import { MatInput } from '@angular/material/input';
 
 
 @Component({
-  selector: 'app-add-tournament',
-  standalone: true,
-  imports: [RouterModule,
-            CommonModule,
-            ReactiveFormsModule,
-            MatFormField,
-            MatLabel,
-            MatError,
-            MatInput],
-  providers: [TournamentHttpService],
-  templateUrl: './add-tournament.component.html'
+    selector: 'app-add-tournament',
+    imports: [RouterModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatError,
+        MatInput],
+    providers: [TournamentHttpService],
+    templateUrl: './add-tournament.component.html'
 })
 export class AddTournamentComponent implements OnInit {
 

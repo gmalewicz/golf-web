@@ -20,7 +20,8 @@ import { RxStompService } from '../_services/rx-stomp.service';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 
 @Component({
-  template: ''
+    template: '',
+    standalone: false
 })
 export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 

@@ -8,7 +8,6 @@ import { tap } from 'rxjs';
 @Component({
     selector: 'app-change-log',
     templateUrl: './change-log.component.html',
-    standalone: true,
     imports: [RouterLink]
 })
 export class ChangeLogComponent implements OnInit {

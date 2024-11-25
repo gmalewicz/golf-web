@@ -1,14 +1,12 @@
 import { PlayerRndCnt } from '@/_models/playerRndCnt';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
-    standalone: true,
-    imports: [RouterLink]
 })
 export class AdminComponent implements OnInit {
 

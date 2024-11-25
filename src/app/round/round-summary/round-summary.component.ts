@@ -6,7 +6,6 @@ import { NgIf, NgFor, DecimalPipe } from '@angular/common';
 @Component({
     selector: 'app-round-summary',
     templateUrl: './round-summary.component.html',
-    standalone: true,
     imports: [NgIf, NgFor, DecimalPipe]
 })
 export class RoundSummaryComponent implements OnInit {

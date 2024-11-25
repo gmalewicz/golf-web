@@ -9,7 +9,6 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-list-rounds',
     templateUrl: './list-rounds.component.html',
-    standalone: true,
     imports: [RouterLink, FaIconComponent, DatePipe]
 })
 export class ListRoundsComponent implements OnInit {

@@ -8,7 +8,6 @@ import { tap } from 'rxjs/operators';
 
 @Component({
     templateUrl: './move-course.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class MoveCourseComponent implements OnInit {

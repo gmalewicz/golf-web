@@ -11,7 +11,6 @@ import { MatFormField, MatError } from '@angular/material/form-field';
 @Component({
     selector: 'app-register-player-dialog',
     templateUrl: './register-player-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
 export class RegisterPlayerDialogComponent implements OnInit {

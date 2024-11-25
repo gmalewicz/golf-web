@@ -9,7 +9,6 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-upd-player-rnd',
     templateUrl: './upd-player-rnd.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass]
 })
 export class UpdPlayerRndComponent implements OnInit {
