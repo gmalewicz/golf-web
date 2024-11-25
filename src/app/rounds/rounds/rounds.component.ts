@@ -12,7 +12,6 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-rounds',
     templateUrl: './rounds.component.html',
-    standalone: true,
     imports: [NgClass, ListRoundsComponent, RouterLink]
 })
 export class RoundsComponent implements OnInit, OnDestroy {

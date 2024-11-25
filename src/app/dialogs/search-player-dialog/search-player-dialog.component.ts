@@ -14,7 +14,6 @@ import { MatFormField } from '@angular/material/form-field';
 @Component({
     selector: 'app-search-player-dialog',
     templateUrl: './search-player-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {

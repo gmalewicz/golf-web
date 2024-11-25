@@ -8,7 +8,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @Component({
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, FormsModule, RouterLink]
 })
 export class NavigationComponent implements OnInit {

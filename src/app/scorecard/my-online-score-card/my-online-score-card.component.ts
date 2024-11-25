@@ -15,7 +15,6 @@ import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.c
 @Component({
     selector: 'app-my-online-score-card',
     templateUrl: './my-online-score-card.component.html',
-    standalone: true,
     imports: [FaIconComponent, RouterLink, KeyValuePipe],
     providers: [NavigationService]
 })

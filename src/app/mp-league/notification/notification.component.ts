@@ -8,10 +8,9 @@ import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { NavigationService } from '../_services/navigation.service';
 
 @Component({
-  selector: 'app-notification',
-  standalone: true,
-  imports: [],
-  templateUrl: './notification.component.html'
+    selector: 'app-notification',
+    imports: [],
+    templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {
 

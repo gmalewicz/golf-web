@@ -14,13 +14,12 @@ import { AddTournamentComponent } from '../add-tournament/add-tournament.compone
 import { AddRoundComponent } from '../add-round/add-round.component';
 
 @Component({
-  selector: 'app-tournaments',
-  standalone: true,
-  imports: [RouterModule,
-            FontAwesomeModule,
-            CommonModule,
-            TournamentResultsComponent],
-  templateUrl: './tournaments.component.html'
+    selector: 'app-tournaments',
+    imports: [RouterModule,
+        FontAwesomeModule,
+        CommonModule,
+        TournamentResultsComponent],
+    templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {
 

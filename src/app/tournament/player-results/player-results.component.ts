@@ -9,12 +9,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @Component({
-  selector: 'app-player-results',
-  standalone: true,
-  imports: [
-    FontAwesomeModule
-],
-  templateUrl: './player-results.component.html'
+    selector: 'app-player-results',
+    imports: [
+        FontAwesomeModule
+    ],
+    templateUrl: './player-results.component.html'
 })
 export class PlayerResultsComponent implements OnInit {
 

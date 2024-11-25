@@ -12,7 +12,6 @@ import { firstValueFrom } from 'rxjs';
 @Component({
     selector: 'app-update-player',
     templateUrl: './update-player.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdatePlayerComponent implements OnInit {

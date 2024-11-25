@@ -15,7 +15,6 @@ import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-players',
     templateUrl: './players.component.html',
-    standalone: true,
     imports: [FaIconComponent, RouterLink]
 })
 export class PlayersComponent implements OnInit {

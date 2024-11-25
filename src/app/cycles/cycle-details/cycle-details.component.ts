@@ -19,7 +19,6 @@ import { CycleResultsComponent } from '../cycle-results/cycle-results.component'
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details.component.html',
-    standalone: true,
     imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink],
     providers: [CycleHttpService]
 })

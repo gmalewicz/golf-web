@@ -21,7 +21,6 @@ import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.co
 @Component({
     selector: 'app-round',
     templateUrl: './round.component.html',
-    standalone: true,
     imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent]
 })
 export class RoundComponent implements OnInit {

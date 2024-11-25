@@ -16,7 +16,6 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
     selector: 'app-online-round',
     templateUrl: './online-round.component.html',
     styleUrls: ['./online-round.component.css'],
-    standalone: true,
     imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton],
     providers: [NavigationService]
 })

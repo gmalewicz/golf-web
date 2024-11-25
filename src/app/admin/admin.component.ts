@@ -7,7 +7,6 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
-    standalone: true,
     imports: [RouterLink]
 })
 export class AdminComponent implements OnInit {

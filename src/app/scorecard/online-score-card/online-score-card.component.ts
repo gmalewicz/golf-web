@@ -18,7 +18,6 @@ import { OnlineScoreCardViewComponent } from '../online-score-card-view/online-s
 @Component({
     selector: 'app-online-score-card',
     templateUrl: './online-score-card.component.html',
-    standalone: true,
     imports: [FaIconComponent, RouterLink, KeyValuePipe],
     providers: [NavigationService]
 })

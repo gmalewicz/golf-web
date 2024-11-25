@@ -18,7 +18,6 @@ import { RemoveMatchComponent } from '../remove-match/remove-match.component';
 @Component({
     selector: 'app-mp-ligues',
     templateUrl: './mp-leagues.component.html',
-    standalone: true,
     providers: [LeagueHttpService],
     imports: [FaIconComponent, RouterLink]
 })

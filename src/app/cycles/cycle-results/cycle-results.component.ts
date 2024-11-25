@@ -10,7 +10,6 @@ import { CycleResult } from '../_models/cycleResult';
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: []
 })
 export class CycleResultsComponent implements OnInit {

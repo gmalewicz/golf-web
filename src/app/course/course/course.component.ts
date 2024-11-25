@@ -12,10 +12,9 @@ import { AuthGuard } from '@/_helpers/auth.guard';
 import { AddTeeComponent } from '../add-tee/add-tee.component';
 
 @Component({
-  selector: 'app-course',
-  standalone: true,
-  imports: [BaseChartDirective, CourseTeesComponent, RouterModule, AddTeeComponent],
-  templateUrl: './course.component.html'
+    selector: 'app-course',
+    imports: [BaseChartDirective, CourseTeesComponent, RouterModule, AddTeeComponent],
+    templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
 

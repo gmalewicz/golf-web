@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  template: ''
+    template: '',
+    standalone: false
 })
 export class DialogBaseComponent implements OnInit {
 

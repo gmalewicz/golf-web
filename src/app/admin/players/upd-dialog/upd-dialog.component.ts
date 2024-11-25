@@ -11,7 +11,6 @@ import { MatFormField, MatError } from '@angular/material/form-field';
 @Component({
     selector: 'app-upd-dialog',
     templateUrl: './upd-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class UpdDialogComponent  extends DialogBaseComponent {

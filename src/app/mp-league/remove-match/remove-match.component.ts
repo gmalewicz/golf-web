@@ -16,7 +16,6 @@ import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 @Component({
     selector: 'app-remove-match',
     templateUrl: './remove-match.component.html',
-    standalone: true,
     providers: [LeagueHttpService],
     imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
 })

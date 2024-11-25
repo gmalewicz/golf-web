@@ -10,11 +10,10 @@ import { tap } from 'rxjs';
 import { AlertService } from '@/_services';
 
 @Component({
-  selector: 'app-add-tee',
-  standalone: true,
-  imports: [MatInputModule, MatSelectModule, ReactiveFormsModule],
-  providers: [CourseHttpService],
-  templateUrl: './add-tee.component.html'
+    selector: 'app-add-tee',
+    imports: [MatInputModule, MatSelectModule, ReactiveFormsModule],
+    providers: [CourseHttpService],
+    templateUrl: './add-tee.component.html'
 })
 export class AddTeeComponent implements OnInit {
 

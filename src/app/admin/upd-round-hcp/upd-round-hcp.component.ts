@@ -9,7 +9,6 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-upd-round-hcp',
     templateUrl: './upd-round-hcp.component.html',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdRoundHcpComponent implements OnInit {

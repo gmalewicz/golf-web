@@ -195,7 +195,6 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
   }
 </ng-template>
 `,
-    standalone: true,
     imports: [NgTemplateOutlet, NgClass]
 })
 export class CommonScorecardComponent implements OnInit {

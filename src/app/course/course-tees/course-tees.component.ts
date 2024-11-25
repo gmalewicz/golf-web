@@ -6,10 +6,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @Component({
-  selector: 'app-course-tees',
-  standalone: true,
-  imports: [FontAwesomeModule],
-  templateUrl: './course-tees.component.html'
+    selector: 'app-course-tees',
+    imports: [FontAwesomeModule],
+    templateUrl: './course-tees.component.html'
 })
 export class CourseTeesComponent {
 

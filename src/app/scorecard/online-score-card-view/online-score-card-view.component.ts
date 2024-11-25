@@ -15,8 +15,7 @@ import { NgClass, DecimalPipe } from '@angular/common';
     selector: 'app-online-score-card-view',
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
-    standalone: true,
-    imports: [NgClass, RouterLink, DecimalPipe ],
+    imports: [NgClass, RouterLink, DecimalPipe],
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {

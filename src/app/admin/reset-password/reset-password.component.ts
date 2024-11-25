@@ -9,12 +9,11 @@ import { tap } from 'rxjs/operators';
 
 @Component({
     templateUrl: './reset-password.component.html',
-    standalone: true,
     imports: [
-    ReactiveFormsModule,
-    NgClass,
-    RouterLink
-],
+        ReactiveFormsModule,
+        NgClass,
+        RouterLink
+    ]
 })
 export class ResetPasswordComponent implements OnInit {
 

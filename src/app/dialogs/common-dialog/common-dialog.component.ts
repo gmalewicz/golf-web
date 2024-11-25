@@ -23,7 +23,6 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     }
   </mat-form-field>
   `,
-    standalone: true,
     imports: [MatFormField, ReactiveFormsModule, MatInput, MatError]
 })
 export class CommonDialogComponent implements OnInit {

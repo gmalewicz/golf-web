@@ -5,11 +5,10 @@ import { TournamentNavigationService } from '@/tournament/_services';
 import { AlertService } from '@/_services/alert.service';
 
 @Component({
-  selector: 'app-modification',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './modification.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-modification',
+    imports: [CommonModule],
+    templateUrl: './modification.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModificationComponent implements OnInit {
 

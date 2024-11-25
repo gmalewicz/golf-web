@@ -6,7 +6,6 @@ import { OnlineNavComponent } from '../online-nav/online-nav.component';
 @Component({
     selector: 'app-common-scorecard-top',
     templateUrl: './common-scorecard-top.component.html',
-    standalone: true,
     imports: [OnlineNavComponent, CommonScorecardComponent]
 })
 export class CommonScorecardTopComponent implements OnInit {

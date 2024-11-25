@@ -8,7 +8,6 @@ import { CommonDialogComponent } from '../../dialogs/common-dialog/common-dialog
 @Component({
     selector: 'app-update-whs-dialog',
     templateUrl: './update-whs-dialog.component.html',
-    standalone: true,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, CommonDialogComponent, MatDialogActions, MatButton]
 })
 export class UpdateWhsDialogComponent extends DialogBaseComponent {

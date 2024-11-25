@@ -14,7 +14,6 @@ import { CycleDetailsComponent } from '../cycle-details/cycle-details.component'
 @Component({
     selector: 'app-cycles',
     templateUrl: './cycles.component.html',
-    standalone: true,
     imports: [RouterLink, FaIconComponent],
     providers: [CycleHttpService]
 })

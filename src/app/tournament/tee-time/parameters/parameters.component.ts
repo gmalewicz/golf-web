@@ -8,11 +8,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { TeeTimeParameters } from '@/tournament/_models';
 
 @Component({
-  selector: 'app-parameters',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatSelectModule, MatInputModule],
-  templateUrl: './parameters.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-parameters',
+    imports: [ReactiveFormsModule, MatSelectModule, MatInputModule],
+    templateUrl: './parameters.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParametersComponent implements OnInit, OnDestroy {
 
