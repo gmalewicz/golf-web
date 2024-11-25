@@ -17,8 +17,7 @@ import { AddRoundComponent } from '../add-round/add-round.component';
     selector: 'app-tournaments',
     imports: [RouterModule,
         FontAwesomeModule,
-        CommonModule,
-        TournamentResultsComponent],
+        CommonModule],
     templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {
