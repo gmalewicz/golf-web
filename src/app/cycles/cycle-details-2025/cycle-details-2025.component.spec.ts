@@ -18,7 +18,7 @@ import { of } from 'rxjs';
 import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
 
-describe('CycleDetailsComponent', () => {
+describe('CycleDetails2025Component', () => {
   let component: CycleDetails2025Component;
   let fixture: ComponentFixture<CycleDetails2025Component>;
 

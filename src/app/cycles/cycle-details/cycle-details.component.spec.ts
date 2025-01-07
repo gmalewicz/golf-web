@@ -75,7 +75,11 @@ describe('CycleDetailsComponent', () => {
     history.pushState({
       data: {
         cycle: {
-          id: 1, name: 'Test tournament 1', status: false, rule: 0,
+          id: 1, 
+          name: 'Test tournament 1', 
+          status: false, 
+          version: 0,
+          bestRounds: 0,
           player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
         }
       }

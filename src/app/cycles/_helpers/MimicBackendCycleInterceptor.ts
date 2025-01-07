@@ -54,7 +54,7 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.startsWith('api') && (req.method === 'GET')) {
+    } else if (req.url.startsWith('api/_tournament/livescore/get_livescore') && (req.method === 'GET')) {
 
       return new Observable(observer => {
         observer.next(new HttpResponse<unknown>({body:
@@ -66,6 +66,23 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
             hcp: 33.8
           }]}
 
+        , status: 200}));
+        observer.complete();
+      });
+    } else if (req.url.startsWith('api/_tournament/tournament/get_tournament') && (req.method === 'GET')) {
+
+      return new Observable(observer => {
+        observer.next(new HttpResponse<unknown>({body:
+
+          { tournament: {
+            
+              classifications: [
+                {
+                  name: 'HCP 1'
+                }
+              ]
+            } 
+          }
         , status: 200}));
         observer.complete();
       });
