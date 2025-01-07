@@ -9,6 +9,9 @@ export interface Cycle {
   // if not 0: number of best rounds from cycle to be included in the result
   bestRounds: number;
   maxWhs: number;
+  // 0 - cycle rules up to 2024, 
+  // 1 - cycle from 2025
+  version?: number;
 }
 
 export const CycleStatus = {

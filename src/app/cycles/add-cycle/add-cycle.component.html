@@ -61,6 +61,24 @@
                 </div>
               }
             </div>
+            <div class="form-group col">
+              <label for="version" i18n="@@addCycle-Version">Cycle version</label>
+              <input type="text" formControlName="version" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.version.errors }" />
+              @if (submitted && f.version.errors) {
+                <div class="invalid-feedback">
+                  @if (f.version.errors.required) {
+                    <div i18n="@@addCycle-VersionReq">Version must be provided</div>
+                  }
+                  @if (f.version.errors.min) {
+                    <div i18n="@@addCycle-VersionGreter">Min version is 0 - rules up to end of 2024</div>
+                  }
+                  @if (f.version.errors.max) {
+                    <div i18n="@@addCycle-VersionLower">Max version is 1 - rules starting from 2025</div>
+                  }
+                </div>
+              }
+            </div>
             <div class="form-group col golf-margin-top">
               <button [disabled]="loading" class="btn btn-success">
                 @if (loading) {

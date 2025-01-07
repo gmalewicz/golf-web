@@ -1,0 +1,83 @@
+
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
+  <div>
+    <h2>{{ cycle.name }}</h2>
+    <ul class="nav nav-tabs" id="myTab">
+      <li class="nav-item">
+        <button class="nav-link active" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button"
+        role="tab" aria-controls="results" aria-selected="true" i18n="@@cycleDetails-results">Results</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="tournaments-tab" data-bs-toggle="tab" data-bs-target="#tournaments" type="button"
+        role="tab" aria-controls="tournaments" aria-selected="false" i18n="@@cycleDetails-tour">Tournaments</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="results" role="tabpanel" aria-labelledby="results-tab">
+        <app-cycle-results [cycle]='cycle' [cycleResults]='cycleResults' [cycleTournaments]='cycleTournaments'></app-cycle-results>
+      </div>
+      <div class="tab-pane fade" id="tournaments" role="tabpanel" aria-labelledby="tournaments-tab">
+        <app-cycle-tournament [cycle]='cycle' [cycleTournaments]='cycleTournaments'></app-cycle-tournament>
+      </div>
+    </div>
+    <div>
+      <br />
+      <span>
+        <button type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/cycles" i18n="@@cycleDetails-cancel">
+          Cancel
+        </button>
+      </span>
+      @if (authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN) {
+        <span>
+          &nbsp;
+          <button type="button" class="btn btn-success add golf-margin-bottom-6" (click)="addTournament()">
+            @if (loadingAddTour) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@cycleDetails-add">Add tournament</span>
+          </button>
+        </span>
+      }
+      @if (authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN) {
+        <span>
+          &nbsp;
+          <button type="button" class="btn btn-success cls golf-margin-bottom-6" (click)="closeCycle()">
+            @if (loadingClose) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@cycleDetails-close">Close cycle</span>
+          </button>
+        </span>
+      }
+      @if (authenticationService.playerRole.includes('ADMIN') && cycle.status === statusConst.STATUS_OPEN && cycleTournaments.length > 0) {
+        <span>
+          &nbsp;
+          <button type="button" class="btn btn-success lst golf-margin-bottom-6" (click)="deleteLast()">
+            @if (loadingDeleteTour) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@cycleDetails-deletetLast">Delete last tournament</span>
+          </button>
+        </span>
+      }
+      @if (authenticationService.playerRole.includes('ADMIN')) {
+        <span>
+          &nbsp;
+          <button type="button" class="golf-margin-bottom-6 btn btn-success del2" (click)="deleteCycle()">
+            @if (loadingDeleteCycle) {
+              <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            <span i18n="@@cycleDetails-delCycle">Delete cycle</span>
+          </button>
+        </span>
+      }
+    </div>
+  </div>
+}
+
+
