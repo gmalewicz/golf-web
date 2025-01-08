@@ -77,7 +77,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
               const name: string = element.name;
 
-              if (name.includes('HCP') && name.match('1|2|3')) {
+              if (name.includes('HCP') && /[123]/.exec(name)) {
                 classificationsIds.push(element.id);
               }
             });

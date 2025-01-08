@@ -4344,6 +4344,46 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="addCycle-Version" datatype="html">
+        <source>Cycle version</source>
+        <target>Wersja cyklu</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-VersionReq" datatype="html">
+        <source>Version must be provided</source>
+        <target>Wersja cyklu musi być podana</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-VersionGreter" datatype="html">
+        <source>Min version is 0 - rules up to end of 2024</source>
+        <target>Min wersja cyklu 0 - zaady do końca 2024</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="addCycle-VersionLower" datatype="html">
+        <source>Max version is 1 - rules starting from 2025</source>
+        <target>Max wersja cyklu 1 - zaady od 2025</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cycleDetails-tourAddedFailure" datatype="html">
+        <source>Adding tournament to cycle failed</source>
+        <target>Nie można dodać turnieju</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

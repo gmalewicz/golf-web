@@ -29,7 +29,7 @@ describe('CycleDetails2025Component', () => {
             afterClosed: () => of({
 
               name: 'test',
-              rounds: 1,
+              rounds: 2,
               bestOd: false,
               tournamentNo: 60
             }),
