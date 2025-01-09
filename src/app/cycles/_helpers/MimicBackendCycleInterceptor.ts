@@ -54,7 +54,7 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.startsWith('api') && (req.method === 'GET')) {
+    } else if (req.url.startsWith('api/_tournament/livescore/get_livescore') && (req.method === 'GET')) {
 
       return new Observable(observer => {
         observer.next(new HttpResponse<unknown>({body:
@@ -66,6 +66,49 @@ export class MimicBackendCycleInterceptor implements HttpInterceptor{
             hcp: 33.8
           }]}
 
+        , status: 200}));
+        observer.complete();
+      });
+    } else if (req.url.startsWith('api/_tournament/tournament/get_tournament') && (req.method === 'GET')) {
+
+      return new Observable(observer => {
+        observer.next(new HttpResponse<unknown>({body:
+
+          { tournament: {
+            
+              classifications: [
+                {
+                  name: 'HCP 1'
+                }
+              ]
+            } 
+          }
+        , status: 200}));
+        observer.complete();
+      });
+    } else if (req.url.startsWith('api/_tournament/scorecard/get_scorecard') && (req.method === 'GET')) {
+
+      return new Observable(observer => {
+        observer.next(new HttpResponse<unknown>({body:
+
+          { scorecard: {
+              rounds: [
+                {
+                  sum: {strokes: "92"},
+                  in: {strokes: "36"},
+                  holes_in: [{strokes: "10"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "6"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}],
+                  holes_out: [{strokes: "10"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "6"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}],
+                },
+                {
+                  sum: {strokes: "92"},
+                  in: {strokes: "36"},
+                  holes_in: [{strokes: "10"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "6"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}],
+                  holes_out: [{strokes: "10"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}, {strokes: "6"}, {strokes: "5"}, {strokes: "5"}, {strokes: "5"}],
+                }
+              ]
+              
+            } 
+          }
         , status: 200}));
         observer.complete();
       });

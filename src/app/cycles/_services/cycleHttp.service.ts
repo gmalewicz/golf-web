@@ -28,9 +28,9 @@ export class CycleHttpService {
 
   // gets eagle results
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getEagleResults(tournamentNo: number): Observable<any> {
+  getEagleStbResults(tournamentNo: number, classification: number): Observable<any> {
 
-    return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=0');
+    return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=' + classification);
   }
 
   // push eagle results for calculation
@@ -61,6 +61,18 @@ export class CycleHttpService {
   deleteCycle(cycleId: number): Observable<void> {
 
     return this.http.delete<void>('rest/Cycle/' + cycleId);
+  }
+
+  // gets eagle tournament
+  getEagleTournament(tournamentNo: number): Observable<any> {
+
+    return this.http.get('api/_tournament/tournament/get_tournament?id=' + tournamentNo);
+  }
+
+  // gets eagle tournament
+  getScoreCard(playerNo: number): Observable<any> {
+
+    return this.http.get('api/_tournament/scorecard/get_scorecard?player_id=' + playerNo);
   }
 }
 

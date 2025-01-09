@@ -37,7 +37,9 @@ export class AddCycleComponent implements OnInit {
       this.addCycleForm = this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         bestRounds: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
-        maxWhs: ['54.0', [Validators.required,  Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'), Validators.min(-5), Validators.max(54)]]
+        maxWhs: ['54.0', [Validators.required,  Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'), Validators.min(-5), Validators.max(54)]],
+        // 0 - cycle rules up to 2024, 1 - cycle from 2025
+        version: [1, [Validators.required, Validators.min(0), Validators.max(1)]]
       });
 
       this.submitted = false;

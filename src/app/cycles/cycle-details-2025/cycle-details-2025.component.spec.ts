@@ -1,6 +1,6 @@
-import { CycleStatus } from './../_models/cycle';
-import { CycleTournamentComponent } from './../cycle-tournament/cycle-tournament.component';
-import { CycleResultsComponent } from './../cycle-results/cycle-results.component';
+import { CycleStatus } from '../_models/cycle';
+import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.component';
+import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
 import { routing } from '@/app.routing';
 import { alertServiceStub, authenticationServiceAdminStub, MyRouterStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
@@ -10,7 +10,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
 import { CycleHttpService } from '../_services/cycleHttp.service';
-import { CycleDetailsComponent } from './cycle-details.component';
+import { CycleDetails2025Component } from './cycle-details-2025.component';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,9 +18,9 @@ import { of } from 'rxjs';
 import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
 
-describe('CycleDetailsComponent', () => {
-  let component: CycleDetailsComponent;
-  let fixture: ComponentFixture<CycleDetailsComponent>;
+describe('CycleDetails2025Component', () => {
+  let component: CycleDetails2025Component;
+  let fixture: ComponentFixture<CycleDetails2025Component>;
 
   class MatDialogMock {
 
@@ -29,7 +29,7 @@ describe('CycleDetailsComponent', () => {
             afterClosed: () => of({
 
               name: 'test',
-              rounds: 1,
+              rounds: 2,
               bestOd: false,
               tournamentNo: 60
             }),
@@ -44,7 +44,7 @@ describe('CycleDetailsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        CycleDetailsComponent, CycleResultsComponent, CycleTournamentComponent
+        CycleDetails2025Component, CycleResultsComponent, CycleTournamentComponent
     ],
     providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceAdminStub },
@@ -61,7 +61,7 @@ describe('CycleDetailsComponent', () => {
   }));
 
   it('should create not initialized', () => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
+    fixture = TestBed.createComponent(CycleDetails2025Component);
     component = fixture.componentInstance;
     history.pushState({
       data: undefined
@@ -71,15 +71,11 @@ describe('CycleDetailsComponent', () => {
   });
 
   it('should add tournament to cycle',  fakeAsync(() => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
+    fixture = TestBed.createComponent(CycleDetails2025Component);
     history.pushState({
       data: {
         cycle: {
-          id: 1, 
-          name: 'Test tournament 1', 
-          status: false, 
-          version: 0,
-          bestRounds: 0,
+          id: 1, name: 'Test tournament 1', status: false, rule: 0,
           player: { id: 1, nick: 'golfer', sex: false, whs: 38.4 }
         }
       }
@@ -96,7 +92,7 @@ describe('CycleDetailsComponent', () => {
   }));
 
   it('should delete cycle',  fakeAsync(() => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
+    fixture = TestBed.createComponent(CycleDetails2025Component);
     history.pushState({
       data: {
         cycle: {
@@ -116,7 +112,7 @@ describe('CycleDetailsComponent', () => {
   }));
 
   it('should close cycle',  fakeAsync(() => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
+    fixture = TestBed.createComponent(CycleDetails2025Component);
     history.pushState({
       data: {
         cycle: {
@@ -136,7 +132,7 @@ describe('CycleDetailsComponent', () => {
   }));
 
   it('should delete last tournament',  fakeAsync(() => {
-    fixture = TestBed.createComponent(CycleDetailsComponent);
+    fixture = TestBed.createComponent(CycleDetails2025Component);
     history.pushState({
       data: {
         cycle: {

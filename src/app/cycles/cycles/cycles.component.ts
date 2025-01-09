@@ -9,6 +9,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { AddCycleComponent } from '../add-cycle/add-cycle.component';
 import { CycleDetailsComponent } from '../cycle-details/cycle-details.component';
+import { CycleDetails2025Component } from '../cycle-details-2025/cycle-details-2025.component';
 
 
 @Component({
@@ -58,5 +59,5 @@ export const cyclesRoutes: Routes = [
   { path: '', component: CyclesComponent, canActivate: [AuthGuard] },
   { path: 'addCycle', component: AddCycleComponent, canActivate: [AuthGuard] },
   { path: 'cycleDetails', component: CycleDetailsComponent, canActivate: [AuthGuard] },
-
+  { path: 'cycleDetails2025', component: CycleDetails2025Component, canActivate: [AuthGuard] },
 ];

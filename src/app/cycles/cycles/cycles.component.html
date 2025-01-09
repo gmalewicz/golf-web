@@ -21,9 +21,15 @@
         @for (cycle of cycles; track cycle) {
           <tr>
             <td>
-              <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
-                <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
-              </a>
+              @if (cycle.version == 0) {
+                <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              } @else {
+                <a href="#"  routerLink ="cycleDetails2025" [state]="{data: {cycle: cycle}}">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              }
             </td>
             <td>{{ cycle.name }}</td>
             @if (cycle.bestRounds === 0) {
