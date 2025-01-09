@@ -4,8 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { KeyValuePipe } from '@angular/common';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { OnlineRoundComponent } from '../online-round/online-round.component';
 import { OnlineScoreCardComponent } from '../online-score-card/online-score-card.component';
