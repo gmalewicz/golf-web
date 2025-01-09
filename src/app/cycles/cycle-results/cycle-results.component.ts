@@ -1,6 +1,6 @@
 import { CycleTournament } from './../_models/cycleTournament';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnInit, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
@@ -12,8 +12,7 @@ import { CycleResult } from '../_models/cycleResult';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: []
 })
-export class CycleResultsComponent implements OnInit {
-
+export class CycleResultsComponent implements OnInit, OnChanges {
 
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();
@@ -31,7 +30,13 @@ export class CycleResultsComponent implements OnInit {
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
-      this.rounds = [];
+      
+      this.display = true;
+    }
+  }
+
+  ngOnChanges(): void {
+    this.rounds = [];
       this.names = [];
       if (this.cycleTournaments().length > 0) {
 
@@ -46,9 +51,8 @@ export class CycleResultsComponent implements OnInit {
         });
 
       }
-      this.display = true;
-    }
   }
+
 
   // helper function to provide verious arrays for html
   counter(i: number) {

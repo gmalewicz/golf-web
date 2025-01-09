@@ -122,7 +122,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
           // merge scorcards with rest of data
           mergeMap((scorecards: any[]) => {
 
-            if (scorecards === undefined && resultData.rounds > 1) {
+            if (scorecards === undefined && (resultData === undefined || resultData.rounds > 1)) {
               return Promise.resolve(undefined);
             } else if (loadedReareEagleResultSet === undefined) { 
               return Promise.resolve(undefined);
@@ -170,9 +170,10 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
     .subscribe((status: any) => {
       if (status != undefined) {
         this.alertService.success($localize`:@@cycleDetails-tourAdded:Cycle tournamnet successfully added`, false);
-      } else {
+      } else if (resultData !== undefined) {
         this.alertService.error($localize`:@@cycleDetails-tourAddedFailure:Adding tournament to cycle failed`, false);
       }
+
       this.init();
     });
   }
@@ -188,6 +189,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
       eagleResultSet.items.push(eagleResult);
     })
   }
+
   private processMultiRoundTournament(eagleResultSet: EagleResultSet, reareEagleResultSet: any): void {  
 
     // perepare r for each player
@@ -196,24 +198,29 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
     // resolve ties for the first round
     reareEagleResultSet.slice(0, 3).forEach(set => this.resolveTies(set.items, 0));
 
-    reareEagleResultSet.forEach(set => set.items.slice(0, this.grandPrixPoints.length).forEach((item, index) => item.grandPrix[0]= this.grandPrixPoints[index]));
+    reareEagleResultSet.forEach(set => set.items.forEach((item, index) => item.grandPrix[0]= this.grandPrixPoints[index]));
 
     // resolve ties for the second round
 
     reareEagleResultSet.slice(0, 3).forEach(set => this.resolveTies(set.items, 1));
 
-    reareEagleResultSet.forEach(set => set.items.slice(0, this.grandPrixPoints.length).forEach((item, index) => item.grandPrix[1]= this.grandPrixPoints[index]));
+    reareEagleResultSet.forEach(set => set.items.forEach((item, index) => item.grandPrix[1]= this.grandPrixPoints[index]));
 
+  
     reareEagleResultSet.forEach((element) => {
 
-      element.items.slice(0, this.grandPrixPoints.length).forEach((item, index) => {
+      element.items.forEach((item, index) => {
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,
           whs: item.hcp,
           r: item.grandPrix
-        };
-        eagleResultSet.items.push(eagleResult);
+        };;
+
+        if (item.grandPrix[0] !== undefined || item.grandPrix[1] !== undefined) {
+          eagleResultSet.items.push(eagleResult);
+        }
+    
       });
     });
   }
@@ -255,5 +262,6 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
                          a.tieArray[round][3] - b.tieArray[round][3] ||
                          a.tieArray[round][4] - b.tieArray[round][4] ||
                          a.tieArray[round][5] - b.tieArray[round][5]);
+
   };
 }

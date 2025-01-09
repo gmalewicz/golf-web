@@ -42,7 +42,6 @@ export abstract class CycleDetailsBase  {
       this.cycle = history.state.data.cycle;
       combineLatest([ this.cycleHttpService.getCycleResults(this.cycle.id),
         this.cycleHttpService.getCycleTournaments(this.cycle.id)]).subscribe(([retCycleResults, retCycleTournamnets]) => {
-
           this.cycle = history.state.data.cycle;
           this.cycleResults = retCycleResults;
           this.cycleTournaments = retCycleTournamnets;
