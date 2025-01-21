@@ -12,7 +12,9 @@
     </mat-form-field>
 
     <mat-form-field style="width: 250px;">
-      <input matInput i18n-placeholder="@@addTournamentDialog-NoOfRounds" placeholder="Number of rounds" formControlName="rounds"/>
+      
+
+      <input matInput type="number" i18n-placeholder="@@addTournamentDialog-NoOfRounds" placeholder="Number of rounds" formControlName="rounds"/>
       @if (f.rounds.errors && f.rounds.errors.required) {
         <mat-error i18n="@@addTournamentDialog-NoRndsReq">No. of rounds is required</mat-error>
       }
@@ -30,7 +32,7 @@
     <br/>
 
     <mat-form-field style="width: 250px;">
-      <input matInput i18n-placeholder="@@addTournamentDialog-TourNo" placeholder="Tournament no." formControlName="tournamentNo"/>
+      <input matInput type="number" i18n-placeholder="@@addTournamentDialog-TourNo" placeholder="Tournament no." formControlName="tournamentNo"/>
       @if (f.tournamentNo.errors && f.tournamentNo.errors.required) {
         <mat-error i18n="@@addTournamentDialog-TourNoReq">Tournament no. is required</mat-error>
       }

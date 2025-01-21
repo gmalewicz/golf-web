@@ -11,12 +11,13 @@ import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.c
 import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
 import { CycleDetailsBase } from '../base/cycle-details-base';
 import { combineLatest, Observable } from 'rxjs';
+import { CycleResultsStrokePlayComponent } from '../cycle-results-stroke-play/cycle-results-stroke-play.component';
 
 
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details-2025.component.html',
-    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink],
+    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink, CycleResultsStrokePlayComponent],
     providers: [CycleHttpService]
 })
 export class CycleDetails2025Component extends CycleDetailsBase implements OnInit {
@@ -41,7 +42,8 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
     const dialogConfig = new MatDialogConfig();
     let resultData: any;
-    let loadedReareEagleResultSet: any[]
+    let loadedReareEagleResultSet: any[];
+    let loadedStrokePlayResultSet: any;
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -91,11 +93,14 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
               return Promise.resolve(undefined);
             }
 
-            const calls: Observable<any>[] = Array(classificationsIds.length);
-            classificationsIds.forEach((element, index) => {
-              calls[index] = this.cycleHttpService.getEagleStbResults(resultData.tournamentNo, element);
+            const calls: Observable<any>[] = [];
+            classificationsIds.forEach(element => {
+              calls.push(this.cycleHttpService.getEagleStbResults(resultData.tournamentNo, element));
             });
 
+            // grab stroke play category
+            calls.push(this.cycleHttpService.getStrokePlay(resultData.tournamentNo));
+            
             return combineLatest(calls);
           }),
           // load scorecards for each player in case of multi round tournament
@@ -104,11 +109,14 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
               return Promise.resolve(undefined);
             }
 
-            loadedReareEagleResultSet = reareEagleResultSet;
+            loadedReareEagleResultSet = reareEagleResultSet.slice(0, reareEagleResultSet.length - 1);
+            loadedStrokePlayResultSet = reareEagleResultSet[reareEagleResultSet.length - 1];
 
-            if (resultData.rounds === 1) {
+            // for single round tournament the last one is stroke play category
+            if (resultData.rounds === 1) {  
               return Promise.resolve(null);
-            }
+            } 
+
             const calls: Observable<any>[] = Array();
             loadedReareEagleResultSet.forEach(element => {
               element.items.forEach(item => {
@@ -156,13 +164,16 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
               cycle: this.cycle,
             };
 
-            if (resultData.rounds === '1') {
+            if (resultData.rounds === 1) {
               reareEagleResultSet.forEach(element => {
                   this.processSingleRoundTournament(element, eagleResultSet);           
               });
             } else {
               this.processMultiRoundTournament(eagleResultSet, reareEagleResultSet);
             }
+
+            // create the second series for stroke play category
+            this.processStrokePlaySeries(loadedStrokePlayResultSet, eagleResultSet);
 
             return this.cycleHttpService.addCycleTournament(eagleResultSet);
           }),
@@ -183,11 +194,34 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
       const eagleResult: EagleResult = {
         firstName: item.first_name,
         lastName: item.last_name,
-        whs: item.hcp,
-        r: [this.grandPrixPoints[index],0,0,0]
+        whs: item.hcp ? item.hcp : 0,
+        r: [this.grandPrixPoints[index],0,0,0],
+        series: 1
       };
+
+      
+
+
       eagleResultSet.items.push(eagleResult);
     })
+  }
+
+  private processStrokePlaySeries(element: any, eagleResultSet: EagleResultSet): void {
+
+      element.items.forEach( item => {
+        // skip players without results
+        if (item.sum === null || item.sum === '0' || item.sum === 0) {
+          return;
+        }
+        const eagleResult: EagleResult = {
+          firstName: item.first_name,
+          lastName: item.last_name,
+          whs: item.hcp ? item.hcp : 0,
+          r: item.r,
+          series: 2
+        };
+        eagleResultSet.items.push(eagleResult);
+      });   
   }
 
   private processMultiRoundTournament(eagleResultSet: EagleResultSet, reareEagleResultSet: any): void {  
@@ -213,8 +247,9 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,
-          whs: item.hcp,
-          r: item.grandPrix
+          whs: item.hcp ? item.hcp : 0,
+          r: item.grandPrix,
+          series: 1
         };;
 
         if (item.grandPrix[0] !== undefined || item.grandPrix[1] !== undefined) {

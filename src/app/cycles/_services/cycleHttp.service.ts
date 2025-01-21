@@ -69,10 +69,16 @@ export class CycleHttpService {
     return this.http.get('api/_tournament/tournament/get_tournament?id=' + tournamentNo);
   }
 
-  // gets eagle tournament
+  // gets eagle scorecard
   getScoreCard(playerNo: number): Observable<any> {
 
     return this.http.get('api/_tournament/scorecard/get_scorecard?player_id=' + playerNo);
+  }
+
+  // gets eagle main category (stroke play)
+  getStrokePlay(tournamentNo: number): Observable<any> {
+
+    return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=sp_brutto&classification=0');
   }
 }
 

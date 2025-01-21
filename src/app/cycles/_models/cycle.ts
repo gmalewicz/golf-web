@@ -11,7 +11,8 @@ export interface Cycle {
   maxWhs: number;
   // 0 - cycle rules up to 2024, 
   // 1 - cycle from 2025
-  version?: number;
+  version: number;
+  series: number;
 }
 
 export const CycleStatus = {
