@@ -10,7 +10,11 @@
     <ul class="nav nav-tabs" id="myTab">
       <li class="nav-item">
         <button class="nav-link active" id="results-tab" data-bs-toggle="tab" data-bs-target="#results" type="button"
-        role="tab" aria-controls="results" aria-selected="true" i18n="@@cycleDetails-results">Results</button>
+        role="tab" aria-controls="results" aria-selected="true">Grand Prix Stableford</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="stroke-tab" data-bs-toggle="tab" data-bs-target="#stroke" type="button"
+        role="tab" aria-controls="stroke" aria-selected="false">Grand Prix Strokes</button>
       </li>
       <li class="nav-item">
         <button class="nav-link" id="tournaments-tab" data-bs-toggle="tab" data-bs-target="#tournaments" type="button"
@@ -23,6 +27,9 @@
       </div>
       <div class="tab-pane fade" id="tournaments" role="tabpanel" aria-labelledby="tournaments-tab">
         <app-cycle-tournament [cycle]='cycle' [cycleTournaments]='cycleTournaments'></app-cycle-tournament>
+      </div>
+      <div class="tab-pane fade" id="stroke" role="tabpanel" aria-labelledby="stroke-tab">
+        <app-cycle-results-stroke-play [cycle]='cycle' [cycleResults]='cycleResults' [cycleTournaments]='cycleTournaments'></app-cycle-results-stroke-play>
       </div>
     </div>
     <div>

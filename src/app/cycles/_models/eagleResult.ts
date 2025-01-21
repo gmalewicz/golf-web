@@ -5,6 +5,7 @@ export interface EagleResult {
   lastName: string;
   whs: number;
   r: number[];
+  series: number;
 }
 
 export interface EagleResultSet {

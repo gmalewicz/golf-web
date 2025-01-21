@@ -1,28 +1,34 @@
 <br/>
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <table class="table table-striped" aria-describedby="Tournament list">
-    <thead>
-      <tr>
-        <th id="noh" i18n="@@cycleTour-no">No.</th>
-        <th id="nameh" i18n="@@cycleTour-name">Name</th>
-        <th id="roundsh" i18n="@@cycleTour-rnd">Rounds</th>
-        <th id="bRoundsh" i18n="@@cycleTour-bestRnd">Best Round</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cycleTournament of cycleTournaments(), let idx = index">
-        <td id="no">{{ idx + 1 }}</td>
-        <td id="name">{{ cycleTournament.name }}</td>
-        <td id="rounds">{{ cycleTournament.rounds }}</td>
-        <td id="bRounds" *ngIf="cycleTournament.bestOf">Yes</td>
-        <td id="bRounds"*ngIf="!cycleTournament.bestOf">No</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (display) {
+  <div>
+    <div class="table-responsive">
+      <table class="table table-striped" aria-describedby="Tournament list">
+        <thead>
+          <tr>
+            <th id="noh" i18n="@@cycleTour-no">No.</th>
+            <th id="nameh" i18n="@@cycleTour-name">Name</th>
+            <th id="roundsh" i18n="@@cycleTour-rnd">Rounds</th>
+            <th id="bRoundsh" i18n="@@cycleTour-bestRnd">Best Round</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cycleTournament of cycleTournaments(), let idx = index">
+            <td id="no">{{ idx + 1 }}</td>
+            <td id="name">{{ cycleTournament.name }}</td>
+            <td id="rounds">{{ cycleTournament.rounds }}</td>
+            <td id="bRounds" *ngIf="cycleTournament.bestOf">Yes</td>
+            <td id="bRounds"*ngIf="!cycleTournament.bestOf">No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
 
 
 

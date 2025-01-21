@@ -69,7 +69,8 @@ export class CycleDetailsComponent extends CycleDetailsBase implements OnInit {
                 firstName: element.first_name,
                 lastName: element.last_name,
                 whs: element.hcp,
-                r: element.r
+                r: element.r,
+                series: 1
               };
 
               eagleResultSet.items.push(eagleResult);

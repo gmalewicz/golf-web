@@ -4,4 +4,6 @@ export interface CycleResult {
   r: number[];
   cycleResult: number;
   name?: string;
+  series: number;
+  played?: number;
 }

@@ -27,13 +27,13 @@
           </tr>
         </thead>
         <tbody>
-          @for (cycleResult of cycleResults(); track cycleResult; let idx = $index) {
-            @if (cycleResult.series === 1) {
+          @for (cycleResult of strokePlayResults; track cycleResult; let idx = $index) {
+            @if (cycleResult.series === 2) {
               <tr >
                 <td id="no">{{ idx + 1 }}</td>
                 <td id="name">{{ cycleResult.name }}</td>
                 @for (i of counter(rounds.length); track i;) {
-                  <td id="r" class="w-5">{{cycleResults()[idx].r[rounds[i]]}}</td>
+                  <td id="r" class="w-5">{{strokePlayResults[idx].r[rounds[i]]}}</td>
                 }
                 <th id="result">{{ cycleResult.cycleResult }}</th>
                 <th class="golf-green" id="total">{{ cycleResult.total }}</th>

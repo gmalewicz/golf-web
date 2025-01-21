@@ -69,6 +69,8 @@ export class AddCycleComponent implements OnInit {
       status: CycleStatus.STATUS_OPEN,
       bestRounds: this.f.bestRounds.value,
       maxWhs: this.f.maxWhs.value,
+      version: this.f.version.value,
+      series: 1,
     };
 
     this.cycleHttpService.addCycle(cycle).pipe(tap(
