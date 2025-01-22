@@ -209,8 +209,9 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
   private processStrokePlaySeries(element: any, eagleResultSet: EagleResultSet): void {
 
       element.items.forEach( item => {
+        
         // skip players without results
-        if (item.sum === null || item.sum === '0' || item.sum === 0) {
+        if (item.r.reduce((a, b) => a + b) === 0) {
           return;
         }
         const eagleResult: EagleResult = {
