@@ -51,7 +51,9 @@ export abstract class CycleDetailsBase  {
     }
   }
 
-  protected sortResults() {};
+  protected sortResults() {
+    // this is intentional
+  };
 
   closeCycle(): void {
 
