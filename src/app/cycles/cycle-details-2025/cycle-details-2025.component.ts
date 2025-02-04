@@ -13,7 +13,6 @@ import { CycleDetailsBase } from '../base/cycle-details-base';
 import { combineLatest, Observable } from 'rxjs';
 import { CycleResultsStrokePlayComponent } from '../cycle-results-stroke-play/cycle-results-stroke-play.component';
 
-
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details-2025.component.html',
@@ -37,6 +36,27 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
     this.init();
   }
+
+  protected sortResults(): void {
+    this.cycleResults.forEach(result => {
+      // first slice is to prevent sorting in place
+      const sortedBestResults: number[] = result.r.slice().sort((a, b) => b - a).slice(0, this.cycle.bestRounds);
+      result.sequence = '';
+      sortedBestResults.forEach(score => {
+        if (score <= 9) {
+          result.sequence += '0' + score;
+        } else {
+          result.sequence += score;
+        }
+      });
+    });
+
+    this.cycleResults.sort((a, b) => a.series - b.series || 
+                         b.cycleResult - a.cycleResult ||
+                         +b.sequence - +a.sequence ||
+                         +a.hcp[a.hcp.length - 1] - +b.hcp[b.hcp.length - 1]);
+
+  };
 
   addTournament(): void {
 

@@ -45,10 +45,13 @@ export abstract class CycleDetailsBase  {
           this.cycle = history.state.data.cycle;
           this.cycleResults = retCycleResults;
           this.cycleTournaments = retCycleTournamnets;
+          this.sortResults();
           this.display = true;
       });
     }
   }
+
+  protected sortResults() {};
 
   closeCycle(): void {
 

@@ -33,7 +33,6 @@ export class CycleDetailsComponent extends CycleDetailsBase implements OnInit {
 
     this.init();
   }
-
   addTournament(): void {
 
     const dialogConfig = new MatDialogConfig();
