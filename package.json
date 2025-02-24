@@ -59,7 +59,7 @@
     "@angular/localize": "^19.0.0",
     "@types/jasmine": "^5.1.4",
     "@types/jasminewd2": "^2.0.13",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.13.5",
     "@types/sockjs-client": "^1.5.4",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
