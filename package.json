@@ -34,7 +34,7 @@
     "chart.js": "^4.4.6",
     "cypress": "^13.16.0",
     "jquery": "^3.7.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^3.0.0",
     "net": "^1.0.2",
     "ng-recaptcha": "^13.2.1",
     "ng2-charts": "^6.0.1",
