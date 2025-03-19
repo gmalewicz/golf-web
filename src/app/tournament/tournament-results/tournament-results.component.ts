@@ -7,7 +7,6 @@ import { map, mergeMap, tap } from 'rxjs/operators';
 import { TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { generatePDF } from '@/_helpers/common';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
@@ -37,8 +36,6 @@ export class TournamentResultsComponent implements OnInit {
 
   loadingClose: boolean;
   loadingDelete: boolean;
-  loadingPDF: boolean;
-
 
   @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
@@ -60,7 +57,6 @@ export class TournamentResultsComponent implements OnInit {
 
       this.loadingClose = false;
       this.loadingDelete = false;
-      this.loadingPDF = false;
 
       this.faSearchPlus = faSearchPlus;
       this.faSearchMinus = faSearchMinus;
@@ -215,11 +211,6 @@ export class TournamentResultsComponent implements OnInit {
       this.notificationContainerRef.createComponent(NotificationComponent);
     }
 
-  }
-
-  public displayPDF(name: string): void {
-    this.loadingPDF = true;
-    generatePDF(name, this);
   }
 
   onCancel() {

@@ -148,12 +148,6 @@ describe('TournamentResultsComponent', () => {
     expect(navigationService.teeTimeParameters()).toBeUndefined();
   }));
 
-  it('should displayPDF',  fakeAsync(() => {
-    standardSetup();
-    component.displayPDF("test");
-    expect(component).toBeTruthy();
-  }));
-
   it('should loadComponent 0',  fakeAsync(() => {
     standardSetup();
     component.loadComponent(0);

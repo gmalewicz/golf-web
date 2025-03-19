@@ -104,17 +104,6 @@
       Cancel
     </button>
     &nbsp;
-    @if (selectedTab > 0) {
-      <span>
-        <button type="button" class="btn btn-success" (click)="displayPDF(round.course.name + ' ' + round.roundDate)">
-          @if (loadingPDF) {
-            <span class="spinner-border spinner-border-sm mr-1"></span>
-          }
-          <span>PDF</span>
-        </button>
-        &nbsp;
-      </span>
-    }
     @if (!viewOnly) {
       <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" i18n="@@round-edit">
         Edit
