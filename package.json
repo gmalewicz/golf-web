@@ -28,7 +28,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@popperjs/core": "^2.11.8",
-    "@stomp/rx-stomp": "^2.0.0",
+    "@stomp/rx-stomp": "^2.0.1",
     "@stomp/stompjs": "^7.0.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.8",
