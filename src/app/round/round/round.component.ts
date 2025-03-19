@@ -7,7 +7,6 @@ import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-
 import { tap } from 'rxjs/operators';
 import { calculateCourseHCP, calculateHoleHCP, calculateScoreDifferential, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { combineLatest } from 'rxjs';
-import { generatePDF } from '@/_helpers/common';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
 import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.component';
@@ -33,7 +32,6 @@ export class RoundComponent implements OnInit {
   viewOnly: boolean;
 
   selectedTab: number;
-  loadingPDF: boolean;
 
   constructor(private readonly httpService: HttpService,
               private readonly alertService: AlertService,
@@ -52,7 +50,6 @@ export class RoundComponent implements OnInit {
     } else {
 
       this.loading = false;
-      this.loadingPDF = false;
       this.round = history.state.data.round;
       this.viewOnly = true;
 
@@ -260,11 +257,6 @@ export class RoundComponent implements OnInit {
                                                             pl.roundDetails.whs
                                                             );
     }
-  }
-
-  public displayPDF(name: string): void {
-    this.loadingPDF = true;
-    generatePDF(name, this);
   }
 
   onCancel() {

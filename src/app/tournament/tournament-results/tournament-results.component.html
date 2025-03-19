@@ -292,11 +292,6 @@
       Cancel
     </button>
     &nbsp;
-    <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="displayPDF(navigationService.tournament().name)">
-      <span *ngIf="loadingPDF" class="spinner-border spinner-border-sm mr-1"></span>
-      <span>PDF</span>
-    </button>
-    &nbsp;
     <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
       <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: navigationService.tournament()}}" i18n="@@tourRes-add">
         Add Round
