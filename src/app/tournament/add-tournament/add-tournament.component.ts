@@ -43,6 +43,7 @@ export class AddTournamentComponent implements OnInit {
       bestRounds: ['0', [Validators.required,  Validators.min(0), Validators.max(10)]],
       playHcpMultiplayer: ['1', Validators.required],
       maxPlayHcp: ['54', [Validators.required,  Validators.min(0), Validators.max(54), Validators.pattern('^[0-9]$|^[1-4]\\d$|^5[0-4]$')]],
+      canUpdateHcp: [false],
     });
 
     if (this.authenticationService.currentPlayerValue === null) {
@@ -74,7 +75,8 @@ export class AddTournamentComponent implements OnInit {
       endDate: this.f.endDate.value,
       bestRounds: this.f.bestRounds.value,
       playHcpMultiplayer: this.f.playHcpMultiplayer.value,
-      maxPlayHcp: this.f.maxPlayHcp.value
+      maxPlayHcp: this.f.maxPlayHcp.value,
+      canUpdateHcp: this.f.canUpdateHcp.value
     };
 
     if (tournament.startDate > tournament.endDate) {

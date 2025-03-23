@@ -132,7 +132,8 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
   updateWHS(playerIdx: number) {
 
-    if (this.navigationService.tournamentResults().map(tr => tr.player.id).includes(this.navigationService.tournamentPlayers()[playerIdx].playerId)) {
+    if (!this.navigationService.tournament().canUpdateHcp && 
+        this.navigationService.tournamentResults().map(tr => tr.player.id).includes(this.navigationService.tournamentPlayers()[playerIdx].playerId)) {
       this.alertService.error($localize`:@@tourPlr-delFail:There are results for player. Please remove them first`, false);
       return;
     }

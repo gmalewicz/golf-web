@@ -13,6 +13,7 @@ export interface Tournament {
   status?: boolean,
   playHcpMultiplayer?: number,
   maxPlayHcp?: number
+  canUpdateHcp?: boolean
 }
 
 export const TournamentStatus = {
