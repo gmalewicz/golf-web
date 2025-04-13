@@ -19,6 +19,10 @@
     <button class="nav-link" id="updPlayerRnd-tab" data-bs-toggle="tab" data-bs-target="#updPlrRnd" type="button"
       role="tab" aria-controls="updPlrRnd" aria-selected="false" (click)="loadComponent(4)">Swap Round Player</button>
   </li>
+  <li class="nav-item">
+    <button class="nav-link" id="anonymizeCycleResults-tab" data-bs-toggle="tab" data-bs-target="#anonymizeCycleResults" type="button"
+      role="tab" aria-controls="anonymizeCycleResults" aria-selected="false" (click)="loadComponent(5)">Anonymize Cycle</button>
+  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <p></p>
@@ -34,6 +38,9 @@
     <ng-container #adminContainer></ng-container>
   </div>
   <div class="tab-pane fade" id="updPlrRnd" role="tabpanel" aria-labelledby="updPlayerRnd-tab">
+    <ng-container #adminContainer></ng-container>
+  </div>
+  <div class="tab-pane fade" id="anonymizeCycleResults" role="tabpanel" aria-labelledby="anonymizeCycleResults-tab">
     <ng-container #adminContainer></ng-container>
   </div>
 </div>

@@ -61,6 +61,9 @@ export class AdminComponent implements OnInit {
     } else if (comp === 4) {
       const {UpdPlayerRndComponent} = await import('./upd-player-rnd/upd-player-rnd.component');
       this.adminContainerRef.createComponent(UpdPlayerRndComponent);
+    } else if (comp === 5) {
+      const {AnonymizeCycleComponent} = await import('./anonymize-cycle/anonymize-cycle.component');
+      this.adminContainerRef.createComponent(AnonymizeCycleComponent);
     }
   }
 }

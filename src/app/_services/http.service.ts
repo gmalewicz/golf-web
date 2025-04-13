@@ -172,6 +172,10 @@ export class HttpService {
   deleteEmail(): Observable<void> {
     return this.http.post<void>('rest/DeletePlayerEmail', {});
   }
+
+  anonymizeCycleRsults(cycleId: number): Observable<HttpResponse<null>> {
+    return this.http.patch<HttpResponse<null>>('rest/AnonymizeCycleResults/' + cycleId, {});
+  }
 }
 
 
