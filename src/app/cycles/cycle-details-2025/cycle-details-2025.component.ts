@@ -99,7 +99,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
               const name: string = element.name;
 
-              if (name.includes('HCP') && /[123]/.exec(name)) {
+              if (name.includes('HCP') && /[ABC]/.exec(name)) {
                 classificationsIds.push(element.id);
               }
             });
