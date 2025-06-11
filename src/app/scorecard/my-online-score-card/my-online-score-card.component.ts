@@ -9,6 +9,7 @@ import { OnlineRoundComponent } from '../online-round/online-round.component';
 import { OnlineScoreCardComponent } from '../online-score-card/online-score-card.component';
 import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.component';
 import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.component';
+import { InfoComponent } from '../info/info.component';
 
 @Component({
     selector: 'app-my-online-score-card',
@@ -83,6 +84,7 @@ export const myOnlineScoreCardRouts: Routes = [
   //{ path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
   { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },
+  { path: 'onlineScoreCardInfo', component: InfoComponent, canActivate: [AuthGuard] },
 
 ];
 
