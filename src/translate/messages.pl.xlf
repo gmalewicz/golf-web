@@ -4392,6 +4392,14 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="info-bonus" datatype="html">
+        <source>Bonus strokes</source>
+        <target>Dodatkowe uderzenia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

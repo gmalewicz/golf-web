@@ -18,6 +18,7 @@ import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
+import { calculateCourseHCP, getPlayedCoursePar } from '@/_helpers';
 
 @Component({
     template: '',
@@ -535,5 +536,22 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   refresh() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.ngOnInit();
+  }
+
+  onInfo() {
+    
+    if (!this.onlineRounds[0].matchPlay && this.onlineRounds[0].courseHCP == undefined) {
+      this.onlineRounds.forEach(onlineRound => {
+        onlineRound.courseHCP = calculateCourseHCP(onlineRound.tee.teeType,
+                                                   onlineRound.player.whs,
+                                                   onlineRound.tee.sr,
+                                                   onlineRound.tee.cr,
+                                                   getPlayedCoursePar(this.course.holes,
+                                                                      onlineRound.tee.teeType,
+                                                                      this.course.par));
+      });
+    }
+
+    this.router.navigate(['myScorecard/onlineScoreCardInfo'], {state: {onlineRounds: this.onlineRounds}}).catch(error => console.log(error));
   }
 }

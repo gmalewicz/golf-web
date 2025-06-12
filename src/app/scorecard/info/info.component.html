@@ -1,0 +1,35 @@
+<div class="table-responsive">
+    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Round summary">
+      <thead>
+        <tr>
+          <th id="player" i18n="@@roundSummary-player">Player</th>
+          <th id="whs" i18n="@@roundSummary-whs">HCP</th>
+          @if (onlineRounds[0].matchPlay) {
+            <th id="cBon" i18n="@@info-bonus">Bonus strokes</th>
+          } 
+          @if (!onlineRounds[0].matchPlay) {
+            <th id="cHCP" i18n="@@roundSummary-courseHcp">Course HCP</th>
+          }
+          <th id="cCr">Tee</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (round of onlineRounds; track round) {
+          <tr>
+            <td id="nick">{{round.player.nick}}</td>
+            <td>{{round.player.whs}}</td>
+            <td>{{round.courseHCP}}</td>
+            <td>{{round.tee.tee}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+</div>
+<br />
+<div class="form-group">
+    <button type="button" mat-raised-button color="primary" (click)="onBack()">
+        Back
+    </button>
+</div>
+
+
