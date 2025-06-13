@@ -214,7 +214,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
       const eagleResult: EagleResult = {
         firstName: item.first_name,
         lastName: item.last_name,
-        whs: item.hcp ? item.hcp : 0,
+        whs: item.hcp ?? 0,
         r: [this.grandPrixPoints[index],0,0,0],
         series: 1
       };
@@ -237,7 +237,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,
-          whs: item.hcp ? item.hcp : 0,
+          whs: item.hcp ?? 0,
           r: item.r,
           series: 2
         };
@@ -268,7 +268,7 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,
-          whs: item.hcp ? item.hcp : 0,
+          whs: item.hcp ?? 0,
           r: item.grandPrix,
           series: 1
         };;
