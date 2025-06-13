@@ -1,3 +1,6 @@
+// import our custom theme
+//@use 'golf-theme.scss';
+
 @use '@angular/material' as mat;
 
 // always include only once per project
@@ -14,7 +17,58 @@
 @include mat.app-background();
 
 // import our custom theme
-@import 'golf-theme.scss';
+//@forward 'golf-theme.scss';
+
+//@use '@angular/material' as mat;
+
+$my-palette: (
+  50: #f3e5f5,
+  100: #e1bee7,
+  200: #ce93d8,
+  300: #ba68c8,
+  400: #ab47bc,
+  500: #198754,
+  600: #198754,
+  700: #7b1fa2,
+  800: #6a1b9a,
+  900: #4a148c,
+  A100: #bfe5c7,
+  A200:  #198754,
+  A400: #28a745,
+  A700: #aa00ff,
+  contrast: (
+    50: #f3e5f5,
+  100: #e1bee7,
+  200: #ce93d8,
+  300: #ba68c8,
+  400: #ab47bc,
+  500: white,
+  600: #198754,
+  700: #7b1fa2,
+  800: #6a1b9a,
+  900: #4a148c,
+  A100: #bfe5c7,
+  A200:  #198754,
+  A400: #28a745,
+  A700: #aa00ff
+  )
+);
+
+
+
+$my-primary: mat.m2-define-palette($my-palette, 500);
+$my-accent: mat.m2-define-palette($my-palette, A700, A100, A400);
+
+// The "warn" palette is optional and defaults to red if not specified.
+
+$golf-theme: mat.m2-define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent
+ ),
+ typography: mat.m2-define-typography-config(),
+ density: -1,
+));
 
 // specify theme class eg: <body class="my-theme"> ... </body>
 .golf-theme {

@@ -80,9 +80,7 @@ export class RemoveMatchComponent implements OnInit {
     let match: LeagueMatch =
       this.navigationService.matches().find(match => match.winnerId === this.f.winnerDropDown.value && match.looserId === this.f.looserDropDown.value);
 
-    if (match === undefined) {
-      match = this.navigationService.matches().find(match => match.winnerId === this.f.looserDropDown.value && match.looserId === this.f.winnerDropDown.value);
-    }
+    match = match ?? this.navigationService.matches().find(match => match.winnerId === this.f.looserDropDown.value && match.looserId === this.f.winnerDropDown.value);
 
     if (match === undefined) {
       this.alertService.error($localize`:@@removeMatch-WrongMatch:Match does not exists.`, false);
