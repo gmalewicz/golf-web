@@ -1,6 +1,3 @@
-// import our custom theme
-//@use 'golf-theme.scss';
-
 @use '@angular/material' as mat;
 
 // always include only once per project
@@ -15,11 +12,6 @@
 @include mat.all-component-typographies();
 @include mat.elevation-classes();
 @include mat.app-background();
-
-// import our custom theme
-//@forward 'golf-theme.scss';
-
-//@use '@angular/material' as mat;
 
 $my-palette: (
   50: #f3e5f5,
