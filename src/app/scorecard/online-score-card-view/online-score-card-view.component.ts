@@ -1,6 +1,6 @@
 import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
@@ -10,6 +10,7 @@ import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPRe
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgClass, DecimalPipe } from '@angular/common';
+import { HALF_HOLES } from '../_helpers/constants';
 
 @Component({
     selector: 'app-online-score-card-view',
@@ -194,7 +195,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         // calculate MP result history
         this.mpResultHistory = createMPResultHistory(this.mpScore);
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -273,10 +274,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
 
           // set ball picked up for a player
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= 9) {
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= HALF_HOLES) {
             this.first9ballPickedUp[0] = true;
           }
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > 9) {
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > HALF_HOLES) {
             this.last9ballPickedUp[0] = true;
           }
 
@@ -299,7 +300,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // create pars for first and last 9
         this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0);
         this.last9par = this.onlineRounds[0].course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -362,7 +363,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.onlineRounds = retOnlineRounds;
         // create pars for first and last 9
         this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0);
         this.last9par = this.course.par - this.first9par;
         this.startLisenning();
         this.display = true;
@@ -371,19 +372,18 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   private setBallPickUp(scoreCardAPI: OnlineScoreCard, idx: number) {
 
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= 9) {
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= HALF_HOLES) {
       this.first9ballPickedUp[idx] = true;
     }
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > 9) {
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > HALF_HOLES) {
       this.last9ballPickedUp[idx] = true;
     }
   }
 
 
   // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
+  // signal signal9
+  counter = signal<Array<number>>([...Array(HALF_HOLES).keys()]) 
 
   // process score card received from the web socket
   handleMessage(onlineScoreCard: OnlineScoreCard) {
@@ -450,7 +450,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   private createSummary() {
 
     this.first9par = this.course.holes.map(h => h.par).
-    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+    reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0);
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {
@@ -488,8 +488,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           this.prepareColoursForResults(onlineScoreCard.stroke, this.course.holes[onlineScoreCard.hole - 1].par);
 
         // check if at least for one hole the ball was picked up for each 9
-        this.first9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= 9));
-        this.last9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > 9));
+        this.first9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= HALF_HOLES));
+        this.last9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > HALF_HOLES));
       }
     });
   }
@@ -588,6 +588,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
   highlightHcp(hole: number, player: number) {
+    console.log("executed");
     if (this.holeHCP[player][hole] > 0) {
       return 'highlightHcp';
     }
