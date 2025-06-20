@@ -43,7 +43,7 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   onNext() {
     if (this.roundsNavigationService.rounds().length === this.roundsNavigationService.pageSize()) {
-      this.roundsNavigationService.page.update(value => value++);
+      this.roundsNavigationService.page.update(value => value + 1);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.roundsNavigationService.selectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
@@ -51,7 +51,7 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   onPrevious() {
     if (this.roundsNavigationService.page() > 0) {
-      this.roundsNavigationService.page.update(value => value > 0 ? value : value-- );
+      this.roundsNavigationService.page.update(value => value - 1);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.roundsNavigationService.selectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
