@@ -30,7 +30,7 @@ export class RoundsComponent implements OnInit, OnDestroy {
     this.savedPage = 0;
     this.dispRounds = false;
 
-    if (this.roundsNavigationService.getRounds() === undefined) {
+    if (this.roundsNavigationService.rounds() === undefined) {
       this.getMyRounds();
     } else {
       this.dispRounds = true;
@@ -42,27 +42,27 @@ export class RoundsComponent implements OnInit, OnDestroy {
   }
 
   onNext() {
-    if (this.roundsNavigationService.getRounds().length === this.roundsNavigationService.getPageSize()) {
-      this.roundsNavigationService.increasePage();
+    if (this.roundsNavigationService.rounds().length === this.roundsNavigationService.pageSize()) {
+      this.roundsNavigationService.page.update(value => value++);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      this.roundsNavigationService.getSelectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
+      this.roundsNavigationService.selectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }
 
   onPrevious() {
-    if (this.roundsNavigationService.getPage() > 0) {
-      this.roundsNavigationService.decreasePage();
+    if (this.roundsNavigationService.page() > 0) {
+      this.roundsNavigationService.page.update(value => value > 0 ? value : value-- );
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      this.roundsNavigationService.getSelectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
+      this.roundsNavigationService.selectedTab() === 0 ? this.getMyRounds() : this.getRecentRounds();
     }
   }
 
   private getMyRounds(): void {
     this.dispRounds = false;
-    this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.roundsNavigationService.getPage()).pipe(
+    this.httpService.getRounds(this.authenticationService.currentPlayerValue.id, this.roundsNavigationService.page()).pipe(
       tap(
         r => {
-          this.roundsNavigationService.setRounds(r);
+          this.roundsNavigationService.rounds.set(r);
           this.dispRounds = true;
         })
     ).subscribe();
@@ -70,10 +70,10 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   private getRecentRounds(): void {
     this.dispRounds = false;
-    this.httpService.getRecentRounds(this.roundsNavigationService.getPage()).pipe(
+    this.httpService.getRecentRounds(this.roundsNavigationService.page()).pipe(
       tap(
         r => {
-          this.roundsNavigationService.setRounds(r);
+          this.roundsNavigationService.rounds.set(r);
           this.dispRounds = true;
         })
     ).subscribe();
@@ -81,19 +81,19 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   onTabClick(id: number) {
 
-    this.roundsNavigationService.setSelectedTab(id);
+    this.roundsNavigationService.selectedTab.set(id);
 
-    const tempRounds = this.roundsNavigationService.getRounds();
-    this.roundsNavigationService.setRounds(this.savedRounds);
+    const tempRounds = this.roundsNavigationService.rounds();
+    this.roundsNavigationService.rounds.set(this.savedRounds);
     this.savedRounds = tempRounds;
 
-    const tempPage = this.roundsNavigationService.getPage();
-    this.roundsNavigationService.setPage(this.savedPage);
+    const tempPage = this.roundsNavigationService.page();
+    this.roundsNavigationService.page.set(this.savedPage);
     this.savedPage = tempPage;
 
-    if (this.roundsNavigationService.getSelectedTab() === 1 && this.roundsNavigationService.getRounds() === undefined) {
+    if (this.roundsNavigationService.selectedTab() === 1 && this.roundsNavigationService.rounds() === undefined) {
       this.getRecentRounds();
-    } else if (this.roundsNavigationService.getSelectedTab() === 0 && this.roundsNavigationService.getRounds() === undefined) {
+    } else if (this.roundsNavigationService.selectedTab() === 0 && this.roundsNavigationService.rounds() === undefined) {
       this.getMyRounds();
     }
   }

@@ -6,7 +6,7 @@
       <th id="date" i18n="@@listRounds-date">Date</th>
       <th id="teeTime">Tee Time</th>
       <th id="course" i18n="@@listRounds-course">Course</th>
-      @if (roundsNavigationService.getSelectedTab() === 1) {
+      @if (roundsNavigationService.selectedTab() === 1) {
         <th id="players" i18n="@@listRounds-players">Players</th>
       }
       <th id="type" i18n="@@listRounds-type">Type</th>
@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (round of roundsNavigationService.getRounds(); track round) {
+    @for (round of roundsNavigationService.rounds(); track round) {
       <tr>
         <td>
           <a href="#" routerLink ="/round" [state]="{data: {round: round, back: true}}">
@@ -26,7 +26,7 @@
         <td>{{ round.roundDate | date: "mediumDate" }}</td>
         <td>{{ round.roundDate | date: "H:mm"}}</td>
         <td>{{ round.course.name }}</td>
-        @if (roundsNavigationService.getSelectedTab() === 1) {
+        @if (roundsNavigationService.selectedTab() === 1) {
           <td>
             @for (player of round.player; track player) {
               <span>
