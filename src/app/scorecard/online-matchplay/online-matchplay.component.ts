@@ -11,17 +11,19 @@ import { LocationStrategy, NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-online-matchplay',
     templateUrl: './online-matchplay.component.html',
     styleUrls: ['./online-matchplay.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton],
+    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe],
     providers: [NavigationService]
 })
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
 
   holeHCP: number[][];
+  highlightHCP: string[][];
   // -2 not set
   // -1 first player won
   // 0 tie
@@ -48,6 +50,7 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
     this.mpScore = new Array(18).fill(-2);
     this.mpResult = new Array(2);
+    this.highlightHCP = new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit'));
     super.ngOnInit();
   }
 
@@ -101,6 +104,9 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
                       this.onlineRounds[1].courseHCP,
                       this.holeHCP,
                       this.course);
+    
+    this.highlightHCP[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
+    this.highlightHCP[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
 
   }
 
@@ -126,12 +132,5 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
       }
       this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
     }
-  }
-
-  highlightHcp(hole: number, player: number) {
-    if (this.holeHCP[player][hole] > 0) {
-      return 'highlightHcp';
-    }
-    return 'no-edit';
   }
 }

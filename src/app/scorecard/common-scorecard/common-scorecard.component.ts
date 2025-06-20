@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgTemplateOutlet, NgClass } from '@angular/common';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-common-scorecard',
@@ -26,7 +27,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
         <span class="supsub">
           <span class="superscript">
             <span class="dotSeparator"></span>
-            @for (index of counter(curHolePutts()[0]); track index) {
+            @for (index of curHolePutts()[0] | range; track index) {
               <span>
                 <span class="blackDot"></span>
                 <span class="dotSeparator"></span>
@@ -35,7 +36,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
           </span>
           <span class="subscript">
             <span class="dotSeparator"></span>
-            @for (index of counter(curHolePenalties()[0]); track index) {
+            @for (index of curHolePenalties()[0] | range; track index) {
               <span>
                 <span class="redDot"></span>
                 <span class="dotSeparator"></span>
@@ -55,7 +56,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
           <span class="supsub">
             <span class="superscript">
               <span class="dotSeparator"></span>
-              @for (index of counter(curHolePutts()[1]); track index) {
+              @for (index of curHolePutts()[1] | range; track index) {
                 <span>
                   <span class="blackDot"></span>
                   <span class="dotSeparator"></span>
@@ -64,7 +65,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
             </span>
             <span class="subscript">
               <span class="dotSeparator"></span>
-              @for (index of counter(curHolePenalties()[1]); track index) {
+              @for (index of curHolePenalties()[1] | range; track index) {
                 <span>
                   <span class="redDot"></span>
                   <span class="dotSeparator"></span>
@@ -85,7 +86,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
           <span class="supsub">
             <span class="superscript">
               <span class="dotSeparator"></span>
-              @for (putt of counter(curHolePutts()[2]); track putt) {
+              @for (putt of curHolePutts()[2] | range; track putt) {
                 <span>
                   <span class="blackDot"></span>
                   <span class="dotSeparator"></span>
@@ -94,7 +95,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
             </span>
             <span class="subscript">
               <span class="dotSeparator"></span>
-              @for (penalty of counter(curHolePenalties()[2]); track penalty) {
+              @for (penalty of curHolePenalties()[2] | range; track penalty) {
                 <span>
                   <span class="redDot"></span>
                   <span class="dotSeparator"></span>
@@ -115,7 +116,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
           <span class="supsub">
             <span class="superscript">
               <span class="dotSeparator"></span>
-              @for (putt of counter(curHolePutts()[3]); track putt) {
+              @for (putt of curHolePutts()[3] | range; track putt) {
                 <span>
                   <span class="blackDot"></span>
                   <span class="dotSeparator"></span>
@@ -124,7 +125,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
             </span>
             <span class="subscript">
               <span class="dotSeparator"></span>
-              @for (penalty of counter(curHolePenalties()[3]); track penalty) {
+              @for (penalty of curHolePenalties()[3] | range; track penalty) {
                 <span>
                   <span class="redDot"></span>
                   <span class="dotSeparator"></span>
@@ -195,7 +196,7 @@ import { NgTemplateOutlet, NgClass } from '@angular/common';
   }
 </ng-template>
 `,
-    imports: [NgTemplateOutlet, NgClass]
+    imports: [NgTemplateOutlet, NgClass, RangePipe]
 })
 export class CommonScorecardComponent implements OnInit {
 
@@ -207,7 +208,6 @@ export class CommonScorecardComponent implements OnInit {
   ballPickedUp = input.required<boolean>();
   totalStrokes = input.required<number[]>();
 
-  @Input() public counter: (i: number) => number[];
   @Input() public calculateStyle: (i: number) => string;
 
   ngOnInit() {

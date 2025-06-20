@@ -22,7 +22,8 @@ export class NavigationService {
 
   getOwner(): number {
 
-    return this.owner ?? JSON.parse(localStorage.getItem('owner'));
+    this.owner = this.owner ?? JSON.parse(localStorage.getItem('owner'));
+    return this.owner;
   }
 
 
@@ -33,7 +34,8 @@ export class NavigationService {
 
   getCourse(): Course {
    
-    return this.course ?? JSON.parse(localStorage.getItem('course'));;
+    this.course = this.course ?? JSON.parse(localStorage.getItem('course'));
+    return this.course;
   }
 
   setOnlineRounds(onlineRounds: OnlineRound[]) {
@@ -43,7 +45,8 @@ export class NavigationService {
 
   getOnlineRounds(): OnlineRound[] {
     
-    return this.onlineRounds ?? JSON.parse(localStorage.getItem('onlineRounds'));
+    this.onlineRounds =  this.onlineRounds ?? JSON.parse(localStorage.getItem('onlineRounds'));
+    return this.onlineRounds;
   }
 
   clear() {

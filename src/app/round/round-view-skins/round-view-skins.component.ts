@@ -1,10 +1,11 @@
 import { Round } from '@/_models/round';
 import { NgClass } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-round-view-skins',
-    imports: [NgClass],
+    imports: [NgClass, RangePipe],
     templateUrl: './round-view-skins.component.html'
 })
 export class RoundViewSkinsComponent implements OnInit {
@@ -27,15 +28,11 @@ export class RoundViewSkinsComponent implements OnInit {
     this.skin = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
     this.skinCount = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
 
-    this.counter(18).forEach(id => this.calculateSkins(id));
+    Array(18).forEach(id => this.calculateSkins(id));
     this.calculateTotalSkins();
   }
 
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
-
+  
   private calculateSkins(hole: number) : void {
 
     let plr: number = 0;
@@ -69,7 +66,7 @@ export class RoundViewSkinsComponent implements OnInit {
 
     let cumulation: number = 0;
 
-    this.counter(18).forEach((idx) => {
+    Array(18).forEach((idx) => {
 
       let increaseCumulation: boolean = false;
 

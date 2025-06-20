@@ -69,7 +69,7 @@
             <th id="empty"></th>
             <th id="empty"></th>
           </tr>
-          @for (onlineRound of onlineRounds; track onlineRound; let idx = $index) {
+          @for (onlineRound of onlineRounds; track onlineRound.id; let idx = $index) {
             <tr class="center">
               <th id="nick">{{onlineRound.player.nick}}</th>
               @if (owner === null) {
@@ -133,7 +133,7 @@
               }
               @if (owner != null) {
                 @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="highlightHcp(index, idx)">
+                  <td class="center" [ngClass]="highlightHCP[idx][index]">
                     @if (onlineRound.scoreCardAPI[index] != null) {
                       <span>
                         {{mpResultHistory[idx][index]}}
@@ -143,7 +143,7 @@
                 }
                 <th id="f9s" class="center"></th>
                 @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="highlightHcp(index + 9, idx)">
+                  <td class="center" [ngClass]="highlightHCP[idx][index + 9]">
                     @if (onlineRound.scoreCardAPI[index + 9] != null) {
                       <span>
                         {{mpResultHistory[idx][index + 9]}}

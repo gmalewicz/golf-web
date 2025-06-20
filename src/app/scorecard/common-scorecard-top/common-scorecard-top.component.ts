@@ -22,7 +22,7 @@ export class CommonScorecardTopComponent implements OnInit {
   puttSelectorActive = input.required<{active: boolean}[]>();
   inProgress = input.required<boolean>();
 
-  @Input() public counter: (i: number) => number[];
+
   @Input() public calculateStyle: (i: number) => string;
   @Input() public addScore: () => void;
 

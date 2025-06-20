@@ -56,22 +56,6 @@ describe('OnlineMatchplayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call highlightHcp and ecpect no-edit', () => {
-    component.holeHCP = [];
-    component.holeHCP[0] = [];
-    component.holeHCP[0][0] = 0;
-    component.highlightHcp(0, 0);
-    expect(component.highlightHcp(0, 0)).toBe('no-edit');
-  });
-
-  it('should call highlightHcp and ecpect highlightHcp', () => {
-    component.holeHCP = [];
-    component.holeHCP[0] = [];
-    component.holeHCP[0][0] = 1;
-    component.highlightHcp(0, 0);
-    expect(component.highlightHcp(0, 0)).toBe('highlightHcp');
-  });
-
   it('should call updateMPResults', () => {
    component.getRoundData();
    expect(component).toBeTruthy();

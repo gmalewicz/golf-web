@@ -22,7 +22,6 @@ describe('CommonScorecardComponent', () => {
     componentRef.setInput('rounds', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
 
     component.calculateStyle = () => 'edit';
-    component.counter = () => [1];
     componentRef.setInput('curHoleIdx', 0);
     componentRef.setInput('curHoleStrokes', [1]);
     componentRef.setInput('ballPickedUp', false);

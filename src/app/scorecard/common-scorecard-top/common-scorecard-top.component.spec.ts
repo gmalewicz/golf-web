@@ -29,8 +29,7 @@ describe('CommonScorecardTopComponent', () => {
     component.calculateStyle = () => 'edit';
     component.addScore = () => null;
 
-    component.counter = () => [1];
-
+  
     componentRef.setInput('curHoleIdx', 0);
     componentRef.setInput('curHoleStrokes', [1]);
     componentRef.setInput('curHolePutts', [1]);

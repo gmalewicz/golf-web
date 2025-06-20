@@ -18,7 +18,7 @@
           <tr>
             <th id="hole" class="w-15" i18n="@@roundViewWhs-hole">Hole</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <th id="no" class="w-5">
                   {{round().scoreCard[i].hole}}
                 </th>
@@ -26,7 +26,7 @@
               <th id="out" class="center w-10">OUT</th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <th id="no" class="w-5">
                   {{round().scoreCard[i + 9].hole}}
                 </th>
@@ -40,7 +40,7 @@
           <tr>
             <th id="par">PAR</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().course.holes[i].par}}
                 </td>
@@ -48,7 +48,7 @@
               <th id="fpar" class="center">{{first9par}}</th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().course.holes[i + 9].par}}
                 </td>
@@ -60,7 +60,7 @@
           <tr>
             <th id="si">SI</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().course.holes[i].si}}
                 </td>
@@ -68,7 +68,7 @@
               <th id="empty"></th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().course.holes[i + 9].si}}
                 </td>
@@ -80,7 +80,7 @@
           <tr>
             <th id="score" i18n="@@roundViewWhs-score">Score</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td [ngClass]="scoreBruttoClass[i]" class="center">
                   @if (round().scoreCard[i + (playerOffset() * 18)].stroke > 0) {
                     <span>
@@ -107,7 +107,7 @@
               </th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td [ngClass]="scoreBruttoClass[i + 9]" class="center">
                   @if (round().scoreCard[i + (playerOffset() * 18) + 9].stroke > 0) {
                     <span>
@@ -149,7 +149,7 @@
             <tr>
               <th id="hcp">HCP</th>
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18)].hcp}}
                   </td>
@@ -157,7 +157,7 @@
                 <th id="empty"></th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18) + 9].hcp}}
                   </td>
@@ -171,7 +171,7 @@
             <tr>
               <th id="ns" i18n="@@roundViewWhs-netScore">Net Score</th>
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td [ngClass]="scoreNettoClass[i]" class="center">
                     @if (round().scoreCard[i + (playerOffset() * 18)].stroke > 0) {
                       <span>
@@ -193,7 +193,7 @@
                 </th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td [ngClass]="scoreNettoClass[i + 9]" class="center">
                     @if (round().scoreCard[i + (playerOffset() * 18) + 9].stroke > 0) {
                       <span>
@@ -227,7 +227,7 @@
             <tr >
               <th id="cs">Cor. Score</th>
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18)].corScoreBrutto}}
                   </td>
@@ -235,7 +235,7 @@
                 <th id="f9b" class="center">{{first9CorScorBrutto}}</th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18) + 9].corScoreBrutto}}
                   </td>
@@ -251,7 +251,7 @@
             <tr>
               <th id="sn">STB Net</th>
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18)].stbNetto}}
                   </td>
@@ -259,7 +259,7 @@
                 <th id="f9sn" class="center">{{first9StbNetto}}</th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18) + 9].stbNetto}}
                   </td>
@@ -275,7 +275,7 @@
             <tr>
               <th id="s">STB</th>
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18)].stbBrutto}}
                   </td>
@@ -283,7 +283,7 @@
                 <th id="f9b" class="center">{{first9StbBrutto}}</th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-                @for (i of counter(9); track i;) {
+                @for (i of 9 | range; track i;) {
                   <td class="center">
                     {{round().scoreCard[i + (playerOffset() * 18) + 9].stbBrutto}}
                   </td>
@@ -296,7 +296,7 @@
           <tr>
             <th id="pu" i18n="@@roundViewWhs-putts">Putts</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().scoreCard[i + (playerOffset() * 18)].pats}}
                 </td>
@@ -304,7 +304,7 @@
               <th id="f9p" class="center"> {{first9Putt}}</th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().scoreCard[i + (playerOffset() * 18) + 9].pats}}
                 </td>
@@ -316,7 +316,7 @@
           <tr>
             <th id="pen" i18n="@@roundViewWhs-penalt">Penalties</th>
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 2) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().scoreCard[i + (playerOffset() * 18)].penalty}}
                 </td>
@@ -324,7 +324,7 @@
               <th id="f9p" class="center">{{first9Penalty}}</th>
             }
             @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <td class="center">
                   {{round().scoreCard[i + (playerOffset() * 18) + 9].penalty}}
                 </td>

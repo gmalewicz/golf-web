@@ -172,11 +172,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
-
   calculateStyle(playerIdx: number) {
     if (playerIdx === this.curPlayerIdx) {
       return 'highlight';

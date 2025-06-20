@@ -28,6 +28,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   first9par: number;
   last9par: number;
   holeHCP: number[][];
+  highlightHCP: string[][];
   finalized: boolean;
   // -2 not set
   // -1 first player won
@@ -112,6 +113,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.showRound();
       } else if (this.owner !== null) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
+        this.highlightHCP = new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit'));
         this.finalized = this.navigationService.getOnlineRounds()[0].finalized;
         this.mpScore = new Array(18).fill(-2);
         this.mpResult = new Array(2);
@@ -184,6 +186,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             retOnlineRounds[1].courseHCP,
             this.holeHCP,
             this.course);
+
+          this.highlightHCP[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
+          this.highlightHCP[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+          
         }
 
         this.calculateMpResult(retOnlineRounds);
@@ -381,8 +387,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
 
-  // helper function to provide verious arrays for html
-  // signal signal9
+  // helper function to provide array for html
   counter = signal<Array<number>>([...Array(HALF_HOLES).keys()]) 
 
   // process score card received from the web socket
@@ -585,14 +590,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     const secondNum: number  = +second.replace(':', '');
 
     return firstNum > secondNum ? first : second;
-  }
-
-  highlightHcp(hole: number, player: number) {
-    console.log("executed");
-    if (this.holeHCP[player][hole] > 0) {
-      return 'highlightHcp';
-    }
-    return 'no-edit';
   }
 
   private handleDocumentVisibilityChanges(): void {
