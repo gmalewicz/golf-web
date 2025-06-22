@@ -27,8 +27,8 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
   faMinusCircle: IconDefinition;
   faSearchPlus: IconDefinition;
 
-  private display: WritableSignal<boolean>;
-  private deletePlayerInProgress: WritableSignal<boolean>;
+  display: WritableSignal<boolean>;
+  deletePlayerInProgress: WritableSignal<boolean>;
 
   public players: LeaguePlayer[] = [];
 
@@ -52,14 +52,6 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
     this.deletePlayerInProgress = signal(false);
     this.display.set(true);
     this.player = this.authenticationService.currentPlayerValue;
-  }
-
-  isDisplayed() {
-    return this.display();
-  }
-
-  isDeletePlayerInProgress() {
-    return this.deletePlayerInProgress();
   }
 
 

@@ -11,12 +11,13 @@ import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_hel
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-online-round',
     templateUrl: './online-round.component.html',
     styleUrls: ['./online-round.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton],
+    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton, RangePipe],
     providers: [NavigationService]
 })
 export class OnlineRoundComponent extends OnlineRoundBaseComponent {
@@ -48,11 +49,6 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
               protected rxStompService: RxStompService,
               protected location: LocationStrategy) {
     super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService, location);
-  }
-
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
   }
 
   protected prepareAndCalculateNetStatistic() {
@@ -98,7 +94,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
       this.totalStrNet[idx] = this.strNet[idx].reduce((p, n) => p + n, 0);
     })
 
-    this.counter(18).forEach(id => this.calculateSkins(id));
+    Array(18).forEach(id => this.calculateSkins(id));
     // calculate total skins per player
     this.calculateTotalSkins();
   }
@@ -135,7 +131,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
     let cumulation: number = 0;
 
-    this.counter(18).forEach((idx) => {
+    Array(18).forEach((idx) => {
 
       let increaseCumulation: boolean = false;
 

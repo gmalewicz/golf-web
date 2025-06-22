@@ -40,10 +40,4 @@ export abstract class CycleResultsBase {
 
       }
   }
-
-
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
 }

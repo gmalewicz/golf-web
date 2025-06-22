@@ -90,7 +90,7 @@
                       <span class="supsub">
                         <span class="superscript">
                           <span class="dotSeparator"></span>
-                          @for (putt of counter(putts[i][pl]); track putt) {
+                          @for (putt of putts[i][pl] | range; track putt) {
                             <span>
                               <span class="blackDot"></span>
                               <span class="dotSeparator"></span>
@@ -99,7 +99,7 @@
                         </span>
                         <span class="subscript">
                           <span class="dotSeparator"></span>
-                          @for (penalty of counter(penalties[i][pl]); track penalty) {
+                          @for (penalty of penalties[i][pl] | range; track penalty) {
                             <span>
                               <span class="redDot"></span>
                               <span class="dotSeparator"></span>

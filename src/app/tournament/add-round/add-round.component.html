@@ -53,13 +53,13 @@
         <thead>
           <tr>
             <th id="hole" class="w-10" i18n="@@addRound-hole">Hole</th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <th id="no" class="w-5">
                 {{i + 1}}
               </th>
             }
             <th id="out" class="center w-10">OUT</th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <th id="no" class="w-5">
                 {{i + 10}}
               </th>
@@ -71,13 +71,13 @@
         <tbody>
           <tr>
             <th id="hole" class="w-10">Par</th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <th id="no" class="w-5">
                 {{holes[i].par}}
               </th>
             }
             <th id="out" class="center w-10"></th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <th id="no" class="w-5">
                 {{holes[i + 9].par}}
               </th>
@@ -87,7 +87,7 @@
           </tr>
           <tr>
             <th id="hole" class="w-15" i18n="@@addRound-score">Score</th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <th id="no" class="w-5">
                 <input  #box
                   [id]="'hl' + i"
@@ -111,7 +111,7 @@
                   <span>{{first9Total}}</span>
                 }
               </th>
-              @for (i of counter(9); track i;) {
+              @for (i of 9 | range; track i;) {
                 <th id="no" class="w-5">
                   <input  #box
                     [id]="'hl' + (i + 9)"
