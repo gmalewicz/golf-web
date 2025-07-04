@@ -1,5 +1,5 @@
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
@@ -23,16 +23,21 @@ import { RangePipe } from "../../_helpers/range";
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
 
   holeHCP: number[][];
-  highlightHCP: string[][];
+  highlightHCP: WritableSignal<string[][]> = signal(new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit')));
+
   // -2 not set
   // -1 first player won
   // 0 tie
   // 1 second player won
-  mpScore: number[];
-  mpResult: string[];
+  mpScore: WritableSignal<number[]> = signal(new Array(18).fill(-2));
+  
+  // calculate MP result texts
+  mpResult = computed(() => createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore()));
+  firstPlayerResult = computed(() => this.mpResult()[0]);
+  secondPlayerResult = computed(() => this.mpResult()[1]);
 
   // if greater than 0, the first player has additional strokes
-  hcpDiff: number;
+  hcpDiff: WritableSignal<number> = signal(undefined);
 
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
@@ -47,10 +52,6 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   }
 
   ngOnInit(): void {
-
-    this.mpScore = new Array(18).fill(-2);
-    this.mpResult = new Array(2);
-    this.highlightHCP = new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit'));
     super.ngOnInit();
   }
 
@@ -74,8 +75,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected calculateMPHoleHCP() {
 
-    this.hcpDiff = this.onlineRounds[0].courseHCP - this.onlineRounds[1].courseHCP;
-    let corHcpDiff = Math.abs(this.hcpDiff * this.onlineRounds[0].mpFormat);
+    this.hcpDiff.set(this.onlineRounds[0].courseHCP - this.onlineRounds[1].courseHCP);
+    let corHcpDiff = Math.abs(this.hcpDiff() * this.onlineRounds[0].mpFormat);
 
     if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
       corHcpDiff = Math.ceil(corHcpDiff);
@@ -83,12 +84,12 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
       corHcpDiff = Math.floor(corHcpDiff);
     }
 
-    if (this.hcpDiff >= 0) {
-      this.hcpDiff = corHcpDiff;
+    if (this.hcpDiff() >= 0) {
+      this.hcpDiff.set(corHcpDiff);
       this.onlineRounds[0].courseHCP = corHcpDiff;
       this.onlineRounds[1].courseHCP = 0;
     } else {
-      this.hcpDiff = -corHcpDiff;
+      this.hcpDiff.set(-corHcpDiff);
       this.onlineRounds[0].courseHCP = 0;
       this.onlineRounds[1].courseHCP = corHcpDiff;
     }
@@ -105,16 +106,16 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
                       this.holeHCP,
                       this.course);
     
-    this.highlightHCP[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
-    this.highlightHCP[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
-
+    this.highlightHCP()[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
+    this.highlightHCP()[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+    this.highlightHCP.set([...this.highlightHCP()]); // trigger change detection
   }
 
   protected updateMPresults() {
-    // tslint:disable-next-line: variable-name
-    this.mpScore.forEach((_result, idx) => this.updateMpResult(idx));
-    // calculate MP result texts
-    this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+        
+    this.mpScore().forEach((_result, idx) => this.updateMpResult(idx));
+    this.mpScore.set([...this.mpScore()]); // trigger change detection
+
   }
 
   protected updateMpResult(strokeIdx: number) {
@@ -124,13 +125,13 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
       const result = this.strokes[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokes[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
 
       if (result < 0) {
-        this.mpScore[strokeIdx] = -1;
+        this.mpScore()[strokeIdx] = -1;
       } else if (result === 0) {
-        this.mpScore[strokeIdx] = 0;
+        this.mpScore()[strokeIdx] = 0;
       } else {
-        this.mpScore[strokeIdx] = 1;
+        this.mpScore()[strokeIdx] = 1;
       }
-      this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+      this.mpScore.set([...this.mpScore()]); // trigger change detection
     }
   }
 }

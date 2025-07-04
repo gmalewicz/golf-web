@@ -6,7 +6,7 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { LocationStrategy, formatDate } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlay, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +35,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   onlineRounds: OnlineRound[];
 
   curPlayerIdx: number;
+  curPlayerStyle = signal<readonly string[]>(undefined);
   curHoleIdx: number;
 
   // strokes, putts, penalties for the current hole
@@ -52,7 +53,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   // last played hole
   lastPlayed: number;
   // edit / no-edit class
-  editClass: string[];
+  //editClass: string[];
   submitted: boolean;
   // selectedPutt and penalty
   // selectedPutt: number;
@@ -119,13 +120,18 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.course =  this.navigationService.getCourse();
       // initialize variables
       this.curPlayerIdx = 0;
+
+      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
+      initPlayerStyleArray[0] = 'highlight';
+      this.curPlayerStyle.set(initPlayerStyleArray);
+      
       this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
       this.curHolePenalties = new Array(this.onlineRounds.length).fill(0);
       this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
       this.penalties = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
       this.lastPlayed = 0;
-      this.editClass = Array(this.onlineRounds.length).fill('no-edit');
-      this.editClass[0] = 'edit';
+      //this.editClass = Array(this.onlineRounds.length).fill('no-edit');
+      //this.editClass[0] = 'edit';
 
       this.puttSelectorActive = Array(6).fill({ active: false });
       this.penaltySelectorActive = Array(6).fill({ active: false });
@@ -172,13 +178,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  calculateStyle(playerIdx: number) {
-    if (playerIdx === this.curPlayerIdx) {
-      return 'highlight';
-    }
-    return 'no-highlight';
-  }
-
   selectHole(holeIdx: number) {
 
     // check if it is not the last hole in the scorecard
@@ -216,9 +215,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       return s;
     });
     // set player index to 0 and update edit style
-    this.editClass[this.curPlayerIdx] = 'no-edit';
+    //this.editClass[this.curPlayerIdx] = 'no-edit';
     this.curPlayerIdx = 0;
-    this.editClass[this.curPlayerIdx] = 'edit';
+    //this.editClass[this.curPlayerIdx] = 'edit';
     this.puttSelectorActive.fill({ active: false });
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
@@ -343,7 +342,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   private moveToNextPlayer() {
     // move to the next player
-    this.editClass[this.curPlayerIdx] = 'no-edit';
+    //this.editClass[this.curPlayerIdx] = 'no-edit';
     // increase current player index is not last or set to 0 if last
     // update mp score if score enetered for both players
     this.updateMpResult(this.curHoleIdx);
@@ -351,12 +350,21 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.updateNetStatistic();
 
     if (this.curPlayerIdx < this.onlineRounds.length - 1) {
+
+      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
       this.curPlayerIdx++;
+      initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
+      this.curPlayerStyle.set(initPlayerStyleArray);
     } else {
+
+      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
       this.curPlayerIdx = 0;
+      initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
+      this.curPlayerStyle.set(initPlayerStyleArray);
       this.selectHole(this.curHoleIdx + 1);
+      
     }
-    this.editClass[this.curPlayerIdx] = 'edit';
+    //this.editClass[this.curPlayerIdx] = 'edit';
 
     this.puttSelectorActive.fill({ active: false });
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });

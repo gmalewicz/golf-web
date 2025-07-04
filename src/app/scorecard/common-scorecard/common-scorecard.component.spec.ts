@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonScorecardComponent } from './common-scorecard.component';
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, signal } from '@angular/core';
 
 describe('CommonScorecardComponent', () => {
   let component: CommonScorecardComponent;
@@ -20,8 +20,7 @@ describe('CommonScorecardComponent', () => {
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
     componentRef.setInput('rounds', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
-
-    component.calculateStyle = () => 'edit';
+    componentRef.setInput('curPlayerStyle', signal(['edit']));
     componentRef.setInput('curHoleIdx', 0);
     componentRef.setInput('curHoleStrokes', [1]);
     componentRef.setInput('ballPickedUp', false);

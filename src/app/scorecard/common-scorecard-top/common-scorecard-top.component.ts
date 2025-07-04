@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, input } from '@angular/core';
+import { Component, Input, OnInit, Signal, WritableSignal, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
 import { OnlineNavComponent } from '../online-nav/online-nav.component';
+import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 
 @Component({
     selector: 'app-common-scorecard-top',
@@ -21,9 +22,7 @@ export class CommonScorecardTopComponent implements OnInit {
   curPlayerIdx = input.required<number>();
   puttSelectorActive = input.required<{active: boolean}[]>();
   inProgress = input.required<boolean>();
-
-
-  @Input() public calculateStyle: (i: number) => string;
+  @Input () public curPlayerStyle: Signal<string[]>;
   @Input() public addScore: () => void;
 
 
