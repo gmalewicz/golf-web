@@ -14,7 +14,7 @@ export class CommonScorecardComponent implements OnInit {
   curHoleStrokes = input.required<number[]>();
   curHolePutts = input.required<number[]>();
   curHolePenalties = input.required<number[]>();
-  rounds = input.required<OnlineRound[]>();
+  @Input() public roundsSgn: Signal<OnlineRound[]>;
   ballPickedUp = input.required<boolean>();
   totalStrokes = input.required<number[]>();
   @Input () public curPlayerStyle: Signal<string[]>;

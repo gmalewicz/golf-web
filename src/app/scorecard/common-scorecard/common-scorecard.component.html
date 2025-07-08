@@ -37,7 +37,7 @@
           </span>
         </span>
       </td>
-      @if (rounds().length > 1) {
+      @if (roundsSgn().length > 1) {
         <td [ngClass]="curPlayerStyle()[1]">
           @if (curHoleStrokes()[1] > 0 && curHoleStrokes()[1] < 16) {
             <span>{{curHoleStrokes()[1]}}</span>
@@ -67,7 +67,7 @@
           </span>
         </td>
       }
-      @if (rounds().length > 2) {
+      @if (roundsSgn().length > 2) {
         <td [ngClass]="curPlayerStyle()[2]">
           @if (curHoleStrokes()[2] > 0 && curHoleStrokes()[2] < 16) {
             <span>{{curHoleStrokes()[2]}}</span>
@@ -97,7 +97,7 @@
           </span>
         </td>
       }
-      @if (rounds().length > 3) {
+      @if (roundsSgn().length > 3) {
         <td [ngClass]="curPlayerStyle()[3]">
           @if (curHoleStrokes()[3] > 0 && curHoleStrokes()[3] < 16) {
             <span>{{curHoleStrokes()[3]}}</span>
@@ -132,7 +132,7 @@
 </table>
 <ng-template #TableHeader >
   <th id="hole" i18n="@@comScor-hole">Hole</th>
-  <th id="p1str">{{rounds()[0].player.nick}}
+  <th id="p1str">{{roundsSgn()[0].player.nick}}
     @if (ballPickedUp()[0]) {
       <span>
         (x)
@@ -144,8 +144,8 @@
       </span>
     }
   </th>
-  @if (rounds().length > 1) {
-    <th id="p2str">{{rounds()[1].player.nick}}
+  @if (roundsSgn().length > 1) {
+    <th id="p2str">{{roundsSgn()[1].player.nick}}
       @if (ballPickedUp()[1]) {
         <span>
           (x)
@@ -158,8 +158,8 @@
       }
     </th>
   }
-  @if (rounds().length > 2) {
-    <th id="p3str">{{rounds()[2].player.nick}}
+  @if (roundsSgn().length > 2) {
+    <th id="p3str">{{roundsSgn()[2].player.nick}}
       @if (ballPickedUp()[2]) {
         <span>
           (x)
@@ -172,8 +172,8 @@
       }
     </th>
   }
-  @if (rounds().length > 3) {
-    <th id="p4str">{{rounds()[3].player.nick}}
+  @if (roundsSgn().length > 3) {
+    <th id="p4str">{{roundsSgn()[3].player.nick}}
       @if (ballPickedUp()[3]) {
         <span>
           (x)

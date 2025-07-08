@@ -1,19 +1,19 @@
-@if (!display) {
+@if (!displaySgn()) {
   <div class="d-flex justify-content-center">
     <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
-@if (display) {
+@if (displaySgn()) {
   <div>
-    <h2>{{ course.name }}
-      @if (!finalized) {
+    <h2>{{ courseSgn().name }}
+      @if (!finalizedSgn()) {
         <span style="color: red;">
-          {{elapsed.hours | number:'2.0'}}:{{elapsed.minutes | number:'2.0'}}:{{elapsed.seconds | number:'2.0'}}
+          {{elapsedSgn().hours | number:'2.0'}}:{{elapsedSgn().minutes | number:'2.0'}}:{{elapsedSgn().seconds | number:'2.0'}}
         </span>
       }
     </h2>
     <div>
-      <span i18n="@@onlnScorView-lstUpd">Last update:</span> {{lstUpdTime}}
+      <span i18n="@@onlnScorView-lstUpd">Last update:</span> {{lstUpdTimeSgn()}}
     </div>
     <br/>
     <div class="table-responsive">
@@ -21,13 +21,13 @@
         <thead>
           <tr>
             <th id="hole" i18n="@@onlnScorView-hole">Hole</th>
-            @for (index of counter(); track index;) {
+            @for (index of counterSgn(); track index;) {
               <th id="hNo" class="w-5">
                 {{index + 1}}
               </th>
             }
             <th id="out">OUT</th>
-            @for (index of counter(); track index;) {
+            @for (index of counterSgn(); track index;) {
               <th id="hNo" class="w-5">
                 {{index + 10}}
               </th>
@@ -39,42 +39,42 @@
         <tbody>
           <tr>
             <th id="par">PAR</th>
-            @for (index of counter(); track index;) {
+            @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{course.holes[index].par}}
+                {{courseSgn().holes[index].par}}
               </td>
             }
-            <th id="f9par" class="center">{{first9par}}</th>
-            @for (index of counter(); track index;) {
+            <th id="f9par" class="center">{{first9parSgn()}}</th>
+            @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{course.holes[index + 9].par}}
+                {{courseSgn().holes[index + 9].par}}
               </td>
             }
-            <th id="l9par" class="center">{{last9par}}</th>
-            <th id="b9par" class="center">{{first9par + last9par}}</th>
+            <th id="l9par" class="center">{{last9parSgn()}}</th>
+            <th id="b9par" class="center">{{first9parSgn() + last9parSgn()}}</th>
           </tr>
           <tr>
             <th id="si">SI</th>
-            @for (index of counter(); track index;) {
+            @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{course.holes[index].si}}
+                {{courseSgn().holes[index].si}}
               </td>
             }
             <th id="empty"></th>
-            @for (index of counter(); track index;) {
+            @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{course.holes[index + 9].si}}
+                {{courseSgn().holes[index + 9].si}}
               </td>
             }
             <th id="empty"></th>
             <th id="empty"></th>
           </tr>
-          @for (onlineRound of onlineRounds; track onlineRound.id; let idx = $index) {
+          @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
             <tr class="center">
               <th id="nick">{{onlineRound.player.nick}}</th>
-              @if (owner === null) {
-                @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="scoreBruttoClass[idx][index]">
+              @if (ownerSgn() === undefined) {
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index]">
                     @if (onlineRound.scoreCardAPI[index] != null) {
                       <span>
                         @if (onlineRound.scoreCardAPI[index].stroke === 16) {
@@ -92,14 +92,14 @@
                   </td>
                 }
                 <th id="f9s" class="center">
-                  @if (!first9ballPickedUp[idx]) {
+                  @if (!first9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound.first9score}}
                     </span>
                   }
                 </th>
-                @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="scoreBruttoClass[idx][index + 9]">
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index + 9]">
                     @if (onlineRound.scoreCardAPI[index + 9] != null) {
                       <span>
                         @if (onlineRound.scoreCardAPI[index + 9].stroke === 16) {
@@ -117,36 +117,36 @@
                   </td>
                 }
                 <th id="l9s" class="center">
-                  @if (!last9ballPickedUp[idx]) {
+                  @if (!last9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound.last9score}}
                     </span>
                   }
                 </th>
                 <th id="b9s" class="center">
-                  @if (!first9ballPickedUp[idx] && !last9ballPickedUp[idx]) {
+                  @if (!first9ballPickedUpSgn()[idx] && !last9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound.first9score + onlineRound.last9score}}
                     </span>
                   }
                 </th>
               }
-              @if (owner != null) {
-                @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="highlightHCP[idx][index]">
+              @if (ownerSgn() != undefined) {
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="highlightHCPSgn()[idx][index]">
                     @if (onlineRound.scoreCardAPI[index] != null) {
                       <span>
-                        {{mpResultHistory[idx][index]}}
+                        {{mpResultHistorySgn()[idx][index]}}
                       </span>
                     }
                   </td>
                 }
                 <th id="f9s" class="center"></th>
-                @for (index of counter(); track index;) {
-                  <td class="center" [ngClass]="highlightHCP[idx][index + 9]">
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="highlightHCPSgn()[idx][index + 9]">
                     @if (onlineRound.scoreCardAPI[index + 9] != null) {
                       <span>
-                        {{mpResultHistory[idx][index + 9]}}
+                        {{mpResultHistorySgn()[idx][index + 9]}}
                       </span>
                     }
                   </td>
@@ -159,16 +159,16 @@
         </tbody>
       </table>
     </div>
-    @if (owner != null) {
+    @if (ownerSgn() != undefined) {
       <div>
-        @if (mpResult[1] === null) {
+        @if (mpResultSgn()[1] === null) {
           <h3>
-            {{mpResult[0]}}
+            {{mpResultSgn()[0]}}
           </h3>
         }
-        @if (mpResult[1] !== null) {
+        @if (mpResultSgn()[1] !== null) {
           <h3 style="color: red; font-weight: bold;">
-            {{mpResult[1]}}
+            {{mpResultSgn()[1]}}
           </h3>
         }
       </div>

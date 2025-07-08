@@ -15,6 +15,7 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { signal } from '@angular/core';
 
 describe('OnlineMatchplayComponent', () => {
 
@@ -45,8 +46,8 @@ describe('OnlineMatchplayComponent', () => {
 
   beforeEach(() => {
     navigationService = TestBed.inject(NavigationService);
-    navigationService.setCourse(getTestCourse());
-    navigationService.setOnlineRounds([getOnlineRoundFirstPlayer(), getOnlineRoundSecondPlayer()]);
+    navigationService.setCourseSgn(signal(getTestCourse()));
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer(), getOnlineRoundSecondPlayer()]));
     fixture = TestBed.createComponent(OnlineMatchplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

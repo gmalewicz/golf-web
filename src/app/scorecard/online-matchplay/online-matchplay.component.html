@@ -9,7 +9,7 @@
       <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
         [curPlayerIdx] = 'curPlayerIdx'
         [puttSelectorActive] = 'puttSelectorActive'
-        [rounds] = 'onlineRounds'
+        [roundsSgn] = 'onlineRoundsSgn'
         [curHolePutts] = 'curHolePutts'
         [penaltySelectorActive] = 'penaltySelectorActive'
         [curHolePenalties] = 'curHolePenalties'
@@ -27,14 +27,14 @@
     }
     <div>
       <div>
-        @if (secondPlayerResult() === undefined) {
+        @if (secondPlayerResultSgn() === undefined) {
           <h3>
-            {{firstPlayerResult()}}
+            {{firstPlayerResultSgn()}}
           </h3>
         }
-        @if (secondPlayerResult() !== undefined) {
+        @if (secondPlayerResultSgn() !== undefined) {
           <h3 style="color: red; font-weight: bold;">
-            {{secondPlayerResult()}}
+            {{secondPlayerResultSgn()}}
           </h3>
         }
       </div>
@@ -44,13 +44,13 @@
             <th id="empty"></th>
             <th id="hole" i18n="@@onlMatch-hole">Hole</th>
             <th id="p1r">
-              {{onlineRounds[0].player.nick}}
+              {{onlineRoundsSgn()[0].player.nick}}
               @if (hcpDiff() > 0) {
                 <span>({{hcpDiff()}})</span>
               }
             </th>
             <th id="p2r">
-              {{onlineRounds[1].player.nick}}
+              {{onlineRoundsSgn()[1].player.nick}}
               @if (hcpDiff() < 0) {
                 <span>({{-hcpDiff()}})</span>
               }
@@ -81,7 +81,7 @@
                 {{i + 1}}
               </td>
               @for (index of 2 | range; track index; let pl = $index) {
-                <td [ngClass]="highlightHCP()[pl][i]">
+                <td [ngClass]="highlightHCPSgn()[pl][i]">
                   @if (stroke[pl] > 0 && stroke[pl] < 16) {
                     <span>{{stroke[pl]}}</span>
                   }
@@ -111,27 +111,27 @@
                 </td>
               }
               <td>
-                @if (mpScore()[i] === -1) {
+                @if (mpScoreSgn()[i] === -1) {
                   <span>
-                    {{onlineRounds[0].player.nick}}
+                    {{onlineRoundsSgn()[0].player.nick}}
                   </span>
                 }
-                @if (mpScore()[i] === 1) {
+                @if (mpScoreSgn()[i] === 1) {
                   <span>
-                    {{onlineRounds[1].player.nick}}
+                    {{onlineRoundsSgn()[1].player.nick}}
                   </span>
                 }
-                @if (mpScore()[i] === 0) {
+                @if (mpScoreSgn()[i] === 0) {
                   <span>
                     halved
                   </span>
                 }
               </td>
               <td>
-                {{course.holes[i].par}}
+                {{courseSgn().holes[i].par}}
               </td>
               <td>
-                {{course.holes[i].si}}
+                {{courseSgn().holes[i].si}}
               </td>
             </tr>
           }

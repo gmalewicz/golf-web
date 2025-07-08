@@ -11,10 +11,10 @@
       <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
         [curPlayerIdx] = 'curPlayerIdx'
         [puttSelectorActive] = 'puttSelectorActive'
-        [rounds] = 'onlineRounds'
+        [roundsSgn] = 'onlineRoundsSgn'
         [curHolePutts] = 'curHolePutts'
         [penaltySelectorActive] = 'penaltySelectorActive'
-        [curHolePenalties] = 'curHolePenalties'
+        [curHolePenalties] = 'curHolePenalties' 
         [addScore] = 'addScore.bind(this)'
         [curHoleIdx] = 'curHoleIdx'
         [ballPickedUp] = 'ballPickedUp'
@@ -45,7 +45,7 @@
           <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
             STB
           </button>
-          @if (onlineRounds.length > 2) {
+          @if (onlineRoundsSgn().length > 2) {
             &nbsp;
             <button class="btn btn-outline-success" (click)="selectMode(3)" [ngClass]="{'golf-red': displayMode === 3}">
               SKN
@@ -82,7 +82,7 @@
               <td>
                 {{i + 1}}
               </td>
-              @for (onlineRound of onlineRounds; track onlineRound; let pl = $index) {
+              @for (onlineRound of onlineRoundsSgn(); track onlineRound; let pl = $index) {
                 @if (displayMode !== 3) {
                   <td>
                     @if (stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0) {
@@ -112,19 +112,19 @@
                       <span>x</span>
                     }
                     @if (stroke[pl] > 0 && displayMode === 1) {
-                      <span>{{stbNet[pl][i]}}</span>
+                      <span>{{stbNetSgn()[pl][i]}}</span>
                     }
                     @if (stroke[pl] > 0 && displayMode === 2) {
-                      <span>{{strNet[pl][i]}}</span>
+                      <span>{{strNetSgn()[pl][i]}}</span>
                     }
                   </td>
                 }
 
                 @if (displayMode === 3) {
-                  <td [ngClass]="skin[pl][i]">
+                  <td [ngClass]="skinSgn()[pl][i]">
 
-                    @if (skin[pl][i] !== 'highlight') {
-                      {{skin[pl][i]}}
+                    @if (skinSgn()[pl][i] !== 'highlight') {
+                      {{skinSgn()[pl][i]}}
                     }
 
 
@@ -132,10 +132,10 @@
                 }
               }
               <td>
-                {{course.holes[i].par}}
+                {{courseSgn().holes[i].par}}
               </td>
               <td>
-                {{course.holes[i].si}}
+                {{courseSgn().holes[i].si}}
               </td>
             </tr>
           }
@@ -171,7 +171,7 @@
 
 <ng-template #TableHeader >
   <th id="hole" i18n="@@onlnRnd-hole">Hole</th>
-  <th id="p1str">{{onlineRounds[0].player.nick}}
+  <th id="p1str">{{onlineRoundsSgn()[0].player.nick}}
     @if (ballPickedUp[0] && displayMode === 0) {
       <span>
         (x)
@@ -184,22 +184,22 @@
     }
     @if (displayMode === 1) {
       <span>
-        ({{totalStbNet[0]}})
+        ({{totalStbNetSgn()[0]}})
       </span>
     }
     @if (displayMode === 2) {
       <span>
-        ({{totalStrNet[0]}})
+        ({{totalStrNetSgn()[0]}})
       </span>
     }
     @if (displayMode === 3) {
       <span>
-        ({{totalSkin[0]}})
+        ({{totalSkinSgn[0]}})
       </span>
     }
   </th>
-  @if (onlineRounds.length > 1) {
-    <th id="p2str">{{onlineRounds[1].player.nick}}
+  @if (onlineRoundsSgn().length > 1) {
+    <th id="p2str">{{onlineRoundsSgn()[1].player.nick}}
       @if (ballPickedUp[1]  && displayMode === 0) {
         <span>
           (x)
@@ -212,23 +212,23 @@
       }
       @if (displayMode === 1) {
         <span>
-          ({{totalStbNet[1]}})
+          ({{totalStbNetSgn()[1]}})
         </span>
       }
       @if (displayMode === 2) {
         <span>
-          ({{totalStrNet[1]}})
+          ({{totalStrNetSgn()[1]}})
         </span>
       }
       @if (displayMode === 3) {
         <span>
-          ({{totalSkin[1]}})
+          ({{totalSkinSgn[1]}})
         </span>
       }
     </th>
   }
-  @if (onlineRounds.length > 2) {
-    <th id="p3str">{{onlineRounds[2].player.nick}}
+  @if (onlineRoundsSgn().length > 2) {
+    <th id="p3str">{{onlineRoundsSgn()[2].player.nick}}
       @if (ballPickedUp[2]  && displayMode === 0) {
         <span>
           (x)
@@ -241,23 +241,23 @@
       }
       @if (displayMode === 1) {
         <span>
-          ({{totalStbNet[2]}})
+          ({{totalStbNetSgn()[2]}})
         </span>
       }
       @if (displayMode === 2) {
         <span>
-          ({{totalStrNet[2]}})
+          ({{totalStrNetSgn()[2]}})
         </span>
       }
       @if (displayMode === 3) {
         <span>
-          ({{totalSkin[2]}})
+          ({{totalSkinSgn[2]}})
         </span>
       }
     </th>
   }
-  @if (onlineRounds.length > 3) {
-    <th id="p4str">{{onlineRounds[3].player.nick}}
+  @if (onlineRoundsSgn().length > 3) {
+    <th id="p4str">{{onlineRoundsSgn()[3].player.nick}}
       @if (ballPickedUp[3]  && displayMode === 0) {
         <span>
           (x)
@@ -270,17 +270,17 @@
       }
       @if (displayMode === 1) {
         <span>
-          ({{totalStbNet[3]}})
+          ({{totalStbNetSgn()[3]}})
         </span>
       }
       @if (displayMode === 2) {
         <span>
-          ({{totalStrNet[3]}})
+          ({{totalStrNetSgn()[3]}})
         </span>
       }
       @if (displayMode === 3) {
         <span>
-          ({{totalSkin[3]}})
+          ({{totalSkinSgn[3]}})
         </span>
       }
     </th>

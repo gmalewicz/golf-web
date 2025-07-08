@@ -17,6 +17,7 @@ import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInter
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { signal } from '@angular/core';
 
 
 describe('OnlineRoundComponent', () => {
@@ -62,7 +63,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -73,7 +74,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -87,10 +88,10 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
-    component.onlineRounds = [onlineRound];
+    component.onlineRoundsSgn = signal([onlineRound]);
     component.course = getTestCourse()
     component.onInfo();
   }));
@@ -98,17 +99,17 @@ describe('OnlineRoundComponent', () => {
   it('should call info for stroke play round', fakeAsync(() => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
-    component.onlineRounds = [onlineRound];
+    component.onlineRoundsSgn = signal([onlineRound]);
     component.onInfo();
   }));
 
    it('should call onFinal', fakeAsync(() => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.onFinal();
@@ -118,7 +119,7 @@ describe('OnlineRoundComponent', () => {
   it('should call onDelete', fakeAsync(() => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.onDelete();
@@ -128,7 +129,7 @@ describe('OnlineRoundComponent', () => {
   it('should call refresh', fakeAsync(() => {
     navigationService.setCourse(getTestCourse());
     const onlineRound = getOnlineRoundFirstPlayer();
-    navigationService.setOnlineRounds([onlineRound]);
+    navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.refresh();

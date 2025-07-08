@@ -22,7 +22,8 @@ import { calculateCourseHCP, getPlayedCoursePar } from '@/_helpers';
 
 @Component({
     template: '',
-    standalone: false
+    providers: [NavigationService]
+
 })
 export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
@@ -31,8 +32,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   faPlay = faPlay;
   faSearchPlus = faSearchPlus;
 
-  course: Course;
-  onlineRounds: OnlineRound[];
+  //course: Course;
+  courseSgn =  signal<Course>(undefined);
+  onlineRoundsSgn =  signal<OnlineRound[]>(undefined);
 
   curPlayerIdx: number;
   curPlayerStyle = signal<readonly string[]>(undefined);
@@ -96,9 +98,12 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
 
+    // get passed data
+    this.onlineRoundsSgn = this.navigationService.getOnlineRoundsSgn();
+
     if (this.authenticationService.currentPlayerValue === null ||
-        this.navigationService.getCourse() === null ||
-        this.navigationService.getOnlineRounds() === null
+        this.navigationService.getCourseSgn() === undefined ||
+        this.onlineRoundsSgn().length === 0 
       ) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
@@ -106,33 +111,32 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       this.inProgress = false;
 
-      // get passed data
-      this.onlineRounds = this.navigationService.getOnlineRounds();
+      
 
        // set owner and logged in user
        this.loggedId = this.authenticationService.currentPlayerValue.id;
-       this.ownerId = this.onlineRounds[0].owner;
+       this.ownerId = this.onlineRoundsSgn()[0].owner;
 
       // 2.0.0 - adding sort of the array to have always the same sequence of players even
       // if retreiving from backend
-      this.onlineRounds.sort((or1, or2) => or1.player.id - or2.player.id);
+      this.onlineRoundsSgn().sort((or1, or2) => or1.player.id - or2.player.id);
+      this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
 
-      this.course =  this.navigationService.getCourse();
+
+      this.courseSgn =  this.navigationService.getCourseSgn();
       // initialize variables
       this.curPlayerIdx = 0;
 
-      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
+      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
       initPlayerStyleArray[0] = 'highlight';
       this.curPlayerStyle.set(initPlayerStyleArray);
       
-      this.curHoleStrokes = new Array(this.onlineRounds.length).fill(0);
-      this.curHolePenalties = new Array(this.onlineRounds.length).fill(0);
-      this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
-      this.penalties = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
+      this.curHoleStrokes = new Array(this.onlineRoundsSgn().length).fill(0);
+      this.curHolePenalties = new Array(this.onlineRoundsSgn().length).fill(0);
+      this.strokes = new Array(18).fill(0).map(() => new Array(this.onlineRoundsSgn().length).fill(0));
+      this.penalties = new Array(18).fill(0).map(() => new Array(this.onlineRoundsSgn().length).fill(0));
       this.lastPlayed = 0;
-      //this.editClass = Array(this.onlineRounds.length).fill('no-edit');
-      //this.editClass[0] = 'edit';
-
+      
       this.puttSelectorActive = Array(6).fill({ active: false });
       this.penaltySelectorActive = Array(6).fill({ active: false });
       this.penaltySelectorActive[0] = ({ active: true });
@@ -143,17 +147,17 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.display = false;
       this.roundCompleted = false;
 
-      this.totalStrokes = new Array(this.onlineRounds.length).fill(0);
-      this.ballPickedUp = new Array(this.onlineRounds.length).fill(false);
+      this.totalStrokes = new Array(this.onlineRoundsSgn().length).fill(0);
+      this.ballPickedUp = new Array(this.onlineRoundsSgn().length).fill(false);
 
       // zero putts in case tracking is not required
-      if (this.onlineRounds[0].putts) {
-        this.curHolePutts = new Array(this.onlineRounds.length).fill(2);
+      if (this.onlineRoundsSgn()[0].putts) {
+        this.curHolePutts = new Array(this.onlineRoundsSgn().length).fill(2);
         this.puttSelectorActive[2] = ({ active: true });
       } else {
-        this.curHolePutts = new Array(this.onlineRounds.length).fill(0);
+        this.curHolePutts = new Array(this.onlineRoundsSgn().length).fill(0);
       }
-      this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRounds.length).fill(0));
+      this.putts = new Array(18).fill(0).map(() => new Array(this.onlineRoundsSgn().length).fill(0));
 
       this.rxStompService.activate();
       this.handleDocumentVisibilityChanges()
@@ -163,11 +167,12 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   getRoundData() {
 
-    this.httpService.getHoles(this.course.id).pipe(
+    this.httpService.getHoles(this.courseSgn().id).pipe(
       tap(
         retHoles => {
-          this.course.holes = retHoles;
+          this.courseSgn().holes = retHoles;
           this.loadScoreCards();
+          this.courseSgn.set(this.courseSgn()); // trigger change detection
         })
     ).subscribe();
   }
@@ -181,7 +186,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   selectHole(holeIdx: number) {
 
     // check if it is not the last hole in the scorecard
-    if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && holeIdx > 8) {
+    if (this.onlineRoundsSgn()[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && holeIdx > 8) {
       this.curHoleIdx = 8;
       return;
     }
@@ -191,7 +196,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     }
 
     // check if the requested hole is not below hole 9 in case if the last 9 is played
-    if (this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9 && holeIdx <= 8) {
+    if (this.onlineRoundsSgn()[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9 && holeIdx <= 8) {
       this.curHoleIdx = 9;
       return;
     }
@@ -207,8 +212,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     // in case if stroke is 0 load par instead
     this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
       if (s === 0) {
-        s = this.course.holes[holeIdx].par;
-        if (this.onlineRounds[idx].putts) {
+        s = this.courseSgn().holes[holeIdx].par;
+        if (this.onlineRoundsSgn()[idx].putts) {
           this.curHolePutts[idx] =  2;
         }
       }
@@ -309,10 +314,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         putt: this.curHolePutts[this.curPlayerIdx],
         penalty: this.curHolePenalties[this.curPlayerIdx],
         player: {
-          id: this.onlineRounds[this.curPlayerIdx].player.id,
-          nick: this.onlineRounds[this.curPlayerIdx].player.nick
+          id: this.onlineRoundsSgn()[this.curPlayerIdx].player.id,
+          nick: this.onlineRoundsSgn()[this.curPlayerIdx].player.nick
         },
-        orId: this.onlineRounds[this.curPlayerIdx].id,
+        orId: this.onlineRoundsSgn()[this.curPlayerIdx].id,
         update: false,
         time: formatDate(new Date(), 'HH:mm', 'en-US')
       };
@@ -349,15 +354,15 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.updateMpTotal();
     this.updateNetStatistic();
 
-    if (this.curPlayerIdx < this.onlineRounds.length - 1) {
+    if (this.curPlayerIdx < this.onlineRoundsSgn().length - 1) {
 
-      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
+      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
       this.curPlayerIdx++;
       initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
       this.curPlayerStyle.set(initPlayerStyleArray);
     } else {
 
-      let initPlayerStyleArray = new Array(this.onlineRounds.length).fill('no-highlight')
+      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
       this.curPlayerIdx = 0;
       initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
       this.curPlayerStyle.set(initPlayerStyleArray);
@@ -428,12 +433,12 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   loadScoreCards() {
 
-    const calls: Observable<OnlineScoreCard[]>[] = Array(this.onlineRounds.length);
+    const calls: Observable<OnlineScoreCard[]>[] = Array(this.onlineRoundsSgn().length);
 
-    for (let i = 0; i < this.onlineRounds.length; i++) {
+    for (let i = 0; i < this.onlineRoundsSgn().length; i++) {
       // calculate course HCP for each player
       this.calculateHCP(i);
-      calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRounds[i].id);
+      calls[i] = this.scorecardHttpService.getOnlineScoreCard(this.onlineRoundsSgn()[i].id);
     }
     this.calculateMPHoleHCP();
 
@@ -453,7 +458,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         this.curHoleStrokes = this.curHoleStrokes.map((s, idx) => {
           s += this.strokes[this.curHoleIdx][idx];
           if (s === 0) {
-            s = this.course.holes[this.curHoleIdx].par;
+            s = this.courseSgn().holes[this.curHoleIdx].par;
           } else {
             this.curHolePutts[idx] = this.putts[this.curHoleIdx][idx];
             this.curHolePenalties[idx] = this.penalties[this.curHoleIdx][idx];
@@ -501,7 +506,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   private initCurHoleIdx(onlineScoreCards: OnlineScoreCard[][]) {
      // initialize the current hole inedex (assumed all players will play the same number of holes)
-     if (onlineScoreCards[0].length === 0 && this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
+     if (onlineScoreCards[0].length === 0 && this.onlineRoundsSgn()[0].tee.teeType === teeTypes.TEE_TYPE_LAST_9) {
       this.curHoleIdx = 9;
     } else if (onlineScoreCards[0].length === 0) {
       this.curHoleIdx = 0;
@@ -512,7 +517,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   private checkIfRoundCompleted() {
     // check if round is completed completed
-    if ((this.onlineRounds[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
+    if ((this.onlineRoundsSgn()[0].tee.teeType === teeTypes.TEE_TYPE_FIRST_9 && this.curHoleIdx === 8) || this.curHoleIdx === 17) {
       this.roundCompleted = true;
     } else {
       this.roundCompleted = false;
@@ -543,18 +548,18 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   onInfo() {
     
-    if (!this.onlineRounds[0].matchPlay && this.onlineRounds[0].courseHCP == undefined) {
-      this.onlineRounds.forEach(onlineRound => {
+    if (!this.onlineRoundsSgn()[0].matchPlay && this.onlineRoundsSgn()[0].courseHCP == undefined) {
+      this.onlineRoundsSgn().forEach(onlineRound => {
         onlineRound.courseHCP = calculateCourseHCP(onlineRound.tee.teeType,
                                                    onlineRound.player.whs,
                                                    onlineRound.tee.sr,
                                                    onlineRound.tee.cr,
-                                                   getPlayedCoursePar(this.course.holes,
+                                                   getPlayedCoursePar(this.courseSgn().holes,
                                                                       onlineRound.tee.teeType,
-                                                                      this.course.par));
+                                                                      this.courseSgn().par));
       });
     }
 
-    this.router.navigate(['myScorecard/onlineScoreCardInfo'], {state: {onlineRounds: this.onlineRounds}}).catch(error => console.log(error));
+    this.router.navigate(['myScorecard/onlineScoreCardInfo'], {state: {onlineRounds: this.onlineRoundsSgn()}}).catch(error => console.log(error));
   }
 }

@@ -2,7 +2,7 @@ import { NavigationService } from './../_services/navigation.service';
 import { getDateAndTime } from '@/_helpers/common';
 import { Course, Player, Tee, TeeOptions } from '@/_models';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
@@ -83,7 +83,6 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       this.faSearchPlus = faSearchPlus;
       this.faCheckCircle = faCheckCircle;
       this.searchInProgress = Array(4).fill(false);
-
       this.getCourseData();
     }
   }
@@ -257,8 +256,8 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       .pipe(
         tap((or) => {
           this.loading = false;
-          this.navigationService.setCourse(this.course);
-          this.navigationService.setOnlineRounds(or);
+          this.navigationService.setCourseSgn(signal(this.course));
+          this.navigationService.setOnlineRoundsSgn(signal(or));
           if (this.f.matchPlay.value) {
             this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
           } else {

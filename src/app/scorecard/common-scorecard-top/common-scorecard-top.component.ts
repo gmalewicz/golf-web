@@ -2,7 +2,6 @@ import { Component, Input, OnInit, Signal, WritableSignal, input } from '@angula
 import { OnlineRound } from '../_models/onlineRound';
 import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
 import { OnlineNavComponent } from '../online-nav/online-nav.component';
-import { S } from '@angular/cdk/scrolling-module.d-ud2XrbF8';
 
 @Component({
     selector: 'app-common-scorecard-top',
@@ -15,7 +14,7 @@ export class CommonScorecardTopComponent implements OnInit {
   curHoleStrokes = input.required<number[]>();
   curHolePutts = input.required<number[]>();
   curHolePenalties = input.required<number[]>();
-  rounds = input.required<OnlineRound[]>();
+  
   ballPickedUp = input.required<boolean>();
   totalStrokes = input.required<number[]>();
   penaltySelectorActive = input.required<{active: boolean}[]>();
@@ -24,6 +23,7 @@ export class CommonScorecardTopComponent implements OnInit {
   inProgress = input.required<boolean>();
   @Input () public curPlayerStyle: Signal<string[]>;
   @Input() public addScore: () => void;
+  @Input() public roundsSgn: Signal<OnlineRound[]>;
 
 
   ngOnInit() {

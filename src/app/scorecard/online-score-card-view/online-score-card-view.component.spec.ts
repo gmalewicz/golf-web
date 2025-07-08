@@ -11,6 +11,7 @@ import { ScorecardHttpService } from '../_services';
 import { OnlineScoreCardViewComponent } from './online-score-card-view.component';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { signal } from '@angular/core';
 
 describe('OnlineScoreCardViewComponent', () => {
   let component: OnlineScoreCardViewComponent;
@@ -54,7 +55,7 @@ describe('OnlineScoreCardViewComponent', () => {
 
   it('should create and display match', () => {
     navigationService.setCourse(getTestCourse());
-    navigationService.setOnlineRounds([getOnlineRoundFirstPlayer()]);
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer()]));
     navigationService.setOwner(1);
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
     component = fixture.componentInstance;
@@ -64,7 +65,7 @@ describe('OnlineScoreCardViewComponent', () => {
 
   it('should create and display round for player', () => {
     navigationService.setCourse(getTestCourse());
-    navigationService.setOnlineRounds([getOnlineRoundFirstPlayer()]);
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer()]));
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

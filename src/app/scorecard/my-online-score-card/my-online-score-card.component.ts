@@ -19,8 +19,8 @@ import { InfoComponent } from '../info/info.component';
 })
 export class MyOnlineScoreCardComponent implements OnInit {
 
-  display: WritableSignal<boolean> = signal(false);
-  myOnlineRounds: WritableSignal<OnlineRound[]> = signal([]);
+  displaySgn: WritableSignal<boolean> = signal(false);
+  myOnlineRoundsSgn: WritableSignal<OnlineRound[]> = signal([]);
 
   constructor(private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
@@ -36,16 +36,16 @@ export class MyOnlineScoreCardComponent implements OnInit {
     } else {
 
       // initialization
-      this.display.set(false);
+      this.displaySgn.set(false);
       this.navigationService.clear();
 
       this.scorecardHttpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
 
         // initialize this player open round written by him if any
-        this.myOnlineRounds.set(retOnlineRounds.filter(v => v.owner ===
+        this.myOnlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner ===
           this.authenticationService.currentPlayerValue.id && v.finalized === false));
 
-        if (this.myOnlineRounds().length > 0) {
+        if (this.myOnlineRoundsSgn().length > 0) {
           this.showRound();
         }
 
@@ -55,20 +55,20 @@ export class MyOnlineScoreCardComponent implements OnInit {
 
         if (activeOnlineRound) {
 
-          this.myOnlineRounds.set(retOnlineRounds.filter(v => v.owner ===
+          this.myOnlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner ===
             activeOnlineRound.owner && v.finalized === false));
 
           this.showRound();
         }
-        this.display = signal(true);
+        this.displaySgn = signal(true);
       });
     }
   }
 
   showRound() {
-    this.navigationService.setCourse(this.myOnlineRounds()[0].course);
-    this.navigationService.setOnlineRounds(this.myOnlineRounds());
-    if (this.myOnlineRounds()[0].matchPlay) {
+    this.navigationService.setCourseSgn(signal(this.myOnlineRoundsSgn()[0].course));
+    this.navigationService.setOnlineRoundsSgn(signal(this.myOnlineRoundsSgn()));
+    if (this.myOnlineRoundsSgn()[0].matchPlay) {
       this.router.navigate(['myScorecard/onlineMatchplay']).catch(error => console.log(error));
     } else {
       this.router.navigate(['myScorecard/onlineRound']).catch(error => console.log(error));
