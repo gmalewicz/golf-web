@@ -367,7 +367,6 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       this.selectHole(this.curHoleIdx + 1);
       
     }
-    //this.editClass[this.curPlayerIdx] = 'edit';
 
     this.puttSelectorActive.fill({ active: false });
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
