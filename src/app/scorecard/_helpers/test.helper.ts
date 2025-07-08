@@ -1,7 +1,8 @@
 import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { OnlineRound } from '../_models/onlineRound';
 import { Observable, of } from 'rxjs';
-import { IMessage } from '@stomp/rx-stomp/esm6';
+import { IMessage } from '@stomp/rx-stomp';
+
 
 export function getOnlineRoundFirstPlayer(): OnlineRound {
 

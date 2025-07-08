@@ -60,7 +60,7 @@ describe('OnlineRoundComponent', () => {
   });
 
   it('should create with correct data', () => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
@@ -71,7 +71,7 @@ describe('OnlineRoundComponent', () => {
   });
 
   it('should add score 2', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
@@ -85,19 +85,19 @@ describe('OnlineRoundComponent', () => {
   }));
 
   it('should call info for match play round', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay= false;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.onlineRoundsSgn = signal([onlineRound]);
-    component.course = getTestCourse()
+    component.courseSgn.set(getTestCourse());
     component.onInfo();
   }));
 
   it('should call info for stroke play round', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
@@ -107,7 +107,7 @@ describe('OnlineRoundComponent', () => {
   }));
 
    it('should call onFinal', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
@@ -117,7 +117,7 @@ describe('OnlineRoundComponent', () => {
   }));
 
   it('should call onDelete', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
@@ -127,7 +127,7 @@ describe('OnlineRoundComponent', () => {
   }));
 
   it('should call refresh', fakeAsync(() => {
-    navigationService.setCourse(getTestCourse());
+    navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);

@@ -3,7 +3,7 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OnlineNavComponent } from './online-nav.component';
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, signal } from '@angular/core';
 
 describe('OnlineNavComponent', () => {
 
@@ -25,7 +25,7 @@ describe('OnlineNavComponent', () => {
     fixture = TestBed.createComponent(OnlineNavComponent);
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
-    componentRef.setInput('rounds', [{putts: false, penalties: false, matchPlay: false}]);
+    componentRef.setInput('roundsSgn', signal([{putts: false, penalties: false, matchPlay: false}]));
     componentRef.setInput('curHoleStrokes', [1]);
     componentRef.setInput('curPlayerIdx', [0]);
     componentRef.setInput('puttSelectorActive', [{active: false}]);

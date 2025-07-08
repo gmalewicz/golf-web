@@ -55,7 +55,7 @@ describe('OnlineScoreCardComponent', () => {
     component = fixture.componentInstance;
     let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
     onlineRound.course = getTestCourse();
-    component.myOnlineRounds.set([onlineRound]);
+    component.myOnlineRoundsSgn.set([onlineRound]);
     component.showRound();
     expect(component).toBeTruthy();
   });
