@@ -4,17 +4,19 @@ import { HttpService } from '@/_services/http.service';
 import { Component, OnInit, input } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-round-view-mp',
     templateUrl: './round-view-mp.component.html',
-    imports: [NgClass]
+    imports: [NgClass, RangePipe]
 })
 export class RoundViewMPComponent implements OnInit {
 
   round = input.required<Round>();
 
   holeHCP: number[][];
+  highlightHCP: string[][];
   holeMpResult: number[][];
   display = false;
   first9par: number;
@@ -32,6 +34,7 @@ export class RoundViewMPComponent implements OnInit {
   ngOnInit(): void {
 
     this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
+    this.highlightHCP = new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit'));
     this.holeMpResult = new Array(2).fill(0).map(() => new Array(18).fill(0));
     this.mpScore = new Array(18).fill(-2);
     this.mpResult = new Array(2);
@@ -103,6 +106,9 @@ export class RoundViewMPComponent implements OnInit {
       this.holeHCP,
       this.round().course);
 
+    this.highlightHCP[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
+    this.highlightHCP[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+
     this.calculateMpResult();
     // calculate MP result texts
     this.mpResult = createMPResultText(this.round().player[0].nick, this.round().player[1].nick, this.mpScore);
@@ -137,17 +143,5 @@ export class RoundViewMPComponent implements OnInit {
         this.mpScore[index] = 0;
       }
     });
-  }
-
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
-
-  highlightHcp(hole: number, player: number) {
-    if (this.holeHCP[player][hole] > 0) {
-      return 'highlightHcp';
-    }
-    return 'no-edit';
   }
 }

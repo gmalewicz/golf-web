@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnDestroy, OnInit, input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Signal, input, signal } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgClass } from '@angular/common';
@@ -14,19 +14,16 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
   curHoleStrokes = input.required<number[]>();
   curPlayerIdx = input.required<number>();
   puttSelectorActive = input.required<{active: boolean}[]>();
-  rounds = input.required<OnlineRound[]>();
   curHolePutts = input.required<number[]>();
   curHolePenalties = input.required<number[]>();
   penaltySelectorActive = input.required<{active: boolean}[]>();
   inProgress = input.required<boolean>();
-
   @Input() public addScore: () => void;
+  @Input() public roundsSgn: Signal<OnlineRound[]>;
 
-  public buttons: number[];
-
-
-
-  public isActive: boolean;
+  public buttonsSgn = signal<number[]>([]);
+  public isActiveSgn = signal<boolean>(false);
+  
   subscriptions: Subscription[] = [];
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
@@ -36,9 +33,9 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.buttons = [0, 1, 2, 3, 4, 5];
+    this.buttonsSgn.set([0, 1, 2, 3, 4, 5]);
     this.handleAppConnectivityChanges();
-    this.isActive = true;
+    this.isActiveSgn.set(true);
   }
 
   ngOnDestroy(): void {
@@ -88,12 +85,12 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.onlineEvent.subscribe(() => {
       // handle online mode
-      this.isActive = true;
+      this.isActiveSgn.set(true);
     }));
 
     this.subscriptions.push(this.offlineEvent.subscribe(() => {
       // handle offline mode
-        this.isActive = false;
+        this.isActiveSgn.set(false);
     }));
   }
 }

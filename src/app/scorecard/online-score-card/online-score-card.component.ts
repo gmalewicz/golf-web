@@ -2,7 +2,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
@@ -65,17 +65,17 @@ export class OnlineScoreCardComponent implements OnInit {
 
     switch (viewType)  {
       case 1: { // view for course
-        this.navigationService.setCourse(course);
+        this.navigationService.setCourseSgn(signal(course));
         break;
       }
       case 2: { // view for player
-        this.navigationService.setOnlineRounds([onlineRound]);
+        this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
       }
       case 3: { // view for MP round
-        this.navigationService.setOwner(onlineRound.owner);
-        this.navigationService.setCourse(course);
-        this.navigationService.setOnlineRounds([onlineRound]);
+        this.navigationService.setOwnerSgn(signal(onlineRound.owner));
+        this.navigationService.setCourseSgn(signal(course));
+        this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
       }
     }

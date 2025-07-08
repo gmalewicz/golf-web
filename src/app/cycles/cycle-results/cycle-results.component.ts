@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleResultsBase } from '../base/cycle-results-base';
+import { RangePipe } from "../../_helpers/range";
 
 
 @Component({
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: []
+    imports: [RangePipe]
 })
 export class CycleResultsComponent extends CycleResultsBase implements OnInit, OnChanges {
 

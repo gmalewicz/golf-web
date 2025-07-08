@@ -21,16 +21,17 @@ import { TeeOptions } from '@/_models/teeOptions';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-add-round',
     imports: [RouterModule,
-        MatSelectModule,
-        CommonModule,
-        ReactiveFormsModule,
-        AutoTabDirective,
-        FontAwesomeModule,
-        FormsModule],
+    MatSelectModule,
+    CommonModule,
+    ReactiveFormsModule,
+    AutoTabDirective,
+    FontAwesomeModule,
+    FormsModule, RangePipe],
     providers: [TournamentHttpService],
     templateUrl: './add-round.component.html',
     styleUrls: ['./add-round.component.css']
@@ -176,11 +177,6 @@ export class AddRoundComponent implements OnInit {
     // set up the tee for the player based on the drop down tee
     this.tee = this.f.teeDropDown.value;
     this.f.teeDropDown.disable();
-  }
-
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
   }
 
   onKey(text: string, i: number) {

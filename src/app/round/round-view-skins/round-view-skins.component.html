@@ -5,13 +5,13 @@
       <thead>
         <tr>
           <th id="hole" i18n="@@roundViewMp-hole">Hole</th>
-          @for (i of counter(9); track i;) {
+          @for (i of 9 | range; track i;) {
             <th  id="no" class="w-5 test">
               {{i + 1}}
             </th>
           }
           <th  id="out" class="center">OUT</th>
-          @for (index of counter(9); track index; let i = $index) {
+          @for (index of 9 | range; track index; let i = $index) {
             <th  id="no" class="w-5 test">
               {{i + 10}}
             </th>
@@ -23,13 +23,13 @@
       <tbody>
         <tr>
           <th  id="par">PAR</th>
-          @for (i of counter(9); track i;) {
+          @for (i of 9 | range; track i;) {
             <td class="center">
               {{round().course.holes[i].par}}
             </td>
           }
           <th  id="firstPar" class="center">{{first9par}}</th>
-          @for (i of counter(9); track i;) {
+          @for (i of 9 | range; track i;) {
             <td class="center">
               {{round().course.holes[i + 9].par}}
             </td>
@@ -37,10 +37,10 @@
           <th  id="lpar" class="center">{{last9par}}</th>
           <th  id="ptotal" class="center">{{first9par + last9par}}</th>
         </tr>
-        @for (idx of counter(round().player.length); track idx;) {
+        @for (idx of round().player.length | range; track idx;) {
           <tr class="center">
             <th  id="bck">{{round().player[idx].nick}}</th>
-            @for (i of counter(9); track i;) {
+            @for (i of 9 | range; track i;) {
               <td class="center" [ngClass]="skin[idx][i]">
                 {{skinCount[idx][i]}}
               </td>
@@ -48,7 +48,7 @@
             <th  id="mpr" class="center">
               {{first9Skin[idx]}}
             </th>
-            @for (index2 of counter(9); track index2; let i = $index) {
+            @for (index2 of 9 | range; track index2; let i = $index) {
               <td class="center" [ngClass]="skin[idx][index2 + 9]">
                 {{skinCount[idx][index2 + 9]}}
               </td>

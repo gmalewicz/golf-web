@@ -9,7 +9,7 @@
       <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
         [curPlayerIdx] = 'curPlayerIdx'
         [puttSelectorActive] = 'puttSelectorActive'
-        [rounds] = 'onlineRounds'
+        [roundsSgn] = 'onlineRoundsSgn'
         [curHolePutts] = 'curHolePutts'
         [penaltySelectorActive] = 'penaltySelectorActive'
         [curHolePenalties] = 'curHolePenalties'
@@ -17,8 +17,7 @@
         [curHoleIdx] = 'curHoleIdx'
         [ballPickedUp] = 'ballPickedUp'
         [totalStrokes] = 'totalStrokes'
-        [counter] = 'counter.bind(this)'
-        [calculateStyle] = 'calculateStyle.bind(this)'
+        [curPlayerStyle] = 'curPlayerStyle'
         [inProgress] = 'inProgress'>
       </app-common-scorecard-top>
     } @else {
@@ -28,14 +27,14 @@
     }
     <div>
       <div>
-        @if (mpResult[1] === undefined) {
+        @if (secondPlayerResultSgn() === undefined) {
           <h3>
-            {{mpResult[0]}}
+            {{firstPlayerResultSgn()}}
           </h3>
         }
-        @if (mpResult[1] !== undefined) {
+        @if (secondPlayerResultSgn() !== undefined) {
           <h3 style="color: red; font-weight: bold;">
-            {{mpResult[1]}}
+            {{secondPlayerResultSgn()}}
           </h3>
         }
       </div>
@@ -45,15 +44,15 @@
             <th id="empty"></th>
             <th id="hole" i18n="@@onlMatch-hole">Hole</th>
             <th id="p1r">
-              {{onlineRounds[0].player.nick}}
-              @if (hcpDiff > 0) {
-                <span>({{hcpDiff}}) </span>
+              {{onlineRoundsSgn()[0].player.nick}}
+              @if (hcpDiff() > 0) {
+                <span>({{hcpDiff()}})</span>
               }
             </th>
             <th id="p2r">
-              {{onlineRounds[1].player.nick}}
-              @if (hcpDiff < 0) {
-                <span> ({{-hcpDiff}}) </span>
+              {{onlineRoundsSgn()[1].player.nick}}
+              @if (hcpDiff() < 0) {
+                <span>({{-hcpDiff()}})</span>
               }
             </th>
             <th id="winner" i18n="@@onlMatch-winner">Winner</th>
@@ -81,8 +80,8 @@
               <td>
                 {{i + 1}}
               </td>
-              @for (index of counter(2); track index; let pl = $index) {
-                <td [ngClass]="highlightHcp(i, pl)">
+              @for (index of 2 | range; track index; let pl = $index) {
+                <td [ngClass]="highlightHCPSgn()[pl][i]">
                   @if (stroke[pl] > 0 && stroke[pl] < 16) {
                     <span>{{stroke[pl]}}</span>
                   }
@@ -92,7 +91,7 @@
                   <span class="supsub">
                     <span class="superscript">
                       <span class="dotSeparator"></span>
-                      @for (putt of counter(putts[i][pl]); track putt) {
+                      @for (putt of putts[i][pl] | range; track putt) {
                         <span>
                           <span class="blackDot"></span>
                           <span class="dotSeparator"></span>
@@ -101,7 +100,7 @@
                     </span>
                     <span class="subscript">
                       <span class="dotSeparator"></span>
-                      @for (penalty of counter(penalties[i][pl]); track penalty) {
+                      @for (penalty of penalties[i][pl] | range; track penalty) {
                         <span>
                           <span class="redDot"></span>
                           <span class="dotSeparator"></span>
@@ -112,27 +111,27 @@
                 </td>
               }
               <td>
-                @if (mpScore[i] != undefined && mpScore[i] === -1) {
+                @if (mpScoreSgn()[i] === -1) {
                   <span>
-                    {{onlineRounds[0].player.nick}}
+                    {{onlineRoundsSgn()[0].player.nick}}
                   </span>
                 }
-                @if (mpScore[i] != undefined && mpScore[i] === 1) {
+                @if (mpScoreSgn()[i] === 1) {
                   <span>
-                    {{onlineRounds[1].player.nick}}
+                    {{onlineRoundsSgn()[1].player.nick}}
                   </span>
                 }
-                @if (mpScore[i] != undefined && mpScore[i] === 0) {
+                @if (mpScoreSgn()[i] === 0) {
                   <span>
                     halved
                   </span>
                 }
               </td>
               <td>
-                {{course.holes[i].par}}
+                {{courseSgn().holes[i].par}}
               </td>
               <td>
-                {{course.holes[i].si}}
+                {{courseSgn().holes[i].si}}
               </td>
             </tr>
           }

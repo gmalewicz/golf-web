@@ -25,20 +25,20 @@
     </button>
   </div>
   <div  class="col-auto">
-    <button type="button" style="width: 6rem;" class="btn-lg btn btn-success fw-bolder" (click)="addScore()" [disabled]="isActive ? (inProgress() ? true : false) : true">
-      @if (isActive && !inProgress()) {
+    <button type="button" style="width: 6rem;" class="btn-lg btn btn-success fw-bolder" (click)="addScore()" [disabled]="isActiveSgn() ? (inProgress() ? true : false) : true">
+      @if (isActiveSgn() && !inProgress()) {
         <span i18n="@@onlnNav-save">
         Save
       </span>
       }
-      @if (!isActive || inProgress()) {
+      @if (!isActiveSgn() || inProgress()) {
         <span class="spinner-border spinner-border-sm mr-1">
         </span>
       }
     </button>
   </div>
 </div>
-@if (rounds()[0].putts) {
+@if (roundsSgn()[0].putts) {
   <div>
     <br/>
     <div>
@@ -47,7 +47,7 @@
     </div>
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        @for (putt of buttons; track putt; let i = $index) {
+        @for (putt of buttonsSgn(); track putt; let i = $index) {
           <button class="btn btn-outline-success btn-lg"
             [ngClass]="puttSelectorActive()[i]" (click)="selectPutt(i)">
             {{i}}
@@ -57,7 +57,7 @@
     </div>
   </div>
 }
-@if (rounds()[0].penalties) {
+@if (roundsSgn()[0].penalties) {
   <div>
     <div>
       <span i18n="@@onlnNav-pnlt">Penalties</span>
@@ -65,7 +65,7 @@
     </div>
     <div>
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
-        @for (penalty of buttons; track penalty; let i = $index) {
+        @for (penalty of buttonsSgn(); track penalty; let i = $index) {
           <button class="btn btn-outline-success btn-lg"
             [ngClass]="penaltySelectorActive()[i]" (click)="selectPenalty(i)">
             {{i}}

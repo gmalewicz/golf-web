@@ -104,7 +104,7 @@ describe('TournamentPlayersComponent', () => {
     component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.navigationService.tournamentResults.set([]);
     component.updateWHS(0);
-    expect(component.navigationService.tournamentPlayers().at(0).whs).toBe(10.1);
+    expect(component.navigationService.tournamentPlayers()[0].whs).toBe(10.1);
   });
 
   it('should not update WHS because player has results', () => {
@@ -113,6 +113,6 @@ describe('TournamentPlayersComponent', () => {
     component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.navigationService.tournamentResults.set([getTournamentResult()]);
     component.updateWHS(0);
-    expect(component.navigationService.tournamentPlayers().at(0).whs).toBe(10);
+    expect(component.navigationService.tournamentPlayers()[0].whs).toBe(10);
   });
 });

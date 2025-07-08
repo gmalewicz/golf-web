@@ -1,61 +1,65 @@
 import { Course } from '@/_models/course';
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 
 @Injectable()
 export class NavigationService {
 
-  course: Course;
-  onlineRounds: OnlineRound[];
-  owner: number;
+  courseSgn = signal<Course>(undefined);
+  onlineRoundsSgn = signal<OnlineRound[]>([]);
+  ownerSgn = signal<number>(undefined);
 
   constructor() {
-    this.getCourse();
-    this.getOnlineRounds();
-    this.getOwner();
+    this.getCourseSgn();
+    this.getOnlineRoundsSgn();
+    this.getOwnerSgn();
   }
 
-  setOwner(owner: number) {
-    localStorage.setItem('owner', JSON.stringify(owner));
-    this.owner = owner;
+  setOwnerSgn(ownerSgn: WritableSignal<number>) {
+    localStorage.setItem('owner', JSON.stringify(ownerSgn()));
+    this.ownerSgn = ownerSgn;
   }
 
-  getOwner(): number {
-    if (this.owner === undefined) {
-      this.owner = JSON.parse(localStorage.getItem('owner'));
-    }
-    return this.owner;
+  getOwnerSgn(): WritableSignal<number> {
+
+    if (this.ownerSgn() === undefined && localStorage.getItem('owner') !== null) {
+      this.ownerSgn.set((JSON.parse(localStorage.getItem('owner'))));
+    }   
+    return this.ownerSgn;
+    
   }
 
 
-  setCourse(course: Course) {
-    localStorage.setItem('course', JSON.stringify(course));
-    this.course = course;
+  setCourseSgn(courseSgn: WritableSignal<Course>) {
+    localStorage.setItem('course', JSON.stringify(courseSgn()));
+    this.courseSgn = courseSgn;
   }
 
-  getCourse(): Course {
-    if (this.course === undefined) {
-      this.course = JSON.parse(localStorage.getItem('course'));
-    }
-    return this.course;
+  getCourseSgn(): WritableSignal<Course> {
+
+    if (this.courseSgn() === undefined && localStorage.getItem('course') !== null) {
+      this.courseSgn.set((JSON.parse(localStorage.getItem('course'))));
+    }   
+    return this.courseSgn;
+   
   }
 
-  setOnlineRounds(onlineRounds: OnlineRound[]) {
-    localStorage.setItem('onlineRounds', JSON.stringify(onlineRounds));
-    this.onlineRounds = onlineRounds;
+  setOnlineRoundsSgn(onlineRoundsSgn: WritableSignal<OnlineRound[]>) {
+    localStorage.setItem('onlineRounds', JSON.stringify(onlineRoundsSgn()));
+    this.onlineRoundsSgn = onlineRoundsSgn;
   }
 
-  getOnlineRounds(): OnlineRound[] {
-    if (this.onlineRounds === undefined) {
-      this.onlineRounds = JSON.parse(localStorage.getItem('onlineRounds'));
-    }
-    return this.onlineRounds;
+  getOnlineRoundsSgn(): WritableSignal<OnlineRound[]> {
+    if (this.onlineRoundsSgn().length === 0 && localStorage.getItem('onlineRounds') !== null) {
+      this.onlineRoundsSgn.set((JSON.parse(localStorage.getItem('onlineRounds'))));
+    }   
+    return this.onlineRoundsSgn;
   }
 
   clear() {
-    this.course = undefined;
-    this.onlineRounds = undefined;
-    this.owner = undefined;
+    this.courseSgn.set(undefined);
+    this.onlineRoundsSgn.set([]);
+    this.ownerSgn.set(undefined);
     localStorage.removeItem('course');
     localStorage.removeItem('onlineRounds');
     localStorage.removeItem('owner');

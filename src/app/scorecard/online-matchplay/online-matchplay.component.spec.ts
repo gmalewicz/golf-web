@@ -15,6 +15,7 @@ import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppIntercepto
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { signal } from '@angular/core';
 
 describe('OnlineMatchplayComponent', () => {
 
@@ -45,8 +46,8 @@ describe('OnlineMatchplayComponent', () => {
 
   beforeEach(() => {
     navigationService = TestBed.inject(NavigationService);
-    navigationService.setCourse(getTestCourse());
-    navigationService.setOnlineRounds([getOnlineRoundFirstPlayer(), getOnlineRoundSecondPlayer()]);
+    navigationService.setCourseSgn(signal(getTestCourse()));
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer(), getOnlineRoundSecondPlayer()]));
     fixture = TestBed.createComponent(OnlineMatchplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,22 +55,6 @@ describe('OnlineMatchplayComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call highlightHcp and ecpect no-edit', () => {
-    component.holeHCP = [];
-    component.holeHCP[0] = [];
-    component.holeHCP[0][0] = 0;
-    component.highlightHcp(0, 0);
-    expect(component.highlightHcp(0, 0)).toBe('no-edit');
-  });
-
-  it('should call highlightHcp and ecpect highlightHcp', () => {
-    component.holeHCP = [];
-    component.holeHCP[0] = [];
-    component.holeHCP[0][0] = 1;
-    component.highlightHcp(0, 0);
-    expect(component.highlightHcp(0, 0)).toBe('highlightHcp');
   });
 
   it('should call updateMPResults', () => {

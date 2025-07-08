@@ -43,28 +43,28 @@ describe('RoundsComponent', () => {
   });
 
   it('should execute onNext', () => {
-    component.roundsNavigationService.setRounds([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
+    component.roundsNavigationService.rounds.set([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
     // component.pageSize = 1;
     component.onNext();
-    expect(component.roundsNavigationService.getPage()).toBe(1);
+    expect(component.roundsNavigationService.page()).toBe(1);
   });
 
   it('should execute onPrevious', () => {
-    component.roundsNavigationService.setPage(1);
-    component.roundsNavigationService.setRounds([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
+    component.roundsNavigationService.page.set(1);
+    component.roundsNavigationService.rounds.set([getTestRound(), getTestRound(), getTestRound(), getTestRound(), getTestRound()]);
     component.onPrevious();
-    expect(component.roundsNavigationService.getPage()).toBe(0);
+    expect(component.roundsNavigationService.page()).toBe(0);
   });
 
   it('should execute onTabClick 0', () => {
-    component.roundsNavigationService.setRounds([getTestRound()]);
+    component.roundsNavigationService.rounds.set([getTestRound()]);
     component.onTabClick(0);
-    expect(component.roundsNavigationService.getSelectedTab()).toBe(0);
+    expect(component.roundsNavigationService.selectedTab()).toBe(0);
   });
 
   it('should execute onTabClick 1', () => {
     component.onTabClick(1);
-    expect(component.roundsNavigationService.getSelectedTab()).toBe(1);
+    expect(component.roundsNavigationService.selectedTab()).toBe(1);
   });
 
 

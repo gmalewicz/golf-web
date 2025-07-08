@@ -1,17 +1,17 @@
-@if (!display) {
+@if (!displaySgn()) {
   <div class="d-flex justify-content-center">
     <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
-@if (display && myOnlineRounds.length === 0) {
+@if (displaySgn() && myOnlineRoundsSgn().length === 0) {
   <div>
     <h2 i18n="@@onlineScoreCard-noCards">No active score cards</h2>
   </div>
 }
-@if (display) {
+@if (displaySgn()) {
   <div>
     <br />
-    @if (display && myOnlineRounds.length === 0) {
+    @if (displaySgn() && myOnlineRoundsSgn().length === 0) {
       <span >
         <button type="button" class="btn btn-success" routerLink= "/courses" [state]="{ data: { parent: 'addOnlineRound' } }" i18n="@@onlineScoreCard-start">
           Start Round

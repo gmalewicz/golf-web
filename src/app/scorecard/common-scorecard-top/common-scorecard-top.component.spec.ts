@@ -4,7 +4,7 @@ import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.c
 import { CommonScorecardTopComponent } from './common-scorecard-top.component';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { authenticationServiceAdminStub } from '@/_helpers/test.helper';
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, signal } from '@angular/core';
 
 describe('CommonScorecardTopComponent', () => {
   let component: CommonScorecardTopComponent;
@@ -26,16 +26,15 @@ describe('CommonScorecardTopComponent', () => {
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
 
-    component.calculateStyle = () => 'edit';
+    
     component.addScore = () => null;
 
-    component.counter = () => [1];
-
+    componentRef.setInput('curPlayerStyle', signal(['edit']));
     componentRef.setInput('curHoleIdx', 0);
     componentRef.setInput('curHoleStrokes', [1]);
     componentRef.setInput('curHolePutts', [1]);
     componentRef.setInput('curHolePenalties', [1]);
-    componentRef.setInput('rounds', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
+    componentRef.setInput('roundsSgn', signal([{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]));
     componentRef.setInput('ballPickedUp', false);
     componentRef.setInput('totalStrokes', [1]);
     componentRef.setInput('penaltySelectorActive', [{active: false}]);

@@ -1,6 +1,6 @@
 import { NavigationService } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, Signal} from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
@@ -10,6 +10,7 @@ import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPRe
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgClass, DecimalPipe } from '@angular/common';
+import { HALF_HOLES } from '../_helpers/constants';
 
 @Component({
     selector: 'app-online-score-card-view',
@@ -20,39 +21,37 @@ import { NgClass, DecimalPipe } from '@angular/common';
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
-  onlineRounds: OnlineRound[];
-  course: Course;
-  owner: number;
-  display = false;
-  first9par: number;
-  last9par: number;
+  // component varaiables
   holeHCP: number[][];
-  finalized: boolean;
   // -2 not set
   // -1 first player won
   // 0 tie
   // 1 second player won
   mpScore: number[];
-  mpResult: string[];
-  mpResultHistory: string[][];
-
-  // ballPickedUp: boolean[];
-  first9ballPickedUp: boolean[];
-  last9ballPickedUp: boolean[];
-
   teeTime: string;
-
-  scoreBruttoClass: string[][];
-
-  elapsed: TimeSpan;
+  queueSubscription: Subscription;
+  subscriptions: Subscription[] = [];
   subscription: Subscription;
 
-  lstUpdTime: string;
+  // signals
+  onlineRoundsSgn = signal<OnlineRound[]>(undefined);
+  courseSgn = signal<Course>(undefined); 
+  ownerSgn = signal<number>(undefined);
+  displaySgn = signal<boolean>(false);
+  highlightHCPSgn = signal<string[][]>(undefined);
+  finalizedSgn = signal<boolean>(undefined);
+  mpResultHistorySgn = signal<string[][]>(undefined);
+  first9ballPickedUpSgn = signal<boolean[]>(undefined); 
+  last9ballPickedUpSgn = signal<boolean[]>(undefined);
+  scoreBruttoClassSgn = signal<string[][]>(undefined);
+  lstUpdTimeSgn = signal<string>(undefined);
+  elapsedSgn = signal<TimeSpan>(undefined);
 
-  queueSubscription: Subscription;
-
-  subscriptions: Subscription[] = [];
-
+  // computed signals
+  first9parSgn: Signal<number>;
+  last9parSgn: Signal<number>;
+  mpResultSgn: Signal<string[]>;
+    
   constructor(private readonly httpService: HttpService,
               private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
@@ -84,37 +83,34 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.onlineRoundsSgn = this.navigationService.getOnlineRoundsSgn();
+    // get course from state
+    this.courseSgn = this.navigationService.getCourseSgn();
+
     if (this.authenticationService.currentPlayerValue === null ||
-        (this.navigationService.getCourse() === null && this.navigationService.getOnlineRounds() === null)) {
+        (this.courseSgn() === undefined && this.onlineRoundsSgn().length === 0)) {
       this.authenticationService.logout();
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
       this.handleDocumentVisibilityChanges();
 
-      this.elapsed = {hours: 0, minutes: 0, seconds: 0};
-      // get round from state
-      let onlineRound: OnlineRound = null;
-      if (this.navigationService.getOnlineRounds() !== null) {
-        onlineRound = this.navigationService.getOnlineRounds()[0];
-      }
-      // get course from state
-      this.course = this.navigationService.getCourse();
+      this.elapsedSgn.set({hours: 0, minutes: 0, seconds: 0});
+      
       // get owner in case of match play online score card
-      this.owner = this.navigationService.getOwner();
+      this.ownerSgn = this.navigationService.getOwnerSgn();
 
-      if (onlineRound !== null && this.owner === null) {
-        this.onlineRounds = new Array(1);
-        this.onlineRounds[0] = onlineRound;
-        this.course = onlineRound.course;
-        this.finalized = onlineRound.finalized;
+      if (this.onlineRoundsSgn().length !== 0 && this.ownerSgn() === undefined) {
+        this.onlineRoundsSgn.set([...[this.onlineRoundsSgn()[0]]]); // trigger change detection
+        this.courseSgn.set(this.onlineRoundsSgn()[0].course);
+        this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
         this.showRound();
-      } else if (this.owner !== null) {
+      } else if (this.ownerSgn() !== undefined) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
-        this.finalized = this.navigationService.getOnlineRounds()[0].finalized;
-        this.mpScore = new Array(18).fill(-2);
-        this.mpResult = new Array(2);
-        this.teeTime  = this.navigationService.getOnlineRounds()[0].teeTime;
+        this.highlightHCPSgn = signal(new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit')));
+        this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
+        this.mpScore = new Array(18).fill(-2);    
+        this.teeTime  = this.onlineRoundsSgn()[0].teeTime;
         this.showMatch();
       } else {
         this.showCourse();
@@ -135,9 +131,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   showMatch() {
 
     combineLatest([this.scorecardHttpService.getOnlineRoundsForOwner(
-      this.owner), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
+      this.ownerSgn()), this.httpService.getHoles(this.courseSgn().id)]).subscribe(([retOnlineRounds, retHoles]) => {
 
-        this.course.holes = retHoles;
+        this.courseSgn().holes = retHoles;
 
         retOnlineRounds = retOnlineRounds.filter(or => or.matchPlay === true && or.teeTime === this.teeTime);
 
@@ -147,13 +143,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
               or.player.whs,
               or.tee.sr,
               or.tee.cr,
-              getPlayedCoursePar(this.course.holes , or.tee.teeType, this.course.par));
+              getPlayedCoursePar(this.courseSgn().holes , or.tee.teeType, this.courseSgn().par));
 
             this.updateStartingHole(or);
 
         });
 
-        if (this.owner != null) {
+        if (this.ownerSgn() != undefined) {
 
           const hcpDiff = retOnlineRounds[0].courseHCP - retOnlineRounds[1].courseHCP;
           let corHcpDiff = Math.abs(hcpDiff * retOnlineRounds[0].mpFormat);
@@ -176,28 +172,35 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             retOnlineRounds[0].tee.teeType,
             retOnlineRounds[0].courseHCP,
              this.holeHCP,
-             this.course);
+             this.courseSgn());
 
           calculateHoleHCP( 1,
             retOnlineRounds[1].tee.teeType,
             retOnlineRounds[1].courseHCP,
             this.holeHCP,
-            this.course);
+            this.courseSgn());
+  
+          this.highlightHCPSgn()[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
+          this.highlightHCPSgn()[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+          this.highlightHCPSgn.set([...this.highlightHCPSgn()]); // trigger change detection
+          
         }
 
         this.calculateMpResult(retOnlineRounds);
 
-        this.onlineRounds = retOnlineRounds;
+        this.onlineRoundsSgn.set([...retOnlineRounds]); // trigger change detection
 
+        
         // calculate MP result texts
-        this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+        this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore));
         // calculate MP result history
-        this.mpResultHistory = createMPResultHistory(this.mpScore);
-        this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
-        this.last9par = this.onlineRounds[0].course.par - this.first9par;
+        this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
+        
+        this.first9parSgn = computed(() => this.courseSgn().holes.map(h => h.par).
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
+        this.last9parSgn = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
         this.startLisenning();
-        this.display = true;
+        this.displaySgn.set(true);
     });
   }
 
@@ -224,7 +227,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           this.mpScore[index] = 1;
           retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
         }
-        this.lstUpdTime = this.compareTime(this.lstUpdTime, sc.time);
+        this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), sc.time));
         this.resetCounter();
       }
     });
@@ -253,19 +256,19 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   showRound() {
 
     // initialize colour display class for results
-    this.scoreBruttoClass = new Array(1).fill('').map(() => new Array(18).fill(''));
+    this.scoreBruttoClassSgn.set(new Array(1).fill('').map(() => new Array(18).fill('')));
 
     combineLatest([this.scorecardHttpService.getOnlineScoreCard(
-      this.onlineRounds[0].id), this.httpService.getHoles(this.onlineRounds[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
+      this.onlineRoundsSgn()[0].id), this.httpService.getHoles(this.onlineRoundsSgn()[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
 
-        this.first9ballPickedUp = Array(this.onlineRounds.length).fill(false);
-        this.last9ballPickedUp = Array(this.onlineRounds.length).fill(false);
+        this.first9ballPickedUpSgn.set(Array(this.onlineRoundsSgn().length).fill(false));
+        this.last9ballPickedUpSgn.set(Array(this.onlineRoundsSgn().length).fill(false));
 
         const onlineScoreCards: OnlineScoreCard[] = Array(18);
 
-        this.onlineRounds[0].course.holes = retHoles;
-        this.onlineRounds[0].first9score = 0;
-        this.onlineRounds[0].last9score = 0;
+        this.onlineRoundsSgn()[0].course.holes = retHoles;
+        this.onlineRoundsSgn()[0].first9score = 0;
+        this.onlineRoundsSgn()[0].last9score = 0;
 
         let idx = retScoreCards.length;
 
@@ -273,57 +276,61 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
           onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
 
           // set ball picked up for a player
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= 9) {
-            this.first9ballPickedUp[0] = true;
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= HALF_HOLES) {
+            this.first9ballPickedUpSgn()[0] = true;
+            this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
           }
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > 9) {
-            this.last9ballPickedUp[0] = true;
+          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > HALF_HOLES) {
+            this.last9ballPickedUpSgn()[0] = true;
+            this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
           }
 
           // initiate first and last 9 total strokes
           if (retScoreCards[idx - 1].hole < 10) {
-            this.onlineRounds[0].first9score += retScoreCards[idx - 1].stroke;
+            this.onlineRoundsSgn()[0].first9score += retScoreCards[idx - 1].stroke;
           } else {
-            this.onlineRounds[0].last9score += retScoreCards[idx - 1].stroke;
+            this.onlineRoundsSgn()[0].last9score += retScoreCards[idx - 1].stroke;
           }
           // create colour
-          this.scoreBruttoClass[0][retScoreCards[idx - 1].hole - 1] =
-            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRounds[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
+          this.scoreBruttoClassSgn()[0][retScoreCards[idx - 1].hole - 1] =
+            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRoundsSgn()[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
+          this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
 
-          this.lstUpdTime = this.compareTime(this.lstUpdTime, retScoreCards[idx - 1].time);
+          this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), retScoreCards[idx - 1].time));
           idx--;
         }
         this.resetCounter();
 
-        this.onlineRounds[0].scoreCardAPI = onlineScoreCards;
+        this.onlineRoundsSgn()[0].scoreCardAPI = onlineScoreCards;
 
         // create pars for first and last 9
-        this.first9par = this.onlineRounds[0].course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
-        this.last9par = this.onlineRounds[0].course.par - this.first9par;
+        this.first9parSgn = computed(() => this.onlineRoundsSgn()[0].course.holes.map(h => h.par).
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
+        this.last9parSgn = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
+        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
         this.startLisenning();
-        this.display = true;
+        this.displaySgn.set(true);
     });
   }
 
   showCourse() {
 
     combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
-      this.course.id), this.httpService.getHoles(this.course.id)]).subscribe(([retOnlineRounds, retHoles]) => {
+      this.courseSgn().id), this.httpService.getHoles(this.courseSgn().id)]).subscribe(([retOnlineRounds, retHoles]) => {
 
-        this.first9ballPickedUp = Array(retOnlineRounds.length).fill(false);
-        this.last9ballPickedUp = Array(retOnlineRounds.length).fill(false);
-        this.course.holes = retHoles;
+        this.first9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
+        this.last9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
+        this.courseSgn().holes = retHoles;
 
         // initialize colour display class for results
-        this.scoreBruttoClass = new Array(retOnlineRounds.length).fill('').map(() => new Array(18).fill(''));
+        this.scoreBruttoClassSgn.set(new Array(retOnlineRounds.length).fill('').map(() => new Array(18).fill('')));
 
-        this.finalized = true;
+        this.finalizedSgn.set(true);
 
         retOnlineRounds.forEach((retOnlineRound, idx) => {
 
           if (!retOnlineRound.finalized) {
-            this.finalized = false;
+            this.finalizedSgn.set(false);
           }
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
@@ -345,55 +352,56 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
             }
 
             // create colour
-            this.scoreBruttoClass[idx][scoreCardAPI.hole - 1] =
-              this.prepareColoursForResults(scoreCardAPI.stroke, this.course.holes[scoreCardAPI.hole - 1].par);
+            this.scoreBruttoClassSgn()[idx][scoreCardAPI.hole - 1] =
+              this.prepareColoursForResults(scoreCardAPI.stroke, this.courseSgn().holes[scoreCardAPI.hole - 1].par);
+            this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
 
-            this.lstUpdTime = this.compareTime(this.lstUpdTime, scoreCardAPI.time);
+            this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), scoreCardAPI.time));
             this.resetCounter();
 
             if (id > lastIdx) {
               lastIdx = id;
             }
           });
-
-          this.onlineRounds = retOnlineRounds;
+          this.onlineRoundsSgn.update(() => retOnlineRounds);           
         });
 
-        this.onlineRounds = retOnlineRounds;
+        this.onlineRoundsSgn.update(() => retOnlineRounds); 
         // create pars for first and last 9
-        this.first9par = this.course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
-        this.last9par = this.course.par - this.first9par;
+        this.first9parSgn = computed(() => this.courseSgn().holes.map(h => h.par).
+          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
+        this.last9parSgn = computed(() => this.courseSgn().par - this.first9parSgn());
+        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
         this.startLisenning();
-        this.display = true;
+        this.displaySgn.set(true);
     });
   }
 
   private setBallPickUp(scoreCardAPI: OnlineScoreCard, idx: number) {
 
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= 9) {
-      this.first9ballPickedUp[idx] = true;
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= HALF_HOLES) {
+      this.first9ballPickedUpSgn()[idx] = true;
+      this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
     }
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > 9) {
-      this.last9ballPickedUp[idx] = true;
+    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > HALF_HOLES) {
+      this.last9ballPickedUpSgn()[idx] = true;
+      this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
     }
   }
 
 
-  // helper function to provide verious arrays for html
-  counter(i: number) {
-    return [...Array(i).keys()];
-  }
+  // helper function to provide array for html
+  counterSgn = signal<Array<number>>([...Array(HALF_HOLES).keys()]) 
 
   // process score card received from the web socket
   handleMessage(onlineScoreCard: OnlineScoreCard) {
 
-    if (this.owner) {
+    if (this.ownerSgn()) {
       this.handleMatchPlayMessage(onlineScoreCard);
        // calculate MP result texts
-      this.mpResult = createMPResultText(this.onlineRounds[0].player.nick, this.onlineRounds[1].player.nick, this.mpScore);
+      this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore));
        // calculate MP result history
-      this.mpResultHistory = createMPResultHistory(this.mpScore);
+      this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
     } else {
       this.handleStrokeMessage(onlineScoreCard);
     }
@@ -404,7 +412,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     let holeIdx = -1;
 
-    this.onlineRounds.forEach(onlineRound => {
+    this.onlineRoundsSgn().forEach(onlineRound => {
 
       // update if applicable for that card
       if (onlineRound.player.id === onlineScoreCard.player.id) {
@@ -413,11 +421,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.checkForReload(onlineRound, onlineScoreCard.hole - 1);
         holeIdx = onlineScoreCard.hole - 1;
 
-        this.lstUpdTime = onlineScoreCard.time;
+        this.lstUpdTimeSgn.set(onlineScoreCard.time);
 
         // calculate mp result
-        const scPlayer0 = this.onlineRounds[0].scoreCardAPI[holeIdx];
-        const scPlayer1 = this.onlineRounds[1].scoreCardAPI[holeIdx];
+        const scPlayer0 = this.onlineRoundsSgn()[0].scoreCardAPI[holeIdx];
+        const scPlayer1 = this.onlineRoundsSgn()[1].scoreCardAPI[holeIdx];
 
         if (holeIdx !== -1 &&  scPlayer0 !== null && scPlayer1 !== null) {
 
@@ -442,6 +450,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
           this.createSummary();
         }
+        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
       }
     });
 
@@ -449,18 +458,18 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   private createSummary() {
 
-    this.first9par = this.course.holes.map(h => h.par).
-    reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
+    this.first9parSgn = computed(() => this.courseSgn().holes.map(h => h.par).
+    reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
   }
 
   private handleStrokeMessage(onlineScoreCard: OnlineScoreCard) {
 
-    this.onlineRounds.forEach((onlineRound, idx) => {
+    this.onlineRoundsSgn().forEach((onlineRound, idx) => {
 
       // update if applicable for that card
       if (onlineRound.player.id === onlineScoreCard.player.id) {
 
-        this.lstUpdTime = onlineScoreCard.time;
+        this.lstUpdTimeSgn.set(onlineScoreCard.time);
 
         this.resetCounter();
 
@@ -484,12 +493,18 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.checkForReload(onlineRound, onlineScoreCard.hole - 1);
 
         // create colour
-        this.scoreBruttoClass[idx][onlineScoreCard.hole - 1] =
-          this.prepareColoursForResults(onlineScoreCard.stroke, this.course.holes[onlineScoreCard.hole - 1].par);
+        this.scoreBruttoClassSgn()[idx][onlineScoreCard.hole - 1] =
+          this.prepareColoursForResults(onlineScoreCard.stroke, this.courseSgn().holes[onlineScoreCard.hole - 1].par);
+         this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
 
         // check if at least for one hole the ball was picked up for each 9
-        this.first9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= 9));
-        this.last9ballPickedUp[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > 9));
+        this.first9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= HALF_HOLES));
+        this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
+
+        this.last9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > HALF_HOLES));
+        this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
+
+        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
       }
     });
   }
@@ -531,13 +546,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   private resetCounter() {
 
-    if (typeof this.lstUpdTime === 'undefined') {
+    if (typeof this.lstUpdTimeSgn() === 'undefined') {
       return;
     }
 
     const startDate = new Date();
-    startDate.setHours(+this.lstUpdTime.substring(0, 2));
-    startDate.setMinutes(+this.lstUpdTime.substring(3, 5));
+    startDate.setHours(+this.lstUpdTimeSgn().substring(0, 2));
+    startDate.setMinutes(+this.lstUpdTimeSgn().substring(3, 5));
 
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -545,7 +560,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     this.subscription = timer(0, 1000)
     .subscribe(() => {
-      this.elapsed = this.getElapsedTime(startDate);
+      this.elapsedSgn.set(this.getElapsedTime(startDate));
     });
   }
 
@@ -585,13 +600,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     const secondNum: number  = +second.replace(':', '');
 
     return firstNum > secondNum ? first : second;
-  }
-
-  highlightHcp(hole: number, player: number) {
-    if (this.holeHCP[player][hole] > 0) {
-      return 'highlightHcp';
-    }
-    return 'no-edit';
   }
 
   private handleDocumentVisibilityChanges(): void {

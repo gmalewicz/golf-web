@@ -1,0 +1,1 @@
+export const HALF_HOLES = 9;

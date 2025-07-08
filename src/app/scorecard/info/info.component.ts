@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NavigationService } from '../_services/navigation.service';
 import { OnlineRound } from '../_models';
 import { Router } from '@angular/router';
@@ -23,8 +23,8 @@ export class InfoComponent {
 
   onBack(): void {  
 
-    this.navigationService.setCourse(this.onlineRounds[0].course);
-    this.navigationService.setOnlineRounds(this.onlineRounds);
+    this.navigationService.setCourseSgn(signal(this.onlineRounds[0].course));
+    this.navigationService.setOnlineRoundsSgn(signal(this.onlineRounds));
 
     if (this.onlineRounds[0].matchPlay) {
       this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));

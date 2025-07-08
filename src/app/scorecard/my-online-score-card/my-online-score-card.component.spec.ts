@@ -10,6 +10,7 @@ import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 import { MyOnlineScoreCardComponent } from './my-online-score-card.component';
+import { OnlineRound } from '../_models';
 
 describe('OnlineScoreCardComponent', () => {
   let component: MyOnlineScoreCardComponent;
@@ -52,8 +53,9 @@ describe('OnlineScoreCardComponent', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
-    component.myOnlineRounds = [getOnlineRoundFirstPlayer()];
-    component.myOnlineRounds[0].course = getTestCourse();
+    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.course = getTestCourse();
+    component.myOnlineRoundsSgn.set([onlineRound]);
     component.showRound();
     expect(component).toBeTruthy();
   });
