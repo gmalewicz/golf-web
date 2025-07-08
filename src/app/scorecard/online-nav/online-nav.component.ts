@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnDestroy, OnInit, Signal, WritableSignal, input, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Signal, input, signal } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgClass } from '@angular/common';

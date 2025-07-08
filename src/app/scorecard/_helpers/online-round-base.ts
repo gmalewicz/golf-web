@@ -220,9 +220,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       return s;
     });
     // set player index to 0 and update edit style
-    //this.editClass[this.curPlayerIdx] = 'no-edit';
     this.curPlayerIdx = 0;
-    //this.editClass[this.curPlayerIdx] = 'edit';
     this.puttSelectorActive.fill({ active: false });
     this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
