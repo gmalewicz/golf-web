@@ -5,20 +5,14 @@ import { Router, RouterModule } from '@angular/router';
 import { TournamentHttpService } from '../_services';
 import { Tournament } from '../_models/tournament';
 import { tap } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
 
 @Component({
     selector: 'app-add-tournament',
-    imports: [RouterModule,
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatError,
-        MatInput],
+    imports: [RouterModule, ReactiveFormsModule, MatFormField, MatLabel, MatError, MatInput],
     providers: [TournamentHttpService],
     templateUrl: './add-tournament.component.html'
 })
