@@ -1,14 +1,14 @@
-@if (!display) {
+@if (!displaySgn()) {
   <div class="d-flex justify-content-center">
     <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
-@if (display) {
+@if (displaySgn()) {
   <div>
     <form [formGroup]="defScoreCardForm">
       <div>
         <h2>
-          {{course.name}}
+          {{courseSgn().name}}
         </h2>
       </div>
       <div class="golf-margin-top-15">
@@ -49,16 +49,16 @@
           <div class="col">
             <div class="btn-group" aria-label="Number of players">
               <input type="radio" name="players" class="btn-check" id="player1" autocomplete="off" (click)="onPlayers(1)" onKeyDown="onPlayers(1)">
-              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 1}"
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayersSgn() === 1}"
               i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
               <input type="radio" name="players" class="btn-check" id="player2" autocomplete="off" (click)="onPlayers(2)" onKeyDown="onPlayers(2)">
-              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 2}"
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayersSgn() === 2}"
               i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
               <input type="radio" name="players" class="btn-check" id="player3" autocomplete="off" (click)="onPlayers(3)" onKeyDown="onPlayers(3)">
-              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 3}"
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayersSgn() === 3}"
               i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</button>
               <input type="radio" name="players"  class="btn-check" id="player4" autocomplete="off" (click)="onPlayers(4)" onKeyDown="onPlayers(4)">
-              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayers === 4}"
+              <button class="btn btn-outline-success" [ngClass]="{disabled: f.matchPlay.value, active: noOfPlayersSgn() === 4}"
               i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</button>
             </div>
           </div>
@@ -66,10 +66,10 @@
         <div class="row golf-margin-top-15">
           <div class="col-auto golf-width-210">
             <span class="golf-margin-top golf-thick">
-              {{players[0].nick}} HCP: {{players[0].whs}}
+              {{playersSgn()[0].nick}} HCP: {{playersSgn()[0].whs}}
             </span>
             <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+              <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
             </span>
           </div>
           <div class="col-auto">
@@ -87,31 +87,31 @@
           </div>
           <div class="col-auto">
             <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
-              @if (!searchInProgress[0]) {
+              @if (!searchInProgressSgn()[0]) {
                 <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
               }
-              @if (searchInProgress[0]) {
+              @if (searchInProgressSgn()[0]) {
                 <span class="spinner-border spinner-border-sm mr-1" ></span>
               }
             </button>
           </div>
         </div>
-        @if (noOfPlayers > 1) {
+        @if (noOfPlayersSgn() > 1) {
           <div class="row golf-margin-top-15">
             <div class="col-auto golf-width-210">
-              @if (players[1] == null) {
+              @if (playersSgn()[1] == null) {
                 <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2">
               Player 2
             </span>
                 <span class="golf-padding">
-                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(1)" onKeyDown="onSearchPlayer(1)"></fa-icon>
+                  <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(1)" onKeyDown="onSearchPlayer(1)"></fa-icon>
                 </span>
               } @else {
                 <span class="golf-margin-top golf-thick">
-                  {{players[1].nick}} HCP: {{players[1].whs}}
+                  {{playersSgn()[1].nick}} HCP: {{playersSgn()[1].whs}}
                 </span>
                 <span class="golf-padding golf-thick">
-                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                  <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
                 </span>
               }
             </div>
@@ -128,13 +128,13 @@
                 }
               </mat-form-field>
             </div>
-            @if (players[1] != null) {
+            @if (playersSgn()[1] != null) {
               <div class="col-auto">
                 <button type="button" id="p1Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(1)">
-                  @if (!searchInProgress[1]) {
+                  @if (!searchInProgressSgn()[1]) {
                     <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
                   }
-                  @if (searchInProgress[1]) {
+                  @if (searchInProgressSgn()[1]) {
                     <span class="spinner-border spinner-border-sm mr-1" ></span>
                   }
                 </button>
@@ -142,22 +142,22 @@
             }
           </div>
         }
-        @if (noOfPlayers > 2) {
+        @if (noOfPlayersSgn() > 2) {
           <div class="row golf-margin-top-15">
             <div class="col-auto golf-width-210">
-              @if (players[2] == null) {
+              @if (playersSgn()[2] == null) {
                 <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p3">
               Player 3
             </span>
                 <span class="golf-padding">
-                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(2)" onKeyDown="onSearchPlayer(2)"></fa-icon>
+                  <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(2)" onKeyDown="onSearchPlayer(2)"></fa-icon>
                 </span>
               } @else {
                 <span class="golf-margin-top golf-thick">
-                  {{players[2].nick}} HCP: {{players[2].whs}}
+                  {{playersSgn()[2].nick}} HCP: {{playersSgn()[2].whs}}
                 </span>
                 <span class="golf-padding golf-thick">
-                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                  <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
                 </span>
               }
             </div>
@@ -174,13 +174,13 @@
                 }
               </mat-form-field>
             </div>
-            @if (players[2] != null) {
+            @if (playersSgn()[2] != null) {
               <div class="col-auto">
                 <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)" onKeyDown="updateWHS(2)">
-                  @if (!searchInProgress[2]) {
+                  @if (!searchInProgressSgn()[2]) {
                     <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
                   }
-                  @if (searchInProgress[2]) {
+                  @if (searchInProgressSgn()[2]) {
                     <span class="spinner-border spinner-border-sm mr-1" ></span>
                   }
                 </button>
@@ -188,22 +188,22 @@
             }
           </div>
         }
-        @if (noOfPlayers > 3) {
+        @if (noOfPlayersSgn() > 3) {
           <div class="row golf-margin-top-15">
             <div class="col-auto golf-width-210">
-              @if (players[3] == null) {
+              @if (playersSgn()[3] == null) {
                 <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4">
               Player 4
             </span>
                 <span class="golf-padding">
-                  <fa-icon [icon]="faSearchPlus" class="golf-green" (click)="onSearchPlayer(3)" onKeyDown="onSearchPlayer(3)"></fa-icon>
+                  <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(3)" onKeyDown="onSearchPlayer(3)"></fa-icon>
                 </span>
               } @else {
                 <span class="golf-margin-top golf-thick">
-                  {{players[3].nick}} HCP: {{players[3].whs}}
+                  {{playersSgn()[3].nick}} HCP: {{playersSgn()[3].whs}}
                 </span>
                 <span class="golf-padding golf-thick">
-                  <fa-icon [icon]="faCheckCircle" class="golf-green"></fa-icon>
+                  <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
                 </span>
               }
             </div>
@@ -220,13 +220,13 @@
                 }
               </mat-form-field>
             </div>
-            @if (players[3] != null) {
+            @if (playersSgn()[3] != null) {
               <div class="col-auto">
                 <button type="button" id="p3Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(3)">
-                  @if (!searchInProgress[3]) {
+                  @if (!searchInProgressSgn()[3]) {
                     <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
                   }
-                  @if (searchInProgress[3]) {
+                  @if (searchInProgressSgn()[3]) {
                     <span class="spinner-border spinner-border-sm mr-1" ></span>
                   }
                 </button>
@@ -251,7 +251,7 @@
       </button>
           &nbsp;
           <button type="button" class="btn btn-success" (click)="onStartOnlineRound()">
-            @if (loading) {
+            @if (loadingSgn()) {
               <span class="spinner-border spinner-border-sm mr-1"></span>
             }
             <span i18n="@@onlnRndDef-start">Start</span>

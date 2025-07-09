@@ -17,13 +17,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cycleTournament of cycleTournaments(), let idx = index">
-            <td id="no">{{ idx + 1 }}</td>
-            <td id="name">{{ cycleTournament.name }}</td>
-            <td id="rounds">{{ cycleTournament.rounds }}</td>
-            <td id="bRounds" *ngIf="cycleTournament.bestOf">Yes</td>
-            <td id="bRounds"*ngIf="!cycleTournament.bestOf">No</td>
-          </tr>
+          @for (cycleTournament of cycleTournaments(); track cycleTournament; let idx = $index;) {
+            <tr>
+              <td id="no">{{ idx + 1 }}</td>
+              <td id="name">{{ cycleTournament.name }}</td>
+              <td id="rounds">{{ cycleTournament.rounds }}</td>
+              @if (cycleTournament.bestOf) {
+                <td id="bRounds">Yes</td>
+              } @else {
+                <td id="bRounds">No</td>
+              }              
+            </tr>
+          }
         </tbody>
       </table>
     </div>

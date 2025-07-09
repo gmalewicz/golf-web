@@ -28,7 +28,7 @@ export class RoundViewSkinsComponent implements OnInit {
     this.skin = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
     this.skinCount = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
 
-    Array(18).forEach(id => this.calculateSkins(id));
+    Array.from({ length: 18 }, (_, idx) => this.calculateSkins(idx));
     this.calculateTotalSkins();
   }
 
@@ -66,7 +66,7 @@ export class RoundViewSkinsComponent implements OnInit {
 
     let cumulation: number = 0;
 
-    Array(18).forEach((idx) => {
+    Array.from({ length: 18 }, (_, idx) => {
 
       let increaseCumulation: boolean = false;
 

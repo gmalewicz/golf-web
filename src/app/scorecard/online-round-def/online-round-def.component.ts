@@ -37,21 +37,21 @@ import { NgClass } from '@angular/common';
     providers: [NavigationService]
 })
 export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements OnInit {
-  course: Course;
-  defScoreCardForm: FormGroup;
+
+  courseSgn = signal<Course>(undefined);
+  displaySgn = signal(false);
+  loadingSgn = signal(false);
+  noOfPlayersSgn = signal<number>(undefined);
+  playersSgn = signal<Player[]>(undefined);
+  searchInProgressSgn = signal<boolean[]>(undefined);
+  faSearchPlusSgn = signal<IconDefinition>(undefined);
+  faCheckCircleSgn = signal<IconDefinition>(undefined);
+
+  defScoreCardForm: FormGroup;  
   teeOptionsMale: TeeOptions[] = [];
   teeOptionsFemale: TeeOptions[] = [];
-  display: boolean;
-  loading: boolean;
-  noOfPlayers: number;
-  players: Player[];
   tees: Tee[];
   selectedTeeOption: TeeOptions | undefined
-
-  searchInProgress: boolean[];
-
-  faSearchPlus: IconDefinition;
-  faCheckCircle: IconDefinition;
 
   constructor(
     protected httpService: HttpService,
@@ -75,24 +75,26 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
       // initialization
-      this.display = false;
-      this.loading = false;
-      this.noOfPlayers = 1;
-      this.players = Array(4);
+      this.displaySgn.set(false);
+      this.loadingSgn.set(false);
+      this.noOfPlayersSgn.set(1);
+      this.playersSgn.set(Array(4));
       this.tees = Array(4);
-      this.faSearchPlus = faSearchPlus;
-      this.faCheckCircle = faCheckCircle;
-      this.searchInProgress = Array(4).fill(false);
+      this.faSearchPlusSgn.set(faSearchPlus);
+      this.faCheckCircleSgn.set(faCheckCircle);
+      this.searchInProgressSgn.set(Array(4).fill(false));
       this.getCourseData();
     }
   }
 
   private getCourseData() {
     // grab course from the history
-    this.course = history.state.data.course;
+    this.courseSgn.set(history.state.data.course);
 
     // initiate player with logged in player
-    this.players[0] = this.authenticationService.currentPlayerValue;
+    this.playersSgn()[0] = this.authenticationService.currentPlayerValue;
+    this.playersSgn.set([...this.playersSgn()]); // trigger change detection
+    
 
     // form definition
     this.defScoreCardForm = this.formBuilder.group({
@@ -120,12 +122,12 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
 
     // get course holes and available tees
     combineLatest([
-      this.httpService.getHoles(this.course.id),
-      this.httpService.getTees(this.course.id),
+      this.httpService.getHoles(this.courseSgn().id),
+      this.httpService.getTees(this.courseSgn().id),
     ]).subscribe(([retHoles, retTees]) => {
       // update teee with missing infromation about holes and tees
-      this.course.holes = retHoles;
-      this.course.tees = retTees;
+      this.courseSgn().holes = retHoles;
+      this.courseSgn().tees = retTees;
 
       // create tee labels
       const teeType = ['1-18', '1-9', '10-18'];
@@ -148,7 +150,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
           })
         );
 
-      this.display = true;
+      this.displaySgn.set(true);
     });
   }
 
@@ -165,28 +167,28 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
     // set up the tee for the player based on the drop down tee
     switch (index) {
       case 0: {
-        this.tees[index] = this.course.tees
+        this.tees[index] = this.courseSgn().tees
           // tslint:disable-next-line: variable-name
           .filter(t => t.id === this.f.teeDropDown1.value)
           .pop();
         break;
       }
       case 1: {
-        this.tees[index] = this.course.tees
+        this.tees[index] = this.courseSgn().tees
           // tslint:disable-next-line: variable-name
           .filter(t => t.id === this.f.teeDropDown2.value)
           .pop();
         break;
       }
       case 2: {
-        this.tees[index] = this.course.tees
+        this.tees[index] = this.courseSgn().tees
           // tslint:disable-next-line: variable-name
           .filter(t => t.id === this.f.teeDropDown3.value)
           .pop();
         break;
       }
       default: {
-        this.tees[index] = this.course.tees
+        this.tees[index] = this.courseSgn().tees
           // tslint:disable-next-line: variable-name
           .filter(t => t.id === this.f.teeDropDown4.value)
           .pop();
@@ -222,18 +224,18 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       return;
     }
 
-    this.loading = true;
+    this.loadingSgn.set(true);
 
-    const onlineRounds: OnlineRound[] = Array(this.noOfPlayers);
+    const onlineRounds: OnlineRound[] = Array(this.noOfPlayersSgn());
 
     let counter = 0;
-    while (counter < this.noOfPlayers) {
+    while (counter < this.noOfPlayersSgn()) {
       const onlineRound: OnlineRound = {
-        course: this.course,
+        course: this.courseSgn(),
         teeTime: this.f.teeTime.value,
-        player: this.players[counter],
+        player: this.playersSgn()[counter],
         tee: this.tees[counter],
-        owner: this.players[0].id,
+        owner: this.playersSgn()[0].id,
         finalized: false,
         putts: this.f.putts.value,
         penalties: this.f.penalties.value,
@@ -243,7 +245,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       };
 
       if (this.f.matchPlay.value) {
-        onlineRound.nick2 = this.players[1].nick;
+        onlineRound.nick2 = this.playersSgn()[1].nick;
         onlineRound.mpFormat = this.f.mpFormat.value;
       }
 
@@ -255,8 +257,8 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
       .addOnlineRounds(onlineRounds)
       .pipe(
         tap((or) => {
-          this.loading = false;
-          this.navigationService.setCourseSgn(signal(this.course));
+          this.loadingSgn.set(false);
+          this.navigationService.setCourseSgn(this.courseSgn);
           this.navigationService.setOnlineRoundsSgn(signal(or));
           if (this.f.matchPlay.value) {
             this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
@@ -269,11 +271,11 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
   }
 
   private isAllNicksSet(): boolean {
-    return !this.players.slice(0, this.noOfPlayers).includes(undefined);
+    return !this.playersSgn().slice(0, this.noOfPlayersSgn()).includes(undefined);
   }
 
   onPlayers(players: number) {
-    this.noOfPlayers = players;
+    this.noOfPlayersSgn.set(players);
 
     switch (players) {
       case 1: {
@@ -321,7 +323,8 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
         return Promise.resolve(undefined);
       }
 
-      this.players[playerIdx] = player;
+      this.playersSgn()[playerIdx] = player;
+      this.playersSgn.set([...this.playersSgn()]); // trigger change detection
     }
     // here must be undefined - all actions if any performed before
     return Promise.resolve(undefined);
@@ -330,7 +333,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
   onMatchPlayChange(e) {
     if (e) {
       this.onPlayers(2);
-      this.noOfPlayers = 2;
+      this.noOfPlayersSgn.set(2);
     }
   }
 
@@ -348,7 +351,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
   private isNickDuplicated(nick: string): boolean {
     let retVal = false;
 
-    for (const p of this.players) {
+    for (const p of this.playersSgn()) {
       if (p !== undefined && nick === p.nick) {
         this.alertService.error(
           $localize`:@@onlnRndDef-PlrNotUnique:Player must be unique in the single score card`,
@@ -363,8 +366,8 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
   }
 
   getTeeOptions(idx: number): TeeOptions[] {
-    if (this.players[idx] !== undefined) {
-      return this.players[idx].sex
+    if (this.playersSgn()[idx] !== undefined) {
+      return this.playersSgn()[idx].sex
         ? this.teeOptionsFemale
         : this.teeOptionsMale;
     }
@@ -377,7 +380,7 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      player: this.players[playerIdx]
+      player: this.playersSgn()[playerIdx]
     };
 
     const dialogRef = this.dialog.open(
@@ -388,12 +391,13 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
 
-        const player: Player = this.players[playerIdx];
+        const player: Player = this.playersSgn()[playerIdx];
 
         let whs: string = result.whs;
         whs = whs.toString().replace(/,/gi, '.');
         player.whs = +whs;
-        this.searchInProgress[playerIdx] = true;
+        this.searchInProgressSgn()[playerIdx] = true;
+        this.searchInProgressSgn.set([...this.searchInProgressSgn()]); // trigger change detection
 
         // update owner
         if (playerIdx === 0) {
@@ -401,8 +405,10 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
           .updatePlayer(player)
           .pipe(
             tap(() => {
-              this.players[playerIdx] = player;
-              this.searchInProgress[playerIdx] = false;
+              this.playersSgn()[playerIdx] = player;
+              this.playersSgn.set([...this.playersSgn()]); // trigger change detection
+              this.searchInProgressSgn()[playerIdx] = false;
+              this.searchInProgressSgn.set([...this.searchInProgressSgn()]); // trigger change detection
             })
           )
           .subscribe();
@@ -413,8 +419,10 @@ export class OnlineRoundDefComponent extends CreateOrSearchDialogBase implements
           .updatePlayerOnBehalf(player)
           .pipe(
             tap(() => {
-              this.players[playerIdx] = player;
-              this.searchInProgress[playerIdx] = false;
+              this.playersSgn()[playerIdx] = player;
+              this.playersSgn.set([...this.playersSgn()]); // trigger change detection
+              this.searchInProgressSgn()[playerIdx] = false;
+              this.searchInProgressSgn.set([...this.searchInProgressSgn()]); // trigger change detection
             })
           )
           .subscribe();
