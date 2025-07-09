@@ -1,66 +1,81 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display">
-  <br/>
-  <div class="table-responsive">
-    <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Round summary">
-      <thead>
-        <tr>
-          <th id="player" i18n="@@roundSummary-player">Player</th>
-          <th id="whs" i18n="@@roundSummary-whs">HCP</th>
-          <th id="cHCP" i18n="@@roundSummary-courseHcp">Course HCP</th>
-          <th id="cCr">CR</th>
-          <th id="cCr">SR</th>
-          <th id="scor" i18n="@@roundSummary-scor">Score</th>
-          <th id="cscor" i18n="@@roundSummary-corScor">Cor. Score</th>
-          <th id="nscor" i18n="@@roundSummary-netScr">Net Score</th>
-          <th id="sNet" i18n="@@roundSummary-STBNet">STB Net</th>
-          <th id="stb" i18n="@@roundSummary-STB">STB</th>
-          <th id="sDif" i18n="@@roundSummary-ScrDiff">Score diff</th>
-          <th id="putts" i18n="@@roundSummary-putts">Putts</th>
-          <th id="pen" i18n="@@roundSummary-pen">Penalties</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pl of round().player; let i = index">
-          <th id="nick">{{pl.nick}}</th>
-          <td>{{pl.roundDetails.whs}}</td>
-          <ng-container *ngIf="round().player[i].roundDetails.ninesFull !== -1">
-            <td>{{pl.roundDetails.courseHCP}}</td>
-            <td>{{pl.roundDetails.cr}}</td>
-            <td>{{pl.roundDetails.sr}}</td>
-            <td>
-              <span *ngIf="!ballPickedUp[i]">
-                {{score[i]}}
-              </span>
-            </td>
-            <td>{{corScore[i]}}</td>
-            <td>
-              <span *ngIf="!ballPickedUp[i]">
-                {{netScore[i]}}
-              </span>
-            </td>
-            <td>{{stbNet[i]}}</td>
-            <td>{{stbGross[i]}}</td>
-            <td>{{pl.roundDetails.scoreDiff | number: '1.1-1'}}</td>
-          </ng-container>
-          <ng-container *ngIf="round().player[i].roundDetails.ninesFull == -1">
-            <td>{{pl.roundDetails.courseHCP}}</td>
-            <td>
-              <span *ngIf="!ballPickedUp[i]">
-                {{score[i]}}
-              </span>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </ng-container>
-          <td>{{putts[i]}}</td>
-          <td>{{penalties[i]}}</td>
-        </tr>
-      </tbody>
-    </table>
-</div>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+} @else {
+  <div>
+    <br/>
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Round summary">
+        <thead>
+          <tr>
+            <th id="player" i18n="@@roundSummary-player">Player</th>
+            <th id="whs" i18n="@@roundSummary-whs">HCP</th>
+            <th id="cHCP" i18n="@@roundSummary-courseHcp">Course HCP</th>
+            <th id="cCr">CR</th>
+            <th id="cCr">SR</th>
+            <th id="scor" i18n="@@roundSummary-scor">Score</th>
+            <th id="cscor" i18n="@@roundSummary-corScor">Cor. Score</th>
+            <th id="nscor" i18n="@@roundSummary-netScr">Net Score</th>
+            <th id="sNet" i18n="@@roundSummary-STBNet">STB Net</th>
+            <th id="stb" i18n="@@roundSummary-STB">STB</th>
+            <th id="sDif" i18n="@@roundSummary-ScrDiff">Score diff</th>
+            <th id="putts" i18n="@@roundSummary-putts">Putts</th>
+            <th id="pen" i18n="@@roundSummary-pen">Penalties</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pl of round().player; track pl; let i = $index;) {
+            <tr>
+              <th id="nick">{{pl.nick}}</th>
+              <td>{{pl.roundDetails.whs}}</td>
+              @if (round().player[i].roundDetails.ninesFull !== -1) {
+                <ng-container>
+                  <td>{{pl.roundDetails.courseHCP}}</td>
+                  <td>{{pl.roundDetails.cr}}</td>
+                  <td>{{pl.roundDetails.sr}}</td>
+                  <td>
+                    @if (!ballPickedUp[i]) {
+                      <span>
+                        {{score[i]}}
+                      </span>
+                    }
+                  </td>
+                  <td>{{corScore[i]}}</td>
+                  <td>
+                    @if (!ballPickedUp[i]) {
+                      <span>
+                        {{netScore[i]}}
+                      </span>
+                    } 
+                  </td>
+                  <td>{{stbNet[i]}}</td>
+                  <td>{{stbGross[i]}}</td>
+                  <td>{{pl.roundDetails.scoreDiff | number: '1.1-1'}}</td>
+                </ng-container>
+              } @else {
+                <ng-container>
+                  <td>{{pl.roundDetails.courseHCP}}</td>
+                  <td>
+                    @if (!ballPickedUp[i]) {
+                      <span>
+                       {{score[i]}}
+                      </span>
+                    } 
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </ng-container>
+              }
+              <td>{{putts[i]}}</td>
+              <td>{{penalties[i]}}</td>
+            </tr>
+         } 
+        </tbody>
+      </table>
+    </div>
+  </div>
+}

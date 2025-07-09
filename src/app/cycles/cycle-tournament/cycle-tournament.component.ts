@@ -3,13 +3,11 @@ import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleTournament } from '../_models/cycleTournament';
-import { NgIf, NgFor } from '@angular/common';
 
 @Component({
     selector: 'app-cycle-tournament',
     templateUrl: './cycle-tournament.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, NgFor]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CycleTournamentComponent implements OnInit {
 
