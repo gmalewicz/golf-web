@@ -4400,6 +4400,46 @@
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="tourRes-plHcp" datatype="html">
+        <source>Playing HCPs</source>
+        <target>HCP gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-crHcp" datatype="html">
+        <source>Course HCPs</source>
+        <target>HCP pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courseInfo-cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Wróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courseInfo-courseHcp" datatype="html">
+        <source>Course HCP</source>
+        <target>HCP pola</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courseInfo-playingHcp" datatype="html">
+        <source>Playing HCP</source>
+        <target>HCP gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

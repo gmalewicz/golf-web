@@ -3,11 +3,16 @@
     <tr>
       <th id="no" i18n="@@tourRes-no">No</th>
       <th id="cour" i18n="@@tourRes-course">Course</th>
+      <th id="hcp">HCP</th>
+      <th id="crHcp" i18n="@@tourRes-crHcp">Course HCP</th>
+      <th id="plHcp" i18n="@@tourRes-plHcp">Playing HCP</th>
       <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
       <th id="gstb" i18n="@@tourRes-stb">STB</th>
       <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
       <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-      <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
+      @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
+        <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
+      }
     </tr>
   </thead>
   @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound; let j = $index) {
@@ -23,6 +28,15 @@
         }
         {{tournamentRound.courseName}}
       </td>
+      @if (tournamentRound.courseHcp !== HCP_NOT_SUPPORTED) {
+        <td>{{tournamentRound.hcp}}</td>
+        <td>{{tournamentRound.courseHcp}}</td>
+        <td>{{tournamentRound.playingHcp}}</td>
+      } @else {
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+      }
       <td>{{tournamentRound.stbNet}}</td>
       <td>{{tournamentRound.stbGross}}</td>
       @if (tournamentRound.strokes) {
@@ -37,7 +51,9 @@
       @if (!tournamentRound.strokes) {
         <td>x</td>
       }
-      <td>{{tournamentRound.scrDiff}}</td>
+      @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
+        <td>{{tournamentRound.scrDiff}}</td>
+      } 
     </tbody>
   }
 </table>

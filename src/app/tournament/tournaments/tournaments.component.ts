@@ -12,6 +12,7 @@ import { TournamentResultsComponent } from '../tournament-results/tournament-res
 import { TournamentRoundsComponent } from '../tournament-rounds/tournament-rounds.component';
 import { AddTournamentComponent } from '../add-tournament/add-tournament.component';
 import { AddRoundComponent } from '../add-round/add-round.component';
+import { CourseInfoComponent } from '../course-info/course-info.component';
 
 @Component({
     selector: 'app-tournaments',
@@ -90,5 +91,6 @@ export const tournamentRoutes: Routes = [
   { path: 'tournamentRounds', component: TournamentRoundsComponent, canActivate: [AuthGuard] },
   { path: 'addTournament', component: AddTournamentComponent, canActivate: [AuthGuard] },
   { path: 'addRound', component: AddRoundComponent, canActivate: [AuthGuard] },
+  { path: 'courseInfo', component: CourseInfoComponent, canActivate: [AuthGuard] },
 
 ];

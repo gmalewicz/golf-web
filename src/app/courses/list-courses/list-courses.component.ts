@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { Tournament } from '@/tournament/_models/tournament';
+import { TournamentPlayer } from '@/tournament/_models';
 
 
 @Component({

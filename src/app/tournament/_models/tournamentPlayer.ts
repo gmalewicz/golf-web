@@ -4,5 +4,6 @@ export interface TournamentPlayer {
   nick: string;
   whs: number;
   tournamentId?: number;
+  sex?: boolean
 }
 

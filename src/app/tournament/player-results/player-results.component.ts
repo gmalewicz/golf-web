@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TournamentNavigationService } from '../_services';
 
 
 @Component({
@@ -17,17 +18,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class PlayerResultsComponent implements OnInit {
 
+  readonly HCP_NOT_SUPPORTED = -90; 
+
   tournamentResult = input.required<TournamentResult>();
 
   faSearchPlus: IconDefinition;
 
   constructor(private readonly tournamentHttpService: TournamentHttpService,
-              private readonly router: Router) { }
+              private readonly router: Router,
+              public readonly tournamentNavigationService: TournamentNavigationService) { }
 
   ngOnInit() {
 
     this.faSearchPlus = faSearchPlus;
-
+   
   }
 
   showPlayerRound(roundId: number) {

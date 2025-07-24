@@ -9,5 +9,8 @@ export interface TournamentRound {
   strokes: boolean;
   nick?: string;
   roundId?: number;
+  playingHcp: number;
+  hcp: number;
+  courseHcp: number;
 }
 

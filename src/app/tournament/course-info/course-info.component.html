@@ -1,0 +1,41 @@
+<h2>{{courseSgn().name}}</h2>
+<table class="table table-striped" aria-describedby="course info">
+    <thead>
+        <tr>
+            <th id="hcp">Player</th>
+            <th id="hcp">HCP</th>
+            <th id="tee">Tee</th>
+            <th id="cr">CR</th>
+            <th id="sr">SR</th>
+            <th id="cHcp" i18n="@@courseInfo-courseHcp">Course HCP</th>
+            <th id="pHcp" i18n="@@courseInfo-playingHcp">Playing HCP</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (parentSgn() === PARENT_TOURNAMENT) {
+           
+            @for (playerTee of playerTeesSgn(); track playerTee) {  
+                
+                <tr>  
+                    <td>{{playerTee.nick}}</td>
+                    <td>{{playerTee.hcp}}</td>  
+                    <td>{{playerTee.tee}}</td>  
+                    <td>{{playerTee.cr}}</td>  
+                    <td>{{playerTee.sr}}</td>  
+                    <td>{{playerTee.courseHcp}}</td>  
+                    <td>{{playerTee.playingHcp}}</td>  
+                </tr>            
+            }
+        } @else {
+            <tr>
+                <td colspan="7">Not supported.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ <br />
+<div class="form-group">
+    <button type="button" class="btn btn-success" (click)="onCancel()" i18n="@@courseInfo-cancel">
+        Cancel
+    </button>
+</div>
