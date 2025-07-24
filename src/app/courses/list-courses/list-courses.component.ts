@@ -5,12 +5,10 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { Component, OnInit, input } from '@angular/core';
 import { faMinusCircle, faPlusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-
 import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { Tournament } from '@/tournament/_models/tournament';
-
 
 @Component({
     selector: 'app-list-courses',

@@ -20,6 +20,13 @@
       <tbody>
         @for (row of courseLst; track row) {
           <tr>
+            @if (data().parent === 'tournament') {
+              <td>
+                <a [routerLink]="['/tournaments/courseInfo']" [state]="{data: {course: row, parent: data().parent}}">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>           
+              </td>
+            }
             @if (data().parent === 'courses') {
               <td>
                 <a [routerLink]="['/course']" [state]="{data: {course: row}}">

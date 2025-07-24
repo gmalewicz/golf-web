@@ -4,7 +4,7 @@ import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@for
 import { Router, RouterModule } from '@angular/router';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { TournamentResult, TournamentRound, TournamentStatus } from '../_models';
+import { TournamentPlayer, TournamentResult, TournamentRound, TournamentStatus } from '../_models';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { CommonModule } from '@angular/common';
@@ -211,6 +211,22 @@ export class TournamentResultsComponent implements OnInit {
       this.notificationContainerRef.createComponent(NotificationComponent);
     }
 
+  }
+
+  courseInfo() {
+
+    if (this.navigationService.tournamentPlayers() == undefined) {
+    
+      this.tournamentHttpService.getTournamentPlayers(this.navigationService.tournament().id).pipe(
+        tap(
+          (retTournamentPlayers: TournamentPlayer[]) => {
+            this.navigationService.tournamentPlayers.set(retTournamentPlayers);
+            this.router.navigate(['courses'], { state: { data: { parent: 'tournament'}}} ).catch(error => console.log(error));
+          })
+      ).subscribe();
+    } else {
+      this.router.navigate(['courses'], { state: { data: { parent: 'tournament'}}} ).catch(error => console.log(error));
+    }
   }
 
   onCancel() {

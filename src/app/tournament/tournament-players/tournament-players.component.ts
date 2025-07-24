@@ -81,7 +81,8 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
         playerId: player.id,
         whs: player.whs,
         tournamentId: this.navigationService.tournament().id,
-        nick: player.nick
+        nick: player.nick,
+        sex: player.sex
       };
 
       // send tournament player to backend

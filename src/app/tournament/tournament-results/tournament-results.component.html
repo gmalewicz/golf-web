@@ -47,6 +47,10 @@
       <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
         role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(2)">Notifications</button>
     </li>
+    <li class="nav-item" *ngIf="this.navigationService.tournament().status === false">
+      <button class="nav-link" id="courseInfo-tab" data-bs-toggle="tab" data-bs-target="#courseInfo" type="button"
+        role="tab" aria-controls="courseInfo" aria-selected="false" (click)="courseInfo()">Info</button>
+    </li>
   </ul>
   <br/>
 

@@ -160,6 +160,29 @@ describe('TournamentResultsComponent', () => {
     expect(component).toBeTruthy();
   }));
 
+  it('should loadComponent 2',  fakeAsync(() => {
+    standardSetup();
+    component.loadComponent(2);
+    expect(component).toBeTruthy();
+  }));
+
+  it('should execute courseInfo with undefined players', fakeAsync(() => {
+    standardSetup();
+    component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 1});
+    fixture.detectChanges();
+    component.courseInfo();
+     expect(component).toBeTruthy();
+  }));
+
+  it('should execute courseInfo with defined players', fakeAsync(() => {
+    standardSetup();
+
+    component.navigationService.tournamentPlayers.set([]);
+    fixture.detectChanges();
+    component.courseInfo();
+     expect(component).toBeTruthy();
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
