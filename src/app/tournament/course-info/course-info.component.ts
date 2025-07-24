@@ -19,7 +19,7 @@ export class CourseInfoComponent implements OnInit {
 
   courseSgn = signal<Course>(undefined);
   parentSgn = signal<string>(undefined);
-  playerTeesSgn = signal<playerTee[]>(undefined);
+  playerTeesSgn = signal<PlayerTee[]>(undefined);
 
   constructor(private readonly router: Router,
               public readonly navigationService: TournamentNavigationService,
@@ -39,7 +39,7 @@ export class CourseInfoComponent implements OnInit {
       this.httpService.getTees(this.courseSgn().id).pipe(
         tap((tees) => {
           if (this.parentSgn() === this.PARENT_TOURNAMENT) {
-            let playerTees: playerTee[] = [];
+            let playerTees: PlayerTee[] = [];
             this.navigationService.tournamentPlayers().forEach(player => {
               let playerNameNotSet = true;
               tees.forEach(tee => {
@@ -70,7 +70,7 @@ export class CourseInfoComponent implements OnInit {
   }
 }
 
-interface playerTee {
+interface PlayerTee {
   nick?: string,
   hcp: number,
   sr: number,
