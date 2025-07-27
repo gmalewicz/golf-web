@@ -152,7 +152,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
         if (this.skinSgn()[plr][idx] === 'highlight') {
 
-          this.totalSkinSgn[plr] += (cumulation + 1);
+          this.totalSkinSgn()[plr] += (cumulation + 1);
           cumulation = 0;
           increaseCumulation = false;
           break;
