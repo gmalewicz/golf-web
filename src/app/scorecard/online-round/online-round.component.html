@@ -1,26 +1,26 @@
-@if (!display) {
+@if (!displaySgn()) {
   <div class="d-flex justify-content-center">
     <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
-@if (display) {
+@if (displaySgn()) {
   <div>
 
-    @if (loggedId === ownerId) {
+    @if (loggedIdSgn() === ownerIdSgn()) {
 
-      <app-common-scorecard-top [curHoleStrokes] = 'curHoleStrokes'
-        [curPlayerIdx] = 'curPlayerIdx'
-        [puttSelectorActive] = 'puttSelectorActive'
-        [roundsSgn] = 'onlineRoundsSgn'
-        [curHolePutts] = 'curHolePutts'
-        [penaltySelectorActive] = 'penaltySelectorActive'
-        [curHolePenalties] = 'curHolePenalties' 
+      <app-common-scorecard-top [curHoleStrokesSgn] = 'curHoleStrokesSgn()'
+        [curPlayerIdxSgn] = 'curPlayerIdx'
+        [puttSelectorActiveSgn] = 'puttSelectorActive'
+        [roundsSgn] = 'onlineRoundsSgn()'
+        [curHolePuttsSgn] = 'curHolePutts'
+        [penaltySelectorActiveSgn] = 'penaltySelectorActive'
+        [curHolePenaltiesSgn] = 'curHolePenalties' 
         [addScore] = 'addScore.bind(this)'
-        [curHoleIdx] = 'curHoleIdx'
-        [ballPickedUp] = 'ballPickedUp'
-        [totalStrokes] = 'totalStrokes'
-        [curPlayerStyle] = 'curPlayerStyle'
-        [inProgress] = 'inProgress'>
+        [curHoleIdxSgn] = 'curHoleIdxSgn()'
+        [ballPickedUpSgn] = 'ballPickedUpSgn()'
+        [totalStrokesSgn] = 'totalStrokesSgn()'
+        [curPlayerStyleSgn] = 'curPlayerStyleSgn()'
+        [inProgressSgn] = 'inProgress'>
       </app-common-scorecard-top>
     } @else {
       <button type="button" class="btn btn-success" (click)="refresh()">Refresh</button>
@@ -34,20 +34,20 @@
             SC
           </span>
           &nbsp;
-          <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayMode === 0}">
+          <button class="btn btn-outline-success" (click)="selectMode(0)" [ngClass]="{'golf-red': displayModeSgn() === 0}">
             STR
           </button>
           &nbsp;
-          <button class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayMode === 2}">
+          <button class="btn btn-outline-success" (click)="selectMode(2)" [ngClass]="{'golf-red': displayModeSgn() === 2}">
             STN
           </button>
           &nbsp;
-          <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayMode === 1}">
+          <button class="btn btn-outline-success" (click)="selectMode(1)" [ngClass]="{'golf-red': displayModeSgn() === 1}">
             STB
           </button>
           @if (onlineRoundsSgn().length > 2) {
             &nbsp;
-            <button class="btn btn-outline-success" (click)="selectMode(3)" [ngClass]="{'golf-red': displayMode === 3}">
+            <button class="btn btn-outline-success" (click)="selectMode(3)" [ngClass]="{'golf-red': displayModeSgn() === 3}">
               SKN
             </button>
           }
@@ -63,19 +63,19 @@
           </tr>
         </thead>
         <tbody>
-          @for (stroke of strokes; track stroke; let i = $index) {
-            <tr [ngClass]="i === curHoleIdx ? 'fw-bolder' : {}">
-              @if (i === curHoleIdx) {
+          @for (stroke of strokesSgn(); track stroke; let i = $index) {
+            <tr [ngClass]="i === curHoleIdxSgn() ? 'fw-bolder' : {}">
+              @if (i === curHoleIdxSgn()) {
                 <td>
                   <a>
-                    <fa-icon [icon]="faPlay" class="golf-green fa-xl"></fa-icon>
+                    <fa-icon [icon]="faPlaySgn()" class="golf-green fa-xl"></fa-icon>
                   </a>
                 </td>
               }
-              @if (i != curHoleIdx) {
+              @if (i != curHoleIdxSgn()) {
                 <td>
                   <a (click)="selectHole(i)">
-                    <fa-icon [icon]="faPlay" class="golf-gray"></fa-icon>
+                    <fa-icon [icon]="faPlaySgn()" class="golf-gray"></fa-icon>
                   </a>
                 </td>
               }
@@ -83,14 +83,14 @@
                 {{i + 1}}
               </td>
               @for (onlineRound of onlineRoundsSgn(); track onlineRound; let pl = $index) {
-                @if (displayMode !== 3) {
+                @if (displayModeSgn() !== 3) {
                   <td>
-                    @if (stroke[pl] > 0 && stroke[pl] < 16 && displayMode === 0) {
+                    @if (stroke[pl] > 0 && stroke[pl] < 16 && displayModeSgn() === 0) {
                       <span>{{stroke[pl]}}</span>
                       <span class="supsub">
                         <span class="superscript">
                           <span class="dotSeparator"></span>
-                          @for (putt of putts[i][pl] | range; track putt) {
+                          @for (putt of puttsSgn()[i][pl] | range; track putt) {
                             <span>
                               <span class="blackDot"></span>
                               <span class="dotSeparator"></span>
@@ -99,7 +99,7 @@
                         </span>
                         <span class="subscript">
                           <span class="dotSeparator"></span>
-                          @for (penalty of penalties[i][pl] | range; track penalty) {
+                          @for (penalty of penaltiesSgn()[i][pl] | range; track penalty) {
                             <span>
                               <span class="redDot"></span>
                               <span class="dotSeparator"></span>
@@ -108,19 +108,19 @@
                         </span>
                       </span>
                     }
-                    @if (stroke[pl] === 16  && displayMode === 0) {
+                    @if (stroke[pl] === 16  && displayModeSgn() === 0) {
                       <span>x</span>
                     }
-                    @if (stroke[pl] > 0 && displayMode === 1) {
+                    @if (stroke[pl] > 0 && displayModeSgn() === 1) {
                       <span>{{stbNetSgn()[pl][i]}}</span>
                     }
-                    @if (stroke[pl] > 0 && displayMode === 2) {
+                    @if (stroke[pl] > 0 && displayModeSgn() === 2) {
                       <span>{{strNetSgn()[pl][i]}}</span>
                     }
                   </td>
                 }
 
-                @if (displayMode === 3) {
+                @if (displayModeSgn() === 3) {
                   <td [ngClass]="skinSgn()[pl][i]">
 
                     @if (skinSgn()[pl][i] !== 'highlight') {
@@ -142,19 +142,19 @@
         </tbody>
       </table>
     </div>
-    @if (loggedId === ownerId) {
+    @if (loggedIdSgn() === ownerIdSgn()) {
       <div>
         <br />
         <div class="form-group">
           <button type="button" mat-raised-button color="warn" (click)="onDelete()">
-            @if (loadingDel) {
+            @if (loadingDelSgn()) {
               <span class="spinner-border spinner-border-sm mr-1"></span>
             }
             <span i18n="@@onlnRnd-delete">Delete</span>
           </button>
           &nbsp;
           <button type="button" mat-raised-button color="primary" (click)="onFinal()">
-            @if (loadingFin) {
+            @if (loadingFinSgn()) {
               <span class="spinner-border spinner-border-sm mr-1"></span>
             }
             <span i18n="@@onlnRnd-fin">Finalize</span>
@@ -172,27 +172,27 @@
 <ng-template #TableHeader >
   <th id="hole" i18n="@@onlnRnd-hole">Hole</th>
   <th id="p1str">{{onlineRoundsSgn()[0].player.nick}}
-    @if (ballPickedUp[0] && displayMode === 0) {
+    @if (ballPickedUpSgn()[0] && displayModeSgn() === 0) {
       <span>
         (x)
       </span>
     }
-    @if (!ballPickedUp[0] && displayMode === 0) {
+    @if (!ballPickedUpSgn()[0] && displayModeSgn() === 0) {
       <span>
-        ({{totalStrokes[0]}})
+        ({{totalStrokesSgn()[0]}})
       </span>
     }
-    @if (displayMode === 1) {
+    @if (displayModeSgn() === 1) {
       <span>
         ({{totalStbNetSgn()[0]}})
       </span>
     }
-    @if (displayMode === 2) {
+    @if (displayModeSgn() === 2) {
       <span>
         ({{totalStrNetSgn()[0]}})
       </span>
     }
-    @if (displayMode === 3) {
+    @if (displayModeSgn() === 3) {
       <span>
         ({{totalSkinSgn()[0]}})
       </span>
@@ -200,27 +200,27 @@
   </th>
   @if (onlineRoundsSgn().length > 1) {
     <th id="p2str">{{onlineRoundsSgn()[1].player.nick}}
-      @if (ballPickedUp[1]  && displayMode === 0) {
+      @if (ballPickedUpSgn()[1]  && displayModeSgn() === 0) {
         <span>
           (x)
         </span>
       }
-      @if (!ballPickedUp[1]  && displayMode === 0) {
+      @if (!ballPickedUpSgn()[1]  && displayModeSgn() === 0) {
         <span>
-          ({{totalStrokes[1]}})
+          ({{totalStrokesSgn()[1]}})
         </span>
       }
-      @if (displayMode === 1) {
+      @if (displayModeSgn() === 1) {
         <span>
           ({{totalStbNetSgn()[1]}})
         </span>
       }
-      @if (displayMode === 2) {
+      @if (displayModeSgn() === 2) {
         <span>
           ({{totalStrNetSgn()[1]}})
         </span>
       }
-      @if (displayMode === 3) {
+      @if (displayModeSgn() === 3) {
         <span>
           ({{totalSkinSgn()[1]}})
         </span>
@@ -229,27 +229,27 @@
   }
   @if (onlineRoundsSgn().length > 2) {
     <th id="p3str">{{onlineRoundsSgn()[2].player.nick}}
-      @if (ballPickedUp[2]  && displayMode === 0) {
+      @if (ballPickedUpSgn()[2]  && displayModeSgn() === 0) {
         <span>
           (x)
         </span>
       }
-      @if (!ballPickedUp[2]  && displayMode === 0) {
+      @if (!ballPickedUpSgn()[2]  && displayModeSgn() === 0) {
         <span>
-          ({{totalStrokes[2]}})
+          ({{totalStrokesSgn()[2]}})
         </span>
       }
-      @if (displayMode === 1) {
+      @if (displayModeSgn() === 1) {
         <span>
           ({{totalStbNetSgn()[2]}})
         </span>
       }
-      @if (displayMode === 2) {
+      @if (displayModeSgn() === 2) {
         <span>
           ({{totalStrNetSgn()[2]}})
         </span>
       }
-      @if (displayMode === 3) {
+      @if (displayModeSgn() === 3) {
         <span>
           ({{totalSkinSgn()[2]}})
         </span>
@@ -258,27 +258,27 @@
   }
   @if (onlineRoundsSgn().length > 3) {
     <th id="p4str">{{onlineRoundsSgn()[3].player.nick}}
-      @if (ballPickedUp[3]  && displayMode === 0) {
+      @if (ballPickedUpSgn()[3]  && displayModeSgn() === 0) {
         <span>
           (x)
         </span>
       }
-      @if (!ballPickedUp[3] && displayMode === 0) {
+      @if (!ballPickedUpSgn()[3] && displayModeSgn() === 0) {
         <span>
-          ({{totalStrokes[3]}})
+          ({{totalStrokesSgn()[3]}})
         </span>
       }
-      @if (displayMode === 1) {
+      @if (displayModeSgn() === 1) {
         <span>
           ({{totalStbNetSgn()[3]}})
         </span>
       }
-      @if (displayMode === 2) {
+      @if (displayModeSgn() === 2) {
         <span>
           ({{totalStrNetSgn()[3]}})
         </span>
       }
-      @if (displayMode === 3) {
+      @if (displayModeSgn() === 3) {
         <span>
           ({{totalSkinSgn()[3]}})
         </span>

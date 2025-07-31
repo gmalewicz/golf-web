@@ -78,10 +78,10 @@ describe('OnlineRoundComponent', () => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.curHoleStrokes[component.curPlayerIdx] = 10;
+    component.curHoleStrokesSgn()[component.curPlayerIdx] = 10;
     component.addScore();
     tick(200);
-    expect(component.curHoleIdx).toBe(1);
+    expect(component.curHoleIdxSgn()).toBe(1);
   }));
 
   it('should call info for match play round', fakeAsync(() => {
@@ -113,7 +113,7 @@ describe('OnlineRoundComponent', () => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.onFinal();
-    expect(component.loadingFin).toBe(false);
+    expect(component.loadingFinSgn()).toBe(false);
   }));
 
   it('should call onDelete', fakeAsync(() => {
@@ -123,7 +123,7 @@ describe('OnlineRoundComponent', () => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.onDelete();
-    expect(component.loadingDel).toBe(false);
+    expect(component.loadingDelSgn()).toBe(false);
   }));
 
   it('should call refresh', fakeAsync(() => {
@@ -133,7 +133,7 @@ describe('OnlineRoundComponent', () => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     component.refresh();
-    expect(component.loadingDel).toBe(false);
+    expect(component.loadingDelSgn()).toBe(false);
   }));
 
   afterAll(() => {

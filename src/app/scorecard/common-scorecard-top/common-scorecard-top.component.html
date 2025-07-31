@@ -1,22 +1,22 @@
-<app-online-nav [curHoleStrokes] = 'curHoleStrokes()'
-                  [curPlayerIdx] = 'curPlayerIdx()'
-                  [puttSelectorActive] = 'puttSelectorActive()'
-                  [roundsSgn] = 'roundsSgn'
-                  [curHolePutts] = 'curHolePutts()'
-                  [penaltySelectorActive] = 'penaltySelectorActive()'
-                  [curHolePenalties] = 'curHolePenalties()'
+<app-online-nav [curHoleStrokesSgn] = 'curHoleStrokesSgn()'
+                  [curPlayerIdxSgn] = 'curPlayerIdxSgn()'
+                  [puttSelectorActiveSgn] = 'puttSelectorActiveSgn()'
+                  [roundsSgn] = 'roundsSgn()'
+                  [curHolePuttsSgn] = 'curHolePuttsSgn()'
+                  [penaltySelectorActiveSgn] = 'penaltySelectorActiveSgn()'
+                  [curHolePenaltiesSgn] = 'curHolePenaltiesSgn()'
                   [addScore] = 'addScore.bind(this)'
-                  [inProgress] = 'inProgress()'>
+                  [inProgressSgn] = 'inProgressSgn()'>
 </app-online-nav>
 <div>
-  <app-common-scorecard [curHoleIdx] = 'curHoleIdx()'
-                        [curHoleStrokes] = 'curHoleStrokes()'
-                        [curHolePutts] = 'curHolePutts()'
-                        [curHolePenalties] = 'curHolePenalties()'
-                        [roundsSgn] = 'roundsSgn'
-                        [ballPickedUp] = 'ballPickedUp()'
-                        [totalStrokes] = 'totalStrokes()'
-                        [curPlayerStyle] = 'curPlayerStyle'>
+  <app-common-scorecard [curHoleIdxSgn] = 'curHoleIdxSgn()'
+                        [curHoleStrokesSgn] = 'curHoleStrokesSgn()'
+                        [curHolePuttsSgn] = 'curHolePuttsSgn()'
+                        [curHolePenaltiesSgn] = 'curHolePenaltiesSgn()'
+                        [roundsSgn] = 'roundsSgn()'
+                        [ballPickedUpSgn] = 'ballPickedUpSgn()'
+                        [totalStrokesSgn] = 'totalStrokesSgn()'
+                        [curPlayerStyleSgn] = 'curPlayerStyleSgn()'>
   </app-common-scorecard>
 </div>
 <br/>

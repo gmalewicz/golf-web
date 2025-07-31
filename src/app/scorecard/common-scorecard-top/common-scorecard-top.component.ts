@@ -10,21 +10,20 @@ import { OnlineNavComponent } from '../online-nav/online-nav.component';
 })
 export class CommonScorecardTopComponent implements OnInit {
 
-  curHoleIdx = input.required<number>();
-  curHoleStrokes = input.required<number[]>();
-  curHolePutts = input.required<number[]>();
-  curHolePenalties = input.required<number[]>();
+  curHoleIdxSgn = input.required<number>();
+  curHoleStrokesSgn = input.required<number[]>();
+  curHolePuttsSgn = input.required<number[]>();
+  curHolePenaltiesSgn = input.required<number[]>();
   
-  ballPickedUp = input.required<boolean>();
-  totalStrokes = input.required<number[]>();
-  penaltySelectorActive = input.required<{active: boolean}[]>();
-  curPlayerIdx = input.required<number>();
-  puttSelectorActive = input.required<{active: boolean}[]>();
-  inProgress = input.required<boolean>();
-  @Input () public curPlayerStyle: Signal<string[]>;
+  ballPickedUpSgn = input.required<boolean>();
+  totalStrokesSgn = input.required<number[]>();
+  penaltySelectorActiveSgn = input.required<{active: boolean}[]>();
+  curPlayerIdxSgn = input.required<number>();
+  puttSelectorActiveSgn = input.required<{active: boolean}[]>();
+  inProgressSgn = input.required<boolean>();
+  curPlayerStyleSgn = input.required<string[]>();
+  roundsSgn = input.required<OnlineRound[]>();
   @Input() public addScore: () => void;
-  @Input() public roundsSgn: Signal<OnlineRound[]>;
-
 
   ngOnInit() {
     // This is intentional

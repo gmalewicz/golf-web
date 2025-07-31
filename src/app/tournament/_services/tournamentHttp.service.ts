@@ -26,9 +26,9 @@ export class TournamentHttpService {
     return this.http.get<Array<Round>>('rest/TournamentRounds/' + tournamentId);
   }
 
-  addRoundToTournament(round: Round, tournamentId: number): Observable<void> {
+  addRoundToTournament(round: Round, tournamentId: number, playerId: number): Observable<void> {
 
-    return this.http.post<void>('rest/TournamentRound/' + tournamentId, round);
+    return this.http.post<void>('rest/TournamentRound/' + tournamentId + '/' + playerId, round);
   }
 
   addTournament(tournament: Tournament): Observable<void> {
