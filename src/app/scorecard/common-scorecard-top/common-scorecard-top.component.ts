@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Signal, input } from '@angular/core';
+import { Component, Input, OnInit, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
 import { OnlineNavComponent } from '../online-nav/online-nav.component';

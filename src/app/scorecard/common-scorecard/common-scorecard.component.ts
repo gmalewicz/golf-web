@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
