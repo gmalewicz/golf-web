@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Signal, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
@@ -8,18 +8,14 @@ import { RangePipe } from "../../_helpers/range";
     templateUrl: './common-scorecard.component.html',
     imports: [NgTemplateOutlet, NgClass, RangePipe]
 })
-export class CommonScorecardComponent implements OnInit {
+export class CommonScorecardComponent {
 
-  curHoleIdx = input.required<number>();
-  curHoleStrokes = input.required<number[]>();
-  curHolePutts = input.required<number[]>();
-  curHolePenalties = input.required<number[]>();
-  @Input() public roundsSgn: Signal<OnlineRound[]>;
-  ballPickedUp = input.required<boolean>();
-  totalStrokes = input.required<number[]>();
-  @Input () public curPlayerStyle: Signal<string[]>;
-
-  ngOnInit() {
-     // This is intentional
-  }
+  curHoleIdxSgn = input.required<number>();
+  curHoleStrokesSgn = input.required<number[]>();
+  curHolePuttsSgn = input.required<number[]>();
+  curHolePenaltiesSgn = input.required<number[]>();
+  roundsSgn =  input.required<OnlineRound[]>();
+  ballPickedUpSgn = input.required<boolean>();
+  totalStrokesSgn = input.required<number[]>();
+  curPlayerStyleSgn = input.required<string[]>();
 }

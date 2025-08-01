@@ -37,7 +37,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   // 0 - strokes brutto
   // 1 - stb netto
   // 2 - strokes netto
-  displayMode: number = 0;
+  displayModeSgn = signal<number>(0);
 
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
@@ -85,9 +85,9 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
       this.holeHcp[idx].forEach((hHcp, id) => {
 
-        if (this.strokes[id][idx]  > 0) {
-          this.stbNetSgn()[idx][id] = this.courseSgn().holes[id].par - this.strokes[id][idx] + hHcp + 2;
-          this.strNetSgn()[idx][id] = this.strokes[id][idx] - hHcp;
+        if (this.strokesSgn()[id][idx]  > 0) {
+          this.stbNetSgn()[idx][id] = this.courseSgn().holes[id].par - this.strokesSgn()[id][idx] + hHcp + 2;
+          this.strNetSgn()[idx][id] = this.strokesSgn()[id][idx] - hHcp;
         }
         if (this.stbNetSgn()[idx][id] < 0) {
           this.stbNetSgn()[idx][id] = 0;
@@ -109,10 +109,10 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   protected updateNetStatistic() {
 
     // update stableford netto
-    this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdx] =
-      this.courseSgn().holes[this.curHoleIdx].par - this.curHoleStrokes[this.curPlayerIdx] + this.holeHcp[this.curPlayerIdx][this.curHoleIdx] + 2;
-    if (this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdx] < 0) {
-      this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdx] = 0;
+    this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] =
+      this.courseSgn().holes[this.curHoleIdxSgn()].par - this.curHoleStrokesSgn()[this.curPlayerIdx] + this.holeHcp[this.curPlayerIdx][this.curHoleIdxSgn()] + 2;
+    if (this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] < 0) {
+      this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] = 0;
     }
    
 
@@ -120,13 +120,13 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     this.totalStbNetSgn()[this.curPlayerIdx] = this.stbNetSgn()[this.curPlayerIdx].reduce((p, n) => p + n, 0);
    
 
-    this.strNetSgn()[this.curPlayerIdx][this.curHoleIdx] = this.curHoleStrokes[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdx];
+    this.strNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] = this.curHoleStrokesSgn()[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdxSgn()];
     
     this.totalStrNetSgn()[this.curPlayerIdx] = this.strNetSgn()[this.curPlayerIdx].reduce((p, n) => p + n, 0);
     
 
     // calculate hole result for skin game
-    this.calculateSkins(this.curHoleIdx);
+    this.calculateSkins(this.curHoleIdxSgn());
     // calculate total skins per player
     this.calculateTotalSkins();
 
@@ -134,7 +134,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   }
 
   selectMode(mode: number) {
-    this.displayMode = mode;
+    this.displayModeSgn.set(mode);
   }
 
   private calculateTotalSkins() : void {
@@ -177,17 +177,17 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
     while (plr < this.onlineRoundsSgn().length) {
 
-      if (this.strokes[hole][plr] === 0) {
+      if (this.strokesSgn()[hole][plr] === 0) {
         this.skinSgn()[plr][hole] = this.holeHcp[plr][hole]+ "";
         plr++;
         continue;
       }
 
-      if (this.strokes[hole][plr] - this.holeHcp[plr][hole] < minResult) {
-        minResult = this.strokes[hole][plr] - this.holeHcp[plr][hole];
+      if (this.strokesSgn()[hole][plr] - this.holeHcp[plr][hole] < minResult) {
+        minResult = this.strokesSgn()[hole][plr] - this.holeHcp[plr][hole];
         tie = false;
         plrIdx = plr;
-      } else if (this.strokes[hole][plr] - this.holeHcp[plr][hole] == minResult) {
+      } else if (this.strokesSgn()[hole][plr] - this.holeHcp[plr][hole] == minResult) {
         tie = true;
       }
       this.skinSgn()[plr][hole] = "";

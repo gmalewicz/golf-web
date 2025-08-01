@@ -19,14 +19,14 @@ describe('CommonScorecardComponent', () => {
     fixture = TestBed.createComponent(CommonScorecardComponent);
     component = fixture.componentInstance;
     componentRef = fixture.componentRef;
-    componentRef.setInput('roundsSgn', signal([{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]));
-    componentRef.setInput('curPlayerStyle', signal(['edit']));
-    componentRef.setInput('curHoleIdx', 0);
-    componentRef.setInput('curHoleStrokes', [1]);
-    componentRef.setInput('ballPickedUp', false);
-    componentRef.setInput('totalStrokes', [1]);
-    componentRef.setInput('curHolePutts', [1]);
-    componentRef.setInput('curHolePenalties', [1]);
+    componentRef.setInput('roundsSgn', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
+    componentRef.setInput('curPlayerStyleSgn', ['edit']);
+    componentRef.setInput('curHoleIdxSgn', 0);
+    componentRef.setInput('curHoleStrokesSgn', [1]);
+    componentRef.setInput('ballPickedUpSgn', false);
+    componentRef.setInput('totalStrokesSgn', [1]);
+    componentRef.setInput('curHolePuttsSgn', [1]);
+    componentRef.setInput('curHolePenaltiesSgn', [1]);
 
     fixture.detectChanges();
   });

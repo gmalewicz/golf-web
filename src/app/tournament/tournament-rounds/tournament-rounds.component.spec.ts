@@ -1,5 +1,5 @@
 import { routing } from '@/app.routing';
-import { authenticationServiceStub } from '@/_helpers/test.helper';
+import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { teeTypes } from '@/_models/tee';
 import { AuthenticationService, HttpService } from '@/_services';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { TournamentHttpService } from '../_services';
 
 import { TournamentRoundsComponent } from './tournament-rounds.component';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('TournamentRoundsComponent', () => {
   let component: TournamentRoundsComponent;
@@ -24,6 +25,7 @@ describe('TournamentRoundsComponent', () => {
       ],
       providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
+         { provide: MatDialog, useClass: MatDialogMock },
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
@@ -57,7 +59,7 @@ describe('TournamentRoundsComponent', () => {
   });
 
   it('should add round', () => {
-    component.addRound(component.rounds[0]);
+    component.addRound(component.rounds[0], 1);
     expect(component.rounds.length).toEqual(0);
   });
 

@@ -9,14 +9,14 @@
       &lt;
     </button>
   </div>
-  @if (curHoleStrokes()[curPlayerIdx()] === 16) {
+  @if (curHoleStrokesSgn()[curPlayerIdxSgn()] === 16) {
     <div class="col-auto fw-bolder fs-2">
       x
     </div>
   }
-  @if (curHoleStrokes()[curPlayerIdx()] !== 16) {
+  @if (curHoleStrokesSgn()[curPlayerIdxSgn()] !== 16) {
     <div class="col-auto fw-bolder fs-2">
-      {{curHoleStrokes()[curPlayerIdx()]}}
+      {{curHoleStrokesSgn()[curPlayerIdxSgn()]}}
     </div>
   }
   <div class="col-auto">
@@ -25,13 +25,13 @@
     </button>
   </div>
   <div  class="col-auto">
-    <button type="button" style="width: 6rem;" class="btn-lg btn btn-success fw-bolder" (click)="addScore()" [disabled]="isActiveSgn() ? (inProgress() ? true : false) : true">
-      @if (isActiveSgn() && !inProgress()) {
+    <button type="button" style="width: 6rem;" class="btn-lg btn btn-success fw-bolder" (click)="addScore()" [disabled]="isActiveSgn() ? (inProgressSgn() ? true : false) : true">
+      @if (isActiveSgn() && !inProgressSgn()) {
         <span i18n="@@onlnNav-save">
         Save
       </span>
       }
-      @if (!isActiveSgn() || inProgress()) {
+      @if (!isActiveSgn() || inProgressSgn()) {
         <span class="spinner-border spinner-border-sm mr-1">
         </span>
       }
@@ -49,7 +49,7 @@
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         @for (putt of buttonsSgn(); track putt; let i = $index) {
           <button class="btn btn-outline-success btn-lg"
-            [ngClass]="puttSelectorActive()[i]" (click)="selectPutt(i)">
+            [ngClass]="puttSelectorActiveSgn()[i]" (click)="selectPutt(i)">
             {{i}}
           </button>
         }
@@ -67,7 +67,7 @@
       <div class="btn-group-toggle flex-wrap" data-toggle="buttons">
         @for (penalty of buttonsSgn(); track penalty; let i = $index) {
           <button class="btn btn-outline-success btn-lg"
-            [ngClass]="penaltySelectorActive()[i]" (click)="selectPenalty(i)">
+            [ngClass]="penaltySelectorActiveSgn()[i]" (click)="selectPenalty(i)">
             {{i}}
           </button>
         }

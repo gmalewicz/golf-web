@@ -129,8 +129,8 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
   protected updateMpResult(strokeIdx: number) {
 
     // update mp score if score enetered for both players
-    if (this.strokes[strokeIdx][0] > 0 && this.strokes[strokeIdx][1] > 0) {
-      const result = this.strokes[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokes[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
+    if (this.strokesSgn()[strokeIdx][0] > 0 && this.strokesSgn()[strokeIdx][1] > 0) {
+      const result = this.strokesSgn()[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokesSgn()[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
 
       if (result < 0) {
         this.mpScoreSgn()[strokeIdx] = -1;

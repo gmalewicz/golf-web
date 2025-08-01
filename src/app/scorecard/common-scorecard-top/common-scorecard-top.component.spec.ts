@@ -29,18 +29,18 @@ describe('CommonScorecardTopComponent', () => {
     
     component.addScore = () => null;
 
-    componentRef.setInput('curPlayerStyle', signal(['edit']));
-    componentRef.setInput('curHoleIdx', 0);
-    componentRef.setInput('curHoleStrokes', [1]);
-    componentRef.setInput('curHolePutts', [1]);
-    componentRef.setInput('curHolePenalties', [1]);
-    componentRef.setInput('roundsSgn', signal([{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]));
-    componentRef.setInput('ballPickedUp', false);
-    componentRef.setInput('totalStrokes', [1]);
-    componentRef.setInput('penaltySelectorActive', [{active: false}]);
-    componentRef.setInput('curPlayerIdx', 0);
-    componentRef.setInput('puttSelectorActive', [{active: false}]);
-    componentRef.setInput('inProgress', false);
+    componentRef.setInput('curPlayerStyleSgn', ['edit']);
+    componentRef.setInput('curHoleIdxSgn', 0);
+    componentRef.setInput('curHoleStrokesSgn', [1]);
+    componentRef.setInput('curHolePuttsSgn', [1]);
+    componentRef.setInput('curHolePenaltiesSgn', [1]);
+    componentRef.setInput('roundsSgn', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
+    componentRef.setInput('ballPickedUpSgn', false);
+    componentRef.setInput('totalStrokesSgn', [1]);
+    componentRef.setInput('penaltySelectorActiveSgn', [{active: false}]);
+    componentRef.setInput('curPlayerIdxSgn', 0);
+    componentRef.setInput('puttSelectorActiveSgn', [{active: false}]);
+    componentRef.setInput('inProgressSgn', false);
 
     fixture.detectChanges();
   });

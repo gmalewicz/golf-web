@@ -3,7 +3,6 @@
 <table class="table table-striped" aria-describedby="Tournament rounds">
   <thead>
     <tr>
-      <th id="nav"></th>
       <th id="date" i18n="@@tourRunds-date">Date</th>
       <th id="tTime">Tee Time</th>
       <th id="cour" i18n="@@tourRunds-teeTime">Course</th>
@@ -13,18 +12,22 @@
   <tbody>
     @for (round of rounds; track round) {
       <tr>
-        <td>
-          <a (click)="addRound(round)">
-            <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
-          </a>
-        </td>
         <td>{{ round.roundDate | date: "mediumDate" }}</td>
         <td>{{ round.roundDate | date: "H:mm"}}</td>
         <td>{{ round.course.name }}</td>
         <td>
           @for (player of round.player; track player) {
+            @if (player) {
+
+            }
             <span>
-              {{player.nick}}<br/>
+              
+              <a (click)="addRound(round, player.id)">
+                <fa-icon [icon]="faPlusCircle" class="golf-green"></fa-icon>
+              </a>
+              &nbsp;
+              {{player.nick}} 
+              <br/>
             </span>
           }
         </td>
