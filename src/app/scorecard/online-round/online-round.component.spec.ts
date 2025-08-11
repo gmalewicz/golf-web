@@ -78,7 +78,7 @@ describe('OnlineRoundComponent', () => {
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.curHoleStrokesSgn()[component.curPlayerIdx] = 10;
+    component.curHoleStrokesSgn()[component.curPlayerIdxSgn()] = 10;
     component.addScore();
     tick(200);
     expect(component.curHoleIdxSgn()).toBe(1);

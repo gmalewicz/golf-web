@@ -109,20 +109,20 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   protected updateNetStatistic() {
 
     // update stableford netto
-    this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] =
-      this.courseSgn().holes[this.curHoleIdxSgn()].par - this.curHoleStrokesSgn()[this.curPlayerIdx] + this.holeHcp[this.curPlayerIdx][this.curHoleIdxSgn()] + 2;
-    if (this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] < 0) {
-      this.stbNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] = 0;
+    this.stbNetSgn()[this.curPlayerIdxSgn()][this.curHoleIdxSgn()] =
+      this.courseSgn().holes[this.curHoleIdxSgn()].par - this.curHoleStrokesSgn()[this.curPlayerIdxSgn()] + this.holeHcp[this.curPlayerIdxSgn()][this.curHoleIdxSgn()] + 2;
+    if (this.stbNetSgn()[this.curPlayerIdxSgn()][this.curHoleIdxSgn()] < 0) {
+      this.stbNetSgn()[this.curPlayerIdxSgn()][this.curHoleIdxSgn()] = 0;
     }
    
 
     // update stroke play netto
-    this.totalStbNetSgn()[this.curPlayerIdx] = this.stbNetSgn()[this.curPlayerIdx].reduce((p, n) => p + n, 0);
+    this.totalStbNetSgn()[this.curPlayerIdxSgn()] = this.stbNetSgn()[this.curPlayerIdxSgn()].reduce((p, n) => p + n, 0);
    
 
-    this.strNetSgn()[this.curPlayerIdx][this.curHoleIdxSgn()] = this.curHoleStrokesSgn()[this.curPlayerIdx] - this.holeHcp[this.curPlayerIdx][this.curHoleIdxSgn()];
+    this.strNetSgn()[this.curPlayerIdxSgn()][this.curHoleIdxSgn()] = this.curHoleStrokesSgn()[this.curPlayerIdxSgn()] - this.holeHcp[this.curPlayerIdxSgn()][this.curHoleIdxSgn()];
     
-    this.totalStrNetSgn()[this.curPlayerIdx] = this.strNetSgn()[this.curPlayerIdx].reduce((p, n) => p + n, 0);
+    this.totalStrNetSgn()[this.curPlayerIdxSgn()] = this.strNetSgn()[this.curPlayerIdxSgn()].reduce((p, n) => p + n, 0);
     
 
     // calculate hole result for skin game

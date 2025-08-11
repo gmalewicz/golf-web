@@ -6,7 +6,7 @@ import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { LocationStrategy, formatDate } from '@angular/common';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -46,9 +46,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   totalStrokesSgn = signal<number[]>([]);
   curPlayerStyleSgn = signal<string[]>([]);
   curHoleStrokesSgn = signal<number[]>([]);
+  curPlayerIdxSgn = signal<number>(0);
 
-
-  curPlayerIdx: number;
   // strokes, putts, penalties for the current hole
   curHolePutts: number[];
   curHolePenalties: number[];
@@ -118,7 +117,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       this.courseSgn =  this.navigationService.getCourseSgn();
       // initialize variables
-      this.curPlayerIdx = 0;
+      this.curPlayerIdxSgn.set(0);
 
       let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
       initPlayerStyleArray[0] = 'highlight';
@@ -209,11 +208,11 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       return s;
     }));
     // set player index to 0 and update edit style
-    this.curPlayerIdx = 0;
+    this.curPlayerIdxSgn.set(0);
     this.puttSelectorActive.fill({ active: false });
-    this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
+    this.puttSelectorActive[this.curHolePutts[this.curPlayerIdxSgn()]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
-    this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdx]] = ({ active: true });
+    this.penaltySelectorActive[this.curHolePenalties[this.curPlayerIdxSgn()]] = ({ active: true });
   }
 
   onFinal() {
@@ -290,30 +289,30 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   addScore() {
 
     // save only if anything has been changed
-    if (this.curHoleStrokesSgn()[this.curPlayerIdx] !== this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] ||
-      this.curHolePutts[this.curPlayerIdx] !== this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] ||
-      this.curHolePenalties[this.curPlayerIdx] !== this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx]) {
+    if (this.curHoleStrokesSgn()[this.curPlayerIdxSgn()] !== this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] ||
+      this.curHolePutts[this.curPlayerIdxSgn()] !== this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] ||
+      this.curHolePenalties[this.curPlayerIdxSgn()] !== this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()]) {
 
        // create new online score card
       const currentOnlineScoreCard: OnlineScoreCard = {
         hole: this.curHoleIdxSgn() + 1,
-        stroke: this.curHoleStrokesSgn()[this.curPlayerIdx],
-        putt: this.curHolePutts[this.curPlayerIdx],
-        penalty: this.curHolePenalties[this.curPlayerIdx],
+        stroke: this.curHoleStrokesSgn()[this.curPlayerIdxSgn()],
+        putt: this.curHolePutts[this.curPlayerIdxSgn()],
+        penalty: this.curHolePenalties[this.curPlayerIdxSgn()],
         player: {
-          id: this.onlineRoundsSgn()[this.curPlayerIdx].player.id,
-          nick: this.onlineRoundsSgn()[this.curPlayerIdx].player.nick
+          id: this.onlineRoundsSgn()[this.curPlayerIdxSgn()].player.id,
+          nick: this.onlineRoundsSgn()[this.curPlayerIdxSgn()].player.nick
         },
-        orId: this.onlineRoundsSgn()[this.curPlayerIdx].id,
+        orId: this.onlineRoundsSgn()[this.curPlayerIdxSgn()].id,
         update: false,
         time: formatDate(new Date(), 'HH:mm', 'en-US')
       };
 
       // verify if it is an update
-      if ((this.curHoleStrokesSgn()[this.curPlayerIdx] !== this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] ||
-        this.curHolePutts[this.curPlayerIdx] !== this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] ||
-        this.curHolePenalties[this.curPlayerIdx] !== this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx]) &&
-        this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] !== 0) {
+      if ((this.curHoleStrokesSgn()[this.curPlayerIdxSgn()] !== this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] ||
+        this.curHolePutts[this.curPlayerIdxSgn()] !== this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] ||
+        this.curHolePenalties[this.curPlayerIdxSgn()] !== this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()]) &&
+        this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] !== 0) {
 
           currentOnlineScoreCard.update = true;
           this.sendMessage(currentOnlineScoreCard);
@@ -341,44 +340,44 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.updateMpTotal();
     this.updateNetStatistic();
 
-    if (this.curPlayerIdx < this.onlineRoundsSgn().length - 1) {
+    if (this.curPlayerIdxSgn() < this.onlineRoundsSgn().length - 1) {
 
       let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
-      this.curPlayerIdx++;
-      initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
+      this.curPlayerIdxSgn.set(this.curPlayerIdxSgn() + 1);
+      initPlayerStyleArray[this.curPlayerIdxSgn()] = 'highlight';
       this.curPlayerStyleSgn.set(initPlayerStyleArray);
     } else {
 
       let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill('no-highlight')
-      this.curPlayerIdx = 0;
-      initPlayerStyleArray[this.curPlayerIdx] = 'highlight';
+      this.curPlayerIdxSgn.set(0);
+      initPlayerStyleArray[this.curPlayerIdxSgn()] = 'highlight';
       this.curPlayerStyleSgn.set(initPlayerStyleArray);
       this.selectHole(this.curHoleIdxSgn() + 1);
       
     }
 
     this.puttSelectorActive.fill({ active: false });
-    this.puttSelectorActive[this.curHolePutts[this.curPlayerIdx]] = ({ active: true });
+    this.puttSelectorActive[this.curHolePutts[this.curPlayerIdxSgn()]] = ({ active: true });
     this.penaltySelectorActive.fill({ active: false });
   }
 
 
   private updateTotals() {
     // update total strokes by substracting current value and adding the new one
-    this.totalStrokesSgn()[this.curPlayerIdx] -= this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx];
-    this.totalStrokesSgn()[this.curPlayerIdx] += this.curHoleStrokesSgn()[this.curPlayerIdx];
+    this.totalStrokesSgn()[this.curPlayerIdxSgn()] -= this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()];
+    this.totalStrokesSgn()[this.curPlayerIdxSgn()] += this.curHoleStrokesSgn()[this.curPlayerIdxSgn()];
     this.totalStrokesSgn.set([...this.totalStrokesSgn()]); // trigger change detection
 
     // udate strokes for display
-    this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] = this.curHoleStrokesSgn()[this.curPlayerIdx];
+    this.strokesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] = this.curHoleStrokesSgn()[this.curPlayerIdxSgn()];
     this.strokesSgn.set([...this.strokesSgn()]); // trigger change detection
 
     // verify if at least for one hole the ball has been picked up
     this.setBallPickUp();
 
-    this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] = this.curHolePutts[this.curPlayerIdx];
+    this.puttsSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] = this.curHolePutts[this.curPlayerIdxSgn()];
     this.puttsSgn.set([...this.puttsSgn()]); // trigger change detection
-    this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdx] = this.curHolePenalties[this.curPlayerIdx];
+    this.penaltiesSgn()[this.curHoleIdxSgn()][this.curPlayerIdxSgn()] = this.curHolePenalties[this.curPlayerIdxSgn()];
     this.penaltiesSgn.set([...this.penaltiesSgn()]); // trigger change detection
   }
 
@@ -397,12 +396,12 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
     for  (let idx = 0; idx < 18; idx++) {
 
-      if (this.strokesSgn()[idx][this.curPlayerIdx] === ballPickedUpStrokes) {
-        this.ballPickedUpSgn()[this.curPlayerIdx] = true;
+      if (this.strokesSgn()[idx][this.curPlayerIdxSgn()] === ballPickedUpStrokes) {
+        this.ballPickedUpSgn()[this.curPlayerIdxSgn()] = true;
         break;
       }
       if (idx === 17) {
-        this.ballPickedUpSgn()[this.curPlayerIdx] = false;
+        this.ballPickedUpSgn()[this.curPlayerIdxSgn()] = false;
       }
     }
     this.ballPickedUpSgn.set([...this.ballPickedUpSgn()]); // trigger change detection
@@ -466,6 +465,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
         }));
         this.prepareAndCalculateNetStatistic();
         this.displaySgn.set(true);
+        
       })
     ).subscribe();
   }

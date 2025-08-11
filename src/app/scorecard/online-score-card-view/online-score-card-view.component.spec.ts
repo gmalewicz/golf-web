@@ -45,6 +45,7 @@ describe('OnlineScoreCardViewComponent', () => {
 
   it('should create but player does not exists', () => {
     history.pushState({}, '');
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer()]));
     authenticationService = TestBed.inject(AuthenticationService);
     authenticationService.logout();
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
