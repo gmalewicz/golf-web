@@ -100,7 +100,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       // get owner in case of match play online score card
       this.ownerSgn = this.navigationService.getOwnerSgn();
 
-      if (this.onlineRoundsSgn().length !== 0 && this.ownerSgn() === undefined) {
+      if (this.onlineRoundsSgn().length == 1 && this.ownerSgn() === undefined) {
         this.onlineRoundsSgn.set([...[this.onlineRoundsSgn()[0]]]); // trigger change detection
         this.courseSgn.set(this.onlineRoundsSgn()[0].course);
         this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
