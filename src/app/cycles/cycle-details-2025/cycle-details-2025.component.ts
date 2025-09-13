@@ -289,22 +289,22 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
       // stb net
       item.tieArray[i].push(item.r[i]);
       // last round 
-      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].sum.strokes);
+      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].sum.stb_netto);
       // last 9
-      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].in.strokes);
+      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].in.stb_netto);
       // last 6
-      item.tieArray[i].push(+item.scorecard.scorecard.rounds[i].holes_in[8].strokes + 
-        +item.scorecard.scorecard.rounds[i].holes_out[7].strokes + 
-        +item.scorecard.scorecard.rounds[i].holes_out[6].strokes + 
-        +item.scorecard.scorecard.rounds[i].holes_out[5].strokes +
-        +item.scorecard.scorecard.rounds[i].holes_out[4].strokes +
-        +item.scorecard.scorecard.rounds[i].holes_out[3].strokes);
+      item.tieArray[i].push(+item.scorecard.scorecard.rounds[i].holes_in[8].stb_netto + 
+        +item.scorecard.scorecard.rounds[i].holes_out[7].stb_netto + 
+        +item.scorecard.scorecard.rounds[i].holes_out[6].stb_netto + 
+        +item.scorecard.scorecard.rounds[i].holes_out[5].stb_netto +
+        +item.scorecard.scorecard.rounds[i].holes_out[4].stb_netto +
+        +item.scorecard.scorecard.rounds[i].holes_out[3].stb_netto);
       // last 3
-      item.tieArray[i].push(+item.scorecard.scorecard.rounds[i].holes_in[8].strokes + 
-                          +item.scorecard.scorecard.rounds[i].holes_out[7].strokes + 
-                          +item.scorecard.scorecard.rounds[i].holes_out[6].strokes);
+      item.tieArray[i].push(+item.scorecard.scorecard.rounds[i].holes_in[8].stb_netto + 
+                          +item.scorecard.scorecard.rounds[i].holes_out[7].stb_netto + 
+                          +item.scorecard.scorecard.rounds[i].holes_out[6].stb_netto);
       // last 1
-      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].holes_in[8].strokes);  
+      item.tieArray[i].push(item.scorecard.scorecard.rounds[i].holes_in[8].stb_netto);  
       // lower hcp
       item.tieArray[i].push(item.hcp);
     };
@@ -312,11 +312,13 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
   private resolveTies(items: any, round: number): void {
 
+    console.log(items);
+
     items.sort((a, b) => b.tieArray[round][0] - a.tieArray[round][0] || 
-                         a.tieArray[round][1] - b.tieArray[round][1] ||
-                         a.tieArray[round][2] - b.tieArray[round][2] ||
-                         a.tieArray[round][3] - b.tieArray[round][3] ||
-                         a.tieArray[round][4] - b.tieArray[round][4] ||
+                         b.tieArray[round][1] - a.tieArray[round][1] ||
+                         b.tieArray[round][2] - a.tieArray[round][2] ||
+                         b.tieArray[round][3] - a.tieArray[round][3] ||
+                         b.tieArray[round][4] - a.tieArray[round][4] ||
                          a.tieArray[round][5] - b.tieArray[round][5]);
 
   };
