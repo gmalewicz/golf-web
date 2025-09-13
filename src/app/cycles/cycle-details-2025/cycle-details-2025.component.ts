@@ -312,8 +312,6 @@ export class CycleDetails2025Component extends CycleDetailsBase implements OnIni
 
   private resolveTies(items: any, round: number): void {
 
-    console.log(items);
-
     items.sort((a, b) => b.tieArray[round][0] - a.tieArray[round][0] || 
                          b.tieArray[round][1] - a.tieArray[round][1] ||
                          b.tieArray[round][2] - a.tieArray[round][2] ||
