@@ -3,9 +3,11 @@ import { Observable } from 'rxjs';
 
 export class MimicBackendTournamentInterceptor implements HttpInterceptor{
 
+  
+
   intercept(req: HttpRequest<unknown>, next: HttpHandler):
     Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<unknown> | HttpUserEvent<unknown>> {
-
+    
     if (req.url.endsWith('rest/Tournament/0') && (req.method === 'GET')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
@@ -36,14 +38,7 @@ export class MimicBackendTournamentInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/TournamentResult/1') ||
-               req.url.startsWith('rest/TournamentResultRound') ||
-               req.url.startsWith('rest/TournamentRound') ||
-               req.url.startsWith('rest/Round') ||
-               req.url.startsWith('rest/TournamentRoundOnBehalf') ||
-               req.url.startsWith('rest/TournamentClose') ||
-               req.url.startsWith('rest/Tournament') ||
-               req.url.startsWith('rest/TournamentPlayer')) {
+    } else if (req.url.startsWith('rest')) {
         return new Observable (observer => {
           observer.next(new HttpResponse<Array<unknown>>({body:
             []

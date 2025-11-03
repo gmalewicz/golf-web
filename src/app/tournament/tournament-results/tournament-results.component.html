@@ -102,7 +102,8 @@
             <ng-template #showDetails>
               <td colspan="6">
                 <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                                      (notify)="getTournamentResults()"></app-player-results>
                 </div>
               </td>
             </ng-template>
@@ -270,7 +271,8 @@
             <ng-template #showDetails>
               <td colspan="6">
                 <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                                      (notify)="getTournamentResults()"></app-player-results>
                 </div>
               </td>
             </ng-template>

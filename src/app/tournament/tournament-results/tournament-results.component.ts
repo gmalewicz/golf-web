@@ -63,7 +63,12 @@ export class TournamentResultsComponent implements OnInit {
       this.faMinusCircle = faMinusCircle;
 
       this.playerId = this.authenticationService.currentPlayerValue.id;
-      this.tournamentHttpService.getTournamentResults(this.navigationService.tournament().id).pipe(
+      this.getTournamentResults()
+    }
+  }
+
+  getTournamentResults() {
+    this.tournamentHttpService.getTournamentResults(this.navigationService.tournament().id).pipe(
         tap(
           (retTournamentResults: TournamentResult[]) => {
             this.navigationService.tournamentResults.set(retTournamentResults);
@@ -72,7 +77,6 @@ export class TournamentResultsComponent implements OnInit {
             this.display = true;
           })
       ).subscribe();
-    }
   }
 
   showPlayerDetails(tournamentResult: TournamentResult, index: number) {

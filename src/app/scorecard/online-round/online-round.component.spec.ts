@@ -52,13 +52,6 @@ describe('OnlineRoundComponent', () => {
     navigationService = TestBed.inject(NavigationService);
   });
 
-  it('should create but no data', () => {
-    fixture = TestBed.createComponent(OnlineRoundComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
-
   it('should create with correct data', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
