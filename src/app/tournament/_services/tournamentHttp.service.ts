@@ -52,9 +52,13 @@ export class TournamentHttpService {
     return this.http.get<Round>('rest/Round/' + roundId);
   }
 
-  // gets round for given id
+  // deletes all results for given id
   deleteResult(resultId: number): Observable<void> {
     return this.http.delete<void>('rest/TournamentResult/' + resultId);
+  }
+
+  deleteRound(turnamentRoundId: number, roundId: number): Observable<void> {
+    return this.http.delete<void>('rest/TournamentRounds/' + turnamentRoundId + '/' + roundId);
   }
 
   // gets eagle results

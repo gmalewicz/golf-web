@@ -4,10 +4,11 @@ import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { Router } from '@angular/router';
-import { MyRouterStub } from '@/_helpers/test.helper';
+import { authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper';
 import { ComponentRef } from '@angular/core';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
-import { HttpService } from '@/_services/http.service';
+import { TournamentResultsComponent } from '../tournament-results/tournament-results.component';
+import { AuthenticationService } from '@/_services';
 
 describe('PlayerResultsComponent', () => {
   let component: PlayerResultsComponent;
@@ -23,7 +24,9 @@ describe('PlayerResultsComponent', () => {
           { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
           { provide: Router, useClass: MyRouterStub },
           { provide: TournamentNavigationService, useValue: tournamentNavigationService},
-          provideHttpClient(withInterceptorsFromDi())
+          { provide: AuthenticationService, useValue: authenticationServiceStub },
+          provideHttpClient(withInterceptorsFromDi()
+        )
       ]
     })
     .compileComponents();
@@ -47,6 +50,13 @@ describe('PlayerResultsComponent', () => {
      component.tournamentNavigationService.tournament.set({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, playHcpMultiplayer: 1, player: {id: 1}});
     fixture.detectChanges();
     component.showPlayerRound(1);
+    expect(component).toBeTruthy();
+  });
+
+   it('should deletePlayerRound', () => {
+    component.tournamentNavigationService.tournament.set({id: 1, name: 'test', startDate: '10/10/2020', endDate: '10/10/2020', bestRounds: 0, playHcpMultiplayer: 1, player: {id: 1}});
+    fixture.detectChanges();
+    component.deleteRound(1);
     expect(component).toBeTruthy();
   });
 });

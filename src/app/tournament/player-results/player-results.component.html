@@ -13,6 +13,9 @@
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
       }
+      @if (tournamentNavigationService.tournament().player.id === playerId) {
+        <th></th>
+      }
     </tr>
   </thead>
   @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound; let j = $index) {
@@ -54,6 +57,12 @@
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <td>{{tournamentRound.scrDiff}}</td>
       } 
+      @if (tournamentNavigationService.tournament().player.id === playerId) {
+        <td>
+            <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true"
+            (click)="deleteRound(tournamentRound.roundId)" (keydown)="deleteRound(tournamentRound.roundId)"></fa-icon>
+        </td>
+      }
     </tbody>
   }
 </table>

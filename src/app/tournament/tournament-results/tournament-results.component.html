@@ -102,7 +102,8 @@
             <ng-template #showDetails>
               <td colspan="6">
                 <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                                      (notify)="getTournamentResults()"></app-player-results>
                 </div>
               </td>
             </ng-template>
@@ -116,13 +117,13 @@
       <table class="table table-striped" aria-describedby="tournament result">
         <thead>
           <tr>
-            <th id="place" i18n="@@tourRes-place">Place</th>
-            <th id="player" i18n="@@tourRes-plr">Player</th>
-            <th id="gstb" i18n="@@tourRes-stb">STB</th>
-            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            <th id="place2" i18n="@@tourRes-place">Place</th>
+            <th id="player2" i18n="@@tourRes-plr">Player</th>
+            <th id="gstb2" i18n="@@tourRes-stb">STB</th>
+            <th id="nstb2" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstr2" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="nstr2" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="prnd2" i18n="@@tourRes-plrRnds">Played Rounds</th>
           </tr>
         </thead>
         <tbody >
@@ -172,13 +173,13 @@
       <table class="table table-striped" aria-describedby="tournament result">
         <thead>
           <tr>
-            <th id="place" i18n="@@tourRes-place">Place</th>
-            <th id="player" i18n="@@tourRes-plr">Player</th>
-            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstb" i18n="@@tourRes-stb">STB</th>
-            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            <th id="place3" i18n="@@tourRes-place">Place</th>
+            <th id="player3" i18n="@@tourRes-plr">Player</th>
+            <th id="gstr3" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="nstb3" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstb3" i18n="@@tourRes-stb">STB</th>
+            <th id="nstr3" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="prnd3" i18n="@@tourRes-plrRnds">Played Rounds</th>
           </tr>
         </thead>
         <tbody >
@@ -228,13 +229,13 @@
       <table class="table table-striped" aria-describedby="tournament result">
         <thead>
           <tr>
-            <th id="place" i18n="@@tourRes-place">Place</th>
-            <th id="player" i18n="@@tourRes-plr">Player</th>
-            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstb" i18n="@@tourRes-stb">STB</th>
-            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            <th id="place4" i18n="@@tourRes-place">Place</th>
+            <th id="player4" i18n="@@tourRes-plr">Player</th>
+            <th id="nstr4" i18n="@@tourRes-strNet">Strokes Net</th>
+            <th id="nstb4" i18n="@@tourRes-stbNet">STB Net</th>
+            <th id="gstb4" i18n="@@tourRes-stb">STB</th>
+            <th id="gstr4" i18n="@@tourRes-strGross">Strokes</th>
+            <th id="prnd4" i18n="@@tourRes-plrRnds">Played Rounds</th>
           </tr>
         </thead>
         <tbody >
@@ -270,7 +271,8 @@
             <ng-template #showDetails>
               <td colspan="6">
                 <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                                      (notify)="getTournamentResults()"></app-player-results>
                 </div>
               </td>
             </ng-template>

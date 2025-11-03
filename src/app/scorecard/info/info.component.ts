@@ -18,7 +18,7 @@ export class InfoComponent {
 
   constructor(private readonly router: Router,  protected navigationService: NavigationService,
   ) {
-    this.onlineRounds = this.router.getCurrentNavigation()?.extras.state?.['onlineRounds'];
+    this.onlineRounds = this.router.currentNavigation()?.extras.state?.['onlineRounds'];
   }
 
   onBack(): void {  
