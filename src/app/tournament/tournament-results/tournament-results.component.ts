@@ -72,8 +72,8 @@ export class TournamentResultsComponent implements OnInit {
         tap(
           (retTournamentResults: TournamentResult[]) => {
             this.navigationService.tournamentResults.set(retTournamentResults);
-            this.displayRound = Array(this.navigationService.tournamentResults().length).fill(false);
-            this.rndSpinner = Array(this.navigationService.tournamentResults().length).fill(false);
+            this.displayRound = new Array(this.navigationService.tournamentResults().length).fill(false);
+            this.rndSpinner = new Array(this.navigationService.tournamentResults().length).fill(false);
             this.display = true;
           })
       ).subscribe();

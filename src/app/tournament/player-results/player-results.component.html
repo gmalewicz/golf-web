@@ -60,7 +60,7 @@
       @if (tournamentNavigationService.tournament().player.id === playerId) {
         <td>
             <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true"
-            (click)="deleteRound(tournamentRound.roundId)"></fa-icon>
+            (click)="deleteRound(tournamentRound.roundId)" (onKeyDown)="deleteRound(tournamentRound.roundId)"></fa-icon>
         </td>
       }
     </tbody>
