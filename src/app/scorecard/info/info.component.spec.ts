@@ -16,7 +16,7 @@ describe('InfoComponent', () => {
 
   let mockRouter = {
     // navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: () => {
+    currentNavigation: () => {
       return {
          extras: {
             state:{
@@ -61,7 +61,7 @@ describe('InfoComponent', () => {
     let onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.matchPlay = false;
    
-    mockRouter.getCurrentNavigation = () => {
+    mockRouter.currentNavigation = () => {
       return {
          extras: {
             state:{
