@@ -1992,22 +1992,6 @@
           <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="onlnRndDef-timReq" datatype="html">
-        <source>Tee time is required</source>
-        <target>Tee time jest wymagany</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="onlnRndDef-timPatt" datatype="html">
-        <source>Provide the valid tee time</source>
-        <target>Wprowadź poprawny tee time</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/scorecard/online-round-def/online-round-def.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="onlnRndDef-mpRnd" datatype="html">
         <source>Match Play Round</source>
         <target>Runda Match Play</target>

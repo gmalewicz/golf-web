@@ -1,13 +1,14 @@
 import { Course } from '@/_models/course';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
+import { Player } from '@/_models/player';
 
 @Injectable()
 export class NavigationService {
 
-  courseSgn = signal<Course>(undefined);
-  onlineRoundsSgn = signal<OnlineRound[]>([]);
-  ownerSgn = signal<number>(undefined);
+  private courseSgn = signal<Course>(undefined);
+  private onlineRoundsSgn = signal<OnlineRound[]>([]);
+  private ownerSgn = signal<number>(undefined);
 
   constructor() {
     this.getCourseSgn();
