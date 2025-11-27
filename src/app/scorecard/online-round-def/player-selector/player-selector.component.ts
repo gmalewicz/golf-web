@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, input, linkedSignal, signal } from '@angular/core';    
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';  
+import { MatDialog } from '@angular/material/dialog';  
 import { MatOption } from '@angular/material/core';  
 import { MatSelect } from '@angular/material/select';  
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';  
@@ -12,7 +12,7 @@ import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { NavigationService } from '@/scorecard/_services/navigation.service';  
 import { UpdateWhsDialogComponent } from '@/scorecard/update-whs-dialog/update-whs-dialog.component';  
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';  
-import { combineLatest, Observable, tap } from 'rxjs';
+import { finalize, forkJoin, from, switchMap } from 'rxjs';
 import { Format } from '@/scorecard/_models/format';
 import { NgClass } from '@angular/common';
 import { OnlineRound } from '@/scorecard/_models/onlineRound';
@@ -49,6 +49,8 @@ interface PlayerData {
 })  
 export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {  
  
+  private readonly MAX_PLAYERS = 4;
+
   courseSgn = input.required<Course>();  
   formatSgn = input.required<Format>(); 
 
@@ -61,18 +63,18 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     penalties: false
   })
 
-  playerDataForm = form(this.playerDataModel, schemaPath => {
-     disabled(schemaPath.teeDropDown2, () => this.noOfPlayersSgn() < 2),
-     disabled(schemaPath.teeDropDown3, () => this.noOfPlayersSgn() < 3),
-     disabled(schemaPath.teeDropDown4, () => this.noOfPlayersSgn() < 4),
+   playerDataForm = form(this.playerDataModel, schemaPath => {
+      disabled(schemaPath.teeDropDown2, () => this.noOfPlayersSgn() < 2),
+      disabled(schemaPath.teeDropDown3, () => this.noOfPlayersSgn() < 3),
+      disabled(schemaPath.teeDropDown4, () => this.noOfPlayersSgn() < 4),
 
-     required(schemaPath.teeDropDown1),
-     required(schemaPath.teeDropDown2),
-     required(schemaPath.teeDropDown3),
-     required(schemaPath.teeDropDown4) 
+      required(schemaPath.teeDropDown1),
+      required(schemaPath.teeDropDown2),
+      required(schemaPath.teeDropDown3),
+      required(schemaPath.teeDropDown4) 
 
-  });
-  
+  });  
+
   Format = Format;
 
   displaySgn = signal(false);  
@@ -80,14 +82,14 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   noOfPlayersSgn: WritableSignal<number>; 
   playersSgn = signal<Player[]>([]); 
    
-  searchInProgressSgn = signal<boolean[]>(Array(4).fill(false));  
+  searchInProgressSgn = signal<boolean[]>(Array(this.MAX_PLAYERS).fill(false));  
   faSearchPlusSgn = signal<IconDefinition>(faSearchPlus);  
   faCheckCircleSgn = signal<IconDefinition>(faCheckCircle);  
 
-  teeOptions = signal<TeeOptions[][]>(Array(4).fill(null));
-   
-  teeOptionsMale: TeeOptions[] = [];  
-  teeOptionsFemale: TeeOptions[] = [];  
+  teeOptions = signal<TeeOptions[][]>(Array.from({ length: this.MAX_PLAYERS }, () => []));  
+  teeOptionsMale = signal<TeeOptions[]>([]);  
+  teeOptionsFemale = signal<TeeOptions[]>([]);   
+  
   tees: Tee[] = [];  
     
   constructor(  
@@ -103,14 +105,15 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
   
   ngOnInit(): void {  
-    this.initializeSignals();    
+    this.initializeSignals();        
     this.getCourseData();  
+
   }  
   
   private initializeSignals(): void {  
     this.loadingSgn.set(false);  
     this.noOfPlayersSgn = linkedSignal(() =>  {
-      let noOfPlayers = 4;
+      let noOfPlayers = this.MAX_PLAYERS;
       switch (this.formatSgn()) {
         case Format.STROKE_PLAY:
           noOfPlayers = 1; // stroke play round minimum 1 max 4 players
@@ -119,18 +122,19 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           noOfPlayers = 2; // match play round always 2 players
           break;
         default: 
-          noOfPlayers = 4; // four ball default is always four players (for stroke play can be 3 thus entire 3 players flight will be one team)
+          noOfPlayers = this.MAX_PLAYERS; // four ball default is always four players (for stroke play can be 3 thus entire 3 players flight will be one team)
       } 
       return noOfPlayers; 
     });
-    this.playersSgn.set(Array(4));  
-    this.tees = Array(4);  
-    this.searchInProgressSgn.set(Array(4).fill(false));    
+    this.playersSgn.set(Array(this.MAX_PLAYERS));  
+    this.tees = Array(this.MAX_PLAYERS);  
+    this.searchInProgressSgn.set(Array(this.MAX_PLAYERS).fill(false));    
 
   }  
 
+
   private isAllNicksSet(): boolean {
-    return !this.playersSgn().slice(0, this.noOfPlayersSgn()).includes(undefined);
+    return this.playersSgn().slice(0, this.noOfPlayersSgn()).every(p => !!p);
   }
 
   private isMpTeeTypeCorrect(): boolean {
@@ -147,20 +151,28 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   private getCourseData(): void { 
   
     // initiate player with logged in player
-    this.playersSgn()[0] = this.authenticationService.currentPlayerValue;
-    this.playersSgn.set([...this.playersSgn()]); // trigger change detection
+    this.playersSgn.update(arr => {  
+      const copy = [...arr];  
+      copy[0] = this.authenticationService.currentPlayerValue;  
+      return copy;  
+    });
   
     // Load holes and tees  
-    combineLatest([  
+    forkJoin([  
       this.httpService.getHoles(this.courseSgn().id),  
       this.httpService.getTees(this.courseSgn().id),  
     ]).subscribe(([holes, tees]) => {  
       this.courseSgn().holes = holes;  
-      this.courseSgn().tees = tees;  
-  
+      this.courseSgn().tees = tees; 
+      
       this.populateTeeOptions(tees);  
   
-      this.teeOptions()[0] =  this.playersSgn()[0].sex ? this.teeOptionsFemale : this.teeOptionsMale;
+      const p0 = this.playersSgn()[0];  
+      this.teeOptions.update(prev => {  
+        const copy = [...prev];  
+        copy[0] = p0 ? (p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale()) : [];  
+        return copy;  
+      });
       
       this.displaySgn.set(true);  
     });  
@@ -169,13 +181,11 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   private populateTeeOptions(tees: Tee[]): void {  
     const teeTypeLabels = ['1-18', '1-9', '10-18'];  
   
-    tees.forEach(t => {  
-      const option: TeeOptions = {  
-        label: `${t.tee} ${teeTypeLabels[t.teeType]}`,  
-        value: t.id,  
-      };  
-      (t.sex ? this.teeOptionsFemale : this.teeOptionsMale).push(option);  
-    });  
+    const male = tees.filter(t => !t.sex).map(t => ({ label: `${t.tee} ${teeTypeLabels[t.teeType] ?? ''}`, value: t.id }));  
+    const female = tees.filter(t => t.sex).map(t => ({ label: `${t.tee} ${teeTypeLabels[t.teeType] ?? ''}`, value: t.id }));  
+  
+    this.teeOptionsMale.set(male);  
+    this.teeOptionsFemale.set(female);  
   }  
 
    
@@ -186,11 +196,19 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }
     
   protected processPlayer(player: Player, playerIdx: number): Promise<Player | undefined> {  
-    if (player && !this.isNickDuplicated(player.nick)) {  
-      this.playersSgn()[playerIdx] = player;  
-      this.playersSgn.set([...this.playersSgn()]);
+    if (player && !this.isNickDuplicated(player.nick)) {
       
-      this.teeOptions()[playerIdx] =  player.sex ? this.teeOptionsFemale : this.teeOptionsMale;
+       this.playersSgn.update(arr => {  
+        const copy = [...arr];  
+        copy[playerIdx] = player;  
+        return copy;  
+      });
+      
+      this.teeOptions.update(prev => {  
+        const copy = [...prev];  
+        copy[playerIdx] = player ? (player.sex ? this.teeOptionsFemale() : this.teeOptionsMale()) : [];  
+        return copy;  
+      });
 
     }  
     return Promise.resolve(undefined);  
@@ -208,44 +226,42 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
   
   getTeeOptions(idx: number): TeeOptions[] {  
-    const player = this.playersSgn()[idx];  
-    return player ? (player.sex ? this.teeOptionsFemale : this.teeOptionsMale) : [];  
+    return this.teeOptions()[idx] ?? []; 
   }  
-  
+   
   updateWHS(playerIdx: number): void {  
-    const dialogConfig = new MatDialogConfig();  
-    dialogConfig.disableClose = true;  
-    dialogConfig.autoFocus = true;  
-    dialogConfig.data = { player: this.playersSgn()[playerIdx] };  
-  
-    const dialogRef = this.dialog.open(UpdateWhsDialogComponent, dialogConfig);  
-  
-    dialogRef.afterClosed().subscribe(result => {  
-      if (!result) return;  
-  
-      const player = this.playersSgn()[playerIdx];  
-      player.whs = +result.whs.toString().replace(/,/g, '.');  
-  
-      this.setSearchInProgress(playerIdx, true);  
-  
-      const update$ =  
-        playerIdx === 0  
+    const dialogRef = this.dialog.open(UpdateWhsDialogComponent, {  
+      disableClose: true,  
+      autoFocus: true,  
+      data: { player: this.playersSgn()[playerIdx] }  
+    });  
+    
+    dialogRef.afterClosed().pipe(  
+      switchMap((result: any) => {  
+        const player = this.playersSgn()[playerIdx];  
+        const parsed = parseFloat(String(result.whs).replace(',', '.'));  
+        
+        player.whs = parsed;  
+        this.setSearchInProgress(playerIdx, true);  
+    
+        const update$ = playerIdx === 0  
           ? this.httpService.updatePlayer(player)  
           : this.httpService.updatePlayerOnBehalf(player);  
-  
-      (update$ as Observable<void>).pipe(  
-        tap(() => {  
-          this.playersSgn.update(players => {  
-            const copy = [...players];  
-            copy[playerIdx] = player;  
-            return copy;  
-          });  
-          this.setSearchInProgress(playerIdx, false);  
-        })  
-      ).subscribe(); 
+    
+        return from(update$).pipe(  
+          finalize(() => this.setSearchInProgress(playerIdx, false)) 
+            
+        );  
+      })  
+    ).subscribe(() => {  
+      this.playersSgn.update(arr => {  
+        const copy = [...arr];  
+        copy[playerIdx] = { ...this.playersSgn()[playerIdx] };  
+        return copy;  
+      });  
     });  
-  }  
-  
+  } 
+
   private setSearchInProgress(index: number, value: boolean): void {  
     this.searchInProgressSgn()[index] = value;  
     this.searchInProgressSgn.set([...this.searchInProgressSgn()]);  
@@ -293,7 +309,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           finalized: false,
           putts: this.playerDataForm.putts().value(),
           penalties: this.playerDataForm.penalties().value(),
-          matchPlay: this.formatSgn() === Format.MATCH_PLAY ? true : false,
+          matchPlay: this.formatSgn() === Format.MATCH_PLAY,
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
           mpFormat: this.formatSgn()
@@ -313,21 +329,19 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       this.scorecardHttpService
         .addOnlineRounds(onlineRounds)
         .pipe(
-          tap((or) => {
-            this.loadingSgn.set(false);
-            this.navigationService.setCourseSgn(signal(this.courseSgn()));
-            this.navigationService.setOnlineRoundsSgn(signal(or));
-            if (this.formatSgn() === Format.MATCH_PLAY ) {
-              this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
-            } else {
-              this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
-            }
-          })
+          finalize(() => this.loadingSgn.set(false))       
         )
-      .subscribe();
+      .subscribe(or => {
+        this.navigationService.setCourseSgn(signal(this.courseSgn()));
+        this.navigationService.setOnlineRoundsSgn(signal(or));
+        if (this.formatSgn() === Format.MATCH_PLAY ) {
+          this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
+        } else {
+          this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
+        }
+      })
     });
-  }
-    
+  }   
 }  
 
 
