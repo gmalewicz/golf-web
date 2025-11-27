@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, WritableSignal, input, linkedSignal, signal } from '@angular/core';  
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';  
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, input, linkedSignal, signal } from '@angular/core';    
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';  
 import { MatOption } from '@angular/material/core';  
 import { MatSelect } from '@angular/material/select';  
@@ -20,12 +19,21 @@ import { OnlineRound } from '@/scorecard/_models/onlineRound';
 import { getDateAndTime } from '@/_helpers/common';
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';
 import { Router, RouterModule } from '@angular/router';
-  
+import {form, Field, disabled, required, submit} from '@angular/forms/signals';
+
+interface PlayerData {
+      teeDropDown1: string,  
+      teeDropDown2: string,  
+      teeDropDown3: string,  
+      teeDropDown4: string,  
+      putts: boolean,
+      penalties: boolean
+}
+
 @Component({  
   selector: 'app-player-selector',  
   templateUrl: './player-selector.component.html',  
-  imports: [  
-    ReactiveFormsModule,  
+  imports: [   
     MatFormField,  
     MatLabel,  
     MatError,  
@@ -33,18 +41,37 @@ import { Router, RouterModule } from '@angular/router';
     MatSelect,  
     MatOption, 
     NgClass,
-    RouterModule 
+    RouterModule, 
+    Field
   ],  
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  
 })  
 export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {  
-  
+ 
   courseSgn = input.required<Course>();  
   formatSgn = input.required<Format>(); 
 
-  @Output() playersVerified = new EventEmitter<boolean>();
+  playerDataModel = signal<PlayerData>({
+    teeDropDown1: '',  
+    teeDropDown2: '',  
+    teeDropDown3: '',  
+    teeDropDown4: '',  
+    putts: false,
+    penalties: false
+  })
 
-  verificationSgn: any;
+  playerDataForm = form(this.playerDataModel, schemaPath => {
+     disabled(schemaPath.teeDropDown2, () => this.noOfPlayersSgn() < 2),
+     disabled(schemaPath.teeDropDown3, () => this.noOfPlayersSgn() < 3),
+     disabled(schemaPath.teeDropDown4, () => this.noOfPlayersSgn() < 4),
+
+     required(schemaPath.teeDropDown1),
+     required(schemaPath.teeDropDown2),
+     required(schemaPath.teeDropDown3),
+     required(schemaPath.teeDropDown4) 
+
+  });
   
   Format = Format;
 
@@ -56,16 +83,15 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   searchInProgressSgn = signal<boolean[]>(Array(4).fill(false));  
   faSearchPlusSgn = signal<IconDefinition>(faSearchPlus);  
   faCheckCircleSgn = signal<IconDefinition>(faCheckCircle);  
-  
-  defPlayerForm!: FormGroup;  
+
+  teeOptions = signal<TeeOptions[][]>(Array(4).fill(null));
+   
   teeOptionsMale: TeeOptions[] = [];  
   teeOptionsFemale: TeeOptions[] = [];  
   tees: Tee[] = [];  
-  selectedTeeOption?: TeeOptions;  
-  
+    
   constructor(  
-    protected httpService: HttpService,  
-    private readonly formBuilder: FormBuilder,  
+    protected httpService: HttpService,    
     protected alertService: AlertService,  
     private readonly authenticationService: AuthenticationService,  
     protected dialog: MatDialog,
@@ -77,8 +103,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
   
   ngOnInit(): void {  
-    this.initializeSignals();  
-    this.initializeForm();  
+    this.initializeSignals();    
     this.getCourseData();  
   }  
   
@@ -96,7 +121,6 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
         default: 
           noOfPlayers = 4; // four ball default is always four players (for stroke play can be 3 thus entire 3 players flight will be one team)
       } 
-    
       return noOfPlayers; 
     });
     this.playersSgn.set(Array(4));  
@@ -119,18 +143,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     }
     return true;
   }
-  
-  private initializeForm(): void {  
-    this.defPlayerForm = this.formBuilder.group({  
-      teeDropDown1: [ '', Validators.required],  
-      teeDropDown2: [{ value: '', disabled: true }, Validators.required],  
-      teeDropDown3: [{ value: '', disabled: true }, Validators.required],  
-      teeDropDown4: [{ value: '', disabled: true }, Validators.required],  
-      putts: [false],
-      penalties: [false],
-    });  
-  }  
-  
+    
   private getCourseData(): void { 
   
     // initiate player with logged in player
@@ -146,6 +159,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       this.courseSgn().tees = tees;  
   
       this.populateTeeOptions(tees);  
+  
+      this.teeOptions()[0] =  this.playersSgn()[0].sex ? this.teeOptionsFemale : this.teeOptionsMale;
+      
       this.displaySgn.set(true);  
     });  
   }  
@@ -161,38 +177,21 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       (t.sex ? this.teeOptionsFemale : this.teeOptionsMale).push(option);  
     });  
   }  
-  
-  get f() {  
-    return this.defPlayerForm.controls;  
-  }  
-  
+
+   
   onPlayers(players: number): void {
 
     this.noOfPlayersSgn.set(players);
 
-    // disable not used tee dropdowns
-    const controls = [
-    this.f.teeDropDown1,
-    this.f.teeDropDown2,
-    this.f.teeDropDown3,
-    this.f.teeDropDown4
-    ];
-
-    controls.forEach((ctrl, i) => {
-      i < players ? ctrl.enable() : ctrl.disable();
-    });
   }
-  
-  teeChange(index: number): void {  
-    const controlName = `teeDropDown${index + 1}`;  
-    const selectedTeeId = this.f[controlName].value;  
-    this.tees[index] = this.courseSgn().tees.find(t => t.id === selectedTeeId)!;  
-  }  
-  
+    
   protected processPlayer(player: Player, playerIdx: number): Promise<Player | undefined> {  
     if (player && !this.isNickDuplicated(player.nick)) {  
       this.playersSgn()[playerIdx] = player;  
-      this.playersSgn.set([...this.playersSgn()]);  
+      this.playersSgn.set([...this.playersSgn()]);
+      
+      this.teeOptions()[playerIdx] =  player.sex ? this.teeOptionsFemale : this.teeOptionsMale;
+
     }  
     return Promise.resolve(undefined);  
   }  
@@ -256,19 +255,14 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     // Intentionally left blank  
   }  
 
-  onStartOnlineRound() {
+  onStartOnlineRound(event: Event) {
 
-    this.f.teeDropDown1.markAsTouched();
-    this.f.teeDropDown2.markAsTouched();
-    this.f.teeDropDown3.markAsTouched();
-    this.f.teeDropDown4.markAsTouched();
+    this.playerDataForm.teeDropDown1().markAsTouched();
+    this.playerDataForm.teeDropDown2().markAsTouched();
+    this.playerDataForm.teeDropDown3().markAsTouched();
+    this.playerDataForm.teeDropDown4().markAsTouched();
 
-    this.f.teeDropDown1.updateValueAndValidity();
-
-    // stop here if form is invalid
-    if (this.defPlayerForm.invalid) {
-      return;
-    }
+    event.preventDefault();
 
     // stop here if players where not verified in database
     if (!this.isAllNicksSet()) {
@@ -278,49 +272,63 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       return;
     }
 
-    if (this.formatSgn() === Format.MATCH_PLAY && !this.isMpTeeTypeCorrect()) {
-      return;
-    }
+    submit(this.playerDataForm, async () => {      
 
-    this.loadingSgn.set(true);
+      const onlineRounds: OnlineRound[] = Array(this.noOfPlayersSgn());
 
-    const onlineRounds: OnlineRound[] = Array(this.noOfPlayersSgn());
+      let counter = 0;
+      while (counter < this.noOfPlayersSgn()) {
 
-    let counter = 0;
-    while (counter < this.noOfPlayersSgn()) {
-      const onlineRound: OnlineRound = {
-        course: this.courseSgn(),
-        teeTime: getDateAndTime()[1],
-        player: this.playersSgn()[counter],
-        tee: this.tees[counter],
-        owner: this.playersSgn()[0].id,
-        finalized: false,
-        putts: this.f.putts.value,
-        penalties: this.f.penalties.value,
-        matchPlay: this.formatSgn() === Format.MATCH_PLAY ? true : false,
-        // required not to filter on frontend on view page
-        nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
-        mpFormat: this.formatSgn()
-      };
+        const controlName = `teeDropDown${counter + 1}`;  
+        const selectedTeeId = this.playerDataForm[controlName]().value(); 
+        
+        this.tees[counter] = this.courseSgn().tees.find(t => t.id === selectedTeeId)!; 
 
-      onlineRounds[counter] = onlineRound;
-      counter++;
-    }
+        const onlineRound: OnlineRound = {
+          course: this.courseSgn(),
+          teeTime: getDateAndTime()[1],
+          player: this.playersSgn()[counter],
+          tee: this.tees[counter] = this.courseSgn().tees.find(t => t.id === selectedTeeId)!, 
+          owner: this.playersSgn()[0].id,
+          finalized: false,
+          putts: this.playerDataForm.putts().value(),
+          penalties: this.playerDataForm.penalties().value(),
+          matchPlay: this.formatSgn() === Format.MATCH_PLAY ? true : false,
+          // required not to filter on frontend on view page
+          nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
+          mpFormat: this.formatSgn()
+        };
 
-    this.scorecardHttpService
-      .addOnlineRounds(onlineRounds)
-      .pipe(
-        tap((or) => {
-          this.loadingSgn.set(false);
-          this.navigationService.setCourseSgn(signal(this.courseSgn()));
-          this.navigationService.setOnlineRoundsSgn(signal(or));
-          if (this.formatSgn() === Format.MATCH_PLAY ) {
-            this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
-          } else {
-            this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
-          }
-        })
-      )
+        onlineRounds[counter] = onlineRound;
+        counter++;
+      }
+
+      // verify if there is the same tee type for both players in case of MP
+      if (this.formatSgn() === Format.MATCH_PLAY && !this.isMpTeeTypeCorrect()) {
+        return;
+      }
+
+      this.loadingSgn.set(true);
+
+      this.scorecardHttpService
+        .addOnlineRounds(onlineRounds)
+        .pipe(
+          tap((or) => {
+            this.loadingSgn.set(false);
+            this.navigationService.setCourseSgn(signal(this.courseSgn()));
+            this.navigationService.setOnlineRoundsSgn(signal(or));
+            if (this.formatSgn() === Format.MATCH_PLAY ) {
+              this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
+            } else {
+              this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
+            }
+          })
+        )
       .subscribe();
+    });
   }
+    
 }  
+
+
+ 
