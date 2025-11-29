@@ -81,6 +81,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   loadingSgn = signal(false);  
   noOfPlayersSgn: WritableSignal<number>; 
   playersSgn = signal<Player[]>([]); 
+
+  teamSgn = signal<number[]>([]); 
    
   searchInProgressSgn = signal<boolean[]>(Array(this.MAX_PLAYERS).fill(false));  
   faSearchPlusSgn = signal<IconDefinition>(faSearchPlus);  
@@ -126,6 +128,20 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       } 
       return noOfPlayers; 
     });
+
+    this.teamSgn = linkedSignal(() =>  {
+
+      let team = [];
+      
+      if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ) {
+        team = [1,1,2,2];
+      }
+
+      return team; 
+    });
+
+
+
     this.playersSgn.set(Array(this.MAX_PLAYERS));  
     this.tees = Array(this.MAX_PLAYERS);  
     this.searchInProgressSgn.set(Array(this.MAX_PLAYERS).fill(false));    
@@ -192,6 +208,13 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   onPlayers(players: number): void {
 
     this.noOfPlayersSgn.set(players);
+
+    if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 3) {
+      this.teamSgn.set([1,1,1]);
+    } else if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 3) {
+      this.teamSgn.set([1,1,2,2]);
+    }
+
 
   }
     

@@ -24,6 +24,9 @@
   <form (submit)="onStartOnlineRound($event)">
     <div class="row golf-margin-top-15">
       <div class="col-auto golf-width-210">
+        @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+          <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
+        }
         <span class="golf-margin-top golf-thick">
           {{playersSgn()[0].nick}} HCP: {{playersSgn()[0].whs}}
         </span>
@@ -59,13 +62,19 @@
       <div class="row golf-margin-top-15">
         <div class="col-auto golf-width-210">
           @if (playersSgn()[1] == null) {
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-red golf-thick">(1) &nbsp;</span>
+            }
             <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2">
-          Player 2
-        </span>
+              Player 2
+            </span>
             <span class="golf-padding">
               <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(1)" onKeyDown="onSearchPlayer(1)"></fa-icon>
             </span>
           } @else {
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
+            }
             <span class="golf-margin-top golf-thick">
               {{playersSgn()[1].nick}} HCP: {{playersSgn()[1].whs}}
             </span>
@@ -105,13 +114,23 @@
       <div class="row golf-margin-top-15">
         <div class="col-auto golf-width-210">
           @if (playersSgn()[2] == null) {
+             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY && noOfPlayersSgn() === 3) {
+              <span class="golf-margin-top golf-red golf-thick">(1) &nbsp;</span>
+             } @else if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-red golf-thick">(2) &nbsp;</span>
+             } 
             <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p3">
-          Player 3
-        </span>
+              Player 3
+            </span>
             <span class="golf-padding">
               <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(2)" onKeyDown="onSearchPlayer(2)"></fa-icon>
             </span>
           } @else {
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY && noOfPlayersSgn() === 3) {
+              <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
+             } @else if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-thick">(2) &nbsp;</span>
+             } 
             <span class="golf-margin-top golf-thick">
               {{playersSgn()[2].nick}} HCP: {{playersSgn()[2].whs}}
             </span>
@@ -151,13 +170,19 @@
       <div class="row golf-margin-top-15">
         <div class="col-auto golf-width-210">
           @if (playersSgn()[3] == null) {
+             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-red golf-thick">(2) &nbsp;</span>
+             } 
             <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4">
-          Player 4
-        </span>
+              Player 4
+            </span>
             <span class="golf-padding">
               <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(3)" onKeyDown="onSearchPlayer(3)"></fa-icon>
             </span>
           } @else {
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-thick">(2) &nbsp;</span>
+             } 
             <span class="golf-margin-top golf-thick">
               {{playersSgn()[3].nick}} HCP: {{playersSgn()[3].whs}}
             </span>
