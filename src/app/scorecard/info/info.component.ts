@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NavigationService } from '../_services/navigation.service';
-import { OnlineRound } from '../_models';
+import { Format, OnlineRound } from '../_models';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 
@@ -14,6 +14,8 @@ import { MatButton } from '@angular/material/button';
 })
 export class InfoComponent { 
 
+  Format = Format;
+
   onlineRounds: OnlineRound[];
 
   constructor(private readonly router: Router,  protected navigationService: NavigationService,
@@ -26,7 +28,7 @@ export class InfoComponent {
     this.navigationService.setCourseSgn(signal(this.onlineRounds[0].course));
     this.navigationService.setOnlineRoundsSgn(signal(this.onlineRounds));
 
-    if (this.onlineRounds[0].matchPlay) {
+    if (this.onlineRounds[0].format === Format.MATCH_PLAY) {
       this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
     } else {
       this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));

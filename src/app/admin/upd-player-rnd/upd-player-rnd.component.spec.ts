@@ -47,7 +47,7 @@ describe('UpdPlayerRndComponent', () => {
     const btnElement = fixture.debugElement.query(By.css('.btn-success'));
     btnElement.nativeElement.click();
     tick();
-    expect(component.fupdPlrRnd.oldPlrId.hasError).toBeTruthy();
+    expect(component.fupdPlrRnd.oldPlrId.hasError('pattern')).toBeTrue();
   }));
 
   it('should try to swap player round', fakeAsync(() => {

@@ -22,61 +22,31 @@
 
   </div>
   <form (submit)="onStartOnlineRound($event)">
-    <div class="row golf-margin-top-15">
-      <div class="col-auto golf-width-210">
-        @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-          <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
-        }
-        <span class="golf-margin-top golf-thick">
-          {{playersSgn()[0].nick}} HCP: {{playersSgn()[0].whs}}
-        </span>
-        <span class="golf-padding golf-thick">
-          <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
-        </span>
-      </div>
-      <div class="col-auto">
-        <mat-form-field class="golf-width-150">
-          <mat-label>tee</mat-label>
-          <mat-select [field] = "playerDataForm.teeDropDown1">
-            @for (teeOption of teeOptions()[0]; track teeOption) {
-              <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
-            }
-          </mat-select>
-          @if (playerDataForm.teeDropDown1().invalid()) {
-            <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
-          }
-        </mat-form-field>
-      </div>
-      <div class="col-auto">
-        <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
-          @if (!searchInProgressSgn()[0]) {
-            <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-          }
-          @if (searchInProgressSgn()[0]) {
-            <span class="spinner-border spinner-border-sm mr-1" ></span>
-          }
-        </button>
-      </div>
-    </div>
-    @if (noOfPlayersSgn() > 1) {
+
+    @for (id of playerIndices(); track id) {
       <div class="row golf-margin-top-15">
         <div class="col-auto golf-width-210">
-          @if (playersSgn()[1] == null) {
+         
+          @if (playersSgn()[id] == null) {
+          
             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-red golf-thick">(1) &nbsp;</span>
-            }
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p2">
-              Player 2
+            <span class="golf-margin-top golf-red golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
+            } 
+            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p">
+              Player
+            </span>
+            <span class="golf-margin-top golf-red golf-thick">
+              &nbsp; {{id + 1}}
             </span>
             <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(1)" onKeyDown="onSearchPlayer(1)"></fa-icon>
+              <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(id)" onKeyDown="onSearchPlayer(id)"></fa-icon>
             </span>
           } @else {
             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
-            }
+              <span class="golf-margin-top golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
+             } 
             <span class="golf-margin-top golf-thick">
-              {{playersSgn()[1].nick}} HCP: {{playersSgn()[1].whs}}
+              {{playersSgn()[id].nick}} HCP: {{playersSgn()[id].whs}}
             </span>
             <span class="golf-padding golf-thick">
               <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
@@ -86,138 +56,29 @@
         <div class="col-auto">
           <mat-form-field class="golf-width-150">
             <mat-label>tee</mat-label>
-            <mat-select [field] = "playerDataForm.teeDropDown2">
-              @for (teeOption of teeOptions()[1]; track teeOption) {
+            <mat-select [field] = "playerDataForm.teeDropDowns[id].tee">
+              @for (teeOption of teeOptions()[id]; track teeOption) {
                 <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
               }
             </mat-select>
-            @if (playerDataForm.teeDropDown2().invalid()) {
+            @if (playerDataForm.teeDropDowns[id].tee().invalid()) {
               <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
             }
           </mat-form-field>
-        </div>
-        @if (playersSgn()[1] != null) {
-          <div class="col-auto">
-            <button type="button" id="p1Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(1)">
-              @if (!searchInProgressSgn()[1]) {
-                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              }
-              @if (searchInProgressSgn()[1]) {
-                <span class="spinner-border spinner-border-sm mr-1" ></span>
-              }
-            </button>
-          </div>
-        }
-      </div>
-    }
-    @if (noOfPlayersSgn() > 2) {
-      <div class="row golf-margin-top-15">
-        <div class="col-auto golf-width-210">
-          @if (playersSgn()[2] == null) {
-             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY && noOfPlayersSgn() === 3) {
-              <span class="golf-margin-top golf-red golf-thick">(1) &nbsp;</span>
-             } @else if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-red golf-thick">(2) &nbsp;</span>
-             } 
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p3">
-              Player 3
-            </span>
-            <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(2)" onKeyDown="onSearchPlayer(2)"></fa-icon>
-            </span>
-          } @else {
-            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY && noOfPlayersSgn() === 3) {
-              <span class="golf-margin-top golf-thick">(1) &nbsp;</span>
-             } @else if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-thick">(2) &nbsp;</span>
-             } 
-            <span class="golf-margin-top golf-thick">
-              {{playersSgn()[2].nick}} HCP: {{playersSgn()[2].whs}}
-            </span>
-            <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
-            </span>
-          }
         </div>
         <div class="col-auto">
-          <mat-form-field class="golf-width-150">
-            <mat-label>tee</mat-label>
-            <mat-select [field] = "playerDataForm.teeDropDown3">
-              @for (teeOption of teeOptions()[2]; track teeOption) {
-                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
-              }
-            </mat-select>
-            @if (playerDataForm.teeDropDown3().invalid()) {
-              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+          <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
+            @if (!searchInProgressSgn()[id]) {
+              <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
             }
-          </mat-form-field>
+            @if (searchInProgressSgn()[id]) {
+              <span class="spinner-border spinner-border-sm mr-1" ></span>
+            }
+          </button>
         </div>
-        @if (playersSgn()[2] != null) {
-          <div class="col-auto">
-            <button type="button" id="p2Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(2)" onKeyDown="updateWHS(2)">
-              @if (!searchInProgressSgn()[2]) {
-                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              }
-              @if (searchInProgressSgn()[2]) {
-                <span class="spinner-border spinner-border-sm mr-1" ></span>
-              }
-            </button>
-          </div>
-        }
       </div>
     }
-    @if (noOfPlayersSgn() > 3) {
-      <div class="row golf-margin-top-15">
-        <div class="col-auto golf-width-210">
-          @if (playersSgn()[3] == null) {
-             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-red golf-thick">(2) &nbsp;</span>
-             } 
-            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p4">
-              Player 4
-            </span>
-            <span class="golf-padding">
-              <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(3)" onKeyDown="onSearchPlayer(3)"></fa-icon>
-            </span>
-          } @else {
-            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
-              <span class="golf-margin-top golf-thick">(2) &nbsp;</span>
-             } 
-            <span class="golf-margin-top golf-thick">
-              {{playersSgn()[3].nick}} HCP: {{playersSgn()[3].whs}}
-            </span>
-            <span class="golf-padding golf-thick">
-              <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
-            </span>
-          }
-        </div>
-        <div class="col-auto">
-          <mat-form-field class="golf-width-150">
-            <mat-label>tee</mat-label>
-            <mat-select [field] = "playerDataForm.teeDropDown4">
-              @for (teeOption of teeOptions()[3]; track teeOption) {
-                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
-              }
-            </mat-select>
-            @if (playerDataForm.teeDropDown4().invalid()) {
-              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        @if (playersSgn()[3] != null) {
-          <div class="col-auto">
-            <button type="button" id="p3Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(3)">
-              @if (!searchInProgressSgn()[3]) {
-                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-              }
-              @if (searchInProgressSgn()[3]) {
-                <span class="spinner-border spinner-border-sm mr-1" ></span>
-              }
-            </button>
-          </div>
-        }
-      </div>
-    }
+  
     <div class="golf-margin-top">
       <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" [field] = "playerDataForm.putts"/>
       <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>

@@ -14,7 +14,7 @@
           @if (fupdPlrRnd.oldPlrId.errors.required) {
             <div>Old player id is required</div>
           }
-          @if (fupdPlrRnd.newPlrId.errors.pattern) {
+          @if (fupdPlrRnd.newPlrId.errors?.pattern) {
             <div>
               Old Player id can be number up to 6 characters long
             </div>
@@ -37,7 +37,7 @@
             @if (fupdPlrRnd.newPlrId.errors.required) {
               <div>New player id is required</div>
             }
-            @if (fupdPlrRnd.newPlrId.errors.pattern) {
+            @if (fupdPlrRnd.newPlrId.errors?.pattern) {
               <div>
                 New Player id can be number up to 6 characters long
               </div>
@@ -61,7 +61,7 @@
               @if (fupdPlrRnd.roundId.errors.required) {
                 <div>Round id is required</div>
               }
-              @if (fupdPlrRnd.roundId.errors.pattern) {
+              @if (fupdPlrRnd.roundId.errors?.pattern) {
                 <div>
                   Round id can be number up to 6 characters long
                 </div>

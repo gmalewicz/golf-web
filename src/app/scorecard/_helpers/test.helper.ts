@@ -2,6 +2,7 @@ import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { OnlineRound } from '../_models/onlineRound';
 import { Observable, of } from 'rxjs';
 import { IMessage } from '@stomp/rx-stomp';
+import { Format } from '../_models/format';
 
 
 export function getOnlineRoundFirstPlayer(): OnlineRound {
@@ -15,7 +16,7 @@ export function getOnlineRoundFirstPlayer(): OnlineRound {
       finalized: false,
       putts: false,
       penalties: false,
-      matchPlay: true,
+      format: Format.MATCH_PLAY,
       mpFormat: 0.75,
       scoreCardAPI: [
         {
@@ -45,7 +46,7 @@ export function getOnlineRoundSecondPlayer(): OnlineRound {
     finalized: false,
     putts: false,
     penalties: false,
-    matchPlay: true,
+    format: Format.MATCH_PLAY,
     mpFormat: 0.75,
     scoreCardAPI: [
       {

@@ -2,7 +2,7 @@ import { NavigationService } from '../_services/navigation.service';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
-import { OnlineRound } from '../_models';
+import { Format, OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { OnlineRoundComponent } from '../online-round/online-round.component';
@@ -68,7 +68,7 @@ export class MyOnlineScoreCardComponent implements OnInit {
   showRound() {
     this.navigationService.setCourseSgn(signal(this.myOnlineRoundsSgn()[0].course));
     this.navigationService.setOnlineRoundsSgn(signal(this.myOnlineRoundsSgn()));
-    if (this.myOnlineRoundsSgn()[0].matchPlay) {
+    if (this.myOnlineRoundsSgn()[0].format === Format.MATCH_PLAY) {
       this.router.navigate(['myScorecard/onlineMatchplay']).catch(error => console.log(error));
     } else {
       this.router.navigate(['myScorecard/onlineRound']).catch(error => console.log(error));

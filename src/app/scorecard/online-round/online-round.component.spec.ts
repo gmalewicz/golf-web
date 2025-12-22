@@ -18,6 +18,7 @@ import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { signal } from '@angular/core';
+import { Format } from '../_models/format';
 
 
 describe('OnlineRoundComponent', () => {
@@ -55,7 +56,7 @@ describe('OnlineRoundComponent', () => {
   it('should create with correct data', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
-    onlineRound.matchPlay= false;
+    onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
@@ -66,7 +67,7 @@ describe('OnlineRoundComponent', () => {
   it('should add score 2', fakeAsync(() => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
-    onlineRound.matchPlay= false;
+    onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;
@@ -80,7 +81,7 @@ describe('OnlineRoundComponent', () => {
   it('should call info for match play round', fakeAsync(() => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
-    onlineRound.matchPlay= false;
+    onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineRoundComponent);
     component = fixture.componentInstance;

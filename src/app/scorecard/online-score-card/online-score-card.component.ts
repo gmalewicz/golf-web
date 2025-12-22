@@ -5,7 +5,7 @@ import { AuthenticationService } from '@/_services';
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { OnlineRound } from '../_models';
+import { Format, OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { KeyValuePipe } from '@angular/common';
@@ -22,6 +22,8 @@ import { OnlineScoreCardViewComponent } from '../online-score-card-view/online-s
     providers: [NavigationService]
 })
 export class OnlineScoreCardComponent implements OnInit {
+
+  Format = Format;
 
   display: boolean;
   onlineRounds: OnlineRound[];

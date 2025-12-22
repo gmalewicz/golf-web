@@ -3,7 +3,7 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { Component, computed, OnDestroy, OnInit, signal, Signal} from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
-import { OnlineRound, OnlineScoreCard } from '../_models';
+import { Format, OnlineRound, OnlineScoreCard } from '../_models';
 import { Course} from '@/_models';
 import { ScorecardHttpService } from '../_services';
 import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
@@ -135,7 +135,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         this.courseSgn().holes = retHoles;
 
-        retOnlineRounds = retOnlineRounds.filter(or => or.matchPlay === true && or.teeTime === this.teeTime);
+        retOnlineRounds = retOnlineRounds.filter(or => or.format === Format.MATCH_PLAY && or.teeTime === this.teeTime);
 
         retOnlineRounds.forEach(or => {
 

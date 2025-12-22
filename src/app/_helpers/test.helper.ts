@@ -1,4 +1,4 @@
-import { OnlineRound } from '@/scorecard/_models';
+import { Format, OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
@@ -140,7 +140,7 @@ export function getTestOnlineRound(): OnlineRound[] {
     finalized: false,
     putts: false,
     penalties: false,
-    matchPlay: true,
+    format: Format.FOUR_BALL_MATCH_PLAY,
     course: {id: 5, name: null, par: null, holeNbr: null},
     player: {id: 1, nick: 'Greg', sex: false, whs: 28.5},
     tee: {id: 5, tee: 'yellow', cr: 70.5, sr: 129, teeType: 0, sex: false},
@@ -153,7 +153,7 @@ export function getTestOnlineRound(): OnlineRound[] {
     course: {id: 6, name: null, par: null, holeNbr: null},
     finalized: false,
     id: 165,
-    matchPlay: true,
+    format: Format.FOUR_BALL_MATCH_PLAY,
     nick2: 'Gosia',
     owner: 1,
     penalties: false,

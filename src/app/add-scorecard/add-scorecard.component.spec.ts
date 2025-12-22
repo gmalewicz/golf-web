@@ -6,7 +6,6 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { AddScorecardComponent } from './add-scorecard.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,6 +14,13 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 import { routing } from '@/app.routing';
 
 describe('AddScorecardComponent', () => {
+
+  const routeStub = {
+    snapshot: {
+      queryParams: {
+      }
+    }
+  };
 
   let component: AddScorecardComponent;
   let fixture: ComponentFixture<AddScorecardComponent>;
@@ -29,12 +35,12 @@ describe('AddScorecardComponent', () => {
         { provide: MatDialog, useClass: MatDialogMock },
         provideCharts(withDefaultRegisterables()),
         provideHttpClient(withInterceptorsFromDi()),
+        { provide: ActivatedRoute, useValue: routeStub },
         provideRouter(routing, withPreloading(PreloadAllModules)),],
     imports: [
         ReactiveFormsModule,
         MatDialogModule,
         BaseChartDirective,
-        BrowserAnimationsModule,
         MatSelectModule,
         MatInputModule,
         AddScorecardComponent,

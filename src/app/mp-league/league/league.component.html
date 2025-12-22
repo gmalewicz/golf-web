@@ -6,7 +6,7 @@
 @if (isDisplay()) {
   <div id="pdfData">
     <h2>
-      {{navigationService.league().name}}
+      {{navigationService.league()?.name}}
     </h2>
     <br/>
     <ul class="nav nav-tabs" id="myTab" data-html2canvas-ignore="true">
@@ -18,13 +18,13 @@
         <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button"
         role="tab" aria-controls="matches" aria-selected="false" i18n="@@league-matches">Matches</button>
       </li>
-      @if (navigationService.league().player.id === authenticationService.currentPlayerValue.id) {
+      @if (navigationService.league()?.player?.id === authenticationService.currentPlayerValue?.id) {
         <li class="nav-item">
           <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
           role="tab" aria-controls="players" aria-selected="false" i18n="@@league-players" (click)="loadComponent(0)">Players</button>
         </li>
       }
-      @if (this.navigationService.league().status === false) {
+      @if (this.navigationService.league()?.status === false) {
         <li class="nav-item">
           <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
           role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(1)">Notifications</button>
@@ -110,7 +110,7 @@
       Cancel
     </button>
         &nbsp;
-        @if (navigationService.league().player.id === playerId && navigationService.league().status === false) {
+        @if (navigationService.league()?.player?.id === playerId && navigationService.league()?.status === false) {
           <span>
             <button id="add_btn" type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/mpLeagues/addMatch">
               <span i18n="@@league-addMatch">Add Match</span>

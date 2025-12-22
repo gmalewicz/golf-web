@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, input, linkedSignal, signal } from '@angular/core';    
+import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, effect, input, linkedSignal, signal } from '@angular/core';    
 import { MatDialog } from '@angular/material/dialog';  
 import { MatOption } from '@angular/material/core';  
 import { MatSelect } from '@angular/material/select';  
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';  
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';  
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';  
-
-  
 import { Course, Player, Tee, TeeOptions } from '@/_models';  
 import { AlertService, AuthenticationService, HttpService } from '@/_services';  
 import { NavigationService } from '@/scorecard/_services/navigation.service';  
@@ -19,13 +17,10 @@ import { OnlineRound } from '@/scorecard/_models/onlineRound';
 import { getDateAndTime } from '@/_helpers/common';
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';
 import { Router, RouterModule } from '@angular/router';
-import {form, Field, disabled, required, submit} from '@angular/forms/signals';
+import {form, Field, required, submit, applyEach } from '@angular/forms/signals';
 
 interface PlayerData {
-      teeDropDown1: string,  
-      teeDropDown2: string,  
-      teeDropDown3: string,  
-      teeDropDown4: string,  
+      teeDropDowns: {tee: string}[]  
       putts: boolean,
       penalties: boolean
 }
@@ -55,28 +50,21 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   formatSgn = input.required<Format>(); 
 
   playerDataModel = signal<PlayerData>({
-    teeDropDown1: '',  
-    teeDropDown2: '',  
-    teeDropDown3: '',  
-    teeDropDown4: '',  
+    teeDropDowns: [{tee: ''}],  
     putts: false,
     penalties: false
   })
 
    playerDataForm = form(this.playerDataModel, schemaPath => {
-      disabled(schemaPath.teeDropDown2, () => this.noOfPlayersSgn() < 2),
-      disabled(schemaPath.teeDropDown3, () => this.noOfPlayersSgn() < 3),
-      disabled(schemaPath.teeDropDown4, () => this.noOfPlayersSgn() < 4),
 
-      required(schemaPath.teeDropDown1),
-      required(schemaPath.teeDropDown2),
-      required(schemaPath.teeDropDown3),
-      required(schemaPath.teeDropDown4) 
-
+      applyEach(schemaPath.teeDropDowns, teeDropDown => {
+        required(teeDropDown.tee);
+      })  
   });  
 
   Format = Format;
 
+  playerIndices: Signal<number[]>;
   displaySgn = signal(false);  
   loadingSgn = signal(false);  
   noOfPlayersSgn: WritableSignal<number>; 
@@ -104,11 +92,34 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     private readonly router: Router
   ) {  
     super(alertService, dialog, httpService);  
+
+    effect (() => {
+
+      const desired = Math.max(0, Math.floor(this.noOfPlayersSgn()));
+      this.playerDataModel.update(current => {
+        const curLen = current.teeDropDowns.length;
+        if (curLen === desired) 
+          return current;
+        if (curLen < desired) {
+          return {
+            ...current, teeDropDowns: current.teeDropDowns.concat(Array.from({ length: desired - curLen }, () => ({ tee: '' })))
+          };
+        } else {
+          return { ...current, teeDropDowns: current.teeDropDowns.slice(0, desired) };
+        }
+      });
+
+    });
   }  
   
   ngOnInit(): void {  
     this.initializeSignals();        
     this.getCourseData();  
+
+    this.playerIndices = computed(() => {  
+      const n = Math.max(0, Math.floor(this.noOfPlayersSgn()));  
+      return Array.from({ length: n }, (_, i) => i);  
+    });
 
   }  
   
@@ -119,6 +130,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       switch (this.formatSgn()) {
         case Format.STROKE_PLAY:
           noOfPlayers = 1; // stroke play round minimum 1 max 4 players
+          
           break;
         case Format.MATCH_PLAY:
           noOfPlayers = 2; // match play round always 2 players
@@ -140,14 +152,11 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       return team; 
     });
 
-
-
     this.playersSgn.set(Array(this.MAX_PLAYERS));  
     this.tees = Array(this.MAX_PLAYERS);  
     this.searchInProgressSgn.set(Array(this.MAX_PLAYERS).fill(false));    
 
   }  
-
 
   private isAllNicksSet(): boolean {
     return this.playersSgn().slice(0, this.noOfPlayersSgn()).every(p => !!p);
@@ -211,11 +220,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
 
     if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 3) {
       this.teamSgn.set([1,1,1]);
-    } else if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 3) {
+    } else if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 4) {
       this.teamSgn.set([1,1,2,2]);
     }
-
-
   }
     
   protected processPlayer(player: Player, playerIdx: number): Promise<Player | undefined> {  
@@ -286,8 +293,10 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   } 
 
   private setSearchInProgress(index: number, value: boolean): void {  
-    this.searchInProgressSgn()[index] = value;  
-    this.searchInProgressSgn.set([...this.searchInProgressSgn()]);  
+    const prev = this.searchInProgressSgn();
+    const copy = [...prev];
+    copy[index] = value;
+    this.searchInProgressSgn.set(copy);
   }  
   
   protected processPostPlayer(_: unknown): void {  
@@ -295,11 +304,6 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
 
   onStartOnlineRound(event: Event) {
-
-    this.playerDataForm.teeDropDown1().markAsTouched();
-    this.playerDataForm.teeDropDown2().markAsTouched();
-    this.playerDataForm.teeDropDown3().markAsTouched();
-    this.playerDataForm.teeDropDown4().markAsTouched();
 
     event.preventDefault();
 
@@ -310,19 +314,17 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       );
       return;
     }
+    
 
-    submit(this.playerDataForm, async () => {      
-
+    submit(this.playerDataForm, async () => {    
+      
       const onlineRounds: OnlineRound[] = Array(this.noOfPlayersSgn());
 
       let counter = 0;
       while (counter < this.noOfPlayersSgn()) {
-
-        const controlName = `teeDropDown${counter + 1}`;  
-        const selectedTeeId = this.playerDataForm[controlName]().value(); 
+  
+        const selectedTeeId = +this.playerDataForm.teeDropDowns[counter].tee().value(); 
         
-        this.tees[counter] = this.courseSgn().tees.find(t => t.id === selectedTeeId)!; 
-
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
           teeTime: getDateAndTime()[1],
@@ -332,7 +334,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           finalized: false,
           putts: this.playerDataForm.putts().value(),
           penalties: this.playerDataForm.penalties().value(),
-          matchPlay: this.formatSgn() === Format.MATCH_PLAY,
+          format: this.formatSgn(),
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
           mpFormat: this.formatSgn()

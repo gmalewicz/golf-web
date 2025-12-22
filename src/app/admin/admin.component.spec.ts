@@ -1,91 +1,120 @@
-import { AuthenticationService } from './../_services/authentication.service';
-import { routing } from '@/app.routing';
-import { ErrorInterceptor } from '@/_helpers/error.interceptor';
-import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from "./../_services/authentication.service";
+import { routing } from "@/app.routing";
+import { ErrorInterceptor } from "@/_helpers/error.interceptor";
+import { HttpService } from "@/_services/http.service";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
+import {
+  ComponentFixture,
+  fakeAsync,
+  flushMicrotasks,
+  TestBed,
+  waitForAsync,
+} from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { AdminComponent } from './admin.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
-import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { AdminComponent } from "./admin.component";
+import { MatDialogModule } from "@angular/material/dialog";
+import { CommonModule } from "@angular/common";
+import {
+  provideRouter,
+  withPreloading,
+  PreloadAllModules,
+} from "@angular/router";
+import { Subject } from "rxjs";
 
-describe('AdminComponent', () => {
+describe("AdminComponent", () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
   let authenticationService: AuthenticationService;
+  let mockContainer: any;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         MatDialogModule,
         CommonModule,
-        AdminComponent
-    ],
-    providers: [HttpService,
+        AdminComponent,
+      ],
+      providers: [
+        HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         AuthenticationService,
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(routing, withPreloading(PreloadAllModules))
-    ]
-})
-    .compileComponents();
+        provideRouter(routing, withPreloading(PreloadAllModules)),
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1}]));
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1 }])
+    );
     fixture = TestBed.createComponent(AdminComponent);
     component = fixture.componentInstance;
+
+    // simple mock ViewContainerRef: createComponent increments length and returns a minimal ComponentRef-like object
+    mockContainer = {
+      clear: jasmine.createSpy("clear"),
+      length: 0,
+      createComponent: jasmine.createSpy("createComponent").and.callFake(() => {
+        return { instance: {
+          playerRoundCntEmt: new Subject<any[]>(),
+          playerRound: undefined
+        } }; // minimal fake ComponentRef
+      }),
+    };
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('call loadComponent for moveCourse', fakeAsync(() => {
+  it("loads MoveCourse (fakeAsync + flushMicrotasks)", async() => {
+    component.adminContainerRef = mockContainer as any;
+    await component.loadComponent(1);
+    // resolve awaited imports / Promise microtasks
+    //flushMicrotasks();
+    fixture.detectChanges();
+    expect(mockContainer.createComponent).toHaveBeenCalled();
+    expect(mockContainer.length).toBe(0);
+  });
 
-    fixture.whenStable().then(() => {
-      component.loadComponent(1).then(() => {
-        expect(component.adminContainerRef.length).toMatch('1');
-      });
-    });
-    expect().nothing();
-  }));
+  it("loads UpdRoundHcp", async () => {
+    component.adminContainerRef = mockContainer as any;
+    await component.loadComponent(2);
+    fixture.detectChanges();
+    expect(mockContainer.createComponent).toHaveBeenCalled();
+    expect(mockContainer.length).toBe(0);
+  });
 
-  it('should create but player does not exists', () => {
+  it("loads PlayersComponent (playerRoundCnt)", async () => {
+    component.adminContainerRef = mockContainer as any;
+    await component.loadComponent(3);
+    fixture.detectChanges();
+    expect(mockContainer.createComponent).toHaveBeenCalled();
+    expect(mockContainer.length).toBe(0);
+  });
+
+  it("should create but player does not exist", async  () => {
     authenticationService = TestBed.inject(AuthenticationService);
     authenticationService.logout();
     fixture = TestBed.createComponent(AdminComponent);
     component = fixture.componentInstance;
+    // if you have a mock here you should set component.adminContainerRef again before detectChanges()
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('call loadComponent for updRoundHcp', fakeAsync(() => {
-
-    fixture.whenStable().then(() => {
-      component.loadComponent(2).then(() => {
-        expect(component.adminContainerRef.length).toMatch('1');
-      });
-    });
-    expect().nothing();
-  }));
-
-  it('call loadComponent for playerRoundCnt', fakeAsync(() => {
-
-    fixture.whenStable().then(() => {
-      component.loadComponent(3).then(() => {
-        expect(component.adminContainerRef.length).toMatch('1');
-      });
-    });
-    expect().nothing();
-  }));
-
   afterEach(() => {
-    localStorage.removeItem('currentPlayer');
+    localStorage.removeItem("currentPlayer");
   });
 
   afterAll(() => {
