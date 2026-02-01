@@ -340,14 +340,15 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       while (counter < this.noOfPlayersSgn()) {
   
         const selectedTeeId = +this.playerDataForm.teeDropDowns[counter].tee().value();   
+         
         const tees = this.courseSgn().tees as Array<{ id: number }>;  
-        const selectedTee = tees.find(t => t.id === selectedTeeId);   
+        const selectedTee = tees.find(t => t.id === selectedTeeId); 
       
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
           teeTime: getDateAndTime()[1],
           player: this.playersSgn()[counter],
-          tee: this.tees[counter] = selectedTee, 
+          tee: selectedTee, 
           owner: this.playersSgn()[0].id,
           finalized: false,
           putts: this.playerDataForm.putts().value(),
