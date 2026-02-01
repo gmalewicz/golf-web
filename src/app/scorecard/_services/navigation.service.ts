@@ -1,7 +1,6 @@
 import { Course } from '@/_models/course';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
-import { Player } from '@/_models/player';
 
 @Injectable()
 export class NavigationService {

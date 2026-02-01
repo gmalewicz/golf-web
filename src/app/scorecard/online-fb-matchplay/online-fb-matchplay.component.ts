@@ -3,7 +3,7 @@ import { Component, computed, OnInit, signal, WritableSignal } from '@angular/co
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
-import { calculateHoleHCP, calculateRoundedCourseHCP, calculateUnroundedCourseHCP, createMPResultText } from '@/_helpers';
+import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultText } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
@@ -69,23 +69,18 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
   }
 
   protected calculateHCP(i: number) {
-     // calculate course HCP for each player
-     //const par = getPlayedCoursePar(this.courseSgn().holes, this.onlineRoundsSgn()[i].tee.teeType, this.courseSgn().par);
-
+     
+    // calculate course HCP for each player
      this.onlineRoundsSgn()[i].courseHCP = calculateUnroundedCourseHCP(this.onlineRoundsSgn()[i].tee.teeType,
                                                          this.onlineRoundsSgn()[i].player.whs,
                                                          this.onlineRoundsSgn()[i].tee.sr,
                                                          this.onlineRoundsSgn()[i].tee.cr,
-                                                         this.courseSgn().par);
-
-
-
-     // this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection    
+                                                         this.courseSgn().par);  
   }
 
   protected calculateMPHoleHCP() {
 
-    const minHcp = this.onlineRoundsSgn().reduce((min, round) => round.courseHCP < min ? round.courseHCP : min, this.onlineRoundsSgn()[0].courseHCP);
+    const minHcp = this.onlineRoundsSgn().reduce((prevVal, round) => Math.min(round.courseHCP, prevVal), this.onlineRoundsSgn()[0].courseHCP);
     this.onlineRoundsSgn().forEach(round => round.courseHCP -= minHcp);
     this.onlineRoundsSgn().forEach(round => round.courseHCP = Math.round(round.courseHCP * round.mpFormat));
 
@@ -119,8 +114,6 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
           default:
             this.highlightHCPSgn()[idx][jdx] = 'no-highlight';
         }
-
-        //this.holeHCP[idx][jdx] > 0 ? this.highlightHCPSgn()[idx][jdx] = 'highlightHcp' : this.highlightHCPSgn()[idx][jdx] = 'no-edit';
       })
     );
 
@@ -137,7 +130,7 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
   protected updateMpResult(strokeIdx: number) {
 
     // first check if all results for the hole are in
-    const allResultsIn = this.strokesSgn()[strokeIdx].some(stroke => stroke === 0)  ? false : true;
+    const allResultsIn = !this.strokesSgn()[strokeIdx].includes(0);
 
     // all results are in
     if (allResultsIn) {

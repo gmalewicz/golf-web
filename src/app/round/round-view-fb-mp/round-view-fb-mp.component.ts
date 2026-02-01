@@ -1,7 +1,7 @@
 import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultHistory, createMPResultText } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, computed, input, signal } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
@@ -82,7 +82,7 @@ export class RoundViewFbMpComponent implements OnInit {
                                                               this.round().course.par);  
     });
 
-    const minHcp = this.round().player.reduce((min, pl) => pl.roundDetails.courseHCP < min ? pl.roundDetails.courseHCP : min, this.round().player[0].roundDetails.courseHCP);
+    const minHcp = this.round().player.reduce((prevVal, pl) => Math.min(pl.roundDetails.courseHCP, prevVal), this.round().player[0].roundDetails.courseHCP);
     this.round().player.forEach(pl => pl.roundDetails.courseHCP -= minHcp);
     this.round().player.forEach(pl => pl.roundDetails.courseHCP = Math.round(pl.roundDetails.courseHCP * this.round().mpFormat));
 
@@ -134,10 +134,10 @@ export class RoundViewFbMpComponent implements OnInit {
       }
 
       // skip holes that are not played
-      const allResultsIn = (sc.stroke === 0 || 
-                            this.round().scoreCard[index + 18].stroke === 0 ||
-                            this.round().scoreCard[index + 36].stroke === 0 ||
-                            this.round().scoreCard[index + 54].stroke === 0)  ? false : true;
+      const allResultsIn = (sc.stroke !== 0 && 
+                            this.round().scoreCard[index + 18].stroke !== 0 &&
+                            this.round().scoreCard[index + 36].stroke !== 0 &&
+                            this.round().scoreCard[index + 54].stroke !== 0);
 
       // all results are in
       if (allResultsIn) {
@@ -167,9 +167,6 @@ export class RoundViewFbMpComponent implements OnInit {
         this.highlightWinnerSgn()[1][index] = (player2Result === minScore) ? 'golf-red-bold' : '';
         this.highlightWinnerSgn()[2][index] = (player3Result === minScore) ? 'golf-red-bold' : '';
         this.highlightWinnerSgn()[3][index] = (player4Result === minScore) ? 'golf-red-bold' : '';
-
-
-        //this.mpScoreSgn.set([...this.mpScoreSgn()]); // trigger change detection
       }
     });
   }

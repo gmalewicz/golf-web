@@ -73,7 +73,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
 
   teamSgn = signal<number[]>([]); 
    
-  searchInProgressSgn = signal<boolean[]>(Array(this.MAX_PLAYERS).fill(false));  
+  searchInProgressSgn = signal<boolean[]>(new Array(this.MAX_PLAYERS).fill(false));  
   faSearchPlusSgn = signal<IconDefinition>(faSearchPlus);  
   faCheckCircleSgn = signal<IconDefinition>(faCheckCircle);  
 
@@ -135,7 +135,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   private initializeSignals(): void {  
     this.loadingSgn.set(false);  
     this.noOfPlayersSgn = linkedSignal(() =>  {
-      let noOfPlayers = this.MAX_PLAYERS;
+      let noOfPlayers: number;
       switch (this.formatSgn()) {
         case Format.STROKE_PLAY:
           noOfPlayers = 1; // stroke play round minimum 1 max 4 players
@@ -161,9 +161,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       return team; 
     });
 
-    this.playersSgn.set(Array(this.MAX_PLAYERS));  
-    this.tees = Array(this.MAX_PLAYERS);  
-    this.searchInProgressSgn.set(Array(this.MAX_PLAYERS).fill(false));    
+    this.playersSgn.set(new Array(this.MAX_PLAYERS));  
+    this.tees = new Array(this.MAX_PLAYERS);  
+    this.searchInProgressSgn.set(new Array(this.MAX_PLAYERS).fill(false));    
 
   }  
 
@@ -204,7 +204,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       const p0 = this.playersSgn()[0];  
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        copy[0] = p0 ? (p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale()) : [];  
+        let teeOption = p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        copy[0] = p0 ? teeOption : [];  
         return copy;  
       });
       
@@ -245,7 +246,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        copy[playerIdx] = player ? (player.sex ? this.teeOptionsFemale() : this.teeOptionsMale()) : [];  
+        let teeOption = player.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        copy[playerIdx] = player ? teeOption : [];  
         return copy;  
       });
 
@@ -254,7 +256,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
   
   private isNickDuplicated(nick: string): boolean {  
-    const duplicate = this.playersSgn().some(p => p && p.nick === nick);  
+    const duplicate = this.playersSgn().some(p => p?.nick === nick);  
     if (duplicate) {  
       this.alertService.error(  
         $localize`:@@onlnRndDef-PlrNotUnique:Player must be unique in the single score card`,  
@@ -278,12 +280,12 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     dialogRef.afterClosed().pipe(  
       switchMap((result: any) => {  
          
-        if (!result || !result.whs) {
+        if (!result?.whs) {
           return of(undefined);
         }
 
         const player = this.playersSgn()[playerIdx];  
-        const parsed = parseFloat(String(result.whs).replace(',', '.'));  
+        const parsed = Number.parseFloat(String(result.whs).replace(',', '.'));  
         
         player.whs = parsed;  
         this.setSearchInProgress(playerIdx, true);  
@@ -332,18 +334,19 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
 
     submit(this.playerDataForm, async () => {    
       
-      const onlineRounds: OnlineRound[] = Array(this.noOfPlayersSgn());
+      const onlineRounds: OnlineRound[] = new Array(this.noOfPlayersSgn());
 
       let counter = 0;
       while (counter < this.noOfPlayersSgn()) {
   
-        const selectedTeeId = +this.playerDataForm.teeDropDowns[counter].tee().value(); 
-        
+        const selectedTeeId = +this.playerDataForm.teeDropDowns[counter].tee().value();   
+        const selectedTee = this.courseSgn().tees.find(t => t.id === selectedTeeId)!;  
+      
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
           teeTime: getDateAndTime()[1],
           player: this.playersSgn()[counter],
-          tee: this.tees[counter] = this.courseSgn().tees.find(t => t.id === selectedTeeId)!, 
+          tee: this.tees[counter] = selectedTee, 
           owner: this.playersSgn()[0].id,
           finalized: false,
           putts: this.playerDataForm.putts().value(),

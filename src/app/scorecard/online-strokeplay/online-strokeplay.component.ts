@@ -54,15 +54,15 @@ export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
 
   protected prepareAndCalculateNetStatistic() {
 
-    this.holeHcp = Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0));
+    this.holeHcp = new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0));
 
-    this.stbNetSgn.set(Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
+    this.stbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     this.strNetSgn.set(Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStrNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
-    this.skinSgn.set(Array(this.onlineRoundsSgn().length).fill("").map(() => new Array(18).fill("")));
+    this.skinSgn.set(new Array(this.onlineRoundsSgn().length).fill("").map(() => new Array(18).fill("")));
     this.totalSkinSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     
@@ -140,7 +140,7 @@ export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
   private calculateTotalSkins() : void {
 
     // clear totals before recalculation
-    this.totalSkinSgn.set(Array(this.onlineRoundsSgn().length).fill(0));
+    this.totalSkinSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     let cumulation: number = 0;
 

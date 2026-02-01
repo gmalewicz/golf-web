@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationService } from '../_services/navigation.service';
 
 @Component({
@@ -6,11 +6,8 @@ import { NavigationService } from '../_services/navigation.service';
     templateUrl: './online-fb-strokeplay.component.html',
     providers: [NavigationService]
 })
-export class OnlineFbStrokeplayComponent implements OnInit  {
+export class OnlineFbStrokeplayComponent {
 
   constructor() {}   
-  ngOnInit(): void {
-    
-    
-  }
+ 
 }
