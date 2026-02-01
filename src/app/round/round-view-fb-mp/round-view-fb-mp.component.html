@@ -61,7 +61,7 @@
           </tr>
           @for (idx of 2 | range; track idx;) {
             <tr class="center">
-              <th  id="bck">Team {{idx + 1}}</th>
+              <th  id="bck2">Team {{idx + 1}}</th>
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="highlightResultSgn()[idx][i]">
                   {{mpResultHistorySgn()[idx][i]}}

@@ -59,7 +59,7 @@ export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
     this.stbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
-    this.strNetSgn.set(Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
+    this.strNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStrNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     this.skinSgn.set(new Array(this.onlineRoundsSgn().length).fill("").map(() => new Array(18).fill("")));
