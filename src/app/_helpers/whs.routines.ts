@@ -1,4 +1,4 @@
-import { Course, Hole, teeTypes } from '@/_models';
+import { Course, Format, Hole, teeTypes } from '@/_models';
 
 export function calculateScoreDifferential( sr: number,
                                             corScoreBrutto: number,
@@ -16,7 +16,7 @@ export function calculateScoreDifferential( sr: number,
   } else {
 
     // calculate artificilal 18 course HCP from mapped 9 holes
-    const courseHcp = calculateCourseHCP(teeTypes.TEE_TYPE_18, whs, sr, cr * 2, par * 2);
+    const courseHcp = calculateRoundedCourseHCP(teeTypes.TEE_TYPE_18, whs, sr, cr * 2, par * 2);
     scoreDiff = (113 / sr) * (Math.floor(corScoreBrutto + par + (courseHcp / 2 + 1)) - 2 * cr);
 
   }
@@ -26,7 +26,7 @@ export function calculateScoreDifferential( sr: number,
 }
 
 
-export function calculateCourseHCP(teeType: number,
+export function calculateUnroundedCourseHCP(teeType: number,
                                    playerWHS: number,
                                    sr: number,
                                    cr: number,
@@ -35,13 +35,23 @@ export function calculateCourseHCP(teeType: number,
   let courseHCP = 0;
 
   if (teeType === teeTypes.TEE_TYPE_18) {
-    courseHCP = Math.round(playerWHS * sr / 113 + cr - par);
+    courseHCP = playerWHS * sr / 113 + cr - par;
   } else {
-    courseHCP = Math.round((playerWHS / 2) * sr / 113 + cr - par);
+    courseHCP = (playerWHS / 2) * sr / 113 + cr - par;
   }
 
   return courseHCP;
 }
+
+export function calculateRoundedCourseHCP(teeType: number,
+                                   playerWHS: number,
+                                   sr: number,
+                                   cr: number,
+                                   par: number): number {
+
+    return Math.round(calculateUnroundedCourseHCP(teeType, playerWHS, sr, cr, par));
+}
+
 
 export function getPlayedCoursePar(holes: Hole[], teeType: number, coursePar: number): number {
 
@@ -64,10 +74,10 @@ export function getPlayedCoursePar(holes: Hole[], teeType: number, coursePar: nu
 }
 
 export function calculateHoleHCP(index: number,
-                                 teeType: number,
-                                 courseHCP: number,
-                                 holeHCP: number[][],
-                                 course: Course) {
+                                teeType: number,
+                                courseHCP: number,
+                                holeHCP: number[][],
+                                course: Course) {
 
   let hcpAll: number;
   let hcpIncMaxHole: number;
@@ -172,13 +182,20 @@ function holeHCPFirst9(index: number,
 
 // returns mpResTex at index 0
   // returns finalResultText at index 1
-export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: number[]): string[] {
+export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: number[], format: number): string[] {
 
     let finalResultText: string;
     const retVal: string[] =  new Array(2);
 
     let mpResult = 0;
     let mpScoreIdx = 0;
+
+    // set name depending on format
+    if (format === Format.FOUR_BALL_MATCH_PLAY) {
+      p0Nick = "Team 1";
+      p1Nick = "Team 2";
+    }
+
     while (mpScore[mpScoreIdx] !== -2 && mpScoreIdx < 18) {
       mpResult += mpScore[mpScoreIdx];
       // verify if game is over

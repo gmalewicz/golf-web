@@ -1,22 +1,20 @@
 import { NavigationService } from './../_services/navigation.service';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
-import { alertServiceStub, authenticationServiceStub, getTee, getTestCourse, getTestOnlineRound, MatDialogMock, MyRouterStub} from '@/_helpers/test.helper';
+import { alertServiceStub, authenticationServiceStub, getTestCourse, MatDialogMock, MyRouterStub} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
 import { OnlineRoundDefComponent } from './online-round-def.component';
-import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { routing } from '@/app.routing';
-import { Format } from '../_models/format';
+import { Format } from '@/_models/format';
 
 describe('OnlineRoundDefComponent', () => {
   let component: OnlineRoundDefComponent;

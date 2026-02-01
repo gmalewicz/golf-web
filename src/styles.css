@@ -84,9 +84,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   background-color: #1bff0742 !important;
 }
 
+.highlightHcp2 {
+  background-color: #ffc50739 !important;
+}
+
+.highlightHcp3 {
+  background-color: #ff5e0739 !important;
+}
+
 .golf-red {
   color: red !important;
 }
+
+.golf-red-bold {
+  color: red !important;
+  font-weight: bold;
+}
+
+.golf-blue-bold {
+  color: blue !important;
+  font-weight: bold;
+}
+
 
 .golf-orange {
   color: orange !important;

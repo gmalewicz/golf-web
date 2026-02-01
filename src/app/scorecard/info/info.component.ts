@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { NavigationService } from '../_services/navigation.service';
-import { Format, OnlineRound } from '../_models';
+import { OnlineRound } from '../_models';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
+import { Format } from '@/_models/format';
 
 @Component({
   selector: 'app-info',
@@ -28,11 +29,19 @@ export class InfoComponent {
     this.navigationService.setCourseSgn(signal(this.onlineRounds[0].course));
     this.navigationService.setOnlineRoundsSgn(signal(this.onlineRounds));
 
-    if (this.onlineRounds[0].format === Format.MATCH_PLAY) {
-      this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
-    } else {
-      this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
+    switch (this.onlineRounds[0].format) {
+      case Format.MATCH_PLAY:
+        this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
+        break;
+      case Format.FOUR_BALL_MATCH_PLAY:
+        this.router.navigate(['/scorecard/onlineFbMatchplay']).catch(error => console.log(error));
+        break;
+      case Format.FOUR_BALL_STROKE_PLAY:
+        this.router.navigate(['/scorecard/onlineFbStrokeplay']).catch(error => console.log(error));
+        break;
+      default:
+        this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));
+        break;
     }
-  
   }
 } 

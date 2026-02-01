@@ -3,7 +3,7 @@ import { Component, computed, OnInit, signal, WritableSignal } from '@angular/co
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScorecardHttpService } from '../_services';
-import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers';
+import { calculateHoleHCP, calculateRoundedCourseHCP, calculateUnroundedCourseHCP, createMPResultText } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
@@ -15,35 +15,35 @@ import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 
 @Component({
-    selector: 'app-online-matchplay',
-    templateUrl: './online-matchplay.component.html',
-    styleUrls: ['./online-matchplay.component.css'],
+    selector: 'app-online-fb-matchplay',
+    templateUrl: './online-fb-matchplay.component.html',
+    styleUrls: ['./online-fb-matchplay.component.css'],
     imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe],
     providers: [NavigationService]
 })
-export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
+export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
 
   // local variables
   holeHCP: number[][];
 
 
   // signals
-  highlightHCPSgn: WritableSignal<string[][]> = signal(new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit')));
+  highlightHCPSgn: WritableSignal<string[][]> = signal(new Array(4).fill('no-highlight').map(() => new Array(18).fill('no-highlight')));
 
   // -2 not set
-  // -1 first player won
+  // -1 first team won
   // 0 tie
-  // 1 second player won
+  // 1 second team won
   mpScoreSgn: WritableSignal<number[]> = signal(new Array(18).fill(-2));
   
   //computed signals
   // calculate MP result texts
-  mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScoreSgn(), Format.MATCH_PLAY));
+  mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScoreSgn(), Format.FOUR_BALL_MATCH_PLAY));
   firstPlayerResultSgn = computed(() => this.mpResultSgn()[0]);
   secondPlayerResultSgn = computed(() => this.mpResultSgn()[1]);
 
   // if greater than 0, the first player has additional strokes
-  hcpDiff: WritableSignal<number> = signal(undefined);
+  //hcpDiff: WritableSignal<number[]> = signal(undefined);
 
   constructor(protected httpService: HttpService,
               protected scorecardHttpService: ScorecardHttpService,
@@ -70,53 +70,60 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected calculateHCP(i: number) {
      // calculate course HCP for each player
-     const par = getPlayedCoursePar(this.courseSgn().holes, this.onlineRoundsSgn()[i].tee.teeType, this.courseSgn().par);
+     //const par = getPlayedCoursePar(this.courseSgn().holes, this.onlineRoundsSgn()[i].tee.teeType, this.courseSgn().par);
 
-     this.onlineRoundsSgn()[i].courseHCP = calculateRoundedCourseHCP(this.onlineRoundsSgn()[i].tee.teeType,
+     this.onlineRoundsSgn()[i].courseHCP = calculateUnroundedCourseHCP(this.onlineRoundsSgn()[i].tee.teeType,
                                                          this.onlineRoundsSgn()[i].player.whs,
                                                          this.onlineRoundsSgn()[i].tee.sr,
                                                          this.onlineRoundsSgn()[i].tee.cr,
-                                                         par);
-     this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection    
+                                                         this.courseSgn().par);
+
+
+
+     // this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection    
   }
 
   protected calculateMPHoleHCP() {
 
-    this.hcpDiff.set(this.onlineRoundsSgn()[0].courseHCP - this.onlineRoundsSgn()[1].courseHCP);
-    let corHcpDiff = Math.abs(this.hcpDiff() * this.onlineRoundsSgn()[0].mpFormat);
+    const minHcp = this.onlineRoundsSgn().reduce((min, round) => round.courseHCP < min ? round.courseHCP : min, this.onlineRoundsSgn()[0].courseHCP);
+    this.onlineRoundsSgn().forEach(round => round.courseHCP -= minHcp);
+    this.onlineRoundsSgn().forEach(round => round.courseHCP = Math.round(round.courseHCP * round.mpFormat));
 
-    if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
-      corHcpDiff = Math.ceil(corHcpDiff);
-    } else {
-      corHcpDiff = Math.floor(corHcpDiff);
-    }
-
-    if (this.hcpDiff() >= 0) {
-      this.hcpDiff.set(corHcpDiff);
-      this.onlineRoundsSgn()[0].courseHCP = corHcpDiff;
-      this.onlineRoundsSgn()[1].courseHCP = 0;
-    } else {
-      this.hcpDiff.set(-corHcpDiff);
-      this.onlineRoundsSgn()[0].courseHCP = 0;
-      this.onlineRoundsSgn()[1].courseHCP = corHcpDiff;
-    }
     this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
 
-    calculateHoleHCP( 0,
-                      this.onlineRoundsSgn()[0].tee.teeType,
-                      this.onlineRoundsSgn()[0].courseHCP,
-                       this.holeHCP,
-                       this.courseSgn());
+    for (let i = 0; i < 4; i++) {
+      calculateHoleHCP(
+        i,
+        this.onlineRoundsSgn()[i].tee.teeType,
+        this.onlineRoundsSgn()[i].courseHCP,
+        this.holeHCP,
+        this.courseSgn()
+      );
+    }
 
-    calculateHoleHCP( 1,
-                      this.onlineRoundsSgn()[1].tee.teeType,
-                      this.onlineRoundsSgn()[1].courseHCP,
-                      this.holeHCP,
-                      this.courseSgn());
     this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
     
-    this.highlightHCPSgn()[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
-    this.highlightHCPSgn()[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+    //prepare highlightHcp array based on holeHCP
+    this.holeHCP.forEach((_result, idx) => 
+      _result.forEach((_, jdx) => {     
+        switch (this.holeHCP[idx][jdx]) {
+          case 3:
+            this.highlightHCPSgn()[idx][jdx] = 'highlightHcp3';
+            break;
+          case 2:
+            this.highlightHCPSgn()[idx][jdx] = 'highlightHcp2';
+            break;
+          case 1:
+            this.highlightHCPSgn()[idx][jdx] = 'highlightHcp';
+            break;
+          default:
+            this.highlightHCPSgn()[idx][jdx] = 'no-highlight';
+        }
+
+        //this.holeHCP[idx][jdx] > 0 ? this.highlightHCPSgn()[idx][jdx] = 'highlightHcp' : this.highlightHCPSgn()[idx][jdx] = 'no-edit';
+      })
+    );
+
     this.highlightHCPSgn.set([...this.highlightHCPSgn()]); // trigger change detection
   }
 
@@ -129,17 +136,22 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
 
   protected updateMpResult(strokeIdx: number) {
 
-    // update mp score if score enetered for both players
-    if (this.strokesSgn()[strokeIdx][0] > 0 && this.strokesSgn()[strokeIdx][1] > 0) {
-      const result = this.strokesSgn()[strokeIdx][0] - this.holeHCP[0][strokeIdx] - (this.strokesSgn()[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
+    // first check if all results for the hole are in
+    const allResultsIn = this.strokesSgn()[strokeIdx].some(stroke => stroke === 0)  ? false : true;
 
-      if (result < 0) {
+    // all results are in
+    if (allResultsIn) {
+      const firstTeamResult = Math.min(this.strokesSgn()[strokeIdx][0] - this.holeHCP[0][strokeIdx], this.strokesSgn()[strokeIdx][1] - this.holeHCP[1][strokeIdx]);
+      const secondTeamResult = Math.min(this.strokesSgn()[strokeIdx][2] - this.holeHCP[2][strokeIdx], this.strokesSgn()[strokeIdx][3] - this.holeHCP[3][strokeIdx]);
+
+      if (firstTeamResult < secondTeamResult) {
         this.mpScoreSgn()[strokeIdx] = -1;
-      } else if (result === 0) {
+      } else if (firstTeamResult === secondTeamResult) {
         this.mpScoreSgn()[strokeIdx] = 0;
       } else {
         this.mpScoreSgn()[strokeIdx] = 1;
       }
+
       this.mpScoreSgn.set([...this.mpScoreSgn()]); // trigger change detection
     }
   }

@@ -13,6 +13,7 @@ import { TournamentHttpService } from '../_services';
 import { TournamentRoundsComponent } from './tournament-rounds.component';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Format } from '@/_models';
 
 describe('TournamentRoundsComponent', () => {
   let component: TournamentRoundsComponent;
@@ -42,7 +43,7 @@ describe('TournamentRoundsComponent', () => {
     component.faPlusCircle = faPlusCircle;
     component.tournament = {id: 1, name: 'test', startDate: '2020/10/10', endDate: '2020/10/10'};
     component.rounds = [{course: {name: 'Lisia Polana', par: 72}, roundDate: '10/10/2020',
-    matchPlay: false, player: [{nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
+    format: Format.STROKE_PLAY, player: [{nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
     scoreCard: [{hole: 1, stroke: 1, pats: 0}], id: 1}];
   });
 

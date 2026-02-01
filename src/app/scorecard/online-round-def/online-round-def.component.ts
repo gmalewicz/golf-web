@@ -1,9 +1,9 @@
-import { Course } from '@/_models';
+import { Course, Format } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
 import { Component, OnInit, signal } from '@angular/core';
 import { Router  } from '@angular/router';
 import { PlayerSelectorComponent } from "./player-selector/player-selector.component";
-import { Format } from '../_models/format';
+
 
 @Component({
     selector: 'app-online-round-def',

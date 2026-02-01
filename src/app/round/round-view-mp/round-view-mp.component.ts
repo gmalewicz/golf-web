@@ -1,10 +1,12 @@
-import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
 import { Component, OnInit, input } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
+import { Format } from '@/_models/format';
+
 
 @Component({
     selector: 'app-round-view-mp',
@@ -69,7 +71,7 @@ export class RoundViewMPComponent implements OnInit {
 
     this.round().player.forEach((pl) => {
 
-      pl.roundDetails.courseHCP = calculateCourseHCP(pl.roundDetails.teeType,
+      pl.roundDetails.courseHCP = calculateRoundedCourseHCP(pl.roundDetails.teeType,
                                                     pl.roundDetails.whs,
                                                     pl.roundDetails.sr,
                                                     pl.roundDetails.cr,
@@ -111,7 +113,7 @@ export class RoundViewMPComponent implements OnInit {
 
     this.calculateMpResult();
     // calculate MP result texts
-    this.mpResult = createMPResultText(this.round().player[0].nick, this.round().player[1].nick, this.mpScore);
+    this.mpResult = createMPResultText(this.round().player[0].nick, this.round().player[1].nick, this.mpScore, Format.MATCH_PLAY);
     // calculate MP result history
     this.mpResultHistory = createMPResultHistory(this.mpScore);
 

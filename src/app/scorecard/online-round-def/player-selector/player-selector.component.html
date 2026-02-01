@@ -1,6 +1,26 @@
   
   <div class="row golf-margin-top-15">
 
+    @if (formatSgn() == Format.MATCH_PLAY || formatSgn() == Format.FOUR_BALL_MATCH_PLAY) {
+      <div class="row golf-margin-top">
+        <div class="col">
+          <input type="radio" id="mpFormat1" value="1" [field] = "playerDataForm.mpFormat" class="form-check-input form-check-input-green">
+          <label class="custom-control-label green" for="mpFormat1">100%</label>
+          &nbsp;
+          <input type="radio" id="mpFormat2" value="0.9" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+          <label class="custom-control-label green" for="mpFormat2">90%</label>
+          @if (formatSgn() == Format.MATCH_PLAY) {
+            &nbsp;
+            <input type="radio" id="mpFormat3" value="0.75" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
+            &nbsp;
+            <input type="radio" id="mpFormat4" value="0.50" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+          }
+        </div>
+      </div>
+    }
+
     @if (formatSgn() == Format.STROKE_PLAY || formatSgn() == Format.FOUR_BALL_STROKE_PLAY) { 
       <div class="col">
         <div class="btn-group" aria-label="Number of players">
@@ -66,16 +86,18 @@
             }
           </mat-form-field>
         </div>
-        <div class="col-auto">
-          <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(0)">
-            @if (!searchInProgressSgn()[id]) {
-              <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
-            }
-            @if (searchInProgressSgn()[id]) {
-              <span class="spinner-border spinner-border-sm mr-1" ></span>
-            }
-          </button>
-        </div>
+        @if (playersSgn()[id] != null) {
+          <div class="col-auto">
+            <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(id)">
+              @if (!searchInProgressSgn()[id]) {
+                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+              }
+              @if (searchInProgressSgn()[id]) {
+                <span class="spinner-border spinner-border-sm mr-1" ></span>
+              }
+            </button>
+          </div>
+        } 
       </div>
     }
   

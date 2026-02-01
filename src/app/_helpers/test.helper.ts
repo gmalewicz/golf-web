@@ -1,4 +1,4 @@
-import { Format, OnlineRound } from '@/scorecard/_models';
+import { OnlineRound } from '@/scorecard/_models';
 import { Course } from '@/_models/course';
 import { Player } from '@/_models/player';
 import { Round } from '@/_models/round';
@@ -8,6 +8,7 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { IFrame, IRxStompPublishParams } from '@stomp/rx-stomp';
+import { Format } from '@/_models/format';
 
 export function getTestRound(): Round {
 
@@ -32,9 +33,11 @@ export function getTestRound(): Round {
       { par: 4, number: 16, si: 16 },
       { par: 4, number: 17, si: 17 },
       { par: 4, number: 18, si: 18 }]
-    }, roundDate: '10/10/2020', matchPlay: false, mpFormat: 0.75, id: 1,
+    }, roundDate: '10/10/2020', format: Format.STROKE_PLAY, mpFormat: 0.75, id: 1,
      player: [{id: 1, nick: 'test', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
-              {id: 2, nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
+              {id: 2, nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
+              {id: 3, nick: 'test3', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}},
+              {id: 4, nick: 'test2', roundDetails: {whs: 10, cr: 68, sr: 133, teeId: 0, teeType: teeTypes.TEE_TYPE_18}}],
     scoreCard: [{ hole: 1, stroke: 10, pats: 0 },
     { hole: 2, stroke: 1, pats: 0 },
     { hole: 3, stroke: 1, pats: 0 },
@@ -53,6 +56,42 @@ export function getTestRound(): Round {
     { hole: 16, stroke: 1, pats: 0 },
     { hole: 17, stroke: 1, pats: 0 },
     { hole: 18, stroke: 1, pats: 0 },
+    {hole: 1, stroke: 2, pats: 0},
+    {hole: 2, stroke: 20, pats: 0},
+    {hole: 3, stroke: 2, pats: 0},
+    {hole: 4, stroke: 2, pats: 0},
+    {hole: 5, stroke: 2, pats: 0},
+    {hole: 6, stroke: 2, pats: 0},
+    {hole: 7, stroke: 2, pats: 0},
+    {hole: 8, stroke: 2, pats: 0},
+    {hole: 9, stroke: 2, pats: 0},
+    {hole: 10, stroke: 2, pats: 0},
+    {hole: 11, stroke: 2, pats: 0},
+    {hole: 12, stroke: 2, pats: 0},
+    {hole: 13, stroke: 2, pats: 0},
+    {hole: 14, stroke: 2, pats: 0},
+    {hole: 15, stroke: 2, pats: 0},
+    {hole: 16, stroke: 2, pats: 0},
+    {hole: 17, stroke: 2, pats: 0},
+    {hole: 18, stroke: 2, pats: 0},
+    {hole: 1, stroke: 2, pats: 0},
+    {hole: 2, stroke: 20, pats: 0},
+    {hole: 3, stroke: 2, pats: 0},
+    {hole: 4, stroke: 2, pats: 0},
+    {hole: 5, stroke: 2, pats: 0},
+    {hole: 6, stroke: 2, pats: 0},
+    {hole: 7, stroke: 2, pats: 0},
+    {hole: 8, stroke: 2, pats: 0},
+    {hole: 9, stroke: 2, pats: 0},
+    {hole: 10, stroke: 2, pats: 0},
+    {hole: 11, stroke: 2, pats: 0},
+    {hole: 12, stroke: 2, pats: 0},
+    {hole: 13, stroke: 2, pats: 0},
+    {hole: 14, stroke: 2, pats: 0},
+    {hole: 15, stroke: 2, pats: 0},
+    {hole: 16, stroke: 2, pats: 0},
+    {hole: 17, stroke: 2, pats: 0},
+    {hole: 18, stroke: 2, pats: 0},
     {hole: 1, stroke: 2, pats: 0},
     {hole: 2, stroke: 20, pats: 0},
     {hole: 3, stroke: 2, pats: 0},

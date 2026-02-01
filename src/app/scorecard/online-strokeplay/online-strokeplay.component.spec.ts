@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
-import { OnlineRoundComponent } from './online-round.component';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { OnlineNavComponent } from '../online-nav/online-nav.component';
 import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
@@ -18,12 +17,13 @@ import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { signal } from '@angular/core';
-import { Format } from '../_models/format';
+import { OnlineStrokeplayComponent } from './online-strokeplay.component';
+import { Format } from '@/_models/format';
 
 
-describe('OnlineRoundComponent', () => {
-  let component: OnlineRoundComponent;
-  let fixture: ComponentFixture<OnlineRoundComponent>;
+describe('OnlineStrokeplayComponent', () => {
+  let component: OnlineStrokeplayComponent;
+  let fixture: ComponentFixture<OnlineStrokeplayComponent>;
   let navigationService: NavigationService;
   const dialog = new MatDialogMock();
 
@@ -32,7 +32,7 @@ describe('OnlineRoundComponent', () => {
     imports: [
         MatDialogModule,
         FontAwesomeModule,
-        OnlineRoundComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent,
+        OnlineStrokeplayComponent, CommonScorecardTopComponent, OnlineNavComponent, CommonScorecardComponent,
     ],
     providers: [HttpService,
         ScorecardHttpService,
@@ -58,7 +58,7 @@ describe('OnlineRoundComponent', () => {
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -69,7 +69,7 @@ describe('OnlineRoundComponent', () => {
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.curHoleStrokesSgn()[component.curPlayerIdxSgn()] = 10;
@@ -83,7 +83,7 @@ describe('OnlineRoundComponent', () => {
     const onlineRound = getOnlineRoundFirstPlayer();
     onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     component.onlineRoundsSgn = signal([onlineRound]);
     component.courseSgn.set(getTestCourse());
@@ -94,7 +94,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     component.onlineRoundsSgn = signal([onlineRound]);
     component.onInfo();
@@ -104,7 +104,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     component.onFinal();
     expect(component.loadingFinSgn()).toBe(false);
@@ -114,7 +114,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     component.onDelete();
     expect(component.loadingDelSgn()).toBe(false);
@@ -124,7 +124,7 @@ describe('OnlineRoundComponent', () => {
     navigationService.setCourseSgn(signal(getTestCourse()));
     const onlineRound = getOnlineRoundFirstPlayer();
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-    fixture = TestBed.createComponent(OnlineRoundComponent);
+    fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
     component.refresh();
     expect(component.loadingDelSgn()).toBe(false);

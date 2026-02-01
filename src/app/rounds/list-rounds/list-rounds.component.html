@@ -35,11 +35,19 @@
             }
           </td>
         }
-        @if (round.matchPlay) {
-          <td>MP</td>
-        }
-        @if (!round.matchPlay) {
-          <td>SP</td>
+        @switch (round.format) {
+          @case (Format.FOUR_BALL_MATCH_PLAY) {
+            <td>FB-MP</td>
+          }
+          @case (Format.MATCH_PLAY) {
+            <td>MP</td>
+          }
+          @case (Format.FOUR_BALL_STROKE_PLAY) {
+            <td>FB-SP</td>
+          }
+          @case (Format.STROKE_PLAY) {
+            <td>SP</td>
+          }
         }
         @if (authenticationService.playerRole.includes('ADMIN')) {
           <td>{{round.id}}</td>

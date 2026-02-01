@@ -3,10 +3,10 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { Component, computed, OnDestroy, OnInit, signal, Signal} from '@angular/core';
 import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
-import { Format, OnlineRound, OnlineScoreCard } from '../_models';
-import { Course} from '@/_models';
+import { OnlineRound, OnlineScoreCard } from '../_models';
+import { Course, Format} from '@/_models';
 import { ScorecardHttpService } from '../_services';
-import { calculateCourseHCP, calculateHoleHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
+import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgClass, DecimalPipe } from '@angular/common';
@@ -139,7 +139,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         retOnlineRounds.forEach(or => {
 
-            or.courseHCP = calculateCourseHCP(or.tee.teeType,
+            or.courseHCP = calculateRoundedCourseHCP(or.tee.teeType,
               or.player.whs,
               or.tee.sr,
               or.tee.cr,
@@ -192,7 +192,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         
         // calculate MP result texts
-        this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore));
+        this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
         // calculate MP result history
         this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
         
@@ -399,7 +399,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.ownerSgn()) {
       this.handleMatchPlayMessage(onlineScoreCard);
        // calculate MP result texts
-      this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore));
+      this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
        // calculate MP result history
       this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
     } else {

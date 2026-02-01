@@ -1,0 +1,167 @@
+@if (!displaySgn()) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+  </div>
+}
+@if (displaySgn()) {
+  <div>
+    @if (loggedIdSgn() === ownerIdSgn()) {
+      <app-common-scorecard-top [curHoleStrokesSgn] = 'curHoleStrokesSgn()'
+        [curPlayerIdxSgn] = 'curPlayerIdxSgn()'
+        [puttSelectorActiveSgn] = 'puttSelectorActive'
+        [roundsSgn] = 'onlineRoundsSgn()'
+        [curHolePuttsSgn] = 'curHolePutts'
+        [penaltySelectorActiveSgn] = 'penaltySelectorActive'
+        [curHolePenaltiesSgn] = 'curHolePenalties'
+        [addScore] = 'addScore.bind(this)'
+        [curHoleIdxSgn] = 'curHoleIdxSgn()'
+        [ballPickedUpSgn] = 'ballPickedUpSgn()'
+        [totalStrokesSgn] = 'totalStrokesSgn()'
+        [curPlayerStyleSgn] = 'curPlayerStyleSgn()'
+        [inProgressSgn] = 'inProgress'>
+      </app-common-scorecard-top>
+    } @else {
+      <button type="button" class="btn btn-success" (click)="refresh()">Refresh</button>
+      <br />
+      <br />
+    }
+    <div>
+      <div>
+        @if (secondPlayerResultSgn() === undefined) {
+          <h3>
+            {{firstPlayerResultSgn()}}
+          </h3>
+        }
+        @if (secondPlayerResultSgn() !== undefined) {
+          <h3 style="color: red; font-weight: bold;">
+            {{secondPlayerResultSgn()}}
+          </h3>
+        }
+      </div>
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="MatchPlay online round results">
+        <thead>
+          <tr>
+            <th id="empty"></th>
+            <th id="empty"></th>
+            <th id="empty" colspan="2" class="text-center">Team 1</th>
+            <th id="empty" colspan="2" class="text-center">Team 2</th>
+            <th id="empty"></th>
+          </tr>
+          <tr>
+            <th id="empty"></th>
+            <th id="hole" i18n="@@onlMatch-hole">Hole</th>
+            <th id="p1r">
+              {{onlineRoundsSgn()[0].player.nick}}
+              <span>({{onlineRoundsSgn()[0].courseHCP}})</span> 
+            </th>
+            <th id="p2r">
+              {{onlineRoundsSgn()[1].player.nick}}
+              <span>({{onlineRoundsSgn()[1].courseHCP}})</span>
+            </th>
+            <th id="p3r">
+              {{onlineRoundsSgn()[2].player.nick}}
+              <span>({{onlineRoundsSgn()[2].courseHCP}})</span>
+            </th>
+            <th id="p4r">
+              {{onlineRoundsSgn()[3].player.nick}}
+              <span>({{onlineRoundsSgn()[3].courseHCP}})</span>
+            </th>
+            <th id="winner" i18n="@@onlMatch-winner">Winner</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (stroke of strokesSgn(); track stroke; let i = $index) {
+            <tr  [ngClass]="i === curHoleIdxSgn() ? 'fw-bolder' : {}">
+              @if (i === curHoleIdxSgn()) {
+                <td>
+                  <a>
+                    <fa-icon [icon]="faPlaySgn()" class="golf-green fa-xl"></fa-icon>
+                  </a>
+                </td>
+              }
+              @if (i != curHoleIdxSgn()) {
+                <td>
+                  <a (click)="selectHole(i)">
+                    <fa-icon [icon]="faPlaySgn()" class="golf-gray"></fa-icon>
+                  </a>
+                </td>
+              }
+              <td>
+                {{i + 1}}
+              </td>
+              @for (index of 4 | range; track index; let pl = $index) {
+                <td [ngClass]="highlightHCPSgn()[pl][i]">
+                  @if (stroke[pl] > 0 && stroke[pl] < 16) {
+                    <span>{{stroke[pl]}}</span>
+                  }
+                  @if (stroke[pl] === 16) {
+                    <span>x</span>
+                  }
+                  <span class="supsub">
+                    <span class="superscript">
+                      <span class="dotSeparator"></span>
+                      @for (putt of puttsSgn()[i][pl] | range; track putt) {
+                        <span>
+                          <span class="blackDot"></span>
+                          <span class="dotSeparator"></span>
+                        </span>
+                      }
+                    </span>
+                    <span class="subscript">
+                      <span class="dotSeparator"></span>
+                      @for (penalty of penaltiesSgn()[i][pl] | range; track penalty) {
+                        <span>
+                          <span class="redDot"></span>
+                          <span class="dotSeparator"></span>
+                        </span>
+                      }
+                    </span>
+                  </span>
+                </td>
+              }
+              <td>
+                @if (mpScoreSgn()[i] === -1) {
+                  <span>
+                    Team 1
+                  </span>
+                }
+                @if (mpScoreSgn()[i] === 1) {
+                  <span>
+                    Team 2
+                  </span>
+                }
+                @if (mpScoreSgn()[i] === 0) {
+                  <span>
+                    halved
+                  </span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <br />
+      <div class="form-group">
+        <button type="button" mat-raised-button color="warn" (click)="onDelete()">
+          @if (loadingDelSgn()) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@onlMatch-delete">Delete</span>
+        </button>
+        &nbsp;
+        <button type="button" mat-raised-button color="primary" (click)="onFinal()">
+          @if (loadingFinSgn()) {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+          }
+          <span i18n="@@onlMatch-finalize">Finalize</span>
+        </button>
+        &nbsp;
+        <button type="button" mat-raised-button color="primary" (click)="onInfo()">
+          <span>Info</span>
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -2,14 +2,15 @@ import { NavigationService } from '../_services/navigation.service';
 import { AuthenticationService } from '@/_services';
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
-import { Format, OnlineRound } from '../_models';
+import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { AuthGuard } from '@/_helpers/auth.guard';
-import { OnlineRoundComponent } from '../online-round/online-round.component';
 import { OnlineScoreCardComponent } from '../online-score-card/online-score-card.component';
 import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.component';
 import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.component';
 import { InfoComponent } from '../info/info.component';
+import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
+import { Format } from '@/_models/format';
 
 @Component({
     selector: 'app-my-online-score-card',
@@ -68,10 +69,19 @@ export class MyOnlineScoreCardComponent implements OnInit {
   showRound() {
     this.navigationService.setCourseSgn(signal(this.myOnlineRoundsSgn()[0].course));
     this.navigationService.setOnlineRoundsSgn(signal(this.myOnlineRoundsSgn()));
-    if (this.myOnlineRoundsSgn()[0].format === Format.MATCH_PLAY) {
-      this.router.navigate(['myScorecard/onlineMatchplay']).catch(error => console.log(error));
-    } else {
-      this.router.navigate(['myScorecard/onlineRound']).catch(error => console.log(error));
+    switch (this.myOnlineRoundsSgn()[0].format) {
+      case Format.MATCH_PLAY:
+        this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
+        break;
+      case Format.FOUR_BALL_MATCH_PLAY:
+        this.router.navigate(['/scorecard/onlineFbMatchplay']).catch(error => console.log(error));
+        break;
+      case Format.FOUR_BALL_STROKE_PLAY:
+        this.router.navigate(['/scorecard/onlineFbStrokeplay']).catch(error => console.log(error));
+        break;
+      default:
+        this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));
+        break;
     }
   }
 }
@@ -80,7 +90,7 @@ export const myOnlineScoreCardRouts: Routes = [
 
   { path: '', component: MyOnlineScoreCardComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
-  { path: 'onlineRound', component: OnlineRoundComponent, canActivate: [AuthGuard] },
+  { path: 'onlineStrokeplay', component: OnlineStrokeplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
   { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCardInfo', component: InfoComponent, canActivate: [AuthGuard] },

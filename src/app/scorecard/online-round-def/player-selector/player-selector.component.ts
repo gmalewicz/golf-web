@@ -5,13 +5,12 @@ import { MatSelect } from '@angular/material/select';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';  
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';  
 import { faCheckCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';  
-import { Course, Player, Tee, TeeOptions } from '@/_models';  
+import { Course, Format, Player, Tee, TeeOptions } from '@/_models';  
 import { AlertService, AuthenticationService, HttpService } from '@/_services';  
 import { NavigationService } from '@/scorecard/_services/navigation.service';  
 import { UpdateWhsDialogComponent } from '@/scorecard/update-whs-dialog/update-whs-dialog.component';  
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';  
-import { finalize, forkJoin, from, switchMap } from 'rxjs';
-import { Format } from '@/scorecard/_models/format';
+import { finalize, forkJoin, from, of, switchMap } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { OnlineRound } from '@/scorecard/_models/onlineRound';
 import { getDateAndTime } from '@/_helpers/common';
@@ -22,7 +21,8 @@ import {form, Field, required, submit, applyEach } from '@angular/forms/signals'
 interface PlayerData {
       teeDropDowns: {tee: string}[]  
       putts: boolean,
-      penalties: boolean
+      penalties: boolean,
+      mpFormat: string 
 }
 
 @Component({  
@@ -52,7 +52,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   playerDataModel = signal<PlayerData>({
     teeDropDowns: [{tee: ''}],  
     putts: false,
-    penalties: false
+    penalties: false,
+    mpFormat: "0.75"
   })
 
    playerDataForm = form(this.playerDataModel, schemaPath => {
@@ -109,6 +110,14 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
         }
       });
 
+    }); 
+
+     effect (() => {
+      if (this.formatSgn() === Format.MATCH_PLAY) {
+        this.playerDataModel.update(form => ({ ...form, mpFormat: "0.75" }));
+      } else if (this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+        this.playerDataModel.update(form => ({ ...form, mpFormat: "0.9" }));
+      }
     });
   }  
   
@@ -268,6 +277,11 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     
     dialogRef.afterClosed().pipe(  
       switchMap((result: any) => {  
+         
+        if (!result || !result.whs) {
+          return of(undefined);
+        }
+
         const player = this.playersSgn()[playerIdx];  
         const parsed = parseFloat(String(result.whs).replace(',', '.'));  
         
@@ -337,7 +351,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           format: this.formatSgn(),
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
-          mpFormat: this.formatSgn()
+          mpFormat: this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? 
+            +this.playerDataForm.mpFormat().value() : undefined
         };
 
         onlineRounds[counter] = onlineRound;
@@ -359,10 +374,19 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       .subscribe(or => {
         this.navigationService.setCourseSgn(signal(this.courseSgn()));
         this.navigationService.setOnlineRoundsSgn(signal(or));
-        if (this.formatSgn() === Format.MATCH_PLAY ) {
-          this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
-        } else {
-          this.router.navigate(['/scorecard/onlineRound']).catch(error => console.log(error));
+        switch (this.formatSgn()) {
+          case Format.MATCH_PLAY:
+            this.router.navigate(['/scorecard/onlineMatchplay']).catch(error => console.log(error));
+            break;
+          case Format.FOUR_BALL_MATCH_PLAY:
+            this.router.navigate(['/scorecard/onlineFbMatchplay']).catch(error => console.log(error));
+            break;
+          case Format.FOUR_BALL_STROKE_PLAY:
+            this.router.navigate(['/scorecard/onlineFbStrokeplay']).catch(error => console.log(error));
+            break;
+          default:
+            this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));
+            break;
         }
       })
     });

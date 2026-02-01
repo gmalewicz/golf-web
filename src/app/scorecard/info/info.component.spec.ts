@@ -6,8 +6,7 @@ import { MatButton } from '@angular/material/button';
 import { InfoComponent } from './info.component';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { NavigationService } from '../_services/navigation.service';
-import { on } from 'events';
-import { Format } from '../_models/format';
+import { Format } from '@/_models/format';
 
 describe('InfoComponent', () => {
 

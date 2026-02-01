@@ -7,20 +7,20 @@ import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { LocationStrategy, NgClass, NgTemplateOutlet } from '@angular/common';
-import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { calculateHoleHCP, calculateRoundedCourseHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from "../../_helpers/range";
 
 @Component({
-    selector: 'app-online-round',
-    templateUrl: './online-round.component.html',
-    styleUrls: ['./online-round.component.css'],
+    selector: 'app-online-stokeplay',
+    templateUrl: './online-strokeplay.component.html',
+    styleUrls: ['./online-strokeplay.component.css'],
     imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton, RangePipe],
     providers: [NavigationService]
 })
-export class OnlineRoundComponent extends OnlineRoundBaseComponent {
+export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
 
   holeHcp: number[][];
 
@@ -68,7 +68,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
     
 
     this.onlineRoundsSgn().forEach( (onlineRound, idx) => {
-      const courseHcp = calculateCourseHCP(
+      const courseHcp = calculateRoundedCourseHCP(
         onlineRound.tee.teeType,
         onlineRound.player.whs,
         onlineRound.tee.sr,

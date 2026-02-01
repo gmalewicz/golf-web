@@ -5,6 +5,7 @@ import { RoundsNavigationService } from '../roundsNavigation.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { Format } from '@/_models/format';
 
 @Component({
     selector: 'app-list-rounds',
@@ -12,6 +13,8 @@ import { DatePipe } from '@angular/common';
     imports: [RouterLink, FaIconComponent, DatePipe]
 })
 export class ListRoundsComponent implements OnInit {
+
+  Format = Format;
 
   faSearchPlus: IconDefinition;
 

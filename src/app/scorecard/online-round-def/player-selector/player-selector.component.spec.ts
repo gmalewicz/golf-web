@@ -6,10 +6,10 @@ import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';  
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';  
 import { NavigationService } from '@/scorecard/_services/navigation.service';  
-import { ActivatedRoute, Router } from '@angular/router';  
-import { Format } from '@/scorecard/_models/format';  
+import { ActivatedRoute, Router } from '@angular/router';   
 import { HttpResponse } from '@angular/common/http';
 import { alertServiceStub, authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper';
+import { Format } from '@/_models/format';
   
 describe('PlayerSelectorComponent', () => {  
 

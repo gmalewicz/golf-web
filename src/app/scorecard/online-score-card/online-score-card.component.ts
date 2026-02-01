@@ -5,15 +5,19 @@ import { AuthenticationService } from '@/_services';
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Format, OnlineRound } from '../_models';
+import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { KeyValuePipe } from '@angular/common';
 import { AuthGuard } from '@/_helpers';
 import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.component';
 import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.component';
-import { OnlineRoundComponent } from '../online-round/online-round.component';
 import { OnlineScoreCardViewComponent } from '../online-score-card-view/online-score-card-view.component';
+import { OnlineFbMatchplayComponent } from '../online-fb-matchplay/online-fb-matchplay.component';
+import { OnlineFbStrokeplayComponent } from '../online-fb-strokeplay/online-fb-strokeplay.component';
+import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
+import { Format } from '@/_models/format';
+
 
 @Component({
     selector: 'app-online-score-card',
@@ -90,9 +94,10 @@ export const onlineScoreCardRouts: Routes = [
 
   { path: '', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
-  { path: 'onlineRound', component: OnlineRoundComponent, canActivate: [AuthGuard] },
+  { path: 'onlineStrokeplay', component: OnlineStrokeplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
   { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },
-
+  { path: 'onlineFbMatchplay', component: OnlineFbMatchplayComponent, canActivate: [AuthGuard] },
+  { path: 'onlineFbStrokeplay', component: OnlineFbStrokeplayComponent, canActivate: [AuthGuard] },
 ];
