@@ -213,8 +213,8 @@ describe('PlayerSelectorComponent', () => {
     const evt = new Event('submit');
     spyOn(evt, 'preventDefault').and.callThrough();
 
-    component.tees.push({ id: 11, sex: false, tee: 'Blue', teeType: 0 });
-    component.tees.push({ id: 11, sex: false, tee: 'Blue', teeType: 0 });
+    component.tees = [{ id: 11, sex: false, tee: 'Blue', teeType: 0 }];
+    component.tees.push({ id: 12, sex: false, tee: 'Blue', teeType: 0 });
     
     component.onStartOnlineRound(evt);  
   
