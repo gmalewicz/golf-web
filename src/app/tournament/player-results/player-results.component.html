@@ -1,4 +1,4 @@
-<table class="table table-striped" aria-describedby="tournament details">
+<table class="table table-hover" aria-describedby="tournament details">
   <thead>
     <tr>
       <th id="no" i18n="@@tourRes-no">No</th>
@@ -20,6 +20,7 @@
   </thead>
   @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound; let j = $index) {
     <tbody>
+      <tr>
       <td>{{j + 1}}</td>
       <td>
         @if (tournamentRound.roundId !== null) {
@@ -63,6 +64,7 @@
             (click)="deleteRound(tournamentRound.roundId)" (keydown)="deleteRound(tournamentRound.roundId)"></fa-icon>
         </td>
       }
+      </tr>
     </tbody>
   }
 </table>

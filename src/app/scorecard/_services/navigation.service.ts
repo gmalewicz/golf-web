@@ -5,9 +5,9 @@ import { OnlineRound } from '../_models/onlineRound';
 @Injectable()
 export class NavigationService {
 
-  courseSgn = signal<Course>(undefined);
-  onlineRoundsSgn = signal<OnlineRound[]>([]);
-  ownerSgn = signal<number>(undefined);
+  private courseSgn = signal<Course>(undefined);
+  private onlineRoundsSgn = signal<OnlineRound[]>([]);
+  private ownerSgn = signal<number>(undefined);
 
   constructor() {
     this.getCourseSgn();

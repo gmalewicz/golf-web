@@ -7,20 +7,20 @@ import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { LocationStrategy, NgClass, NgTemplateOutlet } from '@angular/common';
-import { calculateCourseHCP, calculateHoleHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { calculateHoleHCP, calculateRoundedCourseHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from "../../_helpers/range";
 
 @Component({
-    selector: 'app-online-round',
-    templateUrl: './online-round.component.html',
-    styleUrls: ['./online-round.component.css'],
+    selector: 'app-online-stokeplay',
+    templateUrl: './online-strokeplay.component.html',
+    styleUrls: ['./online-strokeplay.component.css'],
     imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton, RangePipe],
     providers: [NavigationService]
 })
-export class OnlineRoundComponent extends OnlineRoundBaseComponent {
+export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
 
   holeHcp: number[][];
 
@@ -54,21 +54,21 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
 
   protected prepareAndCalculateNetStatistic() {
 
-    this.holeHcp = Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0));
+    this.holeHcp = new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0));
 
-    this.stbNetSgn.set(Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
+    this.stbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStbNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
-    this.strNetSgn.set(Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
+    this.strNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0).map(() => new Array(18).fill(0)));
     this.totalStrNetSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
-    this.skinSgn.set(Array(this.onlineRoundsSgn().length).fill("").map(() => new Array(18).fill("")));
+    this.skinSgn.set(new Array(this.onlineRoundsSgn().length).fill("").map(() => new Array(18).fill("")));
     this.totalSkinSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     
 
     this.onlineRoundsSgn().forEach( (onlineRound, idx) => {
-      const courseHcp = calculateCourseHCP(
+      const courseHcp = calculateRoundedCourseHCP(
         onlineRound.tee.teeType,
         onlineRound.player.whs,
         onlineRound.tee.sr,
@@ -140,7 +140,7 @@ export class OnlineRoundComponent extends OnlineRoundBaseComponent {
   private calculateTotalSkins() : void {
 
     // clear totals before recalculation
-    this.totalSkinSgn.set(Array(this.onlineRoundsSgn().length).fill(0));
+    this.totalSkinSgn.set(new Array(this.onlineRoundsSgn().length).fill(0));
 
     let cumulation: number = 0;
 

@@ -18,7 +18,8 @@ import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { NavigationService } from '../_services/navigation.service';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
-import { calculateCourseHCP, getPlayedCoursePar } from '@/_helpers';
+import { calculateRoundedCourseHCP, getPlayedCoursePar } from '@/_helpers';
+import { Format } from '@/_models/format';
 
 @Component({
     template: '',
@@ -545,9 +546,9 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
   onInfo() {
     
-    if (!this.onlineRoundsSgn()[0].matchPlay && this.onlineRoundsSgn()[0].courseHCP == undefined) {
+    if (this.onlineRoundsSgn()[0].format !== Format.MATCH_PLAY && this.onlineRoundsSgn()[0].courseHCP == undefined) {
       this.onlineRoundsSgn().forEach(onlineRound => {
-        onlineRound.courseHCP = calculateCourseHCP(onlineRound.tee.teeType,
+        onlineRound.courseHCP = calculateRoundedCourseHCP(onlineRound.tee.teeType,
                                                    onlineRound.player.whs,
                                                    onlineRound.tee.sr,
                                                    onlineRound.tee.cr,

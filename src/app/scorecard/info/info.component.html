@@ -4,10 +4,9 @@
         <tr>
           <th id="player" i18n="@@roundSummary-player">Player</th>
           <th id="whs" i18n="@@roundSummary-whs">HCP</th>
-          @if (onlineRounds[0].matchPlay) {
+          @if (onlineRounds[0].format === Format.MATCH_PLAY || onlineRounds[0].format === Format.FOUR_BALL_MATCH_PLAY) {
             <th id="cBon" i18n="@@info-bonus">Bonus strokes</th>
-          } 
-          @if (!onlineRounds[0].matchPlay) {
+          } @else { 
             <th id="cHCP" i18n="@@roundSummary-courseHcp">Course HCP</th>
           }
           <th id="cCr">Tee</th>

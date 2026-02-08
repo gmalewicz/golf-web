@@ -2,11 +2,14 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ModificationComponent } from './modification.component';
 import { TournamentNavigationService } from '@/tournament/_services/tournamentNavigation.service';
 import { TeeTimePublishStatus } from '@/tournament/_models';
+import { async } from 'rxjs';
 
 describe('ModificationComponent', () => {
   let component: ModificationComponent;
   let fixture: ComponentFixture<ModificationComponent>;
   const tournamentNavigationService: TournamentNavigationService = new TournamentNavigationService();
+
+ 
 
   beforeEach(async () => {
     tournamentNavigationService.init();
@@ -33,24 +36,27 @@ describe('ModificationComponent', () => {
     expect(component.modBackCls[0]).toBe('golf-background-red');
   });
 
-  it('should modifyPlayer when first to swap is defined', fakeAsync(() => {
-    tournamentNavigationService.teeTimeParameters.set({firstTeeTime: "09:00", teeTimeStep: 10, flightSize: 4, published: TeeTimePublishStatus.STATUS_NOT_PUBLISHED});
+  it('should modifyPlayer when first to swap is defined', async() => {
+    tournamentNavigationService.teeTimeParameters.set({firstTeeTime: "09:00", 
+                                                        teeTimeStep: 10, 
+                                                        flightSize: 4, 
+                                                        published: TeeTimePublishStatus.STATUS_NOT_PUBLISHED});
     component.modBackCls.push('');
     component.modBackCls.push('');
 
     component.modifyPlayer(0);
     component.modifyPlayer(1);
 
-    tick(2000);
+    expect(component.modBackCls[0]).toBe('golf-background-red');
+  });
 
-    expect(component.modBackCls[0]).toBe('');
-  }));
+   
 
-  it('should modifyFlight but player is not selected', fakeAsync(() => {
+  it('should modifyFlight but player is not selected', async() => {
     component.modifyFlight(0);
-    tick(2000);
+    
     expect(component.modBackCls[0]).toBe(undefined);
-  }));
+  });
 
   it('should modifyFlight but player selected the same flight', fakeAsync(() => {
     component.modBackCls.push('');

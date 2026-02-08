@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -27,7 +27,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
+        provideZoneChangeDetection(),importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
         HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },

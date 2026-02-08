@@ -1,0 +1,129 @@
+  
+  <div class="row golf-margin-top-15">
+
+    @if (formatSgn() == Format.MATCH_PLAY || formatSgn() == Format.FOUR_BALL_MATCH_PLAY) {
+      <div class="row golf-margin-top">
+        <div class="col">
+          <input type="radio" id="mpFormat1" value="1" [field] = "playerDataForm.mpFormat" class="form-check-input form-check-input-green">
+          <label class="custom-control-label green" for="mpFormat1">100%</label>
+          &nbsp;
+          <input type="radio" id="mpFormat2" value="0.9" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+          <label class="custom-control-label green" for="mpFormat2">90%</label>
+          @if (formatSgn() == Format.MATCH_PLAY) {
+            &nbsp;
+            <input type="radio" id="mpFormat3" value="0.75" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
+            &nbsp;
+            <input type="radio" id="mpFormat4" value="0.50" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+          }
+        </div>
+      </div>
+    }
+
+    @if (formatSgn() == Format.STROKE_PLAY || formatSgn() == Format.FOUR_BALL_STROKE_PLAY) { 
+      <div class="col">
+        <div class="btn-group" aria-label="Number of players">
+          
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 1, disabled: formatSgn() === Format.FOUR_BALL_STROKE_PLAY}"
+          i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
+          
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 2, disabled: formatSgn() === Format.FOUR_BALL_STROKE_PLAY }"
+          i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
+          
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 3}"
+          i18n="@@onlnRndDef-p3Btn" (click)="onPlayers(3)">3 players</button>
+          
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 4}"
+          i18n="@@onlnRndDef-p4Btn" (click)="onPlayers(4)">4 players</button>
+        </div>
+      </div>
+    }
+
+  </div>
+  <form (submit)="onStartOnlineRound($event)">
+
+    @for (id of playerIndices(); track id) {
+      <div class="row golf-margin-top-15">
+        <div class="col-auto golf-width-210">
+         
+          @if (playersSgn()[id] == null) {
+          
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+            <span class="golf-margin-top golf-red golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
+            } 
+            <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p">
+              Player
+            </span>
+            <span class="golf-margin-top golf-red golf-thick">
+              &nbsp; {{id + 1}}
+            </span>
+            <span class="golf-padding">
+              <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(id)" onKeyDown="onSearchPlayer(id)"></fa-icon>
+            </span>
+          } @else {
+            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+              <span class="golf-margin-top golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
+             } 
+            <span class="golf-margin-top golf-thick">
+              {{playersSgn()[id].nick}} HCP: {{playersSgn()[id].whs}}
+            </span>
+            <span class="golf-padding golf-thick">
+              <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>
+            </span>
+          }
+        </div>
+        <div class="col-auto">
+          <mat-form-field class="golf-width-150">
+            <mat-label>tee</mat-label>
+            <mat-select [field] = "playerDataForm.teeDropDowns[id].tee">
+              @for (teeOption of teeOptions()[id]; track teeOption) {
+                <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
+              }
+            </mat-select>
+            @if (playerDataForm.teeDropDowns[id].tee().invalid()) {
+              <mat-error i18n="@@onlnRndDef-teeReq">Tee is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        @if (playersSgn()[id] != null) {
+          <div class="col-auto">
+            <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(id)">
+              @if (!searchInProgressSgn()[id]) {
+                <span i18n="@@onlnRndDef-hcpUpd">HCP update</span>
+              }
+              @if (searchInProgressSgn()[id]) {
+                <span class="spinner-border spinner-border-sm mr-1" ></span>
+              }
+            </button>
+          </div>
+        } 
+      </div>
+    }
+  
+    <div class="golf-margin-top">
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" [field] = "playerDataForm.putts"/>
+      <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>
+    </div>
+    <div>
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" [field] = "playerDataForm.penalties"/>
+      <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
+    </div>
+    <div>
+    <br />
+    <div class="form-group">
+      <button type="button" class="btn btn-success" routerLink="/myScorecard" i18n="@@onlnRndDef-cancel">
+        Cancel
+      </button>
+      &nbsp;
+      <button type="submit" class="btn btn-success">
+        @if (loadingSgn()) {
+          <span class="spinner-border spinner-border-sm mr-1"></span>
+        }
+        <span i18n="@@onlnRndDef-start">Start</span>
+      </button>
+    </div>
+    <span i18n="@@onlnRndDef-note">Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</span>
+  </div>
+</form>
+        

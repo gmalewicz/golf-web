@@ -56,7 +56,7 @@
           </thead>
           <tbody>
             @for (round of onlineRounds; track round) {
-              @if (!round.matchPlay) {
+              @if (round.format === Format.MATCH_PLAY) {
                 <tr (click)="viewRound(2, null, round)" onKeyDown="viewRound(2, entry.value, null)">
                   <td>
                     <a>
@@ -97,7 +97,7 @@
           </thead>
           <tbody>
             @for (round of onlineRounds; track round) {
-              @if (round.matchPlay && round.player.nick != round.nick2) {
+              @if (round.format === Format.MATCH_PLAY && round.player.nick != round.nick2) {
                 <tr (click)="viewRound(3, round.course, round)" onKeyDown="viewRound(3, entry.value, null)">
                   <td>
                     <a>

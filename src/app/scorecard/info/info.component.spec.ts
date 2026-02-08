@@ -6,7 +6,7 @@ import { MatButton } from '@angular/material/button';
 import { InfoComponent } from './info.component';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { NavigationService } from '../_services/navigation.service';
-import { on } from 'events';
+import { Format } from '@/_models/format';
 
 describe('InfoComponent', () => {
 
@@ -59,7 +59,7 @@ describe('InfoComponent', () => {
   it('should create and call onBack for non MP round', async () => {
 
     let onlineRound = getOnlineRoundFirstPlayer();
-    onlineRound.matchPlay = false;
+    onlineRound.mpFormat = Format.FOUR_BALL_STROKE_PLAY;
    
     mockRouter.currentNavigation = () => {
       return {

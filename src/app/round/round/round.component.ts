@@ -1,11 +1,11 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Player, Round, teeTypes } from '@/_models';
+import { Format, Player, Round, teeTypes } from '@/_models';
 import { Router} from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { tap } from 'rxjs/operators';
-import { calculateCourseHCP, calculateHoleHCP, calculateScoreDifferential, getPlayedCoursePar } from '@/_helpers/whs.routines';
+import { calculateHoleHCP, calculateRoundedCourseHCP, calculateScoreDifferential, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { combineLatest } from 'rxjs';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
@@ -13,16 +13,16 @@ import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.componen
 import { RoundSummaryComponent } from '../round-summary/round-summary.component';
 import { RoundViewComponent } from '../round-view/round-view.component';
 import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.component';
-
-
-
+import { RoundViewFbMpComponent } from '../round-view-fb-mp/round-view-fb-mp.component';
 
 @Component({
     selector: 'app-round',
     templateUrl: './round.component.html',
-    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent]
+    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent, RoundViewFbMpComponent]
 })
 export class RoundComponent implements OnInit {
+
+  Format = Format;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
@@ -171,7 +171,7 @@ export class RoundComponent implements OnInit {
 
   private calculateCourseAndHoleHcp(pl: Player, idx: number) {
 
-    pl.roundDetails.courseHCP = calculateCourseHCP(pl.roundDetails.teeType,
+    pl.roundDetails.courseHCP = calculateRoundedCourseHCP(pl.roundDetails.teeType,
                                                    pl.roundDetails.whs,
                                                    pl.roundDetails.sr,
                                                    pl.roundDetails.cr,

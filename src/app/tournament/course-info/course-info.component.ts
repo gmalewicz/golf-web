@@ -5,7 +5,7 @@ import { TournamentNavigationService } from '../_services/tournamentNavigation.s
 import { HttpService } from '@/_services';
 import { tap } from 'rxjs';
 import { teeTypes } from '@/_models';
-import { calculateCourseHCP } from '@/_helpers';
+import { calculateRoundedCourseHCP } from '@/_helpers/whs.routines';
 
 @Component({
   selector: 'app-course-info',
@@ -44,7 +44,7 @@ export class CourseInfoComponent implements OnInit {
               let playerNameNotSet = true;
               tees.forEach(tee => {
                 if (tee.sex === player.sex && tee.teeType === teeTypes.TEE_TYPE_18) {
-                  let courseHcp = calculateCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
+                  let courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
                   playerTees.push({
                     nick: playerNameNotSet ? player.nick : "",
                     hcp: player.whs,  

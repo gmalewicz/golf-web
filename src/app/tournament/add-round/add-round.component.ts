@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RangePipe } from "../../_helpers/range";
+import { Format } from '@/_models/format';
 
 @Component({
     selector: 'app-add-round',
@@ -272,7 +273,7 @@ export class AddRoundComponent implements OnInit {
       // prepare player with only required data
       player: [this.player],
       scoreCard,
-      matchPlay: false
+      format: Format.STROKE_PLAY
     };
 
     // only selected tee shall be sent, so replace entire list with selected tee

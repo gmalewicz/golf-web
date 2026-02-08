@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
-import { Course, ScoreCard, Round, Tee, TeeOptions } from '@/_models';
+import { Course, ScoreCard, Round, Tee, TeeOptions, Format } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -297,7 +297,7 @@ export class AddScorecardComponent implements OnInit {
         // prepare player with only required data
         player: [{id: this.authenticationService.currentPlayerValue.id, whs: this.authenticationService.currentPlayerValue.whs}],
         scoreCard,
-        matchPlay: false
+        format: Format.STROKE_PLAY
       };
       // only selected tee shall be sent, so replace entire list with selected tee
       round.course.tees = round.course.tees.filter(t => t.id === this.f.teeDropDown.value);

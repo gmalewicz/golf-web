@@ -2,7 +2,7 @@ import { OnlineScoreCard } from './../_models/onlineScoreCard';
 import { OnlineRound } from '../_models/onlineRound';
 import { Observable, of } from 'rxjs';
 import { IMessage } from '@stomp/rx-stomp';
-
+import { Format } from '@/_models/format';
 
 export function getOnlineRoundFirstPlayer(): OnlineRound {
 
@@ -15,7 +15,7 @@ export function getOnlineRoundFirstPlayer(): OnlineRound {
       finalized: false,
       putts: false,
       penalties: false,
-      matchPlay: true,
+      format: Format.MATCH_PLAY,
       mpFormat: 0.75,
       scoreCardAPI: [
         {
@@ -45,7 +45,7 @@ export function getOnlineRoundSecondPlayer(): OnlineRound {
     finalized: false,
     putts: false,
     penalties: false,
-    matchPlay: true,
+    format: Format.MATCH_PLAY,
     mpFormat: 0.75,
     scoreCardAPI: [
       {
@@ -60,7 +60,67 @@ export function getOnlineRoundSecondPlayer(): OnlineRound {
         update: false
       }
     ],
-    nick2: 'test2',
+    nick2: 'test',
+    tee: {id: 2, tee: 'men yellow', cr: 70.3, sr: 135, teeType: 0, sex: false}
+  };
+}
+
+export function getOnlineRoundThirdPlayer(): OnlineRound {
+
+  return {id: 19,
+    course: {id: 1, name: 'Sobienie Królewskie' , par: 71, holeNbr: 18},
+    teeTime: '20:29',
+    player: {id: 3, nick: 'test 2', sex: false, whs: 12.3},
+    owner: 1,
+    finalized: false,
+    putts: false,
+    penalties: false,
+    format: Format.FOUR_BALL_MATCH_PLAY,
+    mpFormat: 0.75,
+    scoreCardAPI: [
+      {
+        hole: 1,
+        id: 62,
+        orId: 0,
+        penalty: 0,
+        player: {id: 3, nick: 'test 2', sex: false, whs: 12.4},
+        putt: 0,
+        stroke: 4,
+        time: '20:48',
+        update: false
+      }
+    ],
+    nick2: 'test',
+    tee: {id: 2, tee: 'men yellow', cr: 70.3, sr: 135, teeType: 0, sex: false}
+  };
+}
+
+export function getOnlineRoundFourthPlayer(): OnlineRound {
+
+  return {id: 20,
+    course: {id: 1, name: 'Sobienie Królewskie' , par: 71, holeNbr: 18},
+    teeTime: '20:29',
+    player: {id: 4, nick: 'test 3', sex: false, whs: 12.3},
+    owner: 1,
+    finalized: false,
+    putts: false,
+    penalties: false,
+    format: Format.FOUR_BALL_MATCH_PLAY,
+    mpFormat: 0.75,
+    scoreCardAPI: [
+      {
+        hole: 1,
+        id: 62,
+        orId: 0,
+        penalty: 0,
+        player: {id: 4, nick: 'test 3', sex: false, whs: 12.4},
+        putt: 0,
+        stroke: 4,
+        time: '20:48',
+        update: false
+      }
+    ],
+    nick2: 'test',
     tee: {id: 2, tee: 'men yellow', cr: 70.3, sr: 135, teeType: 0, sex: false}
   };
 }
