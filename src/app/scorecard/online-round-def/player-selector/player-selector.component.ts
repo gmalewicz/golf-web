@@ -161,8 +161,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       return team; 
     });
 
-    this.playersSgn.set(new Array(this.MAX_PLAYERS));  
-    this.tees = new Array(this.MAX_PLAYERS);  
+    this.playersSgn.set(new Array(this.MAX_PLAYERS));   
     this.searchInProgressSgn.set(new Array(this.MAX_PLAYERS).fill(false));    
 
   }  
@@ -344,6 +343,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
         const tees = this.courseSgn().tees as Array<{ id: number }>;  
         const selectedTee = tees.find(t => t.id === selectedTeeId); 
       
+        this.tees.push(selectedTee);
+
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
           teeTime: getDateAndTime()[1],
