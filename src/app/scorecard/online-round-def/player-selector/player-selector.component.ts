@@ -162,7 +162,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     });
 
     this.playersSgn.set(new Array(this.MAX_PLAYERS));  
-    this.tees = new Array(this.MAX_PLAYERS);  
+    //this.tees = new Array(this.MAX_PLAYERS);  
     this.searchInProgressSgn.set(new Array(this.MAX_PLAYERS).fill(false));    
 
   }  
@@ -343,10 +343,14 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
          
         const tees = this.courseSgn().tees as Array<{ id: number }>;  
         const selectedTee = tees.find(t => t.id === selectedTeeId); 
-      
+        
+        this.tees.push(selectedTee);
+       
+        const teeTime = getDateAndTime()[1];
+
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
-          teeTime: getDateAndTime()[1],
+          teeTime: teeTime,
           player: this.playersSgn()[counter],
           tee: selectedTee, 
           owner: this.playersSgn()[0].id,
@@ -357,7 +361,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
           mpFormat: this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? 
-            +this.playerDataForm.mpFormat().value() : undefined
+            +this.playerDataForm.mpFormat().value() : undefined,
+          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? Math.floor(counter / 2) + 1 : undefined,
+          identifier: +teeTime.replace(":", "").concat(String(this.playersSgn()[0].id))
         };
 
         onlineRounds[counter] = onlineRound;
@@ -365,7 +371,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       }
 
       // verify if there is the same tee type for both players in case of MP
-      if (this.formatSgn() === Format.MATCH_PLAY && !this.isMpTeeTypeCorrect()) {
+      if ((this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) && !this.isMpTeeTypeCorrect()) {
         return;
       }
 

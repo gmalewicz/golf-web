@@ -101,9 +101,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   font-weight: bold;
 }
 
-.golf-blue-bold {
-  color: blue !important;
-  font-weight: bold;
+.highlightMPResult {
+  border: 4px solid red !important; 
 }
 
 

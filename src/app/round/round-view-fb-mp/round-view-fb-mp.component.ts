@@ -152,11 +152,11 @@ export class RoundViewFbMpComponent implements OnInit {
 
         if (firstTeamResult < secondTeamResult) {
           this.mpScore[index] = -1;
-          this.highlightResultSgn()[0][index] = "golf-blue-bold";
+          this.highlightResultSgn()[0][index] = "highlightMPResult";
         } else if (firstTeamResult === secondTeamResult) {
           this.mpScore[index] = 0;
         } else {
-          this.highlightResultSgn()[1][index] = "golf-blue-bold";
+          this.highlightResultSgn()[1][index] = "highlightMPResult";
           this.mpScore[index] = 1;
         }
 

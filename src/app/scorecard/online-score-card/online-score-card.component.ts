@@ -2,7 +2,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
@@ -23,16 +23,18 @@ import { Format } from '@/_models/format';
     selector: 'app-online-score-card',
     templateUrl: './online-score-card.component.html',
     imports: [FaIconComponent, RouterLink, KeyValuePipe],
-    providers: [NavigationService]
+    providers: [NavigationService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OnlineScoreCardComponent implements OnInit {
 
-  Format = Format;
+  readonly Format = Format;
+  readonly faSearchPlus: IconDefinition = faSearchPlus;
 
-  display: boolean;
-  onlineRounds: OnlineRound[];
-  faSearchPlus: IconDefinition;
-  courses: Map<number, Course>;
+  playersSgn: WritableSignal <Map<number, string[]>> = signal(new Map());
+  displaySgn: WritableSignal<boolean> = signal(false);
+  onlineRoundsSgn: WritableSignal<OnlineRound[]> = signal([]);
+  coursesSgn: WritableSignal<Map<number, Course>> = signal(new Map());
 
   constructor(private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
@@ -48,21 +50,25 @@ export class OnlineScoreCardComponent implements OnInit {
     } else {
 
       // initialization
-      this.display = false;
-      this.faSearchPlus = faSearchPlus;
       this.navigationService.clear();
 
       this.scorecardHttpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
 
         // set all rounds except the open one for this player
-        this.onlineRounds = retOnlineRounds.filter(v => v.owner !==
-          this.authenticationService.currentPlayerValue.id || v.finalized === true);
+        this.onlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner !==
+          this.authenticationService.currentPlayerValue.id || v.finalized === true));
 
-        this.courses = new Map();
-        for (const or of this.onlineRounds) {
-          this.courses.set(or.course.id , or.course);
+        let players = new Map<number, string[]>();  
+        for (const or of this.onlineRoundsSgn()) {
+          this.coursesSgn().set(or.course.id , or.course);
+
+          if (!players.has(or.identifier)) {
+            players.set(or.identifier, new Array<string>());
+          }
+          players.get(or.identifier).push("Team " + or.team + " : " + or.player.nick);
         }
-        this.display = true;
+        this.playersSgn.set(players);
+        this.displaySgn.set(true);
       });
     }
   }

@@ -112,7 +112,8 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
       // 2.0.0 - adding sort of the array to have always the same sequence of players even
       // if retreiving from backend
-      this.onlineRoundsSgn().sort((or1, or2) => or1.player.id - or2.player.id);
+      // than modified in 3.13.1 to include teams 
+      this.onlineRoundsSgn().sort((or1, or2) => or1.team - or2.team || or1.player.id - or2.player.id);
       this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
 
 
