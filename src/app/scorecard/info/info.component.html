@@ -24,6 +24,9 @@
       </tbody>
     </table>
 </div>
+@if (onlineRounds[0].format === Format.MATCH_PLAY || onlineRounds[0].format === Format.FOUR_BALL_MATCH_PLAY) {
+  <app-mp-legend></app-mp-legend>
+}
 <br />
 <div class="form-group">
     <button type="button" mat-raised-button color="primary" (click)="onBack()">

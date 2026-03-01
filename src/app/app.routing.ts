@@ -29,7 +29,7 @@ export const routing: Routes = [
 
 
   { path: 'myScorecard', loadChildren: () => import('./scorecard/my-online-score-card/my-online-score-card.component').then((m) => m.myOnlineScoreCardRouts)},
-  { path: 'scorecard', loadChildren: () => import('./scorecard/online-score-card/online-score-card.component').then((m) => m.onlineScoreCardRouts)},
+  { path: 'scorecard', loadChildren: () => import('./scorecard/view-selector/view-selector.component').then((m) => m.onlineScoreCardRouts)},
   { path: 'course', loadChildren: () => import('./course/course/course.component').then((m) => m.courseRoutes) },
   { path: 'addCourse', loadChildren: () => import('./course/add-course/add-course.component').then((m) => m.addCourseRoutes)  },
   { path: 'tournaments', loadChildren: () => import('./tournament/tournaments/tournaments.component').then((m) => m.tournamentRoutes)},

@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   <div class="col-md-4">  
     <br />  
     <br />  
-    <span>Additional Strokes:</span>  
+    <span i18n="@@mpLegend-additionalStrokes">Additional Strokes:</span>  
     <br />  
   
     <table  

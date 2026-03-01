@@ -4,10 +4,11 @@ import { OnlineRound } from '../_models';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { Format } from '@/_models/format';
+import { MPLegendComponent } from '@/_helpers/mpLegend.component';
 
 @Component({
   selector: 'app-info',
-  imports: [ MatButton],
+  imports: [ MatButton, MPLegendComponent],
   providers: [NavigationService],
   standalone: true,
   templateUrl: './info.component.html',

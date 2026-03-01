@@ -63,13 +63,13 @@
             <tr class="center">
               <th  id="bck">{{round().player[idx].nick}}</th>
               @for (i of 9 | range; track i;) {
-                <td class="center" [ngClass]="highlightHCP[idx][i]">
+                <td class="center" [ngClass]="[highlightHCP[idx][i], highlightResultSgn()[idx][i]]">
                   {{mpResultHistory[idx][i]}}
                 </td>
               }
               <th  id="mpr" class="center"></th>
               @for (index2 of 9 | range; track index2; let i = $index) {
-                <td class="center" [ngClass]="highlightHCP[idx][i + 9]">
+                <td class="center" [ngClass]="[highlightHCP[idx][i + 9], highlightResultSgn()[idx][i + 9]]">
                   {{mpResultHistory[idx][i + 9]}}
                 </td>
               }

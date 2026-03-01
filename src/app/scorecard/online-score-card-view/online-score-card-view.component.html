@@ -41,13 +41,13 @@
             <th id="par">PAR</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn().holes[index].par}}
+                {{courseSgn()?.holes[index].par}}
               </td>
             }
             <th id="f9par" class="center">{{first9parSgn()}}</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn().holes[index + 9].par}}
+                {{courseSgn()?.holes[index + 9].par}}
               </td>
             }
             <th id="l9par" class="center">{{last9parSgn()}}</th>
@@ -57,40 +57,40 @@
             <th id="si">SI</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn().holes[index].si}}
+                {{courseSgn()?.holes[index].si}}
               </td>
             }
             <th id="empty"></th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn().holes[index + 9].si}}
+                {{courseSgn()?.holes[index + 9].si}}
               </td>
             }
             <th id="empty"></th>
             <th id="empty"></th>
           </tr>
-          @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
-            <tr class="center">
-              <th id="nick">{{onlineRound.player.nick}}</th>
-              @if (ownerSgn() === undefined) {
-                @for (index of counterSgn(); track index;) {
-                  <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index]">
-                    @if (onlineRound.scoreCardAPI[index] != null) {
-                      <span>
-                        @if (onlineRound.scoreCardAPI[index].stroke === 16) {
-                          <span>
-                            x
-                          </span>
-                        }
-                        @if (onlineRound.scoreCardAPI[index].stroke < 16) {
-                          <span>
-                            {{onlineRound.scoreCardAPI[index].stroke}}
-                          </span>
-                        }
-                      </span>
-                    }
-                  </td>
-                }
+          @if (viewTypeSgn() === ViewType.PLAYER || viewTypeSgn() === ViewType.COURSE ) {
+            @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
+              <tr class="center">
+                <th id="nick">{{onlineRound?.player.nick}}</th>
+                  @for (index of counterSgn(); track index;) {
+                    <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index]">
+                      @if (onlineRound?.scoreCardAPI[index] != null) {
+                        <span>
+                          @if (onlineRound?.scoreCardAPI[index].stroke === 16) {
+                            <span>
+                              x
+                            </span>
+                          }
+                          @if (onlineRound?.scoreCardAPI[index].stroke < 16) {
+                            <span>
+                              {{onlineRound?.scoreCardAPI[index].stroke}}
+                            </span>
+                          }
+                        </span>
+                      }
+                    </td>
+                  }
                 <th id="f9s" class="center">
                   @if (!first9ballPickedUpSgn()[idx]) {
                     <span>
@@ -99,17 +99,18 @@
                   }
                 </th>
                 @for (index of counterSgn(); track index;) {
+                  <tr class="center"></tr>
                   <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index + 9]">
-                    @if (onlineRound.scoreCardAPI[index + 9] != null) {
+                    @if (onlineRound?.scoreCardAPI[index + 9] != null) {
                       <span>
-                        @if (onlineRound.scoreCardAPI[index + 9].stroke === 16) {
+                        @if (onlineRound?.scoreCardAPI[index + 9].stroke === 16) {
                           <span>
                             x
                           </span>
                         }
-                        @if (onlineRound.scoreCardAPI[index + 9].stroke < 16) {
+                        @if (onlineRound?.scoreCardAPI[index + 9].stroke < 16) {
                           <span>
-                            {{onlineRound.scoreCardAPI[index + 9].stroke}}
+                            {{onlineRound?.scoreCardAPI[index + 9].stroke}}
                           </span>
                         }
                       </span>
@@ -126,15 +127,20 @@
                 <th id="b9s" class="center">
                   @if (!first9ballPickedUpSgn()[idx] && !last9ballPickedUpSgn()[idx]) {
                     <span>
-                      {{onlineRound.first9score + onlineRound.last9score}}
+                      {{onlineRound?.first9score + onlineRound?.last9score}}
                     </span>
                   }
-                </th>
-              }
-              @if (ownerSgn() != undefined) {
+                </th> 
+              </tr>
+            }
+          }   
+          @if (viewTypeSgn() === ViewType.MP ) {              
+            @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
+              <tr>    
+                <td></td>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index]">
-                    @if (onlineRound.scoreCardAPI[index] != null) {
+                    @if (onlineRound?.scoreCardAPI[index] != null) {
                       <span>
                         {{mpResultHistorySgn()[idx][index]}}
                       </span>
@@ -144,7 +150,7 @@
                 <th id="f9s" class="center"></th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index + 9]">
-                    @if (onlineRound.scoreCardAPI[index + 9] != null) {
+                    @if (onlineRound?.scoreCardAPI[index + 9] != null) {
                       <span>
                         {{mpResultHistorySgn()[idx][index + 9]}}
                       </span>
@@ -152,27 +158,47 @@
                   </td>
                 }
                 <th id="l9s" class="center"></th>
-                <th id="b9s" class="center"></th>
-              }
-            </tr>
+                <th id="b9s" class="center"></th>  
+              </tr>  
+            }
+          }  
+          @if (viewTypeSgn() === ViewType.FBMP ) {              
+            @for (team of 2 | range; track team) {
+              <tr>    
+                <th>Team {{team + 1}}</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="highlightResultSgn()[team][index]">
+                    {{mpResultHistorySgn()[team][index]}}
+                  </td>
+                }
+                <th id="f9s" class="center"></th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="highlightResultSgn()[team][index + 9]">
+                    {{mpResultHistorySgn()[team][index + 9]}}
+                  </td>
+                }
+                <th id="l9s" class="center"></th>
+                <th id="b9s" class="center"></th>  
+              </tr>  
+            }
           }
         </tbody>
       </table>
+      @if (viewTypeSgn() === ViewType.MP || viewTypeSgn() === ViewType.FBMP) {  
+        <div>
+          @if (mpResultSgn()[1] === undefined) {
+            <h3>
+              {{mpResultSgn()[0]}}
+            </h3>
+          }
+          @else {
+            <h3 style="color: red; font-weight: bold;">
+              {{mpResultSgn()[1]}}
+            </h3>
+          }
+        </div>
+      }
     </div>
-    @if (ownerSgn() != undefined) {
-      <div>
-        @if (mpResultSgn()[1] === null) {
-          <h3>
-            {{mpResultSgn()[0]}}
-          </h3>
-        }
-        @if (mpResultSgn()[1] !== null) {
-          <h3 style="color: red; font-weight: bold;">
-            {{mpResultSgn()[1]}}
-          </h3>
-        }
-      </div>
-    }
     <br />
     <button type="button" class="btn btn-success" routerLink="/scorecard" i18n="@@onlnScorView-cancel">
     Cancel

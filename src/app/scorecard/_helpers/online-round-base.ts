@@ -230,7 +230,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
 
         this.loadingFinSgn.set(true);
 
-        this.scorecardHttpService.finalizeOnlineOwnerRound(this.authenticationService.currentPlayerValue.id).pipe(
+        this.scorecardHttpService.finalize(this.onlineRoundsSgn()[0].identifier).pipe(
           tap(
             () => {
               this.loadingFinSgn.set(false);
@@ -257,7 +257,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       if (result) {
         this.loadingDelSgn.set(true);
 
-        this.scorecardHttpService.deleteOnlineRoundForOwner(this.authenticationService.currentPlayerValue.id).pipe(
+        this.scorecardHttpService.deleteOnlineRound(this.onlineRoundsSgn()[0].identifier).pipe(
           tap(
             () => {
               this.loadingDelSgn.set(false);

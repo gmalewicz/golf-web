@@ -1,7 +1,7 @@
 import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, WritableSignal, input, signal } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
@@ -30,6 +30,7 @@ export class RoundViewMPComponent implements OnInit {
   mpScore: number[];
   mpResult: string[];
   mpResultHistory: string[][];
+  highlightResultSgn:  WritableSignal<string[][]> = signal(new Array(2).fill('').map(() => new Array(18).fill('')));
 
   constructor(private readonly httpService: HttpService) { }
 
@@ -138,8 +139,10 @@ export class RoundViewMPComponent implements OnInit {
       if (result < 0) {
         this.holeMpResult[0][index] = 1;
         this.mpScore[index] = -1;
+        this.highlightResultSgn()[0][index] = "highlightMPResult";
       } else if (result > 0) {
         this.holeMpResult[1][index] = 1;
+        this.highlightResultSgn()[1][index] = "highlightMPResult";
         this.mpScore[index] = 1;
       } else {
         this.mpScore[index] = 0;

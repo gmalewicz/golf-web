@@ -12,7 +12,7 @@ import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angul
 import { MyOnlineScoreCardComponent } from './my-online-score-card.component';
 import { OnlineRound } from '../_models';
 
-describe('OnlineScoreCardComponent', () => {
+describe('MyOnlineScoreCardComponent', () => {
   let component: MyOnlineScoreCardComponent;
   let fixture: ComponentFixture<MyOnlineScoreCardComponent>;
 

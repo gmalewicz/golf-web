@@ -106,6 +106,7 @@ describe('OnlineStrokeplayComponent', () => {
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
+    component.onlineRoundsSgn = signal([onlineRound]);
     component.onFinal();
     expect(component.loadingFinSgn()).toBe(false);
   }));
@@ -116,6 +117,7 @@ describe('OnlineStrokeplayComponent', () => {
     navigationService.setOnlineRoundsSgn(signal([onlineRound]));
     fixture = TestBed.createComponent(OnlineStrokeplayComponent);
     component = fixture.componentInstance;
+    component.onlineRoundsSgn = signal([onlineRound]);
     component.onDelete();
     expect(component.loadingDelSgn()).toBe(false);
   }));

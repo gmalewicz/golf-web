@@ -5,12 +5,12 @@ import { Router, RouterLink, Routes } from '@angular/router';
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
 import { AuthGuard } from '@/_helpers/auth.guard';
-import { OnlineScoreCardComponent } from '../online-score-card/online-score-card.component';
 import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.component';
 import { OnlineMatchplayComponent } from '../online-matchplay/online-matchplay.component';
 import { InfoComponent } from '../info/info.component';
 import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
 import { Format } from '@/_models/format';
+import { ViewSelectorComponent } from '../view-selector/view-selector.component';
 
 @Component({
     selector: 'app-my-online-score-card',
@@ -89,7 +89,7 @@ export class MyOnlineScoreCardComponent implements OnInit {
 export const myOnlineScoreCardRouts: Routes = [
 
   { path: '', component: MyOnlineScoreCardComponent, canActivate: [AuthGuard] },
-  { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
+  { path: 'viewSelector', component: ViewSelectorComponent, canActivate: [AuthGuard] },
   { path: 'onlineStrokeplay', component: OnlineStrokeplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },
   { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },

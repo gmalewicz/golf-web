@@ -1,25 +1,32 @@
-import { NavigationService } from './../_services/navigation.service';
+import { NavigationService, ViewType } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, computed, OnDestroy, OnInit, signal, Signal} from '@angular/core';
-import { combineLatest, fromEvent, Subscription, timer } from 'rxjs';
+import { Component, computed, OnDestroy, OnInit, signal, Signal, ViewChild, WritableSignal} from '@angular/core';
+import { fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
 import { Course, Format} from '@/_models';
 import { ScorecardHttpService } from '../_services';
-import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar} from '@/_helpers';
+import { createMPResultHistory, createMPResultText } from '@/_helpers';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { RxStompService } from '../_services/rx-stomp.service';
 import { NgClass, DecimalPipe } from '@angular/common';
 import { HALF_HOLES } from '../_helpers/constants';
+import { MPView } from './formats/mp-view';
+import { RoundView } from './formats/round-view';
+import { CourseView } from './formats/course-view';
+import { FBMPView } from './formats/fbmp-view';
+import { RangePipe } from '@/_helpers/range';
 
 @Component({
     selector: 'app-online-score-card-view',
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
-    imports: [NgClass, RouterLink, DecimalPipe],
+    imports: [RouterLink, DecimalPipe, NgClass, RangePipe],
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
+
+  readonly ViewType = ViewType;
 
   // component varaiables
   holeHCP: number[][];
@@ -46,12 +53,15 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   scoreBruttoClassSgn = signal<string[][]>(undefined);
   lstUpdTimeSgn = signal<string>(undefined);
   elapsedSgn = signal<TimeSpan>(undefined);
+  viewTypeSgn = signal<ViewType>(undefined);
+  highlightResultSgn:  WritableSignal<string[][]> = signal(new Array(2).fill('').map(() => new Array(18).fill('')));
 
   // computed signals
-  first9parSgn: Signal<number>;
-  last9parSgn: Signal<number>;
+  first9parSgn: Signal<number> = computed(() => this.courseSgn().holes.map(h => h.par)
+                .reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
+  last9parSgn: Signal<number> = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
   mpResultSgn: Signal<string[]>;
-    
+
   constructor(private readonly httpService: HttpService,
               private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
@@ -87,6 +97,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     // get course from state
     this.courseSgn = this.navigationService.getCourseSgn();
 
+    this.viewTypeSgn.set(this.navigationService.getViewTypeSgn()());
+
     if (this.authenticationService.currentPlayerValue === null ||
         (this.courseSgn() === undefined && this.onlineRoundsSgn().length === 0)) {
       this.authenticationService.logout();
@@ -100,20 +112,95 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       // get owner in case of match play online score card
       this.ownerSgn = this.navigationService.getOwnerSgn();
 
-      if (this.onlineRoundsSgn().length == 1 && this.ownerSgn() === undefined) {
+      if (this.viewTypeSgn() === ViewType.PLAYER) {
         this.onlineRoundsSgn.set([...[this.onlineRoundsSgn()[0]]]); // trigger change detection
         this.courseSgn.set(this.onlineRoundsSgn()[0].course);
         this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
-        this.showRound();
-      } else if (this.ownerSgn() !== undefined) {
+
+        let rw = new RoundView( this.scorecardHttpService, 
+                                this.httpService);
+
+        rw.showRound( this.scoreBruttoClassSgn,
+                      this.onlineRoundsSgn, 
+                      this.first9ballPickedUpSgn,  
+                      this.last9ballPickedUpSgn,
+                      this.lstUpdTimeSgn
+                    ).subscribe({ 
+                        complete: () => {
+                          this.resetCounter();
+                          this.displaySgn.set(true);
+                          this.startLisenning();
+                        }
+                    }) 
+      } else if (this.viewTypeSgn() === ViewType.MP) {
         this.holeHCP = new Array(2).fill(0).map(() => new Array(18).fill(0));
         this.highlightHCPSgn = signal(new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit')));
         this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
         this.mpScore = new Array(18).fill(-2);    
         this.teeTime  = this.onlineRoundsSgn()[0].teeTime;
-        this.showMatch();
-      } else {
-        this.showCourse();
+
+        let mp = new MPView( this.scorecardHttpService, 
+                                this.httpService)
+
+        mp.showMatch( this.onlineRoundsSgn, 
+                      this.courseSgn, 
+                      this.holeHCP, 
+                      this.highlightHCPSgn,
+                      this.mpScore, 
+                      this.mpResultHistorySgn,
+                      this.lstUpdTimeSgn
+                     ).subscribe({ 
+                        complete: () => {
+                          this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
+                          this.resetCounter();
+                          this.displaySgn.set(true);
+                          this.startLisenning();
+                        }
+                      }) 
+      } else if (this.viewTypeSgn() === ViewType.FBMP) {
+        this.holeHCP = new Array(4).fill(0).map(() => new Array(18).fill(0));
+        this.highlightHCPSgn = signal(new Array(2).fill('no-edit').map(() => new Array(18).fill('no-edit')));
+        this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
+        this.mpScore = new Array(18).fill(-2);    
+        this.teeTime  = this.onlineRoundsSgn()[0].teeTime;
+
+        let fbmp = new FBMPView( this.scorecardHttpService, 
+                                this.httpService)
+
+        fbmp.showFBMatch( this.onlineRoundsSgn, 
+                      this.courseSgn, 
+                      this.holeHCP, 
+                      this.mpScore, 
+                      this.mpResultHistorySgn,
+                      this.lstUpdTimeSgn,
+                      this.highlightResultSgn
+                     ).subscribe({ 
+                        complete: () => {
+                          this.mpResultSgn = computed(() => createMPResultText('Team 1', 'Team 2', this.mpScore, Format.MATCH_PLAY));
+                          this.resetCounter();
+                          this.displaySgn.set(true);
+                          this.startLisenning();
+                        }
+                      }) 
+      } else if (this.viewTypeSgn() === ViewType.COURSE) {
+       
+        let cw = new CourseView( this.scorecardHttpService, 
+                                this.httpService)
+
+        cw.showCourse(this.scoreBruttoClassSgn,
+                      this.onlineRoundsSgn, 
+                      this.courseSgn,
+                      this.first9ballPickedUpSgn,  
+                      this.last9ballPickedUpSgn,
+                      this.lstUpdTimeSgn,
+                      this.finalizedSgn
+                    ).subscribe({ 
+                        complete: () => {
+                          this.resetCounter();
+                          this.displaySgn.set(true);
+                          this.startLisenning();
+                        }
+                    }) 
       }
     }
   }
@@ -128,268 +215,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  showMatch() {
-
-    combineLatest([this.scorecardHttpService.getOnlineRoundsForOwner(
-      this.ownerSgn()), this.httpService.getHoles(this.courseSgn().id)]).subscribe(([retOnlineRounds, retHoles]) => {
-
-        this.courseSgn().holes = retHoles;
-
-        retOnlineRounds = retOnlineRounds.filter(or => or.format === Format.MATCH_PLAY && or.teeTime === this.teeTime);
-
-        retOnlineRounds.forEach(or => {
-
-            or.courseHCP = calculateRoundedCourseHCP(or.tee.teeType,
-              or.player.whs,
-              or.tee.sr,
-              or.tee.cr,
-              getPlayedCoursePar(this.courseSgn().holes , or.tee.teeType, this.courseSgn().par));
-
-            this.updateStartingHole(or);
-
-        });
-
-        if (this.ownerSgn() != undefined) {
-
-          const hcpDiff = retOnlineRounds[0].courseHCP - retOnlineRounds[1].courseHCP;
-          let corHcpDiff = Math.abs(hcpDiff * retOnlineRounds[0].mpFormat);
-
-          if (corHcpDiff - Math.floor(corHcpDiff) >= 0.5) {
-            corHcpDiff = Math.ceil(corHcpDiff);
-          } else {
-            corHcpDiff = Math.floor(corHcpDiff);
-          }
-
-          if (hcpDiff >= 0) {
-            retOnlineRounds[0].courseHCP = corHcpDiff;
-            retOnlineRounds[1].courseHCP = 0;
-          } else {
-            retOnlineRounds[0].courseHCP = 0;
-            retOnlineRounds[1].courseHCP = Math.abs(corHcpDiff);
-          }
-
-          calculateHoleHCP( 0,
-            retOnlineRounds[0].tee.teeType,
-            retOnlineRounds[0].courseHCP,
-             this.holeHCP,
-             this.courseSgn());
-
-          calculateHoleHCP( 1,
-            retOnlineRounds[1].tee.teeType,
-            retOnlineRounds[1].courseHCP,
-            this.holeHCP,
-            this.courseSgn());
-  
-          this.highlightHCPSgn()[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
-          this.highlightHCPSgn()[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
-          this.highlightHCPSgn.set([...this.highlightHCPSgn()]); // trigger change detection
-          
-        }
-
-        this.calculateMpResult(retOnlineRounds);
-
-        this.onlineRoundsSgn.set([...retOnlineRounds]); // trigger change detection
-
-        
-        // calculate MP result texts
-        this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
-        // calculate MP result history
-        this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
-        
-        this.first9parSgn = computed(() => this.courseSgn().holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
-        this.last9parSgn = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
-        this.startLisenning();
-        this.displaySgn.set(true);
-    });
-  }
-
-  private calculateMpResult(retOnlineRounds: OnlineRound[]) {
-
-    retOnlineRounds[0].scoreCardAPI.forEach((sc, index) => {
-
-      // calculate mp result
-      if (sc !== null && retOnlineRounds[1].scoreCardAPI[index] !== null) {
-
-        const result = sc.stroke - this.holeHCP[0][index] -
-        (retOnlineRounds[1].scoreCardAPI[index].stroke - this.holeHCP[1][index]);
-
-        if (result < 0) {
-          sc.mpResult = 1;
-          this.mpScore[index] = -1;
-          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-        } else if (result === 0) {
-          sc.mpResult = 0;
-          this.mpScore[index] = 0;
-          retOnlineRounds[1].scoreCardAPI[index].mpResult = 0;
-        } else {
-          sc.mpResult = 0;
-          this.mpScore[index] = 1;
-          retOnlineRounds[1].scoreCardAPI[index].mpResult = 1;
-        }
-        this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), sc.time));
-        this.resetCounter();
-      }
-    });
-  }
-
-  private updateStartingHole(onlineRound: OnlineRound) {
-
-    const retScoreCardAPI = onlineRound.scoreCardAPI;
-
-    onlineRound.scoreCardAPI = Array(18).fill(null);
-
-    onlineRound.first9score = 0;
-    onlineRound.last9score = 0;
-
-    retScoreCardAPI.forEach(scoreCardAPI => {
-      onlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
-      if (scoreCardAPI.hole < 10) {
-        onlineRound.first9score += scoreCardAPI.stroke;
-      } else {
-        onlineRound.last9score += scoreCardAPI.stroke;
-      }
-
-    });
-  }
-
-  showRound() {
-
-    // initialize colour display class for results
-    this.scoreBruttoClassSgn.set(new Array(1).fill('').map(() => new Array(18).fill('')));
-
-    combineLatest([this.scorecardHttpService.getOnlineScoreCard(
-      this.onlineRoundsSgn()[0].id), this.httpService.getHoles(this.onlineRoundsSgn()[0].course.id)]).subscribe(([retScoreCards, retHoles]) => {
-
-        this.first9ballPickedUpSgn.set(Array(this.onlineRoundsSgn().length).fill(false));
-        this.last9ballPickedUpSgn.set(Array(this.onlineRoundsSgn().length).fill(false));
-
-        const onlineScoreCards: OnlineScoreCard[] = Array(18);
-
-        this.onlineRoundsSgn()[0].course.holes = retHoles;
-        this.onlineRoundsSgn()[0].first9score = 0;
-        this.onlineRoundsSgn()[0].last9score = 0;
-
-        let idx = retScoreCards.length;
-
-        while (idx > 0) {
-          onlineScoreCards[retScoreCards[idx - 1].hole - 1] = retScoreCards[idx - 1];
-
-          // set ball picked up for a player
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole <= HALF_HOLES) {
-            this.first9ballPickedUpSgn()[0] = true;
-            this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
-          }
-          if (retScoreCards[idx - 1].stroke === ballPickedUpStrokes && retScoreCards[idx - 1].hole > HALF_HOLES) {
-            this.last9ballPickedUpSgn()[0] = true;
-            this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
-          }
-
-          // initiate first and last 9 total strokes
-          if (retScoreCards[idx - 1].hole < 10) {
-            this.onlineRoundsSgn()[0].first9score += retScoreCards[idx - 1].stroke;
-          } else {
-            this.onlineRoundsSgn()[0].last9score += retScoreCards[idx - 1].stroke;
-          }
-          // create colour
-          this.scoreBruttoClassSgn()[0][retScoreCards[idx - 1].hole - 1] =
-            this.prepareColoursForResults(retScoreCards[idx - 1].stroke, this.onlineRoundsSgn()[0].course.holes[retScoreCards[idx - 1].hole - 1].par);
-          this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
-
-          this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), retScoreCards[idx - 1].time));
-          idx--;
-        }
-        this.resetCounter();
-
-        this.onlineRoundsSgn()[0].scoreCardAPI = onlineScoreCards;
-
-        // create pars for first and last 9
-        this.first9parSgn = computed(() => this.onlineRoundsSgn()[0].course.holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
-        this.last9parSgn = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
-        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
-        this.startLisenning();
-        this.displaySgn.set(true);
-    });
-  }
-
-  showCourse() {
-
-    combineLatest([this.scorecardHttpService.getOnlineRoundsForCourse(
-      this.courseSgn().id), this.httpService.getHoles(this.courseSgn().id)]).subscribe(([retOnlineRounds, retHoles]) => {
-
-        this.first9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
-        this.last9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
-        this.courseSgn().holes = retHoles;
-
-        // initialize colour display class for results
-        this.scoreBruttoClassSgn.set(new Array(retOnlineRounds.length).fill('').map(() => new Array(18).fill('')));
-
-        this.finalizedSgn.set(true);
-
-        retOnlineRounds.forEach((retOnlineRound, idx) => {
-
-          if (!retOnlineRound.finalized) {
-            this.finalizedSgn.set(false);
-          }
-
-          const retScoreCardAPI = retOnlineRound.scoreCardAPI;
-          retOnlineRound.scoreCardAPI = Array(18).fill(null);
-          retOnlineRound.first9score = 0;
-          retOnlineRound.last9score = 0;
-
-          let lastIdx = 0;
-
-          retScoreCardAPI.forEach((scoreCardAPI, id) => {
-            // set ball picked up for a player
-            this.setBallPickUp(scoreCardAPI, idx);
-
-            retOnlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
-            if (scoreCardAPI.hole < 10) {
-              retOnlineRound.first9score += scoreCardAPI.stroke;
-            } else {
-              retOnlineRound.last9score += scoreCardAPI.stroke;
-            }
-
-            // create colour
-            this.scoreBruttoClassSgn()[idx][scoreCardAPI.hole - 1] =
-              this.prepareColoursForResults(scoreCardAPI.stroke, this.courseSgn().holes[scoreCardAPI.hole - 1].par);
-            this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
-
-            this.lstUpdTimeSgn.set(this.compareTime(this.lstUpdTimeSgn(), scoreCardAPI.time));
-            this.resetCounter();
-
-            if (id > lastIdx) {
-              lastIdx = id;
-            }
-          });
-          this.onlineRoundsSgn.update(() => retOnlineRounds);           
-        });
-
-        this.onlineRoundsSgn.update(() => retOnlineRounds); 
-        // create pars for first and last 9
-        this.first9parSgn = computed(() => this.courseSgn().holes.map(h => h.par).
-          reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
-        this.last9parSgn = computed(() => this.courseSgn().par - this.first9parSgn());
-        this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
-        this.startLisenning();
-        this.displaySgn.set(true);
-    });
-  }
-
-  private setBallPickUp(scoreCardAPI: OnlineScoreCard, idx: number) {
-
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole <= HALF_HOLES) {
-      this.first9ballPickedUpSgn()[idx] = true;
-      this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
-    }
-    if (scoreCardAPI.stroke === ballPickedUpStrokes && scoreCardAPI.hole > HALF_HOLES) {
-      this.last9ballPickedUpSgn()[idx] = true;
-      this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
-    }
-  }
-
-
   // helper function to provide array for html
   counterSgn = signal<Array<number>>([...Array(HALF_HOLES).keys()]) 
 
@@ -399,7 +224,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     if (this.ownerSgn()) {
       this.handleMatchPlayMessage(onlineScoreCard);
        // calculate MP result texts
-      this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
+      //this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
        // calculate MP result history
       this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
     } else {
@@ -494,8 +319,8 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
         // create colour
         this.scoreBruttoClassSgn()[idx][onlineScoreCard.hole - 1] =
-          this.prepareColoursForResults(onlineScoreCard.stroke, this.courseSgn().holes[onlineScoreCard.hole - 1].par);
-         this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
+          OnlineScoreCardViewComponent.prepareColoursForResults(onlineScoreCard.stroke, this.courseSgn().holes[onlineScoreCard.hole - 1].par);
+        this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
 
         // check if at least for one hole the ball was picked up for each 9
         this.first9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= HALF_HOLES));
@@ -520,7 +345,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
 
-  prepareColoursForResults(stroke: number, par: number): string {
+  public static prepareColoursForResults(stroke: number, par: number): string {
 
     let retVal = '';
 
@@ -590,7 +415,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     };
   }
 
-  private compareTime(first: string, second: string): string {
+  public static compareTime(first: string, second: string): string {
 
     if (typeof first === 'undefined') {
       first = '00:00';
