@@ -32,8 +32,8 @@ export class CourseView {
        this.httpService.getHoles(courseSgn().id)])
     .pipe(tap(([retOnlineRounds, retHoles]) => { 
 
-        first9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
-        last9ballPickedUpSgn.set(Array(retOnlineRounds.length).fill(false));
+        first9ballPickedUpSgn.set(new Array(retOnlineRounds.length).fill(false));
+        last9ballPickedUpSgn.set(new Array(retOnlineRounds.length).fill(false));
         courseSgn().holes = retHoles;
 
         // initialize colour display class for results
@@ -48,7 +48,7 @@ export class CourseView {
           }
 
           const retScoreCardAPI = retOnlineRound.scoreCardAPI;
-          retOnlineRound.scoreCardAPI = Array(18).fill(null);
+          retOnlineRound.scoreCardAPI = new Array(18).fill(null);
           retOnlineRound.first9score = 0;
           retOnlineRound.last9score = 0;
 
@@ -71,8 +71,7 @@ export class CourseView {
             scoreBruttoClassSgn.set([...scoreBruttoClassSgn()]); // trigger change detection
 
             lstUpdTimeSgn.set(OnlineScoreCardViewComponent.compareTime(lstUpdTimeSgn(), scoreCardAPI.time));
-            //this.resetCounter();
-
+           
             if (id > lastIdx) {
               lastIdx = id;
             }

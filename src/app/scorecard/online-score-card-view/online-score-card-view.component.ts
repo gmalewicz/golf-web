@@ -1,6 +1,6 @@
 import { NavigationService, ViewType } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, computed, OnDestroy, OnInit, signal, Signal, ViewChild, WritableSignal} from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal} from '@angular/core';
 import { fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';

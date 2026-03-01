@@ -60,7 +60,7 @@ export class FBMPView {
           onlineRoundsSgn.set([...retOnlineRounds]); // trigger change detection
 
           // calculate MP result history
-          mpResultHistorySgn.set(...[createMPResultHistory(mpScore)]);
+          mpResultHistorySgn.set(createMPResultHistory(mpScore));
       }),
       map(() => void 0));
   }
@@ -69,7 +69,7 @@ export class FBMPView {
 
       const retScoreCardAPI = onlineRound.scoreCardAPI;
 
-      onlineRound.scoreCardAPI = Array(18).fill(null);
+      onlineRound.scoreCardAPI = new Array(18).fill(null);
 
       onlineRound.first9score = 0;
       onlineRound.last9score = 0;

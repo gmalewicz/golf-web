@@ -87,17 +87,13 @@ export class ViewSelectorComponent implements OnInit {
         this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
       }
-      case ViewType.MP: { // view for MP round
+      case ViewType.MP: // view for MP round
+      case ViewType.FBMP: { // view for FBMP round
       
         this.navigationService.setOwnerSgn(signal(onlineRound.owner));
         this.navigationService.setCourseSgn(signal(course));
         this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
-      } case ViewType.FBMP: { // view for FBMP round
-        this.navigationService.setOwnerSgn(signal(onlineRound.owner));
-        this.navigationService.setCourseSgn(signal(course));
-        this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
-        break
       }
     }
     this.router.navigate(['/scorecard/onlineScoreCardView']).catch(error => console.log(error));

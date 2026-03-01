@@ -1,4 +1,4 @@
-import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from "@/_helpers/whs.routines";
+import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, getPlayedCoursePar } from "@/_helpers/whs.routines";
 import { Course } from "@/_models/course";
 import { HttpService } from "@/_services/http.service";
 import { OnlineRound } from "@/scorecard/_models/onlineRound";
@@ -77,7 +77,7 @@ export class MPView {
             onlineRoundsSgn.set([...retOnlineRounds]); // trigger change detection
 
             // calculate MP result history
-            mpResultHistorySgn.set(...[createMPResultHistory(mpScore)]);
+            mpResultHistorySgn.set(createMPResultHistory(mpScore));
         }),
         map(() => void 0));
     }
@@ -86,7 +86,7 @@ export class MPView {
 
         const retScoreCardAPI = onlineRound.scoreCardAPI;
 
-        onlineRound.scoreCardAPI = Array(18).fill(null);
+        onlineRound.scoreCardAPI = new Array(18).fill(null);
 
         onlineRound.first9score = 0;
         onlineRound.last9score = 0;

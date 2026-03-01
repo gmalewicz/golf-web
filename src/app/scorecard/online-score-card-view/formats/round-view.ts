@@ -29,10 +29,10 @@ export class RoundView {
       this.httpService.getHoles(onlineRoundsSgn()[0].course.id)])
     .pipe(tap(([retScoreCards, retHoles]) => { 
 
-        first9ballPickedUpSgn.set(Array(onlineRoundsSgn().length).fill(false));
-        last9ballPickedUpSgn.set(Array(onlineRoundsSgn().length).fill(false));
+        first9ballPickedUpSgn.set(new Array(onlineRoundsSgn().length).fill(false));
+        last9ballPickedUpSgn.set(new Array(onlineRoundsSgn().length).fill(false));
 
-        const onlineScoreCards: OnlineScoreCard[] = Array(18);
+        const onlineScoreCards: OnlineScoreCard[] = new Array(18);
 
         onlineRoundsSgn()[0].course.holes = retHoles;
         onlineRoundsSgn()[0].first9score = 0;
