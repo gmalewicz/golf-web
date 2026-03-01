@@ -345,8 +345,10 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
         const selectedTee = tees.find(t => t.id === selectedTeeId); 
         
         this.tees.push(selectedTee);
-       
+
+        // aded
         const teeTime = getDateAndTime()[1];
+      
 
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
