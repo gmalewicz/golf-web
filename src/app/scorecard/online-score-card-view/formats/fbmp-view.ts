@@ -6,6 +6,7 @@ import { ScorecardHttpService } from "@/scorecard/_services/scorecardHttp.servic
 import { WritableSignal } from "@angular/core";
 import { forkJoin, map, Observable, tap } from "rxjs";
 import { OnlineScoreCardViewComponent } from "../online-score-card-view.component";
+import { updateStartingHole } from "./common";
 
 export class FBMPView {
   constructor(private readonly scorecardHttpService: ScorecardHttpService,
@@ -37,7 +38,7 @@ export class FBMPView {
               or.tee.cr,
               courseSgn().par);
 
-              this.updateStartingHole(or);
+              updateStartingHole(or);
 
           });
         
@@ -65,25 +66,7 @@ export class FBMPView {
       map(() => void 0));
   }
 
-  private updateStartingHole(onlineRound: OnlineRound) {
 
-      const retScoreCardAPI = onlineRound.scoreCardAPI;
-
-      onlineRound.scoreCardAPI = new Array(18).fill(null);
-
-      onlineRound.first9score = 0;
-      onlineRound.last9score = 0;
-
-      retScoreCardAPI.forEach(scoreCardAPI => {
-      onlineRound.scoreCardAPI[scoreCardAPI.hole - 1] = scoreCardAPI;
-      if (scoreCardAPI.hole < 10) {
-          onlineRound.first9score += scoreCardAPI.stroke;
-      } else {
-          onlineRound.last9score += scoreCardAPI.stroke;
-      }
-
-      });
-  }
 
   private calculateMpResult(retOnlineRounds: OnlineRound[],
                             holeHCP: number[][],

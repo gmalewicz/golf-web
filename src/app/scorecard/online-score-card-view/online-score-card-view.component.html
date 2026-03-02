@@ -165,7 +165,7 @@
           @if (viewTypeSgn() === ViewType.FBMP ) {              
             @for (team of 2 | range; track team) {
               <tr>    
-                <th>Team {{team + 1}}</th>
+                <th id="team">Team {{team + 1}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightResultSgn()[team][index]">
                     {{mpResultHistorySgn()[team][index]}}
