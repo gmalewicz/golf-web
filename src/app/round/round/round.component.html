@@ -21,19 +21,19 @@
       </li>
       <li>
         @if (round.player.length > 1) {
-          <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p1" type="button"
+          <button class="nav-link" id="whs-tab2" data-bs-toggle="tab" data-bs-target="#p1" type="button"
           role="tab" aria-controls="p1" aria-selected="false" (click)="onTabClick(3)">{{round.player[1].nick}}</button>
         }
       </li>
       <li>
         @if (round.player.length > 2) {
-          <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p2" type="button"
+          <button class="nav-link" id="whs-tab3" data-bs-toggle="tab" data-bs-target="#p2" type="button"
           role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(4)">{{round.player[2].nick}}</button>
         }
       </li>
       <li>
         @if (round.player.length > 3) {
-          <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p3" type="button"
+          <button class="nav-link" id="whs-tab4" data-bs-toggle="tab" data-bs-target="#p3" type="button"
           role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(5)">{{round.player[3].nick}}</button>
         }
       </li>

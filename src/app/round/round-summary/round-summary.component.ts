@@ -1,15 +1,14 @@
-import { ballPickedUpStrokes } from '@/_helpers/common';
-import { Round } from '@/_models/round';
-import { Component, OnInit, input } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { ballPickedUpStrokes } from "@/_helpers/common";
+import { Round } from "@/_models/round";
+import { Component, OnInit, input } from "@angular/core";
+import { DecimalPipe } from "@angular/common";
 
 @Component({
-    selector: 'app-round-summary',
-    templateUrl: './round-summary.component.html',
-    imports: [DecimalPipe]
+  selector: "app-round-summary",
+  templateUrl: "./round-summary.component.html",
+  imports: [DecimalPipe],
 })
 export class RoundSummaryComponent implements OnInit {
-
   round = input.required<Round>();
 
   score: number[];
@@ -25,72 +24,125 @@ export class RoundSummaryComponent implements OnInit {
   display: boolean;
 
   ngOnInit(): void {
-
     this.display = false;
 
-    this.score = Array(this.round().player.length).fill(0);
-    this.netScore = Array(this.round().player.length).fill(0);
-    this.corScore = Array(this.round().player.length).fill(0);
-    this.stbNet = Array(this.round().player.length).fill(0);
-    this.stbGross = Array(this.round().player.length).fill(0);
-    this.putts = Array(this.round().player.length).fill(0);
-    this.penalties = Array(this.round().player.length).fill(0);
+    this.score = new Array(this.round().player.length).fill(0);
+    this.netScore = new Array(this.round().player.length).fill(0);
+    this.corScore = new Array(this.round().player.length).fill(0);
+    this.stbNet = new Array(this.round().player.length).fill(0);
+    this.stbGross = new Array(this.round().player.length).fill(0);
+    this.putts = new Array(this.round().player.length).fill(0);
+    this.penalties = new Array(this.round().player.length).fill(0);
     this.ballPickedUp = Array(this.round().player.length).fill(false);
 
     this.calculateSummary();
   }
 
   private calculateSummary() {
-
     this.round().player.forEach((pl, idx) => {
-
       // check if at least for one hole the ball was picked up
       this.ballPickedUp[idx] =
-        this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).some((v => v != null && v.stroke === ballPickedUpStrokes));
+        this.round()
+          ?.scoreCard?.slice(idx * 18, idx * 18 + 18)
+          ?.some((v) => v?.stroke === ballPickedUpStrokes) ?? false;
 
       // both full
       if (pl.roundDetails.ninesFull === 0) {
         // create player score
-        this.score[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.stroke).reduce((p, n) => p + n, 0);
+        this.score[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.stroke)
+          .reduce((p, n) => p + n, 0);
         // create player net score
-        this.netScore[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.scoreNetto).reduce((p, n) => p + n, 0);
+        this.netScore[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.scoreNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB netto
-        this.stbNet[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.stbNetto).reduce((p, n) => p + n, 0);
+        this.stbNet[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.stbNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB brutto
-        this.stbGross[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.stbBrutto).reduce((p, n) => p + n, 0);
+        this.stbGross[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.stbBrutto)
+          .reduce((p, n) => p + n, 0);
         // create player corrected score brutto
-        this.corScore[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
-      // only first full
+        this.corScore[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.corScoreBrutto)
+          .reduce((p, n) => p + n, 0);
+        // only first full
       } else if (pl.roundDetails.ninesFull === 1) {
-        this.score[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 9).map(s => s.stroke).reduce((p, n) => p + n, 0);
+        this.score[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 9)
+          .map((s) => s.stroke)
+          .reduce((p, n) => p + n, 0);
         // create player net score
-        this.netScore[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 9).map(s => s.scoreNetto).reduce((p, n) => p + n, 0);
+        this.netScore[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 9)
+          .map((s) => s.scoreNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB netto
-        this.stbNet[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 9).map(s => s.stbNetto).reduce((p, n) => p + n, 0);
+        this.stbNet[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 9)
+          .map((s) => s.stbNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB brutto
-        this.stbGross[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 9).map(s => s.stbBrutto).reduce((p, n) => p + n, 0);
+        this.stbGross[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 9)
+          .map((s) => s.stbBrutto)
+          .reduce((p, n) => p + n, 0);
         // create player corrected score brutto
-        this.corScore[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 9).map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
-      // only second full
+        this.corScore[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 9)
+          .map((s) => s.corScoreBrutto)
+          .reduce((p, n) => p + n, 0);
+        // only second full
       } else if (pl.roundDetails.ninesFull === 2) {
-        this.score[idx] = this.round().scoreCard.slice((idx * 18) + 9, (idx * 18) + 18).map(s => s.stroke).reduce((p, n) => p + n, 0);
+        this.score[idx] = this.round()
+          .scoreCard.slice(idx * 18 + 9, idx * 18 + 18)
+          .map((s) => s.stroke)
+          .reduce((p, n) => p + n, 0);
         // create player net score
-        this.netScore[idx] = this.round().scoreCard.slice((idx * 18) + 9, (idx * 18) + 18).map(s => s.scoreNetto).reduce((p, n) => p + n, 0);
+        this.netScore[idx] = this.round()
+          .scoreCard.slice(idx * 18 + 9, idx * 18 + 18)
+          .map((s) => s.scoreNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB netto
-        this.stbNet[idx] = this.round().scoreCard.slice((idx * 18) + 9, (idx * 18) + 18).map(s => s.stbNetto).reduce((p, n) => p + n, 0);
+        this.stbNet[idx] = this.round()
+          .scoreCard.slice(idx * 18 + 9, idx * 18 + 18)
+          .map((s) => s.stbNetto)
+          .reduce((p, n) => p + n, 0);
         // create player STB brutto
-        this.stbGross[idx] = this.round().scoreCard.slice((idx * 18) + 9, (idx * 18) + 18).map(s => s.stbBrutto).reduce((p, n) => p + n, 0);
+        this.stbGross[idx] = this.round()
+          .scoreCard.slice(idx * 18 + 9, idx * 18 + 18)
+          .map((s) => s.stbBrutto)
+          .reduce((p, n) => p + n, 0);
         // create player corrected score brutto
-        this.corScore[idx] = this.round().scoreCard.slice((idx * 18) + 9, (idx * 18) + 18).map(s => s.corScoreBrutto).reduce((p, n) => p + n, 0);
+        this.corScore[idx] = this.round()
+          .scoreCard.slice(idx * 18 + 9, idx * 18 + 18)
+          .map((s) => s.corScoreBrutto)
+          .reduce((p, n) => p + n, 0);
       } else {
         // create player score
-        this.score[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.stroke).reduce((p, n) => p + n, 0);
+        this.score[idx] = this.round()
+          .scoreCard.slice(idx * 18, idx * 18 + 18)
+          .map((s) => s.stroke)
+          .reduce((p, n) => p + n, 0);
       }
 
       // create player putts
-      this.putts[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.pats).reduce((p, n) => p + n, 0);
+      this.putts[idx] = this.round()
+        .scoreCard.slice(idx * 18, idx * 18 + 18)
+        .map((s) => s.pats)
+        .reduce((p, n) => p + n, 0);
       // create player penalties
-      this.penalties[idx] = this.round().scoreCard.slice(idx * 18, (idx * 18) + 18).map(s => s.penalty).reduce((p, n) => p + n, 0);
+      this.penalties[idx] = this.round()
+        .scoreCard.slice(idx * 18, idx * 18 + 18)
+        .map((s) => s.penalty)
+        .reduce((p, n) => p + n, 0);
     });
 
     this.display = true;

@@ -1,5 +1,5 @@
 import { TeeTimeModification } from './../../_models/teeTimeModification';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentNavigationService } from '@/tournament/_services';
 import { AlertService } from '@/_services/alert.service';
@@ -10,20 +10,15 @@ import { AlertService } from '@/_services/alert.service';
     templateUrl: './modification.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModificationComponent implements OnInit {
+export class ModificationComponent  {
 
   private teeTimeModification: TeeTimeModification = {};
 
-  public modBackCls: string[] = Array(this.navigationService.tournamentPlayers().length).fill('');
+  public modBackCls: string[] = new Array(this.navigationService.tournamentPlayers().length).fill('');
 
   constructor(public navigationService: TournamentNavigationService,
               private readonly cd: ChangeDetectorRef,
               private readonly alertService: AlertService) {}
-
-  ngOnInit(): void {
-    // this is intentional
-  }
-
 
   async modifyPlayer(idx: number) {
 
@@ -86,7 +81,7 @@ export class ModificationComponent implements OnInit {
     this.navigationService.modification = true;
     this.teeTimeModification.newFlight = this.navigationService.teeTimes()[idx].flight;
     this.navigationService.teeTimeModification.set(this.teeTimeModification);
-    this.modBackCls = Array(this.navigationService.tournamentPlayers().length).fill('');
+    this.modBackCls =  new Array(this.navigationService.tournamentPlayers().length).fill('');
     this.teeTimeModification = {};
     this.cd.markForCheck();
   }

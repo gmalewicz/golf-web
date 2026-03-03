@@ -7,7 +7,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { MatDialogModule } from '@angular/material/dialog';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { routing } from './app/app.routing';
@@ -35,7 +34,6 @@ bootstrapApplication(AppComponent, {
         provideCharts(withDefaultRegisterables()),
         RoundsNavigationService,
         provideHttpClient(withInterceptorsFromDi()),
-        provideAnimations(),
         provideRouter(routing, withPreloading(PreloadAllModules)),
     ]
 })
