@@ -494,7 +494,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   }
 
   loadScoreCards() {
-    const calls: Observable<OnlineScoreCard[]>[] = Array(
+    const calls: Observable<OnlineScoreCard[]>[] = new Array(
       this.onlineRoundsSgn().length,
     );
 

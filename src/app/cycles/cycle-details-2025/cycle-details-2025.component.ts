@@ -74,7 +74,7 @@ export class CycleDetails2025Component
         a.series - b.series ||
         b.cycleResult - a.cycleResult ||
         +b.sequence - +a.sequence ||
-        +a.hcp.at(-1)! - +b.hcp.at(-1)!,
+        +a.hcp.at(-1) - +b.hcp.at(-1)
     );
   }
 

@@ -51,9 +51,7 @@ export class UpdatePlayerComponent implements OnInit {
           "",
           [
             Validators.pattern(
-              new RegExp(
-                "(-5([.,]0)|-[0-4][.,]\\d|\\d[.,]\\d|[1-4]\\d[.,]\\d|5[0-4][.,]\\d)|\\d\\d|\\d",
-              ),
+             /(-5([.,]0)|-[0-4][.,]\d|\d[.,]\d|[1-4]\d[.,]\d|5[0-4][.,]\d)|\d\d|\d/
             ),
             Validators.min(-5),
             Validators.max(54),
@@ -95,7 +93,7 @@ export class UpdatePlayerComponent implements OnInit {
 
     let whs = this.f.whs.value;
     if (whs !== "") {
-      whs = whs.replace(/,/gi, ".");
+      whs = whs.replaceAll(/,/gi, ".");
     }
 
     const player: Player = {
