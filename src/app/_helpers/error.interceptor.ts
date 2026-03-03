@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {  
   
         if (request.url.endsWith('assets/app-config.json')) {  
-          return throwError(() => err);  
+          return;  
         }  
   
         const errorMessage = this.getErrorMessage(err);  
