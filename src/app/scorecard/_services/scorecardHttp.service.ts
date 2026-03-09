@@ -12,7 +12,7 @@ export class ScorecardHttpService {
   constructor(private readonly http: HttpClient) { }
 
   getOnlineRounds(): Observable<Array<OnlineRound>> {
-    return this.http.get<Array<OnlineRound>>('rest/OnlineRound');
+    return this.http.get<Array<OnlineRound>>('rest/OnlineRound/all');
   }
 
   getOnlineScoreCard(onlineRoundId: number): Observable<Array<OnlineScoreCard>> {
@@ -28,17 +28,17 @@ export class ScorecardHttpService {
     return this.http.post<Array<OnlineRound>>('rest/OnlineRounds', onlineRounds);
   }
 
-  deleteOnlineRoundForOwner(ownerId: number) {
-    return this.http.delete('rest/OnlineRoundForOwner/' + ownerId);
+  deleteOnlineRound(identifier: number) {
+    return this.http.delete('rest/OnlineRound/' + identifier);
   }
 
-  finalizeOnlineOwnerRound(ownerId: number): Observable<HttpResponse<null>> {
+  finalize(identifier: number): Observable<HttpResponse<null>> {
 
-    return this.http.post<HttpResponse<null>>('rest/FinalizeOnlineOwnerRounds', ownerId);
+    return this.http.post<HttpResponse<null>>('rest/OnlineRound', identifier);
   }
 
-  getOnlineRoundsForOwner(ownerId: number): Observable<Array<OnlineRound>> {
-    return this.http.get<Array<OnlineRound>>('rest/OnlineRoundOwner/' + ownerId);
+  getOnlineRound(identifier: number): Observable<Array<OnlineRound>> {
+    return this.http.get<Array<OnlineRound>>('rest/OnlineRound/Identifier/' + identifier);
   }
 
   syncOnlineScoreCards(onlineScoreCards: Array<OnlineScoreCard>): Observable<HttpResponse<null>> {

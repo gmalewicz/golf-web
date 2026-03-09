@@ -4416,6 +4416,22 @@
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="onlineScoreCard-fbmp" datatype="html">
+        <source>FB-MP Rounds</source>
+        <target>Rundy FB-MP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="mpLegend-additionalStrokes" datatype="html">
+        <source>Additional Strokes:</source>
+        <target>Dodatkowe uderzenia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

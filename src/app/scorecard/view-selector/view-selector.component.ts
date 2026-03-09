@@ -1,8 +1,8 @@
 
-import { NavigationService } from './../_services/navigation.service';
+import { NavigationService, ViewType } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
@@ -20,19 +20,22 @@ import { Format } from '@/_models/format';
 
 
 @Component({
-    selector: 'app-online-score-card',
-    templateUrl: './online-score-card.component.html',
+    selector: 'app-view-selector',
+    templateUrl: './view-selector.component.html',
     imports: [FaIconComponent, RouterLink, KeyValuePipe],
-    providers: [NavigationService]
+    providers: [NavigationService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OnlineScoreCardComponent implements OnInit {
+export class ViewSelectorComponent implements OnInit {
 
-  Format = Format;
+  readonly ViewType = ViewType;
+  readonly Format = Format;
+  readonly faSearchPlus: IconDefinition = faSearchPlus;
 
-  display: boolean;
-  onlineRounds: OnlineRound[];
-  faSearchPlus: IconDefinition;
-  courses: Map<number, Course>;
+  playersSgn: WritableSignal <Map<number, string[]>> = signal(new Map());
+  displaySgn: WritableSignal<boolean> = signal(false);
+  onlineRoundsSgn: WritableSignal<OnlineRound[]> = signal([]);
+  coursesSgn: WritableSignal<Map<number, Course>> = signal(new Map());
 
   constructor(private readonly scorecardHttpService: ScorecardHttpService,
               private readonly authenticationService: AuthenticationService,
@@ -48,52 +51,59 @@ export class OnlineScoreCardComponent implements OnInit {
     } else {
 
       // initialization
-      this.display = false;
-      this.faSearchPlus = faSearchPlus;
       this.navigationService.clear();
 
       this.scorecardHttpService.getOnlineRounds().subscribe((retOnlineRounds: OnlineRound[]) => {
 
         // set all rounds except the open one for this player
-        this.onlineRounds = retOnlineRounds.filter(v => v.owner !==
-          this.authenticationService.currentPlayerValue.id || v.finalized === true);
+        this.onlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner !==
+          this.authenticationService.currentPlayerValue.id || v.finalized === true));
 
-        this.courses = new Map();
-        for (const or of this.onlineRounds) {
-          this.courses.set(or.course.id , or.course);
+        let players = new Map<number, string[]>();  
+        for (const or of this.onlineRoundsSgn()) {
+          this.coursesSgn().set(or.course.id , or.course);
+
+          if (!players.has(or.identifier)) {
+            players.set(or.identifier, new Array<string>());
+          }
+          players.get(or.identifier).push("Team " + or.team + " : " + or.player.nick);
         }
-        this.display = true;
+        this.playersSgn.set(players);
+        this.displaySgn.set(true);
       });
     }
   }
 
-  viewRound(viewType: number, course: Course, onlineRound: OnlineRound) {
+  viewRound(viewType: ViewType, course: Course, onlineRound: OnlineRound) {
+
+    this.navigationService.setViewTypeSgn(signal(viewType));
 
     switch (viewType)  {
-      case 1: { // view for course
+      case ViewType.COURSE: { // view for course
         this.navigationService.setCourseSgn(signal(course));
         break;
       }
-      case 2: { // view for player
+      case ViewType.PLAYER: { // view for player
         this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
       }
-      case 3: { // view for MP round
+      case ViewType.MP: // view for MP round
+      case ViewType.FBMP: { // view for FBMP round
+      
         this.navigationService.setOwnerSgn(signal(onlineRound.owner));
         this.navigationService.setCourseSgn(signal(course));
         this.navigationService.setOnlineRoundsSgn(signal([onlineRound]));
         break;
       }
     }
-
     this.router.navigate(['/scorecard/onlineScoreCardView']).catch(error => console.log(error));
   }
 }
 
 export const onlineScoreCardRouts: Routes = [
 
-  { path: '', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
-  { path: 'onlineScoreCard', component: OnlineScoreCardComponent, canActivate: [AuthGuard] },
+  { path: '', component: ViewSelectorComponent, canActivate: [AuthGuard] },
+  { path: 'viewSelector', component: ViewSelectorComponent, canActivate: [AuthGuard] },
   { path: 'onlineStrokeplay', component: OnlineStrokeplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineScoreCardView', component: OnlineScoreCardViewComponent, canActivate: [AuthGuard] },
   { path: 'onlineRoundDef', component: OnlineRoundDefComponent, canActivate: [AuthGuard] },

@@ -4,22 +4,22 @@ import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ScorecardHttpService } from '../_services';
-import { OnlineScoreCardComponent } from './online-score-card.component';
+import { ViewSelectorComponent } from './view-selector.component';
 import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
 import { getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
 
-describe('OnlineScoreCardComponent', () => {
-  let component: OnlineScoreCardComponent;
-  let fixture: ComponentFixture<OnlineScoreCardComponent>;
+describe('ViewSelectorComponent', () => {
+  let component: ViewSelectorComponent;
+  let fixture: ComponentFixture<ViewSelectorComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
     imports: [
         FontAwesomeModule,
-        OnlineScoreCardComponent
+        ViewSelectorComponent
     ],
     providers: [HttpService,
         ScorecardHttpService,
@@ -34,7 +34,7 @@ describe('OnlineScoreCardComponent', () => {
   }));
 
   it('should create and logout', () => {
-    fixture = TestBed.createComponent(OnlineScoreCardComponent);
+    fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -42,7 +42,7 @@ describe('OnlineScoreCardComponent', () => {
 
   it('should create and display', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
-    fixture = TestBed.createComponent(OnlineScoreCardComponent);
+    fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -51,7 +51,7 @@ describe('OnlineScoreCardComponent', () => {
 
   it('should execute view round for view Course', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
-    fixture = TestBed.createComponent(OnlineScoreCardComponent);
+    fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     component.viewRound(1, getTestCourse(), null);
     expect(component).toBeTruthy();
@@ -59,7 +59,7 @@ describe('OnlineScoreCardComponent', () => {
 
   it('should execute view round for view player', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
-    fixture = TestBed.createComponent(OnlineScoreCardComponent);
+    fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     component.viewRound(2, null, getOnlineRoundFirstPlayer());
     expect(component).toBeTruthy();
@@ -67,7 +67,7 @@ describe('OnlineScoreCardComponent', () => {
 
   it('should execute view round for view MP round', () => {
     localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
-    fixture = TestBed.createComponent(OnlineScoreCardComponent);
+    fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     component.viewRound(3, getTestCourse(), getOnlineRoundFirstPlayer());
     expect(component).toBeTruthy();

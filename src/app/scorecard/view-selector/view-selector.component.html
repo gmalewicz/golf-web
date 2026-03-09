@@ -1,9 +1,9 @@
-@if (!display) {
+@if (!displaySgn()) {
   <div class="d-flex justify-content-center">
     <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
 }
-@if (display && onlineRounds.length > 0) {
+@if (displaySgn() && onlineRoundsSgn().length > 0) {
   <div>
     <h2 i18n="@@onlineScoreCard-cards" i18n="@@onlnScor-todScor">Today's score cards:</h2>
     <ul class="nav nav-tabs" id="myTab">
@@ -19,6 +19,10 @@
         <button class="nav-link" id="MProunds-tab" data-bs-toggle="tab" data-bs-target="#MProunds" type="button"
         role="tab" aria-controls="MProunds" aria-selected="false" i18n="@@onlineScoreCard-mp" i18n="@@onlnScor-mp">MP Rounds</button>
       </li>
+      <li class="nav-item">
+        <button class="nav-link" id="FBMProunds-tab" data-bs-toggle="tab" data-bs-target="#FBMProunds" type="button"
+        role="tab" aria-controls="FBMProunds" aria-selected="false" i18n="@@onlineScoreCard-fbmp" i18n="@@onlnScor-mp">FB-MP Rounds</button>
+      </li>
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="course" role="tabpanel" aria-labelledby="course-tab">
@@ -30,8 +34,8 @@
             </tr>
           </thead>
           <tbody>
-            @for (entry of courses | keyvalue; track entry) {
-              <tr (click)="viewRound(1, entry.value, null)" onKeyDown="viewRound(1, entry.value, null)">
+            @for (entry of coursesSgn() | keyvalue; track entry) {
+              <tr (click)="viewRound(ViewType.COURSE, entry.value, null)" onKeyDown="viewRound(ViewType.COURSE, entry.value, null)">
                 <td>
                   <a>
                     <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
@@ -55,9 +59,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (round of onlineRounds; track round) {
-              @if (round.format === Format.MATCH_PLAY) {
-                <tr (click)="viewRound(2, null, round)" onKeyDown="viewRound(2, entry.value, null)">
+            @for (round of onlineRoundsSgn(); track round) {
+              @if (round.format === Format.STROKE_PLAY) {
+                <tr (click)="viewRound(ViewType.PLAYER, null, round)" onKeyDown="viewRound(ViewType.PLAYER, null, round)">
                   <td>
                     <a>
                       <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
@@ -89,21 +93,69 @@
         <table class="table table-striped" aria-describedby="MatchPlay rounds">
           <thead>
             <tr>
-              <th id="players" i18n="@@onlineScoreCard-players" i18n="@@onlnScor-plrs">Players</th>
-              <th id="course" i18n="@@onlineScoreCard-course">Course</th>
+              <th id="players2" i18n="@@onlineScoreCard-players" i18n="@@onlnScor-plrs">Players</th>
+              <th id="course2" i18n="@@onlineScoreCard-course">Course</th>
               <th id="teeTime">Tee Time</th>
-              <th id="status" i18n="@@onlnScor-status">Status</th>
+              <th id="status2" i18n="@@onlnScor-status">Status</th>
             </tr>
           </thead>
           <tbody>
-            @for (round of onlineRounds; track round) {
+            @for (round of onlineRoundsSgn(); track round) {
               @if (round.format === Format.MATCH_PLAY && round.player.nick != round.nick2) {
-                <tr (click)="viewRound(3, round.course, round)" onKeyDown="viewRound(3, entry.value, null)">
+                <tr (click)="viewRound(ViewType.MP, round.course, round)" onKeyDown="viewRound(ViewType.MP, round.course, round)">
                   <td>
                     <a>
                       <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                     </a>
                     {{ round.player.nick }}-{{ round.nick2 }}
+                  </td>
+                  <td>
+                    {{ round.course.name }}
+                  </td>
+                  <td>{{ round.teeTime }}</td>
+                  @if (round.finalized === true) {
+                    <td i18n="@@onlineScoreCard-finished">
+                      Finished
+                    </td>
+                  }
+                  @if (round.finalized === false) {
+                    <td i18n="@@onlineScoreCard-open">
+                      Open
+                    </td>
+                  }
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="FBMProunds" role="tabpanel" aria-labelledby="FBMProunds-tab">
+        <p></p>
+        <table class="table table-striped" aria-describedby="Fourball MatchPlay rounds">
+          <thead>
+            <tr>
+              <th></th>
+              <th id="players4" i18n="@@onlineScoreCard-players" i18n="@@onlnScor-plrs">Players</th>
+              <th id="course4" i18n="@@onlineScoreCard-course">Course</th>
+              <th id="teeTime4">Tee Time</th>
+              <th id="status4" i18n="@@onlnScor-status">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (round of onlineRoundsSgn(); track round) {
+              @if (round.format === Format.FOUR_BALL_MATCH_PLAY && round.player.id === round.owner) {
+                <tr (click)="viewRound(ViewType.FBMP, round.course, round)" onKeyDown="viewRound(ViewType.FBMP, round.course, round)">
+                  <td>
+                    <a>
+                      <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                    </a>
+                  </td>
+                  <td>
+                    @for (players of playersSgn().get(round.identifier); track players) {
+                      <span>
+                        {{players}}<br/>
+                      </span>
+                    }
                   </td>
                   <td>
                     {{ round.course.name }}
@@ -128,12 +180,12 @@
     </div>
   </div>
 }
-@if (display && onlineRounds.length === 0) {
+@if (displaySgn() && onlineRoundsSgn().length === 0) {
   <div>
     <h2 i18n="@@onlineScoreCard-noCards">No active score cards</h2>
   </div>
 }
-@if (display) {
+@if (displaySgn()) {
   <div>
     <br />
     <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlineScoreCard-cancel">Cancel</button>

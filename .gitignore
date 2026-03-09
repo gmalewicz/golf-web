@@ -51,3 +51,6 @@ Thumbs.db
 .firebase/hosting.ZGlzdFxnb2xmLXdlYg.cache
 .firebase/hosting.ZGlzdFxnb2xmLXdlYg.cache
 src/assets/app-config.json
+
+.github/agents/codebase-analyzer.agent.md
+.github/instructions/angular.instructions.md

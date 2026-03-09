@@ -13,12 +13,13 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
+import { MPLegendComponent } from '@/_helpers/mpLegend.component';
 
 @Component({
     selector: 'app-online-fb-matchplay',
     templateUrl: './online-fb-matchplay.component.html',
     styleUrls: ['./online-fb-matchplay.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe],
+    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe, MPLegendComponent],
     providers: [NavigationService]
 })
 export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {

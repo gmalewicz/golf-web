@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (player of players; track player) {
+          @for (player of players; track player.id) {
             <tr (click)="addPlayer(player)" onKeyDown="addPlayer(player)">
               <td>{{ player.nick }}</td>
               <td>

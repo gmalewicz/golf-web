@@ -16,7 +16,7 @@ import { OnlineRound } from '@/scorecard/_models/onlineRound';
 import { getDateAndTime } from '@/_helpers/common';
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';
 import { Router, RouterModule } from '@angular/router';
-import {form, Field, required, submit, applyEach } from '@angular/forms/signals';
+import { form, required, submit, applyEach, FormField } from '@angular/forms/signals';
 
 interface PlayerData {
       teeDropDowns: {tee: string}[]  
@@ -28,17 +28,17 @@ interface PlayerData {
 @Component({  
   selector: 'app-player-selector',  
   templateUrl: './player-selector.component.html',  
-  imports: [   
-    MatFormField,  
-    MatLabel,  
-    MatError,  
-    FaIconComponent,  
-    MatSelect,  
-    MatOption, 
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatError,
+    FaIconComponent,
+    MatSelect,
+    MatOption,
     NgClass,
-    RouterModule, 
-    Field
-  ],  
+    RouterModule,
+    FormField
+],  
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  
 })  
@@ -345,9 +345,13 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       
         this.tees.push(selectedTee);
 
+        // aded
+        const teeTime = getDateAndTime()[1];
+      
+
         const onlineRound: OnlineRound = {
           course: this.courseSgn(),
-          teeTime: getDateAndTime()[1],
+          teeTime: teeTime,
           player: this.playersSgn()[counter],
           tee: selectedTee, 
           owner: this.playersSgn()[0].id,
@@ -358,7 +362,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
           mpFormat: this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? 
-            +this.playerDataForm.mpFormat().value() : undefined
+            +this.playerDataForm.mpFormat().value() : undefined,
+          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? Math.floor(counter / 2) + 1 : undefined,
+          identifier: +teeTime.replace(":", "").concat(String(this.playersSgn()[0].id))
         };
 
         onlineRounds[counter] = onlineRound;
@@ -366,7 +372,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       }
 
       // verify if there is the same tee type for both players in case of MP
-      if (this.formatSgn() === Format.MATCH_PLAY && !this.isMpTeeTypeCorrect()) {
+      if ((this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) && !this.isMpTeeTypeCorrect()) {
         return;
       }
 

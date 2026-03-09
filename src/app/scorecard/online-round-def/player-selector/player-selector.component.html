@@ -4,17 +4,17 @@
     @if (formatSgn() == Format.MATCH_PLAY || formatSgn() == Format.FOUR_BALL_MATCH_PLAY) {
       <div class="row golf-margin-top">
         <div class="col">
-          <input type="radio" id="mpFormat1" value="1" [field] = "playerDataForm.mpFormat" class="form-check-input form-check-input-green">
+          <input type="radio" id="mpFormat1" value="1" [formField] = "playerDataForm.mpFormat" class="form-check-input form-check-input-green">
           <label class="custom-control-label green" for="mpFormat1">100%</label>
           &nbsp;
-          <input type="radio" id="mpFormat2" value="0.9" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+          <input type="radio" id="mpFormat2" value="0.9" [formField] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
           <label class="custom-control-label green" for="mpFormat2">90%</label>
           @if (formatSgn() == Format.MATCH_PLAY) {
             &nbsp;
-            <input type="radio" id="mpFormat3" value="0.75" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <input type="radio" id="mpFormat3" value="0.75" [formField] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
             <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
             &nbsp;
-            <input type="radio" id="mpFormat4" value="0.50" [field] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
+            <input type="radio" id="mpFormat4" value="0.50" [formField] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
             <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
           }
         </div>
@@ -76,7 +76,7 @@
         <div class="col-auto">
           <mat-form-field class="golf-width-150">
             <mat-label>tee</mat-label>
-            <mat-select [field] = "playerDataForm.teeDropDowns[id].tee">
+            <mat-select [formField] = "playerDataForm.teeDropDowns[id].tee">
               @for (teeOption of teeOptions()[id]; track teeOption) {
                 <mat-option [value]="teeOption.value">{{teeOption.label}}</mat-option>
               }
@@ -102,11 +102,11 @@
     }
   
     <div class="golf-margin-top">
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" [field] = "playerDataForm.putts"/>
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck1" [formField] = "playerDataForm.putts"/>
       <label for="customCheck1">&nbsp; <span i18n="@@onlnRndDef-inclPutt">Include putts (optional)</span></label>
     </div>
     <div>
-      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" [field] = "playerDataForm.penalties"/>
+      <input type="checkbox" class="form-check-input form-check-input-green" id="customCheck2" [formField] = "playerDataForm.penalties"/>
       <label for="customCheck2">&nbsp; <span i18n="@@onlnRndDef-inclPen">Include penalties (optional)</span></label>
     </div>
     <div>

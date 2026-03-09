@@ -13,6 +13,7 @@ export function getOnlineRoundFirstPlayer(): OnlineRound {
       player: {id: 1, nick: 'golfer', sex: false, whs: 38.4},
       owner: 1,
       finalized: false,
+      identifier: 1,
       putts: false,
       penalties: false,
       format: Format.MATCH_PLAY,

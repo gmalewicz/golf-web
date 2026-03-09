@@ -1,56 +1,74 @@
-import { NavigationService } from '../_services/navigation.service';
-import { routing } from '@/app.routing';
-import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ScorecardHttpService } from '../_services';
-import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInterceptor';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { getOnlineRoundFirstPlayer } from '../_helpers/test.helper';
-import { getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
-import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
-import { MyOnlineScoreCardComponent } from './my-online-score-card.component';
-import { OnlineRound } from '../_models';
+import { NavigationService } from "../_services/navigation.service";
+import { routing } from "@/app.routing";
+import { HttpService } from "@/_services/http.service";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ScorecardHttpService } from "../_services";
+import { MimicBackendScoreInterceptor } from "../_helpers/MimicBackendScoreInterceptor";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { getOnlineRoundFirstPlayer } from "../_helpers/test.helper";
+import { getTestCourse, MyRouterStub } from "@/_helpers/test.helper";
+import {
+  PreloadAllModules,
+  Router,
+  provideRouter,
+  withPreloading,
+} from "@angular/router";
+import { MyOnlineScoreCardComponent } from "./my-online-score-card.component";
+import { OnlineRound } from "../_models";
+import { on } from "events";
+import { Format } from "@/_models/format";
 
-describe('OnlineScoreCardComponent', () => {
+describe("MyOnlineScoreCardComponent", () => {
   let component: MyOnlineScoreCardComponent;
   let fixture: ComponentFixture<MyOnlineScoreCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
-        FontAwesomeModule,
-        MyOnlineScoreCardComponent
-    ],
-    providers: [HttpService,
+      imports: [FontAwesomeModule, MyOnlineScoreCardComponent],
+      providers: [
+        HttpService,
         ScorecardHttpService,
         NavigationService,
-        { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: MimicBackendScoreInterceptor,
+          multi: true,
+        },
         { provide: Router, useClass: MyRouterStub },
         provideHttpClient(withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
-    ]
-})
-    .compileComponents();
+      ],
+    }).compileComponents();
   }));
 
-  it('should create and logout', () => {
+  it("should create and logout", () => {
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should create and display', () => {
-    localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
+  it("should create and display", () => {
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1, password: "test", whs: "10.2" }]),
+    );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should execute continue round', () => {
-    localStorage.setItem('currentPlayer', JSON.stringify([{nick: 'test', id: 1, password: 'test', whs: '10.2'}]));
+  it("should execute continue MP round", () => {
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1, password: "test", whs: "10.2" }]),
+    );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
     let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
@@ -60,8 +78,53 @@ describe('OnlineScoreCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it("should execute continue FBMP round", () => {
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1, password: "test", whs: "10.2" }]),
+    );
+    fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
+    component = fixture.componentInstance;
+    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.format = Format.FOUR_BALL_MATCH_PLAY;
+    onlineRound.course = getTestCourse();
+    component.myOnlineRoundsSgn.set([onlineRound]);
+    component.showRound();
+    expect(component).toBeTruthy();
+  });
+
+  it("should execute continue SP round", () => {
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1, password: "test", whs: "10.2" }]),
+    );
+    fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
+    component = fixture.componentInstance;
+    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.format = Format.STROKE_PLAY;
+    onlineRound.course = getTestCourse();
+    component.myOnlineRoundsSgn.set([onlineRound]);
+    component.showRound();
+    expect(component).toBeTruthy();
+  });
+
+  it("should execute continue FBSP round", () => {
+    localStorage.setItem(
+      "currentPlayer",
+      JSON.stringify([{ nick: "test", id: 1, password: "test", whs: "10.2" }]),
+    );
+    fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
+    component = fixture.componentInstance;
+    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    onlineRound.format = Format.FOUR_BALL_STROKE_PLAY;
+    onlineRound.course = getTestCourse();
+    component.myOnlineRoundsSgn.set([onlineRound]);
+    component.showRound();
+    expect(component).toBeTruthy();
+  });
+
   afterEach(() => {
-    localStorage.removeItem('currentPlayer');
+    localStorage.removeItem("currentPlayer");
   });
 
   afterAll(() => {

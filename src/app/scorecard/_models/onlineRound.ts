@@ -19,4 +19,6 @@ export interface OnlineRound {
   courseHCP?: number;
   nick2?: string;
   format: number;
+  team?: number;
+  identifier?: number;
 }

@@ -25,8 +25,8 @@ export class RoundViewSkinsComponent implements OnInit {
             reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
     this.last9par = this.round().course.par - this.first9par;
 
-    this.skin = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
-    this.skinCount = Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
+    this.skin = new Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
+    this.skinCount = new Array(this.round().player.length).fill("").map(() => new Array(18).fill(""));
 
     Array.from({ length: 18 }, (_, idx) => this.calculateSkins(idx));
     this.calculateTotalSkins();
@@ -61,8 +61,8 @@ export class RoundViewSkinsComponent implements OnInit {
   private calculateTotalSkins() : void {
 
     // clear totals before recalculation
-    this.totalSkin = Array(this.round().player.length).fill(0);
-    this.first9Skin = Array(this.round().player.length).fill(0);
+    this.totalSkin = new Array(this.round().player.length).fill(0);
+    this.first9Skin = new Array(this.round().player.length).fill(0);
 
     let cumulation: number = 0;
 

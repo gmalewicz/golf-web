@@ -180,7 +180,7 @@ describe('PlayerSelectorComponent', () => {
     (component as any).noOfPlayersSgn = signal(1);  
     component.playersSgn.set([ { id: 1, nick: 'a' } ]); 
   
-    component.playerDataForm.teeDropDowns[0]().setControlValue({tee: '1'}); // set a tee for player 0
+    component.playerDataForm.teeDropDowns[0]().controlValue.set({tee: '1'}); // set a tee for player 0
   
     const evt = new Event('submit');  
     spyOn(evt, 'preventDefault').and.callThrough();  
@@ -203,8 +203,8 @@ describe('PlayerSelectorComponent', () => {
     component.playerDataModel.update(current =>  { return {...current, teeDropDowns: current.teeDropDowns.concat({ tee: '1' })}; });
 
 
-    component.playerDataForm.teeDropDowns[0]().setControlValue({tee: '1'}); // set a tee for player 0
-    component.playerDataForm.teeDropDowns[1]().setControlValue({tee: '1'}); // set a tee for player 1
+    component.playerDataForm.teeDropDowns[0]().controlValue.set({tee: '1'}); // set a tee for player 0
+    component.playerDataForm.teeDropDowns[1]().controlValue.set({tee: '1'}); // set a tee for player 1
 
     fixture.detectChanges();
 
