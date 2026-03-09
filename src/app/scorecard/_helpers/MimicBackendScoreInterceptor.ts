@@ -14,7 +14,9 @@ export class MimicBackendScoreInterceptor implements HttpInterceptor{
         observer.next(new HttpResponse<unknown>({status: 200}));
         observer.complete();
       });
-    } else if (req.url.endsWith('rest/OnlineRound/all') || req.url.endsWith('rest/OnlineRoundCourse/1')) {
+    } else if (req.url.endsWith('rest/OnlineRound/all') || 
+               req.url.endsWith('rest/OnlineRoundCourse/1') ||
+               req.url.endsWith('rest/OnlineRound/Identifier/1')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:
 
