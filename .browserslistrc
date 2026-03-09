@@ -18,4 +18,3 @@ Android >= 13
 # Explicit exclusions  
 not IE 11  
 not Chrome < 110 
-not android 145  
