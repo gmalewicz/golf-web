@@ -5,14 +5,17 @@
 # You can see what browsers were selected by your queries by running:
 #   npx browserslist
 
-> 0.5%
-last 2 versions
-not dead
-not kaios 2.5-3.1
-not op_mini all
-not samsung 27-29
-not opera 116-122
-not op_mob 80
-not and_uc 15.5
-not and_qq 14.9
-last 2 Android versions
+# Angular 21 supported browsers  
+last 2 Chrome major versions  
+last 2 Edge major versions  
+last 2 Firefox major versions  
+last 2 Safari major versions  
+  
+# Mobile  
+last 2 iOS major versions  
+last 2 Android major versions  
+  
+# Explicit exclusions  
+not IE 11  
+not Chrome < 110 
+not android 145  

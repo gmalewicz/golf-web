@@ -16,7 +16,7 @@ import { OnlineRound } from '@/scorecard/_models/onlineRound';
 import { getDateAndTime } from '@/_helpers/common';
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';
 import { Router, RouterModule } from '@angular/router';
-import {form, Field, required, submit, applyEach } from '@angular/forms/signals';
+import { form, required, submit, applyEach, FormField } from '@angular/forms/signals';
 
 interface PlayerData {
       teeDropDowns: {tee: string}[]  
@@ -28,17 +28,17 @@ interface PlayerData {
 @Component({  
   selector: 'app-player-selector',  
   templateUrl: './player-selector.component.html',  
-  imports: [   
-    MatFormField,  
-    MatLabel,  
-    MatError,  
-    FaIconComponent,  
-    MatSelect,  
-    MatOption, 
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatError,
+    FaIconComponent,
+    MatSelect,
+    MatOption,
     NgClass,
-    RouterModule, 
-    Field
-  ],  
+    RouterModule,
+    FormField
+],  
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  
 })  
