@@ -13,7 +13,7 @@ last 2 Safari major versions
   
 # Mobile  
 last 2 iOS major versions  
-last 2 Android major versions  
+Android >= 13  
   
 # Explicit exclusions  
 not IE 11  
