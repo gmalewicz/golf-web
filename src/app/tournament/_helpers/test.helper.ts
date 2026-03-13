@@ -32,7 +32,7 @@ export function getTournamentPlayer(): TournamentPlayer {
     id: 1,
     playerId: 1,
     nick: 'test',
-    whs: 10.0,
+    whs: 10,
     tournamentId: 1
   };
 }

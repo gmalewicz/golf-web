@@ -1,12 +1,12 @@
 import { Player } from "@/_models/player";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
     template: ''
 })
-export class DialogBaseComponent implements OnInit {
+export class DialogBaseComponent {
 
   form: FormGroup;
   player: Player;
@@ -21,7 +21,7 @@ export class DialogBaseComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('(-5(\\.|,)0 | -[0-4](,|\\.)\\d|    \\d(\\.|,)\\d|   [1-4]\\d(\\.|,)\\d|   5[0-4](\\.|,)\\d)   |\\d\\d  |\\d'),
+          Validators.pattern(String.raw`(-5(\.|,)0 | -[0-4](,|\.)\d|    \d(\.|,)\d|   [1-4]\d(\.|,)\d|   5[0-4](\.|,)\d)   |\d\d  |\d`),
           Validators.min(-5),
           Validators.max(54),
         ],
@@ -30,9 +30,6 @@ export class DialogBaseComponent implements OnInit {
     this.player = data.player;
   }
 
-  ngOnInit() {
-    // This is intentional
- }
 
  get f() {
   return this.form.controls;

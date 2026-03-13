@@ -52,7 +52,7 @@ export abstract class CreateOrSearchDialogBase {
         mergeMap(player => {
           if (player !== undefined && player.action === undefined) {
             let whs: string = player.whs + '';
-            whs = whs.toString().replace(/,/gi, '.');
+            whs = whs.toString().replaceAll(',', '.');
 
             const newPlayer: Player = {
               nick: player.nick,

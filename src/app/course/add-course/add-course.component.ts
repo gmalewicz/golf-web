@@ -75,16 +75,16 @@ export class AddCourseComponent implements OnInit {
       });
 
       // initialize all buttons for net selected
-      this.parSelectorActive = Array(4).fill({ active: false });
-      this.siSelectorActive = Array(18).fill({ active: false });
-      this.holeSelectorActive = Array(18).fill({ active: false });
+      this.parSelectorActive = new Array(4).fill({ active: false });
+      this.siSelectorActive = new Array(18).fill({ active: false });
+      this.holeSelectorActive = new Array(18).fill({ active: false });
 
       this.nbrHoles = [{ label: '18', value: 18 },
                       { label: '9', value: 9 }];
 
       this.updatingHole = 0;
       // initialize data
-      this.pars = Array(18).fill(0);
+      this.pars = new Array(18).fill(0);
       this.courseNavigationService.init();
 
       this.barChartType = 'bar';
@@ -111,7 +111,7 @@ export class AddCourseComponent implements OnInit {
 
     this.pars = course.holes.map(hole => hole.par);
     this.si = course.holes.map(hole => hole.si);
-    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1) + '(' + (this.si[i] + 1) + ')');
+    this.barChartLabels = new Array(18).fill(0).map((_x, i) => '' + (i + 1) + '(' + (this.si[i] + 1) + ')');
 
     // load tees
     this.httpService.getTees(course.id).pipe(
@@ -126,8 +126,8 @@ export class AddCourseComponent implements OnInit {
   }
 
   clearSi() {
-    this.si = Array(18).fill(0);
-    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
+    this.si = new Array(18).fill(0);
+    this.barChartLabels = new Array(18).fill(0).map((_x, i) => '' + (i + 1));
   }
 
   // convenience getter for easy access to form fields
@@ -277,7 +277,7 @@ export class AddCourseComponent implements OnInit {
     this.barChartData[0].data = this.pars;
     // initialize chart labels
     // tslint:disable-next-line: variable-name
-    this.barChartLabels = Array(18).fill(0).map((_x, i) => '' + (i + 1));
+    this.barChartLabels = new Array(18).fill(0).map((_x, i) => '' + (i + 1));
 
     // set first hole as an active one
     this.updatingHole = 0;

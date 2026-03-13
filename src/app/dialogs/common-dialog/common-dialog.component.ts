@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInput } from '@angular/material/input';
@@ -25,13 +25,10 @@ import { MatFormField, MatError } from '@angular/material/form-field';
   `,
     imports: [MatFormField, ReactiveFormsModule, MatInput, MatError]
 })
-export class CommonDialogComponent implements OnInit {
+export class CommonDialogComponent {
 
   form = input.required<FormGroup>();
 
-  ngOnInit(): void {
-    // This is intentional
-  }
 }
 
 

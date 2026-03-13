@@ -24,17 +24,22 @@ if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, {
-    providers: [
-        provideZoneChangeDetection(),importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
-        HttpService,
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
-        provideCharts(withDefaultRegisterables()),
-        RoundsNavigationService,
-        provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(routing, withPreloading(PreloadAllModules)),
-    ]
-})
-  .catch(err => console.error(err));
+(async () => {
+  try {
+    await bootstrapApplication(AppComponent, {
+      providers: [
+          provideZoneChangeDetection(),importProvidersFrom(BrowserModule, BaseChartDirective, FontAwesomeModule, FormsModule, ReactiveFormsModule, MatDialogModule, RecaptchaModule, RecaptchaFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatSelectModule),
+          HttpService,
+          { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+          { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+          { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
+          provideCharts(withDefaultRegisterables()),
+          RoundsNavigationService,
+          provideHttpClient(withInterceptorsFromDi()),
+          provideRouter(routing, withPreloading(PreloadAllModules)),
+      ]
+    });
+  } catch (err: unknown) {
+    console.error(err);
+  }
+})();

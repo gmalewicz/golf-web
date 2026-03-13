@@ -24,7 +24,7 @@ export class MoveCourseComponent implements OnInit {
   ngOnInit(): void {
 
     this.moveCourseForm = this.formBuilder.group({
-      courseId: ['', [Validators.required, Validators.pattern('[1-9]\\d{0,9}')]],
+      courseId: ['', [Validators.required, Validators.pattern(String.raw`[1-9]\d{0,9}`)]],
     });
   }
 

@@ -80,17 +80,18 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
   }
 
   private handleAppConnectivityChanges(): void {
-    this.onlineEvent = fromEvent(window, 'online');
-    this.offlineEvent = fromEvent(window, 'offline');
+    this.onlineEvent = fromEvent(globalThis, 'online');
+    this.offlineEvent = fromEvent(globalThis, 'offline');
 
-    this.subscriptions.push(this.onlineEvent.subscribe(() => {
-      // handle online mode
-      this.isActiveSgn.set(true);
-    }));
-
-    this.subscriptions.push(this.offlineEvent.subscribe(() => {
-      // handle offline mode
+    this.subscriptions.push(
+      this.onlineEvent.subscribe(() => {
+        // handle online mode
+        this.isActiveSgn.set(true);
+      }),
+      this.offlineEvent.subscribe(() => {
+        // handle offline mode
         this.isActiveSgn.set(false);
-    }));
+      })
+    );
   }
 }

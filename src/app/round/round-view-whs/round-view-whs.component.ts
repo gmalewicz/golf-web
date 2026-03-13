@@ -41,13 +41,13 @@ export class RoundViewWHSComponent implements OnInit {
 
     this.display = false;
 
-    this.scoreBruttoClass = Array(18).fill('');
-    this.scoreNettoClass = Array(18).fill('');
+    this.scoreBruttoClass = new Array(18).fill('');
+    this.scoreNettoClass = new Array(18).fill('');
 
 
     // check if at least for one hole the ball was picked up
     this.ballPickedUp = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 18)
-      .some(v => v != null && v.stroke === ballPickedUpStrokes);
+      .some(v => v?.stroke === ballPickedUpStrokes);
 
     // create pars for first and last 9
     this.first9par = this.round().course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);

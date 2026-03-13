@@ -34,7 +34,7 @@ export class AddTeeComponent implements OnInit {
 
     this.newCourseTeeForm = this.formBuilder.group({
       tee: ['', Validators.required],
-      cr: ['', [ Validators.required, Validators.pattern('[2-8][0-9](,|\\.)?[0-9]?')]],
+      cr: ['', [ Validators.required, Validators.pattern(String.raw`[2-8][0-9](,|\.)?[0-9]?`)]],
       sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
       sexDropDown: ['', [Validators.required]],
       teeTypeDropDown: ['', [Validators.required]],
@@ -62,7 +62,7 @@ export class AddTeeComponent implements OnInit {
     //create tee
     const tee: Tee = {
       tee: this.g.tee.value,
-      cr: this.g.cr.value.toString().replace(/,/gi, '.'),
+      cr: this.g.cr.value.toString().replaceAll(',', '.'),
       sr: this.g.sr.value,
       teeType: this.g.teeTypeDropDown.value,
       sex: this.g.sexDropDown.value

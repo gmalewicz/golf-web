@@ -95,7 +95,7 @@ export class PlayersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
 
-        const whs = result.whs.toString().replace(/,/gi, '.');
+        const whs = result.whs.toString().replaceAll(',', '.');
 
         const player: Player = {
           id: this.playerRound[id].id,

@@ -43,6 +43,6 @@ export class NavigationComponent implements OnInit {
   }
 
   onChange() {
-    window.location.href = `/${this.activeLocale}`;
+    globalThis.location.href = `/${this.activeLocale}`;
   }
 }
