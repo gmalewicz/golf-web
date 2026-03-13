@@ -36,4 +36,4 @@ bootstrapApplication(AppComponent, {
       provideHttpClient(withInterceptorsFromDi()),
       provideRouter(routing, withPreloading(PreloadAllModules)),
   ]
-}).catch((err: unknown) => console.error(err));
+}).catch((err: unknown) => console.error(err)); // NOSONAR - top-level await is not supported in esbuild target environments for this project
