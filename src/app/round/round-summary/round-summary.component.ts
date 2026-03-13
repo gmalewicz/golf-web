@@ -33,7 +33,7 @@ export class RoundSummaryComponent implements OnInit {
     this.stbGross = new Array(this.round().player.length).fill(0);
     this.putts = new Array(this.round().player.length).fill(0);
     this.penalties = new Array(this.round().player.length).fill(0);
-    this.ballPickedUp = Array(this.round().player.length).fill(false);
+    this.ballPickedUp = new Array(this.round().player.length).fill(false);
 
     this.calculateSummary();
   }

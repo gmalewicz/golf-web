@@ -149,11 +149,11 @@ export class AddRoundComponent implements OnInit {
       .getPlayerForNick(this.f.nickDropDown.value)
       .pipe(
         tap((player) => {
-          if (player != null) {
+          if (player == null) {
+            this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nickDropDown.value} not found.`, false);
+          } else {
             this.f.nickDropDown.disable();
             this.player = player;
-          } else {
-            this.alertService.error($localize`:@@addRound-plrNotFnd:Player ${this.f.nickDropDown.value} not found.`, false);
           }
           this.searchInProgress = false;
         })
@@ -214,7 +214,7 @@ export class AddRoundComponent implements OnInit {
     // mark that tee data have been submitted
     this.defRoundForm.markAsUntouched();
 
-    this.score =  Array(18).fill('');
+    this.score =  new Array(18).fill('');
     this.first9Total = 0;
     this.last9Total = 0;
     this.grandTotal = 0;

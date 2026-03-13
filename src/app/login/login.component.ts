@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
             dialogRef.afterClosed().subscribe((result) => {
               if (result !== undefined) {
 
-                const whs = result.whs.toString().replace(/,/gi, '.');
+                const whs = result.whs.toString().replaceAll(',', '.');
                 player.whs = +whs;
                 player.sex = result.female === true;
                 player.updateSocial = true;

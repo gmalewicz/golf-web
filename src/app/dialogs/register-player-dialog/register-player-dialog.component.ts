@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -13,7 +13,7 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     templateUrl: './register-player-dialog.component.html',
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
-export class RegisterPlayerDialogComponent implements OnInit {
+export class RegisterPlayerDialogComponent {
   form: FormGroup;
 
   constructor(
@@ -27,7 +27,7 @@ export class RegisterPlayerDialogComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'),
+          Validators.pattern(String.raw`(-5(\.|,)0|-[0-4](,|\.)\d|\d(\.|,)\d|[1-4]\d(\.|,)\d|5[0-4](\.|,)\d)|\d\d|\d`),
           Validators.min(-5),
           Validators.max(54),
         ],
@@ -35,10 +35,6 @@ export class RegisterPlayerDialogComponent implements OnInit {
       female: [false],
       male: [true],
     });
-  }
-
-  ngOnInit() {
-     // This is intentional
   }
 
   // convenience getter for easy access to form fields

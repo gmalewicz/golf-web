@@ -108,29 +108,25 @@ export class RoundViewComponent implements OnInit {
       this.barChartData.push({
         stack: 'Stack 1', label: 'S(' + this.players[0].nick + ')',
         data: this.strokes[0], backgroundColor: '#F99B20', borderWidth: 1
-      });
-      this.barChartData.push({ stack: 'Stack 1', label: 'Putts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
+      }, { stack: 'Stack 1', label: 'Putts', data: this.pats[0], backgroundColor: '#CC7E1A', borderWidth: 1 });
     }
     if (this.strokes.length > 1 && this.dipslayPlayers[1]) {
       this.barChartData.push({
         stack: 'Stack 2', label: 'S(' + this.players[1].nick + ')',
         data: this.strokes[1], backgroundColor: '#51E21D', borderWidth: 1
-      });
-      this.barChartData.push({ stack: 'Stack 2', label: 'Putts', data: this.pats[1], backgroundColor: '#44BE18', borderWidth: 1 });
+      }, { stack: 'Stack 2', label: 'Putts', data: this.pats[1], backgroundColor: '#44BE18', borderWidth: 1 });
     }
     if (this.strokes.length > 2 && this.dipslayPlayers[2]) {
       this.barChartData.push({
         stack: 'Stack 3', label: 'S(' + this.players[2].nick + ')',
         data: this.strokes[2], backgroundColor: '#371BEB', borderWidth: 1
-      });
-      this.barChartData.push({ stack: 'Stack 3', label: 'Putts', data: this.pats[2], backgroundColor: '#2F18C7', borderWidth: 1 });
+      }, { stack: 'Stack 3', label: 'Putts', data: this.pats[2], backgroundColor: '#2F18C7', borderWidth: 1 });
     }
     if (this.strokes.length > 3 && this.dipslayPlayers[3]) {
       this.barChartData.push({
         stack: 'Stack 4', label: 'S(' + this.players[3].nick + ')',
         data: this.strokes[3], backgroundColor: '#F22F70', borderWidth: 1
-      });
-      this.barChartData.push({ stack: 'Stack 4', label: 'Putts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
+      }, { stack: 'Stack 4', label: 'Putts', data: this.pats[3], backgroundColor: '#AE6980', borderWidth: 1 });
     }
 
     this.barChartOptions = {

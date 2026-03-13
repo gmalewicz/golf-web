@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.component';
 import { OnlineNavComponent } from '../online-nav/online-nav.component';
@@ -8,7 +8,7 @@ import { OnlineNavComponent } from '../online-nav/online-nav.component';
     templateUrl: './common-scorecard-top.component.html',
     imports: [OnlineNavComponent, CommonScorecardComponent]
 })
-export class CommonScorecardTopComponent implements OnInit {
+export class CommonScorecardTopComponent {
 
   curHoleIdxSgn = input.required<number>();
   curHoleStrokesSgn = input.required<number[]>();
@@ -24,9 +24,5 @@ export class CommonScorecardTopComponent implements OnInit {
   curPlayerStyleSgn = input.required<string[]>();
   roundsSgn = input.required<OnlineRound[]>();
   @Input() public addScore: () => void;
-
-  ngOnInit() {
-    // This is intentional
-  }
 
 }

@@ -58,7 +58,7 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected processPlayer(player: Player, playerIdx: number): Promise<unknown> {
     if (player !== undefined) {
-      if (this.navigationService.players().find(p => p.nick === player.nick)) {
+      if (this.navigationService.players().some(p => p.nick === player.nick)) {
         this.alertService.error($localize`:@@leaguePlr-plrAlrdAdded:Player ${player.nick} already added to the league.`, false);
         return Promise.resolve(undefined);
       }
@@ -86,7 +86,7 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
   deletePlayer(leaguePlayer: LeaguePlayer, playerIdx: number) {
 
     // first check if player has associated any match and display proper error
-    if (this.navigationService.matches().find(m => m.winnerId === leaguePlayer.playerId || m.looserId === leaguePlayer.playerId)) {
+    if (this.navigationService.matches().some(m => m.winnerId === leaguePlayer.playerId || m.looserId === leaguePlayer.playerId)) {
       this.alertService.error($localize`:@@leaguePlr-delFailure:Cannot delete player with matches. Delete all player matches first.`, false);
       return;
     }
@@ -103,7 +103,7 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
           tap(
             () => {
               this.alertService.success($localize`:@@leaguePlr-delSucc:Player successfuly deleted`, false);
-              this.navigationService.players.set(...[this.navigationService.players().filter(lp => lp.playerId !== leaguePlayer.playerId)]);
+              this.navigationService.players.set(this.navigationService.players().filter(lp => lp.playerId !== leaguePlayer.playerId));
               this.players = this.navigationService.players();
               this.deletePlayerInProgress.set(false);
             })

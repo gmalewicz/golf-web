@@ -72,7 +72,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected processPlayer(player: Player, playerIdx: number): Promise<unknown> {
     if (player !== undefined) {
-      if (this.navigationService.tournamentPlayers().find(p => p.nick === player.nick)) {
+      if (this.navigationService.tournamentPlayers().some(p => p.nick === player.nick)) {
         this.alertService.error($localize`:@@tourPlr-plrAlrdAdded:Player ${player.nick} already added to the tournament.`, false);
         return Promise.resolve(undefined);
       }
@@ -159,7 +159,7 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
         this.playerIdx = playerIdx;
 
         let whs: string = result.whs;
-        whs = whs.toString().replace(/,/gi, '.');
+        whs = whs.toString().replaceAll(',', '.');
         this.navigationService.tournamentPlayers()[playerIdx].whs = +whs;
 
         this.tournamentHttpService.updateTournamentPlayer(this.navigationService.tournamentPlayers()[playerIdx]).pipe(

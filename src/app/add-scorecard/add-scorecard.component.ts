@@ -87,9 +87,9 @@ export class AddScorecardComponent implements OnInit {
       });
 
       // initialize buttons and set them not to be marked
-      this.holeSelectorActive = Array(18).fill({disabled: true, active: false});
-      this.strokeSelectorActive = Array(16).fill({disabled: true, active: false});
-      this.patSelectorActive = Array(6).fill({disabled: true, active: false});
+      this.holeSelectorActive = new Array(18).fill({disabled: true, active: false});
+      this.strokeSelectorActive = new Array(16).fill({disabled: true, active: false});
+      this.patSelectorActive = new Array(6).fill({disabled: true, active: false});
 
       // get round from state in case of edit
       if (history.state.data) {
@@ -131,14 +131,14 @@ export class AddScorecardComponent implements OnInit {
       this.barChartLabels.push(hole);
       barData.push(this.course.holes[hole - 1].par);
       // in case of edit score card
-      if (this.round != null) {
+      if (this.round == null) {
+        this.strokes.push(0);
+        this.putts.push(0);
+      } else {
         this.strokes.push(this.round.scoreCard[hole - 1].stroke );
         this.putts.push(this.round.scoreCard[hole - 1].pats);
         updatedPats.push(this.putts[hole - 1]);
         updatedStrokes.push(this.strokes[hole - 1] - this.putts[hole - 1]);
-      } else {
-        this.strokes.push(0);
-        this.putts.push(0);
       }
     }
 
@@ -328,7 +328,7 @@ export class AddScorecardComponent implements OnInit {
   selectHole(hole: number) {
 
     // initialize buttons and set them not to be marked
-    this.holeSelectorActive = Array(18).fill({active: false});
+    this.holeSelectorActive = new Array(18).fill({active: false});
     this.holeSelectorActive[hole - 1] = {active: true};
 
     this.updatingHole = hole;
@@ -359,7 +359,7 @@ export class AddScorecardComponent implements OnInit {
     }
 
     // initialize buttons and set them not to be marked
-    this.strokeSelectorActive = Array(18).fill({active: false});
+    this.strokeSelectorActive = new Array(18).fill({active: false});
     this.strokeSelectorActive[stroke - 1] = {active: true};
 
 
@@ -417,7 +417,7 @@ export class AddScorecardComponent implements OnInit {
     }
 
     // initialize buttons and set them not to be marked
-    this.patSelectorActive = Array(18).fill({active: false});
+    this.patSelectorActive = new Array(18).fill({active: false});
     this.patSelectorActive[pat] = {active: true};
 
     const updatedPats = [];
@@ -447,7 +447,7 @@ export class AddScorecardComponent implements OnInit {
   teeChange(clearGraph: boolean) {
 
     // update available holes
-    this.tee = this.course.tees.filter(t => t.id === this.f.teeDropDown.value).pop();
+    this.tee = this.course.tees.findLast(t => t.id === this.f.teeDropDown.value);
 
     if (this.tee.teeType === 1) {
       this.holeSelectorActive.fill({ disabled: true, active: false}, 9);

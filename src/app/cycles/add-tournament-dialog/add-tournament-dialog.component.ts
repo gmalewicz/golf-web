@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     templateUrl: './add-tournament-dialog.component.html',
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
-export class AddTournamentDialogComponent implements OnInit {
+export class AddTournamentDialogComponent {
 
   form: FormGroup;
 
@@ -26,10 +26,6 @@ export class AddTournamentDialogComponent implements OnInit {
       bestOf: [false],
       tournamentNo: ['', [Validators.required, Validators.pattern('[1-9][0-9][0-9][0-9][0-9]{0,1}')]],
     });
-  }
-
-  ngOnInit() {
-     // This is intentional
   }
 
   // convenience getter for easy access to form fields

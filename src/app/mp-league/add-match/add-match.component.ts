@@ -121,7 +121,7 @@ export class AddMatchComponent implements OnInit {
   }
 
    private getNickForId(id: number): string {
-    return this.navigationService.players().filter(p => p.playerId === id)[0].nick;
+    return this.navigationService.players().find(p => p.playerId === id).nick;
    }
 
    // convenience getter for easy access to form fields

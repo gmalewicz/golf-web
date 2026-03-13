@@ -113,7 +113,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.ownerSgn = this.navigationService.getOwnerSgn();
 
       if (this.viewTypeSgn() === ViewType.PLAYER) {
-        this.onlineRoundsSgn.set([...[this.onlineRoundsSgn()[0]]]); // trigger change detection
+        this.onlineRoundsSgn.set([this.onlineRoundsSgn()[0]]); // trigger change detection
         this.courseSgn.set(this.onlineRoundsSgn()[0].course);
         this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
 
@@ -216,7 +216,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
   // helper function to provide array for html
-  counterSgn = signal<Array<number>>([...Array(HALF_HOLES).keys()]) 
+  counterSgn = signal<Array<number>>([...new Array(HALF_HOLES).keys()]) 
 
   // process score card received from the web socket
   handleMessage(onlineScoreCard: OnlineScoreCard) {
@@ -226,7 +226,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
        // calculate MP result texts
       //this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
        // calculate MP result history
-      this.mpResultHistorySgn.set(...[createMPResultHistory(this.mpScore)]);
+      this.mpResultHistorySgn.set(createMPResultHistory(this.mpScore));
     } else {
       this.handleStrokeMessage(onlineScoreCard);
     }
@@ -323,10 +323,10 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.scoreBruttoClassSgn.set([...this.scoreBruttoClassSgn()]); // trigger change detection
 
         // check if at least for one hole the ball was picked up for each 9
-        this.first9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole <= HALF_HOLES));
+        this.first9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v?.stroke === ballPickedUpStrokes && v?.hole <= HALF_HOLES));
         this.first9ballPickedUpSgn.set([...this.first9ballPickedUpSgn()]); // trigger change detection
 
-        this.last9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v != null && v.stroke === ballPickedUpStrokes && v.hole > HALF_HOLES));
+        this.last9ballPickedUpSgn()[idx] = onlineRound.scoreCardAPI.some((v => v?.stroke === ballPickedUpStrokes && v?.hole > HALF_HOLES));
         this.last9ballPickedUpSgn.set([...this.last9ballPickedUpSgn()]); // trigger change detection
 
         this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
@@ -371,7 +371,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   private resetCounter() {
 
-    if (typeof this.lstUpdTimeSgn() === 'undefined') {
+    if (this.lstUpdTimeSgn() === undefined) {
       return;
     }
 
@@ -390,7 +390,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   }
 
  private  getElapsedTime(entry: Date): TimeSpan {
-    let totalSeconds = Math.floor((new Date().getTime() - entry.getTime()) / 1000);
+    let totalSeconds = Math.floor((Date.now() - entry.getTime()) / 1000);
 
     let hours = 0;
     let minutes = 0;
@@ -417,9 +417,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   public static compareTime(first: string, second: string): string {
 
-    if (typeof first === 'undefined') {
-      first = '00:00';
-    }
+    first ??= '00:00';
 
     const firstNum: number  = +first.replace(':', '');
     const secondNum: number  = +second.replace(':', '');

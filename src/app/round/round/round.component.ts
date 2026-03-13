@@ -144,7 +144,7 @@ export class RoundComponent implements OnInit {
     let first9full = true;
     let second9full = true;
     // check if first 9 is full
-    const firstEmptyHoleIdx = emptyHoles.findIndex(value => value === 0);
+    const firstEmptyHoleIdx = emptyHoles.indexOf(0);
     if (firstEmptyHoleIdx <= 8 && firstEmptyHoleIdx > -1) {
       first9full = false;
     }
@@ -179,7 +179,7 @@ export class RoundComponent implements OnInit {
                                                                       pl.roundDetails.teeType,
                                                                       this.round.course.par));
 
-    const holeHcp: number[][] = Array(1).fill(0).map(() => new Array(18).fill(0));
+    const holeHcp: number[][] = new Array(1).fill(0).map(() => new Array(18).fill(0));
 
     calculateHoleHCP( 0,
                         pl.roundDetails.teeType,

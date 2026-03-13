@@ -86,10 +86,10 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     protected rxStompService: RxStompService,
     protected location: LocationStrategy,
   ) {
-    history.pushState(null, null, window.location.href);
+    history.pushState(null, null, globalThis.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {
-      history.pushState(null, null, window.location.href);
+      history.pushState(null, null, globalThis.location.href);
     });
   }
 

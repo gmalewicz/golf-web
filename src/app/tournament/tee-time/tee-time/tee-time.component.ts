@@ -51,7 +51,9 @@ export class TeeTimeComponent implements OnInit {
     this.saveInProgress = signal(false);
 
     // first verify database
-    if (!this.navigationService.teeTimesChecked()) {
+    if (this.navigationService.teeTimesChecked()) {
+      this.setUpMode();
+    } else {
       this.tournamentHttpService.getTeeTimes(this.navigationService.tournament().id).pipe(
         tap(
           (retTeeTimesParamaters: TeeTimeParameters) => {
@@ -63,8 +65,6 @@ export class TeeTimeComponent implements OnInit {
             this.setUpMode();
           })
       ).subscribe();
-    } else {
-      this.setUpMode();
     }
   }
 

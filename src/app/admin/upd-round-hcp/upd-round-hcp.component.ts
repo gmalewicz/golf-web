@@ -27,7 +27,7 @@ export class UpdRoundHcpComponent implements OnInit {
       playerId: ['', [Validators.required, Validators.pattern('[1-9][0-9]{0,5}?')]],
       roundId: ['', [Validators.required, Validators.pattern('[1-9][0-9]{0,5}?')]],
       // tslint:disable-next-line: max-line-length
-      whs: ['', [Validators.required,  Validators.pattern('(-5(\\.|,)0|-[0-4](,|\\.)\\d|\\d(\\.|,)\\d|[1-4]\\d(\\.|,)\\d|5[0-4](\\.|,)\\d)|\\d\\d|\\d'), Validators.min(-5), Validators.max(54)]]
+      whs: ['', [Validators.required,  Validators.pattern(String.raw`(-5(\.|,)0|-[0-4](,|\.)\d|\d(\.|,)\d|[1-4]\d(\.|,)\d|5[0-4](\.|,)\d)|\d\d|\d`), Validators.min(-5), Validators.max(54)]]
     });
   }
 
@@ -48,7 +48,7 @@ export class UpdRoundHcpComponent implements OnInit {
     let whs = this.fupdRoundHcp.whs.value;
 
     if (whs !== '') {
-      whs = whs.replace(/,/gi, '.');
+      whs = whs.replaceAll(',', '.');
     }
 
     this.httpService
