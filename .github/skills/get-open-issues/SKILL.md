@@ -37,5 +37,15 @@ $auth = [Convert]::ToBase64String(
 Invoke-WebRequest -Uri $url -Headers @{ Authorization = "Basic $auth" } -OutFile "sonar_issues.json"
 ```
 
-
+```bash 
+# List open issues for given pull request (PR)
+$token = $env:SONARCLOUD_TOKEN  
+$url = "https://sonarcloud.io/api/issues/search?componentKeys=[PROJECT_KEY]&pullRequest=[PR_NUMBER]&statuses=OPEN"  
+  
+$auth = [Convert]::ToBase64String(  
+    [Text.Encoding]::ASCII.GetBytes("${token}:")  
+)  
+  
+Invoke-WebRequest -Uri $url -Headers @{ Authorization = "Basic $auth" } -OutFile "sonar_issues.json"
+```
 

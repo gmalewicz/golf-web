@@ -417,9 +417,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   public static compareTime(first: string, second: string): string {
 
-    if (first === undefined) {
-      first = '00:00';
-    }
+    first ??= '00:00';
 
     const firstNum: number  = +first.replace(':', '');
     const secondNum: number  = +second.replace(':', '');

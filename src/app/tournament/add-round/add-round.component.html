@@ -52,41 +52,41 @@
       <table id="holeStake-tbl" class="table" aria-describedby="View stroke play round">
         <thead>
           <tr>
-            <th class="w-10" i18n="@@addRound-hole">Hole</th>
+            <th scope="col" class="w-10" i18n="@@addRound-hole">Hole</th>
             @for (i of 9 | range; track i;) {
-              <th class="w-5">
+              <th scope="col" class="w-5">
                 {{i + 1}}
               </th>
             }
-            <th class="center w-10">OUT</th>
+            <th scope="col" class="center w-10">OUT</th>
             @for (i of 9 | range; track i;) {
               <th id="no2" class="w-5">
                 {{i + 10}}
               </th>
             }
-            <th class="center w-10" >IN</th>
-            <th class="center w-10" i18n="@@addRound-total">TOTAL</th>
+            <th scope="col" class="center w-10" >IN</th>
+            <th scope="col" class="center w-10" i18n="@@addRound-total">TOTAL</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th class="w-10">Par</th>
+            <th scope="row" class="w-10">Par</th>
             @for (i of 9 | range; track i;) {
               <th id="no3" class="w-5">
                 {{holes[i].par}}
               </th>
             }
-            <th class="center w-10"></th>
+            <th scope="col" class="center w-10"></th>
             @for (i of 9 | range; track i;) {
               <th id="no4" class="w-5">
                 {{holes[i + 9].par}}
               </th>
             }
-            <th class="center w-10" ></th>
-            <th class="center w-10"></th>
+            <th scope="col" class="center w-10" ></th>
+            <th scope="col" class="center w-10"></th>
           </tr>
           <tr>
-            <th class="w-15" i18n="@@addRound-score">Score</th>
+            <th scope="row" class="w-15" i18n="@@addRound-score">Score</th>
             @for (i of 9 | range; track i;) {
               <th id="no5" class="w-5">
                 <input  #box
@@ -100,7 +100,7 @@
                   [appAutoTab]="'hl' + (i + 1)"/>
                 </th>
               }
-              <th class="center w-10">
+              <th scope="col" class="center w-10">
                 @if (first9Total === 0) {
                   <span></span>
                 }
@@ -124,7 +124,7 @@
                     [appAutoTab]="'hl' + (i + 10)"/>
                   </th>
                 }
-                <th class="center w-10" >
+                <th scope="col" class="center w-10" >
                   @if (last9Total === 0) {
                     <span></span>
                   }
@@ -135,7 +135,7 @@
                     <span>{{last9Total}}</span>
                   }
                 </th>
-                <th class="center w-10">
+                <th scope="col" class="center w-10">
                   @if (grandTotal === 0) {
                     <span></span>
                   }

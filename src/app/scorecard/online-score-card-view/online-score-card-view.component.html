@@ -60,14 +60,14 @@
                 {{courseSgn()?.holes[index].si}}
               </td>
             }
-            <th></th>
+            <th scope="col"></th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
                 {{courseSgn()?.holes[index + 9].si}}
               </td>
             }
-            <th></th>
-            <th></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
           @if (viewTypeSgn() === ViewType.PLAYER || viewTypeSgn() === ViewType.COURSE ) {
             @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
@@ -91,7 +91,7 @@
                       }
                     </td>
                   }
-                <th class="center">
+                <th class="center" scope="col">
                   @if (!first9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound.first9score}}
@@ -116,14 +116,14 @@
                     }
                   </td>
                 }
-                <th class="center">
+                <th class="center" scope="col">
                   @if (!last9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound.last9score}}
                     </span>
                   }
                 </th>
-                <th class="center">
+                <th class="center" scope="col">
                   @if (!first9ballPickedUpSgn()[idx] && !last9ballPickedUpSgn()[idx]) {
                     <span>
                       {{onlineRound?.first9score + onlineRound?.last9score}}
@@ -170,14 +170,14 @@
                     {{mpResultHistorySgn()[team][index]}}
                   </td>
                 }
-                <th class="center"></th>
+                <th class="center" scope="col"></th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightResultSgn()[team][index + 9]">
                     {{mpResultHistorySgn()[team][index + 9]}}
                   </td>
                 }
-                <th class="center"></th>
-                <th class="center"></th>  
+                <th class="center" scope="col"></th>
+                <th class="center" scope="col"></th>  
               </tr>  
             }
           }
