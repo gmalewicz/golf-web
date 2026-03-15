@@ -81,6 +81,11 @@ export class RoundsComponent implements OnInit, OnDestroy {
 
   onTabClick(id: number) {
 
+
+    if (id === this.roundsNavigationService.selectedTab()) {
+      return;
+    }
+
     this.roundsNavigationService.selectedTab.set(id);
 
     const tempRounds = this.roundsNavigationService.rounds();
