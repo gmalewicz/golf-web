@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (round of roundsNavigationService.rounds(); track round) {
+    @for (round of roundsNavigationService.rounds(); track round.id) {
       <tr>
         <td>
           <a href="#" routerLink ="/round" [state]="{data: {round: round, back: true}}">
@@ -28,7 +28,7 @@
         <td>{{ round.course.name }}</td>
         @if (roundsNavigationService.selectedTab() === 1) {
           <td>
-            @for (player of round.player; track player) {
+            @for (player of round.player; track player.id) {
               <span>
                 {{player.nick}}<br/>
               </span>
