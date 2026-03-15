@@ -136,7 +136,7 @@
           @if (viewTypeSgn() === ViewType.MP ) {              
             @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
               <tr>    
-                <td></td>
+                <th id="nick">{{onlineRound?.player.nick}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index]">
                     @if (onlineRound?.scoreCardAPI[index] != null) {
