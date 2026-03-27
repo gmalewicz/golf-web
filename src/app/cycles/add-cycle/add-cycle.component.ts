@@ -55,10 +55,10 @@ export class AddCycleComponent implements OnInit {
             Validators.max(54),
           ],
         ],
-        // 0 - cycle rules up to 2024, 1 - cycle from 2025
+        // 0 - cycle rules up to 2024, 1 - cycle from 2025, 2 - cycle from 2026
         version: [
           1,
-          [Validators.required, Validators.min(0), Validators.max(1)],
+          [Validators.required, Validators.min(0), Validators.max(2)],
         ],
       });
 

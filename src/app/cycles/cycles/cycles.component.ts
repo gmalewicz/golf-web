@@ -10,6 +10,7 @@ import { AuthGuard } from '@/_helpers/auth.guard';
 import { AddCycleComponent } from '../add-cycle/add-cycle.component';
 import { CycleDetailsComponent } from '../cycle-details/cycle-details.component';
 import { CycleDetails2025Component } from '../cycle-details-2025/cycle-details-2025.component';
+import { CycleDetails2026Component } from '../cycle-details-2026/cycle-details-2026.component';
 
 
 @Component({
@@ -60,4 +61,5 @@ export const cyclesRoutes: Routes = [
   { path: 'addCycle', component: AddCycleComponent, canActivate: [AuthGuard] },
   { path: 'cycleDetails', component: CycleDetailsComponent, canActivate: [AuthGuard] },
   { path: 'cycleDetails2025', component: CycleDetails2025Component, canActivate: [AuthGuard] },
+  { path: 'cycleDetails2026', component: CycleDetails2026Component, canActivate: [AuthGuard] },
 ];
