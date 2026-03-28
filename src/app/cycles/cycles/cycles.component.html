@@ -25,8 +25,12 @@
                 <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
-              } @else {
+              } @else if (cycle.version == 1) {
                 <a href="#"  routerLink ="cycleDetails2025" [state]="{data: {cycle: cycle}}">
+                  <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
+                </a>
+              } @else {
+                <a href="#"  routerLink ="cycleDetails2026" [state]="{data: {cycle: cycle}}">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
               }

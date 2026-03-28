@@ -11,7 +11,7 @@ import { CycleDetailsVersionedBase } from "../base/cycle-details-versioned-base"
 import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cycle-results-stroke-play.component";
 
 @Component({
-  selector: "app-cycle-details",
+  selector: "app-cycle-details-2026",
   templateUrl: "../base/cycle-details-versioned.component.html",
   imports: [
     CycleResultsComponent,
@@ -21,12 +21,12 @@ import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cy
   ],
   providers: [CycleHttpService],
 })
-export class CycleDetails2025Component
+export class CycleDetails2026Component
   extends CycleDetailsVersionedBase
   implements OnInit
 {
   protected grandPrixPoints: number[] = [
-    20, 17, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
+    26, 22, 19, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
   ];
 
   constructor(
@@ -53,19 +53,24 @@ export class CycleDetails2025Component
     element: any,
     eagleResultSet: EagleResultSet,
   ): void {
-    element.items
-      .slice(0, this.grandPrixPoints.length)
-      .forEach((item, index) => {
-        const eagleResult: EagleResult = {
-          firstName: item.first_name,
-          lastName: item.last_name,
-          whs: item.hcp ?? 0,
-          r: [this.grandPrixPoints[index], 0, 0, 0],
-          series: 1,
-        };
+    element.items.forEach((item, index) => {
+      const eagleResult: EagleResult = {
+        firstName: item.first_name,
+        lastName: item.last_name,
+        whs: item.hcp ?? 0,
+        r: [
+          index < this.grandPrixPoints.length
+            ? this.grandPrixPoints[index]
+            : 1,
+          0,
+          0,
+          0,
+        ],
+        series: 1,
+      };
 
-        eagleResultSet.items.push(eagleResult);
-      });
+      eagleResultSet.items.push(eagleResult);
+    });
   }
 
   protected processMultiRoundTournament(
@@ -84,7 +89,11 @@ export class CycleDetails2025Component
 
     reareEagleResultSet.forEach((set) =>
       set.items.forEach(
-        (item, index) => (item.grandPrix[0] = this.grandPrixPoints[index]),
+        (item, index) =>
+          (item.grandPrix[0] =
+            index < this.grandPrixPoints.length
+              ? this.grandPrixPoints[index]
+              : 1),
       ),
     );
 
@@ -96,7 +105,11 @@ export class CycleDetails2025Component
 
     reareEagleResultSet.forEach((set) =>
       set.items.forEach(
-        (item, index) => (item.grandPrix[1] = this.grandPrixPoints[index]),
+        (item, index) =>
+          (item.grandPrix[1] =
+            index < this.grandPrixPoints.length
+              ? this.grandPrixPoints[index]
+              : 1),
       ),
     );
 
