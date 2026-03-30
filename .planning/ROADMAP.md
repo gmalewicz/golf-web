@@ -11,7 +11,7 @@ Angular SPA for managing golf competitions - player registration, round recordin
 - [x] **Phase 1: Cycle 2026** - Add CycleDetails2026Component with 2026 Grand Prix points scale and tie-break logic
 - [x] **Phase 2: Add Cycle Validation** - Update AddCycleComponent validator to accept version = 2
 - [x] **Phase 3: remove duplications** - Extract shared base class and template for 2025/2026 cycle components
-- [ ] **Phase 4: Remove Legacy Protractor** - Remove dead Protractor e2e config from angular.json and update README to reference Cypress
+- [x] **Phase 4: Remove Legacy Protractor** - Remove dead Protractor e2e config from angular.json and update README to reference Cypress
 
 ### Phase Details
 
@@ -50,9 +50,9 @@ Plans:
 **Goal:** Remove the dead Protractor `e2e` architect target from `angular.json` (references non-existent `e2e/protractor.conf.js`) and update `README.md` to document Cypress as the E2E solution.
 **Requirements**: PROTRACTOR-01
 **Depends on:** None
-**Plans:** 1 plan
+**Plans:** complete
 
 Plans:
-- [ ] 04-01-PLAN.md - Remove Protractor e2e target from angular.json and update README
+- [x] 04-01-PLAN.md - Remove Protractor e2e target from angular.json and update README (completed 2026-03-30)
 
 ---
