@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ModificationComponent } from './modification.component';
 import { TournamentNavigationService } from '@/tournament/_services/tournamentNavigation.service';
 import { TeeTimePublishStatus } from '@/tournament/_models';
-import { async } from 'rxjs';
 
 describe('ModificationComponent', () => {
   let component: ModificationComponent;

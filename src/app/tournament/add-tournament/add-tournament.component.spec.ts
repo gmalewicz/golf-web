@@ -5,9 +5,9 @@ import { AddTournamentComponent } from './add-tournament.component';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
 import { routing } from '@/app.routing';
-import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {

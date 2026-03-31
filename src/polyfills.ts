@@ -61,7 +61,7 @@ import '@angular/localize/init';
  */
 import 'zone.js';  // Included with Angular CLI.
 
-(globalThis as any).global = globalThis;
+(globalThis as unknown as Record<string, unknown>).global = globalThis;
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

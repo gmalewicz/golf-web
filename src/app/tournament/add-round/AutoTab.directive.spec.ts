@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 @Component({
-    selector: 'my-test-component',
+    selector: 'app-test-component',
     template: '<input id="1" type="text" class="test" [appAutoTab]="1"/>',
     imports: [AutoTabDirective]
 })

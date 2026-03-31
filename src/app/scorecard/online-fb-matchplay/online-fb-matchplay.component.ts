@@ -1,13 +1,8 @@
-import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, computed, OnInit, signal, WritableSignal } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ScorecardHttpService } from '../_services';
 import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultText } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
-import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';

@@ -211,7 +211,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       const p0 = this.playersSgn()[0];  
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        let teeOption = p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        const teeOption = p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
         copy[0] = p0 ? teeOption : [];  
         return copy;  
       });
@@ -253,7 +253,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        let teeOption = player.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        const teeOption = player.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
         copy[playerIdx] = player ? teeOption : [];  
         return copy;  
       });
@@ -285,7 +285,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     });  
     
     dialogRef.afterClosed().pipe(  
-      switchMap((result: any) => {  
+      switchMap((result: Record<string, unknown>) => {  
          
         if (!result?.whs) {
           return of(undefined);
@@ -322,8 +322,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     this.searchInProgressSgn.set(copy);
   }  
   
-  protected processPostPlayer(_: unknown): void {  
-    // Intentionally left blank  
+  protected processPostPlayer(_player: unknown): void {
+    void _player;
   }  
 
   onStartOnlineRound(event: Event) {

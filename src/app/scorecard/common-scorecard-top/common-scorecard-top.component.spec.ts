@@ -4,7 +4,7 @@ import { CommonScorecardComponent } from '../common-scorecard/common-scorecard.c
 import { CommonScorecardTopComponent } from './common-scorecard-top.component';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { authenticationServiceAdminStub } from '@/_helpers/test.helper';
-import { ComponentRef, signal } from '@angular/core';
+import { ComponentRef } from '@angular/core';
 
 describe('CommonScorecardTopComponent', () => {
   let component: CommonScorecardTopComponent;

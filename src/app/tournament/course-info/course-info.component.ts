@@ -39,12 +39,12 @@ export class CourseInfoComponent implements OnInit {
       this.httpService.getTees(this.courseSgn().id).pipe(
         tap((tees) => {
           if (this.parentSgn() === this.PARENT_TOURNAMENT) {
-            let playerTees: PlayerTee[] = [];
+            const playerTees: PlayerTee[] = [];
             this.navigationService.tournamentPlayers().forEach(player => {
               let playerNameNotSet = true;
               tees.forEach(tee => {
                 if (tee.sex === player.sex && tee.teeType === teeTypes.TEE_TYPE_18) {
-                  let courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
+                  const courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
                   playerTees.push({
                     nick: playerNameNotSet ? player.nick : "",
                     hcp: player.whs,  

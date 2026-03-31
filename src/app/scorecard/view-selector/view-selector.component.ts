@@ -58,7 +58,7 @@ export class ViewSelectorComponent implements OnInit {
         this.onlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner !==
           this.authenticationService.currentPlayerValue.id || v.finalized === true));
 
-        let players = new Map<number, string[]>();  
+        const players = new Map<number, string[]>();  
         for (const or of this.onlineRoundsSgn()) {
           this.coursesSgn().set(or.course.id , or.course);
 

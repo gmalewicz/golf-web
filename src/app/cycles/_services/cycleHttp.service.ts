@@ -27,8 +27,7 @@ export class CycleHttpService {
   }
 
   // gets eagle results
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getEagleStbResults(tournamentNo: number, classification: number): Observable<any> {
+  getEagleStbResults(tournamentNo: number, classification: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=' + classification);
   }
@@ -64,19 +63,19 @@ export class CycleHttpService {
   }
 
   // gets eagle tournament
-  getEagleTournament(tournamentNo: number): Observable<any> {
+  getEagleTournament(tournamentNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/tournament/get_tournament?id=' + tournamentNo);
   }
 
   // gets eagle scorecard
-  getScoreCard(playerNo: number): Observable<any> {
+  getScoreCard(playerNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/scorecard/get_scorecard?player_id=' + playerNo);
   }
 
   // gets eagle main category (stroke play)
-  getStrokePlay(tournamentNo: number): Observable<any> {
+  getStrokePlay(tournamentNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=sp_brutto&classification=0');
   }

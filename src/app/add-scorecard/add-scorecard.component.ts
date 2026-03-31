@@ -383,8 +383,8 @@ export class AddScorecardComponent implements OnInit {
   private calculateResult() {
 
     const result = this.strokes.reduce((p, c) => p + c, 0);
-    let difference = 0;
-    let par = 0;
+    let difference: number;
+    let par: number;
 
     if (this.tee.teeType === 1) {
       difference = result - this.first9Par;

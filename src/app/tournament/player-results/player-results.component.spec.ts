@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper';
 import { ComponentRef } from '@angular/core';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
-import { TournamentResultsComponent } from '../tournament-results/tournament-results.component';
 import { AuthenticationService } from '@/_services';
 
 describe('PlayerResultsComponent', () => {

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';  
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';  
 import { NO_ERRORS_SCHEMA, signal } from '@angular/core';  
-import { Observable, of } from 'rxjs';  
+import { of } from 'rxjs';  
 import { PlayerSelectorComponent } from './player-selector.component';  
 import { HttpService, AlertService, AuthenticationService } from '@/_services';  
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';  
@@ -24,8 +24,6 @@ describe('PlayerSelectorComponent', () => {
   let component: PlayerSelectorComponent;  
   
   let httpServiceSpy: jasmine.SpyObj<HttpService>;  
-  let alertServiceSpy: jasmine.SpyObj<AlertService>;  
-  let authServiceMock: Partial<AuthenticationService>;  
   let dialogSpy: jasmine.SpyObj<MatDialog>;  
   let scorecardHttpSpy: jasmine.SpyObj<ScorecardHttpService>;  
   let navigationSpy: jasmine.SpyObj<NavigationService>;  
@@ -38,7 +36,7 @@ describe('PlayerSelectorComponent', () => {
   ];  
   const mockCourse = { id: 123, holes: [], tees: [] }; 
   
-  const dialogRefStub = { afterClosed: () => of({ whs: '11' }) } as unknown as MatDialogRef<any>;
+  const dialogRefStub = { afterClosed: () => of({ whs: '11' }) } as unknown as MatDialogRef<unknown>;
   
   beforeEach(async () => {  
     httpServiceSpy = jasmine.createSpyObj('HttpService', ['getHoles', 'getTees', 'updatePlayer', 'updatePlayerOnBehalf']);  
@@ -48,12 +46,6 @@ describe('PlayerSelectorComponent', () => {
     httpServiceSpy.updatePlayer.and.returnValue(of(void 0));
     httpServiceSpy.updatePlayerOnBehalf.and.returnValue(of(new HttpResponse<null>));
   
-    alertServiceSpy = jasmine.createSpyObj('AlertService', ['error']);  
-  
-    authServiceMock = {  
-      // the component reads authenticationService.currentPlayerValue in getCourseData  
-      currentPlayerValue: { id: 99, nick: 'loggedUser', sex: false, whs: 12 }  
-    };  
   
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);  
     
@@ -102,8 +94,8 @@ describe('PlayerSelectorComponent', () => {
     // override input signals before ngOnInit runs (detectChanges())  
     // the component defines courseSgn and formatSgn from input.required<...>()  
     // replace them with real signals for tests:  
-    (component as any).courseSgn = signal(mockCourse);  
-    (component as any).formatSgn = signal(Format.FOUR_BALL_STROKE_PLAY);  
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).courseSgn = signal(mockCourse);  
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).formatSgn = signal(Format.FOUR_BALL_STROKE_PLAY);  
   
     // run ngOnInit + template init  
     //fixture.detectChanges();  
@@ -116,7 +108,7 @@ describe('PlayerSelectorComponent', () => {
   });  
   
   it('ngOnInit should load course data and populate tee options & displaySgn', () => {  
-    (component as any).formatSgn = signal(Format.MATCH_PLAY); 
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).formatSgn = signal(Format.MATCH_PLAY); 
     fixture.detectChanges();
 
     // After detectChanges() (ngOnInit), getCourseData forkJoin should have run synchronously  
@@ -144,7 +136,7 @@ describe('PlayerSelectorComponent', () => {
   httpServiceSpy.updatePlayer.and.returnValue(of(void 0));
 
   // spy the internal toggler if you want explicit call checks
-  const spySet = spyOn<any>(component, 'setSearchInProgress').and.callThrough();
+  const spySet = spyOn(component as unknown as { setSearchInProgress: (idx: number, val: boolean) => void }, 'setSearchInProgress').and.callThrough();
 
   component.updateWHS(0);
 
@@ -162,7 +154,7 @@ describe('PlayerSelectorComponent', () => {
  
   it('onStartOnlineRound should show error if not all players are set', () => {  
     // Set noOfPlayersSgn to 2 (override linkedSignal) and only set first player  
-    (component as any).noOfPlayersSgn = signal(2);  
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(2);  
     component.playersSgn.set([ { id: 1, nick: 'a' }, null, null, null ]);  
   
     const evt = new Event('submit');  
@@ -177,7 +169,7 @@ describe('PlayerSelectorComponent', () => {
 
   it('onStartOnlineRound should process correctly if all players set for stroke play round ', () => {  
     // Set noOfPlayersSgn to 2 (override linkedSignal) and only set first player  
-    (component as any).noOfPlayersSgn = signal(1);  
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(1);  
     component.playersSgn.set([ { id: 1, nick: 'a' } ]); 
   
     component.playerDataForm.teeDropDowns[0]().controlValue.set({tee: '1'}); // set a tee for player 0
@@ -195,9 +187,9 @@ describe('PlayerSelectorComponent', () => {
   it('onStartOnlineRound should process correctly if all players set for match play round ', () => {  
 
     // Set noOfPlayersSgn to 2 (override linkedSignal) and only set first player
-    (component as any).noOfPlayersSgn = signal(2);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(2);
    
-    (component as any).formatSgn = signal(Format.MATCH_PLAY);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).formatSgn = signal(Format.MATCH_PLAY);
      
   
     component.playerDataModel.update(current =>  { return {...current, teeDropDowns: current.teeDropDowns.concat({ tee: '1' })}; });
@@ -208,7 +200,7 @@ describe('PlayerSelectorComponent', () => {
 
     fixture.detectChanges();
 
-     (component as any).playersSgn = signal([ { id: 1, nick: 'a' }, { id: 2, nick: 'b' } ]);
+     (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn = signal([ { id: 1, nick: 'a' }, { id: 2, nick: 'b' } ]);
 
     const evt = new Event('submit');
     spyOn(evt, 'preventDefault').and.callThrough();
@@ -224,7 +216,7 @@ describe('PlayerSelectorComponent', () => {
 
   it('onPlayers should set number of players and initialize playersSgn', () => {
     // make sure the internal noOfPlayersSgn exists and has a sensible default
-    (component as any).noOfPlayersSgn = signal(4);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(4);
 
     // run ngOnInit / effects
     fixture.detectChanges();
@@ -233,14 +225,14 @@ describe('PlayerSelectorComponent', () => {
     component.onPlayers(2);
 
     // verify the internal signal and players array
-    expect((component as any).noOfPlayersSgn()).toBe(2);
+    expect((component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn()).toBe(2);
 
     const players = component.playersSgn();
     expect(players.length).toBeGreaterThanOrEqual(2);
 
     // first player should be the logged-in user from the injected auth stub
     expect(players[0]).toBeTruthy();
-    expect(players[0].id).toBe((authenticationServiceStub as any).currentPlayerValue.id);
+    expect(players[0].id).toBe((authenticationServiceStub as unknown as { currentPlayerValue: { id: number } }).currentPlayerValue.id);
   });
 
   it('processPlayer (protected) should place provided player into playersSgn at given index', () => {
@@ -253,7 +245,7 @@ describe('PlayerSelectorComponent', () => {
     const newPlayer = { id: 42, nick: 'procPlayer', sex: false, whs: 9 };
 
     // call protected method via any cast
-    (component as any).processPlayer(newPlayer, 1);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).processPlayer(newPlayer, 1);
 
     const players = component.playersSgn();
     expect(players[1]).toBeTruthy();

@@ -65,7 +65,7 @@ export class TournamentRoundsComponent implements OnInit {
             return Promise.resolve(undefined);
           }),
         )
-      .subscribe((status: any) => {
+      .subscribe((status: unknown) => {
         if (status === undefined) {
           return;
         }

@@ -1,4 +1,4 @@
-﻿import { EagleResult, EagleResultSet } from "../_models/eagleResult";
+import { EagleResult, EagleResultSet } from "../_models/eagleResult";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { Component, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
@@ -7,7 +7,7 @@ import { CycleHttpService } from "../_services/cycleHttp.service";
 import { AlertService } from "@/_services/alert.service";
 import { CycleTournamentComponent } from "../cycle-tournament/cycle-tournament.component";
 import { CycleResultsComponent } from "../cycle-results/cycle-results.component";
-import { CycleDetailsVersionedBase } from "../base/cycle-details-versioned-base";
+import { CycleDetailsVersionedBase, EagleApiResultSet } from "../base/cycle-details-versioned-base";
 import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cycle-results-stroke-play.component";
 
 @Component({
@@ -62,7 +62,7 @@ export class CycleDetails2025Component
   }
 
   protected processSingleRoundTournament(
-    element: any,
+    element: EagleApiResultSet,
     eagleResultSet: EagleResultSet,
   ): void {
     element.items
@@ -82,7 +82,7 @@ export class CycleDetails2025Component
 
   protected processMultiRoundTournament(
     eagleResultSet: EagleResultSet,
-    reareEagleResultSet: any,
+    reareEagleResultSet: EagleApiResultSet[],
   ): void {
     // perepare r for each player
     reareEagleResultSet.forEach((set) =>
@@ -113,7 +113,7 @@ export class CycleDetails2025Component
     );
 
     reareEagleResultSet.forEach((element) => {
-      element.items.forEach((item, index) => {
+      element.items.forEach((item) => {
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,

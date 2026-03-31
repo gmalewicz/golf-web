@@ -3,7 +3,7 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OnlineNavComponent } from './online-nav.component';
-import { ComponentRef, signal } from '@angular/core';
+import { ComponentRef } from '@angular/core';
 
 describe('OnlineNavComponent', () => {
 

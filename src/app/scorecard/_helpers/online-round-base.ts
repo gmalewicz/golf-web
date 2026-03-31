@@ -123,7 +123,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
       // initialize variables
       this.curPlayerIdxSgn.set(0);
 
-      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
+      const initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
         "no-highlight",
       );
       initPlayerStyleArray[0] = "highlight";
@@ -401,14 +401,14 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.updateNetStatistic();
 
     if (this.curPlayerIdxSgn() < this.onlineRoundsSgn().length - 1) {
-      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
+      const initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
         "no-highlight",
       );
       this.curPlayerIdxSgn.set(this.curPlayerIdxSgn() + 1);
       initPlayerStyleArray[this.curPlayerIdxSgn()] = "highlight";
       this.curPlayerStyleSgn.set(initPlayerStyleArray);
     } else {
-      let initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
+      const initPlayerStyleArray = new Array(this.onlineRoundsSgn().length).fill(
         "no-highlight",
       );
       this.curPlayerIdxSgn.set(0);

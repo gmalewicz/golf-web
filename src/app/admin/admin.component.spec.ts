@@ -9,12 +9,11 @@ import {
 } from "@angular/common/http";
 import {
   ComponentFixture,
-  fakeAsync,
-  flushMicrotasks,
   TestBed,
   waitForAsync,
 } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ViewContainerRef } from "@angular/core";
 
 import { AdminComponent } from "./admin.component";
 import { MatDialogModule } from "@angular/material/dialog";
@@ -30,7 +29,7 @@ describe("AdminComponent", () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
   let authenticationService: AuthenticationService;
-  let mockContainer: any;
+  let mockContainer: Partial<ViewContainerRef>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -64,7 +63,7 @@ describe("AdminComponent", () => {
       length: 0,
       createComponent: jasmine.createSpy("createComponent").and.callFake(() => {
         return { instance: {
-          playerRoundCntEmt: new Subject<any[]>(),
+          playerRoundCntEmt: new Subject<unknown[]>(),
           playerRound: undefined
         } }; // minimal fake ComponentRef
       }),
@@ -78,7 +77,7 @@ describe("AdminComponent", () => {
   });
 
   it("loads MoveCourse (fakeAsync + flushMicrotasks)", async() => {
-    component.adminContainerRef = mockContainer as any;
+    component.adminContainerRef = mockContainer as ViewContainerRef;
     await component.loadComponent(1);
     // resolve awaited imports / Promise microtasks
     //flushMicrotasks();
@@ -88,7 +87,7 @@ describe("AdminComponent", () => {
   });
 
   it("loads UpdRoundHcp", async () => {
-    component.adminContainerRef = mockContainer as any;
+    component.adminContainerRef = mockContainer as ViewContainerRef;
     await component.loadComponent(2);
     fixture.detectChanges();
     expect(mockContainer.createComponent).toHaveBeenCalled();
@@ -96,7 +95,7 @@ describe("AdminComponent", () => {
   });
 
   it("loads PlayersComponent (playerRoundCnt)", async () => {
-    component.adminContainerRef = mockContainer as any;
+    component.adminContainerRef = mockContainer as ViewContainerRef;
     await component.loadComponent(3);
     fixture.detectChanges();
     expect(mockContainer.createComponent).toHaveBeenCalled();
