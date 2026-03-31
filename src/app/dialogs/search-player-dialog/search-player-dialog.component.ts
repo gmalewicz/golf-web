@@ -1,6 +1,6 @@
 import { Player } from '@/_models/player';
 import { HttpService } from '@/_services/http.service';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,10 @@ import { MatFormField } from '@angular/material/form-field';
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<SearchPlayerDialogComponent>>(MatDialogRef);
+  private readonly httpService = inject(HttpService);
+
 
   static readonly PAGE_SIZE = 5;
 
@@ -25,11 +29,7 @@ export class SearchPlayerDialogComponent {
   dispPlayers: boolean;
   faPlusCircle: IconDefinition;
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<SearchPlayerDialogComponent>,
-    private readonly httpService: HttpService,
-  ) {
+  constructor() {
     this.faPlusCircle = faPlusCircle;
     this.dispPlayers = true;
     this.page = 0;

@@ -1,5 +1,5 @@
 import { FlightAssignmentMode, TeeTimePublishStatus } from './../../_models/teeTimeParameters';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal, inject } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import { ParametersComponent } from '../parameters/parameters.component';
 import { TournamentHttpService } from '@/tournament/_services/tournamentHttp.service';
@@ -23,6 +23,12 @@ import { ModificationComponent } from '../modification/modification.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TeeTimeComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  navigationService = inject(TournamentNavigationService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+
 
   MODE_PLYAYER_TEETIMES_NOT_PUBLISHED: number = 0;
   MODE_PLYAYER_TEETIMES_PUBLISHED: number = 1;
@@ -35,12 +41,6 @@ export class TeeTimeComponent implements OnInit {
   public saveInProgress: WritableSignal<boolean>;
 
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              public navigationService: TournamentNavigationService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly alertService: AlertService,
-              private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
 

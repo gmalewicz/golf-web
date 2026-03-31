@@ -9,13 +9,10 @@ import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angul
 import { AlertService } from '@/_services/alert.service';
 import { alertServiceStub } from '@/_helpers/test.helper';
 import { routing } from '@/app.routing';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_router: Router) {
-  }
 }
 
 describe('RegistrationComponent', () => {

@@ -1,5 +1,5 @@
 import { Course } from '@/_models/course';
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
 import { HttpService } from '@/_services';
@@ -13,17 +13,17 @@ import { calculateRoundedCourseHCP } from '@/_helpers/whs.routines';
   templateUrl: './course-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CourseInfoComponent implements OnInit { 
+export class CourseInfoComponent implements OnInit {
+  private readonly router = inject(Router);
+  readonly navigationService = inject(TournamentNavigationService);
+  private readonly httpService = inject(HttpService);
+ 
 
   readonly PARENT_TOURNAMENT = 'tournament'; 
 
   courseSgn = signal<Course>(undefined);
   parentSgn = signal<string>(undefined);
   playerTeesSgn = signal<PlayerTee[]>(undefined);
-
-  constructor(private readonly router: Router,
-              public readonly navigationService: TournamentNavigationService,
-              private readonly httpService: HttpService) { }
 
   ngOnInit(): void {
   

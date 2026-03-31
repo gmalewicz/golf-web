@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
@@ -8,8 +8,8 @@ import { AppConfig } from '../_models/appConfig';
 
 @Injectable({ providedIn: 'root' })
 export class ScorecardHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   getOnlineRounds(): Observable<Array<OnlineRound>> {
     return this.http.get<Array<OnlineRound>>('rest/OnlineRound/all');

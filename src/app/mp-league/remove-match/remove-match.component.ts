@@ -1,7 +1,7 @@
 import { LeagueHttpService } from './../_services/leagueHttp.service';
 import { LeagueMatch } from './../_models/leagueMatch';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { NavigationService } from '../_services/navigation.service';
@@ -20,19 +20,19 @@ import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
     imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
 })
 export class RemoveMatchComponent implements OnInit {
+  private readonly alertService = inject(AlertService);
+  authenticationService = inject(AuthenticationService);
+  private readonly formBuilder = inject(FormBuilder);
+  navigationService = inject(NavigationService);
+  private readonly router = inject(Router);
+  private readonly leagueHttpService = inject(LeagueHttpService);
+
 
   matchRemoveForm: FormGroup;
 
   private display: WritableSignal<boolean>;
 
   playerOptions = [];
-
-  constructor(private readonly alertService: AlertService,
-              public authenticationService: AuthenticationService,
-              private readonly formBuilder: FormBuilder,
-              public navigationService: NavigationService,
-              private readonly router: Router,
-              private readonly leagueHttpService: LeagueHttpService) { }
 
   ngOnInit(): void {
 

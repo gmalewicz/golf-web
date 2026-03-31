@@ -1,9 +1,9 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
 
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -14,11 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class UpdateTournamentPlayerWhsDialogComponent extends DialogBaseComponent {
 
-  constructor(
-    protected fb: FormBuilder,
-    protected dialogRef: MatDialogRef<UpdateTournamentPlayerWhsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
-   super(fb, dialogRef, data);
+  constructor() {
+    super();
   }
 }

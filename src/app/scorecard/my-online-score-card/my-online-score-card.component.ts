@@ -1,6 +1,6 @@
 import { NavigationService } from '../_services/navigation.service';
 import { AuthenticationService } from '@/_services';
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal, inject } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
@@ -19,15 +19,14 @@ import { ViewSelectorComponent } from '../view-selector/view-selector.component'
     providers: [NavigationService]
 })
 export class MyOnlineScoreCardComponent implements OnInit {
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly navigationService = inject(NavigationService);
+
 
   displaySgn: WritableSignal<boolean> = signal(false);
   myOnlineRoundsSgn: WritableSignal<OnlineRound[]> = signal([]);
-
-  constructor(private readonly scorecardHttpService: ScorecardHttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly navigationService: NavigationService) {
-  }
 
   ngOnInit(): void {
 

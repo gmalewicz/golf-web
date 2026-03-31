@@ -1,5 +1,5 @@
 import { EagleResultSet } from './../_models/eagleResult';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cycle } from '../_models/cycle';
@@ -8,8 +8,8 @@ import { CycleResult } from '../_models/cycleResult';
 
 @Injectable()
 export class CycleHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   // gets cycles
   getCycles(): Observable<Array<Cycle>> {

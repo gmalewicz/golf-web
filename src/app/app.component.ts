@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AlertComponent } from './alert/alert.component';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -9,10 +9,8 @@ import { NavigationComponent } from './navigation/navigation.component';
     imports: [NavigationComponent, AlertComponent, RouterOutlet]
 })
 export class AppComponent {
+  private readonly router = inject(Router);
+
 
   title = 'golf-web';
-
-  constructor(
-    private readonly router: Router
-  ) { }
 }

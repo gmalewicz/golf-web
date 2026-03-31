@@ -1,5 +1,5 @@
 import { Player } from "@/_models/player";
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
@@ -7,15 +7,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
     template: ''
 })
 export class DialogBaseComponent {
+  protected fb = inject(FormBuilder);
+  protected dialogRef = inject<MatDialogRef<unknown>>(MatDialogRef);
+
 
   form: FormGroup;
   player: Player;
 
-  constructor(
-    protected fb: FormBuilder,
-    protected dialogRef: MatDialogRef<unknown>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
+  constructor() {
+    const data = inject(MAT_DIALOG_DATA);
+
     this.form = this.fb.group({
       whs: [
         '',

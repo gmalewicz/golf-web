@@ -1,14 +1,16 @@
 import { Message } from '@/_models/message';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
+    private readonly router = inject(Router);
+
     private readonly subject = new Subject<Message>();
     private keepAfterRouteChange = false;
 
-    constructor(private readonly router: Router) {
+    constructor() {
         // clear alert messages on route change unless 'keepAfterRouteChange' flag is true
         this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {

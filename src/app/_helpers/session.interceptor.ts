@@ -2,17 +2,17 @@ import { Player } from '@/_models/player';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class SessionRecoveryInterceptor implements HttpInterceptor {
+  private readonly httpService = inject(HttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
 
-  constructor(private readonly httpService: HttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router) {}
 
   private refreshSubject: Subject<unknown> = new Subject<unknown>();
 

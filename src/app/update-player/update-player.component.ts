@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -20,20 +20,18 @@ import { firstValueFrom } from "rxjs";
   imports: [ReactiveFormsModule, NgClass, RouterLink],
 })
 export class UpdatePlayerComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+  private readonly httpService = inject(HttpService);
+  private readonly dialog = inject(MatDialog);
+
   updateForm: FormGroup;
   loading: boolean;
   submitted: boolean;
   display: boolean;
   removeEmail: boolean;
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly authenticationService: AuthenticationService,
-    private readonly alertService: AlertService,
-    private readonly httpService: HttpService,
-    private readonly dialog: MatDialog,
-  ) {}
 
   ngOnInit() {
     if (this.authenticationService.currentPlayerValue === null) {

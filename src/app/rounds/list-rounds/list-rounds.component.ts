@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { RoundsNavigationService } from '../roundsNavigation.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -13,15 +13,13 @@ import { Format } from '@/_models/format';
     imports: [RouterLink, FaIconComponent, DatePipe]
 })
 export class ListRoundsComponent implements OnInit {
+  authenticationService = inject(AuthenticationService);
+  roundsNavigationService = inject(RoundsNavigationService);
+
 
   Format = Format;
 
   faSearchPlus: IconDefinition;
-
-  constructor(public authenticationService: AuthenticationService,
-              public roundsNavigationService: RoundsNavigationService) {
-     // This is intentional
-  }
 
   ngOnInit(): void {
 

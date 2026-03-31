@@ -1,6 +1,6 @@
 import { Course, Format } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { Router  } from '@angular/router';
 import { PlayerSelectorComponent } from "./player-selector/player-selector.component";
 
@@ -14,18 +14,16 @@ import { PlayerSelectorComponent } from "./player-selector/player-selector.compo
     providers: []
 })
 export class OnlineRoundDefComponent implements OnInit {
+  protected alertService = inject(AlertService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+
 
   Format = Format;
 
   courseSgn = signal<Course>(undefined);
   displaySgn = signal(false);
   formatSgn = signal<Format>(undefined);
- 
-  constructor(
-    protected alertService: AlertService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly router: Router,
-  ) {}
 
   ngOnInit(): void {
     if (

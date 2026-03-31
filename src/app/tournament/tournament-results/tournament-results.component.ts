@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
@@ -23,6 +23,13 @@ import { firstValueFrom } from 'rxjs';
     templateUrl: './tournament-results.component.html'
 })
 export class TournamentResultsComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+  navigationService = inject(TournamentNavigationService);
+
 
   faSearchPlus: IconDefinition;
   faSearchMinus: IconDefinition;
@@ -40,13 +47,6 @@ export class TournamentResultsComponent implements OnInit {
   @ViewChild('tournamentContainer', {read: ViewContainerRef}) tournamentContainerRef: ViewContainerRef;
   @ViewChild('teeTimeContainer', {read: ViewContainerRef}) teeTimeContainerRef: ViewContainerRef;
   @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly alertService: AlertService,
-              private readonly dialog: MatDialog,
-              public navigationService: TournamentNavigationService) {}
 
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null || this.navigationService.tournament() === undefined) {

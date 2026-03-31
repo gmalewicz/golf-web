@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, effect, input, linkedSignal, signal } from '@angular/core';    
+import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, effect, input, linkedSignal, signal, inject } from '@angular/core';    
 import { MatDialog } from '@angular/material/dialog';  
 import { MatOption } from '@angular/material/core';  
 import { MatSelect } from '@angular/material/select';  
@@ -42,7 +42,15 @@ interface PlayerData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  
 })  
-export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {  
+export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {
+  protected httpService: HttpService;
+  protected alertService: AlertService;
+  private readonly authenticationService = inject(AuthenticationService);
+  protected dialog: MatDialog;
+  readonly navigationService = inject(NavigationService);
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly router = inject(Router);
+  
  
   private readonly MAX_PLAYERS = 4;
 
@@ -83,16 +91,16 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   
   tees: Tee[] = [];  
     
-  constructor(  
-    protected httpService: HttpService,    
-    protected alertService: AlertService,  
-    private readonly authenticationService: AuthenticationService,  
-    protected dialog: MatDialog,
-    readonly navigationService: NavigationService,
-    private readonly scorecardHttpService: ScorecardHttpService, 
-    private readonly router: Router
-  ) {  
-    super(alertService, dialog, httpService);  
+  constructor() {
+    const httpService = inject(HttpService);
+    const alertService = inject(AlertService);
+    const dialog = inject(MatDialog);
+  
+    super(alertService, dialog, httpService);
+    this.httpService = httpService;
+    this.alertService = alertService;
+    this.dialog = dialog;
+  
 
     effect (() => {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Hole, Course } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
@@ -28,6 +28,13 @@ import { AuthGuard } from '@/_helpers/auth.guard';
     styleUrls: ['./add-course.component.css']
 })
 export class AddCourseComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+  private readonly courseNavigationService = inject(CourseNavigationService);
+
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -52,14 +59,6 @@ export class AddCourseComponent implements OnInit {
   si: number[];
 
   nbrHoles: { label: string; value: number; }[];
-
-  constructor(private readonly httpService: HttpService,
-              private readonly formBuilder: FormBuilder,
-              private readonly router: Router,
-              private readonly authenticationService: AuthenticationService,
-              private readonly alertService: AlertService,
-              private readonly courseNavigationService: CourseNavigationService) {
-  }
 
   ngOnInit(): void {
 

@@ -1,7 +1,7 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Round, Player } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, inject } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
@@ -16,6 +16,12 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [BaseChartDirective]
 })
 export class RoundViewComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  dialog = inject(MatDialog);
+
 
   round = input.required<Round>();
 
@@ -41,14 +47,6 @@ export class RoundViewComponent implements OnInit {
 
   // 0 - full, 1 - first, 2 - second
   display9: number;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly alertService: AlertService,
-              private readonly router: Router,
-              private readonly authenticationService: AuthenticationService,
-              public dialog: MatDialog) {
-
-  }
 
   ngOnInit(): void {
 

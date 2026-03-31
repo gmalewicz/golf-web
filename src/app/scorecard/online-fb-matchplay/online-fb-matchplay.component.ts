@@ -46,16 +46,8 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
   // if greater than 0, the first player has additional strokes
   //hcpDiff: WritableSignal<number[]> = signal(undefined);
 
-  constructor(protected httpService: HttpService,
-              protected scorecardHttpService: ScorecardHttpService,
-              protected alertService: AlertService,
-              protected dialog: MatDialog,
-              protected authenticationService: AuthenticationService,
-              protected router: Router,
-              protected navigationService: NavigationService,
-              protected rxStompService: RxStompService,
-              protected location: LocationStrategy) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService, location);
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {

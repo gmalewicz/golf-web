@@ -1,6 +1,6 @@
 import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -20,18 +20,16 @@ import { NgClass } from "@angular/common";
   providers: [CycleHttpService],
 })
 export class AddCycleComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly cycleHttpService = inject(CycleHttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+
   addCycleForm: FormGroup;
   submitted: boolean;
   loading: boolean;
   display: boolean;
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly authenticationService: AuthenticationService,
-    private readonly cycleHttpService: CycleHttpService,
-    private readonly alertService: AlertService,
-    private readonly router: Router,
-  ) {}
 
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null) {

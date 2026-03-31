@@ -1,5 +1,5 @@
 import { PlayerRndCnt } from './../_models/playerRndCnt';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Version} from '@/_models';
@@ -7,8 +7,8 @@ import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Versio
 
 @Injectable()
 export class HttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   getCourses(): Observable<Array<Course>> {
 

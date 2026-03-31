@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnDestroy, OnInit, input, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, input, signal, inject } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgClass } from '@angular/common';
@@ -10,6 +10,8 @@ import { NgClass } from '@angular/common';
     imports: [NgClass]
 })
 export class OnlineNavComponent implements OnInit, OnDestroy {
+  authenticationService = inject(AuthenticationService);
+
 
   curHoleStrokesSgn = input.required<number[]>();
   curPlayerIdxSgn = input.required<number>();
@@ -27,10 +29,6 @@ export class OnlineNavComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   offlineEvent: Observable<Event>;
   onlineEvent: Observable<Event>;
-
-  constructor(public authenticationService: AuthenticationService) {
-    // This is intentional
-  }
 
   ngOnInit(): void {
     this.buttonsSgn.set([0, 1, 2, 3, 4, 5]);

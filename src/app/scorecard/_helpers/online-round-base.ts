@@ -6,7 +6,7 @@ import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
 import { LocationStrategy, formatDate } from "@angular/common";
-import { Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { Component, OnDestroy, OnInit, signal, inject } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { faPlay, IconDefinition } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +26,16 @@ import { Format } from "@/_models/format";
   providers: [NavigationService],
 })
 export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
+  protected httpService = inject(HttpService);
+  protected scorecardHttpService = inject(ScorecardHttpService);
+  protected alertService = inject(AlertService);
+  protected dialog = inject(MatDialog);
+  protected authenticationService = inject(AuthenticationService);
+  protected router = inject(Router);
+  protected navigationService = inject(NavigationService);
+  protected rxStompService = inject(RxStompService);
+  protected location = inject(LocationStrategy);
+
   ballPickedUpSgn = signal<boolean[]>([]);
   //course: Course;
   courseSgn = signal<Course>(undefined);
@@ -75,17 +85,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
   // waiting for server response
   inProgress: boolean;
 
-  constructor(
-    protected httpService: HttpService,
-    protected scorecardHttpService: ScorecardHttpService,
-    protected alertService: AlertService,
-    protected dialog: MatDialog,
-    protected authenticationService: AuthenticationService,
-    protected router: Router,
-    protected navigationService: NavigationService,
-    protected rxStompService: RxStompService,
-    protected location: LocationStrategy,
-  ) {
+  constructor() {
     history.pushState(null, null, globalThis.location.href);
     // check if back or forward button is pressed.
     this.location.onPopState(() => {

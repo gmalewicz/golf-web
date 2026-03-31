@@ -9,14 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginComponent } from './login.component';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_router: Router) {
-  }
 }
 
 describe('LoginComponent', () => {

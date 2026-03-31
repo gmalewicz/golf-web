@@ -1,6 +1,6 @@
 import { CycleTournament } from '../_models/cycleTournament';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, OnChanges, OnInit, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnInit, input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
@@ -15,16 +15,24 @@ import { RangePipe } from "../../_helpers/range";
     imports: [RangePipe]
 })
 export class CycleResultsStrokePlayComponent extends CycleResultsBase implements OnInit, OnChanges {
+  authenticationService: AuthenticationService;
+  protected readonly router: Router;
+
 
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();
   strokePlayResults = [];
   cycleTournaments = input.required<CycleTournament[]>();
   
-  constructor(public authenticationService: AuthenticationService,
-              protected readonly router: Router) { 
+  constructor() {
+    const authenticationService = inject(AuthenticationService);
+    const router = inject(Router);
+ 
                 
     super(authenticationService, router);
+  
+    this.authenticationService = authenticationService;
+    this.router = router;
   }
 
   ngOnInit(): void {

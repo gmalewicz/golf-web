@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentNavigationService } from '@/tournament/_services';
 
@@ -7,8 +7,7 @@ import { TournamentNavigationService } from '@/tournament/_services';
     imports: [CommonModule],
     templateUrl: './preview.component.html'
 })
-export class PreviewComponent {
+export class PreviewComponent {  navigationService = inject(TournamentNavigationService);
 
-  constructor(public navigationService: TournamentNavigationService) {}
 
 }

@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -17,6 +17,12 @@ import { AddTeeComponent } from '../add-tee/add-tee.component';
     templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly alertService = inject(AlertService);
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly courseNavigationService = inject(CourseNavigationService);
+
 
   loading: boolean;
   loadingTees: boolean;
@@ -35,12 +41,6 @@ export class CourseComponent implements OnInit {
   barData: number[];
 
   displayAddTee: boolean;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly alertService: AlertService,
-              public authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly courseNavigationService: CourseNavigationService) { }
 
   ngOnInit(): void {
 

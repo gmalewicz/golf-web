@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal, inject } from '@angular/core';
 import { LeagueStatus } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AuthenticationService } from '@/_services/authentication.service';
@@ -19,6 +19,13 @@ import { NgStyle } from '@angular/common';
     imports: [NgStyle, RouterLink]
 })
 export class LeagueComponent  implements OnInit {
+  private readonly leagueHttpService = inject(LeagueHttpService);
+  navigationService = inject(NavigationService);
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+
 
   faSearchPlus: IconDefinition;
   faSearchMinus: IconDefinition;
@@ -34,13 +41,6 @@ export class LeagueComponent  implements OnInit {
 
   @ViewChild('leagueContainer', {read: ViewContainerRef}) leagueContainerRef: ViewContainerRef | undefined;
   @ViewChild('notificationContainer', {read: ViewContainerRef}) notificationContainerRef: ViewContainerRef;
-
-  constructor(private readonly leagueHttpService: LeagueHttpService,
-              public navigationService: NavigationService,
-              public authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly alertService: AlertService,
-              private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
 

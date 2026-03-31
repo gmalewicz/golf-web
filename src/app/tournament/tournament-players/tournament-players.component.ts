@@ -4,7 +4,7 @@ import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -29,6 +29,12 @@ import { TournamentNavigationService } from '../_services';
     styleUrls: ['./tournament-players.component.css']
 })
 export class TournamentPlayersComponent extends CreateOrSearchDialogBase implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  protected alertService: AlertService;
+  protected httpService: HttpService;
+  protected dialog: MatDialog;
+  navigationService = inject(TournamentNavigationService);
+
 
   display: boolean;
 
@@ -40,13 +46,17 @@ export class TournamentPlayersComponent extends CreateOrSearchDialogBase impleme
 
   deletePlayerinProgress: boolean;
 
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              protected alertService: AlertService,
-              protected httpService: HttpService,
-              protected dialog: MatDialog,
-              public navigationService: TournamentNavigationService) {
+  constructor() {
+                const alertService = inject(AlertService);
+                const httpService = inject(HttpService);
+                const dialog = inject(MatDialog);
+
                 super(alertService, dialog, httpService);
-              }
+              
+                this.alertService = alertService;
+                this.httpService = httpService;
+                this.dialog = dialog;
+  }
 
   ngOnInit(): void {
 

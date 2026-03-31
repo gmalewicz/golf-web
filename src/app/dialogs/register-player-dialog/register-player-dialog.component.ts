@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -14,13 +14,14 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
 export class RegisterPlayerDialogComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<RegisterPlayerDialogComponent>>(MatDialogRef);
+
   form: FormGroup;
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<RegisterPlayerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
+  constructor() {
+    const data = inject(MAT_DIALOG_DATA);
+
     this.form = this.fb.group({
       nick: [data.nick, [Validators.required, Validators.maxLength(10)]],
       whs: [

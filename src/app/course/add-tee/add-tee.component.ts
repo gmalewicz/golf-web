@@ -1,5 +1,5 @@
 
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { MatInputModule } from '@angular/material/input';
@@ -16,19 +16,17 @@ import { AlertService } from '@/_services';
     templateUrl: './add-tee.component.html'
 })
 export class AddTeeComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly courseNavigationService = inject(CourseNavigationService);
+  private readonly courseHttpService = inject(CourseHttpService);
+  private readonly alertService = inject(AlertService);
+
 
   public newCourseTeeForm: FormGroup;
   teeTypes: { label: string; value: number; }[];
   sex: { label: string; value: boolean; }[];
 
   public saveTee = signal<boolean>(false);
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly courseNavigationService: CourseNavigationService,
-    private readonly courseHttpService: CourseHttpService,
-    private readonly alertService: AlertService) {
-}
 
   ngOnInit(): void {
 

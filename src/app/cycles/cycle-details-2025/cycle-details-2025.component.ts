@@ -1,6 +1,6 @@
 ﻿import { EagleResult, EagleResultSet } from "../_models/eagleResult";
 import { AuthenticationService } from "@/_services/authentication.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router, RouterLink } from "@angular/router";
 import { CycleHttpService } from "../_services/cycleHttp.service";
@@ -25,17 +25,23 @@ export class CycleDetails2025Component
   extends CycleDetailsVersionedBase
   implements OnInit
 {
+  authenticationService: AuthenticationService;
+  protected readonly router: Router;
+  protected readonly dialog: MatDialog;
+  protected readonly cycleHttpService: CycleHttpService;
+  protected readonly alertService: AlertService;
+
   protected grandPrixPoints: number[] = [
     20, 17, 14, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
   ];
 
-  constructor(
-    public authenticationService: AuthenticationService,
-    protected readonly router: Router,
-    protected readonly dialog: MatDialog,
-    protected readonly cycleHttpService: CycleHttpService,
-    protected readonly alertService: AlertService,
-  ) {
+  constructor() {
+    const authenticationService = inject(AuthenticationService);
+    const router = inject(Router);
+    const dialog = inject(MatDialog);
+    const cycleHttpService = inject(CycleHttpService);
+    const alertService = inject(AlertService);
+
     super(
       authenticationService,
       router,
@@ -43,6 +49,12 @@ export class CycleDetails2025Component
       cycleHttpService,
       alertService,
     );
+  
+    this.authenticationService = authenticationService;
+    this.router = router;
+    this.dialog = dialog;
+    this.cycleHttpService = cycleHttpService;
+    this.alertService = alertService;
   }
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 import { AlertService, AuthenticationService } from '@/_services';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { firstValueFrom, map, mergeMap } from 'rxjs';
@@ -13,21 +13,20 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+  navigationService = inject(TournamentNavigationService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly formBuilder = inject(FormBuilder);
+
 
   loadingSubscribe: WritableSignal<boolean>;
   loadingUnsubscribe: WritableSignal<boolean>;
   loadingNotify: WritableSignal<boolean>;
   playerId: number;
   notificationForm: FormGroup;
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-    private readonly router: Router,
-    private readonly alertService: AlertService,
-    private readonly dialog: MatDialog,
-    public navigationService: TournamentNavigationService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly formBuilder: FormBuilder) {
-  }
 
   ngOnInit(): void {
     this.loadingSubscribe = signal(false);

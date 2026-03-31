@@ -1,6 +1,6 @@
 import { NavigationService, ViewType } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal} from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal, inject } from '@angular/core';
 import { fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
@@ -25,6 +25,13 @@ import { RangePipe } from '@/_helpers/range';
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
+  private readonly httpService = inject(HttpService);
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly navigationService = inject(NavigationService);
+  private readonly rxStompService = inject(RxStompService);
+
 
   readonly ViewType = ViewType;
 
@@ -61,13 +68,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
                 .reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
   last9parSgn: Signal<number> = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
   mpResultSgn: Signal<string[]>;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly scorecardHttpService: ScorecardHttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly navigationService: NavigationService,
-              private readonly rxStompService: RxStompService) { }
 
   ngOnDestroy(): void {
 

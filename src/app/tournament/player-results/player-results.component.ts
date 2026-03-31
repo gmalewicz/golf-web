@@ -1,5 +1,5 @@
 import { Round } from '@/_models/round';
-import { Component, EventEmitter, OnInit, Output, input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { faMinusCircle, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs';
@@ -17,6 +17,11 @@ import { AuthenticationService } from '@/_services';
     templateUrl: './player-results.component.html'
 })
 export class PlayerResultsComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly router = inject(Router);
+  readonly tournamentNavigationService = inject(TournamentNavigationService);
+  private readonly authenticationService = inject(AuthenticationService);
+
 
   @Output() notify = new EventEmitter<void>();
 
@@ -27,12 +32,6 @@ export class PlayerResultsComponent implements OnInit {
 
   faSearchPlus: IconDefinition;
   faMinusCircle: IconDefinition;
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              private readonly router: Router,
-              public readonly tournamentNavigationService: TournamentNavigationService,
-              private readonly authenticationService: AuthenticationService
-             ) { }
 
   ngOnInit() {
 

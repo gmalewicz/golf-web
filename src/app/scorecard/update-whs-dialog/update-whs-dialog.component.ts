@@ -1,7 +1,7 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { CommonDialogComponent } from '../../dialogs/common-dialog/common-dialog.component';
 
@@ -12,11 +12,7 @@ import { CommonDialogComponent } from '../../dialogs/common-dialog/common-dialog
 })
 export class UpdateWhsDialogComponent extends DialogBaseComponent {
 
-  constructor(
-    protected fb: FormBuilder,
-    protected dialogRef: MatDialogRef<UpdateWhsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
-   super(fb, dialogRef, data);
+  constructor() {
+    super();
   }
 }
