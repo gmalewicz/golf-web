@@ -21,11 +21,11 @@
         @for (cycle of cycles; track cycle) {
           <tr>
             <td>
-              @if (cycle.version == 0) {
+              @if (cycle.version === 0) {
                 <a href="#"  routerLink ="cycleDetails" [state]="{data: {cycle: cycle}}">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>
-              } @else if (cycle.version == 1) {
+              } @else if (cycle.version === 1) {
                 <a href="#"  routerLink ="cycleDetails2025" [state]="{data: {cycle: cycle}}">
                   <fa-icon [icon]="faSearchPlus" class="golf-green"></fa-icon>
                 </a>

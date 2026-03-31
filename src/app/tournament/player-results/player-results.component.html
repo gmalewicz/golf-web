@@ -23,7 +23,7 @@
       <tr>
       <td>{{j + 1}}</td>
       <td>
-        @if (tournamentRound.roundId !== null) {
+        @if (tournamentRound.roundId) {
           <span>
             <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"
             (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>

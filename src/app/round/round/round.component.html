@@ -38,21 +38,21 @@
         }
       </li>
       <li>
-        @if (round.format == Format.MATCH_PLAY) {
+        @if (round.format === Format.MATCH_PLAY) {
           <button class="nav-link" id="mp-tab" data-bs-toggle="tab" data-bs-target="#mp" type="button"
           role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
         }
       </li>
 
       <li>
-        @if (round.format == Format.STROKE_PLAY && round.player.length > 2) {
+        @if (round.format === Format.STROKE_PLAY && round.player.length > 2) {
           <button class="nav-link" id="skins-tab" data-bs-toggle="tab" data-bs-target="#skins" type="button"
           role="tab" aria-controls="skins" aria-selected="false" (click)="onTabClick(7)">Skins</button>
         }
       </li>
 
       <li>
-        @if (round.format == Format.FOUR_BALL_MATCH_PLAY) {
+        @if (round.format === Format.FOUR_BALL_MATCH_PLAY) {
           <button class="nav-link" id="fbmp-tab" data-bs-toggle="tab" data-bs-target="#fbmp" type="button"
           role="tab" aria-controls="fbmp" aria-selected="false" (click)="onTabClick(8)">Four Ball Match Play</button>
         }
@@ -64,50 +64,50 @@
         <app-round-view [round]='round'></app-round-view>
       </div>
       <div class="tab-pane fade" id="summary" role="tabpanel" aria-labelledby="summary-tab">
-        @if (selectedTab == 1) {
+        @if (selectedTab === 1) {
           <app-round-summary [round]='round'></app-round-summary>
         }
       </div>
       <div class="tab-pane fade" id="p0" role="tabpanel" aria-labelledby="p0-tab">
-        @if (selectedTab == 2) {
+        @if (selectedTab === 2) {
           <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
         }
       </div>
       @if (round.player.length > 1) {
         <div class="tab-pane fade" id="p1" role="tabpanel" aria-labelledby="p1-tab">
-          @if (selectedTab == 3) {
+          @if (selectedTab === 3) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
           }
         </div>
       }
       @if (round.player.length > 2) {
         <div class="tab-pane fade" id="p2" role="tabpanel" aria-labelledby="p2-tab">
-          @if (selectedTab == 4) {
+          @if (selectedTab === 4) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
           }
         </div>
       }
       @if (round.player.length > 3) {
         <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab">
-          @if (selectedTab == 5) {
+          @if (selectedTab === 5) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
           }
         </div>
       }
       <div class="tab-pane fade" id="mp" role="tabpanel" aria-labelledby="mp-tab">
-        @if (round.format == Format.MATCH_PLAY && selectedTab == 6) {
+        @if (round.format === Format.MATCH_PLAY && selectedTab === 6) {
           <app-round-view-mp [round]='round'></app-round-view-mp>
         }
       </div>
         <div class="tab-pane fade" id="skins" role="tabpanel" aria-labelledby="mp-tab"></div>
-          @if (round.format !== Format.MATCH_PLAY && selectedTab == 7) {
+          @if (round.format !== Format.MATCH_PLAY && selectedTab === 7) {
             @defer {
               <app-round-view-skins [round]='round'></app-round-view-skins>
             }
           }
         </div>
       <div class="tab-pane fade" id="fbmp" role="tabpanel" aria-labelledby="fbmp-tab">
-        @if (round.format == Format.FOUR_BALL_MATCH_PLAY && selectedTab == 8) {
+        @if (round.format === Format.FOUR_BALL_MATCH_PLAY && selectedTab === 8) {
           <app-round-view-fb-mp [round]='round'></app-round-view-fb-mp>
         }
       </div>

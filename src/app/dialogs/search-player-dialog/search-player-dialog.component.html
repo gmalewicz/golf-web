@@ -49,7 +49,7 @@
       </button>
       &nbsp;
       <button type="button" class="btn btn-success" (click)="onNext()"
-        [disabled]="players != undefined && players.length < pageSize">
+        [disabled]="players && players.length < pageSize">
         &gt;
       </button>
       &nbsp;

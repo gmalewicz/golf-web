@@ -52,7 +52,7 @@
       Previous
     </button>
   &nbsp;
-  <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="roundsNavigationService.rounds() != undefined && roundsNavigationService.rounds().length < roundsNavigationService.pageSize()" i18n="@@rounds-next">
+  <button type="button" class="btn btn-success" (click)="onNext()" [disabled]="roundsNavigationService.rounds() && roundsNavigationService.rounds().length < roundsNavigationService.pageSize()" i18n="@@rounds-next">
       Next
     </button>
   &nbsp;

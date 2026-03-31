@@ -11,7 +11,7 @@
   <tbody>
     @for (row of navigationService.teeTimes(); track row; let idx = $index) {
       <tr>
-        @if (idx == 0 || navigationService.teeTimes()[idx].flight != navigationService.teeTimes()[idx - 1].flight) {
+        @if (idx === 0 || navigationService.teeTimes()[idx].flight !== navigationService.teeTimes()[idx - 1].flight) {
           <td [ngClass]="modBackCls[idx]" (click)="modifyFlight(idx)" onKeyDown="modifyFlight(idx)">
             {{((idx / navigationService.teeTimeParameters().flightSize) + 1) | number: '1.0-0'}}
           </td>
