@@ -322,7 +322,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     this.searchInProgressSgn.set(copy);
   }  
   
-  protected processPostPlayer(_player: unknown): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected processPostPlayer(_: unknown): void {
+    // intentionally empty — no post-processing needed in this context
   }  
 
   onStartOnlineRound(event: Event) {
