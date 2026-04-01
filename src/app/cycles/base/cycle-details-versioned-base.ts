@@ -9,6 +9,52 @@ import { AlertService } from '@/_services/alert.service';
 import { CycleDetailsBase } from './cycle-details-base';
 import { combineLatest, Observable } from 'rxjs';
 
+// Eagle API response interfaces (external system)
+interface EagleClassification {
+  id: number;
+  name: string;
+}
+
+interface EagleTournamentResponse {
+  tournament: {
+    classifications: EagleClassification[];
+  };
+}
+
+export interface EagleApiItem {
+  first_name: string;
+  last_name: string;
+  hcp: number;
+  r: number[];
+  player_id: number;
+  scorecard?: EagleScorecard;
+  tieArray?: number[][];
+  grandPrix?: number[];
+}
+
+interface EagleScorecard {
+  scorecard: {
+    rounds: {
+      sum: { stb_netto: number };
+      in: { stb_netto: number };
+      holes_in: { stb_netto: number }[];
+      holes_out: { stb_netto: number }[];
+    }[];
+  };
+}
+
+export interface EagleApiResultSet {
+  items: EagleApiItem[];
+}
+
+interface DialogResult {
+  tournamentNo: number;
+  name: string;
+  rounds: number;
+  bestOf: boolean;
+}
+
+
 export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
 
   protected abstract grandPrixPoints: number[];
@@ -23,8 +69,8 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
     super(authenticationService, router, dialog, cycleHttpService, alertService);
   }
 
-  protected abstract processSingleRoundTournament(element: any, eagleResultSet: EagleResultSet): void;
-  protected abstract processMultiRoundTournament(eagleResultSet: EagleResultSet, reareEagleResultSet: any): void;
+  protected abstract processSingleRoundTournament(element: EagleApiResultSet, eagleResultSet: EagleResultSet): void;
+  protected abstract processMultiRoundTournament(eagleResultSet: EagleResultSet, reareEagleResultSet: EagleApiResultSet[]): void;
 
   protected sortResults(): void {
     this.cycleResults.forEach((result) => {
@@ -54,9 +100,9 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
 
   addTournament(): void {
     const dialogConfig = new MatDialogConfig();
-    let resultData: any;
-    let loadedReareEagleResultSet: any[];
-    let loadedStrokePlayResultSet: any;
+    let resultData: DialogResult;
+    let loadedReareEagleResultSet: EagleApiResultSet[];
+    let loadedStrokePlayResultSet: EagleApiResultSet;
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -82,13 +128,12 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
           return Promise.resolve(undefined);
         }),
         // process tournament data
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        mergeMap((reareEagleTournament: any) => {
+        mergeMap((reareEagleTournament: EagleTournamentResponse) => {
           if (reareEagleTournament === undefined) {
             return Promise.resolve(undefined);
           }
 
-          let classificationsIds: number[] = [];
+          const classificationsIds: number[] = [];
 
           reareEagleTournament.tournament.classifications.forEach((element) => {
             const name: string = element.name;
@@ -106,7 +151,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
             return Promise.resolve(undefined);
           }
 
-          const calls: Observable<any>[] = [];
+          const calls: Observable<unknown>[] = [];
           classificationsIds.forEach((element) => {
             calls.push(
               this.cycleHttpService.getEagleStbResults(
@@ -124,7 +169,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
           return combineLatest(calls);
         }),
         // load scorecards for each player in case of multi round tournament
-        mergeMap((reareEagleResultSet: any[]) => {
+        mergeMap((reareEagleResultSet: EagleApiResultSet[]) => {
           if (reareEagleResultSet === undefined) {
             return Promise.resolve(undefined);
           }
@@ -137,7 +182,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
             return Promise.resolve(null);
           }
 
-          const calls: Observable<any>[] = new Array();
+          const calls: Observable<unknown>[] = [];
           loadedReareEagleResultSet.forEach((element) => {
             element.items.forEach((item) => {
               calls.push(this.cycleHttpService.getScoreCard(item.player_id));
@@ -147,7 +192,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
           return combineLatest(calls);
         }),
         // merge scorecards with rest of data
-        mergeMap((scorecards: any[]) => {
+        mergeMap((scorecards: EagleScorecard[]) => {
           if (
             scorecards === undefined &&
             (resultData === undefined || resultData.rounds > 1)
@@ -160,7 +205,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
           }
 
           let pos = 0;
-          loadedReareEagleResultSet.forEach((element, index) => {
+          loadedReareEagleResultSet.forEach((element) => {
             element.items.forEach((item) => {
               item.scorecard = scorecards[pos++];
               this.prepareTieArray(item, resultData.rounds);
@@ -170,7 +215,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
         }),
 
         // generate eagle result set for each classification and save it
-        mergeMap((reareEagleResultSet: any[]) => {
+        mergeMap((reareEagleResultSet: EagleApiResultSet[]) => {
           if (reareEagleResultSet === undefined) {
             return Promise.resolve(undefined);
           }
@@ -204,7 +249,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
           return this.cycleHttpService.addCycleTournament(eagleResultSet);
         }),
       )
-      .subscribe((status: any) => {
+      .subscribe((status: unknown) => {
         if (status != undefined) {
           this.alertService.success(
             $localize`:@@cycleDetails-tourAdded:Cycle tournamnet successfully added`,
@@ -222,12 +267,12 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
   }
 
   private processStrokePlaySeries(
-    element: any,
+    element: EagleApiResultSet,
     eagleResultSet: EagleResultSet,
   ): void {
     element.items.forEach((item) => {
       // skip players without results
-      if (item.r.reduce((a, b) => a + b) === 0) {
+      if (item.r.reduce((a, b) => a + b, 0) === 0) {
         return;
       }
       const eagleResult: EagleResult = {
@@ -241,8 +286,8 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
     });
   }
 
-  protected prepareTieArray(item: any, round: number): void {
-    item.tieArray = [round];
+  protected prepareTieArray(item: EagleApiItem, round: number): void {
+    item.tieArray = new Array(round);
     for (let i = 0; i < round; i++) {
       item.tieArray[i] = [];
       item.tieArray[i].push(
@@ -264,7 +309,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
     }
   }
 
-  protected resolveTies(items: any, round: number): void {
+  protected resolveTies(items: EagleApiItem[], round: number): void {
     items.sort(
       (a, b) =>
         b.tieArray[round][0] - a.tieArray[round][0] ||

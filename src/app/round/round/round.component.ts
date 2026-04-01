@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Format, Player, Round, teeTypes } from '@/_models';
 import { Router} from '@angular/router';
@@ -21,6 +21,13 @@ import { RoundViewFbMpComponent } from '../round-view-fb-mp/round-view-fb-mp.com
     imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent, RoundViewFbMpComponent]
 })
 export class RoundComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  dialog = inject(MatDialog);
+  roundsNavigationService = inject(RoundsNavigationService);
+
 
   Format = Format;
 
@@ -32,15 +39,6 @@ export class RoundComponent implements OnInit {
   viewOnly: boolean;
 
   selectedTab: number;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly alertService: AlertService,
-              private readonly router: Router,
-              private readonly authenticationService: AuthenticationService,
-              public dialog: MatDialog,
-              public roundsNavigationService: RoundsNavigationService) {
-
-  }
 
   ngOnInit(): void {
 

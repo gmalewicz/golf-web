@@ -1,6 +1,6 @@
 import { PlayerRndCnt } from '@/_models/playerRndCnt';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
@@ -9,15 +9,13 @@ import { tap } from 'rxjs/operators';
     templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+
 
   playerRound: PlayerRndCnt[];
 
   @ViewChild('adminContainer', {read: ViewContainerRef}) adminContainerRef: ViewContainerRef;
-
-  constructor(
-    private readonly router: Router,
-    private readonly authenticationService: AuthenticationService
-  ) {}
 
   ngOnInit(): void {
 

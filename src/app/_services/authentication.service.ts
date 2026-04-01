@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Player } from '@/_models';
@@ -7,10 +7,12 @@ import { HttpResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  private readonly httpService = inject(HttpService);
+
   private readonly currentPlayerSubject: BehaviorSubject<Player>;
   public currentPlayer: Observable<Player>;
 
-  constructor(private readonly httpService: HttpService) {
+  constructor() {
     this.currentPlayerSubject = new BehaviorSubject<Player>(JSON.parse(localStorage.getItem('currentPlayer')));
     this.currentPlayer = this.currentPlayerSubject.asObservable();
   }

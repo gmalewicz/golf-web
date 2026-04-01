@@ -1,5 +1,5 @@
 import { TeeTimeParameters } from '@/tournament/_models';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Round } from '@/_models';
@@ -8,8 +8,8 @@ import { Tournament, TournamentPlayer, TournamentResult, TournamentRound } from 
 
 @Injectable({ providedIn: 'root' })
 export class TournamentHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
     // gets tournaments
   getTournaments(page: number): Observable<Array<Tournament>> {

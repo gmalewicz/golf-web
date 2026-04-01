@@ -3,7 +3,7 @@ import { Courses } from "@/_models/courses";
 import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
-import { Component, OnInit, input } from "@angular/core";
+import { Component, OnInit, input, inject } from "@angular/core";
 import {
   faMinusCircle,
   faPlusCircle,
@@ -21,6 +21,10 @@ import { Tournament } from "@/tournament/_models/tournament";
   imports: [RouterLink, FaIconComponent],
 })
 export class ListCoursesComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+
   data = input.required<{ parent: string; tournament?: Tournament }>();
   courses = input.required<Courses>();
   selectedTab = input.required<number>();
@@ -33,12 +37,6 @@ export class ListCoursesComponent implements OnInit {
   faSearchPlus: IconDefinition;
   faMinusCircle: IconDefinition;
   faPlusCircle: IconDefinition;
-
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly alertService: AlertService,
-  ) {}
 
   ngOnInit(): void {
     this.faSearchPlus = faSearchPlus;

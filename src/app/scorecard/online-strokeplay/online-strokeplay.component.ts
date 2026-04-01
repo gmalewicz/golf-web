@@ -1,12 +1,7 @@
-import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { ChangeDetectorRef, Component, signal } from '@angular/core';
-import { MatDialog} from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ScorecardHttpService } from '../_services';
+import { ChangeDetectorRef, Component, signal, inject } from '@angular/core';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
-import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy, NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { calculateHoleHCP, calculateRoundedCourseHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -21,6 +16,8 @@ import { RangePipe } from "../../_helpers/range";
     providers: [NavigationService]
 })
 export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
+  private readonly cd = inject(ChangeDetectorRef);
+
 
   holeHcp: number[][];
 
@@ -39,17 +36,8 @@ export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {
   // 2 - strokes netto
   displayModeSgn = signal<number>(0);
 
-  constructor(protected httpService: HttpService,
-              protected scorecardHttpService: ScorecardHttpService,
-              protected alertService: AlertService,
-              protected dialog: MatDialog,
-              protected authenticationService: AuthenticationService,
-              protected router: Router,
-              protected navigationService: NavigationService,
-              protected rxStompService: RxStompService,
-              protected location: LocationStrategy,
-              private readonly cd: ChangeDetectorRef,) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService, location);
+  constructor() {
+    super();
   }
 
   protected prepareAndCalculateNetStatistic() {

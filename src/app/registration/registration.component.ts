@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
@@ -13,18 +13,16 @@ import { NgClass } from '@angular/common';
     imports: [ReactiveFormsModule, NgClass, RecaptchaModule, RecaptchaFormsModule, RouterLink]
 })
 export class RegistrationComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+  private readonly httpService = inject(HttpService);
+
 
   registerForm: FormGroup;
   loading: boolean;
   submitted: boolean;
-
-  constructor(
-      private readonly formBuilder: FormBuilder,
-      private readonly router: Router,
-      private readonly authenticationService: AuthenticationService,
-      private readonly alertService: AlertService,
-      private readonly httpService: HttpService
-  ) {}
 
   ngOnInit() {
       // redirect to home if already logged in

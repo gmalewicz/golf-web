@@ -1,7 +1,7 @@
 import { TournamentNavigationService } from '@/tournament/_services';
 import { Subscription } from 'rxjs';
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,14 +14,12 @@ import { TeeTimeParameters } from '@/tournament/_models';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParametersComponent implements OnInit, OnDestroy {
+  private readonly formBuilder = inject(FormBuilder);
+  tournamentNavigationService = inject(TournamentNavigationService);
+
 
   parametersForm: FormGroup;
   _formChanges: Subscription;
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    public tournamentNavigationService: TournamentNavigationService
-  ) {}
 
   ngOnDestroy(): void {
     this._formChanges.unsubscribe();

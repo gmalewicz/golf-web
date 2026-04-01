@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpEventType } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthenticationService } from '@/_services';
@@ -6,7 +6,8 @@ import { Player } from '@/_models';
 
 @Injectable()
 export class PlayerDataInterceptor implements HttpInterceptor {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  private readonly authenticationService = inject(AuthenticationService);
+
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 

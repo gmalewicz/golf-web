@@ -1,5 +1,5 @@
 import { LeaguePlayer } from './../_models/leaguePlayer';
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
@@ -23,6 +23,13 @@ import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base
     templateUrl: './league-player.component.html'
 })
 export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements OnInit {
+  private readonly leagueHttpService = inject(LeagueHttpService);
+  protected alertService: AlertService;
+  protected httpService: HttpService;
+  protected dialog: MatDialog;
+  navigationService = inject(NavigationService);
+  private readonly authenticationService = inject(AuthenticationService);
+
 
   faMinusCircle: IconDefinition;
   faSearchPlus: IconDefinition;
@@ -35,14 +42,17 @@ export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements O
   playerIdx: number;
   player: Player;
 
-  constructor(private readonly leagueHttpService: LeagueHttpService,
-              protected alertService: AlertService,
-              protected httpService: HttpService,
-              protected dialog: MatDialog,
-              public navigationService: NavigationService,
-              private readonly authenticationService: AuthenticationService) {
+  constructor() {
+                const alertService = inject(AlertService);
+                const httpService = inject(HttpService);
+                const dialog = inject(MatDialog);
+
                 super(alertService, dialog, httpService);
-              }
+              
+                this.alertService = alertService;
+                this.httpService = httpService;
+                this.dialog = dialog;
+  }
 
   ngOnInit(): void {
     this.faMinusCircle = faMinusCircle;

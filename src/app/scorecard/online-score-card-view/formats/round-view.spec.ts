@@ -1,4 +1,4 @@
-import { signal, WritableSignal } from '@angular/core';  
+import { signal } from '@angular/core';  
 import { of } from 'rxjs';  
 import { RoundView } from './round-view';  
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';  
@@ -66,10 +66,6 @@ describe('RoundView', () => {
   
   onlineRoundsSgn.set([round]);  
   
-  const holes = Array.from({ length: 18 }).map((_, i) => ({  
-    par: i < 9 ? 4 : 5  
-  }));  
-  
   const scoreCards: OnlineScoreCard[] = [  
     {  
       hole: 1,  
@@ -136,8 +132,6 @@ describe('RoundView', () => {
     const round = createRound();  
     signals.onlineRoundsSgn.set([round]);  
   
-    const holes = Array.from({ length: 18 }).map(() => ({ par: 4 }));  
-  
     const scoreCards: OnlineScoreCard[] = [  
       {  
         hole: 3,  
@@ -183,8 +177,6 @@ describe('RoundView', () => {
     const signals = createSignals();  
     const round = createRound();  
     signals.onlineRoundsSgn.set([round]);  
-  
-    const holes = Array.from({ length: 18 }).map(() => ({ par: 4 }));  
   
     const scoreCards: OnlineScoreCard[] = [  
       { hole: 18, stroke: 6, time: '2024-01-01T10:05:00' }  

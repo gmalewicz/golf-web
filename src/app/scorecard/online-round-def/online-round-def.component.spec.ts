@@ -189,21 +189,21 @@ describe('OnlineRoundDefComponent', () => {
     fixture.detectChanges();
 
     // primary assertion: component format signal should reflect the chosen format
-    expect((component as any).formatSgn()).toBe(Format.MATCH_PLAY);
+    expect(component.formatSgn()).toBe(Format.MATCH_PLAY);
 
     // secondary, optional assertion: if the test environment created the form accessor 'f',
     // verify the matchPlay control value — otherwise skip (keeps test robust across setups).
-    const f = (component as any).f;
-    if (f && f.matchPlay) {
-      expect(f.matchPlay.value).toBeTrue();
+    const f = (component as unknown as Record<string, unknown>).f as Record<string, { value: unknown }> | undefined;
+    if (f && f['matchPlay']) {
+      expect(f['matchPlay'].value).toBeTrue();
     }
 
     // switch back to a stroke-play format and verify format signal updates
     component.changeFormat(Format.FOUR_BALL_STROKE_PLAY);
     fixture.detectChanges();
-    expect((component as any).formatSgn()).toBe(Format.FOUR_BALL_STROKE_PLAY);
-    if (f && f.matchPlay) {
-      expect(f.matchPlay.value).toBeFalse();
+    expect(component.formatSgn()).toBe(Format.FOUR_BALL_STROKE_PLAY);
+    if (f && f['matchPlay']) {
+      expect(f['matchPlay'].value).toBeFalse();
     }
   });
 });

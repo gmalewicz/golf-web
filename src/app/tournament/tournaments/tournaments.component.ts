@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService} from '@/_services';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -22,6 +22,11 @@ import { CourseInfoComponent } from '../course-info/course-info.component';
     templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly navigationService = inject(TournamentNavigationService);
+
 
   readonly PAGE_SIZE = 10;
 
@@ -31,11 +36,6 @@ export class TournamentsComponent implements OnInit {
   display: boolean;
   statusOpen: boolean = TournamentStatus.STATUS_OPEN;
   statusClose: boolean = TournamentStatus.STATUS_CLOSE;
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              public authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly navigationService: TournamentNavigationService) {}
 
   ngOnInit(): void {
 

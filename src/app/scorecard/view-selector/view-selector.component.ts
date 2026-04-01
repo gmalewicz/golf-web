@@ -2,7 +2,7 @@
 import { NavigationService, ViewType } from './../_services/navigation.service';
 import { Course } from '@/_models/course';
 import { AuthenticationService } from '@/_services';
-import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal, inject } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { OnlineRound } from '../_models';
@@ -27,6 +27,11 @@ import { Format } from '@/_models/format';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewSelectorComponent implements OnInit {
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly navigationService = inject(NavigationService);
+
 
   readonly ViewType = ViewType;
   readonly Format = Format;
@@ -36,12 +41,6 @@ export class ViewSelectorComponent implements OnInit {
   displaySgn: WritableSignal<boolean> = signal(false);
   onlineRoundsSgn: WritableSignal<OnlineRound[]> = signal([]);
   coursesSgn: WritableSignal<Map<number, Course>> = signal(new Map());
-
-  constructor(private readonly scorecardHttpService: ScorecardHttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly navigationService: NavigationService) {
-  }
 
   ngOnInit(): void {
 
@@ -59,7 +58,7 @@ export class ViewSelectorComponent implements OnInit {
         this.onlineRoundsSgn.set(retOnlineRounds.filter(v => v.owner !==
           this.authenticationService.currentPlayerValue.id || v.finalized === true));
 
-        let players = new Map<number, string[]>();  
+        const players = new Map<number, string[]>();  
         for (const or of this.onlineRoundsSgn()) {
           this.coursesSgn().set(or.course.id , or.course);
 

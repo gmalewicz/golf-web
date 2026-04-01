@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
+import { Component, LOCALE_ID, OnInit, inject } from '@angular/core';
 import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router, RouterLink } from '@angular/router';
@@ -11,6 +11,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     imports: [ReactiveFormsModule, FormsModule, RouterLink]
 })
 export class NavigationComponent implements OnInit {
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  activeLocale = inject(LOCALE_ID);
+
 
   display: boolean;
   currentPlayer: Player;
@@ -19,12 +24,6 @@ export class NavigationComponent implements OnInit {
     { code: 'en-US', name: 'English' },
     { code: 'pl', name: 'Polski' },
   ];
-
-  constructor(private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly alertService: AlertService,
-              @Inject(LOCALE_ID) public activeLocale: string) {
-  }
 
   ngOnInit(): void {
     this.display = false;

@@ -1,7 +1,7 @@
 import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultHistory, createMPResultText } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, computed, input, signal, inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
@@ -14,6 +14,8 @@ import { NgClass } from '@angular/common';
     imports: [RangePipe, NgClass]
 })
 export class RoundViewFbMpComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+
 
   round = input.required<Round>();
 
@@ -36,8 +38,6 @@ export class RoundViewFbMpComponent implements OnInit {
   mpResultHistorySgn: WritableSignal<string[][]> = signal((new Array(2).fill('').map(() => new Array(18).fill(''))));
 
   readonly teamNumbers: number[] = [1,1,2,2];
-
-  constructor(private readonly httpService: HttpService) { }
 
   ngOnInit(): void {
 

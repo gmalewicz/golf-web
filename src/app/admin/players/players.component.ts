@@ -1,6 +1,6 @@
 import { PlayerRndCnt } from './../../_models/playerRndCnt';
 
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, inject } from '@angular/core';
 import { HttpService } from '@/_services/http.service';
 import { tap } from 'rxjs/operators';
 import { faMinusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +18,10 @@ import { RouterLink } from '@angular/router';
     imports: [FaIconComponent, RouterLink]
 })
 export class PlayersComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly dialog = inject(MatDialog);
+  private readonly alertService = inject(AlertService);
+
 
   playerRoundCntEmt: EventEmitter<PlayerRndCnt[]> = new EventEmitter();
 
@@ -26,12 +30,6 @@ export class PlayersComponent implements OnInit {
   playerRound: PlayerRndCnt[];
 
   faMinusCircle: IconDefinition;
-
-  // dialogRef: MatDialogRef<ConfirmationDialogComponent>;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly dialog: MatDialog,
-              private readonly alertService: AlertService) { }
 
   ngOnInit(): void {
 

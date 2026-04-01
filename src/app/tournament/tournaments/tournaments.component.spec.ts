@@ -7,14 +7,11 @@ import { TournamentHttpService } from '../_services';
 import { TournamentsComponent } from './tournaments.component';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { routing } from '@/app.routing';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_router: Router) {
-  }
 }
 
 describe('TournamentsComponent', () => {

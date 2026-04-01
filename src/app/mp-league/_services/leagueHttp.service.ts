@@ -1,13 +1,13 @@
 import { Result } from './../_models/result';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { League, LeagueMatch, LeaguePlayer } from '../_models';
 
 @Injectable()
 export class LeagueHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   // get leagues
   getLeagues(pageId: number): Observable<Array<League>> {

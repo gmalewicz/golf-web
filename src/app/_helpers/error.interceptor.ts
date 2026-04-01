@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -7,9 +7,10 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly router: Router,
-              private readonly alertService: AlertService,
-              private readonly authenticationService: AuthenticationService) { }
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private readonly authenticationService = inject(AuthenticationService);
+
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError((err: HttpErrorResponse) => {

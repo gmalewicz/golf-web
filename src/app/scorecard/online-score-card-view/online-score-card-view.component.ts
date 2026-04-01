@@ -1,6 +1,6 @@
 import { NavigationService, ViewType } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal} from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal, inject } from '@angular/core';
 import { fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
@@ -25,6 +25,13 @@ import { RangePipe } from '@/_helpers/range';
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
+  private readonly httpService = inject(HttpService);
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly navigationService = inject(NavigationService);
+  private readonly rxStompService = inject(RxStompService);
+
 
   readonly ViewType = ViewType;
 
@@ -61,13 +68,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
                 .reduce((p, n, i) => { if (i < HALF_HOLES) { return p + n; } else { return p; } }, 0));
   last9parSgn: Signal<number> = computed(() => this.onlineRoundsSgn()[0].course.par - this.first9parSgn());
   mpResultSgn: Signal<string[]>;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly scorecardHttpService: ScorecardHttpService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly navigationService: NavigationService,
-              private readonly rxStompService: RxStompService) { }
 
   ngOnDestroy(): void {
 
@@ -117,7 +117,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.courseSgn.set(this.onlineRoundsSgn()[0].course);
         this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized);
 
-        let rw = new RoundView( this.scorecardHttpService, 
+        const rw = new RoundView( this.scorecardHttpService, 
                                 this.httpService);
 
         rw.showRound( this.scoreBruttoClassSgn,
@@ -139,7 +139,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.mpScore = new Array(18).fill(-2);    
         this.teeTime  = this.onlineRoundsSgn()[0].teeTime;
 
-        let mp = new MPView( this.scorecardHttpService, 
+        const mp = new MPView( this.scorecardHttpService, 
                                 this.httpService)
 
         mp.showMatch( this.onlineRoundsSgn, 
@@ -164,7 +164,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
         this.mpScore = new Array(18).fill(-2);    
         this.teeTime  = this.onlineRoundsSgn()[0].teeTime;
 
-        let fbmp = new FBMPView( this.scorecardHttpService, 
+        const fbmp = new FBMPView( this.scorecardHttpService, 
                                 this.httpService)
 
         fbmp.showFBMatch( this.onlineRoundsSgn, 
@@ -184,7 +184,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
                       }) 
       } else if (this.viewTypeSgn() === ViewType.COURSE) {
        
-        let cw = new CourseView( this.scorecardHttpService, 
+        const cw = new CourseView( this.scorecardHttpService, 
                                 this.httpService)
 
         cw.showCourse(this.scoreBruttoClassSgn,
@@ -347,7 +347,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
   public static prepareColoursForResults(stroke: number, par: number): string {
 
-    let retVal = '';
+    let retVal: string;
 
     switch (par - stroke) {
       case 0:
@@ -394,7 +394,6 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
 
     let hours = 0;
     let minutes = 0;
-    let seconds = 0;
 
     if (totalSeconds >= 3600) {
       hours = Math.floor(totalSeconds / 3600);
@@ -406,7 +405,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       totalSeconds -= 60 * minutes;
     }
 
-    seconds = totalSeconds;
+    const seconds = totalSeconds;
 
     return {
       hours,

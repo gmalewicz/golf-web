@@ -8,7 +8,7 @@ import { ScoreCard } from '@/_models/scoreCard';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { faCheckCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
@@ -38,6 +38,12 @@ import { Format } from '@/_models/format';
     styleUrls: ['./add-round.component.css']
 })
 export class AddRoundComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly alertService = inject(AlertService);
+  private readonly httpService = inject(HttpService);
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly router = inject(Router);
+
 
   // parent data who call me
   data: {course: Course, tournament: Tournament};
@@ -72,12 +78,6 @@ export class AddRoundComponent implements OnInit {
   tournamentPlayersOptions = [];
 
   searchInProgress: boolean;
-
-  constructor(private readonly formBuilder: FormBuilder,
-              private readonly alertService: AlertService,
-              private readonly httpService: HttpService,
-              private readonly tournamentHttpService: TournamentHttpService,
-              private readonly router: Router) { }
 
   ngOnInit(): void {
 

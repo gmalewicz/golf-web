@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
@@ -21,17 +21,16 @@ import { CycleDetails2026Component } from '../cycle-details-2026/cycle-details-2
 })
 
 export class CyclesComponent implements OnInit {
+  private readonly cycleHttpService = inject(CycleHttpService);
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+
 
   faSearchPlus: IconDefinition;
   cycles: Cycle[];
   display: boolean;
   statusOpen: boolean = CycleStatus.STATUS_OPEN;
   statusClose: boolean = CycleStatus.STATUS_CLOSE;
-
-
-  constructor(private readonly cycleHttpService: CycleHttpService,
-              public authenticationService: AuthenticationService,
-              private readonly router: Router) {}
 
   ngOnInit(): void {
 

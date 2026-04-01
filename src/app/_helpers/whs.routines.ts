@@ -7,7 +7,7 @@ export function calculateScoreDifferential( sr: number,
                                             par: number,
                                             whs: number): number {
 
-  let scoreDiff = 0;
+  let scoreDiff: number;
 
   if (fullCourse) {
 
@@ -32,7 +32,7 @@ export function calculateUnroundedCourseHCP(teeType: number,
                                    cr: number,
                                    par: number): number {
 
-  let courseHCP = 0;
+  let courseHCP: number;
 
   if (teeType === teeTypes.TEE_TYPE_18) {
     courseHCP = playerWHS * sr / 113 + cr - par;
@@ -55,7 +55,7 @@ export function calculateRoundedCourseHCP(teeType: number,
 
 export function getPlayedCoursePar(holes: Hole[], teeType: number, coursePar: number): number {
 
-  let par = 0;
+  let par: number;
   switch (teeType) {
     case teeTypes.TEE_TYPE_FIRST_9: {
       par = holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
@@ -231,7 +231,7 @@ export function createMPResultText(p0Nick: string, p1Nick: string, mpScore: numb
 
 function claculatePartialMpResult(mpResult: number, p0Nick: string, p1Nick: string, mpScoreIdx: number): string {
 
-  let mpResText = '';
+  let mpResText: string;
 
   if (mpResult === 0) {
     mpResText = 'A/S';

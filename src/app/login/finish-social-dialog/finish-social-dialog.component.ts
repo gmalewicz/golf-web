@@ -1,7 +1,7 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { Component, inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 
@@ -17,12 +17,10 @@ export class FinishSocialDialogComponent extends DialogBaseComponent {
 
   nick: string;
 
-  constructor(
-    protected fb: FormBuilder,
-    protected dialogRef: MatDialogRef<FinishSocialDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
-    super(fb, dialogRef, data);
+  constructor() {
+    super();
+    const data = inject(MAT_DIALOG_DATA);
+
     this.form.addControl('female',  new FormControl(data.sex === true));
     this.form.addControl('male',  new FormControl(data.sex === false));
     this.nick = data.nick;

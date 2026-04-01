@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService, AlertService } from '@/_services';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard {
-    constructor(
-        private readonly router: Router,
-        private readonly authenticationService: AuthenticationService,
-        private readonly alertService: AlertService
-    ) {}
+    private readonly router = inject(Router);
+    private readonly authenticationService = inject(AuthenticationService);
+    private readonly alertService = inject(AlertService);
+
 
     canActivate(routeRole: string): boolean {
 

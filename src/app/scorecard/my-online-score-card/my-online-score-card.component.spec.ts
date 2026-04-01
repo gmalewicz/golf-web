@@ -20,7 +20,6 @@ import {
 } from "@angular/router";
 import { MyOnlineScoreCardComponent } from "./my-online-score-card.component";
 import { OnlineRound } from "../_models";
-import { on } from "events";
 import { Format } from "@/_models/format";
 
 describe("MyOnlineScoreCardComponent", () => {
@@ -71,7 +70,7 @@ describe("MyOnlineScoreCardComponent", () => {
     );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
-    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    const onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
     onlineRound.course = getTestCourse();
     component.myOnlineRoundsSgn.set([onlineRound]);
     component.showRound();
@@ -85,7 +84,7 @@ describe("MyOnlineScoreCardComponent", () => {
     );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
-    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    const onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
     onlineRound.format = Format.FOUR_BALL_MATCH_PLAY;
     onlineRound.course = getTestCourse();
     component.myOnlineRoundsSgn.set([onlineRound]);
@@ -100,7 +99,7 @@ describe("MyOnlineScoreCardComponent", () => {
     );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
-    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    const onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
     onlineRound.format = Format.STROKE_PLAY;
     onlineRound.course = getTestCourse();
     component.myOnlineRoundsSgn.set([onlineRound]);
@@ -115,7 +114,7 @@ describe("MyOnlineScoreCardComponent", () => {
     );
     fixture = TestBed.createComponent(MyOnlineScoreCardComponent);
     component = fixture.componentInstance;
-    let onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
+    const onlineRound: OnlineRound = getOnlineRoundFirstPlayer();
     onlineRound.format = Format.FOUR_BALL_STROKE_PLAY;
     onlineRound.course = getTestCourse();
     component.myOnlineRoundsSgn.set([onlineRound]);

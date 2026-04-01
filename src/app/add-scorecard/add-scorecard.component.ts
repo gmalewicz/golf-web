@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Course, ScoreCard, Round, Tee, TeeOptions, Format } from '@/_models';
@@ -24,6 +24,14 @@ import { NgClass } from '@angular/common';
     imports: [ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgClass]
 })
 export class AddScorecardComponent implements OnInit {
+  private readonly httpService = inject(HttpService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
+  private readonly dialog = inject(MatDialog);
+
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
@@ -59,16 +67,6 @@ export class AddScorecardComponent implements OnInit {
   tee: Tee;
   displayResult: string;
   first9Par: number;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly route: ActivatedRoute,
-              private readonly authenticationService: AuthenticationService,
-              private readonly formBuilder: FormBuilder,
-              private readonly router: Router,
-              private readonly alertService: AlertService,
-              private readonly dialog: MatDialog) {
-
-  }
 
   ngOnInit(): void {
 
@@ -385,8 +383,8 @@ export class AddScorecardComponent implements OnInit {
   private calculateResult() {
 
     const result = this.strokes.reduce((p, c) => p + c, 0);
-    let difference = 0;
-    let par = 0;
+    let difference: number;
+    let par: number;
 
     if (this.tee.teeType === 1) {
       difference = result - this.first9Par;

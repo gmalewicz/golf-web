@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -13,13 +13,13 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class AddTournamentDialogComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<AddTournamentDialogComponent>>(MatDialogRef);
+
 
   form: FormGroup;
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<AddTournamentDialogComponent>,
-  ) {
+  constructor() {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(30)]],
       rounds: ['', [ Validators.required, Validators.min(1), Validators.max(4)]],

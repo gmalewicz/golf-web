@@ -1,5 +1,5 @@
 import { Course } from '@/_models/course';
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
 import { HttpService } from '@/_services';
@@ -13,17 +13,17 @@ import { calculateRoundedCourseHCP } from '@/_helpers/whs.routines';
   templateUrl: './course-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CourseInfoComponent implements OnInit { 
+export class CourseInfoComponent implements OnInit {
+  private readonly router = inject(Router);
+  readonly navigationService = inject(TournamentNavigationService);
+  private readonly httpService = inject(HttpService);
+ 
 
   readonly PARENT_TOURNAMENT = 'tournament'; 
 
   courseSgn = signal<Course>(undefined);
   parentSgn = signal<string>(undefined);
   playerTeesSgn = signal<PlayerTee[]>(undefined);
-
-  constructor(private readonly router: Router,
-              public readonly navigationService: TournamentNavigationService,
-              private readonly httpService: HttpService) { }
 
   ngOnInit(): void {
   
@@ -39,12 +39,12 @@ export class CourseInfoComponent implements OnInit {
       this.httpService.getTees(this.courseSgn().id).pipe(
         tap((tees) => {
           if (this.parentSgn() === this.PARENT_TOURNAMENT) {
-            let playerTees: PlayerTee[] = [];
+            const playerTees: PlayerTee[] = [];
             this.navigationService.tournamentPlayers().forEach(player => {
               let playerNameNotSet = true;
               tees.forEach(tee => {
                 if (tee.sex === player.sex && tee.teeType === teeTypes.TEE_TYPE_18) {
-                  let courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
+                  const courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
                   playerTees.push({
                     nick: playerNameNotSet ? player.nick : "",
                     hcp: player.whs,  

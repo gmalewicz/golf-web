@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AlertService } from '@/_services/alert.service';
@@ -15,17 +15,17 @@ import { NgClass } from '@angular/common';
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class AddLeagueComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  authenticationService = inject(AuthenticationService);
+  private readonly leagueHttpService = inject(LeagueHttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+
 
   addLeagueForm: FormGroup;
   private submitted: WritableSignal<boolean>;
   private loading: WritableSignal<boolean>;
   private display: WritableSignal<boolean>;
-
-  constructor(private readonly formBuilder: FormBuilder,
-              public authenticationService: AuthenticationService,
-              private readonly leagueHttpService: LeagueHttpService,
-              private readonly alertService: AlertService,
-              private readonly router: Router) { }
 
   ngOnInit(): void {
 

@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Round } from '@/_models';
 import { HttpService, AuthenticationService } from '@/_services';
 import { tap } from 'rxjs/operators';
@@ -15,15 +15,14 @@ import { NgClass } from '@angular/common';
     imports: [NgClass, ListRoundsComponent, RouterLink]
 })
 export class RoundsComponent implements OnInit, OnDestroy {
+  private readonly httpService = inject(HttpService);
+  private readonly authenticationService = inject(AuthenticationService);
+  roundsNavigationService = inject(RoundsNavigationService);
+
 
   savedRounds: Array<Round>;
   dispRounds: boolean;
   savedPage: number;
-
-  constructor(private readonly httpService: HttpService,
-              private readonly authenticationService: AuthenticationService,
-              public roundsNavigationService: RoundsNavigationService) {
-  }
 
   ngOnInit(): void {
 

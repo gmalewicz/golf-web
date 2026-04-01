@@ -5,7 +5,7 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { RegistrationComponent } from './registration.component';
-import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { AlertService } from '@/_services/alert.service';
 import { alertServiceStub } from '@/_helpers/test.helper';
 import { routing } from '@/app.routing';
@@ -13,9 +13,6 @@ import { NgModule } from '@angular/core';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_router: Router) {
-  }
 }
 
 describe('RegistrationComponent', () => {

@@ -1,322 +1,387 @@
-<div *ngIf="!display" class="d-flex justify-content-center">
-  <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-</div>
-<div *ngIf="display" id="pdfData">
-  <h2>
-    {{navigationService.tournament().name}}
-    @if (this.navigationService.tournament().bestRounds > 0) {
-      <span i18n="@@tourRes-bst"> - best </span>
-      {{this.navigationService.tournament().bestRounds}}
-      <span i18n="@@tourRes-rnds"> round(s)</span>
-    }
-  </h2>
-  <span i18n="@@addTour-maxPlayHcp">Max. playing hcp</span>
-  {{navigationService.tournament().maxPlayHcp}}
-  &nbsp;
-  &nbsp;
-  <span i18n="@@addTour-plyMplr">Playing hcp multiplier</span>
-  {{navigationService.tournament().playHcpMultiplayer}}
-  <br/>
-  <br/>
-  <ul class="nav nav-tabs" id="myTab" data-html2canvas-ignore="true">
-    <li class="nav-item">
-      <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#stbNet" type="button"
-        role="tab" aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)" i18n="@@tourRes-stbNet">STB Net</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="stb-tab" data-bs-toggle="tab" data-bs-target="#stb" type="button"
-        role="tab" aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="strokes-tab" data-bs-toggle="tab" data-bs-target="#strokes" type="button"
-        role="tab" aria-controls="strokes" aria-selected="false" (click)="updateSort(2)" i18n="@@tourRes-str">Strokes</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="netStroke-tab" data-bs-toggle="tab" data-bs-target="#netStroke" type="button"
-        role="tab" aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)" i18n="@@tourRes-strNet">Strokes Net</button>
-    </li>
-    <li class="nav-item" *ngIf="this.navigationService.tournament().player.id === playerId && this.navigationService.tournament().status === false">
-      <button class="nav-link" id="participants-tab" data-bs-toggle="tab" data-bs-target="#participants" type="button"
-        role="tab" aria-controls="participants" aria-selected="false" i18n="@@tourRes-participants" (click)="loadComponent(0)">Players</button>
-    </li>
-    <li class="nav-item" *ngIf="this.navigationService.tournament().status === false">
-      <button class="nav-link" id="teetime-tab" data-bs-toggle="tab" data-bs-target="#teetime" type="button"
-        role="tab" aria-controls="teetime" aria-selected="false" (click)="loadComponent(1)">Tee Time</button>
-    </li>
-    <li class="nav-item" *ngIf="this.navigationService.tournament().status === false">
-      <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
-        role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(2)">Notifications</button>
-    </li>
-    <li class="nav-item" *ngIf="this.navigationService.tournament().status === false">
-      <button class="nav-link" id="courseInfo-tab" data-bs-toggle="tab" data-bs-target="#courseInfo" type="button"
-        role="tab" aria-controls="courseInfo" aria-selected="false" (click)="courseInfo()">Info</button>
-    </li>
-  </ul>
-  <br/>
-
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="stbNet" role="tabpanel" aria-labelledby="stbNet-tab">
-
-      <table class="table table-striped" aria-describedby="tournament result">
-        <thead>
-          <tr>
-            <th id="place" i18n="@@tourRes-place">Place</th>
-            <th id="player" i18n="@@tourRes-plr">Player</th>
-            <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstb" i18n="@@tourRes-stb">STB</th>
-            <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
-          </tr>
-        </thead>
-        <tbody >
-          <ng-container *ngFor="let tournamentResult of navigationService.tournamentResults(), let i = index">
-            <tr>
-              <td *ngIf="displayRound[i] == false" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-1"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td *ngIf="displayRound[i] == true" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-2"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</th>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                {{ tournamentResult.playedRounds}}
-                <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-3"></fa-icon>
-                </span>
-              </td>
-            </tr>
-            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
-
-            <ng-template #showDetails>
-              <td colspan="6">
-                <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
-                                      (notify)="getTournamentResults()"></app-player-results>
-                </div>
-              </td>
-            </ng-template>
-          </ng-container>
-        </tbody>
-      </table>
-
-    </div>
-    <div class="tab-pane fade" id="stb" role="tabpanel" aria-labelledby="stb-tab">
-
-      <table class="table table-striped" aria-describedby="tournament result">
-        <thead>
-          <tr>
-            <th id="place2" i18n="@@tourRes-place">Place</th>
-            <th id="player2" i18n="@@tourRes-plr">Player</th>
-            <th id="gstb2" i18n="@@tourRes-stb">STB</th>
-            <th id="nstb2" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstr2" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="nstr2" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="prnd2" i18n="@@tourRes-plrRnds">Played Rounds</th>
-          </tr>
-        </thead>
-        <tbody >
-          <ng-container *ngFor="let tournamentResult of navigationService.tournamentResults(), let i = index">
-            <tr>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
-                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-4"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-5"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</th>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                {{ tournamentResult.playedRounds}}
-                <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-6"></fa-icon>
-                </span>
-              </td>
-            </tr>
-            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
-
-            <ng-template #showDetails>
-              <td colspan="6">
-                <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
-                </div>
-              </td>
-            </ng-template>
-          </ng-container>
-        </tbody>
-      </table>
-
-    </div>
-    <div class="tab-pane fade" id="strokes" role="tabpanel" aria-labelledby="strokes-tab">
-
-      <table class="table table-striped" aria-describedby="tournament result">
-        <thead>
-          <tr>
-            <th id="place3" i18n="@@tourRes-place">Place</th>
-            <th id="player3" i18n="@@tourRes-plr">Player</th>
-            <th id="gstr3" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="nstb3" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstb3" i18n="@@tourRes-stb">STB</th>
-            <th id="nstr3" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="prnd3" i18n="@@tourRes-plrRnds">Played Rounds</th>
-          </tr>
-        </thead>
-        <tbody >
-          <ng-container *ngFor="let tournamentResult of navigationService.tournamentResults(), let i = index">
-            <tr>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == false">
-                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-7"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] == true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-8"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</th>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</th>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}"> {{ tournamentResult.stbNet}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                {{ tournamentResult.playedRounds}}
-                <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-9"></fa-icon>
-                </span>
-              </td>
-            </tr>
-            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
-
-            <ng-template #showDetails>
-              <td colspan="6">
-                <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
-                </div>
-              </td>
-            </ng-template>
-          </ng-container>
-        </tbody>
-      </table>
-
-    </div>
-    <div class="tab-pane fade" id="netStroke" role="tabpanel" aria-labelledby="betStroke-tab">
-
-      <table class="table table-striped" aria-describedby="tournament result">
-        <thead>
-          <tr>
-            <th id="place4" i18n="@@tourRes-place">Place</th>
-            <th id="player4" i18n="@@tourRes-plr">Player</th>
-            <th id="nstr4" i18n="@@tourRes-strNet">Strokes Net</th>
-            <th id="nstb4" i18n="@@tourRes-stbNet">STB Net</th>
-            <th id="gstb4" i18n="@@tourRes-stb">STB</th>
-            <th id="gstr4" i18n="@@tourRes-strGross">Strokes</th>
-            <th id="prnd4" i18n="@@tourRes-plrRnds">Played Rounds</th>
-          </tr>
-        </thead>
-        <tbody >
-          <ng-container *ngFor="let tournamentResult of navigationService.tournamentResults(), let i = index">
-            <tr>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === false">
-                <span *ngIf="rndSpinner[i]" class="spinner-border spinner-border-sm mr-1"></span>
-                <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-10"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="displayRound[i] === true">
-                <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-11"></fa-icon>
-                &nbsp;
-                {{i + 1}}
-              </td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.player.nick }}</td>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto === 0">x</th>
-              <th scope="col" [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesNetto !== 0">{{tournamentResult.strokesNetto}}</th>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbNet}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">{{ tournamentResult.stbGross}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto === 0">x</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}" *ngIf="tournamentResult.strokesBrutto !== 0">{{tournamentResult.strokesBrutto}}</td>
-              <td [ngClass]="{'golf-red': i == 0, 'golf-orange': i == 1, 'golf-gold': i == 2}">
-                {{ tournamentResult.playedRounds}}
-                <span *ngIf="navigationService.tournament().player.id === playerId  && navigationService.tournament().status === false">
-                  <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-12"></fa-icon>
-                </span>
-              </td>
-            </tr>
-            <tr *ngIf="tournamentResult.tournamentRounds != null && displayRound[i] == true then showDetails" class="d-flex justify-content-center"></tr>
-
-            <ng-template #showDetails>
-              <td colspan="6">
-                <div>
-                  <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
-                                      (notify)="getTournamentResults()"></app-player-results>
-                </div>
-              </td>
-            </ng-template>
-          </ng-container>
-        </tbody>
-      </table>
-
-    </div>
-    <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
-      <ng-container #tournamentContainer></ng-container>
-    </div>
-    <div class="tab-pane fade" id="teetime" role="tabpanel" aria-labelledby="teetime-tab">
-      <ng-container #teeTimeContainer></ng-container>
-    </div>
-    <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
-      <ng-container #notificationContainer></ng-container>
-    </div>
+@if (!display) {
+  <div class="d-flex justify-content-center">
+    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
   </div>
-  <br />
-  <div class="row" data-html2canvas-ignore="true">
-    <span>
-    <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="onCancel()" i18n="@@tourRes-cancel">
+}
+@if (display) {
+  <div id="pdfData">
+    <h2>
+      {{navigationService.tournament().name}}
+      @if (this.navigationService.tournament().bestRounds > 0) {
+        <span i18n="@@tourRes-bst"> - best </span>
+        {{this.navigationService.tournament().bestRounds}}
+        <span i18n="@@tourRes-rnds"> round(s)</span>
+      }
+    </h2>
+    <span i18n="@@addTour-maxPlayHcp">Max. playing hcp</span>
+    {{navigationService.tournament().maxPlayHcp}}
+    &nbsp;
+    &nbsp;
+    <span i18n="@@addTour-plyMplr">Playing hcp multiplier</span>
+    {{navigationService.tournament().playHcpMultiplayer}}
+    <br/>
+    <br/>
+    <ul class="nav nav-tabs" id="myTab" data-html2canvas-ignore="true">
+      <li class="nav-item">
+        <button class="nav-link active" id="stbNet-tab" data-bs-toggle="tab" data-bs-target="#stbNet" type="button"
+        role="tab" aria-controls="stbNet" aria-selected="true" (click)="updateSort(0)" i18n="@@tourRes-stbNet">STB Net</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="stb-tab" data-bs-toggle="tab" data-bs-target="#stb" type="button"
+        role="tab" aria-controls="stb" aria-selected="false" (click)="updateSort(1)">STB</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="strokes-tab" data-bs-toggle="tab" data-bs-target="#strokes" type="button"
+        role="tab" aria-controls="strokes" aria-selected="false" (click)="updateSort(2)" i18n="@@tourRes-str">Strokes</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="netStroke-tab" data-bs-toggle="tab" data-bs-target="#netStroke" type="button"
+        role="tab" aria-controls="netStrokes" aria-selected="false" (click)="updateSort(3)" i18n="@@tourRes-strNet">Strokes Net</button>
+      </li>
+      @if (this.navigationService.tournament().player.id === playerId && this.navigationService.tournament().status === false) {
+        <li class="nav-item">
+          <button class="nav-link" id="participants-tab" data-bs-toggle="tab" data-bs-target="#participants" type="button"
+          role="tab" aria-controls="participants" aria-selected="false" i18n="@@tourRes-participants" (click)="loadComponent(0)">Players</button>
+        </li>
+      }
+      @if (this.navigationService.tournament().status === false) {
+        <li class="nav-item">
+          <button class="nav-link" id="teetime-tab" data-bs-toggle="tab" data-bs-target="#teetime" type="button"
+          role="tab" aria-controls="teetime" aria-selected="false" (click)="loadComponent(1)">Tee Time</button>
+        </li>
+      }
+      @if (this.navigationService.tournament().status === false) {
+        <li class="nav-item">
+          <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button"
+          role="tab" aria-controls="notification" aria-selected="false" i18n="@@tourRes-notification" (click)="loadComponent(2)">Notifications</button>
+        </li>
+      }
+      @if (this.navigationService.tournament().status === false) {
+        <li class="nav-item">
+          <button class="nav-link" id="courseInfo-tab" data-bs-toggle="tab" data-bs-target="#courseInfo" type="button"
+          role="tab" aria-controls="courseInfo" aria-selected="false" (click)="courseInfo()">Info</button>
+        </li>
+      }
+    </ul>
+    <br/>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="stbNet" role="tabpanel" aria-labelledby="stbNet-tab">
+        <table class="table table-striped" aria-describedby="tournament result">
+          <thead>
+            <tr>
+              <th id="place" i18n="@@tourRes-place">Place</th>
+              <th id="player" i18n="@@tourRes-plr">Player</th>
+              <th id="nstb" i18n="@@tourRes-stbNet">STB Net</th>
+              <th id="gstb" i18n="@@tourRes-stb">STB</th>
+              <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
+              <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+              <th id="prnd" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            </tr>
+          </thead>
+          <tbody >
+            @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+              <tr>
+                @if (displayRound[i] === false) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    @if (rndSpinner[i]) {
+                      <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-1"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                @if (displayRound[i] === true) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-2"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.player.nick }}</td>
+                <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbNet}}</th>
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbGross}}</td>
+                @if (tournamentResult.strokesBrutto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesBrutto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesBrutto}}</td>
+                }
+                @if (tournamentResult.strokesNetto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesNetto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesNetto}}</td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                  {{ tournamentResult.playedRounds}}
+                  @if (navigationService.tournament().player.id === playerId && navigationService.tournament().status === false) {
+                    <span>
+                      <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-3"></fa-icon>
+                    </span>
+                  }
+                </td>
+              </tr>
+              @if (tournamentResult.tournamentRounds && displayRound[i] === true) {
+                <td colspan="6">
+                  <div>
+                    <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                    (notify)="getTournamentResults()"></app-player-results>
+                  </div>
+                </td>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="stb" role="tabpanel" aria-labelledby="stb-tab">
+        <table class="table table-striped" aria-describedby="tournament result">
+          <thead>
+            <tr>
+              <th id="place2" i18n="@@tourRes-place">Place</th>
+              <th id="player2" i18n="@@tourRes-plr">Player</th>
+              <th id="gstb2" i18n="@@tourRes-stb">STB</th>
+              <th id="nstb2" i18n="@@tourRes-stbNet">STB Net</th>
+              <th id="gstr2" i18n="@@tourRes-strGross">Strokes</th>
+              <th id="nstr2" i18n="@@tourRes-strNet">Strokes Net</th>
+              <th id="prnd2" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            </tr>
+          </thead>
+          <tbody >
+            @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+              <tr>
+                @if (displayRound[i] === false) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    @if (rndSpinner[i]) {
+                      <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-4"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                @if (displayRound[i] === true) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-5"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.player.nick }}</td>
+                <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbGross}}</th>
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbNet}}</td>
+                @if (tournamentResult.strokesBrutto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesBrutto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesBrutto}}</td>
+                }
+                @if (tournamentResult.strokesNetto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesNetto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesNetto}}</td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                  {{ tournamentResult.playedRounds}}
+                  @if (navigationService.tournament().player.id === playerId && navigationService.tournament().status === false) {
+                    <span>
+                      <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-6"></fa-icon>
+                    </span>
+                  }
+                </td>
+              </tr>
+              @if (tournamentResult.tournamentRounds && displayRound[i] === true) {
+                <td colspan="6">
+                  <div>
+                    <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  </div>
+                </td>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="strokes" role="tabpanel" aria-labelledby="strokes-tab">
+        <table class="table table-striped" aria-describedby="tournament result">
+          <thead>
+            <tr>
+              <th id="place3" i18n="@@tourRes-place">Place</th>
+              <th id="player3" i18n="@@tourRes-plr">Player</th>
+              <th id="gstr3" i18n="@@tourRes-strGross">Strokes</th>
+              <th id="nstb3" i18n="@@tourRes-stbNet">STB Net</th>
+              <th id="gstb3" i18n="@@tourRes-stb">STB</th>
+              <th id="nstr3" i18n="@@tourRes-strNet">Strokes Net</th>
+              <th id="prnd3" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            </tr>
+          </thead>
+          <tbody >
+            @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+              <tr>
+                @if (displayRound[i] === false) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    @if (rndSpinner[i]) {
+                      <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-7"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                @if (displayRound[i] === true) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-8"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.player.nick }}</td>
+                @if (tournamentResult.strokesBrutto === 0) {
+                  <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</th>
+                }
+                @if (tournamentResult.strokesBrutto !== 0) {
+                  <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesBrutto}}</th>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}"> {{ tournamentResult.stbNet}}</td>
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbGross}}</td>
+                @if (tournamentResult.strokesNetto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesNetto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesNetto}}</td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                  {{ tournamentResult.playedRounds}}
+                  @if (navigationService.tournament().player.id === playerId && navigationService.tournament().status === false) {
+                    <span>
+                      <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-9"></fa-icon>
+                    </span>
+                  }
+                </td>
+              </tr>
+              @if (tournamentResult.tournamentRounds && displayRound[i] === true) {
+                <td colspan="6">
+                  <div>
+                    <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'></app-player-results>
+                  </div>
+                </td>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="netStroke" role="tabpanel" aria-labelledby="betStroke-tab">
+        <table class="table table-striped" aria-describedby="tournament result">
+          <thead>
+            <tr>
+              <th id="place4" i18n="@@tourRes-place">Place</th>
+              <th id="player4" i18n="@@tourRes-plr">Player</th>
+              <th id="nstr4" i18n="@@tourRes-strNet">Strokes Net</th>
+              <th id="nstb4" i18n="@@tourRes-stbNet">STB Net</th>
+              <th id="gstb4" i18n="@@tourRes-stb">STB</th>
+              <th id="gstr4" i18n="@@tourRes-strGross">Strokes</th>
+              <th id="prnd4" i18n="@@tourRes-plrRnds">Played Rounds</th>
+            </tr>
+          </thead>
+          <tbody >
+            @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+              <tr>
+                @if (displayRound[i] === false) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    @if (rndSpinner[i]) {
+                      <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true" (click)="showPlayerDetails(tournamentResult, i)" onKeyDown="showPlayerDetails(tournamentResult, i)" tabindex="-10"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                @if (displayRound[i] === true) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                    <fa-icon [icon]="faSearchMinus" class="golf-green" data-html2canvas-ignore="true" (click)="hidePlayerDetails(i)" onKeyDown="hidePlayerDetails(i)" tabindex="-11"></fa-icon>
+                    &nbsp;
+                    {{i + 1}}
+                  </td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.player.nick }}</td>
+                @if (tournamentResult.strokesNetto === 0) {
+                  <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</th>
+                }
+                @if (tournamentResult.strokesNetto !== 0) {
+                  <th scope="col" [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesNetto}}</th>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbNet}}</td>
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{ tournamentResult.stbGross}}</td>
+                @if (tournamentResult.strokesBrutto === 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">x</td>
+                }
+                @if (tournamentResult.strokesBrutto !== 0) {
+                  <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">{{tournamentResult.strokesBrutto}}</td>
+                }
+                <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
+                  {{ tournamentResult.playedRounds}}
+                  @if (navigationService.tournament().player.id === playerId  && navigationService.tournament().status === false) {
+                    <span>
+                      <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true" (click)="deleteResult(tournamentResult.id)" onKeyDown="deleteResult(tournamentResult.id)" tabindex="-12"></fa-icon>
+                    </span>
+                  }
+                </td>
+              </tr>
+              @if (tournamentResult.tournamentRounds && displayRound[i] === true) {
+                <td colspan="6">
+                  <div>
+                    <app-player-results [tournamentResult]='navigationService.tournamentResults()[i]'
+                    (notify)="getTournamentResults()"></app-player-results>
+                  </div>
+                </td>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+        <ng-container #tournamentContainer></ng-container>
+      </div>
+      <div class="tab-pane fade" id="teetime" role="tabpanel" aria-labelledby="teetime-tab">
+        <ng-container #teeTimeContainer></ng-container>
+      </div>
+      <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+        <ng-container #notificationContainer></ng-container>
+      </div>
+    </div>
+    <br />
+    <div class="row" data-html2canvas-ignore="true">
+      <span>
+        <button type="button" class="btn btn-success golf-margin-bottom-6" (click)="onCancel()" i18n="@@tourRes-cancel">
       Cancel
     </button>
-    &nbsp;
-    <span *ngIf="navigationService.tournament().player.id === playerId && navigationService.tournament().status === false">
-      <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: navigationService.tournament()}}" i18n="@@tourRes-add">
+        &nbsp;
+        @if (navigationService.tournament().player.id === playerId && navigationService.tournament().status === false) {
+          <span>
+            <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/tournaments/tournamentRounds" [state]="{data: {tournament: navigationService.tournament()}}" i18n="@@tourRes-add">
         Add Round
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: navigationService.tournament()}}" i18n="@@tourRes-addBehf">
+            &nbsp;
+            <button type="button" class="btn btn-success golf-margin-bottom-6"  routerLink ="/courses" [state]="{data: {parent: 'roundOnBehalf', tournament: navigationService.tournament()}}" i18n="@@tourRes-addBehf">
         Add Rounds on Behalf
       </button>
-      &nbsp;
-      <button id="close_btn" type="button" class="btn btn-success golf-margin-bottom-6" (click)="closeTournament()">
-        <span *ngIf="loadingClose" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@tourRes-close">Close tournament</span>
-      </button>
-      &nbsp;
-      <button type="button" class="btn btn-success del golf-margin-bottom-6" (click)="deleteTournament()">
-        <span *ngIf="loadingDelete" class="spinner-border spinner-border-sm mr-1"></span>
-        <span i18n="@@tourRes-delete">Delete tournament</span>
-      </button>
-    </span>
-  </span>
+            &nbsp;
+            <button id="close_btn" type="button" class="btn btn-success golf-margin-bottom-6" (click)="closeTournament()">
+              @if (loadingClose) {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+              }
+              <span i18n="@@tourRes-close">Close tournament</span>
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-success del golf-margin-bottom-6" (click)="deleteTournament()">
+              @if (loadingDelete) {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+              }
+              <span i18n="@@tourRes-delete">Delete tournament</span>
+            </button>
+          </span>
+        }
+      </span>
+    </div>
   </div>
-</div>
+}

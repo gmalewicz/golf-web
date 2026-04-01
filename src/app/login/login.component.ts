@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -17,6 +17,14 @@ import { NgClass } from '@angular/common';
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly alertService = inject(AlertService);
+  private readonly httpService = inject(HttpService);
+  private readonly dialog = inject(MatDialog);
+
   public loginForm: FormGroup;
   loading: boolean;
   socialLoading: boolean;
@@ -24,16 +32,6 @@ export class LoginComponent implements OnInit {
 
   urlFacebook: string = environment.URL_STR + 'oauth2/authorization/facebook';
   urlGoogle: string = environment.URL_STR + 'oauth2/authorization/google';
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly authenticationService: AuthenticationService,
-    private readonly alertService: AlertService,
-    private readonly httpService: HttpService,
-    private readonly dialog: MatDialog
-  ) { }
 
   ngOnInit() {
 

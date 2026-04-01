@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { IconDefinition, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
@@ -22,6 +22,11 @@ import { RemoveMatchComponent } from '../remove-match/remove-match.component';
     imports: [FaIconComponent, RouterLink]
 })
 export class MpLeaguesComponent implements OnInit {
+  private readonly leagueHttpService = inject(LeagueHttpService);
+  private readonly navigationService = inject(NavigationService);
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+
 
   readonly PAGE_SIZE = 10;
 
@@ -31,12 +36,6 @@ export class MpLeaguesComponent implements OnInit {
   display: boolean;
   statusOpen: boolean = LeagueStatus.STATUS_OPEN;
   statusClose: boolean = LeagueStatus.STATUS_CLOSE;
-
-
-  constructor(private readonly leagueHttpService: LeagueHttpService,
-              private readonly navigationService: NavigationService,
-              public authenticationService: AuthenticationService,
-              private readonly router: Router) {}
 
   ngOnInit(): void {
 

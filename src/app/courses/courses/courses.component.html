@@ -40,7 +40,7 @@
 </ul>
 <div class="tab-content" id="coursesTabContent">
   <div class="tab-pane fade show active" id="favourites" role="tabpanel" aria-labelledby="favourites-tab">
-    @if (selectedTab == 0) {
+    @if (selectedTab === 0) {
       <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
     }
   </div>
@@ -58,12 +58,12 @@
         <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
       </div>
     }
-    @if (!loading && selectedTab == 1) {
+    @if (!loading && selectedTab === 1) {
       <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
     }
   </div>
   <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
-    @if (selectedTab == 2) {
+    @if (selectedTab === 2) {
       <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
     }
   </div>

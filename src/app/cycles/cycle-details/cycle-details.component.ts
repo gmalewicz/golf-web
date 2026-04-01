@@ -1,6 +1,6 @@
 import { EagleResult, EagleResultSet } from './../_models/eagleResult';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -19,15 +19,28 @@ import { CycleDetailsBase } from '../base/cycle-details-base';
     providers: [CycleHttpService]
 })
 export class CycleDetailsComponent extends CycleDetailsBase implements OnInit {
+  authenticationService: AuthenticationService;
+  protected readonly router: Router;
+  protected readonly dialog: MatDialog;
+  protected readonly cycleHttpService: CycleHttpService;
+  protected readonly alertService: AlertService;
 
-  constructor(public authenticationService: AuthenticationService,
-              protected readonly router: Router,
-              protected readonly dialog: MatDialog,
-              protected readonly cycleHttpService: CycleHttpService,
-              protected readonly alertService: AlertService
-              ) { 
+
+  constructor() {
+                const authenticationService = inject(AuthenticationService);
+                const router = inject(Router);
+                const dialog = inject(MatDialog);
+                const cycleHttpService = inject(CycleHttpService);
+                const alertService = inject(AlertService);
+ 
                 super(authenticationService, router, dialog, cycleHttpService, alertService);
-              }
+              
+                this.authenticationService = authenticationService;
+                this.router = router;
+                this.dialog = dialog;
+                this.cycleHttpService = cycleHttpService;
+                this.alertService = alertService;
+  }
 
   ngOnInit(): void {
 

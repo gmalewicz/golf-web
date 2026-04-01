@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tee } from '@/_models/tee';
@@ -6,8 +6,8 @@ import { Tee } from '@/_models/tee';
 
 @Injectable()
 export class CourseHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   // add cycle
   addTee(tee: Tee, courseId: number): Observable<void> {

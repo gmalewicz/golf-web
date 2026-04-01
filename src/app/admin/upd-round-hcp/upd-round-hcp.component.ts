@@ -1,7 +1,7 @@
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -12,15 +12,15 @@ import { tap } from 'rxjs/operators';
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class UpdRoundHcpComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly alertService = inject(AlertService);
+  private readonly httpService = inject(HttpService);
+  private readonly router = inject(Router);
+
 
   updRoundHcpForm: FormGroup;
   submittedUpdRoundHcp: boolean;
   updRoundHcpLoading: boolean;
-
-  constructor(private readonly formBuilder: FormBuilder,
-              private readonly alertService: AlertService,
-              private readonly httpService: HttpService,
-              private readonly router: Router) { }
 
   ngOnInit(): void {
     this.updRoundHcpForm = this.formBuilder.group({

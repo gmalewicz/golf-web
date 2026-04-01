@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { InfoComponent } from "./info.component";
-import { Router } from "@angular/router";
+import { Navigation, Router } from "@angular/router";
 import { NavigationService } from "../_services/navigation.service";
+import { OnlineRound } from "../_models/onlineRound";
 import { Format } from "@/_models/format";
 
 describe("InfoComponent", () => {
@@ -16,7 +17,7 @@ describe("InfoComponent", () => {
       format: Format.MATCH_PLAY,
       nick: "Test Player",
     },
-  ] as any;
+  ] as unknown as OnlineRound[];
 
   beforeEach(async () => {
     router = jasmine.createSpyObj<Router>("Router", [
@@ -32,7 +33,7 @@ describe("InfoComponent", () => {
           onlineRounds: mockOnlineRounds,
         },
       },
-    } as any);
+    } as unknown as Navigation);
 
     navigationService = jasmine.createSpyObj<NavigationService>(
       "NavigationService",

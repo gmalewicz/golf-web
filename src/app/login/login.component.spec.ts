@@ -14,9 +14,6 @@ import { Observable } from 'rxjs';
 
 @NgModule()
 export class FixNavigationTriggeredOutsideAngularZoneNgModule {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(_router: Router) {
-  }
 }
 
 describe('LoginComponent', () => {

@@ -1,5 +1,5 @@
 import { EagleResultSet } from './../_models/eagleResult';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cycle } from '../_models/cycle';
@@ -8,8 +8,8 @@ import { CycleResult } from '../_models/cycleResult';
 
 @Injectable()
 export class CycleHttpService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) { }
 
   // gets cycles
   getCycles(): Observable<Array<Cycle>> {
@@ -27,8 +27,7 @@ export class CycleHttpService {
   }
 
   // gets eagle results
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getEagleStbResults(tournamentNo: number, classification: number): Observable<any> {
+  getEagleStbResults(tournamentNo: number, classification: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=stb_netto&classification=' + classification);
   }
@@ -64,19 +63,19 @@ export class CycleHttpService {
   }
 
   // gets eagle tournament
-  getEagleTournament(tournamentNo: number): Observable<any> {
+  getEagleTournament(tournamentNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/tournament/get_tournament?id=' + tournamentNo);
   }
 
   // gets eagle scorecard
-  getScoreCard(playerNo: number): Observable<any> {
+  getScoreCard(playerNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/scorecard/get_scorecard?player_id=' + playerNo);
   }
 
   // gets eagle main category (stroke play)
-  getStrokePlay(tournamentNo: number): Observable<any> {
+  getStrokePlay(tournamentNo: number): Observable<unknown> {
 
     return this.http.get('api/_tournament/livescore/get_livescore?id=' + tournamentNo + '&format=sp_brutto&classification=0');
   }

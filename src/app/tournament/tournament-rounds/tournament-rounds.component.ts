@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Round } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
 import { IconDefinition, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -21,17 +21,17 @@ import { MatDialog } from '@angular/material/dialog';
     styleUrls: ['./tournament-rounds.component.css']
 })
 export class TournamentRoundsComponent implements OnInit {
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
+
 
   faPlusCircle: IconDefinition;
   
   tournament: Tournament;
   rounds: Round[];
-
-  constructor(private readonly tournamentHttpService: TournamentHttpService,
-              private readonly alertService: AlertService,
-              private readonly authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
 
@@ -65,7 +65,7 @@ export class TournamentRoundsComponent implements OnInit {
             return Promise.resolve(undefined);
           }),
         )
-      .subscribe((status: any) => {
+      .subscribe((status: unknown) => {
         if (status === undefined) {
           return;
         }

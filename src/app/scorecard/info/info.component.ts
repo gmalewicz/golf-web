@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
 import { NavigationService } from '../_services/navigation.service';
 import { OnlineRound } from '../_models';
 import { Router } from '@angular/router';
@@ -14,14 +14,16 @@ import { MPLegendComponent } from '@/_helpers/mpLegend.component';
   templateUrl: './info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InfoComponent { 
+export class InfoComponent {
+  private readonly router = inject(Router);
+  protected navigationService = inject(NavigationService);
+ 
 
   Format = Format;
 
   onlineRounds: OnlineRound[];
 
-  constructor(private readonly router: Router,  protected navigationService: NavigationService,
-  ) {
+  constructor() {
     this.onlineRounds = this.router.currentNavigation()?.extras.state?.['onlineRounds'];
   }
 

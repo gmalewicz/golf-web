@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -28,17 +28,15 @@ import { MatInput } from "@angular/material/input";
   templateUrl: "./add-tournament.component.html",
 })
 export class AddTournamentComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly tournamentHttpService = inject(TournamentHttpService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+
   addTournamentForm: FormGroup;
   submitted: boolean;
   loading: boolean;
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly authenticationService: AuthenticationService,
-    private readonly tournamentHttpService: TournamentHttpService,
-    private readonly alertService: AlertService,
-    private readonly router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.addTournamentForm = this.formBuilder.group({

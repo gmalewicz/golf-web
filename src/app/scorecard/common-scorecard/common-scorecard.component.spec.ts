@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonScorecardComponent } from './common-scorecard.component';
-import { ComponentRef, signal } from '@angular/core';
+import { ComponentRef } from '@angular/core';
 
 describe('CommonScorecardComponent', () => {
   let component: CommonScorecardComponent;

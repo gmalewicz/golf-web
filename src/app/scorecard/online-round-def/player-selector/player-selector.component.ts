@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, effect, input, linkedSignal, signal } from '@angular/core';    
+import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, computed, effect, input, linkedSignal, signal, inject } from '@angular/core';    
 import { MatDialog } from '@angular/material/dialog';  
 import { MatOption } from '@angular/material/core';  
 import { MatSelect } from '@angular/material/select';  
@@ -42,7 +42,15 @@ interface PlayerData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  
 })  
-export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {  
+export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements OnInit {
+  protected httpService: HttpService;
+  protected alertService: AlertService;
+  private readonly authenticationService = inject(AuthenticationService);
+  protected dialog: MatDialog;
+  readonly navigationService = inject(NavigationService);
+  private readonly scorecardHttpService = inject(ScorecardHttpService);
+  private readonly router = inject(Router);
+  
  
   private readonly MAX_PLAYERS = 4;
 
@@ -83,16 +91,16 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   
   tees: Tee[] = [];  
     
-  constructor(  
-    protected httpService: HttpService,    
-    protected alertService: AlertService,  
-    private readonly authenticationService: AuthenticationService,  
-    protected dialog: MatDialog,
-    readonly navigationService: NavigationService,
-    private readonly scorecardHttpService: ScorecardHttpService, 
-    private readonly router: Router
-  ) {  
-    super(alertService, dialog, httpService);  
+  constructor() {
+    const httpService = inject(HttpService);
+    const alertService = inject(AlertService);
+    const dialog = inject(MatDialog);
+  
+    super(alertService, dialog, httpService);
+    this.httpService = httpService;
+    this.alertService = alertService;
+    this.dialog = dialog;
+  
 
     effect (() => {
 
@@ -203,7 +211,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       const p0 = this.playersSgn()[0];  
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        let teeOption = p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        const teeOption = p0.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
         copy[0] = p0 ? teeOption : [];  
         return copy;  
       });
@@ -245,7 +253,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       
       this.teeOptions.update(prev => {  
         const copy = [...prev];  
-        let teeOption = player.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
+        const teeOption = player.sex ? this.teeOptionsFemale() : this.teeOptionsMale();
         copy[playerIdx] = player ? teeOption : [];  
         return copy;  
       });
@@ -277,9 +285,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     });  
     
     dialogRef.afterClosed().pipe(  
-      switchMap((result: any) => {  
+      switchMap((result: Record<string, unknown>) => {  
          
-        if (!result?.whs) {
+        if (!result?.whs || (typeof result.whs !== 'string' && typeof result.whs !== 'number')) {
           return of(undefined);
         }
 
@@ -314,8 +322,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     this.searchInProgressSgn.set(copy);
   }  
   
-  protected processPostPlayer(_: unknown): void {  
-    // Intentionally left blank  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected processPostPlayer(_: unknown): void {
+    // intentionally empty — no post-processing needed in this context
   }  
 
   onStartOnlineRound(event: Event) {

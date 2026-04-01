@@ -1,13 +1,8 @@
-import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { Component, computed, OnInit, signal, WritableSignal } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ScorecardHttpService } from '../_services';
 import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultText } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
-import { RxStompService } from '../_services/rx-stomp.service';
-import { LocationStrategy, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
@@ -46,16 +41,8 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
   // if greater than 0, the first player has additional strokes
   //hcpDiff: WritableSignal<number[]> = signal(undefined);
 
-  constructor(protected httpService: HttpService,
-              protected scorecardHttpService: ScorecardHttpService,
-              protected alertService: AlertService,
-              protected dialog: MatDialog,
-              protected authenticationService: AuthenticationService,
-              protected router: Router,
-              protected navigationService: NavigationService,
-              protected rxStompService: RxStompService,
-              protected location: LocationStrategy) {
-    super(httpService, scorecardHttpService, alertService, dialog, authenticationService, router, navigationService, rxStompService, location);
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { TeeTimeModification } from './../../_models/teeTimeModification';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentNavigationService } from '@/tournament/_services';
 import { AlertService } from '@/_services/alert.service';
@@ -11,14 +11,14 @@ import { AlertService } from '@/_services/alert.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModificationComponent  {
+  navigationService = inject(TournamentNavigationService);
+  private readonly cd = inject(ChangeDetectorRef);
+  private readonly alertService = inject(AlertService);
+
 
   private teeTimeModification: TeeTimeModification = {};
 
   public modBackCls: string[] = new Array(this.navigationService.tournamentPlayers().length).fill('');
-
-  constructor(public navigationService: TournamentNavigationService,
-              private readonly cd: ChangeDetectorRef,
-              private readonly alertService: AlertService) {}
 
   async modifyPlayer(idx: number) {
 

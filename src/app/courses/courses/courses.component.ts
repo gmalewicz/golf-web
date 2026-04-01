@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Course } from '@/_models/course';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@/_services/authentication.service';
@@ -16,6 +16,11 @@ import { ListCoursesComponent } from '../list-courses/list-courses.component';
     imports: [ListCoursesComponent, ReactiveFormsModule, RouterLink]
 })
 export class CoursesComponent implements OnInit {
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly httpService = inject(HttpService);
+
 
   favouriteCourses: Array<Course>;
 
@@ -28,12 +33,6 @@ export class CoursesComponent implements OnInit {
   loading: boolean;
 
   public searchCourseForm: FormGroup;
-
-  constructor(public authenticationService: AuthenticationService,
-              private readonly router: Router,
-              private readonly formBuilder: FormBuilder,
-              private readonly httpService: HttpService) {
-  }
 
   ngOnInit(): void {
 

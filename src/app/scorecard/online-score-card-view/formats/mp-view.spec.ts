@@ -1,4 +1,4 @@
-import { WritableSignal, signal } from "@angular/core";
+import { signal } from "@angular/core";
 import { of } from "rxjs";
 
 import { MPView } from "./mp-view";
@@ -9,7 +9,7 @@ import { Course } from "@/_models/course";
 import { OnlineScoreCardViewComponent } from "../online-score-card-view.component";
 
 /* 🔹 Mock helper functions */
-import * as whsRoutines from "@/_helpers/whs.routines";
+// whsRoutines import removed (unused)
 
 describe("MPView", () => {
   let mpView: MPView;
@@ -36,7 +36,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 4, time: "10:00" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
       {
         identifier: "r2",
         mpFormat: 1,
@@ -46,7 +46,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 5, time: "10:01" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
     ];
 
     scorecardHttpService.getOnlineRound.and.returnValue(of(onlineRounds));
@@ -55,7 +55,7 @@ describe("MPView", () => {
     spyOn(OnlineScoreCardViewComponent, "compareTime").and.returnValue("10:01");
 
     const onlineRoundsSgn = signal<OnlineRound[]>([onlineRounds[0]]);
-    const courseSgn = signal<Course>({ id: 1, par: 72 } as any);
+    const courseSgn = signal<Course>({ id: 1, par: 72 } as unknown as Course);
     const highlightHCPSgn = signal<string[][]>([[], []]);
     const mpResultHistorySgn = signal<string[][]>([]);
     const lstUpdTimeSgn = signal<string>("09:00");
@@ -101,7 +101,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 5, time: "10:00" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
       {
         identifier: "r2",
         mpFormat: 1,
@@ -111,7 +111,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 5, time: "10:01" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
     ];
 
     scorecardHttpService.getOnlineRound.and.returnValue(of(onlineRounds));
@@ -120,7 +120,7 @@ describe("MPView", () => {
     spyOn(OnlineScoreCardViewComponent, "compareTime").and.returnValue("10:01");
 
     const onlineRoundsSgn = signal<OnlineRound[]>([onlineRounds[0]]);
-    const courseSgn = signal<Course>({ id: 1, par: 72 } as any);
+    const courseSgn = signal<Course>({ id: 1, par: 72 } as unknown as Course);
     const highlightHCPSgn = signal<string[][]>([[], []]);
     const mpResultHistorySgn = signal<string[][]>([]);
     const lstUpdTimeSgn = signal<string>("09:00");
@@ -161,7 +161,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 6, time: "10:00" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
       {
         identifier: "r2",
         mpFormat: 1,
@@ -171,7 +171,7 @@ describe("MPView", () => {
         scoreCardAPI: [{ hole: 1, stroke: 4, time: "10:01" }],
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
     ];
 
     scorecardHttpService.getOnlineRound.and.returnValue(of(onlineRounds));
@@ -180,7 +180,7 @@ describe("MPView", () => {
     spyOn(OnlineScoreCardViewComponent, "compareTime").and.returnValue("10:01");
 
     const onlineRoundsSgn = signal<OnlineRound[]>([onlineRounds[0]]);
-    const courseSgn = signal<Course>({ id: 1, par: 72 } as any);
+    const courseSgn = signal<Course>({ id: 1, par: 72 } as unknown as Course);
     const highlightHCPSgn = signal<string[][]>([[], []]);
     const mpResultHistorySgn = signal<string[][]>([]);
     const lstUpdTimeSgn = signal<string>("09:00");
@@ -224,7 +224,7 @@ describe("MPView", () => {
         })),
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
       {
         identifier: "r2",
         mpFormat: 1,
@@ -238,7 +238,7 @@ describe("MPView", () => {
         })),
         first9score: 0,
         last9score: 0,
-      } as any,
+      } as unknown as OnlineRound,
     ];
 
     scorecardHttpService.getOnlineRound.and.returnValue(of(onlineRounds));
@@ -250,7 +250,7 @@ describe("MPView", () => {
     spyOn(OnlineScoreCardViewComponent, "compareTime").and.returnValue("10:01");
 
     const onlineRoundsSgn = signal<OnlineRound[]>([onlineRounds[0]]);
-    const courseSgn = signal<Course>({ id: 1, par: 72 } as any);
+    const courseSgn = signal<Course>({ id: 1, par: 72 } as unknown as Course);
     const highlightHCPSgn = signal<string[][]>([[], []]);
     const mpResultHistorySgn = signal<string[][]>([]);
     const lstUpdTimeSgn = signal<string>("09:00");

@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
 import { Router } from '@angular/router';
 import { MyRouterStub } from '@/_helpers/test.helper';
-import { ComponentRef } from '@angular/core';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
 import { CourseInfoComponent } from './course-info.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
@@ -13,7 +10,6 @@ import { HttpService } from '@/_services/http.service';
 describe('PlayerResultsComponent', () => {
   let component: CourseInfoComponent;
   let fixture: ComponentFixture<CourseInfoComponent>;
-  let componentRef: ComponentRef<CourseInfoComponent>;
   const tournamentNavigationService: TournamentNavigationService = new TournamentNavigationService();
 
    const standardSetup = () => {

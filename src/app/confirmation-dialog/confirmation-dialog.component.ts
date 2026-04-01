@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
@@ -9,8 +9,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     imports: [MatDialogModule, MatButtonModule]
 })
 export class ConfirmationDialogComponent  {
+  dialogRef = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
 
-  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) { }
 
   public confirmMessage: string;
   public makeItDanger: boolean

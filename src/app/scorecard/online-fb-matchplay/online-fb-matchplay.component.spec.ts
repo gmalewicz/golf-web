@@ -48,9 +48,9 @@ describe('OnlineFbMatchplayComponent', () => {
   beforeEach(() => {
     navigationService = TestBed.inject(NavigationService);
     navigationService.setCourseSgn(signal(getTestCourse()));
-    let or1 = getOnlineRoundFirstPlayer();
+    const or1 = getOnlineRoundFirstPlayer();
     or1.format = Format.FOUR_BALL_MATCH_PLAY;
-    let or2 = getOnlineRoundSecondPlayer();
+    const or2 = getOnlineRoundSecondPlayer();
     or2.format = Format.FOUR_BALL_MATCH_PLAY;
     navigationService.setOnlineRoundsSgn(signal([or1, or2, getOnlineRoundThirdPlayer(), getOnlineRoundFourthPlayer()]));
     fixture = TestBed.createComponent(OnlineFbMatchplayComponent);

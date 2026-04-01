@@ -1,13 +1,13 @@
-﻿import { EagleResult, EagleResultSet } from "../_models/eagleResult";
+import { EagleResult, EagleResultSet } from "../_models/eagleResult";
 import { AuthenticationService } from "@/_services/authentication.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router, RouterLink } from "@angular/router";
 import { CycleHttpService } from "../_services/cycleHttp.service";
 import { AlertService } from "@/_services/alert.service";
 import { CycleTournamentComponent } from "../cycle-tournament/cycle-tournament.component";
 import { CycleResultsComponent } from "../cycle-results/cycle-results.component";
-import { CycleDetailsVersionedBase } from "../base/cycle-details-versioned-base";
+import { CycleDetailsVersionedBase, EagleApiResultSet } from "../base/cycle-details-versioned-base";
 import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cycle-results-stroke-play.component";
 
 @Component({
@@ -25,17 +25,23 @@ export class CycleDetails2026Component
   extends CycleDetailsVersionedBase
   implements OnInit
 {
+  authenticationService: AuthenticationService;
+  protected readonly router: Router;
+  protected readonly dialog: MatDialog;
+  protected readonly cycleHttpService: CycleHttpService;
+  protected readonly alertService: AlertService;
+
   protected grandPrixPoints: number[] = [
     26, 22, 19, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
   ];
 
-  constructor(
-    public authenticationService: AuthenticationService,
-    protected readonly router: Router,
-    protected readonly dialog: MatDialog,
-    protected readonly cycleHttpService: CycleHttpService,
-    protected readonly alertService: AlertService,
-  ) {
+  constructor() {
+    const authenticationService = inject(AuthenticationService);
+    const router = inject(Router);
+    const dialog = inject(MatDialog);
+    const cycleHttpService = inject(CycleHttpService);
+    const alertService = inject(AlertService);
+
     super(
       authenticationService,
       router,
@@ -43,6 +49,12 @@ export class CycleDetails2026Component
       cycleHttpService,
       alertService,
     );
+  
+    this.authenticationService = authenticationService;
+    this.router = router;
+    this.dialog = dialog;
+    this.cycleHttpService = cycleHttpService;
+    this.alertService = alertService;
   }
 
   ngOnInit(): void {
@@ -50,7 +62,7 @@ export class CycleDetails2026Component
   }
 
   protected processSingleRoundTournament(
-    element: any,
+    element: EagleApiResultSet,
     eagleResultSet: EagleResultSet,
   ): void {
     element.items.forEach((item, index) => {
@@ -75,7 +87,7 @@ export class CycleDetails2026Component
 
   protected processMultiRoundTournament(
     eagleResultSet: EagleResultSet,
-    reareEagleResultSet: any,
+    reareEagleResultSet: EagleApiResultSet[],
   ): void {
     // perepare r for each player
     reareEagleResultSet.forEach((set) =>
@@ -114,7 +126,7 @@ export class CycleDetails2026Component
     );
 
     reareEagleResultSet.forEach((element) => {
-      element.items.forEach((item, index) => {
+      element.items.forEach((item) => {
         const eagleResult: EagleResult = {
           firstName: item.first_name,
           lastName: item.last_name,

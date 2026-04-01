@@ -154,8 +154,6 @@ describe("OnlineScoreCardViewComponent", () => {
 
     // Assert
     const round0 = component.onlineRoundsSgn()[0];
-    const round1 = component.onlineRoundsSgn()[1];
-
     expect(round0.scoreCardAPI[0].mpResult).toBe(0);
   });
 
@@ -175,7 +173,7 @@ describe("OnlineScoreCardViewComponent", () => {
     fixture.detectChanges();
 
     // Prevent real execution
-    const clearSpy = spyOn(component as any, "clear").and.callThrough();
+    const clearSpy = spyOn(component as unknown as Record<string, (...args: unknown[]) => unknown>, "clear").and.callThrough();
     const initSpy = spyOn(component, "ngOnInit").and.callFake(() => {});
 
     // Act

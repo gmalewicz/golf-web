@@ -75,7 +75,7 @@
                 <th id="nick">{{onlineRound?.player.nick}}</th>
                   @for (index of counterSgn(); track index;) {
                     <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index]">
-                      @if (onlineRound?.scoreCardAPI[index] != null) {
+                      @if (onlineRound?.scoreCardAPI[index]) {
                         <span>
                           @if (onlineRound?.scoreCardAPI[index].stroke === 16) {
                             <span>
@@ -100,7 +100,7 @@
                 </th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index + 9]">
-                    @if (onlineRound?.scoreCardAPI[index + 9] != null) {
+                    @if (onlineRound?.scoreCardAPI[index + 9]) {
                       <span>
                         @if (onlineRound?.scoreCardAPI[index + 9].stroke === 16) {
                           <span>
@@ -139,7 +139,7 @@
                 <th id="nick">{{onlineRound?.player.nick}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index]">
-                    @if (onlineRound?.scoreCardAPI[index] != null) {
+                    @if (onlineRound?.scoreCardAPI[index]) {
                       <span>
                         {{mpResultHistorySgn()[idx][index]}}
                       </span>
@@ -149,7 +149,7 @@
                 <th id="mpf9s" class="center"></th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index + 9]">
-                    @if (onlineRound?.scoreCardAPI[index + 9] != null) {
+                    @if (onlineRound?.scoreCardAPI[index + 9]) {
                       <span>
                         {{mpResultHistorySgn()[idx][index + 9]}}
                       </span>
@@ -185,7 +185,7 @@
       </table>
       @if (viewTypeSgn() === ViewType.MP || viewTypeSgn() === ViewType.FBMP) {  
         <div>
-          @if (mpResultSgn()[1] === undefined) {
+          @if (!mpResultSgn()[1]) {
             <h3>
               {{mpResultSgn()[0]}}
             </h3>

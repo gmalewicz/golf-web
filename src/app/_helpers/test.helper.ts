@@ -225,7 +225,7 @@ export const alertServiceStub : Partial<AlertService> = {
 
 
 
-// eslint-disable-next-line prefer-const
+ 
 export class RxStompServiceStub  {
 
 

@@ -1,7 +1,7 @@
   
   <div class="row golf-margin-top-15">
 
-    @if (formatSgn() == Format.MATCH_PLAY || formatSgn() == Format.FOUR_BALL_MATCH_PLAY) {
+    @if (formatSgn() === Format.MATCH_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
       <div class="row golf-margin-top">
         <div class="col">
           <input type="radio" id="mpFormat1" value="1" [formField] = "playerDataForm.mpFormat" class="form-check-input form-check-input-green">
@@ -9,7 +9,7 @@
           &nbsp;
           <input type="radio" id="mpFormat2" value="0.9" [formField] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
           <label class="custom-control-label green" for="mpFormat2">90%</label>
-          @if (formatSgn() == Format.MATCH_PLAY) {
+          @if (formatSgn() === Format.MATCH_PLAY) {
             &nbsp;
             <input type="radio" id="mpFormat3" value="0.75" [formField] = "playerDataForm.mpFormat"  class="form-check-input form-check-input-green">
             <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
@@ -21,7 +21,7 @@
       </div>
     }
 
-    @if (formatSgn() == Format.STROKE_PLAY || formatSgn() == Format.FOUR_BALL_STROKE_PLAY) { 
+    @if (formatSgn() === Format.STROKE_PLAY || formatSgn() === Format.FOUR_BALL_STROKE_PLAY) { 
       <div class="col">
         <div class="btn-group" aria-label="Number of players">
           
@@ -47,7 +47,7 @@
       <div class="row golf-margin-top-15">
         <div class="col-auto golf-width-210">
          
-          @if (playersSgn()[id] == null) {
+          @if (!playersSgn()[id]) {
           
             @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
             <span class="golf-margin-top golf-red golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
@@ -86,7 +86,7 @@
             }
           </mat-form-field>
         </div>
-        @if (playersSgn()[id] != null) {
+        @if (playersSgn()[id]) {
           <div class="col-auto">
             <button type="button" id="p0Btn" class="btn btn-success golf-margin-top-6 golf-changeHcp-width" (click)="updateWHS(id)">
               @if (!searchInProgressSgn()[id]) {

@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleTournament } from '../_models/cycleTournament';
@@ -10,13 +10,13 @@ import { CycleTournament } from '../_models/cycleTournament';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CycleTournamentComponent implements OnInit {
+  authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
+
 
   cycle = input.required<Cycle>();
   cycleTournaments = input.required<CycleTournament[]>();
   display: boolean;
-
-  constructor(public authenticationService: AuthenticationService,
-              private readonly router: Router) { }
 
   ngOnInit(): void {
     if (this.authenticationService.currentPlayerValue === null) {
