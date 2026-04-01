@@ -1,26 +1,8 @@
 # Codebase Concerns
 
-**Analysis Date:** 2026-03-26
+**Analysis Date:** 2026-04-01
 
 ## Tech Debt
-
-**Dual ESLint Configuration:**
-- Issue: Both `.eslintrc.js` (legacy) and `eslint.config.mjs` (flat config) exist simultaneously
-- Files: `.eslintrc.js`, `.eslintrc.json`, `eslint.config.mjs`
-- Impact: Ambiguous which config is authoritative; `npm run lint` uses `.eslintrc.js` but Angular DevKit may use flat config
-- Fix approach: Migrate fully to `eslint.config.mjs` flat config, remove legacy files
-
-**Dual CSS/SCSS Entry Points:**
-- Issue: Both `src/style.scss` and `src/styles.css` exist (likely one is unused)
-- Files: `src/style.scss`, `src/styles.css`
-- Impact: Potential duplicate global styles or one going unloaded
-- Fix approach: Audit `angular.json` to confirm which file is active; remove the unused one
-
-**Legacy Protractor E2E Directory:**
-- Issue: `e2e/` directory contains legacy Protractor tests (deprecated when Angular CLI moved to Cypress)
-- Files: `e2e/src/app.e2e-spec.ts`, `e2e/protractor.conf.js`
-- Impact: Dead code causing confusion; Protractor is no longer maintained
-- Fix approach: Delete the `e2e/` directory; Cypress at `cypress/` is the active E2E solution
 
 **Mixed CI/CD Approach:**
 - Issue: Both Firebase Hosting (`.firebaserc`) and Docker/Apache (`Dockerfile`, `httpd-ssl.conf`) configs exist
@@ -28,23 +10,21 @@
 - Impact: Unclear which deployment path is authoritative; multiple configs to maintain
 - Fix approach: Document which deployment method is active; archive unused config
 
-**`any` Type Usage in Tests:**
-- Issue: `let mockContainer: any` in test files (e.g., `admin.component.spec.ts`)
-- Files: `src/app/admin/admin.component.spec.ts` and likely others
-- Impact: Bypasses TypeScript safety in test code
-- Fix approach: Replace `any` with proper typed mocks or `unknown`
-
-**`eslint-disable` Comments for Unused Expressions:**
-- Issue: `// eslint-disable-next-line @typescript-eslint/no-unused-expressions` inline suppressions
-- Files: `src/app/rounds/rounds/rounds.component.ts`
-- Impact: Ternary used as statement (side-effect only) — code smell
-- Fix approach: Replace with explicit `if/else` blocks
-
-**Commented-Out Code:**
-- Issue: Multiple blocks of commented-out code left in source files
-- Files: `src/app/scorecard/_helpers/golfRxStompConfig.ts` (debug logging), `src/app/_models/player.ts` (`token`, `refreshToken` fields), `src/environments/environment.ts` (WS_ENDPOINT)
-- Impact: Noise, confusing intent, potential secret leakage risk for commented tokens
-- Fix approach: Remove if no longer needed; document rationale via comments if waiting for future use
+**`eslint-disable` Inline Suppressions (16 occurrences):**
+- Issue: `eslint-disable-next-line` comments suppress lint rules across multiple files
+- Files:
+  - `src/app/rounds/rounds/rounds.component.ts` — 2x `no-unused-expressions` (ternary as statement)
+  - `src/app/cycles/cycle-details/cycle-details.component.ts` — 1x `no-explicit-any` (Eagle API response)
+  - `src/app/_helpers/test.helper.ts` — 5x `no-unused-vars` (intentional unused params in mock factories)
+  - `src/app/scorecard/_helpers/test.helper.ts` — 1x `no-unused-vars`
+  - `src/app/scorecard/_helpers/online-round-base.ts` — 2x `no-unused-vars` (template method stubs)
+  - `src/app/mp-league/league-player/league-player.component.ts` — 1x `no-unused-vars`
+  - `src/app/tournament/tournament-players/tournament-players.component.ts` — 1x `no-unused-vars`
+  - `src/app/dialogs/search-player-dialog/search-player-dialog.component.spec.ts` — 1x `no-unused-vars`
+  - `src/app/dialogs/register-player-dialog/register-player-dialog.component.spec.ts` — 1x `no-unused-vars`
+  - `src/app/tournament/update-tournament-player-whs-dialog/update-tournament-player-whs-dialog.component.spec.ts` — 1x `no-unused-vars`
+- Impact: Suppressions hide genuine issues (ternary as statement, untyped API response) and mask intentional unused params
+- Fix approach: Replace ternary-as-statements with `if/else`; type the Eagle API response; prefix intentional unused params with `_` to avoid needing suppressions
 
 ## Security Considerations
 
@@ -74,11 +54,11 @@
 
 ## Performance Bottlenecks
 
-**No OnPush Change Detection:**
-- Problem: Components default to Angular's `Default` change detection strategy
-- Files: All component files (no `changeDetection: ChangeDetectionStrategy.OnPush` observed)
-- Cause: Not adopted as a convention; mixes with Signals-based reactive state
-- Improvement path: Add `changeDetection: ChangeDetectionStrategy.OnPush` to components using only Signals and Observables; reduces unnecessary change detection cycles
+**Incomplete OnPush Change Detection Adoption:**
+- Problem: Only 11 components use `ChangeDetectionStrategy.OnPush`; the majority still use the `Default` strategy
+- Files with OnPush: `cycle-results`, `cycle-tournament`, `cycle-results-stroke-play`, `view-selector`, `course-info`, `round-view-fb-mp`, `info`, `player-selector`, `modification`, `tee-time`, `parameters`
+- Cause: OnPush adoption started but not applied project-wide; remaining components still use Default
+- Improvement path: Incrementally add `changeDetection: ChangeDetectionStrategy.OnPush` to components that use only Signals/Observables; prioritize high-traffic pages
 
 **`PreloadAllModules` Strategy:**
 - Problem: All lazy-loaded routes are preloaded immediately after initial load
@@ -186,4 +166,5 @@
 
 ---
 
-*Concerns audit: 2026-03-26*
+*Concerns audit: 2026-04-01*
+*Previous audit: 2026-03-26 — resolved: dual ESLint config, dual CSS/SCSS entry points, legacy Protractor e2e, `any` types in tests, commented-out dead code*
