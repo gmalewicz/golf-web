@@ -287,7 +287,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     dialogRef.afterClosed().pipe(  
       switchMap((result: Record<string, unknown>) => {  
          
-        if (!result?.whs) {
+        if (!result?.whs || (typeof result.whs !== 'string' && typeof result.whs !== 'number')) {
           return of(undefined);
         }
 
@@ -323,7 +323,6 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
   
   protected processPostPlayer(_player: unknown): void {
-    void _player;
   }  
 
   onStartOnlineRound(event: Event) {

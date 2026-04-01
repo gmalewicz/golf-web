@@ -272,7 +272,7 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
   ): void {
     element.items.forEach((item) => {
       // skip players without results
-      if (item.r.reduce((a, b) => a + b) === 0) {
+      if (item.r.reduce((a, b) => a + b, 0) === 0) {
         return;
       }
       const eagleResult: EagleResult = {
