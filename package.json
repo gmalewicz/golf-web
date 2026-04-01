@@ -9,7 +9,7 @@
     "build:prod": "ng build --configuration production",
     "build:prod-locale": "ng build --configuration production --localize",
     "test": "ng test",
-    "lint": "eslint -c .eslintrc.js --ext .ts src/app",
+    "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "private": true,

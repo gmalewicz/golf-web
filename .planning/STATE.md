@@ -1,17 +1,12 @@
-﻿# Project State
+# Project State
 
-milestone: cycle-2026
+milestone: (none active)
 
 ## Current Position
 
-Phase: 3 of 3 (remove duplications in cycle-details)
-Status: Phase complete
-Last activity: 2026-03-27 - Completed phase 03-remove-duplications
+Status: Between milestones
+Last activity: 2026-03-30 - Completed vcycle-2026 milestone
 
-## Accumulated Context
+## Completed Milestones
 
-### Roadmap Evolution
-
-- Phase 1 added: Cycle 2026
-- Phase 2 added: Add Cycle Validation
-- Phase 3 added: remove duplications in cycle-details cycle-details-2025 and cycle-details-2026
+- vcycle-2026: 2026 Season Rules (shipped 2026-03-30)
