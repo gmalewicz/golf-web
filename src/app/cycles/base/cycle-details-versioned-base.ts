@@ -271,8 +271,8 @@ export abstract class CycleDetailsVersionedBase extends CycleDetailsBase {
     eagleResultSet: EagleResultSet,
   ): void {
     element.items.forEach((item) => {
-      // skip players without results
-      if (item.r.reduce((a, b) => a + b, 0) === 0) {
+      // skip players without results (0 or empty string for every round)
+      if (item.r.every((v) => !v)) {
         return;
       }
       const eagleResult: EagleResult = {

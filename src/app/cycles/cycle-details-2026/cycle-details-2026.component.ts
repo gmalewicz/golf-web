@@ -65,14 +65,18 @@ export class CycleDetails2026Component
     element: EagleApiResultSet,
     eagleResultSet: EagleResultSet,
   ): void {
-    element.items.forEach((item, index) => {
+    let rank = 0;
+    element.items.forEach((item) => {
+      if (!item.r[0]) {
+        return;
+      }
       const eagleResult: EagleResult = {
         firstName: item.first_name,
         lastName: item.last_name,
         whs: item.hcp ?? 0,
         r: [
-          index < this.grandPrixPoints.length
-            ? this.grandPrixPoints[index]
+          rank < this.grandPrixPoints.length
+            ? this.grandPrixPoints[rank]
             : 1,
           0,
           0,
@@ -80,7 +84,7 @@ export class CycleDetails2026Component
         ],
         series: 1,
       };
-
+      rank++;
       eagleResultSet.items.push(eagleResult);
     });
   }
@@ -94,36 +98,41 @@ export class CycleDetails2026Component
       set.items.forEach((item) => (item.grandPrix = [0, 0, 0, 0])),
     );
 
-    // resolve ties for the first round
+    // resolve ties for the first round, then assign points only to players with non-zero strokes
     reareEagleResultSet
       .slice(0, 3)
       .forEach((set) => this.resolveTies(set.items, 0));
 
-    reareEagleResultSet.forEach((set) =>
-      set.items.forEach(
-        (item, index) =>
-          (item.grandPrix[0] =
-            index < this.grandPrixPoints.length
-              ? this.grandPrixPoints[index]
-              : 1),
-      ),
-    );
+    reareEagleResultSet.forEach((set) => {
+      let rank = 0;
+      set.items.forEach((item) => {
+        if (item.r[0]) {
+          item.grandPrix[0] =
+            rank < this.grandPrixPoints.length
+              ? this.grandPrixPoints[rank]
+              : 1;
+          rank++;
+        }
+      });
+    });
 
-    // resolve ties for the second round
-
+    // resolve ties for the second round, then assign points only to players with non-zero strokes
     reareEagleResultSet
       .slice(0, 3)
       .forEach((set) => this.resolveTies(set.items, 1));
 
-    reareEagleResultSet.forEach((set) =>
-      set.items.forEach(
-        (item, index) =>
-          (item.grandPrix[1] =
-            index < this.grandPrixPoints.length
-              ? this.grandPrixPoints[index]
-              : 1),
-      ),
-    );
+    reareEagleResultSet.forEach((set) => {
+      let rank = 0;
+      set.items.forEach((item) => {
+        if (item.r[1]) {
+          item.grandPrix[1] =
+            rank < this.grandPrixPoints.length
+              ? this.grandPrixPoints[rank]
+              : 1;
+          rank++;
+        }
+      });
+    });
 
     reareEagleResultSet.forEach((element) => {
       element.items.forEach((item) => {
@@ -135,10 +144,7 @@ export class CycleDetails2026Component
           series: 1,
         };
 
-        if (
-          item.grandPrix[0] !== undefined ||
-          item.grandPrix[1] !== undefined
-        ) {
+        if (item.grandPrix[0] !== 0 || item.grandPrix[1] !== 0) {
           eagleResultSet.items.push(eagleResult);
         }
       });
