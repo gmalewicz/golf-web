@@ -45,6 +45,8 @@ export class CourseInfoComponent implements OnInit {
               tees.forEach(tee => {
                 if (tee.sex === player.sex && tee.teeType === teeTypes.TEE_TYPE_18) {
                   const courseHcp = calculateRoundedCourseHCP(tee.teeType, player.whs, tee.sr, tee.cr, this.courseSgn().par);
+                  const playingHcp = Math.round(courseHcp * this.navigationService.tournament().playHcpMultiplayer);
+                  const maxPlayHcp = this.navigationService.tournament().maxPlayHcp;
                   playerTees.push({
                     nick: playerNameNotSet ? player.nick : "",
                     hcp: player.whs,  
@@ -52,7 +54,7 @@ export class CourseInfoComponent implements OnInit {
                     cr: tee.cr,
                     tee: tee.tee,
                     courseHcp: courseHcp,
-                    playingHcp: Math.round(courseHcp * this.navigationService.tournament().playHcpMultiplayer)
+                    playingHcp: maxPlayHcp !== undefined && playingHcp > maxPlayHcp ? maxPlayHcp : playingHcp
                   });
                   playerNameNotSet = false;
                 }  

@@ -152,17 +152,15 @@
         </div>
         <div>
           <br />
-          <div class="form-group">
-            <button type="button" class="btn btn-success" routerLink="/tournaments/tournamentResults" i18n="@@tour-cancel">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+            <button type="button" class="btn btn-success golf-width-120" routerLink="/tournaments/tournamentResults" i18n="@@tour-cancel">
               Cancel
             </button>
-            &nbsp;
-            <button type="button" class="btn btn-success btn-clear w-80" (click)="clear()" i18n="@@addRound-clear">
+            <button type="button" class="btn btn-success btn-clear golf-width-120" (click)="clear()" i18n="@@addRound-clear">
               Clear
             </button>
-            &nbsp;
-            <button type="button" class="btn btn-success btn-submit w-80" (click)="addRound()" i18n="@@addRound-add">
-              Add
+            <button type="button" class="btn btn-success btn-submit golf-width-120" [loading]="submitted" [disabled]="submitted" (click)="addRound()">
+              <span i18n="@@addRound-add">Add</span>
             </button>
           </div>
         </div>

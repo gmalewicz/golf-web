@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-add-round',
@@ -32,7 +33,9 @@ import { Format } from '@/_models/format';
     ReactiveFormsModule,
     AutoTabDirective,
     FontAwesomeModule,
-    FormsModule, RangePipe],
+    FormsModule, 
+    RangePipe,
+    LoadingDirective],
     providers: [TournamentHttpService],
     templateUrl: './add-round.component.html',
     styleUrls: ['./add-round.component.css']
@@ -236,17 +239,20 @@ export class AddRoundComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.defRoundForm.invalid) {
+      this.submitted = false;
       return;
     }
 
     // first check if all holes has been added
     if  (this.score.includes('')) {
       this.alertService.error($localize`:@@addRound-allHls:All holes must be filled`, false);
+      this.submitted = false;
       return;
     }
 
     if  (this.player === undefined || this.tee === null) {
       this.alertService.error($localize`:@@addRound-noNck:Player nick and tee must be selected`, false);
+      this.submitted = false;
       return;
     }
 
