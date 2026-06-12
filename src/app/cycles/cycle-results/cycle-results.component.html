@@ -1,10 +1,5 @@
 <br/>
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
     <div class="table-responsive">
       <table id="result-tbl" class="table table-striped" aria-describedby="result view">
@@ -44,4 +39,4 @@
       </table>
     </div>
   </div>
-}
+</div>

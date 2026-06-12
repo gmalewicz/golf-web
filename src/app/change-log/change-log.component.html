@@ -1,12 +1,7 @@
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
     <h2>Change log</h2>
-    Backend version: {{version.version}}
+    Backend version: {{version?.version}}
     <p></p>
     <ul>
       <li>v3.15.0-1: Support for Royal Grand Prix by Fortress 2026</li>
@@ -86,7 +81,7 @@
       <li>v3.0-1: Close tournament</li>
     </ul>
   </div>
-}
+</div>
 <div>
   <br />
   <button type="button" class="btn btn-success" routerLink="/home">

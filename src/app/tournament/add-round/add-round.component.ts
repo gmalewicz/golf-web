@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-add-round',
@@ -32,7 +33,7 @@ import { Format } from '@/_models/format';
     ReactiveFormsModule,
     AutoTabDirective,
     FontAwesomeModule,
-    FormsModule, RangePipe],
+    FormsModule, RangePipe, LoadingDirective],
     providers: [TournamentHttpService],
     templateUrl: './add-round.component.html',
     styleUrls: ['./add-round.component.css']

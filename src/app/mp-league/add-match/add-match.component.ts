@@ -11,13 +11,14 @@ import { LeagueMatch } from '../_models';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-add-match',
     templateUrl: './add-match.component.html',
     providers: [LeagueHttpService],
-    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink]
+    imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink, LoadingDirective]
 })
 export class AddMatchComponent implements OnInit {
   private readonly leagueHttpService = inject(LeagueHttpService);

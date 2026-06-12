@@ -109,15 +109,11 @@
   </div>
 </form>
 <br/>
-<div>
-  <button [disabled]="loading" class="btn btn-success btn-submit" (click)="onSubmit()">
-    @if (loading) {
-      <span class="spinner-border spinner-border-sm mr-1"></span>
-    }
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+  <button [disabled]="loading" [loading]="loading" class="btn btn-success btn-submit golf-width-120" (click)="onSubmit()">
     <span i18n="@@addTour-create">Create</span>
   </button>
-  &nbsp;
-  <button type="button" class="btn btn-success" routerLink="/tournaments" i18n="@@addTour-cancel">
+  <button type="button" class="btn btn-success golf-width-120" routerLink="/tournaments" i18n="@@addTour-cancel">
     Cancel
   </button>
 </div>

@@ -1,8 +1,8 @@
 <form [formGroup]="newCourseTeeForm">
   <br/>
-  <div class="row">
+  <div class="row align-items-center">
     <div class="col-auto">
-      <mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-colour">colour</mat-label>
         <input matInput maxlength="20" [formControlName]="'tee'"/>
         @if (g.tee.invalid && g.tee.errors.required)  {
@@ -11,7 +11,7 @@
       </mat-form-field>
     </div>
     <div class="col-auto">
-      <mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
         <mat-label>CR</mat-label>
         <input matInput maxlength="4" [formControlName]="'cr'"/>
         @if (g.cr.invalid && g.cr.errors.required)  {
@@ -23,7 +23,7 @@
       </mat-form-field>
     </div>
     <div class="col-auto">
-      <mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
         <mat-label>SR</mat-label>
         <input matInput maxlength="3" [formControlName]="'sr'"/>
         @if (g.sr.invalid && g.sr.errors.required)  {
@@ -35,7 +35,7 @@
       </mat-form-field>
     </div>
     <div class="col-auto">
-      <mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-teeType">tee type</mat-label>
         <mat-select [formControlName]="'teeTypeDropDown'">
           @for (teeType of teeTypes; track teeType) {
@@ -48,7 +48,7 @@
       </mat-form-field>
     </div>
     <div class="col-auto">
-      <mat-form-field>
+      <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-sex">sex</mat-label>
         <mat-select [formControlName]="'sexDropDown'">
           @for (sexOpt of sex; track sexOpt) {

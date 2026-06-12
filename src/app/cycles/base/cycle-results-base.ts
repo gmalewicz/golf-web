@@ -26,6 +26,7 @@ export abstract class CycleResultsBase {
   protected changes(): void {
     this.rounds = [];
       this.names = [];
+      if (!this.cycleTournaments()) { return; }
       if (this.cycleTournaments().length > 0) {
 
         let offset = 0;

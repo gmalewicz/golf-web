@@ -8,12 +8,18 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-online-matchplay',
     templateUrl: './online-matchplay.component.html',
     styleUrls: ['./online-matchplay.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe],
+    imports: [CommonScorecardTopComponent, 
+              NgClass, 
+              FaIconComponent, 
+              MatButton, 
+              RangePipe,
+              LoadingDirective],
     providers: [NavigationService]
 })
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {

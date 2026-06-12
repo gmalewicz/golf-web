@@ -3,12 +3,13 @@ import { Round } from '@/_models';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { NgClass, DecimalPipe } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-round-view-whs',
     templateUrl: './round-view-whs.component.html',
     styleUrls: ['./round-view-whs.component.css'],
-    imports: [NgClass, DecimalPipe, RangePipe]
+    imports: [NgClass, DecimalPipe, RangePipe, LoadingDirective]
 })
 export class RoundViewWHSComponent implements OnInit {
 

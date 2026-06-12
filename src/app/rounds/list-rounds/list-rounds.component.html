@@ -10,9 +10,7 @@
         <th id="players" i18n="@@listRounds-players">Players</th>
       }
       <th id="type" i18n="@@listRounds-type">Type</th>
-      @if (authenticationService.playerRole.includes('ADMIN')) {
-        <th id="id">ID</th>
-      }
+      <th id="id" *can="'ADMIN'">ID</th>
     </tr>
   </thead>
   <tbody>
@@ -49,9 +47,7 @@
             <td>SP</td>
           }
         }
-        @if (authenticationService.playerRole.includes('ADMIN')) {
-          <td>{{round.id}}</td>
-        }
+        <td *can="'ADMIN'">{{round.id}}</td>
       </tr>
     }
   </tbody>

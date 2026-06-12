@@ -13,13 +13,14 @@ import { AddMatchComponent } from '../add-match/add-match.component';
 import { LeaguePlayerComponent } from '../league-player/league-player.component';
 import { LeagueComponent } from '../league/league.component';
 import { RemoveMatchComponent } from '../remove-match/remove-match.component';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-mp-ligues',
     templateUrl: './mp-leagues.component.html',
     providers: [LeagueHttpService],
-    imports: [FaIconComponent, RouterLink]
+    imports: [FaIconComponent, RouterLink, LoadingDirective]
 })
 export class MpLeaguesComponent implements OnInit {
   private readonly leagueHttpService = inject(LeagueHttpService);

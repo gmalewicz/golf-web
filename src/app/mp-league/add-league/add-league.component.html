@@ -1,9 +1,4 @@
-@if (!isDisplay()) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (isDisplay()) {
+<div [loading]="!isDisplay()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div >
     <h2 class="col" i18n="@@addLeague-AddLbl">Add the new league:</h2>
     <form [formGroup]="addLeagueForm" (ngSubmit)="onSubmit()">
@@ -33,4 +28,4 @@
         </div>
       </form>
     </div>
-  }
+</div>

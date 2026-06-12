@@ -6,12 +6,13 @@ import { tap } from 'rxjs/operators';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 import { NgClass } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-round-view-fb-mp',
     templateUrl: './round-view-fb-mp.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe, NgClass]
+    imports: [RangePipe, NgClass, LoadingDirective]
 })
 export class RoundViewFbMpComponent implements OnInit {
   private readonly httpService = inject(HttpService);

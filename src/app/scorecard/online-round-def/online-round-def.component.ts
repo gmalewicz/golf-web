@@ -3,13 +3,15 @@ import { AlertService, AuthenticationService } from '@/_services';
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { Router  } from '@angular/router';
 import { PlayerSelectorComponent } from "./player-selector/player-selector.component";
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-online-round-def',
     templateUrl: './online-round-def.component.html',
     imports: [
-      PlayerSelectorComponent
+      PlayerSelectorComponent,
+      LoadingDirective
     ],
     providers: []
 })

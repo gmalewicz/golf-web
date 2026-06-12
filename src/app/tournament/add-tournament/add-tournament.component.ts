@@ -13,6 +13,7 @@ import { tap } from "rxjs/operators";
 
 import { MatError, MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
+import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 
 @Component({
   selector: "app-add-tournament",
@@ -23,6 +24,7 @@ import { MatInput } from "@angular/material/input";
     MatLabel,
     MatError,
     MatInput,
+    LoadingDirective
   ],
   providers: [TournamentHttpService],
   templateUrl: "./add-tournament.component.html",

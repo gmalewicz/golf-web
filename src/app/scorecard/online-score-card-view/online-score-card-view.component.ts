@@ -16,12 +16,13 @@ import { RoundView } from './formats/round-view';
 import { CourseView } from './formats/course-view';
 import { FBMPView } from './formats/fbmp-view';
 import { RangePipe } from '@/_helpers/range';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-online-score-card-view',
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
-    imports: [RouterLink, DecimalPipe, NgClass, RangePipe],
+    imports: [RouterLink, DecimalPipe, NgClass, RangePipe, LoadingDirective],
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {

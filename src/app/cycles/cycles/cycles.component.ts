@@ -11,12 +11,13 @@ import { AddCycleComponent } from '../add-cycle/add-cycle.component';
 import { CycleDetailsComponent } from '../cycle-details/cycle-details.component';
 import { CycleDetails2025Component } from '../cycle-details-2025/cycle-details-2025.component';
 import { CycleDetails2026Component } from '../cycle-details-2026/cycle-details-2026.component';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
 
 
 @Component({
     selector: 'app-cycles',
     templateUrl: './cycles.component.html',
-    imports: [RouterLink, FaIconComponent],
+    imports: [RouterLink, FaIconComponent, CanDirective],
     providers: [CycleHttpService]
 })
 
@@ -26,9 +27,9 @@ export class CyclesComponent implements OnInit {
   private readonly router = inject(Router);
 
 
-  faSearchPlus: IconDefinition;
-  cycles: Cycle[];
-  display: boolean;
+  faSearchPlus!: IconDefinition;
+  cycles!: Cycle[];
+  display!: boolean;
   statusOpen: boolean = CycleStatus.STATUS_OPEN;
   statusClose: boolean = CycleStatus.STATUS_CLOSE;
 

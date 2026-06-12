@@ -10,10 +10,17 @@ import { BaseChartDirective } from 'ng2-charts';
 import { CourseTeesComponent } from '../course-tees/course-tees.component';
 import { AuthGuard } from '@/_helpers/auth.guard';
 import { AddTeeComponent } from '../add-tee/add-tee.component';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-course',
-    imports: [BaseChartDirective, CourseTeesComponent, RouterModule, AddTeeComponent],
+    imports: [BaseChartDirective, 
+              CourseTeesComponent, 
+              RouterModule, 
+              AddTeeComponent, 
+              CanDirective,
+              LoadingDirective],
     templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
@@ -26,6 +33,8 @@ export class CourseComponent implements OnInit {
 
   loading: boolean;
   loadingTees: boolean;
+  loadingClone: boolean = false;
+  loadingDelete: boolean = false;
   display: boolean;
   displayTees: boolean;
   showTeesLbl: string;
@@ -147,9 +156,9 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  delete() {
+  deleteCourse() {
 
-    this.loading = true;
+    this.loadingDelete = true;
 
     this.httpService.deleteCourse(this.course.id).pipe(
       tap(
@@ -161,6 +170,7 @@ export class CourseComponent implements OnInit {
   }
 
   clone() {
+    this.loadingClone = true;
     this.course.holes = this.holes;
     this.courseNavigationService.cloneCourse.set(this.course);
     this.router.navigate(['/addCourse']).catch(error => console.log(error));

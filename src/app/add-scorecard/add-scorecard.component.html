@@ -1,11 +1,6 @@
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div class="container-float">
-    <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
+    <h2>{{ course?.name }} &nbsp; {{displayResult}}</h2>
     <form [formGroup]="addScorecardForm">
       <div class="row">
         <div class="col-auto">
@@ -101,25 +96,20 @@
       </div>
       <div>
         <br />
-        <div class="form-group">
-          <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
-            @if (loading) {
-              <span class="spinner-border spinner-border-sm mr-1"></span>
-            }
+         <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+          <button [disabled]="loading" [loading]="loading" class="btn btn-success btn-save golf-width-120" (click)="onSubmit()">
             <span i18n="@@addScorecard-save">Save</span>
           </button>
-          &nbsp;
-          <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addScorecard-clear">
-      Clear
-    </button>
-          &nbsp;
-          <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()" i18n="@@addScorecard-cancel">
-      Cancel
-    </button>
+          <button type="button" class="btn btn-success btn-clear golf-width-120" (click)="clear()" i18n="@@addScorecard-clear">
+            Clear
+          </button>
+          <button type="button" class="btn btn-success btn-cancel golf-width-120" (click)="onCancel()" i18n="@@addScorecard-cancel">
+            Cancel
+          </button>
         </div>
-      </div>
+      </div> 
     </form>
   </div>
-}
+</div>
 
 

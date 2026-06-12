@@ -16,12 +16,22 @@ import { MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
 import { NgClass } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-add-scorecard',
     templateUrl: './add-scorecard.component.html',
     styleUrls: ['./add-scorecard.component.css'],
-    imports: [ReactiveFormsModule, MatFormField, MatInput, MatError, MatLabel, MatSelect, MatOption, BaseChartDirective, NgClass]
+    imports: [ReactiveFormsModule, 
+              MatFormField, 
+              MatInput, 
+              MatError, 
+              MatLabel, 
+              MatSelect, 
+              MatOption, 
+              BaseChartDirective, 
+              NgClass,
+              LoadingDirective]
 })
 export class AddScorecardComponent implements OnInit {
   private readonly httpService = inject(HttpService);

@@ -14,11 +14,18 @@ import { RoundSummaryComponent } from '../round-summary/round-summary.component'
 import { RoundViewComponent } from '../round-view/round-view.component';
 import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.component';
 import { RoundViewFbMpComponent } from '../round-view-fb-mp/round-view-fb-mp.component';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-round',
     templateUrl: './round.component.html',
-    imports: [RoundViewComponent, RoundSummaryComponent, RoundViewWHSComponent, RoundViewMPComponent, RoundViewSkinsComponent, RoundViewFbMpComponent]
+    imports: [RoundViewComponent, 
+              RoundSummaryComponent, 
+              RoundViewWHSComponent, 
+              RoundViewMPComponent, 
+              RoundViewSkinsComponent, 
+              RoundViewFbMpComponent,
+              LoadingDirective]
 })
 export class RoundComponent implements OnInit {
   private readonly httpService = inject(HttpService);

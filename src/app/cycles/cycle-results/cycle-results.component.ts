@@ -6,13 +6,14 @@ import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleResultsBase } from '../base/cycle-results-base';
 import { RangePipe } from "../../_helpers/range";
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe]
+    imports: [RangePipe, LoadingDirective]
 })
 export class CycleResultsComponent extends CycleResultsBase implements OnInit, OnChanges {
   authenticationService: AuthenticationService;

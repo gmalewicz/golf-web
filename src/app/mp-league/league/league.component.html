@@ -1,9 +1,4 @@
-@if (!isDisplay()) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (isDisplay()) {
+<div [loading]="!isDisplay()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div id="pdfData">
     <h2>
       {{navigationService.league()?.name}}
@@ -145,5 +140,5 @@
       </span>
     </div>
   </div>
-}
+</div>
 

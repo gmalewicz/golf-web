@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
 import { firstValueFrom } from 'rxjs';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-tournament-results',
@@ -18,7 +20,9 @@ import { firstValueFrom } from 'rxjs';
         CommonModule,
         FontAwesomeModule,
         RouterModule,
-        PlayerResultsComponent
+        PlayerResultsComponent,
+        LoadingDirective,
+        MatButton
     ],
     templateUrl: './tournament-results.component.html'
 })

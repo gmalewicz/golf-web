@@ -1,9 +1,4 @@
-@if (!display || loading) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-
+<div [loading]="!display || loading" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
 <br/>
 @if (display) {
   <div>
@@ -78,3 +73,4 @@
     </div>
   </div>
 }
+</div>

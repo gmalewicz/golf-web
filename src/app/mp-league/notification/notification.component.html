@@ -1,18 +1,10 @@
-
-<button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onSubscribe()">
-  @if (loadingSubscribe()) {
-    <span class="spinner-border spinner-border-sm mr-1"></span>
-  } @else {
-    <span i18n="@@notification-subscribe">Subscribe to notifications</span>
-  }
-</button>
-&nbsp;
-<button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onUnsubscribe()">
-  @if (loadingUnsubscribe()) {
-    <span class="spinner-border spinner-border-sm mr-1"></span>
-  } @else {
-    <span i18n="@@notification-unsubscribe">Unsubscribe from notifications</span>
-  }
-</button>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+  <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onSubscribe()">
+    <span [loading]="loadingSubscribe()" i18n="@@notification-subscribe">Subscribe to notifications</span>
+  </button>
+  <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-300" (click)="onUnsubscribe()">
+    <span [loading]="loadingUnsubscribe()" i18n="@@notification-unsubscribe">Unsubscribe from notifications</span>
+  </button>
+</div>
 <p>Note: You need to have email address defined in order to make that functionality working. Email address can be added in account settings.</p>
 

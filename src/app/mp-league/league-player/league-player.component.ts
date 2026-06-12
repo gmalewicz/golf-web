@@ -16,10 +16,11 @@ import { AuthenticationService } from '@/_services/authentication.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-league-player',
-    imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule],
+    imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule, LoadingDirective],
     templateUrl: './league-player.component.html'
 })
 export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements OnInit {

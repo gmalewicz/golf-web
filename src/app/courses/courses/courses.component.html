@@ -31,12 +31,12 @@
     <button class="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button"
     role="tab" aria-controls="search" aria-selected="false"  (click)="onTabClick(1)" i18n="@@courses-searchTab">Search</button>
   </li>
-  @if (authenticationService.playerRole.includes('ADMIN')) {
-    <li class="nav-item">
-      <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
-      role="tab" aria-controls="all" aria-selected="false"  (click)="onTabClick(2)" i18n="@@courses-allTab">All courses</button>
-    </li>
-  }
+  
+  <li *can="'ADMIN'" class="nav-item">
+    <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button"
+    role="tab" aria-controls="all" aria-selected="false"  (click)="onTabClick(2)" i18n="@@courses-allTab">All courses</button>
+  </li>
+  
 </ul>
 <div class="tab-content" id="coursesTabContent">
   <div class="tab-pane fade show active" id="favourites" role="tabpanel" aria-labelledby="favourites-tab">
@@ -53,14 +53,11 @@
       </div>
     </form>
     <br/>
-    @if (loading) {
-      <div class="d-flex justify-content-center">
-        <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-      </div>
-    }
-    @if (!loading && selectedTab === 1) {
-      <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
-    }
+    <div [loading]="loading" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+      @if (!loading && selectedTab === 1) {
+        <app-list-courses [courses]='courses' [data]='data' [selectedTab]='selectedTab'></app-list-courses>
+      }
+    </div>
   </div>
   <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
     @if (selectedTab === 2) {
@@ -68,17 +65,15 @@
     }
   </div>
 </div>
-<div>
-  <br />
-  <button type="button" class="btn btn-success" routerLink="/home" i18n="@@courses-cancel">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+ 
+  <button type="button" class="btn btn-success golf-width-120" routerLink="/home" i18n="@@courses-cancel">
     Cancel
   </button>
+
   @if (data.parent === 'courses') {
-    <span>
-      &nbsp;
-      <button type="button" class="btn btn-success" routerLink="/addCourse" i18n="@@courses-add">
+    <button type="button" class="btn btn-success golf-width-120" routerLink="/addCourse" i18n="@@courses-add">
       Add Course
     </button>
-    </span>
   }
 </div>

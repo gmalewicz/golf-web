@@ -1,8 +1,4 @@
-@if (!displaySgn()) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
+<div [loading]="!displaySgn()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
 @if (displaySgn() && onlineRoundsSgn().length > 0) {
   <div>
     <h2 i18n="@@onlineScoreCard-cards" i18n="@@onlnScor-todScor">Today's score cards:</h2>
@@ -191,4 +187,5 @@
     <button type="button" class="btn btn-success" routerLink="/home" i18n="@@onlineScoreCard-cancel">Cancel</button>
   </div>
 }
+</div>
 

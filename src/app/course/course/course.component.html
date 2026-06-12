@@ -1,10 +1,4 @@
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
-  <div>
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
     <div>
       <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="true" [type]="barChartType">
       </canvas>
@@ -19,41 +13,22 @@
       }
     }
   </div>
-  <div>
-    <br />
-    <button type="button" class="btn btn-success golf-margin-bottom-6" routerLink="/home" i18n="@@course-cancel">
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+    <button type="button" class="btn btn-success golf-margin-bottom-6 golf-width-120" routerLink="/home" i18n="@@course-cancel">
       Cancel
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success btn-showTees golf-margin-bottom-6" (click)="onShowTees()">
-      @if (loadingTees) {
-        <span class="spinner-border spinner-border-sm mr-1"></span>
-      }
+    <button type="button" [loading]="loadingTees" [disabled]="loadingTees" class="btn btn-success btn-showTees golf-margin-bottom-6 golf-width-120" (click)="onShowTees()">
       {{showTeesLbl}}
     </button>
-    &nbsp;
-    <button type="button" class="btn btn-success btn-addTee golf-margin-bottom-6" (click)="addTee()">
+    <button type="button" [disabled]="displayAddTee" class="btn btn-success btn-addTee golf-margin-bottom-6 golf-width-120" (click)="addTee()">
       <span i18n="@@course-addTee">Add tee</span>
     </button>
-    @if (authenticationService.playerRole.includes('ADMIN')) {
-      <span>
-        &nbsp;
-        <button type="button" class="btn btn-success btn-delete golf-margin-bottom-6" (click)="delete()">
-          @if (loading) {
-            <span class="spinner-border spinner-border-sm mr-1"></span>
-          }
-          <span i18n="@@course-delete">Delete</span>
-        </button>
-        &nbsp;
-        <button type="button" class="btn btn-success btn-clone golf-margin-bottom-6" (click)="clone()">
-          @if (loading) {
-            <span class="spinner-border spinner-border-sm mr-1"></span>
-          }
-          <span i18n="@@course-clone">Clone</span>
-        </button>
-      </span>
-    }
+    <button type="button" *can="'ADMIN'" [loading]="loadingDelete" [disabled]="loadingDelete" class="btn btn-success btn-delete golf-margin-bottom-6 golf-width-120" (click)="deleteCourse()">
+      <span i18n="@@course-delete">Delete</span>
+    </button>
+    <button type="button" *can="'ADMIN'" [loading]="loadingClone" [disabled]="loadingClone" class="btn btn-success btn-clone golf-margin-bottom-6 golf-width-120" (click)="clone()">
+      <span i18n="@@course-clone">Clone</span>
+    </button>
   </div>
 </div>
-}
 

@@ -6,11 +6,17 @@ import { Player } from '@/_models';
 import { tap } from 'rxjs/operators';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { NgClass } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
-    imports: [ReactiveFormsModule, NgClass, RecaptchaModule, RecaptchaFormsModule, RouterLink]
+    imports: [ReactiveFormsModule, 
+              NgClass, 
+              RecaptchaModule, 
+              RecaptchaFormsModule, 
+              RouterLink, 
+              LoadingDirective]
 })
 export class RegistrationComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);

@@ -8,12 +8,18 @@ import { HttpService } from '@/_services';
 import { tap } from 'rxjs/operators';
 import { Tournament } from '@/tournament/_models/tournament';
 import { ListCoursesComponent } from '../list-courses/list-courses.component';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-courses',
     templateUrl: './courses.component.html',
-    imports: [ListCoursesComponent, ReactiveFormsModule, RouterLink]
+    imports: [ListCoursesComponent, 
+              ReactiveFormsModule, 
+              RouterLink,
+              CanDirective,
+              LoadingDirective]
 })
 export class CoursesComponent implements OnInit {
   authenticationService = inject(AuthenticationService);

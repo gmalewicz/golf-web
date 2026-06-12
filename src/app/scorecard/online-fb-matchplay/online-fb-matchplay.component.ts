@@ -9,12 +9,19 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 import { MPLegendComponent } from '@/_helpers/mpLegend.component';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-online-fb-matchplay',
     templateUrl: './online-fb-matchplay.component.html',
     styleUrls: ['./online-fb-matchplay.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, FaIconComponent, MatButton, RangePipe, MPLegendComponent],
+    imports: [CommonScorecardTopComponent, 
+              NgClass, 
+              FaIconComponent, 
+              MatButton, 
+              RangePipe, 
+              MPLegendComponent,
+              LoadingDirective],
     providers: [NavigationService]
 })
 export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {
@@ -25,6 +32,7 @@ export class OnlineFbMatchplayComponent extends OnlineRoundBaseComponent impleme
 
   // signals
   highlightHCPSgn: WritableSignal<string[][]> = signal(new Array(4).fill('no-highlight').map(() => new Array(18).fill('no-highlight')));
+  loadingDelSgn: WritableSignal<boolean> = signal(false);
 
   // -2 not set
   // -1 first team won

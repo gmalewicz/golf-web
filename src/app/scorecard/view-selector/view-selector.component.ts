@@ -17,12 +17,13 @@ import { OnlineFbMatchplayComponent } from '../online-fb-matchplay/online-fb-mat
 import { OnlineFbStrokeplayComponent } from '../online-fb-strokeplay/online-fb-strokeplay.component';
 import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
 import { Format } from '@/_models/format';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-view-selector',
     templateUrl: './view-selector.component.html',
-    imports: [FaIconComponent, RouterLink, KeyValuePipe],
+    imports: [FaIconComponent, RouterLink, KeyValuePipe, LoadingDirective],
     providers: [NavigationService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

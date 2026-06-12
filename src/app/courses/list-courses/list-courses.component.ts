@@ -14,11 +14,12 @@ import { tap } from "rxjs/operators";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { RouterLink } from "@angular/router";
 import { Tournament } from "@/tournament/_models/tournament";
+import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 
 @Component({
   selector: "app-list-courses",
   templateUrl: "./list-courses.component.html",
-  imports: [RouterLink, FaIconComponent],
+  imports: [RouterLink, FaIconComponent, LoadingDirective],
 })
 export class ListCoursesComponent implements OnInit {
   private readonly httpService = inject(HttpService);

@@ -17,6 +17,7 @@ import { getDateAndTime } from '@/_helpers/common';
 import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.service';
 import { Router, RouterModule } from '@angular/router';
 import { form, required, submit, applyEach, FormField } from '@angular/forms/signals';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 interface PlayerData {
       teeDropDowns: {tee: string}[]  
@@ -37,7 +38,8 @@ interface PlayerData {
     MatOption,
     NgClass,
     RouterModule,
-    FormField
+    FormField,
+    LoadingDirective
 ],  
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService, ScorecardHttpService],  

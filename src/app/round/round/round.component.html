@@ -1,11 +1,7 @@
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+  @if (display) {
   <div id="pdfData">
-    <h2>{{ round.course.name }} &nbsp; {{ round.roundDate }}</h2>
+    <h2>{{ round?.course?.name }} &nbsp; {{ round?.roundDate }}</h2>
     <ul class="nav nav-tabs" id="myTab" data-html2canvas-ignore="true">
       <li class="nav-item">
         <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button"
@@ -17,42 +13,42 @@
       </li>
       <li class="nav-item">
         <button class="nav-link" id="whs-tab" data-bs-toggle="tab" data-bs-target="#p0" type="button"
-        role="tab" aria-controls="p0" aria-selected="false" (click)="onTabClick(2)">{{round.player[0].nick}}</button>
+        role="tab" aria-controls="p0" aria-selected="false" (click)="onTabClick(2)">{{round?.player?.[0]?.nick}}</button>
       </li>
       <li>
-        @if (round.player.length > 1) {
+        @if (round?.player?.length > 1) {
           <button class="nav-link" id="whs-tab2" data-bs-toggle="tab" data-bs-target="#p1" type="button"
-          role="tab" aria-controls="p1" aria-selected="false" (click)="onTabClick(3)">{{round.player[1].nick}}</button>
+          role="tab" aria-controls="p1" aria-selected="false" (click)="onTabClick(3)">{{round?.player?.[1]?.nick}}</button>
         }
       </li>
       <li>
-        @if (round.player.length > 2) {
+        @if (round?.player?.length > 2) {
           <button class="nav-link" id="whs-tab3" data-bs-toggle="tab" data-bs-target="#p2" type="button"
-          role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(4)">{{round.player[2].nick}}</button>
+          role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(4)">{{round?.player?.[2]?.nick}}</button>
         }
       </li>
       <li>
-        @if (round.player.length > 3) {
+        @if (round?.player?.length > 3) {
           <button class="nav-link" id="whs-tab4" data-bs-toggle="tab" data-bs-target="#p3" type="button"
-          role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(5)">{{round.player[3].nick}}</button>
+          role="tab" aria-controls="p3" aria-selected="false" (click)="onTabClick(5)">{{round?.player?.[3]?.nick}}</button>
         }
       </li>
       <li>
-        @if (round.format === Format.MATCH_PLAY) {
+        @if (round?.format === Format.MATCH_PLAY) {
           <button class="nav-link" id="mp-tab" data-bs-toggle="tab" data-bs-target="#mp" type="button"
           role="tab" aria-controls="mp" aria-selected="false" (click)="onTabClick(6)" i18n="@@round-match">Match Play</button>
         }
       </li>
 
       <li>
-        @if (round.format === Format.STROKE_PLAY && round.player.length > 2) {
+        @if (round?.format === Format.STROKE_PLAY && round?.player?.length > 2) {
           <button class="nav-link" id="skins-tab" data-bs-toggle="tab" data-bs-target="#skins" type="button"
           role="tab" aria-controls="skins" aria-selected="false" (click)="onTabClick(7)">Skins</button>
         }
       </li>
 
       <li>
-        @if (round.format === Format.FOUR_BALL_MATCH_PLAY) {
+        @if (round?.format === Format.FOUR_BALL_MATCH_PLAY) {
           <button class="nav-link" id="fbmp-tab" data-bs-toggle="tab" data-bs-target="#fbmp" type="button"
           role="tab" aria-controls="fbmp" aria-selected="false" (click)="onTabClick(8)">Four Ball Match Play</button>
         }
@@ -73,21 +69,21 @@
           <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
         }
       </div>
-      @if (round.player.length > 1) {
+      @if (round?.player?.length > 1) {
         <div class="tab-pane fade" id="p1" role="tabpanel" aria-labelledby="p1-tab">
           @if (selectedTab === 3) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
           }
         </div>
       }
-      @if (round.player.length > 2) {
+      @if (round?.player?.length > 2) {
         <div class="tab-pane fade" id="p2" role="tabpanel" aria-labelledby="p2-tab">
           @if (selectedTab === 4) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
           }
         </div>
       }
-      @if (round.player.length > 3) {
+      @if (round?.player?.length > 3) {
         <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab">
           @if (selectedTab === 5) {
             <app-round-view-whs [round]='round' [playerOffset]='selectedTab - 2'></app-round-view-whs>
@@ -95,19 +91,19 @@
         </div>
       }
       <div class="tab-pane fade" id="mp" role="tabpanel" aria-labelledby="mp-tab">
-        @if (round.format === Format.MATCH_PLAY && selectedTab === 6) {
+        @if (round?.format === Format.MATCH_PLAY && selectedTab === 6) {
           <app-round-view-mp [round]='round'></app-round-view-mp>
         }
       </div>
         <div class="tab-pane fade" id="skins" role="tabpanel" aria-labelledby="mp-tab"></div>
-          @if (round.format !== Format.MATCH_PLAY && selectedTab === 7) {
+          @if (round?.format !== Format.MATCH_PLAY && selectedTab === 7) {
             @defer {
               <app-round-view-skins [round]='round'></app-round-view-skins>
             }
           }
         </div>
       <div class="tab-pane fade" id="fbmp" role="tabpanel" aria-labelledby="fbmp-tab">
-        @if (round.format === Format.FOUR_BALL_MATCH_PLAY && selectedTab === 8) {
+        @if (round?.format === Format.FOUR_BALL_MATCH_PLAY && selectedTab === 8) {
           <app-round-view-fb-mp [round]='round'></app-round-view-fb-mp>
         }
       </div>
@@ -122,16 +118,12 @@
       <button [disabled]="loading" class="btn btn-success" (click)="onEdit()" i18n="@@round-edit">
         Edit
       </button>
-    }
-    @if (!viewOnly) {
       &nbsp;
-      <button [disabled]="loading" class="btn btn-success" (click)="onDelete()">
-        @if (loading) {
-          <span class="spinner-border spinner-border-sm mr-1"></span>
-        }
+      <button [disabled]="loading" [loading]="loading" class="btn btn-success" (click)="onDelete()">
         <span i18n="@@round-delete">Delete</span>
       </button>
     }
   </div>
-}
+  }
+</div>
 

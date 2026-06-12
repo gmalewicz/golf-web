@@ -77,15 +77,8 @@
             </div>
             <br/>
             <div class="form-group">
-              <button [disabled]="loading" class="btn btn-success">
-                @if (loading) {
-                  <span
-                    class="spinner-border spinner-border-sm mr-1">
-                  </span>
-                }
-                <span i18n="@@updatePlayer-update">
-            Update
-          </span>
+              <button [disabled]="loading" [loading]="loading" class="btn btn-success">
+                <span i18n="@@updatePlayer-update">Update</span>
               </button>
               <a routerLink="/" class="btn btn-link text-success" i18n="@@updatePlayer-cancel">Cancel</a>
             </div>
@@ -93,8 +86,7 @@
         </div>
       }
       @if (removeEmail) {
-        <div class="d-flex justify-content-center">
-          <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+        <div [loading]="removeEmail" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
         </div>
       }
 

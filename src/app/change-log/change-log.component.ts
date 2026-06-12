@@ -3,12 +3,13 @@ import { AuthenticationService, HttpService } from '@/_services';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-change-log',
     templateUrl: './change-log.component.html',
-    imports: [RouterLink]
+    imports: [RouterLink, LoadingDirective]
 })
 export class ChangeLogComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
