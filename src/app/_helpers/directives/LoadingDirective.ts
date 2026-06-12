@@ -1,20 +1,23 @@
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[loading]',
 })
-export class LoadingDirective {
+export class LoadingDirective implements OnChanges {
   private wrapper: HTMLElement | null = null;
   private originalChildren: ChildNode[] = [];
 
   @Input() loadingSize: 'sm' | 'lg' | '' = 'sm';
   @Input() loadingColor: string = '';
+  @Input() loading: boolean = false;
 
-  @Input() set loading(val: boolean) {
-    if (val) {
-      this.show();
-    } else {
-      this.hide();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['loading']) {
+      if (this.loading) {
+        this.show();
+      } else {
+        this.hide();
+      }
     }
   }
 
