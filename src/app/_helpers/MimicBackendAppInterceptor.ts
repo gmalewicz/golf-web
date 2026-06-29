@@ -152,6 +152,13 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
         , status: 200}));
         observer.complete();
       });
+    } else if (req.url.endsWith('rest/RoundPlayerDetails/1/1')) {
+      return new Observable(observer => {
+        observer.next(new HttpResponse<unknown>({body:
+          {whs: 36.6, teeId: 4, cr: 71.8, sr: 124, teeType: 0}
+        , status: 200}));
+        observer.complete();
+      });
     } else if (req.url.endsWith('rest/Version')) {
       return new Observable(observer => {
         observer.next(new HttpResponse<Array<unknown>>({body:

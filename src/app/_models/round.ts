@@ -9,4 +9,5 @@ export interface Round {
   scoreCard?: ScoreCard[];
   format: number;
   mpFormat?: number;
+  teeId?: number;
 }

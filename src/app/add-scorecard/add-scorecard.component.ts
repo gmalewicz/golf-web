@@ -53,8 +53,6 @@ export class AddScorecardComponent implements OnInit {
   submitted: boolean;
 
   teeOptions: TeeOptions[];
-  selectedTee: number;
-
   public addScorecardForm: FormGroup;
 
   public barChartType: ChartType;
@@ -168,7 +166,6 @@ export class AddScorecardComponent implements OnInit {
       this.httpService.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(tap(
         (playerRoundDetails) => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
-          this.f.teeDropDown.disable();
 
           // updaate availability of holes, strokes and putts
           this.teeChange(false);
@@ -322,6 +319,7 @@ export class AddScorecardComponent implements OnInit {
       ).subscribe();
     } else {
       this.round.roundDate = this.f.date.value + ' ' + this.f.teeTime.value;
+      this.round.teeId = this.f.teeDropDown.value;
 
       this.httpService.updateRound(this.round).pipe(tap(
         () => {
