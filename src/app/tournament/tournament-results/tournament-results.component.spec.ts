@@ -11,7 +11,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TournamentStatus } from '../_models/tournament';
 import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
-import { getTournamentResult, getTournamentResult2 } from '../_helpers/test.helper';
+import { getTournamentResult, getTournamentResult2, getTournamentResult3 } from '../_helpers/test.helper';
 
 describe('TournamentResultsComponent', () => {
 
@@ -51,7 +51,7 @@ describe('TournamentResultsComponent', () => {
 
 
   it('should create without player ', () => {
-    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null as any);
     standardSetup();
     expect(component).toBeTruthy();
   });
@@ -181,6 +181,32 @@ describe('TournamentResultsComponent', () => {
     fixture.detectChanges();
     component.courseInfo();
      expect(component).toBeTruthy();
+  }));
+
+  it('should test updateSort with strokes and bestRounds=0: primary ascending by strokesBrutto', fakeAsync(() => {
+    standardSetup();
+    // result1: strokesBrutto=1, result2: strokesBrutto=2 → result1 should come first
+    component.navigationService.tournamentResults.set([getTournamentResult2(), getTournamentResult()]);
+    component.updateSort(2);
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(1);
+  }));
+
+  it('should test updateSort with strokes and bestRounds=0: tiebreaker playedRounds descending', fakeAsync(() => {
+    standardSetup();
+    // result1 (id=1): strokesBrutto=1, playedRounds=1
+    // result3 (id=3): strokesBrutto=1, playedRounds=3 → result3 should come first (more playedRounds)
+    component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult3()]);
+    component.updateSort(2);
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(3);
+  }));
+
+  it('should test updateSort with net strokes and bestRounds=0: tiebreaker playedRounds descending', fakeAsync(() => {
+    standardSetup();
+    // result1 (id=1): strokesNetto=1, playedRounds=1
+    // result3 (id=3): strokesNetto=1, playedRounds=3 → result3 should come first (more playedRounds)
+    component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult3()]);
+    component.updateSort(3);
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(3);
   }));
 
   afterAll(() => {

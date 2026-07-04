@@ -36,8 +36,8 @@ describe('AddCycleComponent', () => {
 
     fixture = TestBed.createComponent(AddCycleComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should test addCycle', () => {

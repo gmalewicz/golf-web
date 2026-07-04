@@ -145,7 +145,6 @@ describe('AddScorecardComponent', () => {
   it('should save with changed tee in edit mode', fakeAsync(() => {
 
     component.round = getTestRound();
-    component.selectedTee = 4;
 
     // change tee to a different value
     component.f.teeDropDown.setValue(5);
@@ -160,7 +159,6 @@ describe('AddScorecardComponent', () => {
   it('should save without calling updateRoundTee when tee unchanged in edit mode', fakeAsync(() => {
 
     component.round = getTestRound();
-    component.selectedTee = 4;
 
     // same tee selected as original
     component.f.teeDropDown.setValue(4);

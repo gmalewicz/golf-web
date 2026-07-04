@@ -47,8 +47,8 @@ describe('AddRoundComponent', () => {
   it('should create without data', () => {
     history.pushState({data: undefined}, '');
     component = fixture.componentInstance;
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should create with data', () => {

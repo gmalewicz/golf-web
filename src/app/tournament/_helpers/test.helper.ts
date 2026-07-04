@@ -27,6 +27,19 @@ export function getTournamentResult2(): TournamentResult {
   };
 }
 
+export function getTournamentResult3(): TournamentResult {
+  return {
+    id: 3,
+    playedRounds: 3,
+    player: {id: 1},
+    strokesBrutto: 1,
+    strokesNetto: 1,
+    stbNet: 1,
+    stbGross: 1,
+    strokeRounds: 3
+  };
+}
+
 export function getTournamentPlayer(): TournamentPlayer {
   return {
     id: 1,

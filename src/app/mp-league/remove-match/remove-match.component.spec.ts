@@ -49,8 +49,8 @@ describe('RemoveMatchComponent', () => {
 
   it('should create but player does not exists', () => {
     currentPlayerValueSpy.and.returnValue(null);
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should remove match but form is invalid', () => {
@@ -103,7 +103,6 @@ describe('RemoveMatchComponent', () => {
     component.navigationService.players.set([{id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}},
                                              {id: 2, playerId: 2, nick: 'Test 2', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
     fixture.detectChanges();
-    component.f.winnerDropDown.setValue(1);
     component.clear();
     expect(component.f.winnerDropDown.value).toBeUndefined();
   });

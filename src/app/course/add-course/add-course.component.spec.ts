@@ -53,8 +53,10 @@ describe('AddCourseComponent', () => {
 
   it('should create but player is not defined', () => {
     spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
-    standardSetup();
+    fixture = TestBed.createComponent(AddCourseComponent);
+    component = fixture.componentInstance;
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should click Clear button', fakeAsync(() => {

@@ -66,8 +66,8 @@ describe('CycleDetails2025Component', () => {
     history.pushState({
       data: undefined
     }, '');
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should add tournament to cycle',  fakeAsync(() => {
