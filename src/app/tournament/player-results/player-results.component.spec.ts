@@ -67,12 +67,12 @@ describe('PlayerResultsComponent', () => {
     expect(component.getTeeName('')).toBe('-');
   });
 
-  it('should getTeeName return name part after the first word', () => {
-    expect(component.getTeeName('1 Yellow')).toBe('Yellow');
+  it('should getTeeName return tee name as-is', () => {
+    expect(component.getTeeName('Yellow')).toBe('Yellow');
   });
 
-  it('should getTeeName return joined name when tee has multiple words', () => {
-    expect(component.getTeeName('1 Red Extra')).toBe('Red Extra');
+  it('should getTeeName return tee name with multiple words as-is', () => {
+    expect(component.getTeeName('Red Extra')).toBe('Red Extra');
   });
 
   it('should getTeeColour return null when tee is undefined', () => {
@@ -80,13 +80,13 @@ describe('PlayerResultsComponent', () => {
   });
 
   it('should getTeeColour return colour when tee name matches known colour', () => {
-    expect(component.getTeeColour('1 Yellow')).toBe('yellow');
-    expect(component.getTeeColour('2 Red')).toBe('red');
-    expect(component.getTeeColour('3 Blue')).toBe('blue');
-    expect(component.getTeeColour('4 White')).toBe('white');
+    expect(component.getTeeColour('Yellow')).toBe('yellow');
+    expect(component.getTeeColour('Red')).toBe('red');
+    expect(component.getTeeColour('Blue')).toBe('blue');
+    expect(component.getTeeColour('White')).toBe('white');
   });
 
   it('should getTeeColour return null when tee name does not match known colour', () => {
-    expect(component.getTeeColour('1 Black')).toBeNull();
+    expect(component.getTeeColour('Black')).toBeNull();
   });
 });
