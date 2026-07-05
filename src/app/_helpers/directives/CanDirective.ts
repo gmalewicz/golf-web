@@ -6,9 +6,9 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 })
 export class CanDirective {
   constructor(
-    private tpl: TemplateRef<any>,
-    private vcr: ViewContainerRef,
-    private auth: AuthenticationService
+    private readonly tpl: TemplateRef<any>,
+    private readonly vcr: ViewContainerRef,
+    private readonly auth: AuthenticationService
   ) {}
   @Input() set can(role: string) {
     this.vcr.clear();

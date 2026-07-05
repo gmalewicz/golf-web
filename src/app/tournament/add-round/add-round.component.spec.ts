@@ -114,7 +114,7 @@ describe('AddRoundComponent', () => {
     component.f.nickDropDown.setValue('nick');
     component.f.teeDropDown.setValue('test');
     component.addRound();
-    expect( component.tournamentRounds.length).toEqual(1);
+    expect(component.tournamentRounds).toHaveSize(1);
   });
 
   it('should add round with x', () => {
@@ -127,7 +127,7 @@ describe('AddRoundComponent', () => {
     component.f.nickDropDown.setValue('nick');
     component.f.teeDropDown.setValue('test');
     component.addRound();
-    expect( component.tournamentRounds.length).toEqual(1);
+    expect(component.tournamentRounds).toHaveSize(1);
   });
 
   it('should change nick and player found', () => {

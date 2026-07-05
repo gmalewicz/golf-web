@@ -4,7 +4,7 @@
     <form [formGroup]="addLeagueForm" (ngSubmit)="onSubmit()">
       <div class="form-group col">
         <label for="name" i18n="@@addLeague-name">League name</label>
-        <input type="text" formControlName="name" class="form-control"
+        <input type="text" id="name" formControlName="name" class="form-control"
           [ngClass]="{ 'is-invalid': isSubmitted() && f.name.errors }" />
           @if (isSubmitted() && f.name.errors) {
             <div class="invalid-feedback">

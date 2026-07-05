@@ -4,7 +4,7 @@
   <div class="col-auto">
     <mat-form-field [style.width.px]=300>
       <mat-label i18n="@@addTour-name">Tournament name</mat-label>
-      <input matInput maxlength="100" [formControlName]="'name'"/>
+      <input matInput id="name" maxlength="100" [formControlName]="'name'"/>
       @if (submitted && f.name.errors) {
         @if (f.name.errors.required) {
           <mat-error i18n="@@addTour-nameReq">Name is required</mat-error>
@@ -18,7 +18,7 @@
   <div class="col-auto">
     <mat-form-field [style.width.px]=300>
       <mat-label i18n="@@addTour-startDate">Start date (YYYY/MM/DD)</mat-label>
-      <input matInput maxlength="100" [formControlName]="'startDate'"/>
+      <input matInput id="startDate" maxlength="100" [formControlName]="'startDate'"/>
       @if (submitted && f.startDate.errors) {
         @if (f.startDate.errors.required) {
           <mat-error i18n="@@addTour-dateReq">Date is required</mat-error>
@@ -32,7 +32,7 @@
   <div class="col-auto">
     <mat-form-field [style.width.px]=300>
       <mat-label i18n="@@addTour-endDate">End date (YYYY/MM/DD)</mat-label>
-      <input matInput maxlength="100" [formControlName]="'endDate'"/>
+      <input matInput id="endDate" maxlength="100" [formControlName]="'endDate'"/>
       @if (submitted && f.endDate.errors) {
         @if (f.endDate.errors.required) {
           <mat-error i18n="@@addTour-dateReq">Date is required</mat-error>
@@ -46,7 +46,7 @@
   <div class="col-auto">
     <mat-form-field [style.width.px]=300>
       <mat-label i18n="@@addTour-noBestRnd">No. of best rounds (0 - all)</mat-label>
-      <input matInput maxlength="100" [formControlName]="'bestRounds'"/>
+      <input matInput id="bestRounds" maxlength="100" [formControlName]="'bestRounds'"/>
       @if (submitted && f.bestRounds.errors) {
 
         @if (f.bestRounds.errors.required) {
@@ -67,15 +67,15 @@
     <div class="col">
       <input type="radio" name="playHcpMultiplayer" id="playHcpMultiplayer1" value="1" formControlName="playHcpMultiplayer"
         class="form-check-input form-check-input-green" checked>
-      <label class="custom-control-label green" for="mpFormat1">100%</label>
+      <label class="custom-control-label green" for="playHcpMultiplayer1">100%</label>
       &nbsp;
       <input type="radio" name="playHcpMultiplayer" id="playHcpMultiplayer2" value="0.75" formControlName="playHcpMultiplayer"
         class="form-check-input form-check-input-green">
-      <label class="custom-control-label green" for="mpFormat3">75% (3/4)</label>
+      <label class="custom-control-label green" for="playHcpMultiplayer2">75% (3/4)</label>
       &nbsp;
       <input type="radio" name="playHcpMultiplayer" id="playHcpMultiplayer3" value="0.50" formControlName="playHcpMultiplayer"
         class="form-check-input form-check-input-green">
-      <label class="custom-control-label green" for="mpFormat4">50% (1/2)</label>
+      <label class="custom-control-label green" for="playHcpMultiplayer3">50% (1/2)</label>
     </div>
   </div>
 
@@ -84,7 +84,7 @@
   <div class="col-auto">
     <mat-form-field [style.width.px]=300>
       <mat-label i18n="@@addTour-maxPlayHcp">Max. playing Hcp</mat-label>
-      <input matInput maxlength="4" [formControlName]="'maxPlayHcp'"/>
+      <input matInput id="maxPlayHcp" maxlength="4" [formControlName]="'maxPlayHcp'"/>
       @if (submitted && f.maxPlayHcp.errors) {
 
         @if (f.maxPlayHcp.errors.required) {

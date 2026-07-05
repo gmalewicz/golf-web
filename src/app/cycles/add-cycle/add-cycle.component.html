@@ -4,7 +4,7 @@
     <form [formGroup]="addCycleForm" (ngSubmit)="onSubmit()">
       <div class="form-group col">
         <label for="name">Cycle name</label>
-        <input type="text" formControlName="name" class="form-control"
+        <input type="text" id="name" formControlName="name" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
           @if (submitted && f.name.errors) {
             <div class="invalid-feedback">
@@ -19,7 +19,7 @@
       </div>
       <div class="form-group col">
         <label for="bestRounds" i18n="@@addCycle-BestRnd">No. of best rounds to be included (0 - all rounds)</label>
-        <input type="text" formControlName="bestRounds" class="form-control"
+        <input type="text" id="bestRounds" formControlName="bestRounds" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.bestRounds.errors }" />
           @if (submitted && f.bestRounds.errors) {
             <div class="invalid-feedback">
@@ -37,7 +37,7 @@
         </div>
         <div class="form-group col">
           <label for="maxWhs" i18n="@@addCycle-MaxHcpLbl">Max. handicap to be included</label>
-          <input type="text" formControlName="maxWhs" class="form-control"
+          <input type="text" id="maxWhs" formControlName="maxWhs" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.maxWhs.errors }" />
             @if (submitted && f.maxWhs.errors) {
               <div class="invalid-feedback">
@@ -58,7 +58,7 @@
           </div>
           <div class="form-group col">
             <label for="version" i18n="@@addCycle-Version">Cycle version</label>
-            <input type="text" formControlName="version" class="form-control"
+            <input type="text" id="version" formControlName="version" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.version.errors }" />
             @if (submitted && f.version.errors) {
               <div class="invalid-feedback">

@@ -95,7 +95,7 @@ describe('RemoveMatchComponent', () => {
     component.f.winnerDropDown.setValue(1);
     component.f.looserDropDown.setValue(2);
     component.removeMatchResult();
-    expect(component.navigationService.matches().length).toBe(0);
+    expect(component.navigationService.matches()).toHaveSize(0);
   });
 
   it('should execute clear', () => {

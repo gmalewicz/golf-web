@@ -164,7 +164,7 @@ describe('AddCourseComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(0);
+    expect(courseNavigationService.tees()).toHaveSize(0);
 
   }));
 
@@ -181,7 +181,7 @@ describe('AddCourseComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(1);
+    expect(courseNavigationService.tees()).toHaveSize(1);
 
   }));
 

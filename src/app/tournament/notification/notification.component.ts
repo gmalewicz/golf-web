@@ -7,7 +7,6 @@ import { firstValueFrom, map, mergeMap } from 'rxjs';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
-import { AutoTabDirective } from "../add-round/AutoTab.directive";
 
 @Component({
     selector: 'app-notification',

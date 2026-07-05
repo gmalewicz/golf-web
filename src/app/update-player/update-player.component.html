@@ -7,6 +7,7 @@
         <input
           autocomplete="new-password"
           type="password"
+          id="password"
           formControlName="password"
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
@@ -53,9 +54,10 @@
           </div>
           <br/>
           <div class="form-group">
-            <label for="whs" i18n="@@updatePlayer-email">Email (optional)</label>
+            <label for="email" i18n="@@updatePlayer-email">Email (optional)</label>
             <input
               type="text"
+              id="email"
               formControlName="email"
               class="form-control"
               maxlength="30"
@@ -73,7 +75,7 @@
             <br/>
             <div>
               <input type="checkbox" class="form-check-input form-check-input-green lbl-remove" id="removeEmail" (click)="onRemove()" onKeyDown="onRemove()" tabindex="-1" formControlName="removeEmail">
-              <label for="updateForm">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
+              <label for="removeEmail">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
             </div>
             <br/>
             <div class="form-group">

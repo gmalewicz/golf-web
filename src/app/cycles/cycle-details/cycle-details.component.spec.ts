@@ -152,7 +152,7 @@ describe('CycleDetailsComponent', () => {
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
    // tick();
-    expect(component.cycleTournaments.length).toEqual(1);
+    expect(component.cycleTournaments).toHaveSize(1);
   }));
 
 });
