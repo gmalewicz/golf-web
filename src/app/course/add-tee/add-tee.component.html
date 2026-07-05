@@ -4,7 +4,7 @@
     <div class="col-auto">
       <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-colour">colour</mat-label>
-        <input matInput id="tee" maxlength="20" [formControlName]="'tee'"/>
+        <input matInput id="tee" aria-label="Tee colour" maxlength="20" [formControlName]="'tee'"/>
         @if (g.tee.invalid && g.tee.errors.required)  {
           <mat-error i18n="@@addCourse-colourReq">Tee colour is required</mat-error>
         }
@@ -13,7 +13,7 @@
     <div class="col-auto">
       <mat-form-field subscriptSizing="dynamic">
         <mat-label>CR</mat-label>
-        <input matInput id="cr" maxlength="4" [formControlName]="'cr'"/>
+        <input matInput id="cr" aria-label="CR" maxlength="4" [formControlName]="'cr'"/>
         @if (g.cr.invalid && g.cr.errors.required)  {
           <mat-error i18n="@@addCourse-crReq">Course CR is required</mat-error>
         }
@@ -25,7 +25,7 @@
     <div class="col-auto">
       <mat-form-field subscriptSizing="dynamic">
         <mat-label>SR</mat-label>
-        <input matInput id="sr" maxlength="3" [formControlName]="'sr'"/>
+        <input matInput id="sr" aria-label="SR" maxlength="3" [formControlName]="'sr'"/>
         @if (g.sr.invalid && g.sr.errors.required)  {
           <mat-error i18n="@@addCourse-srReq">Course SR is required</mat-error>
         }

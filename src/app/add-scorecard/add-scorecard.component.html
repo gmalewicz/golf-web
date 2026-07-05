@@ -6,7 +6,7 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label i18n="@@addScorecard-date">Date</mat-label>
-            <input matInput id="date" maxlength="10" [formControlName]="'date'"/>
+            <input matInput id="date" aria-label="Date" maxlength="10" [formControlName]="'date'"/>
             @if (f.date.invalid && f.date.errors.required)  {
               <mat-error i18n="@@addScorecard-dateReq">Date is required</mat-error>
             }
@@ -18,7 +18,7 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label i18n="@@addScorecard-teeTime">Tee time</mat-label>
-            <input matInput id="teeTime" maxlength="5" [formControlName]="'teeTime'"/>
+            <input matInput id="teeTime" aria-label="Tee time" maxlength="5" [formControlName]="'teeTime'"/>
             @if (f.teeTime.invalid && f.teeTime.errors.required)  {
               <mat-error i18n="@@addScorecard-teeTimeReq">Tee time is required</mat-error>
             }

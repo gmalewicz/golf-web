@@ -5,7 +5,7 @@
         <div class="col-auto">
           <mat-form-field class="course-name-width">
             <mat-label i18n="@@addCourse-name">Course name</mat-label>
-            <input matInput id="courseName" maxlength="100" [formControlName]="'courseName'"/>
+            <input matInput id="courseName" aria-label="Course name" maxlength="100" [formControlName]="'courseName'"/>
             @if (f.courseName.invalid && f.courseName.errors.required) {
               <mat-error i18n="@@addCourse-courseReq">Course name is required</mat-error>
             }
@@ -14,7 +14,7 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label i18n="@@addCourse-coursePar">Course par</mat-label>
-            <input matInput id="coursePar" maxlength="2" [formControlName]="'coursePar'"/>
+            <input matInput id="coursePar" aria-label="Course par" maxlength="2" [formControlName]="'coursePar'"/>
             @if (f.coursePar.invalid && f.coursePar.errors.required) {
               <mat-error i18n="@@addCourse-courseParReq">Course par is required</mat-error>
             }
