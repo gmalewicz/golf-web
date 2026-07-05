@@ -77,8 +77,8 @@ describe("OnlineScoreCardViewComponent", () => {
     authenticationService.logout();
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it("should create and display round for player", () => {

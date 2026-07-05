@@ -87,7 +87,7 @@ describe('CourseComponent', () => {
 
   it('should delete course', fakeAsync(() => {
     standardSetup();
-    component.delete();
+    component.deleteCourse();
     expect(component).toBeTruthy();
   }));
 

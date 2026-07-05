@@ -46,8 +46,8 @@ describe('AddMatchComponent', () => {
 
   it('should create but player does not exists', () => {
     currentPlayerValueSpy.and.returnValue(null);
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should execute clear', () => {
@@ -66,7 +66,7 @@ describe('AddMatchComponent', () => {
                                              {id: 2, playerId: 2, nick: 'Test 2', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
     fixture.detectChanges();
     component.addMatchResult();
-    expect(component.navigationService.matches.length).toBe(0);
+    expect(component.navigationService.matches()).toHaveSize(0);
   });
 
   it('should add match result with the same users', () => {
@@ -78,7 +78,7 @@ describe('AddMatchComponent', () => {
     component.f.looserDropDown.setValue(1);
     component.f.resultDropDown.setValue('A/S');
     component.addMatchResult();
-    expect(component.navigationService.matches().length).toBe(0);
+    expect(component.navigationService.matches()).toHaveSize(0);
   });
 
   it('should add match result with the different users', () => {
@@ -90,7 +90,7 @@ describe('AddMatchComponent', () => {
     component.f.looserDropDown.setValue(2);
     component.f.resultDropDown.setValue('A/S');
     component.addMatchResult();
-    expect(component.navigationService.matches().length).toBe(1);
+    expect(component.navigationService.matches()).toHaveSize(1);
   });
 
 });

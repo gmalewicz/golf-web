@@ -7,12 +7,19 @@ import { MatButton } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from "../../_helpers/range";
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-online-stokeplay',
     templateUrl: './online-strokeplay.component.html',
     styleUrls: ['./online-strokeplay.component.css'],
-    imports: [CommonScorecardTopComponent, NgClass, NgTemplateOutlet, FaIconComponent, MatButton, RangePipe],
+    imports: [CommonScorecardTopComponent, 
+              NgClass, 
+              NgTemplateOutlet, 
+              FaIconComponent, 
+              MatButton, 
+              RangePipe,
+              LoadingDirective],
     providers: [NavigationService]
 })
 export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {

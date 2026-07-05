@@ -10,13 +10,14 @@ import { NavigationService } from '../_services/navigation.service';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest, firstValueFrom, map, mergeMap, tap } from 'rxjs';
 import { NgStyle } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-league',
     templateUrl: './league.component.html',
     styleUrls: ['./league.component.css'],
     providers: [LeagueHttpService],
-    imports: [NgStyle, RouterLink]
+    imports: [NgStyle, RouterLink, LoadingDirective]
 })
 export class LeagueComponent  implements OnInit {
   private readonly leagueHttpService = inject(LeagueHttpService);

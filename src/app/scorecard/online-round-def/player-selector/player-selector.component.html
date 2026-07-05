@@ -111,18 +111,15 @@
     </div>
     <div>
     <br />
-    <div class="form-group">
-      <button type="button" class="btn btn-success" routerLink="/myScorecard" i18n="@@onlnRndDef-cancel">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+      <button type="button" class="btn btn-success golf-width-120" routerLink="/myScorecard" i18n="@@onlnRndDef-cancel">
         Cancel
       </button>
-      &nbsp;
-      <button type="submit" class="btn btn-success">
-        @if (loadingSgn()) {
-          <span class="spinner-border spinner-border-sm mr-1"></span>
-        }
+      <button type="submit" [loading]="loadingSgn()" class="btn btn-success golf-width-120">
         <span i18n="@@onlnRndDef-start">Start</span>
       </button>
     </div>
+    <br />
     <span i18n="@@onlnRndDef-note">Note: Social media players are created using the first name, dot and first two letters from the last name e.g. Darth.Va if player name is Darth Vader</span>
   </div>
 </form>

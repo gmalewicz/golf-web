@@ -53,8 +53,10 @@ describe('AddCourseComponent', () => {
 
   it('should create but player is not defined', () => {
     spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null);
-    standardSetup();
+    fixture = TestBed.createComponent(AddCourseComponent);
+    component = fixture.componentInstance;
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should click Clear button', fakeAsync(() => {
@@ -162,7 +164,7 @@ describe('AddCourseComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(0);
+    expect(courseNavigationService.tees()).toHaveSize(0);
 
   }));
 
@@ -179,7 +181,7 @@ describe('AddCourseComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(1);
+    expect(courseNavigationService.tees()).toHaveSize(1);
 
   }));
 

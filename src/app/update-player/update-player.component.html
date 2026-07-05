@@ -7,6 +7,7 @@
         <input
           autocomplete="new-password"
           type="password"
+          id="password"
           formControlName="password"
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
@@ -26,6 +27,7 @@
           <label for="whs">HCP (handicap)</label>
           <input
             type="text"
+            id="whs"
             formControlName="whs"
             class="form-control"
             maxlength="4"
@@ -53,9 +55,10 @@
           </div>
           <br/>
           <div class="form-group">
-            <label for="whs" i18n="@@updatePlayer-email">Email (optional)</label>
+            <label for="email" i18n="@@updatePlayer-email">Email (optional)</label>
             <input
               type="text"
+              id="email"
               formControlName="email"
               class="form-control"
               maxlength="30"
@@ -73,19 +76,12 @@
             <br/>
             <div>
               <input type="checkbox" class="form-check-input form-check-input-green lbl-remove" id="removeEmail" (click)="onRemove()" onKeyDown="onRemove()" tabindex="-1" formControlName="removeEmail">
-              <label for="updateForm">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
+              <label for="removeEmail">&nbsp; <span i18n="@@updatePlayer-removeEmail">Remove email</span></label>
             </div>
             <br/>
             <div class="form-group">
-              <button [disabled]="loading" class="btn btn-success">
-                @if (loading) {
-                  <span
-                    class="spinner-border spinner-border-sm mr-1">
-                  </span>
-                }
-                <span i18n="@@updatePlayer-update">
-            Update
-          </span>
+              <button [disabled]="loading" [loading]="loading" class="btn btn-success">
+                <span i18n="@@updatePlayer-update">Update</span>
               </button>
               <a routerLink="/" class="btn btn-link text-success" i18n="@@updatePlayer-cancel">Cancel</a>
             </div>
@@ -93,8 +89,7 @@
         </div>
       }
       @if (removeEmail) {
-        <div class="d-flex justify-content-center">
-          <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
+        <div [loading]="removeEmail" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
         </div>
       }
 

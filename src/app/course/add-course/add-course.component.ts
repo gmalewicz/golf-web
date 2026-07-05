@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthGuard } from '@/_helpers/auth.guard';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-add-course',
@@ -23,7 +24,8 @@ import { AuthGuard } from '@/_helpers/auth.guard';
         MatInputModule,
         ReactiveFormsModule,
         MatSelectModule,
-        RouterModule],
+        RouterModule,
+        LoadingDirective],
     templateUrl: './add-course.component.html',
     styleUrls: ['./add-course.component.css']
 })

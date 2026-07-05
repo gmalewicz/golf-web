@@ -35,6 +35,7 @@ describe('CycleResultsComponent', () => {
     component = fixture.componentInstance;
     componentRef = fixture.componentRef
 
+    componentRef.setInput('cycle', {id: 1, name: 'Test', status: false});
     componentRef.setInput('cycleResults', []);
     componentRef.setInput('cycleTournaments', [{
       id: 20,
@@ -50,6 +51,10 @@ describe('CycleResultsComponent', () => {
     authenticationService.logout();
     fixture = TestBed.createComponent(CycleResultsComponent);
     component = fixture.componentInstance;
+    componentRef = fixture.componentRef;
+    componentRef.setInput('cycle', {id: 1, name: 'Test', status: false});
+    componentRef.setInput('cycleResults', []);
+    componentRef.setInput('cycleTournaments', []);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

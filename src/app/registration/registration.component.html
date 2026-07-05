@@ -2,7 +2,7 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="nick" i18n="@@registration-nick">Nick</label>
-    <input type="text" formControlName="nick" class="form-control"
+    <input type="text" id="nick" formControlName="nick" class="form-control"
       [ngClass]="{ 'is-invalid': submitted && f.nick.errors }" />
       @if (submitted && f.nick.errors) {
         <div class="invalid-feedback">
@@ -18,7 +18,7 @@
     <div class="golf-margin-top"></div>
     <div class="form-group">
       <label for="password" i18n="@@registration-password">Password</label>
-      <input type="password" formControlName="password" class="form-control"
+      <input type="password" id="password" formControlName="password" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
         @if (submitted && f.password.errors) {
           <div class="invalid-feedback">
@@ -34,7 +34,7 @@
       <div class="golf-margin-top"></div>
       <div class="form-group">
         <label for="whs" i18n="@@registration-hcp">HCP (handicap)</label>
-        <input type="text" formControlName="whs" class="form-control" maxlength="4"
+        <input type="text" id="whs" formControlName="whs" class="form-control" maxlength="4"
           [ngClass]="{ 'is-invalid': submitted && f.whs.errors }" placeholder="X.X" />
           @if (submitted && f.whs.errors) {
             <div class="invalid-feedback">
@@ -83,10 +83,7 @@
               }
             </div>
             <div class="golf-margin-top">
-              <button [disabled]="loading" class="btn btn-success btn-register">
-                @if (loading) {
-                  <span class="spinner-border spinner-border-sm mr-1"></span>
-                }
+              <button [disabled]="loading" [loading]="loading" class="btn btn-success btn-register">
                 <span i18n="@@registration-register">Register</span>
               </button>
               <a routerLink="/" class="btn btn-link text-success" i18n="@@registration-cancel">Cancel</a>

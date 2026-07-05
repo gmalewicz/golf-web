@@ -10,12 +10,18 @@ import { AlertService } from '@/_services/alert.service';
 import { CycleTournamentComponent } from '../cycle-tournament/cycle-tournament.component';
 import { CycleResultsComponent } from '../cycle-results/cycle-results.component';
 import { CycleDetailsBase } from '../base/cycle-details-base';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-cycle-details',
     templateUrl: './cycle-details.component.html',
-    imports: [CycleResultsComponent, CycleTournamentComponent, RouterLink],
+    imports: [CycleResultsComponent, 
+              CycleTournamentComponent, 
+              RouterLink,
+              CanDirective,
+              LoadingDirective],
     providers: [CycleHttpService]
 })
 export class CycleDetailsComponent extends CycleDetailsBase implements OnInit {

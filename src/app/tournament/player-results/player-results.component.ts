@@ -64,4 +64,16 @@ export class PlayerResultsComponent implements OnInit {
 
   }
 
+  private readonly TEE_COLOURS = ['red', 'yellow', 'blue', 'white'];
+
+  getTeeName(tee: string | undefined): string {
+    if (!tee) return '-';
+    return tee.split(' ').slice(1).join(' ');
+  }
+
+  getTeeColour(tee: string | undefined): string | null {
+    const name = this.getTeeName(tee).toLowerCase();
+    return this.TEE_COLOURS.includes(name) ? name : null;
+  }
+
 }

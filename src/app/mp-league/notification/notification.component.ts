@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { firstValueFrom, map, mergeMap } from 'rxjs';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { NavigationService } from '../_services/navigation.service';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-notification',
-    imports: [],
+    imports: [LoadingDirective],
     templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {

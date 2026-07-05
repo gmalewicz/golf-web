@@ -6,11 +6,12 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Format } from '@/_models/format';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
 
 @Component({
     selector: 'app-list-rounds',
     templateUrl: './list-rounds.component.html',
-    imports: [RouterLink, FaIconComponent, DatePipe]
+    imports: [RouterLink, FaIconComponent, DatePipe, CanDirective]
 })
 export class ListRoundsComponent implements OnInit {
   authenticationService = inject(AuthenticationService);

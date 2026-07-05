@@ -38,8 +38,8 @@ describe('AddLeagueComponent', () => {
 
   it('should create but player does not exists', () => {
     currentPlayerValueSpy.and.returnValue(null);
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should test addLeague', () => {

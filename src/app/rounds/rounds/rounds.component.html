@@ -18,28 +18,18 @@
 </ul>
 <div class="tab-content" id="roundsTabContent">
   <div class="tab-pane fade show active" id="myRounds" role="tabpanel" aria-labelledby="myRounds-tab">
-    @if (!dispRounds) {
-      <div class="d-flex justify-content-center">
-        <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-      </div>
-    }
-    @if (dispRounds) {
+    <div [loading]="!dispRounds" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
       <div>
         <app-list-rounds></app-list-rounds>
       </div>
-    }
+    </div>
   </div>
   <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
-    @if (!dispRounds) {
-      <div class="d-flex justify-content-center">
-        <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-      </div>
-    }
-    @if (dispRounds) {
+    <div [loading]="!dispRounds" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
       <div>
         <app-list-rounds></app-list-rounds>
       </div>
-    }
+    </div>
   </div>
 </div>
 <div>

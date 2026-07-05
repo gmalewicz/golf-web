@@ -58,12 +58,10 @@
       <button type="button" class="btn btn-success" routerLink="/home" i18n="@@cycles-cancel">
       Cancel
     </button>
-      &nbsp;
-      @if (authenticationService.playerRole.includes('ADMIN')) {
-        <button type="button" class="btn btn-success" routerLink="addCycle" i18n="@@cycles-add">
+    <button type="button" *can="'ADMIN'" class="btn btn-success" style="margin-left: 8px" routerLink="addCycle" i18n="@@cycles-add">
       Add
     </button>
-      }
+      
     </div>
   </div>
 }

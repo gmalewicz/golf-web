@@ -7,12 +7,13 @@ import { Router, RouterLink } from '@angular/router';
 import { League, LeagueStatus } from '../_models/league';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-add-league',
     templateUrl: './add-league.component.html',
     providers: [LeagueHttpService],
-    imports: [ReactiveFormsModule, NgClass, RouterLink]
+    imports: [ReactiveFormsModule, NgClass, RouterLink, LoadingDirective]
 })
 export class AddLeagueComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);

@@ -54,3 +54,9 @@ src/assets/app-config.json
 
 .github/agents/codebase-analyzer.agent.md
 .github/instructions/angular.instructions.md
+.github/agents/
+.github/prompts/
+.github/skills/
+sonar_issues.json
+sonar_pr_issues.json
+sonar_pr_list.txt

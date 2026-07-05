@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import { firstValueFrom, map, mergeMap } from 'rxjs';
 import { TournamentHttpService, TournamentNavigationService } from '../_services';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-notification',
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule,
+    LoadingDirective],
     templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {

@@ -13,12 +13,14 @@ import { TournamentRoundsComponent } from '../tournament-rounds/tournament-round
 import { AddTournamentComponent } from '../add-tournament/add-tournament.component';
 import { AddRoundComponent } from '../add-round/add-round.component';
 import { CourseInfoComponent } from '../course-info/course-info.component';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-tournaments',
     imports: [RouterModule,
         FontAwesomeModule,
-        CommonModule],
+        CommonModule,
+        LoadingDirective],
     templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {

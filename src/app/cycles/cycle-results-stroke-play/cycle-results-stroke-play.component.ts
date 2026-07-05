@@ -43,6 +43,7 @@ export class CycleResultsStrokePlayComponent extends CycleResultsBase implements
     
     this.changes();
 
+    if (!this.cycleResults()) { return; }
     this.cycleResults().forEach(v => {v.played =  v.r.reduce((a, b) => a + (b > 0 ? 1 : 0), 0)});
     const bestRoundsAchieved = this.cycleResults().filter(v => v.series === 2 && v.played >= this.cycle().bestRounds);
     const bestRoundsNotAchieved = this.cycleResults().filter(v => v.series === 2 && v.played < this.cycle().bestRounds);

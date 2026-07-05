@@ -70,14 +70,12 @@ export class TeeTimeComponent implements OnInit {
 
   setUpMode() {
     if (this.navigationService.tournament().player.id !== this.authenticationService.currentPlayerValue.id &&
-        (this.navigationService.teeTimeParameters() === undefined ||
-         this.navigationService.teeTimeParameters().published === TeeTimePublishStatus.STATUS_NOT_PUBLISHED)) {
+        this.navigationService.teeTimeParameters()?.published !== TeeTimePublishStatus.STATUS_PUBLISHED) {
       this.mode.set(this.MODE_PLYAYER_TEETIMES_NOT_PUBLISHED);
     } else if (this.navigationService.tournament().player.id !== this.authenticationService.currentPlayerValue.id &&
-               this.navigationService.teeTimeParameters().published === TeeTimePublishStatus.STATUS_PUBLISHED) {
+               this.navigationService.teeTimeParameters()?.published === TeeTimePublishStatus.STATUS_PUBLISHED) {
       this.mode.set(this.MODE_PLYAYER_TEETIMES_PUBLISHED);
-    } else if (this.navigationService.teeTimeParameters() !== undefined &&
-               this.navigationService.teeTimeParameters().published === TeeTimePublishStatus.STATUS_PUBLISHED) {
+    } else if (this.navigationService.teeTimeParameters()?.published === TeeTimePublishStatus.STATUS_PUBLISHED) {
       this.mode.set(this.MODE_ADMIN_TEETIMES_PUBLISHED);
     } else {
       this.mode.set(this.MODE_ADMIN_TEETIMES_NOT_PUBLISHED);

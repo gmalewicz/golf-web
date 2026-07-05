@@ -9,6 +9,8 @@ import { CycleTournamentComponent } from "../cycle-tournament/cycle-tournament.c
 import { CycleResultsComponent } from "../cycle-results/cycle-results.component";
 import { CycleDetailsVersionedBase, EagleApiResultSet } from "../base/cycle-details-versioned-base";
 import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cycle-results-stroke-play.component";
+import { CanDirective } from "@/_helpers/directives/CanDirective";
+import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 
 @Component({
   selector: "app-cycle-details",
@@ -18,6 +20,8 @@ import { CycleResultsStrokePlayComponent } from "../cycle-results-stroke-play/cy
     CycleTournamentComponent,
     RouterLink,
     CycleResultsStrokePlayComponent,
+    CanDirective,
+    LoadingDirective
   ],
   providers: [CycleHttpService],
 })

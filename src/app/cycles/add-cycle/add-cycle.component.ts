@@ -12,11 +12,12 @@ import { tap } from "rxjs/operators";
 import { Cycle, CycleStatus } from "../_models/cycle";
 import { CycleHttpService } from "../_services/cycleHttp.service";
 import { NgClass } from "@angular/common";
+import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 
 @Component({
   selector: "app-add-cycle",
   templateUrl: "./add-cycle.component.html",
-  imports: [ReactiveFormsModule, NgClass, RouterLink],
+  imports: [ReactiveFormsModule, NgClass, RouterLink, LoadingDirective],
   providers: [CycleHttpService],
 })
 export class AddCycleComponent implements OnInit {

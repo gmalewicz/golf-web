@@ -13,11 +13,15 @@ import { NgClass } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "@/confirmation-dialog/confirmation-dialog.component";
 import { firstValueFrom } from "rxjs";
+import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 
 @Component({
   selector: "app-update-player",
   templateUrl: "./update-player.component.html",
-  imports: [ReactiveFormsModule, NgClass, RouterLink],
+  imports: [ReactiveFormsModule, 
+            NgClass, 
+            RouterLink,
+            LoadingDirective],
 })
 export class UpdatePlayerComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);

@@ -10,6 +10,7 @@
       <th id="gstb" i18n="@@tourRes-stb">STB</th>
       <th id="gstr" i18n="@@tourRes-strGross">Strokes</th>
       <th id="nstr" i18n="@@tourRes-strNet">Strokes Net</th>
+      <th id="tee" i18n="@@tourRes-tee">Tee</th>
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
       }
@@ -55,6 +56,14 @@
       @if (!tournamentRound.strokes) {
         <td>x</td>
       }
+      <td>
+        @if (getTeeColour(tournamentRound.tee)) {
+          <span [style.background-color]="getTeeColour(tournamentRound.tee)"
+                style="display:inline-block;width:1rem;height:1rem;border:1px solid #888"></span>
+        } @else {
+          {{getTeeName(tournamentRound.tee)}}
+        }
+      </td>
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <td>{{tournamentRound.scrDiff}}</td>
       } 

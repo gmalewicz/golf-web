@@ -66,8 +66,8 @@ describe('CycleDetails2026Component', () => {
     history.pushState({
       data: undefined
     }, '');
-    fixture.detectChanges();
     expect(component).toBeTruthy();
+    fixture.destroy();
   });
 
   it('should add tournament to cycle',  fakeAsync(() => {
@@ -148,7 +148,7 @@ describe('CycleDetails2026Component', () => {
     // Trigger click event after spyOn
     buttonElement.triggerEventHandler('click',  {});
    // tick();
-    expect(component.cycleTournaments.length).toEqual(1);
+    expect(component.cycleTournaments).toHaveSize(1);
   }));
 
 });

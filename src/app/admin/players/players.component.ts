@@ -11,11 +11,12 @@ import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { UpdDialogComponent } from './upd-dialog/upd-dialog.component';
 import { RouterLink } from '@angular/router';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-players',
     templateUrl: './players.component.html',
-    imports: [FaIconComponent, RouterLink]
+    imports: [FaIconComponent, RouterLink, LoadingDirective]
 })
 export class PlayersComponent implements OnInit {
   private readonly httpService = inject(HttpService);

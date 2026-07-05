@@ -11,11 +11,12 @@ import { InfoComponent } from '../info/info.component';
 import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
 import { Format } from '@/_models/format';
 import { ViewSelectorComponent } from '../view-selector/view-selector.component';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-my-online-score-card',
     templateUrl: './my-online-score-card.component.html',
-    imports: [RouterLink],
+    imports: [RouterLink, LoadingDirective],
     providers: [NavigationService]
 })
 export class MyOnlineScoreCardComponent implements OnInit {

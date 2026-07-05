@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateOrSearchDialogBase } from '@/dialogs/create-or-search-dialog-base';
 import { TournamentNavigationService } from '../_services';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-tournament-players',
@@ -24,7 +25,8 @@ import { TournamentNavigationService } from '../_services';
         FontAwesomeModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MatCheckboxModule],
+        MatCheckboxModule,
+        LoadingDirective],
     templateUrl: './tournament-players.component.html',
     styleUrls: ['./tournament-players.component.css']
 })

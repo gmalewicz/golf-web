@@ -1,16 +1,12 @@
-@if (!display) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (display) {
+<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div class="container-float">
-    <h2>{{ course.name }} &nbsp; {{displayResult}}</h2>
+    <h2>{{ course?.name }} &nbsp; {{displayResult}}</h2>
     <form [formGroup]="addScorecardForm">
       <div class="row">
         <div class="col-auto">
           <mat-form-field>
-            <input matInput maxlength="10" [formControlName]="'date'"/>
+            <mat-label i18n="@@addScorecard-date">Date</mat-label>
+            <input matInput id="date" aria-label="Date" maxlength="10" [formControlName]="'date'"/>
             @if (f.date.invalid && f.date.errors.required)  {
               <mat-error i18n="@@addScorecard-dateReq">Date is required</mat-error>
             }
@@ -21,7 +17,8 @@
         </div>
         <div class="col-auto">
           <mat-form-field>
-            <input matInput maxlength="5" [formControlName]="'teeTime'"/>
+            <mat-label i18n="@@addScorecard-teeTime">Tee time</mat-label>
+            <input matInput id="teeTime" aria-label="Tee time" maxlength="5" [formControlName]="'teeTime'"/>
             @if (f.teeTime.invalid && f.teeTime.errors.required)  {
               <mat-error i18n="@@addScorecard-teeTimeReq">Tee time is required</mat-error>
             }
@@ -33,7 +30,7 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(true)">
+            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(round == null)">
               @for (tee of teeOptions; track tee) {
                 <mat-option [value]="tee.value">{{tee.label}}</mat-option>
               }
@@ -101,25 +98,20 @@
       </div>
       <div>
         <br />
-        <div class="form-group">
-          <button [disabled]="loading" class="btn btn-success btn-save" (click)="onSubmit()">
-            @if (loading) {
-              <span class="spinner-border spinner-border-sm mr-1"></span>
-            }
+         <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+          <button [disabled]="loading" [loading]="loading" class="btn btn-success btn-save golf-width-120" (click)="onSubmit()">
             <span i18n="@@addScorecard-save">Save</span>
           </button>
-          &nbsp;
-          <button type="button" class="btn btn-success btn-clear" (click)="clear()" i18n="@@addScorecard-clear">
-      Clear
-    </button>
-          &nbsp;
-          <button type="button" class="btn btn-success btn-cancel" (click)="onCancel()" i18n="@@addScorecard-cancel">
-      Cancel
-    </button>
+          <button type="button" class="btn btn-success btn-clear golf-width-120" (click)="clear()" i18n="@@addScorecard-clear">
+            Clear
+          </button>
+          <button type="button" class="btn btn-success btn-cancel golf-width-120" (click)="onCancel()" i18n="@@addScorecard-cancel">
+            Cancel
+          </button>
         </div>
-      </div>
+      </div> 
     </form>
   </div>
-}
+</div>
 
 

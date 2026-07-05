@@ -1,9 +1,4 @@
-@if (!displaySgn()) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (displaySgn()) {
+<div [loading]="!displaySgn()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
 
     @if (loggedIdSgn() === ownerIdSgn()) {
@@ -132,10 +127,10 @@
                 }
               }
               <td>
-                {{courseSgn().holes[i].par}}
+                {{courseSgn()?.holes?.[i]?.par}}
               </td>
               <td>
-                {{courseSgn().holes[i].si}}
+                {{courseSgn()?.holes?.[i]?.si}}
               </td>
             </tr>
           }
@@ -145,29 +140,21 @@
     @if (loggedIdSgn() === ownerIdSgn()) {
       <div>
         <br />
-        <div class="form-group">
-          <button type="button" mat-raised-button color="warn" (click)="onDelete()">
-            @if (loadingDelSgn()) {
-              <span class="spinner-border spinner-border-sm mr-1"></span>
-            }
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
+          <button type="button" [loading]="loadingDelSgn()" mat-raised-button color="warn" class="golf-width-120" (click)="onDelete()">
             <span i18n="@@onlnRnd-delete">Delete</span>
           </button>
-          &nbsp;
-          <button type="button" mat-raised-button color="primary" (click)="onFinal()">
-            @if (loadingFinSgn()) {
-              <span class="spinner-border spinner-border-sm mr-1"></span>
-            }
+          <button type="button" [loading]="loadingFinSgn()" mat-raised-button color="primary" class="golf-width-120" (click)="onFinal()">
             <span i18n="@@onlnRnd-fin">Finalize</span>
           </button>
-          &nbsp;
-          <button type="button" mat-raised-button color="primary" (click)="onInfo()">
+          <button type="button" mat-raised-button color="primary" class="golf-width-120" (click)="onInfo()">
             <span>Info</span>
           </button>
         </div>
       </div>
     }
   </div>
-}
+</div>
 
 <ng-template #TableHeader >
   <th id="hole" i18n="@@onlnRnd-hole">Hole</th>

@@ -142,6 +142,34 @@ describe('AddScorecardComponent', () => {
 
   }));
 
+  it('should save with changed tee in edit mode', fakeAsync(() => {
+
+    component.round = getTestRound();
+
+    // change tee to a different value
+    component.f.teeDropDown.setValue(5);
+    component.f.date.setValue('2020/10/10');
+    component.f.teeTime.setValue('10:00');
+    const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
+    buttonElement.triggerEventHandler('click', null);
+    expect(component.f.teeDropDown.value).toBe(5);
+
+  }));
+
+  it('should save without calling updateRoundTee when tee unchanged in edit mode', fakeAsync(() => {
+
+    component.round = getTestRound();
+
+    // same tee selected as original
+    component.f.teeDropDown.setValue(4);
+    component.f.date.setValue('2020/10/10');
+    component.f.teeTime.setValue('10:00');
+    const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
+    buttonElement.triggerEventHandler('click', null);
+    expect(component.f.teeDropDown.value).toBe(4);
+
+  }));
+
   it('should click cancel button with valid form', fakeAsync(() => {
 
     const buttonElement = fixture.debugElement.query(By.css('.btn-cancel'));

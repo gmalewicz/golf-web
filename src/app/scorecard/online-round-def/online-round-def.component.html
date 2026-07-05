@@ -1,9 +1,4 @@
-@if (!displaySgn()) {
-  <div class="d-flex justify-content-center">
-    <span class="spinner-border text-success" style="width: 3rem; height: 3rem;"></span>
-  </div>
-}
-@if (displaySgn()) {
+<div [loading]="!displaySgn()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
     <div>
       <h2>
@@ -31,4 +26,4 @@
     <app-player-selector [courseSgn]='courseSgn()' [formatSgn]='formatSgn()'></app-player-selector>
       
     </div>
-  }
+</div>

@@ -1,6 +1,7 @@
 export interface TournamentRound {
   id?: number;
   courseName: string;
+  tee?: string;
   scrDiff: number;
   stbGross: number;
   stbNet: number;

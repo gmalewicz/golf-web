@@ -6,12 +6,13 @@ import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-round-view-mp',
     templateUrl: './round-view-mp.component.html',
-    imports: [NgClass, RangePipe]
+    imports: [NgClass, RangePipe, LoadingDirective]
 })
 export class RoundViewMPComponent implements OnInit {
   private readonly httpService = inject(HttpService);

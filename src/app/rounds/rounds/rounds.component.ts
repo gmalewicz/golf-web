@@ -7,12 +7,13 @@ import { RoundsNavigationService } from '../roundsNavigation.service';
 import { RouterLink } from '@angular/router';
 import { ListRoundsComponent } from '../list-rounds/list-rounds.component';
 import { NgClass } from '@angular/common';
+import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 
 @Component({
     selector: 'app-rounds',
     templateUrl: './rounds.component.html',
-    imports: [NgClass, ListRoundsComponent, RouterLink]
+    imports: [NgClass, ListRoundsComponent, RouterLink, LoadingDirective]
 })
 export class RoundsComponent implements OnInit, OnDestroy {
   private readonly httpService = inject(HttpService);
