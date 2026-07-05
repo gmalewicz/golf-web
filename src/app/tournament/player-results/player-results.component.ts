@@ -68,11 +68,12 @@ export class PlayerResultsComponent implements OnInit {
 
   getTeeName(tee: string | undefined): string {
     if (!tee) return '-';
-    return tee.split(' ').slice(1).join(' ');
+    return tee;
   }
 
   getTeeColour(tee: string | undefined): string | null {
-    const name = this.getTeeName(tee).toLowerCase();
+    if (!tee) return null;
+    const name = tee.toLowerCase();
     return this.TEE_COLOURS.includes(name) ? name : null;
   }
 
