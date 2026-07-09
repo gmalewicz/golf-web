@@ -49,38 +49,38 @@ export class AddRoundComponent implements OnInit {
 
 
   // parent data who call me
-  data: {course: Course, tournament: Tournament};
+  data!: {course: Course, tournament: Tournament};
 
-  faCheckCircle: IconDefinition;
+  faCheckCircle!: IconDefinition;
 
-  display: boolean;
+  display!: boolean;
 
-  defRoundForm: FormGroup;
-  player: Player;
-  tee: number;
-  holes: Hole[];
+  defRoundForm!: FormGroup;
+  player: Player | undefined;
+  tee: number | null = null;
+  holes: Hole[] = [];
   teeOptionsMale: TeeOptions[] = [];
   teeOptionsFemale: TeeOptions[] = [];
   tees: Tee[] = [];
 
-  course: Course;
-  tournament: Tournament;
+  course!: Course;
+  tournament!: Tournament;
 
-  submitted: boolean;
+  submitted!: boolean;
 
-  score: string[];
-  first9Total: number;
-  last9Total: number;
-  grandTotal: number;
+  score!: string[];
+  first9Total!: number;
+  last9Total!: number;
+  grandTotal!: number;
 
   tournamentRounds: TournamentRound[] = [];
 
-  teeHour: number;
-  teeMinute: number;
+  teeHour!: number;
+  teeMinute!: number;
 
-  tournamentPlayersOptions = [];
+  tournamentPlayersOptions: {label: string; value: string}[] = [];
 
-  searchInProgress: boolean;
+  searchInProgress!: boolean;
 
   ngOnInit(): void {
 
@@ -99,9 +99,9 @@ export class AddRoundComponent implements OnInit {
 
       this.clear();
 
-      combineLatest([this.httpService.getHoles(this.course.id),
-                    this.httpService.getTees(this.course.id),
-                    this.tournamentHttpService.getTournamentPlayers(this.tournament.id)]).pipe(tap(
+      combineLatest([this.httpService.getHoles(this.course.id!),
+                    this.httpService.getTees(this.course.id!),
+                    this.tournamentHttpService.getTournamentPlayers(this.tournament.id!)]).pipe(tap(
         ([retHoles, retTees, retTournamentPlayers]) => {
           // update teee with missing infromation about holes and tees
           this.holes = retHoles;
@@ -111,16 +111,16 @@ export class AddRoundComponent implements OnInit {
             .filter((t) => t.sex && t.teeType === teeTypes.TEE_TYPE_18)
             .forEach(t =>
               this.teeOptionsFemale.push({
-                label: t.tee,
-                value: t.id,
+                label: t.tee!,
+                value: t.id!,
               })
             );
           retTees
             .filter((t) => !t.sex && t.teeType === teeTypes.TEE_TYPE_18)
             .forEach(t =>
               this.teeOptionsMale.push({
-                label: t.tee,
-                value: t.id,
+                label: t.tee!,
+                value: t.id!,
               })
             );
 
@@ -174,6 +174,7 @@ export class AddRoundComponent implements OnInit {
       this.tee = this.f.teeDropDown.value;
       return retVal;
     }
+    return [];
   }
 
   // change which 9 is available when tee has been changed
@@ -285,9 +286,9 @@ export class AddRoundComponent implements OnInit {
     // only selected tee shall be sent, so replace entire list with selected tee
     round.course.tees =  this.tees.filter(t => t.id === this.tee);
 
-    this.tournamentHttpService.addRoundonBehalf(round, this.tournament.id).pipe(tap(
+    this.tournamentHttpService.addRoundonBehalf(round, this.tournament.id!).pipe(tap(
       (tournamentRound) => {
-        tournamentRound.nick = this.player.nick;
+        tournamentRound.nick = this.player!.nick;
 
         // it is not set on backend
         if (this.score.includes('x')) {

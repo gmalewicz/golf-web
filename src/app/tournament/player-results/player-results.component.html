@@ -14,8 +14,7 @@
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <th id="sDiff" i18n="@@tourRes-scrDiff">Score Differential</th>
       }
-      @if (tournamentNavigationService.tournament().player.id === playerId) {
-        <th></th>
+      @if (tournamentNavigationService.tournament().player?.id === playerId) {
       }
     </tr>
   </thead>
@@ -57,20 +56,20 @@
         <td>x</td>
       }
       <td>
-        @if (getTeeColour(tournamentRound.tee)) {
-          <span [style.background-color]="getTeeColour(tournamentRound.tee)"
-                style="display:inline-block;width:1rem;height:1rem;border:1px solid #888"></span>
+        @if (tournamentRound.tee | teeColour) {
+          <span [style.background-color]="tournamentRound.tee | teeColour"
+                style="display:inline-block;width:1rem;height:1rem;border:1px solid #888;vertical-align:middle"></span>
         } @else {
-          {{getTeeName(tournamentRound.tee)}}
+          {{tournamentRound.tee | teeName}}
         }
       </td>
       @if (tournamentNavigationService.tournament().playHcpMultiplayer === 1) {
         <td>{{tournamentRound.scrDiff}}</td>
       } 
-      @if (tournamentNavigationService.tournament().player.id === playerId) {
+      @if (tournamentNavigationService.tournament().player?.id === playerId) {
         <td>
             <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true"
-            (click)="deleteRound(tournamentRound.roundId)" (keydown)="deleteRound(tournamentRound.roundId)"></fa-icon>
+            (click)="deleteRound(tournamentRound.roundId!)" (keydown)="deleteRound(tournamentRound.roundId!)"></fa-icon>
         </td>
       }
       </tr>

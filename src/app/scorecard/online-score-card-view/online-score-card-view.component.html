@@ -36,13 +36,13 @@
             <th id="par">PAR</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn()?.holes[index].par}}
+                {{courseSgn()?.holes?.[index]?.par}}
               </td>
             }
             <th id="f9par" class="center">{{first9parSgn()}}</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn()?.holes[index + 9].par}}
+                {{courseSgn()?.holes?.[index + 9]?.par}}
               </td>
             }
             <th id="l9par" class="center">{{last9parSgn()}}</th>
@@ -52,13 +52,13 @@
             <th id="si">SI</th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn()?.holes[index].si}}
+                {{courseSgn()?.holes?.[index]?.si}}
               </td>
             }
             <th scope="col"></th>
             @for (index of counterSgn(); track index;) {
               <td class="center">
-                {{courseSgn()?.holes[index + 9].si}}
+                {{courseSgn()?.holes?.[index + 9]?.si}}
               </td>
             }
             <th scope="col"></th>
@@ -67,19 +67,19 @@
           @if (viewTypeSgn() === ViewType.PLAYER || viewTypeSgn() === ViewType.COURSE ) {
             @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
               <tr class="center">
-                <th id="nick">{{onlineRound?.player.nick}}</th>
+                <th id="nick">{{onlineRound?.player?.nick}}</th>
                   @for (index of counterSgn(); track index;) {
                     <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index]">
-                      @if (onlineRound?.scoreCardAPI[index]) {
+                      @if (onlineRound?.scoreCardAPI?.[index]) {
                         <span>
-                          @if (onlineRound?.scoreCardAPI[index].stroke === 16) {
+                          @if (onlineRound?.scoreCardAPI?.[index]?.stroke === 16) {
                             <span>
                               x
                             </span>
                           }
-                          @if (onlineRound?.scoreCardAPI[index].stroke < 16) {
+                          @if (onlineRound?.scoreCardAPI?.[index]?.stroke < 16) {
                             <span>
-                              {{onlineRound?.scoreCardAPI[index].stroke}}
+                              {{onlineRound?.scoreCardAPI?.[index]?.stroke}}
                             </span>
                           }
                         </span>
@@ -95,16 +95,16 @@
                 </th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="scoreBruttoClassSgn()[idx][index + 9]">
-                    @if (onlineRound?.scoreCardAPI[index + 9]) {
+                    @if (onlineRound?.scoreCardAPI?.[index + 9]) {
                       <span>
-                        @if (onlineRound?.scoreCardAPI[index + 9].stroke === 16) {
+                        @if (onlineRound?.scoreCardAPI?.[index + 9]?.stroke === 16) {
                           <span>
                             x
                           </span>
                         }
-                        @if (onlineRound?.scoreCardAPI[index + 9].stroke < 16) {
+                        @if (onlineRound?.scoreCardAPI?.[index + 9]?.stroke < 16) {
                           <span>
-                            {{onlineRound?.scoreCardAPI[index + 9].stroke}}
+                            {{onlineRound?.scoreCardAPI?.[index + 9]?.stroke}}
                           </span>
                         }
                       </span>
@@ -121,7 +121,7 @@
                 <th class="center" scope="col">
                   @if (!first9ballPickedUpSgn()[idx] && !last9ballPickedUpSgn()[idx]) {
                     <span>
-                      {{onlineRound?.first9score + onlineRound?.last9score}}
+                      {{(onlineRound?.first9score ?? 0) + (onlineRound?.last9score ?? 0)}}
                     </span>
                   }
                 </th> 
@@ -131,10 +131,10 @@
           @if (viewTypeSgn() === ViewType.MP ) {              
             @for (onlineRound of onlineRoundsSgn(); track onlineRound.id; let idx = $index) {
               <tr>    
-                <th id="nick">{{onlineRound?.player.nick}}</th>
+                <th id="nick">{{onlineRound?.player?.nick}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index]">
-                    @if (onlineRound?.scoreCardAPI[index]) {
+                    @if (onlineRound?.scoreCardAPI?.[index]) {
                       <span>
                         {{mpResultHistorySgn()[idx][index]}}
                       </span>
@@ -144,7 +144,7 @@
                 <th id="mpf9s" class="center"></th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="highlightHCPSgn()[idx][index + 9]">
-                    @if (onlineRound?.scoreCardAPI[index + 9]) {
+                    @if (onlineRound?.scoreCardAPI?.[index + 9]) {
                       <span>
                         {{mpResultHistorySgn()[idx][index + 9]}}
                       </span>
