@@ -8,6 +8,7 @@ import { authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper'
 import { ComponentRef } from '@angular/core';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
 import { AuthenticationService } from '@/_services';
+import { TeeColourPipe, TeeNamePipe } from '../_helpers/tee.pipe';
 
 describe('PlayerResultsComponent', () => {
   let component: PlayerResultsComponent;
@@ -60,33 +61,33 @@ describe('PlayerResultsComponent', () => {
   });
 
   it('should getTeeName return dash when tee is undefined', () => {
-    expect(component.getTeeName(undefined)).toBe('-');
+    expect(new TeeNamePipe().transform(undefined)).toBe('-');
   });
 
   it('should getTeeName return dash when tee is empty string', () => {
-    expect(component.getTeeName('')).toBe('-');
+    expect(new TeeNamePipe().transform('')).toBe('-');
   });
 
   it('should getTeeName return tee name as-is', () => {
-    expect(component.getTeeName('Yellow')).toBe('Yellow');
+    expect(new TeeNamePipe().transform('Yellow')).toBe('Yellow');
   });
 
   it('should getTeeName return tee name with multiple words as-is', () => {
-    expect(component.getTeeName('Red Extra')).toBe('Red Extra');
+    expect(new TeeNamePipe().transform('Red Extra')).toBe('Red Extra');
   });
 
   it('should getTeeColour return null when tee is undefined', () => {
-    expect(component.getTeeColour(undefined)).toBeNull();
+    expect(new TeeColourPipe().transform(undefined)).toBeNull();
   });
 
   it('should getTeeColour return colour when tee name matches known colour', () => {
-    expect(component.getTeeColour('Yellow')).toBe('yellow');
-    expect(component.getTeeColour('Red')).toBe('red');
-    expect(component.getTeeColour('Blue')).toBe('blue');
-    expect(component.getTeeColour('White')).toBe('white');
+    expect(new TeeColourPipe().transform('Yellow')).toBe('yellow');
+    expect(new TeeColourPipe().transform('Red')).toBe('red');
+    expect(new TeeColourPipe().transform('Blue')).toBe('blue');
+    expect(new TeeColourPipe().transform('White')).toBe('white');
   });
 
-  it('should getTeeColour return null when tee name does not match known colour', () => {
-    expect(component.getTeeColour('Black')).toBeNull();
+  it('should getTeeColour return colour for black tee', () => {
+    expect(new TeeColourPipe().transform('Black')).toBe('black');
   });
 });

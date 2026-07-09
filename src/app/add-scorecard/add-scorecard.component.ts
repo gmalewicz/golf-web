@@ -45,36 +45,36 @@ export class AddScorecardComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  dialogRef: MatDialogRef<ConfirmationDialogComponent>;
-  round: Round;
-  loading: boolean;
-  course: Course;
-  display: boolean;
-  submitted: boolean;
+  dialogRef: MatDialogRef<ConfirmationDialogComponent> | null = null;
+  round: Round | null = null;
+  loading!: boolean;
+  course!: Course;
+  display!: boolean;
+  submitted!: boolean;
 
-  teeOptions: TeeOptions[];
-  public addScorecardForm: FormGroup;
+  teeOptions!: TeeOptions[];
+  public addScorecardForm!: FormGroup;
 
-  public barChartType: ChartType;
-  public barChartLegend: boolean;
-  public barChartLabels: number[] ;
-  public barChartData: ChartDataset[];
-  public barChartOptions: ChartOptions;
+  public barChartType!: ChartType;
+  public barChartLegend!: boolean;
+  public barChartLabels!: number[];
+  public barChartData!: ChartDataset[];
+  public barChartOptions!: ChartOptions;
 
-  updatingHole: number;
-  public strokeButtons: number[];
-  public patButtons: number[];
+  updatingHole!: number;
+  public strokeButtons!: number[];
+  public patButtons!: number[];
 
-  public holeSelectorActive: HoleSelector[];
-  public strokeSelectorActive: HoleSelector[];
-  public patSelectorActive: HoleSelector[];
+  public holeSelectorActive!: HoleSelector[];
+  public strokeSelectorActive!: HoleSelector[];
+  public patSelectorActive!: HoleSelector[];
 
-  strokes: number[];
-  putts: number[];
+  strokes!: number[];
+  putts!: number[];
 
-  tee: Tee;
-  displayResult: string;
-  first9Par: number;
+  tee!: Tee;
+  displayResult!: string;
+  first9Par!: number;
 
   ngOnInit(): void {
 
@@ -135,14 +135,14 @@ export class AddScorecardComponent implements OnInit {
 
     for (let hole = 1; hole <= 18; hole++) {
       this.barChartLabels.push(hole);
-      barData.push(this.course.holes[hole - 1].par);
+      barData.push(this.course.holes![hole - 1].par);
       // in case of edit score card
       if (this.round == null) {
         this.strokes.push(0);
         this.putts.push(0);
       } else {
-        this.strokes.push(this.round.scoreCard[hole - 1].stroke );
-        this.putts.push(this.round.scoreCard[hole - 1].pats);
+        this.strokes.push(this.round!.scoreCard![hole - 1].stroke);
+        this.putts.push(this.round!.scoreCard![hole - 1].pats);
         updatedPats.push(this.putts[hole - 1]);
         updatedStrokes.push(this.strokes[hole - 1] - this.putts[hole - 1]);
       }
@@ -163,7 +163,7 @@ export class AddScorecardComponent implements OnInit {
       this.f.teeTime.disable();
 
       // get tee which was played
-      this.httpService.getPlayerRoundDetails(this.authenticationService.currentPlayerValue.id, this.round.id).pipe(tap(
+      this.httpService.getPlayerRoundDetails(this.authenticationService.currentPlayerValue!.id!, this.round!.id!).pipe(tap(
         (playerRoundDetails) => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
 
@@ -209,13 +209,13 @@ export class AddScorecardComponent implements OnInit {
           tees: retTees
         };
 
-        this.first9Par = this.course.holes.filter((h) => {if (h.number <= 9) { return h.par; }})
+        this.first9Par = this.course.holes!.filter((h) => {if (h.number <= 9) { return h.par; }})
                 .map(h => h.par ).reduce((p, c) => p + c, 0);
 
         // create tee labels
         const teeType = ['1-18', '1-9', '10-18'];
         retTees.filter(t => t.sex === this.authenticationService.currentPlayerValue.sex).forEach((t) =>
-          this.teeOptions.push({label: t.tee  + ' ' + teeType[t.teeType], value: t.id}));
+          this.teeOptions.push({label: t.tee  + ' ' + teeType[t.teeType!], value: t.id!}));
         this.generateLabelsAndData();
         this.display = true;
       })
@@ -289,8 +289,8 @@ export class AddScorecardComponent implements OnInit {
       if (this.round == null) {
         scoreCard.push({hole: hole + 1, stroke: this.strokes[hole], pats: this.putts[hole], penalty: 0});
       } else {
-        this.round.scoreCard[hole].stroke = this.strokes[hole];
-        this.round.scoreCard[hole].pats = this.putts[hole];
+        this.round!.scoreCard![hole].stroke = this.strokes[hole];
+        this.round!.scoreCard![hole].pats = this.putts[hole];
       }
     }
 
@@ -305,7 +305,7 @@ export class AddScorecardComponent implements OnInit {
         format: Format.STROKE_PLAY
       };
       // only selected tee shall be sent, so replace entire list with selected tee
-      round.course.tees = round.course.tees.filter(t => t.id === this.f.teeDropDown.value);
+      round.course.tees = round.course.tees!.filter(t => t.id === this.f.teeDropDown.value);
       // remove holes from the course not to send data to backend
       round.course.holes = undefined;
 
@@ -385,7 +385,7 @@ export class AddScorecardComponent implements OnInit {
 
     this.calculateResult();
 
-    this.chart.chart.update();
+    this.chart?.chart?.update();
   }
 
   private calculateResult() {
@@ -445,7 +445,7 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[1].data = updatedStrokes;
     this.barChartData[2].data = updatedPats;
 
-    this.chart.chart.update();
+    this.chart?.chart?.update();
 
   }
 
@@ -453,7 +453,7 @@ export class AddScorecardComponent implements OnInit {
   teeChange(clearGraph: boolean) {
 
     // update available holes
-    this.tee = this.course.tees.findLast(t => t.id === this.f.teeDropDown.value);
+    this.tee = this.course.tees!.findLast(t => t.id === this.f.teeDropDown.value)!;
 
     if (this.tee.teeType === 1) {
       this.holeSelectorActive.fill({ disabled: true, active: false}, 9);
@@ -480,7 +480,7 @@ export class AddScorecardComponent implements OnInit {
     this.barChartData[2].data = this.putts;
     this.strokes.fill(0);
     this.barChartData[1].data = this.strokes;
-    this.chart.chart.update();
+    this.chart?.chart?.update();
 
     // clear strokes and putts
     this.strokeSelectorActive.fill({disabled: false, active: false});

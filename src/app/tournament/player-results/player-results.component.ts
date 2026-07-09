@@ -8,11 +8,14 @@ import { TournamentHttpService } from '../_services/tournamentHttp.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TournamentNavigationService } from '../_services';
 import { AuthenticationService } from '@/_services';
+import { TeeColourPipe, TeeNamePipe } from '../_helpers/tee.pipe';
 
 @Component({
     selector: 'app-player-results',
     imports: [
-        FontAwesomeModule
+        FontAwesomeModule,
+        TeeColourPipe,
+        TeeNamePipe
     ],
     templateUrl: './player-results.component.html'
 })
@@ -26,18 +29,18 @@ export class PlayerResultsComponent implements OnInit {
   @Output() notify = new EventEmitter<void>();
 
   readonly HCP_NOT_SUPPORTED = -90; 
-  playerId: number;
+  playerId!: number;
 
   tournamentResult = input.required<TournamentResult>();
 
-  faSearchPlus: IconDefinition;
-  faMinusCircle: IconDefinition;
+  faSearchPlus!: IconDefinition;
+  faMinusCircle!: IconDefinition;
 
   ngOnInit() {
 
     this.faSearchPlus = faSearchPlus;
     this.faMinusCircle = faMinusCircle;
-    this.playerId = this.authenticationService.currentPlayerValue.id;
+    this.playerId = this.authenticationService.currentPlayerValue.id!;
    
   }
 
@@ -55,7 +58,7 @@ export class PlayerResultsComponent implements OnInit {
 
   deleteRound(roundId: number) {
 
-    this.tournamentHttpService.deleteRound(this.tournamentResult().id, roundId).pipe(
+    this.tournamentHttpService.deleteRound(this.tournamentResult().id!, roundId).pipe(
       tap(
         () => {
           this.notify.emit();  
@@ -63,18 +66,4 @@ export class PlayerResultsComponent implements OnInit {
     ).subscribe();
 
   }
-
-  private readonly TEE_COLOURS = ['red', 'yellow', 'blue', 'white'];
-
-  getTeeName(tee: string | undefined): string {
-    if (!tee) return '-';
-    return tee;
-  }
-
-  getTeeColour(tee: string | undefined): string | null {
-    if (!tee) return null;
-    const name = tee.toLowerCase();
-    return this.TEE_COLOURS.includes(name) ? name : null;
-  }
-
 }

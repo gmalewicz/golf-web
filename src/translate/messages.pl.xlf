@@ -274,6 +274,14 @@
           <context context-type="linenumber">307</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="addScorecard-date" datatype="html">
+        <source>Date</source>
+        <target>Data</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/add-scorecard/add-scorecard.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="addScorecard-dateReq" datatype="html">
         <source>Date is required</source>
         <target>Data jest wymagana</target>
@@ -2862,6 +2870,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/tournament/tournament-results/tournament-results.component.html</context>
           <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tourRes-tee" datatype="html">
+        <source>Tee</source>
+        <target>Tee</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/tournament/player-results/player-results.component.html</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="tourRes-scrDiff" datatype="html">
