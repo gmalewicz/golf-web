@@ -10,4 +10,5 @@ export interface PlayerRoundDetails {
   ninesFull?: number;
   scoreDiff?: number;
   mpHCP?: number;
+  team?: number;
 }

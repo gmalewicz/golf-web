@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "tsc check",
+			"type": "shell",
+			"command": "npx tsc --noEmit 2>&1 | head -50"
+		},
+		{
+			"label": "tsc check 2",
+			"type": "shell",
+			"command": "npx tsc --noEmit 2>&1 | Select-Object -First 60"
+		},
+		{
+			"label": "eslint fb-mp",
+			"type": "shell",
+			"command": "npx eslint src/app/round/round-view-fb-mp/round-view-fb-mp.component.ts --format compact 2>&1"
+		},
+		{
+			"label": "eslint fb-mp 2",
+			"type": "shell",
+			"command": "npx eslint src/app/round/round-view-fb-mp/round-view-fb-mp.component.ts 2>&1"
+		},
+		{
+			"label": "run tests",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | tail -50"
+		},
+		{
+			"label": "run tests ps",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-Object -Last 60"
+		}
+	]
+}
