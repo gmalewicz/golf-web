@@ -73,7 +73,7 @@
           </tr>
         </thead>
         <tbody >
-          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult.id; let i = $index) {
             <tr>
               @if (displayRound[i] === false) {
                 <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
@@ -142,7 +142,7 @@
           </tr>
         </thead>
         <tbody >
-          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult.id; let i = $index) {
             <tr>
               @if (displayRound[i] === false) {
                 <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
@@ -210,7 +210,7 @@
           </tr>
         </thead>
         <tbody >
-          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult.id; let i = $index) {
             <tr>
               @if (displayRound[i] === false) {
                 <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">
@@ -278,7 +278,7 @@
           </tr>
         </thead>
         <tbody >
-          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult; let i = $index) {
+          @for (tournamentResult of navigationService.tournamentResults(); track tournamentResult.id; let i = $index) {
             <tr>
               @if (displayRound[i] === false) {
                 <td [ngClass]="{'golf-red': i === 0, 'golf-orange': i === 1, 'golf-gold': i === 2}">

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { HttpService } from '../_services/http.service';
+import { TournamentHttpService } from '@/tournament/_services/tournamentHttp.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { Course, ScoreCard, Round, Tee, TeeOptions, Format } from '@/_models';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +9,7 @@ import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angula
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { getDateAndTime } from '@/_helpers/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { MatOption } from '@angular/material/core';
@@ -17,6 +18,13 @@ import { MatInput } from '@angular/material/input';
 import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
 import { NgClass } from '@angular/common';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+
+interface TournamentEditContext {
+  tournamentResultId: number;
+  tournamentId: number;
+  playerId: number;
+  playerSex: boolean;
+}
 
 @Component({
     selector: 'app-add-scorecard',
@@ -35,6 +43,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 })
 export class AddScorecardComponent implements OnInit {
   private readonly httpService = inject(HttpService);
+  private readonly tournamentHttpService = inject(TournamentHttpService);
   private readonly route = inject(ActivatedRoute);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly formBuilder = inject(FormBuilder);
@@ -47,6 +56,7 @@ export class AddScorecardComponent implements OnInit {
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent> | null = null;
   round: Round | null = null;
+  tournamentEdit: TournamentEditContext | null = null;
   loading!: boolean;
   course!: Course;
   display!: boolean;
@@ -100,8 +110,10 @@ export class AddScorecardComponent implements OnInit {
       // get round from state in case of edit
       if (history.state.data) {
         this.round = history.state.data.round;
+        this.tournamentEdit = history.state.data.tournamentEdit ?? null;
       } else {
         this.round = null;
+        this.tournamentEdit = null;
       }
 
       this.loading = false;
@@ -163,7 +175,8 @@ export class AddScorecardComponent implements OnInit {
       this.f.teeTime.disable();
 
       // get tee which was played
-      this.httpService.getPlayerRoundDetails(this.authenticationService.currentPlayerValue!.id!, this.round!.id!).pipe(tap(
+      const detailsPlayerId = this.tournamentEdit ? this.tournamentEdit.playerId : this.authenticationService.currentPlayerValue!.id!;
+      this.httpService.getPlayerRoundDetails(detailsPlayerId, this.round!.id!).pipe(tap(
         (playerRoundDetails) => {
           this.f.teeDropDown.setValue(playerRoundDetails.teeId);
 
@@ -214,7 +227,8 @@ export class AddScorecardComponent implements OnInit {
 
         // create tee labels
         const teeType = ['1-18', '1-9', '10-18'];
-        retTees.filter(t => t.sex === this.authenticationService.currentPlayerValue.sex).forEach((t) =>
+        const playerSex = this.tournamentEdit ? this.tournamentEdit.playerSex : this.authenticationService.currentPlayerValue.sex;
+        retTees.filter(t => t.sex === playerSex).forEach((t) =>
           this.teeOptions.push({label: t.tee  + ' ' + teeType[t.teeType!], value: t.id!}));
         this.generateLabelsAndData();
         this.display = true;
@@ -321,13 +335,26 @@ export class AddScorecardComponent implements OnInit {
       this.round.roundDate = this.f.date.value + ' ' + this.f.teeTime.value;
       this.round.teeId = this.f.teeDropDown.value;
 
-      this.httpService.updateRound(this.round).pipe(tap(
-        () => {
-          this.display = false;
-          this.alertService.success($localize`:@@addScorecard-addConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully updated`, true);
-          this.router.navigate(['/home']).catch(error => console.log(error));
-        })
-      ).subscribe();
+      if (this.tournamentEdit) {
+        const ctx = this.tournamentEdit;
+        this.httpService.updateRound(this.round).pipe(
+          switchMap(() => this.tournamentHttpService.deleteRound(ctx.tournamentResultId, this.round!.id!)),
+          switchMap(() => this.tournamentHttpService.addRoundToTournament(this.round!, ctx.tournamentId, ctx.playerId)),
+          tap(() => {
+            this.display = false;
+            this.alertService.success($localize`:@@addScorecard-addConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully updated`, true);
+            this.router.navigate(['/tournaments/tournamentResults']).catch(error => console.log(error));
+          })
+        ).subscribe();
+      } else {
+        this.httpService.updateRound(this.round).pipe(tap(
+          () => {
+            this.display = false;
+            this.alertService.success($localize`:@@addScorecard-addConf:The round at ${this.f.date.value} ${this.f.teeTime.value} successfully updated`, true);
+            this.router.navigate(['/home']).catch(error => console.log(error));
+          })
+        ).subscribe();
+      }
     }
   }
 
