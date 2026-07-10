@@ -26,13 +26,13 @@
             <th  id="par" class="center">PAR</th>
             @for (i of 9 | range; track i;) {
               <td class="center">
-                {{round().course.holes[i].par}}
+                {{round().course.holes?.[i]?.par}}
               </td>
             }
             <th  id="firstPar" class="center">{{first9parSgn()}}</th>
             @for (i of 9 | range; track i;) {
               <td class="center">
-                {{round().course.holes[i + 9].par}}
+                {{round().course.holes?.[i + 9]?.par}}
               </td>
             }
             <th  id="lpar" class="center">{{last9parSgn()}}</th>
@@ -42,13 +42,13 @@
             <th  id="si" class="center">SI</th>
             @for (i of 9 | range; track i;) {
               <td class="center">
-                {{round().course.holes[i].si}}
+                {{round().course.holes?.[i]?.si}}
               </td>
             }
             <th  id="empty"></th>
             @for (i of 9 | range; track i;) {
               <td class="center">
-                {{round().course.holes[i + 9].si}}
+                {{round().course.holes?.[i + 9]?.si}}
               </td>
             }
             <th  id="empty2"></th>
@@ -73,18 +73,18 @@
             </tr>
           }
           <tr id="empty4" colspan="21">&nbsp;</tr>
-          @for (idx of 4 | range; track idx;) {
+          @for (idx of sortedPlayerIndices; track idx;) {
             <tr class="center">
-              <th  id="bck">{{round().player[idx].nick}}</th>
+              <th  id="bck">{{round().player?.[idx]?.nick}}</th>
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="[highlightHCPSgn()[idx][i], highlightWinnerSgn()[idx][i]]">
-                  {{round().scoreCard[i + (idx * 18)].stroke}}
+                  {{round().scoreCard?.[i + (idx * 18)]?.stroke}}
                 </td>
               }
               <th  id="mpr2" class="center"></th>
               @for (index2 of 9 | range; track index2; let i = $index) {
                 <td class="center" [ngClass]="[highlightHCPSgn()[idx][i + 9], highlightWinnerSgn()[idx][i + 9]]">
-                   {{round().scoreCard[i + 9 + (idx * 18)].stroke}}
+                   {{round().scoreCard?.[i + 9 + (idx * 18)]?.stroke}}
                 </td>
               }
               <th  id="mpt3" class="center"></th>
