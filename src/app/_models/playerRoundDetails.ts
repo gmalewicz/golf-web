@@ -11,4 +11,5 @@ export interface PlayerRoundDetails {
   scoreDiff?: number;
   mpHCP?: number;
   team?: number;
+  tournamentId?: number;
 }

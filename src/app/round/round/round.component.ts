@@ -71,11 +71,11 @@ export class RoundComponent implements OnInit {
             this.round.player.push(retScoreCards[idx].player!);
           }
 
+          playerRoundsDetails.forEach((pr, idx) => this.round.player![idx].roundDetails = pr);
+
           if (!isTournamentRound) {
             this.viewOnlyCheck();
           }
-
-          playerRoundsDetails.forEach((pr, idx) => this.round.player![idx].roundDetails = pr);
 
           this.round.course.holes = retHoles;
 
@@ -97,7 +97,7 @@ export class RoundComponent implements OnInit {
   private viewOnlyCheck() {
 
     this.round.player!.forEach(pl => {
-      if (pl.id === this.authenticationService.currentPlayerValue.id) {
+      if (pl.id === this.authenticationService.currentPlayerValue.id && !pl.roundDetails?.tournamentId) {
         this.viewOnly = false;
       }
     });
