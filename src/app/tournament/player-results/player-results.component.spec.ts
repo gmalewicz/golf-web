@@ -219,7 +219,7 @@ describe('PlayerResultsComponent', () => {
 
     const navigateArgs = (router.navigate as jasmine.Spy).calls.mostRecent().args;
     const passedRound = navigateArgs[1].state.data.round;
-    expect(passedRound.scoreCard.length).toBe(1);
+    expect(passedRound.scoreCard).toHaveSize(1)
     expect(passedRound.scoreCard[0].player.id).toBe(2);
   });
 
