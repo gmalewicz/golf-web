@@ -29,6 +29,13 @@
             (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>
             &nbsp;
           </span>
+          @if (tournamentNavigationService.tournament().player?.id === playerId && tournamentNavigationService.tournament().status === false) {
+            <span>
+              <fa-icon [icon]="faPencil" class="golf-green" data-html2canvas-ignore="true"
+              (click)="editRound(tournamentRound)" (keydown)="editRound(tournamentRound)"></fa-icon>
+              &nbsp;
+            </span>
+          }
         }
         {{tournamentRound.courseName}}
       </td>

@@ -8,6 +8,7 @@ import { authenticationServiceStub, MyRouterStub } from '@/_helpers/test.helper'
 import { ComponentRef } from '@angular/core';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
 import { AuthenticationService } from '@/_services';
+import { HttpService } from '@/_services/http.service';
 import { TeeColourPipe, TeeNamePipe } from '../_helpers/tee.pipe';
 
 describe('PlayerResultsComponent', () => {
@@ -21,6 +22,7 @@ describe('PlayerResultsComponent', () => {
       imports: [PlayerResultsComponent],
       providers: [
           TournamentHttpService,
+          HttpService,
           { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
           { provide: Router, useClass: MyRouterStub },
           { provide: TournamentNavigationService, useValue: tournamentNavigationService},
