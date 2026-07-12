@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, OnInit, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultText, getPlayedCoursePar } from '@/_helpers';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
@@ -20,6 +20,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               MatButton, 
               RangePipe,
               LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
 export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implements OnInit  {

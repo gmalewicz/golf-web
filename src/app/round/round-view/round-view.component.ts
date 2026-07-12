@@ -1,7 +1,7 @@
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
 import { Round, Player } from '@/_models';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
-import { Component, OnInit, input, inject } from '@angular/core';
+import { Component, OnInit, input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChartType, ChartDataset, ChartOptions } from 'chart.js';
@@ -14,6 +14,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-round-view',
     templateUrl: './round-view.component.html',
     styleUrls: ['./round-view.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [BaseChartDirective, LoadingDirective]
 })
 export class RoundViewComponent implements OnInit {

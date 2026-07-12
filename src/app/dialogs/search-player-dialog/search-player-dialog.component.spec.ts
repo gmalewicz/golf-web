@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { SearchPlayerDialogComponent } from './search-player-dialog.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -29,7 +29,7 @@ describe('SearchPlayerDialogComponent', () => {
                 }
             } },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]
 });
     fixture = TestBed.createComponent(SearchPlayerDialogComponent);

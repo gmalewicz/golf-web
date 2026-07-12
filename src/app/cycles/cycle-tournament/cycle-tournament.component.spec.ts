@@ -1,7 +1,7 @@
 import { routing } from '@/app.routing';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CycleTournamentComponent } from './cycle-tournament.component';
@@ -19,7 +19,7 @@ describe('CycleTournamentComponent', () => {
     ],
     providers: [HttpService,
                 AuthenticationService,
-                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClient(withXhr(), withInterceptorsFromDi()),
                 provideRouter(routing, withPreloading(PreloadAllModules))
     ]
 })

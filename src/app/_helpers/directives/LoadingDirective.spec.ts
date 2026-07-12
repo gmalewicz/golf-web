@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LoadingDirective } from './LoadingDirective';
@@ -11,6 +11,7 @@ import { LoadingDirective } from './LoadingDirective';
       <span class="child">Click me</span>
     </button>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [LoadingDirective],
 })
 class TestHostComponent {

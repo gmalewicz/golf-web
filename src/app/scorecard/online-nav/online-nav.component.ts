@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, Input, OnDestroy, OnInit, input, signal, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, input, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgClass } from '@angular/common';
@@ -7,6 +7,7 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-online-nav',
     templateUrl: './online-nav.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass]
 })
 export class OnlineNavComponent implements OnInit, OnDestroy {

@@ -1,7 +1,7 @@
 
 <div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
-    <h2 span i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
+    <h2 i18n="@@addRound-hdr">Add round for tournament: {{tournament.name}}</h2>
     <div>{{course.name}}</div>
     <br/>
     <form [formGroup]="defRoundForm">
@@ -10,7 +10,7 @@
           <mat-form-field>
             <mat-label i18n="@@addRound-nick">nick</mat-label>
             <mat-select [formControlName]="'nickDropDown'" (selectionChange)="nickChange()">
-              @for (player of tournamentPlayersOptions; track player) {
+              @for (player of tournamentPlayersOptions; track player.value) {
                 <mat-option [value]="player.value">{{player.label}}</mat-option>
               }
             </mat-select>
@@ -23,7 +23,7 @@
           <mat-form-field>
             <mat-label>tee</mat-label>
             <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange()">
-              @for (tee of getTeeOptions(); track tee) {
+              @for (tee of getTeeOptions(); track tee.value) {
                 <mat-option [value]="tee.value">{{tee.label}}</mat-option>
               }
             </mat-select>
@@ -55,7 +55,7 @@
             }
             <th scope="col" class="center w-10">OUT</th>
             @for (i of 9 | range; track i;) {
-              <th id="no2" class="w-5">
+              <th scope="col" class="w-5">
                 {{i + 10}}
               </th>
             }
@@ -67,13 +67,13 @@
           <tr>
             <th scope="row" class="w-10">Par</th>
             @for (i of 9 | range; track i;) {
-              <th id="no3" class="w-5">
+              <th scope="col" class="w-5">
                 {{holes[i]?.par}}
               </th>
             }
             <th scope="col" class="center w-10"></th>
             @for (i of 9 | range; track i;) {
-              <th id="no4" class="w-5">
+              <th scope="col" class="w-5">
                 {{holes[i + 9]?.par}}
               </th>
             }
@@ -83,7 +83,7 @@
           <tr>
             <th scope="row" class="w-15" i18n="@@addRound-score">Score</th>
             @for (i of 9 | range; track i;) {
-              <th id="no5" class="w-5">
+              <th scope="col" class="w-5">
                 <input  #box
                   [id]="'hl' + i"
                   type="text"
@@ -98,16 +98,14 @@
               <th scope="col" class="center w-10">
                 @if (first9Total === 0) {
                   <span></span>
-                }
-                @if (first9Total === -1) {
+                } @else if (first9Total === -1) {
                   <span>x</span>
-                }
-                @if (first9Total > 0) {
+                } @else {
                   <span>{{first9Total}}</span>
                 }
               </th>
               @for (i of 9 | range; track i;) {
-                <th id="no6" class="w-5">
+                <th scope="col" class="w-5">
                   <input  #box
                     [id]="'hl' + (i + 9)"
                     type="text"
@@ -122,22 +120,18 @@
                 <th scope="col" class="center w-10" >
                   @if (last9Total === 0) {
                     <span></span>
-                  }
-                  @if (last9Total === -1) {
+                  } @else if (last9Total === -1) {
                     <span>x</span>
-                  }
-                  @if (last9Total > 0) {
+                  } @else {
                     <span>{{last9Total}}</span>
                   }
                 </th>
                 <th scope="col" class="center w-10">
                   @if (grandTotal === 0) {
                     <span></span>
-                  }
-                  @if (grandTotal === -1) {
+                  } @else if (grandTotal === -1) {
                     <span>x</span>
-                  }
-                  @if (grandTotal > 0) {
+                  } @else {
                     <span>{{grandTotal}}</span>
                   }
                 </th>
@@ -162,7 +156,7 @@
         @if (tournamentRounds.length > 0) {
           <div>
             <br/>
-            <td colspan="7">
+            <div>
               <table class="table table-striped" aria-describedby="tournament details">
                 <thead>
                   <tr>
@@ -176,7 +170,7 @@
                     <th id="sDiff" i18n="@@addRound-scrDif">Score Differential</th>
                   </tr>
                 </thead>
-                @for (tournamentRound of tournamentRounds; track tournamentRound; let j = $index) {
+                @for (tournamentRound of tournamentRounds; track tournamentRound.id; let j = $index) {
                   <tbody>
                     <td>{{j + 1}}</td>
                     <td>{{tournamentRound.nick}}</td>
@@ -185,21 +179,19 @@
                     <td>{{tournamentRound.stbGross}}</td>
                     @if (tournamentRound.strokes) {
                       <td>{{tournamentRound.strokesBrutto}}</td>
-                    }
-                    @if (!tournamentRound.strokes) {
+                    } @else {
                       <td>x</td>
                     }
                     @if (tournamentRound.strokes) {
                       <td>{{tournamentRound.strokesNetto}}</td>
-                    }
-                    @if (!tournamentRound.strokes) {
+                    } @else {
                       <td>x</td>
                     }
                     <td>{{tournamentRound.scrDiff | number: '1.1-1'}}</td>
                   </tbody>
                 }
               </table>
-            </td>
+            </div>
           </div>
         }
       </div>

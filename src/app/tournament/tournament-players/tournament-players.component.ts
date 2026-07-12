@@ -4,7 +4,7 @@ import { Player } from '@/_models/player';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,6 +28,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
         MatCheckboxModule,
         LoadingDirective],
     templateUrl: './tournament-players.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./tournament-players.component.css']
 })
 export class TournamentPlayersComponent extends CreateOrSearchDialogBase implements OnInit {

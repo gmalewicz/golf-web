@@ -7,6 +7,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr
 } from "@angular/common/http";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MimicBackendScoreInterceptor } from "../_helpers/MimicBackendScoreInterceptor";
@@ -54,7 +55,7 @@ describe("OnlineScoreCardViewComponent", () => {
           multi: true,
         },
         { provide: RxStompService, useValue: rxStompServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
       ],
     }).compileComponents();

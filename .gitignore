@@ -54,9 +54,14 @@ src/assets/app-config.json
 
 .github/agents/codebase-analyzer.agent.md
 .github/instructions/angular.instructions.md
-.github/agents/
-.github/prompts/
-.github/skills/
+.github/agents/*
+!.github/agents/sonar-fix_agent.md
+.github/prompts/*
+!.github/prompts/sonarcube-fix.prompt.md
+.github/skills/*
+!.github/skills/get-open-issues
+!.github/skills/get-pr-for-branch
 sonar_issues.json
 sonar_pr_issues.json
 sonar_pr_list.txt
+sonar_issues_pr770.json

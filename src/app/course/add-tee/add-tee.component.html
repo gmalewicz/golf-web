@@ -5,7 +5,7 @@
       <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-colour">colour</mat-label>
         <input matInput id="tee" aria-label="Tee colour" maxlength="20" [formControlName]="'tee'"/>
-        @if (g.tee.invalid && g.tee.errors.required)  {
+        @if (g.tee.invalid && g.tee.errors?.['required'])  {
           <mat-error i18n="@@addCourse-colourReq">Tee colour is required</mat-error>
         }
       </mat-form-field>
@@ -14,10 +14,10 @@
       <mat-form-field subscriptSizing="dynamic">
         <mat-label>CR</mat-label>
         <input matInput id="cr" aria-label="CR" maxlength="4" [formControlName]="'cr'"/>
-        @if (g.cr.invalid && g.cr.errors.required)  {
+        @if (g.cr.invalid && g.cr.errors?.['required'])  {
           <mat-error i18n="@@addCourse-crReq">Course CR is required</mat-error>
         }
-        @if (g.cr.invalid && g.cr.errors.pattern)  {
+        @if (g.cr.invalid && g.cr.errors?.['pattern'])  {
           <mat-error i18n="@@addCourse-crRange">Course CR must be in range: 20 to 89.9</mat-error>
         }
       </mat-form-field>
@@ -26,10 +26,10 @@
       <mat-form-field subscriptSizing="dynamic">
         <mat-label>SR</mat-label>
         <input matInput id="sr" aria-label="SR" maxlength="3" [formControlName]="'sr'"/>
-        @if (g.sr.invalid && g.sr.errors.required)  {
+        @if (g.sr.invalid && g.sr.errors?.['required'])  {
           <mat-error i18n="@@addCourse-srReq">Course SR is required</mat-error>
         }
-        @if (g.sr.invalid && g.sr.errors.pattern)  {
+        @if (g.sr.invalid && g.sr.errors?.['pattern'])  {
           <mat-error i18n="@@addCourse-srRange">Course SR must be in range: 10 to 299</mat-error>
         }
       </mat-form-field>
@@ -38,7 +38,7 @@
       <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-teeType">tee type</mat-label>
         <mat-select [formControlName]="'teeTypeDropDown'">
-          @for (teeType of teeTypes; track teeType) {
+          @for (teeType of teeTypes; track teeType.value) {
             <mat-option [value]="teeType.value">{{teeType.label}}</mat-option>
           }
         </mat-select>
@@ -51,7 +51,7 @@
       <mat-form-field subscriptSizing="dynamic">
         <mat-label i18n="@@addCourse-sex">sex</mat-label>
         <mat-select [formControlName]="'sexDropDown'">
-          @for (sexOpt of sex; track sexOpt) {
+          @for (sexOpt of sex; track sexOpt.value) {
             <mat-option [value]="sexOpt.value">{{sexOpt.label}}</mat-option>
           }
         </mat-select>

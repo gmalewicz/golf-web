@@ -1,5 +1,5 @@
 
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { MatInputModule } from '@angular/material/input';
@@ -13,39 +13,31 @@ import { AlertService } from '@/_services';
     selector: 'app-add-tee',
     imports: [MatInputModule, MatSelectModule, ReactiveFormsModule],
     providers: [CourseHttpService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './add-tee.component.html'
 })
-export class AddTeeComponent implements OnInit {
+export class AddTeeComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly courseNavigationService = inject(CourseNavigationService);
   private readonly courseHttpService = inject(CourseHttpService);
   private readonly alertService = inject(AlertService);
 
+  readonly teeTypes = [{ label: '1-18', value: 0 },
+                       { label: '1-9',  value: 1 },
+                       { label: '10-18', value: 2 }];
 
-  public newCourseTeeForm: FormGroup;
-  teeTypes: { label: string; value: number; }[];
-  sex: { label: string; value: boolean; }[];
+  readonly sex = [{ label: 'female', value: true },
+                  { label: 'male',   value: false }];
 
-  public saveTee = signal<boolean>(false);
+  public saveTee = signal(false);
 
-  ngOnInit(): void {
-
-    this.newCourseTeeForm = this.formBuilder.group({
-      tee: ['', Validators.required],
-      cr: ['', [ Validators.required, Validators.pattern(String.raw`[2-8][0-9](,|\.)?[0-9]?`)]],
-      sr: ['', [ Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
-      sexDropDown: ['', [Validators.required]],
-      teeTypeDropDown: ['', [Validators.required]],
-    });
-
-    // initialize tee types
-    this.teeTypes = [{ label: '1-18', value: 0 },
-    { label: '1-9', value: 1 },
-    { label: '10-18', value: 2 }];
-
-    this.sex = [{ label: 'female', value: true },
-                      { label: 'male', value: false }];
-  }
+  public newCourseTeeForm: FormGroup = this.formBuilder.group({
+    tee: ['', Validators.required],
+    cr: ['', [Validators.required, Validators.pattern(String.raw`[2-8][0-9](,|\.)?[0-9]?`)]],
+    sr: ['', [Validators.required, Validators.pattern('[1-2]?[0-9][0-9]$')]],
+    sexDropDown: ['', [Validators.required]],
+    teeTypeDropDown: ['', [Validators.required]],
+  });
 
   addTee(): void {
 
@@ -57,14 +49,13 @@ export class AddTeeComponent implements OnInit {
       return;
     }
 
-    //create tee
     const tee: Tee = {
       tee: this.g.tee.value,
       cr: this.g.cr.value.toString().replaceAll(',', '.'),
       sr: this.g.sr.value,
       teeType: this.g.teeTypeDropDown.value,
       sex: this.g.sexDropDown.value
-    }
+    };
 
     // not allow adding the tee with the same sex and tee
     if (this.courseNavigationService.tees().some(t => t.tee === tee.tee && t.sex === tee.sex && t.teeType === tee.teeType)) {
@@ -76,13 +67,12 @@ export class AddTeeComponent implements OnInit {
     if (this.courseNavigationService.addTee()) {
       this.saveTee.set(true);
       this.courseHttpService.addTee(tee, this.courseNavigationService.course().id).pipe(
-        tap(
-          () => {
-            this.courseNavigationService.tees.update(tees => [...tees, tee]);
-            this.saveTee.set(false);
-          })
+        tap(() => {
+          this.courseNavigationService.tees.update(tees => [...tees, tee]);
+          this.saveTee.set(false);
+        })
       ).subscribe();
-    } else  {
+    } else {
       this.courseNavigationService.tees.update(tees => [...tees, tee]);
     }
 

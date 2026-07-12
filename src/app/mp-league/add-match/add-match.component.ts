@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { IconDefinition, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +18,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-add-match',
     templateUrl: './add-match.component.html',
     providers: [LeagueHttpService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatError, RouterLink, LoadingDirective]
 })
 export class AddMatchComponent implements OnInit {

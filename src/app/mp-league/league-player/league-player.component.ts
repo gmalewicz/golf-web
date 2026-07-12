@@ -1,5 +1,5 @@
 import { LeaguePlayer } from './../_models/leaguePlayer';
-import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '@/_services/alert.service';
@@ -21,6 +21,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-league-player',
     imports: [FontAwesomeModule, ReactiveFormsModule, MatButtonModule, MatCheckboxModule, LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './league-player.component.html'
 })
 export class LeaguePlayerComponent extends CreateOrSearchDialogBase implements OnInit {

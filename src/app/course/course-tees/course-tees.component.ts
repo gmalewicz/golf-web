@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Tee } from '@/_models/tee';
@@ -8,17 +8,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
     selector: 'app-course-tees',
     imports: [FontAwesomeModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './course-tees.component.html'
 })
 export class CourseTeesComponent {
   courseNavigationService = inject(CourseNavigationService);
 
-
-  faMinusCircle: IconDefinition;
-
-  constructor() {
-    this.faMinusCircle = faMinusCircle;
-  }
+  readonly faMinusCircle: IconDefinition = faMinusCircle;
 
   deleteTee(teeToRemove: Tee) {
     this.courseNavigationService.tees.update(tees => tees.filter(tee => (tee.tee != teeToRemove.tee && tee.sex != teeToRemove.sex)));

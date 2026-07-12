@@ -1,6 +1,6 @@
 import { getTestRound } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoundViewFbMpComponent } from './round-view-fb-mp.component';
@@ -15,7 +15,7 @@ describe('RoundViewFbMpComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [RoundViewFbMpComponent],
-    providers: [HttpService, provideHttpClient(withInterceptorsFromDi())]
+    providers: [HttpService, provideHttpClient(withXhr(), withInterceptorsFromDi())]
 })
     .compileComponents();
   });

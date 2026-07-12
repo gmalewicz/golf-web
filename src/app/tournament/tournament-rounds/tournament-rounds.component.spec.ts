@@ -2,7 +2,7 @@ import { routing } from '@/app.routing';
 import { authenticationServiceStub, MatDialogMock } from '@/_helpers/test.helper';
 import { teeTypes } from '@/_models/tee';
 import { AuthenticationService, HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle';
@@ -29,7 +29,7 @@ describe('TournamentRoundsComponent', () => {
          { provide: MatDialog, useClass: MatDialogMock },
         TournamentHttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
         ]
     })

@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ParametersComponent } from '../parameters/parameters.component';
 import { PreviewComponent } from '../preview/preview.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { MatDialogMock, authenticationServiceStub } from '@/_helpers/test.helper';
 import { TournamentNavigationService } from '@/tournament/_services/tournamentNavigation.service';
@@ -42,7 +42,7 @@ describe('TeeTimeComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendTournamentInterceptor, multi: true },
         { provide: MatDialog, useValue: dialog },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]
 })
     .compileComponents();

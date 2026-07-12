@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AutoTabDirective } from './AutoTab.directive';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,6 +8,7 @@ import { By } from '@angular/platform-browser';
 @Component({
     selector: 'app-test-component',
     template: '<input id="1" type="text" class="test" [appAutoTab]="1"/>',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [AutoTabDirective]
 })
 class TestComponent {}
@@ -39,7 +40,7 @@ describe('Directive: AutoTab', () => {
 
     const directiveInstance = directiveEl.injector.get(AutoTabDirective);
 
-    directiveInstance.onInput({value: 't'});
+    directiveInstance.onInput({ value: 't' } as HTMLInputElement);
 
     fixture.detectChanges();
 

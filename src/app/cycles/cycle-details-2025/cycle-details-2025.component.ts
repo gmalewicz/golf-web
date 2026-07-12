@@ -1,6 +1,6 @@
 import { EagleResult, EagleResultSet } from "../_models/eagleResult";
 import { AuthenticationService } from "@/_services/authentication.service";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectionStrategy } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router, RouterLink } from "@angular/router";
 import { CycleHttpService } from "../_services/cycleHttp.service";
@@ -23,6 +23,7 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
     CanDirective,
     LoadingDirective
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [CycleHttpService],
 })
 export class CycleDetails2025Component

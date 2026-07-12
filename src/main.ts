@@ -16,7 +16,7 @@ import { provideCharts, withDefaultRegisterables, BaseChartDirective } from 'ng2
 import { PlayerDataInterceptor } from './app/_helpers/playerData.interceptor';
 import { SessionRecoveryInterceptor } from './app/_helpers/session.interceptor';
 import { ErrorInterceptor } from '@/_helpers';
-import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient, withXhr } from '@angular/common/http';
 import { HttpService } from '@/_services';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 
@@ -33,7 +33,7 @@ bootstrapApplication(AppComponent, {
       { provide: HTTP_INTERCEPTORS, useClass: PlayerDataInterceptor, multi: true },
       provideCharts(withDefaultRegisterables()),
       RoundsNavigationService,
-      provideHttpClient(withInterceptorsFromDi()),
+      provideHttpClient(withXhr(), withInterceptorsFromDi()),
       provideRouter(routing, withPreloading(PreloadAllModules)),
   ]
 }).catch((err: unknown) => console.error(err)); // NOSONAR - top-level await is not supported in esbuild target environments for this project

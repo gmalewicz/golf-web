@@ -5,7 +5,7 @@ import { routing } from '@/app.routing';
 import { alertServiceStub, authenticationServiceAdminStub, MyRouterStub } from '@/_helpers/test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MimicBackendCycleInterceptor } from '../_helpers/MimicBackendCycleInterceptor';
@@ -53,7 +53,7 @@ describe('CycleDetails2025Component', () => {
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules))
     ]
 })

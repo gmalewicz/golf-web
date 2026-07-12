@@ -1,6 +1,6 @@
 import { DialogBaseComponent } from '@/_helpers/dialog.base';
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
     imports: [FontAwesomeModule, ReactiveFormsModule, MatDialogModule, MatInputModule, MatButtonModule],
     selector: 'app-update-tournament-player-whs-dialog',
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './update-tournament-player-whs-dialog.component.html'
 })
 export class UpdateTournamentPlayerWhsDialogComponent extends DialogBaseComponent {

@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CourseNavigationService } from '../_services/course-navigation.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { MimicBackendCourseInterceptor } from '../_helpers/MimicBackendCourseInterceptor';
 import { CourseHttpService } from '../_services/courseHttp.service';
 import { getTestCourse } from '@/_helpers/test.helper';
@@ -31,7 +31,7 @@ describe('AddTeeComponent', () => {
         CourseHttpService,
         { provide: CourseNavigationService, useValue: courseNavigationService },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCourseInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]
 })
     .compileComponents();

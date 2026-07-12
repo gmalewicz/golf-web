@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HttpService, AlertService, AuthenticationService } from '@/_services';
 import { Format, Player, Round, teeTypes } from '@/_models';
 import { Router} from '@angular/router';
@@ -19,6 +19,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-round',
     templateUrl: './round.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [RoundViewComponent, 
               RoundSummaryComponent, 
               RoundViewWHSComponent, 

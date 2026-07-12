@@ -1,4 +1,4 @@
-import { Component, OnInit, input} from '@angular/core';
+import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
 import { Round } from '@/_models';
 import { ballPickedUpStrokes } from '@/_helpers/common';
 import { NgClass, DecimalPipe } from '@angular/common';
@@ -9,6 +9,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-round-view-whs',
     templateUrl: './round-view-whs.component.html',
     styleUrls: ['./round-view-whs.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass, DecimalPipe, RangePipe, LoadingDirective]
 })
 export class RoundViewWHSComponent implements OnInit {

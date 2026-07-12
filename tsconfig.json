@@ -4,7 +4,6 @@
     "src/**/*.ts"],
   "compilerOptions": {
     "baseUrl": "src",
-    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "esModuleInterop": true,
     "declaration": false,
@@ -22,9 +21,12 @@
     },
     "useDefineForClassFields": false,
     "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "ignoreDeprecations": "6.0"
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService} from '@/_services';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -21,6 +21,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
         FontAwesomeModule,
         CommonModule,
         LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './tournaments.component.html'
 })
 export class TournamentsComponent implements OnInit {

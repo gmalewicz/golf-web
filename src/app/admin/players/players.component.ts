@@ -1,6 +1,6 @@
 import { PlayerRndCnt } from './../../_models/playerRndCnt';
 
-import { Component, EventEmitter, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HttpService } from '@/_services/http.service';
 import { tap } from 'rxjs/operators';
 import { faMinusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-players',
     templateUrl: './players.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FaIconComponent, RouterLink, LoadingDirective]
 })
 export class PlayersComponent implements OnInit {

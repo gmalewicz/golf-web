@@ -6,7 +6,7 @@ import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
 import { LocationStrategy, formatDate } from "@angular/common";
-import { Component, OnDestroy, OnInit, signal, inject } from "@angular/core";
+import { Component, OnDestroy, OnInit, signal, inject, ChangeDetectionStrategy } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { faPlay, IconDefinition } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ import { Format } from "@/_models/format";
 
 @Component({
   template: "",
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [NavigationService],
 })
 export class OnlineRoundBaseComponent implements OnDestroy, OnInit {

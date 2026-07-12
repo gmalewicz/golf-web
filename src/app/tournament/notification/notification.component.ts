@@ -1,6 +1,6 @@
 import { AlertService, AuthenticationService } from '@/_services';
 import { ConfirmationDialogComponent } from '@/confirmation-dialog/confirmation-dialog.component';
-import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { firstValueFrom, map, mergeMap } from 'rxjs';
@@ -12,6 +12,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-notification',
     imports: [ReactiveFormsModule,
     LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './notification.component.html'
 })
 export class NotificationComponent implements OnInit {

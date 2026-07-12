@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, signal, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
@@ -20,6 +20,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               MatButton, 
               RangePipe,
               LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
 export class OnlineStrokeplayComponent extends OnlineRoundBaseComponent {

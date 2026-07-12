@@ -8,18 +8,19 @@ import { ScoreCard } from '@/_models/scoreCard';
 import { Tee, teeTypes } from '@/_models/tee';
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { faCheckCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tournament } from '../_models/tournament';
 import { getDateAndTime } from '@/_helpers/common';
 import { Hole } from '@/_models/hole';
 import { Router, RouterModule } from '@angular/router';
 import { TeeOptions } from '@/_models/teeOptions';
-import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import { DecimalPipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
@@ -29,16 +30,17 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-add-round',
     imports: [RouterModule,
     MatSelectModule,
-    CommonModule,
+    DecimalPipe,
     ReactiveFormsModule,
     AutoTabDirective,
     FontAwesomeModule,
-    FormsModule, 
+    FormsModule,
     RangePipe,
     LoadingDirective],
     providers: [TournamentHttpService],
     templateUrl: './add-round.component.html',
-    styleUrls: ['./add-round.component.css']
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './add-round.component.css'
 })
 export class AddRoundComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
@@ -46,14 +48,12 @@ export class AddRoundComponent implements OnInit {
   private readonly httpService = inject(HttpService);
   private readonly tournamentHttpService = inject(TournamentHttpService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
 
-  // parent data who call me
-  data!: {course: Course, tournament: Tournament};
+  readonly faCheckCircle = faCheckCircle;
 
-  faCheckCircle!: IconDefinition;
-
-  display!: boolean;
+  display = false;
 
   defRoundForm!: FormGroup;
   player: Player | undefined;
@@ -66,7 +66,7 @@ export class AddRoundComponent implements OnInit {
   course!: Course;
   tournament!: Tournament;
 
-  submitted!: boolean;
+  submitted = false;
 
   score!: string[];
   first9Total!: number;
@@ -75,20 +75,15 @@ export class AddRoundComponent implements OnInit {
 
   tournamentRounds: TournamentRound[] = [];
 
-  teeHour!: number;
-  teeMinute!: number;
-
   tournamentPlayersOptions: {label: string; value: string}[] = [];
 
-  searchInProgress!: boolean;
+  searchInProgress = false;
 
   ngOnInit(): void {
 
     if (history.state.data === undefined || history.state.data.tournament === undefined || history.state.data.course === undefined) {
-      this.router.navigate(['/home']).catch(error => console.log(error));
+      this.router.navigate(['/home']);
     } else {
-      this.display = false;
-      this.faCheckCircle = faCheckCircle;
       this.tournament = history.state.data.tournament;
       this.course = history.state.data.course;
 
@@ -132,7 +127,8 @@ export class AddRoundComponent implements OnInit {
           });
 
           this.display = true;
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe();
     }
   }
@@ -159,7 +155,8 @@ export class AddRoundComponent implements OnInit {
             this.player = player;
           }
           this.searchInProgress = false;
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
     }
@@ -171,7 +168,6 @@ export class AddRoundComponent implements OnInit {
         ? this.teeOptionsFemale
         : this.teeOptionsMale;
 
-      this.tee = this.f.teeDropDown.value;
       return retVal;
     }
     return [];
@@ -298,7 +294,8 @@ export class AddRoundComponent implements OnInit {
         this.tournamentRounds.push(tournamentRound);
         this.clear();
         this.submitted = false;
-      })
+      }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe();
   }
 }

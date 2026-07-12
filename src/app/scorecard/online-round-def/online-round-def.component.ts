@@ -1,6 +1,6 @@
 import { Course, Format } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router  } from '@angular/router';
 import { PlayerSelectorComponent } from "./player-selector/player-selector.component";
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
@@ -13,6 +13,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
       PlayerSelectorComponent,
       LoadingDirective
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: []
 })
 export class OnlineRoundDefComponent implements OnInit {

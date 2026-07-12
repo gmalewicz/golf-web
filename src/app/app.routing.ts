@@ -3,12 +3,10 @@ import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses/courses.component';
-import { AddScorecardComponent } from './add-scorecard/add-scorecard.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdatePlayerComponent } from './update-player/update-player.component';
-import { ChangeLogComponent } from './change-log/change-log.component';
 
 import { RoundComponent } from './round/round/round.component';
 import { RoundsComponent } from './rounds/rounds/rounds.component';
@@ -21,9 +19,9 @@ export const routing: Routes = [
   { path: 'courses', component: CoursesComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'rounds', component: RoundsComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'round', component: RoundComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
-  { path: 'addScorecard/:courseId/:courseName/:coursePar', component: AddScorecardComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
+  { path: 'addScorecard/:courseId/:courseName/:coursePar', loadComponent: () => import('./add-scorecard/add-scorecard.component').then(m => m.AddScorecardComponent), canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'updatePlayer', component: UpdatePlayerComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
-  { path: 'changeLog', component: ChangeLogComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
+  { path: 'changeLog', loadComponent: () => import('./change-log/change-log.component').then(m => m.ChangeLogComponent), canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'admin', component: AdminComponent, canActivate: [() => inject(AuthGuard).canActivate(),
                                                             () => inject(RoleGuard).canActivate('ADMIN')]},
 

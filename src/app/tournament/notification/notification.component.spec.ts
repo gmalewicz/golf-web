@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationComponent } from './notification.component';
 import { TournamentHttpService } from '../_services/tournamentHttp.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
 import { MatDialogMock, MyRouterStub, alertServiceStub, authenticationServiceStub } from '@/_helpers/test.helper';
 import { MimicBackendTournamentInterceptor } from '../_helpers/MimicBackendTournamentInterceptor';
@@ -25,7 +25,7 @@ describe('NotificationComponent', () => {
         { provide: MatDialog, useValue: dialog },
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]
 })
     .compileComponents();

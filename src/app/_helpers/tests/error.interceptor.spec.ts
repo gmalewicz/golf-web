@@ -1,5 +1,5 @@
 import { AlertService } from '@/_services/alert.service';
-import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, tick, waitForAsync, fakeAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ describe('error.interceptor', () => {
         { provide: Router, useClass: MyRouterStub },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
 });

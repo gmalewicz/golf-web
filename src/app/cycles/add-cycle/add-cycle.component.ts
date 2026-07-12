@@ -1,6 +1,6 @@
 import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,7 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
   selector: "app-add-cycle",
   templateUrl: "./add-cycle.component.html",
   imports: [ReactiveFormsModule, NgClass, RouterLink, LoadingDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [CycleHttpService],
 })
 export class AddCycleComponent implements OnInit {

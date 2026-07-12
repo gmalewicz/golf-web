@@ -1,5 +1,5 @@
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -15,12 +15,13 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
     selector: 'app-course',
-    imports: [BaseChartDirective, 
-              CourseTeesComponent, 
-              RouterModule, 
-              AddTeeComponent, 
+    imports: [BaseChartDirective,
+              CourseTeesComponent,
+              RouterModule,
+              AddTeeComponent,
               CanDirective,
               LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {
@@ -30,26 +31,25 @@ export class CourseComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly courseNavigationService = inject(CourseNavigationService);
 
+  // ── constant fields ──────────────────────────────────────────────────────────
+  readonly barChartType: ChartType = 'bar';
 
-  loading: boolean;
-  loadingTees: boolean;
-  loadingClone: boolean = false;
-  loadingDelete: boolean = false;
-  display: boolean;
-  displayTees: boolean;
-  showTeesLbl: string;
+  // ── non-reactive internal state ──────────────────────────────────────────────
+  course!: Course;
+  holes: Array<Hole> = [];
+  barData: number[] = [];
 
-  course: Course;
-  holes: Array<Hole>;
-
-  barChartType: ChartType;
-  barChartLegend: boolean;
-  barChartLabels: string[];
-  barChartData: ChartDataset[];
-  barChartOptions: ChartOptions;
-  barData: number[];
-
-  displayAddTee: boolean;
+  // ── signals ──────────────────────────────────────────────────────────────────
+  loadingTees = signal(false);
+  loadingClone = signal(false);
+  loadingDelete = signal(false);
+  display = signal(false);
+  displayTees = signal(false);
+  displayAddTee = signal(false);
+  showTeesLbl = signal($localize`:@@course-showTees:Show tees`);
+  barChartLabels = signal<string[]>([]);
+  barChartData = signal<ChartDataset[]>([]);
+  barChartOptions = signal<ChartOptions>({} as ChartOptions);
 
   ngOnInit(): void {
 
@@ -58,25 +58,12 @@ export class CourseComponent implements OnInit {
       this.router.navigate(['/login']).catch(error => console.log(error));
     } else {
 
-      // initializaion
-      this.loading = false;
-      this.loadingTees = false;
-      this.display = false;
-      this.displayTees = false;
-      this.displayAddTee = false;
-      this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
       this.courseNavigationService.init();
-      this.barChartType = 'bar';
-      this.barChartLegend = true;
-      this.barChartLabels = [];
-      this.barChartData = [];
-      this.barData = [];
       this.course = history.state.data.course;
 
       this.courseNavigationService.removeTee.set(false);
       this.courseNavigationService.course.set(this.course);
 
-      this.course = history.state.data.course;
       this.getHoles();
     }
   }
@@ -85,92 +72,82 @@ export class CourseComponent implements OnInit {
     this.httpService.getHoles(this.course.id).subscribe(retHoles => {
       this.holes = retHoles;
       this.generateLabelsAndData();
-      this.display = true;
+      this.display.set(true);
     });
   }
 
   generateLabelsAndData() {
 
+    const newLabels: string[] = [];
+    const newBarData: number[] = [];
+
     for (const hole of this.holes) {
-      this.barChartLabels.push(hole.number + '(' + hole.si + ')');
-      this.barData.push(hole.par);
+      newLabels.push(hole.number + '(' + hole.si + ')');
+      newBarData.push(hole.par);
     }
+    this.barData = newBarData;
+    this.barChartLabels.set(newLabels);
 
     let text = this.course.name + ' - Par: ' + this.course.par;
-
     if (this.authenticationService.playerRole.includes('ADMIN')) {
-      text = text + " (" + this.course.id  + ")"
+      text = text + ' (' + this.course.id + ')';
     }
 
-    this.barChartData = [{ data: this.barData, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }];
+    this.barChartData.set([{ data: this.barData, label: 'Par(SI)', backgroundColor: 'purple', borderWidth: 1 }]);
 
-    this.barChartOptions = {
+    this.barChartOptions.set({
       responsive: true,
-
       scales: {
-        y: {
-            min: 2,
-            max: 6,
-            ticks: {
-              stepSize: 1
-            }
-        }
+        y: { min: 2, max: 6, ticks: { stepSize: 1 } }
       },
       plugins: {
         title: {
           display: true,
           text,
-        position: 'bottom'
+          position: 'bottom'
         },
         tooltip: {
           callbacks: {
             title: (tooltipItem: { label: string; }[]) => $localize`:@@course-hole:Hole ` + tooltipItem[0].label
           }
         }
-      },
-    };
-
+      }
+    });
   }
 
   onShowTees() {
 
-    this.displayTees = !this.displayTees;
+    this.displayTees.update(v => !v);
 
-
-    if (this.displayTees && this.courseNavigationService.tees().length === 0) {
-
-      this.loadingTees = true;
+    if (this.displayTees() && this.courseNavigationService.tees().length === 0) {
+      this.loadingTees.set(true);
       this.httpService.getTees(this.course.id).pipe(
-        tap(
-          (tees) => {
-            this.courseNavigationService.tees.set(tees);
-            this.loadingTees = false;
-          })
+        tap((tees) => {
+          this.courseNavigationService.tees.set(tees);
+          this.loadingTees.set(false);
+        })
       ).subscribe();
     }
 
-    if (this.displayTees) {
-      this.showTeesLbl = $localize`:@@course-hideTees:Hide tees`;
-    } else {
-      this.showTeesLbl = $localize`:@@course-showTees:Show tees`;
-    }
+    this.showTeesLbl.set(this.displayTees()
+      ? $localize`:@@course-hideTees:Hide tees`
+      : $localize`:@@course-showTees:Show tees`);
   }
 
   deleteCourse() {
 
-    this.loadingDelete = true;
+    this.loadingDelete.set(true);
 
     this.httpService.deleteCourse(this.course.id).pipe(
-      tap(
-        () => {
-          this.alertService.success($localize`:@@course-DelMsg:The course has been successfully deleted`, true);
-          this.router.navigate(['/home']).catch(error => console.log(error));
-        })
+      tap(() => {
+        this.alertService.success($localize`:@@course-DelMsg:The course has been successfully deleted`, true);
+        this.router.navigate(['/home']).catch(error => console.log(error));
+      })
     ).subscribe();
   }
 
   clone() {
-    this.loadingClone = true;
+    this.loadingClone.set(true);
     this.course.holes = this.holes;
     this.courseNavigationService.cloneCourse.set(this.course);
     this.router.navigate(['/addCourse']).catch(error => console.log(error));
@@ -180,20 +157,17 @@ export class CourseComponent implements OnInit {
 
     this.courseNavigationService.addTee.set(true);
 
-    if (!this.displayAddTee) {
-      this.displayAddTee = true;
+    if (!this.displayAddTee()) {
+      this.displayAddTee.set(true);
     }
 
-    if (!this.displayTees) {
+    if (!this.displayTees()) {
       this.onShowTees();
     }
-
   }
-
 }
 
 export const courseRoutes: Routes = [
-
   { path: '', component: CourseComponent, canActivate: [AuthGuard] }
-
 ];
+

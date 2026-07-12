@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-home',
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
         <img src="./assets/img/DrevnyKocur2.png" alt="DrevnyKocurCup"  class="centerImg" width="200" height="auto">
         <img src="./assets/img/logo.png" alt="Royal Golf Club Wilanów"  class="centerImg" width="200" height="auto">
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true
 })
 export class HomeComponent  {}

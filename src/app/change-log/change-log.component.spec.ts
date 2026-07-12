@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeLogComponent } from './change-log.component';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
@@ -18,7 +18,7 @@ describe('ChangeLogComponent', () => {
     ],
     providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules))]
 })
     .compileComponents();
