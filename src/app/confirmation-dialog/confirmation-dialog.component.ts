@@ -6,13 +6,12 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-confirmation-dialog',
     templateUrl: './confirmation-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MatDialogModule, MatButtonModule]
 })
 export class ConfirmationDialogComponent  {
   dialogRef = inject<MatDialogRef<ConfirmationDialogComponent>>(MatDialogRef);
 
-
-  public confirmMessage: string;
-  public makeItDanger: boolean
+  public confirmMessage = '';
+  public makeItDanger = false;
 }

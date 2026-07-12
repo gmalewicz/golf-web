@@ -8,18 +8,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
     selector: 'app-course-tees',
     imports: [FontAwesomeModule],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './course-tees.component.html'
 })
 export class CourseTeesComponent {
   courseNavigationService = inject(CourseNavigationService);
 
-
-  faMinusCircle: IconDefinition;
-
-  constructor() {
-    this.faMinusCircle = faMinusCircle;
-  }
+  readonly faMinusCircle: IconDefinition = faMinusCircle;
 
   deleteTee(teeToRemove: Tee) {
     this.courseNavigationService.tees.update(tees => tees.filter(tee => (tee.tee != teeToRemove.tee && tee.sex != teeToRemove.sex)));

@@ -1,6 +1,6 @@
-<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+<div [loading]="!display()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div class="container-float">
-    <h2>{{ course?.name }} &nbsp; {{displayResult}}</h2>
+    <h2>{{ course()?.name }} &nbsp; {{displayResult()}}</h2>
     <form [formGroup]="addScorecardForm">
       <div class="row">
         <div class="col-auto">
@@ -30,8 +30,8 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(round == null)">
-              @for (tee of teeOptions; track tee.value) {
+            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(round() == null)">
+              @for (tee of teeOptions(); track tee.value) {
                 <mat-option [value]="tee.value">{{tee.label}}</mat-option>
               }
             </mat-select>
@@ -46,9 +46,9 @@
       <div style="display: block">
         <canvas
           baseChart class="chart"
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
+          [datasets]="barChartData()"
+          [labels]="barChartLabels()"
+          [options]="barChartOptions()"
           [legend]="barChartLegend"
           [type]="barChartType"
           >
@@ -60,9 +60,9 @@
       Hole:
     </div>
         <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
-          @for (hole of barChartLabels; track hole; let i = $index) {
+          @for (hole of barChartLabels(); track hole; let i = $index) {
             <button class="btn btn-outline-success buttonWidth radio-hole"
-              [ngClass]="holeSelectorActive[i]" (click)="selectHole(hole)">
+              [ngClass]="holeSelectorActive()[i]" (click)="selectHole(hole)">
               {{ hole }}
             </button>
           }
@@ -76,7 +76,7 @@
         <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
           @for (stroke of strokeButtons; track stroke; let i = $index) {
             <button class="btn btn-outline-success buttonWidth radio-stroke"
-              [ngClass]="strokeSelectorActive[i]" (click)="selectStroke(stroke)">
+              [ngClass]="strokeSelectorActive()[i]" (click)="selectStroke(stroke)">
               {{ stroke }}
             </button>
           }
@@ -90,7 +90,7 @@
         <div class="col-11 btn-group-toggle flex-wrap" data-toggle="buttons">
           @for (pat of patButtons; track pat; let i = $index) {
             <button class="btn btn-outline-success buttonWidth radio-put"
-              [ngClass]="patSelectorActive[i]" (click)="selectPat(pat)">
+              [ngClass]="patSelectorActive()[i]" (click)="selectPat(pat)">
               {{ pat }}
             </button>
           }
@@ -99,7 +99,7 @@
       <div>
         <br />
          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
-          <button [disabled]="loading" [loading]="loading" class="btn btn-success btn-save golf-width-120" (click)="onSubmit()">
+          <button [disabled]="loading()" [loading]="loading()" class="btn btn-success btn-save golf-width-120" (click)="onSubmit()">
             <span i18n="@@addScorecard-save">Save</span>
           </button>
           <button type="button" class="btn btn-success btn-clear golf-width-120" (click)="clear()" i18n="@@addScorecard-clear">

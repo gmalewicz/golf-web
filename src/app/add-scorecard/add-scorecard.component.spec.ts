@@ -133,20 +133,20 @@ describe('AddScorecardComponent', () => {
 
   it('should click save button with valid form and round', fakeAsync(() => {
 
-    component.round = getTestRound();
+    component.round.set(getTestRound());
 
     component.f.teeDropDown.setValue(4);
     component.f.date.setValue('2020/10/10');
     component.f.teeTime.setValue('10:00');
     const buttonElement = fixture.debugElement.query(By.css('.btn-save'));
     buttonElement.triggerEventHandler('click', null);
-    expect(component.round).toBeDefined();
+    expect(component.round()).toBeDefined();
 
   }));
 
   it('should save with changed tee in edit mode', fakeAsync(() => {
 
-    component.round = getTestRound();
+    component.round.set(getTestRound());
 
     // change tee to a different value
     component.f.teeDropDown.setValue(5);
@@ -160,7 +160,7 @@ describe('AddScorecardComponent', () => {
 
   it('should save without calling updateRoundTee when tee unchanged in edit mode', fakeAsync(() => {
 
-    component.round = getTestRound();
+    component.round.set(getTestRound());
 
     // same tee selected as original
     component.f.teeDropDown.setValue(4);
@@ -199,7 +199,7 @@ describe('AddScorecardComponent', () => {
     spyOn(tournamentHttpService, 'deleteRound').and.returnValue(of(undefined));
     spyOn(tournamentHttpService, 'addRoundToTournament').and.returnValue(of(undefined));
 
-    component.round = getTestRound();
+    component.round.set(getTestRound());
     component.tournamentEdit = { tournamentResultId: 5, tournamentId: 2, playerId: 3, playerSex: false };
 
     component.f.teeDropDown.setValue(4);
@@ -210,29 +210,29 @@ describe('AddScorecardComponent', () => {
 
     expect(tournamentHttpService.deleteRound).toHaveBeenCalledWith(5, 1);
     expect(tournamentHttpService.addRoundToTournament).toHaveBeenCalled();
-    expect(component.display).toBeFalse();
+    expect(component.display()).toBeFalse();
 
   }));
 
   it('should disable holes 10 to 18 when teeType is 1', fakeAsync(() => {
 
-    component.course.tees!.push({id: 5, tee: 'front 9', cr: 33.0, sr: 120, teeType: 1});
+    component.course()!.tees!.push({id: 5, tee: 'front 9', cr: 33.0, sr: 120, teeType: 1});
     component.f.teeDropDown.setValue(5);
     component.teeChange(false);
 
-    expect(component.holeSelectorActive[0].disabled).toBeFalse();
-    expect(component.holeSelectorActive[9].disabled).toBeTrue();
+    expect(component.holeSelectorActive()[0].disabled).toBeFalse();
+    expect(component.holeSelectorActive()[9].disabled).toBeTrue();
 
   }));
 
   it('should disable holes 1 to 9 when teeType is 2', fakeAsync(() => {
 
-    component.course.tees!.push({id: 6, tee: 'back 9', cr: 33.0, sr: 120, teeType: 2});
+    component.course()!.tees!.push({id: 6, tee: 'back 9', cr: 33.0, sr: 120, teeType: 2});
     component.f.teeDropDown.setValue(6);
     component.teeChange(false);
 
-    expect(component.holeSelectorActive[0].disabled).toBeTrue();
-    expect(component.holeSelectorActive[9].disabled).toBeFalse();
+    expect(component.holeSelectorActive()[0].disabled).toBeTrue();
+    expect(component.holeSelectorActive()[9].disabled).toBeFalse();
 
   }));
 
@@ -274,7 +274,7 @@ describe('AddScorecardComponent', () => {
     component.selectHole(3);
 
     expect(component.updatingHole).toBe(3);
-    expect(component.strokeSelectorActive[4].active).toBeTrue();
+    expect(component.strokeSelectorActive()[4].active).toBeTrue();
 
   });
 
@@ -285,20 +285,20 @@ describe('AddScorecardComponent', () => {
 
     component.selectHole(1);
 
-    expect(component.patSelectorActive[2].active).toBeTrue();
+    expect(component.patSelectorActive()[2].active).toBeTrue();
 
   });
 
   it('should calculate displayResult correctly for teeType 0', fakeAsync(() => {
 
-    component.course.par = 72;
+    component.course.update(c => ({...c!, par: 72}));
     component.strokes.fill(4);
-    component.course.tees = [{id: 4, teeType: 0, tee: 'men red', cr: 66.9, sr: 125}];
+    component.course.update(c => ({...c!, tees: [{id: 4, teeType: 0, tee: 'men red', cr: 66.9, sr: 125}]}));
     component.f.teeDropDown.setValue(4);
 
     component.teeChange(false);
 
-    expect(component.displayResult).toBe('72/72 (0)');
+    expect(component.displayResult()).toBe('72/72 (0)');
 
   }));
 
@@ -306,26 +306,26 @@ describe('AddScorecardComponent', () => {
 
     // first9Par is 36 from mock holes (set during detectChanges)
     for (let i = 0; i < 9; i++) { component.strokes[i] = 4; }
-    component.course.tees!.push({id: 7, teeType: 1, tee: 'front 9', cr: 33.0, sr: 120});
+    component.course()!.tees!.push({id: 7, teeType: 1, tee: 'front 9', cr: 33.0, sr: 120});
     component.f.teeDropDown.setValue(7);
 
     component.teeChange(false);
 
-    expect(component.displayResult).toBe('36/36 (0)');
+    expect(component.displayResult()).toBe('36/36 (0)');
 
   }));
 
   it('should calculate displayResult correctly for teeType 2', fakeAsync(() => {
 
-    component.course.par = 72;
+    component.course.update(c => ({...c!, par: 72}));
     // first9Par is 36 from mock holes (set during detectChanges)
     for (let i = 9; i < 18; i++) { component.strokes[i] = 4; }
-    component.course.tees!.push({id: 8, teeType: 2, tee: 'back 9', cr: 33.0, sr: 120});
+    component.course()!.tees!.push({id: 8, teeType: 2, tee: 'back 9', cr: 33.0, sr: 120});
     component.f.teeDropDown.setValue(8);
 
     component.teeChange(false);
 
-    expect(component.displayResult).toBe('36/36 (0)');
+    expect(component.displayResult()).toBe('36/36 (0)');
 
   }));
 
@@ -339,7 +339,7 @@ describe('AddScorecardComponent', () => {
 
     expect(component.strokes.every(s => s === 0)).toBeTrue();
     expect(component.putts.every(p => p === 0)).toBeTrue();
-    expect(component.displayResult).toBe('');
+    expect(component.displayResult()).toBe('');
 
   }));
 

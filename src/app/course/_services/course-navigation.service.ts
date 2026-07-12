@@ -5,11 +5,11 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class CourseNavigationService {
 
-  public tees = signal<Tee[]>([]);
-  public removeTee = signal<boolean>(undefined);
-  public cloneCourse = signal<Course>(undefined);
-  public addTee = signal<boolean>(undefined);
-  public course = signal<Course>(undefined);
+  tees = signal<Tee[]>([]);
+  removeTee = signal<boolean | undefined>(undefined);
+  cloneCourse = signal<Course | undefined>(undefined);
+  addTee = signal<boolean | undefined>(undefined);
+  course = signal<Course | undefined>(undefined);
 
   init() {
     this.tees.set([]);

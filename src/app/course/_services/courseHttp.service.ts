@@ -9,7 +9,7 @@ export class CourseHttpService {
   private readonly http = inject(HttpClient);
 
 
-  // add cycle
+  // add tee
   addTee(tee: Tee, courseId: number): Observable<void> {
     return this.http.post<void>('rest/Tee/' + courseId, tee);
   }

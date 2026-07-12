@@ -1,6 +1,6 @@
 import { Version } from '@/_models';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
@@ -9,7 +9,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-change-log',
     templateUrl: './change-log.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, LoadingDirective]
 })
 export class ChangeLogComponent implements OnInit {
@@ -17,13 +17,10 @@ export class ChangeLogComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly httpService = inject(HttpService);
 
-
-  version: Version = null;
-  display: boolean;
+  version = signal<Version | null>(null);
+  display = signal(false);
 
   ngOnInit(): void {
-
-    this.display = false;
 
     if (this.authenticationService.currentPlayerValue === null) {
       this.authenticationService.logout();
@@ -35,10 +32,9 @@ export class ChangeLogComponent implements OnInit {
 
   private getVersion() {
     this.httpService.getVersion().pipe(
-      tap (
-        (retVersion: Version) => {
-          this.version = retVersion;
-          this.display = true;
+      tap((retVersion: Version) => {
+        this.version.set(retVersion);
+        this.display.set(true);
       })
     ).subscribe();
   }

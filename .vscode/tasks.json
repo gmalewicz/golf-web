@@ -95,6 +95,16 @@
 			"label": "update fontawesome angular",
 			"type": "shell",
 			"command": "npm install @fortawesome/angular-fontawesome@5.1.0 --legacy-peer-deps 2>&1 | Select-Object -Last 10"
+		},
+		{
+			"label": "run tests failures",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'FAILED|Error|✗|×' | Select-Object -First 60"
+		},
+		{
+			"label": "run tests failed names",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'FAILED|✗|\\bF\\b' -Context 2,0 | Select-Object -First 80"
 		}
 	]
 }

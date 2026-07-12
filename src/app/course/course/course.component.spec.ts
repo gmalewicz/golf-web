@@ -73,16 +73,16 @@ describe('CourseComponent', () => {
     const buttonElement = fixture.debugElement.query(By.css('.btn-showTees'));
     buttonElement.triggerEventHandler('click', null);
     tick();
-    expect(component.displayTees).toBeTruthy();
+    expect(component.displayTees()).toBeTruthy();
   }));
 
   it('should press hideTees', fakeAsync(() => {
     standardSetup();
-    component.displayTees = true;
+    component.displayTees.set(true);
     const buttonElement = fixture.debugElement.query(By.css('.btn-showTees'));
     buttonElement.triggerEventHandler('click', null);
     tick();
-    expect(component.displayTees).toBeFalsy();
+    expect(component.displayTees()).toBeFalsy();
   }));
 
   it('should delete course', fakeAsync(() => {

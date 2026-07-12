@@ -13,13 +13,12 @@
         </tr>
       </thead>
       <tbody>
-        @for (row of courseNavigationService.tees(); track row) {
+        @for (row of courseNavigationService.tees(); track $index) {
           <tr>
             <td>{{ row.tee }}
               @if (row.sex) {
                 <span i18n="@@addCourse-ladies">ladies</span>
-              }
-              @if (!row.sex) {
+              } @else {
                 <span i18n="@@addCourse-men">men</span>
               }
             </td>
@@ -27,11 +26,9 @@
             <td>{{ row.sr }}</td>
             @if (row.teeType === 0) {
               <td>1-18</td>
-            }
-            @if (row.teeType === 1) {
+            } @else if (row.teeType === 1) {
               <td>1-9</td>
-            }
-            @if (row.teeType === 2) {
+            } @else {
               <td>10-18</td>
             }
             @if (courseNavigationService.removeTee()) {

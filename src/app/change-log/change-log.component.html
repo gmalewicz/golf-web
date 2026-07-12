@@ -1,7 +1,7 @@
-<div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+<div [loading]="!display()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
     <h2>Change log</h2>
-    Backend version: {{version?.version}}
+    Backend version: {{version()?.version}}
     <p></p>
     <ul>
       <li>v3.18.0-1: Tournament owner can edit round assigned to tournament; round owner cannot edit tournament round</li>
