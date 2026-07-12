@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { AuthenticationService } from "./authentication.service";
 import { HttpService } from "./http.service";
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
 import { MimicBackendAppInterceptor } from "@/_helpers/MimicBackendAppInterceptor";
 
 describe('autentication service', () => {
@@ -16,7 +16,7 @@ describe('autentication service', () => {
         HttpService,
         AuthenticationService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]
 });
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HttpService } from '../_services/http.service';
 import { TournamentHttpService } from '@/tournament/_services/tournamentHttp.service';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
@@ -30,6 +30,7 @@ interface TournamentEditContext {
     selector: 'app-add-scorecard',
     templateUrl: './add-scorecard.component.html',
     styleUrls: ['./add-scorecard.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, 
               MatFormField, 
               MatInput, 

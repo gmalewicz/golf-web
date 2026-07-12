@@ -1,11 +1,12 @@
 import { Round } from '@/_models/round';
 import { NgClass } from '@angular/common';
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RangePipe } from "../../_helpers/range";
 
 @Component({
     selector: 'app-round-view-skins',
     imports: [NgClass, RangePipe],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './round-view-skins.component.html'
 })
 export class RoundViewSkinsComponent implements OnInit {

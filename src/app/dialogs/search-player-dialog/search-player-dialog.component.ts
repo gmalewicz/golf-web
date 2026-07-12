@@ -1,6 +1,6 @@
 import { Player } from '@/_models/player';
 import { HttpService } from '@/_services/http.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,7 @@ import { MatFormField } from '@angular/material/form-field';
 @Component({
     selector: 'app-search-player-dialog',
     templateUrl: './search-player-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {

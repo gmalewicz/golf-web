@@ -30,6 +30,71 @@
 			"label": "run tests ps",
 			"type": "shell",
 			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-Object -Last 60"
+		},
+		{
+			"label": "ng update angular 22",
+			"type": "shell",
+			"command": "npx ng update @angular/core@22 @angular/cli@22 --allow-dirty 2>&1"
+		},
+		{
+			"label": "check node managers",
+			"type": "shell",
+			"command": "nvm version 2>&1; if ($?) { 'nvm available' } else { winget --version 2>&1 }"
+		},
+		{
+			"label": "install node 24 lts",
+			"type": "shell",
+			"command": "winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements 2>&1"
+		},
+		{
+			"label": "check node version",
+			"type": "shell",
+			"command": "node --version 2>&1"
+		},
+		{
+			"label": "ng update angular 22 core+cli",
+			"type": "shell",
+			"command": "npx ng update @angular/core@22 @angular/cli@22 --allow-dirty 2>&1"
+		},
+		{
+			"label": "ng update angular 22 force",
+			"type": "shell",
+			"command": "npx ng update @angular/core@22 @angular/cli@22 --allow-dirty --force 2>&1"
+		},
+		{
+			"label": "ng update material 22",
+			"type": "shell",
+			"command": "npx ng update @angular/material@22 --allow-dirty --force 2>&1"
+		},
+		{
+			"label": "update angular-eslint 22",
+			"type": "shell",
+			"command": "npm install @angular-eslint/builder@22 @angular-eslint/eslint-plugin@22 @angular-eslint/eslint-plugin-template@22 @angular-eslint/schematics@22 @angular-eslint/template-parser@22 --save-dev --legacy-peer-deps 2>&1 | Select-Object -Last 20"
+		},
+		{
+			"label": "update typescript-eslint",
+			"type": "shell",
+			"command": "npm install @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest --save-dev --legacy-peer-deps 2>&1 | Select-Object -Last 15"
+		},
+		{
+			"label": "npm outdated",
+			"type": "shell",
+			"command": "npm outdated 2>&1"
+		},
+		{
+			"label": "npm update safe packages",
+			"type": "shell",
+			"command": "npm install @eslint/eslintrc@3.3.6 @fortawesome/fontawesome-svg-core@7.3.0 @fortawesome/free-solid-svg-icons@7.3.0 @stomp/rx-stomp@2.4.0 @types/node@24.13.3 cypress@15.18.1 eslint@10.7.0 inquirer@13.4.3 jasmine-core@6.3.0 zone.js@0.16.2 --legacy-peer-deps 2>&1 | Select-Object -Last 15"
+		},
+		{
+			"label": "check fontawesome v5 peers",
+			"type": "shell",
+			"command": "npm show @fortawesome/angular-fontawesome@5 peerDependencies 2>&1"
+		},
+		{
+			"label": "update fontawesome angular",
+			"type": "shell",
+			"command": "npm install @fortawesome/angular-fontawesome@5.1.0 --legacy-peer-deps 2>&1 | Select-Object -Last 10"
 		}
 	]
 }

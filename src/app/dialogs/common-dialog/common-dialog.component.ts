@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInput } from '@angular/material/input';
@@ -23,6 +23,7 @@ import { MatFormField, MatError } from '@angular/material/form-field';
     }
   </mat-form-field>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MatFormField, ReactiveFormsModule, MatInput, MatError]
 })
 export class CommonDialogComponent {

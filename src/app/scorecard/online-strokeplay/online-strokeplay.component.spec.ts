@@ -1,7 +1,7 @@
 import { NavigationService } from './../_services/navigation.service';
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ScorecardHttpService } from '../_services/scorecardHttp.service';
@@ -42,7 +42,7 @@ describe('OnlineStrokeplayComponent', () => {
         { provide: RxStompService, useClass: RxStompServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendScoreInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
     ]
 })

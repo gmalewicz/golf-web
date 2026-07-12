@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit, inject } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router, RouterLink } from '@angular/router';
@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @Component({
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, FormsModule, RouterLink]
 })
 export class NavigationComponent implements OnInit {

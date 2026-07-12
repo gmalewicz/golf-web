@@ -1,6 +1,6 @@
 import { NavigationService, ViewType } from './../_services/navigation.service';
 import { AuthenticationService, HttpService } from '@/_services';
-import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal, inject } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, Signal, WritableSignal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { fromEvent, Subscription, timer } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { OnlineRound, OnlineScoreCard } from '../_models';
@@ -23,6 +23,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     templateUrl: './online-score-card-view.component.html',
     styleUrls: ['./online-score-card-view.component.css'],
     imports: [RouterLink, DecimalPipe, NgClass, RangePipe, LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
 export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {

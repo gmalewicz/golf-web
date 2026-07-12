@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { IconDefinition, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
@@ -20,6 +20,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-mp-ligues',
     templateUrl: './mp-leagues.component.html',
     providers: [LeagueHttpService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FaIconComponent, RouterLink, LoadingDirective]
 })
 export class MpLeaguesComponent implements OnInit {

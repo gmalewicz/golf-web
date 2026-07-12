@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { OnlineRound } from '../_models/onlineRound';
 import { NgTemplateOutlet, NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
@@ -6,6 +6,7 @@ import { RangePipe } from "../../_helpers/range";
 @Component({
     selector: 'app-common-scorecard',
     templateUrl: './common-scorecard.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgTemplateOutlet, NgClass, RangePipe]
 })
 export class CommonScorecardComponent {

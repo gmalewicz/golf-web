@@ -1,7 +1,7 @@
 import { calculateHoleHCP, calculateRoundedCourseHCP, createMPResultHistory, createMPResultText, getPlayedCoursePar } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit, WritableSignal, input, signal, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, input, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 import { RangePipe } from "../../_helpers/range";
@@ -12,6 +12,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-round-view-mp',
     templateUrl: './round-view-mp.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass, RangePipe, LoadingDirective]
 })
 export class RoundViewMPComponent implements OnInit {

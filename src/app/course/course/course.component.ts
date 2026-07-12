@@ -1,5 +1,5 @@
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Hole, Course } from '@/_models';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -21,6 +21,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               AddTeeComponent, 
               CanDirective,
               LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './course.component.html'
 })
 export class CourseComponent implements OnInit {

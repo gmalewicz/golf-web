@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { MatFormField, MatError } from '@angular/material/form-field';
 @Component({
     selector: 'app-register-player-dialog',
     templateUrl: './register-player-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
 export class RegisterPlayerDialogComponent {

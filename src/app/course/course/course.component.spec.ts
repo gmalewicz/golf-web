@@ -2,7 +2,7 @@ import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { alertServiceStub, authenticationServiceStub, getTestCourse, MyRouterStub } from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PreloadAllModules, provideRouter, Router, withPreloading } from '@angular/router';
@@ -37,7 +37,7 @@ describe('CourseComponent', () => {
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
         { provide: AuthenticationService, useValue: authenticationServiceStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
         provideCharts(withDefaultRegisterables()),
       ]

@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Round } from '@/_models';
 import { HttpService, AuthenticationService } from '@/_services';
 import { tap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-rounds',
     templateUrl: './rounds.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass, ListRoundsComponent, RouterLink, LoadingDirective]
 })
 export class RoundsComponent implements OnInit, OnDestroy {

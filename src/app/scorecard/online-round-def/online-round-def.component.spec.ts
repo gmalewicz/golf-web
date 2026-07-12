@@ -2,7 +2,7 @@ import { NavigationService } from './../_services/navigation.service';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { alertServiceStub, authenticationServiceStub, getTestCourse, MatDialogMock, MyRouterStub} from '@/_helpers/test.helper';
 import { AlertService, AuthenticationService, HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -41,7 +41,7 @@ describe('OnlineRoundDefComponent', () => {
         { provide: MatDialog, useValue: dialog },
         ScorecardHttpService,
         NavigationService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
     ]
 })

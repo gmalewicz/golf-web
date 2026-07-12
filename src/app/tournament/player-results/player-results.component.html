@@ -18,7 +18,7 @@
       }
     </tr>
   </thead>
-  @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound; let j = $index) {
+  @for (tournamentRound of tournamentResult().tournamentRounds; track tournamentRound.id; let j = $index) {
     <tbody>
       <tr>
       <td>{{j + 1}}</td>
@@ -26,13 +26,15 @@
         @if (tournamentRound.roundId) {
           <span>
             <fa-icon [icon]="faSearchPlus" class="golf-green" data-html2canvas-ignore="true"
-            (click)="showPlayerRound(tournamentRound.roundId)" onKeyDown="showPlayerRound(tournamentRound.roundId)"></fa-icon>
+            role="button" tabindex="0"
+            (click)="showPlayerRound(tournamentRound.roundId)" (keydown.enter)="showPlayerRound(tournamentRound.roundId)" (keydown.space)="showPlayerRound(tournamentRound.roundId)"></fa-icon>
             &nbsp;
           </span>
           @if (tournamentNavigationService.tournament().player?.id === playerId && tournamentNavigationService.tournament().status === false) {
             <span>
               <fa-icon [icon]="faPencil" class="golf-green" data-html2canvas-ignore="true"
-              (click)="editRound(tournamentRound)" (keydown)="editRound(tournamentRound)"></fa-icon>
+              role="button" tabindex="0"
+              (click)="editRound(tournamentRound)" (keydown.enter)="editRound(tournamentRound)" (keydown.space)="editRound(tournamentRound)"></fa-icon>
               &nbsp;
             </span>
           }
@@ -52,14 +54,12 @@
       <td>{{tournamentRound.stbGross}}</td>
       @if (tournamentRound.strokes) {
         <td>{{tournamentRound.strokesBrutto}}</td>
-      }
-      @if (!tournamentRound.strokes) {
+      } @else {
         <td>x</td>
       }
       @if (tournamentRound.strokes) {
         <td>{{tournamentRound.strokesNetto}}</td>
-      }
-      @if (!tournamentRound.strokes) {
+      } @else {
         <td>x</td>
       }
       <td>
@@ -76,7 +76,8 @@
       @if (tournamentNavigationService.tournament().player?.id === playerId) {
         <td>
             <fa-icon [icon]="faMinusCircle" class="golf-green" data-html2canvas-ignore="true"
-            (click)="deleteRound(tournamentRound.roundId!)" (keydown)="deleteRound(tournamentRound.roundId!)"></fa-icon>
+            role="button" tabindex="0"
+            (click)="deleteRound(tournamentRound.roundId!)" (keydown.enter)="deleteRound(tournamentRound.roundId!)" (keydown.space)="deleteRound(tournamentRound.roundId!)"></fa-icon>
         </td>
       }
       </tr>

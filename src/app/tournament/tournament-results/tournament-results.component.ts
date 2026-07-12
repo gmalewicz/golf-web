@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AlertService, AuthenticationService } from '@/_services';
 import { faSearchPlus, faSearchMinus, IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterModule } from '@angular/router';
@@ -24,6 +24,7 @@ import { MatButton } from '@angular/material/button';
         LoadingDirective,
         MatButton
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './tournament-results.component.html'
 })
 export class TournamentResultsComponent implements OnInit {

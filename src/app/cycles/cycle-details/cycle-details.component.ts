@@ -1,6 +1,6 @@
 import { EagleResult, EagleResultSet } from './../_models/eagleResult';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -22,6 +22,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               RouterLink,
               CanDirective,
               LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [CycleHttpService]
 })
 export class CycleDetailsComponent extends CycleDetailsBase implements OnInit {

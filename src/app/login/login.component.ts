@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { HttpService } from '@/_services/http.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { NgClass } from '@angular/common';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, NgClass, RouterLink]
 })
 export class LoginComponent implements OnInit {

@@ -1,6 +1,6 @@
 import { routing } from '@/app.routing';
 import { HttpService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -23,7 +23,7 @@ describe('AddCycleComponent', () => {
     providers: [HttpService,
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendCycleInterceptor, multi: true },
         CycleHttpService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules))
     ]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Round } from '@/_models';
 import { AlertService, AuthenticationService } from '@/_services';
 import { IconDefinition, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
         CommonModule],
     providers: [TournamentHttpService],
     templateUrl: './tournament-rounds.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./tournament-rounds.component.css']
 })
 export class TournamentRoundsComponent implements OnInit {

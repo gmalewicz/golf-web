@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService, AlertService, HttpService } from '@/_services';
@@ -11,6 +11,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, 
               NgClass, 
               RecaptchaModule, 

@@ -1,6 +1,6 @@
 import { NavigationService } from '../_services/navigation.service';
 import { AuthenticationService } from '@/_services';
-import { Component, OnInit, signal, WritableSignal, inject } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { OnlineRound } from '../_models';
 import { ScorecardHttpService } from '../_services';
@@ -17,6 +17,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-my-online-score-card',
     templateUrl: './my-online-score-card.component.html',
     imports: [RouterLink, LoadingDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
 export class MyOnlineScoreCardComponent implements OnInit {

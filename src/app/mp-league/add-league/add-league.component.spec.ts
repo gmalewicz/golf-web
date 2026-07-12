@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddLeagueComponent } from './add-league.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { routing } from '@/app.routing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpService } from '@/_services/http.service';
@@ -24,7 +24,7 @@ describe('AddLeagueComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
         LeagueHttpService,
         { provide: AlertService, useValue: alertServiceStub },
-        provideRouter(routing, withPreloading(PreloadAllModules)), provideHttpClient(withInterceptorsFromDi()),]
+        provideRouter(routing, withPreloading(PreloadAllModules)), provideHttpClient(withXhr(), withInterceptorsFromDi()),]
 })
       .compileComponents();
   }));

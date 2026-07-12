@@ -1,5 +1,5 @@
 
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { AlertService } from '@/_services';
     selector: 'app-add-tee',
     imports: [MatInputModule, MatSelectModule, ReactiveFormsModule],
     providers: [CourseHttpService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './add-tee.component.html'
 })
 export class AddTeeComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, WritableSignal, signal, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AlertService } from '@/_services/alert.service';
@@ -13,6 +13,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-add-league',
     templateUrl: './add-league.component.html',
     providers: [LeagueHttpService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, NgClass, RouterLink, LoadingDirective]
 })
 export class AddLeagueComponent implements OnInit {

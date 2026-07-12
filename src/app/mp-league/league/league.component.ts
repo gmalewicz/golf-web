@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, WritableSignal, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { LeagueStatus } from '../_models/league';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
 import { AuthenticationService } from '@/_services/authentication.service';
@@ -17,6 +17,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     templateUrl: './league.component.html',
     styleUrls: ['./league.component.css'],
     providers: [LeagueHttpService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgStyle, RouterLink, LoadingDirective]
 })
 export class LeagueComponent  implements OnInit {

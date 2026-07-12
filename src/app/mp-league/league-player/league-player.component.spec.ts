@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeaguePlayerComponent } from './league-player.component';
 import { LeagueHttpService } from '../_services/leagueHttp.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { MatDialogMock, authenticationServiceStub } from '@/_helpers/test.helper';
 import { HttpService } from '@/_services/http.service';
@@ -23,7 +23,7 @@ describe('LeaguePlayerComponent', () => {
         { provide: AuthenticationService, useValue: authenticationServiceStub },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendMpLeaguesInterceptor, multi: true },
-        { provide: MatDialog, useValue: dialog }, provideHttpClient(withInterceptorsFromDi()),]
+        { provide: MatDialog, useValue: dialog }, provideHttpClient(withXhr(), withInterceptorsFromDi()),]
 });
     fixture = TestBed.createComponent(LeaguePlayerComponent);
     component = fixture.componentInstance;

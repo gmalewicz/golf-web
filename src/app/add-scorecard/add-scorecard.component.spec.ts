@@ -1,7 +1,7 @@
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub, MatDialogMock, getTestRound } from '@/_helpers/test.helper';
 import { HttpService, AuthenticationService, AlertService } from '@/_services';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -36,7 +36,7 @@ describe('AddScorecardComponent', () => {
         { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
         { provide: MatDialog, useClass: MatDialogMock },
         provideCharts(withDefaultRegisterables()),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         { provide: ActivatedRoute, useValue: routeStub },
         provideRouter(routing, withPreloading(PreloadAllModules)),],
     imports: [

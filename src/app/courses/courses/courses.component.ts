@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Course } from '@/_models/course';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '@/_services/authentication.service';
@@ -15,6 +15,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 @Component({
     selector: 'app-courses',
     templateUrl: './courses.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ListCoursesComponent, 
               ReactiveFormsModule, 
               RouterLink,

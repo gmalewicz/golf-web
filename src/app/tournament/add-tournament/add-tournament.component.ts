@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -27,6 +27,7 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
     LoadingDirective
   ],
   providers: [TournamentHttpService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: "./add-tournament.component.html",
 })
 export class AddTournamentComponent implements OnInit {

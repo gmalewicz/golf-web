@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,7 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 @Component({
   selector: "app-update-player",
   templateUrl: "./update-player.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, 
             NgClass, 
             RouterLink,

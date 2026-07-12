@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from '@/_services';
@@ -6,6 +6,7 @@ import { Message } from '@/_models/message';
 
 @Component({
     selector: 'app-alert', template: '',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true
 })
 export class AlertComponent implements OnInit, OnDestroy {

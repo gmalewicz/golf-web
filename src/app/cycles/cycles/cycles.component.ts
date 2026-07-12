@@ -1,5 +1,5 @@
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink, Routes } from '@angular/router';
 import { faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { tap } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import { CanDirective } from '@/_helpers/directives/CanDirective';
     selector: 'app-cycles',
     templateUrl: './cycles.component.html',
     imports: [RouterLink, FaIconComponent, CanDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [CycleHttpService]
 })
 

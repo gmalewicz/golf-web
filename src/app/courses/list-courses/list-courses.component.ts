@@ -3,7 +3,7 @@ import { Courses } from "@/_models/courses";
 import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
-import { Component, OnInit, input, inject } from "@angular/core";
+import { Component, OnInit, input, inject, ChangeDetectionStrategy } from "@angular/core";
 import {
   faMinusCircle,
   faPlusCircle,
@@ -19,6 +19,7 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 @Component({
   selector: "app-list-courses",
   templateUrl: "./list-courses.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, FaIconComponent, LoadingDirective],
 })
 export class ListCoursesComponent implements OnInit {

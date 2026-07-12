@@ -1,11 +1,12 @@
 import { PlayerRndCnt } from '@/_models/playerRndCnt';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-admin',
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {

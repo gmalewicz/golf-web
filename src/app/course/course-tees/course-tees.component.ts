@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CourseNavigationService } from '../_services/course-navigation.service';
 import { IconDefinition, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Tee } from '@/_models/tee';
@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
     selector: 'app-course-tees',
     imports: [FontAwesomeModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './course-tees.component.html'
 })
 export class CourseTeesComponent {

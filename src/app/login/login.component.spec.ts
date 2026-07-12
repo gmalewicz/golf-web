@@ -3,7 +3,7 @@ import { alertServiceStub, authenticationServiceStub, MatDialogMock } from '@/_h
 import { AlertService } from '@/_services/alert.service';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -58,7 +58,7 @@ describe('LoginComponent', () => {
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: AlertService, useValue: alertServiceStub },
         { provide: Router, useValue: myRouterStub},
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         ]
 })
     .compileComponents();

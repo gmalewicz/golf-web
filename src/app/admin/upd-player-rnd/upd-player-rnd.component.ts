@@ -1,7 +1,7 @@
 import { AlertService } from '@/_services/alert.service';
 import { HttpService } from '@/_services/http.service';
 import { NgClass } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
 @Component({
     selector: 'app-upd-player-rnd',
     templateUrl: './upd-player-rnd.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, NgClass]
 })
 export class UpdPlayerRndComponent implements OnInit {

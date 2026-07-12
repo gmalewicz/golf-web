@@ -1,12 +1,13 @@
 import { ballPickedUpStrokes } from "@/_helpers/common";
 import { Round } from "@/_models/round";
-import { Component, OnInit, input } from "@angular/core";
+import { Component, OnInit, input, ChangeDetectionStrategy } from "@angular/core";
 import { DecimalPipe } from "@angular/common";
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
   selector: "app-round-summary",
   templateUrl: "./round-summary.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DecimalPipe, LoadingDirective],
 })
 export class RoundSummaryComponent implements OnInit {

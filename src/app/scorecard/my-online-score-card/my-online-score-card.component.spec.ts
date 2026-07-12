@@ -5,6 +5,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr
 } from "@angular/common/http";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ScorecardHttpService } from "../_services";
@@ -39,7 +40,7 @@ describe("MyOnlineScoreCardComponent", () => {
           multi: true,
         },
         { provide: Router, useClass: MyRouterStub },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules)),
       ],
     }).compileComponents();

@@ -1,7 +1,8 @@
 import { Round } from '@/_models/round';
-import { Component, EventEmitter, OnInit, Output, input, inject } from '@angular/core';
+import { Component, DestroyRef, input, inject, output, ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { faMinusCircle, faPencil, faSearchPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle, faPencil, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { combineLatest, tap } from 'rxjs';
 import { TournamentResult } from '../_models/tournamentResult';
 import { TournamentRound } from '../_models/tournamentRound';
@@ -18,35 +19,27 @@ import { TeeColourPipe, TeeNamePipe } from '../_helpers/tee.pipe';
         TeeColourPipe,
         TeeNamePipe
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './player-results.component.html'
 })
-export class PlayerResultsComponent implements OnInit {
+export class PlayerResultsComponent {
   private readonly tournamentHttpService = inject(TournamentHttpService);
   private readonly router = inject(Router);
   private readonly httpService = inject(HttpService);
+  private readonly destroyRef = inject(DestroyRef);
   readonly tournamentNavigationService = inject(TournamentNavigationService);
   private readonly authenticationService = inject(AuthenticationService);
 
+  readonly notify = output<void>();
 
-  @Output() notify = new EventEmitter<void>();
+  readonly HCP_NOT_SUPPORTED = -90;
+  readonly playerId = this.authenticationService.currentPlayerValue.id!;
 
-  readonly HCP_NOT_SUPPORTED = -90; 
-  playerId!: number;
+  readonly tournamentResult = input.required<TournamentResult>();
 
-  tournamentResult = input.required<TournamentResult>();
-
-  faSearchPlus!: IconDefinition;
-  faMinusCircle!: IconDefinition;
-  faPencil!: IconDefinition;
-
-  ngOnInit() {
-
-    this.faSearchPlus = faSearchPlus;
-    this.faMinusCircle = faMinusCircle;
-    this.faPencil = faPencil;
-    this.playerId = this.authenticationService.currentPlayerValue.id!;
-   
-  }
+  readonly faSearchPlus = faSearchPlus;
+  readonly faMinusCircle = faMinusCircle;
+  readonly faPencil = faPencil;
 
   showPlayerRound(roundId: number) {
 
@@ -54,8 +47,9 @@ export class PlayerResultsComponent implements OnInit {
       tap(
         (round: Round) => {
 
-          this.router.navigate(['/round/'], { state: { data: { round, tournamentRound: true } }}).catch(error => console.log(error));
-        })
+          this.router.navigate(['/round/'], { state: { data: { round, tournamentRound: true } }});
+        }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe();
 
   }
@@ -88,8 +82,9 @@ export class PlayerResultsComponent implements OnInit {
               }
             }
           }
-        ).catch(error => console.log(error));
-      })
+        );
+      }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe();
 
   }
@@ -99,8 +94,9 @@ export class PlayerResultsComponent implements OnInit {
     this.tournamentHttpService.deleteRound(this.tournamentResult().id!, roundId).pipe(
       tap(
         () => {
-          this.notify.emit();  
-        })
+          this.notify.emit();
+        }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe();
 
   }

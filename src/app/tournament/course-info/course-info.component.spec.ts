@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MyRouterStub } from '@/_helpers/test.helper';
 import { TournamentNavigationService } from '../_services/tournamentNavigation.service';
@@ -34,7 +34,7 @@ describe('PlayerResultsComponent', () => {
           HttpService,
           { provide: Router, useClass: MyRouterStub },
           { provide: TournamentNavigationService, useValue: tournamentNavigationService},
-          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClient(withXhr(), withInterceptorsFromDi()),
           { provide: HTTP_INTERCEPTORS, useClass: MimicBackendAppInterceptor, multi: true },
       ]
     })
