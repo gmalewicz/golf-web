@@ -67,13 +67,13 @@
           <tr>
             <th scope="row" class="w-10">Par</th>
             @for (i of 9 | range; track i;) {
-              <th class="w-5">
+              <th scope="col" class="w-5">
                 {{holes[i]?.par}}
               </th>
             }
             <th scope="col" class="center w-10"></th>
             @for (i of 9 | range; track i;) {
-              <th class="w-5">
+              <th scope="col" class="w-5">
                 {{holes[i + 9]?.par}}
               </th>
             }
@@ -83,7 +83,7 @@
           <tr>
             <th scope="row" class="w-15" i18n="@@addRound-score">Score</th>
             @for (i of 9 | range; track i;) {
-              <th class="w-5">
+              <th scope="col" class="w-5">
                 <input  #box
                   [id]="'hl' + i"
                   type="text"
@@ -105,7 +105,7 @@
                 }
               </th>
               @for (i of 9 | range; track i;) {
-                <th class="w-5">
+                <th scope="col" class="w-5">
                   <input  #box
                     [id]="'hl' + (i + 9)"
                     type="text"

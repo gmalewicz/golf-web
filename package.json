@@ -22,7 +22,6 @@
     "@angular/forms": "^22.0.6",
     "@angular/material": "^22.0.4",
     "@angular/platform-browser": "^22.0.6",
-    "@angular/platform-browser-dynamic": "^22.0.6",
     "@angular/router": "^22.0.6",
     "@fortawesome/angular-fontawesome": "^5.1.0",
     "@fortawesome/fontawesome-svg-core": "^7.3.0",
