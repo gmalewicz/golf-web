@@ -29,7 +29,7 @@ interface TournamentEditContext {
 @Component({
     selector: 'app-add-scorecard',
     templateUrl: './add-scorecard.component.html',
-    styleUrls: ['./add-scorecard.component.css'],
+    styleUrl: './add-scorecard.component.css',
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, 
               MatFormField, 

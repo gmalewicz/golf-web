@@ -75,9 +75,6 @@ export class AddRoundComponent implements OnInit {
 
   tournamentRounds: TournamentRound[] = [];
 
-  teeHour!: number;
-  teeMinute!: number;
-
   tournamentPlayersOptions: {label: string; value: string}[] = [];
 
   searchInProgress = false;

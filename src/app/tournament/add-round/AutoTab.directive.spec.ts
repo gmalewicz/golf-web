@@ -40,7 +40,7 @@ describe('Directive: AutoTab', () => {
 
     const directiveInstance = directiveEl.injector.get(AutoTabDirective);
 
-    directiveInstance.onInput({value: 't'});
+    directiveInstance.onInput({ value: 't' } as HTMLInputElement);
 
     fixture.detectChanges();
 
