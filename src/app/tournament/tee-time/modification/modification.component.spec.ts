@@ -130,7 +130,7 @@ describe('ModificationComponent', () => {
 
     component.modifyFlight(3);
     tick(3000);
-    expect(tournamentNavigationService.teeTimes().filter(tt => tt.flight === 2).length).toBe(4);
+    expect(tournamentNavigationService.teeTimes().filter(tt => tt.flight === 2)).toHaveSize(4);
   }));
 
 });

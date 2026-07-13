@@ -117,14 +117,14 @@ describe("FBMPView", () => {
           expect(scorecardHttpService.getOnlineRound).toHaveBeenCalled();
           expect(httpService.getHoles).toHaveBeenCalled();
 
-          expect(courseSgn().holes.length).toBe(18);
-          expect(onlineRoundsSgn().length).toBe(4);
+          expect(courseSgn().holes).toHaveSize(18);
+          expect(onlineRoundsSgn()).toHaveSize(4);
 
           // mp score calculated
           expect(mpScore.some((v) => v !== 0)).toBeTrue();
 
           // result history updated
-          expect(mpResultHistorySgn().length).toBe(2);
+          expect(mpResultHistorySgn()).toHaveSize(2);
 
           // highlight applied
           const highlights = highlightResultSgn().flat();

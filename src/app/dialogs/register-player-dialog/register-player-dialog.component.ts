@@ -6,13 +6,13 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { CommonDialogComponent } from '../common-dialog/common-dialog.component';
 
 import { MatInput } from '@angular/material/input';
-import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-register-player-dialog',
     templateUrl: './register-player-dialog.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, CommonDialogComponent, MatCheckbox, MatDialogActions, MatButton]
 })
 export class RegisterPlayerDialogComponent {
   private readonly fb = inject(FormBuilder);

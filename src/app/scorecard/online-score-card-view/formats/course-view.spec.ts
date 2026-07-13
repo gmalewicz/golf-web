@@ -89,10 +89,10 @@ describe('CourseView', () => {
       signals.finalizedSgn  
     ).subscribe(() => {  
       expect(signals.courseSgn().holes).toEqual(holes);  
-      expect(signals.onlineRoundsSgn().length).toBe(1);  
+      expect(signals.onlineRoundsSgn()).toHaveSize(1);  
   
-      expect(signals.scoreBruttoClassSgn().length).toBe(1);  
-      expect(signals.scoreBruttoClassSgn()[0].length).toBe(18);  
+      expect(signals.scoreBruttoClassSgn()).toHaveSize(1);  
+      expect(signals.scoreBruttoClassSgn()[0]).toHaveSize(18);  
   
       expect(signals.finalizedSgn()).toBeTrue();  
       done();  
@@ -248,4 +248,4 @@ describe('CourseView', () => {
     done();  
   });  
 }); 
-});  
+});

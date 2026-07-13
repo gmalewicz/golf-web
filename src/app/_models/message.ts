@@ -1,5 +1,5 @@
 export interface Message {
-  cssClass?: string,
-  text: string,
-  type: string
+  cssClass?: string;
+  text: string;
+  type: string;
 }

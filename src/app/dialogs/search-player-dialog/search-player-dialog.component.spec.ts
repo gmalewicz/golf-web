@@ -57,7 +57,7 @@ describe('SearchPlayerDialogComponent', () => {
 
     component.f.nick.setValue('li');
     component.onKey();
-    expect(component.players.length).toBe(0);
+    expect(component.players).toHaveSize(0);
   }));
 
   it('should key up with more than 2 letters', fakeAsync(() => {

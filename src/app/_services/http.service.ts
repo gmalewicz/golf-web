@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Course, Hole, Round, ScoreCard, Player, Tee, PlayerRoundDetails, Version} from '@/_models';
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpService {
   private readonly http = inject(HttpClient);
 
@@ -16,7 +16,7 @@ export class HttpService {
   }
 
   getHoles(id: number): Observable<Array<Hole>> {
-    return this.http.get<Array<Hole>>('rest/Holes/' + id);
+    return this.http.get<Array<Hole>>(`rest/Holes/${id}`);
   }
 
   addCourse(course: Course): Observable<HttpResponse<null>> {
@@ -24,15 +24,15 @@ export class HttpService {
   }
 
   deleteCourse(id: number) {
-    return this.http.delete('rest/Course/' + id);
+    return this.http.delete(`rest/Course/${id}`);
   }
 
   getRounds(playerId: number, pageId: number): Observable<Array<Round>> {
-    return this.http.get<Array<Round>>('rest/Rounds/' + playerId + '/' + pageId);
+    return this.http.get<Array<Round>>(`rest/Rounds/${playerId}/${pageId}`);
   }
 
   getRecentRounds(pageId: number): Observable<Array<Round>> {
-    return this.http.get<Array<Round>>('rest/RecentRounds/' + pageId);
+    return this.http.get<Array<Round>>(`rest/RecentRounds/${pageId}`);
   }
 
   // add round
@@ -42,7 +42,7 @@ export class HttpService {
   }
 
   getScoreCards(roundId: number): Observable<Array<ScoreCard>> {
-    return this.http.get<Array<ScoreCard>>('rest/ScoreCard/' + roundId);
+    return this.http.get<Array<ScoreCard>>(`rest/ScoreCard/${roundId}`);
   }
 
   authenticate(nick: string, password: string): Observable<HttpResponse<Player>> {
@@ -52,7 +52,7 @@ export class HttpService {
 
   refresh(playerId: number): Observable<HttpResponse<unknown>>  {
 
-    return this.http.get<HttpResponse<unknown>>('rest/Refresh/' + playerId, {observe: 'response'});
+    return this.http.get<HttpResponse<unknown>>(`rest/Refresh/${playerId}`, {observe: 'response'});
   }
 
   addPlayer(player: Player): Observable<HttpResponse<unknown>> {
@@ -73,7 +73,7 @@ export class HttpService {
 
   // delete round (scorecard)
   deleteScoreCard(playerId: number, roundId: number) {
-    return this.http.delete('rest/ScoreCard/' + playerId + '/' + roundId);
+    return this.http.delete(`rest/ScoreCard/${playerId}/${roundId}`);
   }
 
   // update round
@@ -84,17 +84,17 @@ export class HttpService {
 
   // gets list of tees for course
   getTees(courseId: number): Observable<Array<Tee>> {
-    return this.http.get<Array<Tee>>('rest/Tee/' + courseId);
+    return this.http.get<Array<Tee>>(`rest/Tee/${courseId}`);
   }
 
   // gets player round details
   getPlayerRoundDetails(playerId: number, roundId: number): Observable<PlayerRoundDetails> {
-    return this.http.get<PlayerRoundDetails>('rest/RoundPlayerDetails/' + playerId + '/' + roundId);
+    return this.http.get<PlayerRoundDetails>(`rest/RoundPlayerDetails/${playerId}/${roundId}`);
   }
 
   // gets player round details
   getPlayersRoundDetails(roundId: number): Observable<Array<PlayerRoundDetails>> {
-    return this.http.get<Array<PlayerRoundDetails>>('rest/RoundPlayersDetails/'  + roundId);
+    return this.http.get<Array<PlayerRoundDetails>>(`rest/RoundPlayersDetails/${roundId}`);
   }
 
   // reset password
@@ -104,19 +104,19 @@ export class HttpService {
   }
 
   getPlayerForNick(nick: string): Observable<Player> {
-    return this.http.get<Player>('rest/Player/' + nick);
+    return this.http.get<Player>(`rest/Player/${nick}`);
   }
 
   getFavouriteCourses(playerId: number): Observable<Array<Course>> {
-    return this.http.get<Array<Course>>('rest/FavouriteCourses/' + playerId);
+    return this.http.get<Array<Course>>(`rest/FavouriteCourses/${playerId}`);
   }
 
-  addToFavouriteCourses(cousre: Course, playerId: number): Observable<HttpResponse<null>> {
-    return this.http.post<HttpResponse<null>>('rest/FavouriteCourses/' + playerId, cousre);
+  addToFavouriteCourses(course: Course, playerId: number): Observable<HttpResponse<null>> {
+    return this.http.post<HttpResponse<null>>(`rest/FavouriteCourses/${playerId}`, course);
   }
 
   deleteFromFavourites(course: Course, playerId: number): Observable<HttpResponse<null>> {
-    return this.http.post<HttpResponse<null>>('rest/DeleteFavouriteCourse/' + playerId, course);
+    return this.http.post<HttpResponse<null>>(`rest/DeleteFavouriteCourse/${playerId}`, course);
   }
 
   searchForCourse(courseName: string): Observable<Array<Course>> {
@@ -126,11 +126,11 @@ export class HttpService {
 
   getSortedCourses(pageId: number): Observable<Array<Course>> {
 
-    return this.http.get<Array<Course>>('rest/SortedCourses/' +  pageId);
+    return this.http.get<Array<Course>>(`rest/SortedCourses/${pageId}`);
   }
 
   purgeCourse(courseId: number): Observable<HttpResponse<null>> {
-    return this.http.post<HttpResponse<null>>('rest/MoveToHistoryCourse/' + courseId, null);
+    return this.http.post<HttpResponse<null>>(`rest/MoveToHistoryCourse/${courseId}`, null);
   }
 
   updatePlayerRoundWHS(playerId: number, roundId: number, whs: number): Observable<HttpResponse<null>> {

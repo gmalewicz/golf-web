@@ -3,7 +3,8 @@ import { Courses } from "@/_models/courses";
 import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
-import { Component, OnInit, input, inject, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, input, output, inject, ChangeDetectionStrategy, signal, computed, DestroyRef } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   faMinusCircle,
   faPlusCircle,
@@ -19,66 +20,61 @@ import { LoadingDirective } from "@/_helpers/directives/LoadingDirective";
 @Component({
   selector: "app-list-courses",
   templateUrl: "./list-courses.component.html",
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FaIconComponent, LoadingDirective],
 })
 export class ListCoursesComponent implements OnInit {
   private readonly httpService = inject(HttpService);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly alertService = inject(AlertService);
+  private readonly destroyRef = inject(DestroyRef);
 
   data = input.required<{ parent: string; tournament?: Tournament }>();
   courses = input.required<Courses>();
   selectedTab = input.required<number>();
 
-  dispProgress: boolean;
-  loadingFav: boolean;
+  readonly coursesChange = output<Courses>();
 
-  courseLst: Course[];
+  readonly dispProgress = signal(false);
+  readonly loadingFav = signal(false);
+  readonly courseLst = computed<Course[]>(() => {
+    const tab = this.selectedTab();
+    const c = this.courses();
+    if (tab === 0) return c.favourites ?? [];
+    if (tab === 1) return c.searchRes ?? [];
+    if (tab === 2) return c.all ?? [];
+    return [];
+  });
 
-  faSearchPlus: IconDefinition;
-  faMinusCircle: IconDefinition;
-  faPlusCircle: IconDefinition;
+  readonly faSearchPlus: IconDefinition = faSearchPlus;
+  readonly faMinusCircle: IconDefinition = faMinusCircle;
+  readonly faPlusCircle: IconDefinition = faPlusCircle;
 
   ngOnInit(): void {
-    this.faSearchPlus = faSearchPlus;
-    this.faPlusCircle = faPlusCircle;
-    this.faMinusCircle = faMinusCircle;
-    this.dispProgress = false;
-    this.loadingFav = false;
-
     if (this.selectedTab() === 0 && this.courses().favourites === undefined) {
-      this.dispProgress = true;
-
+      this.dispProgress.set(true);
       this.httpService
         .getFavouriteCourses(this.authenticationService.currentPlayerValue.id)
         .pipe(
           tap((retCourses) => {
-            this.courses().favourites = retCourses;
-            this.courseLst = retCourses;
-            this.dispProgress = false;
+            this.coursesChange.emit({ ...this.courses(), favourites: retCourses });
+            this.dispProgress.set(false);
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
-    } else if (this.selectedTab() === 1) {
-      this.courseLst = this.courses().searchRes;
     } else if (this.selectedTab() === 2 && this.courses().all === undefined) {
-      this.dispProgress = true;
+      this.dispProgress.set(true);
       this.httpService
         .getCourses()
         .pipe(
           tap((retCourses) => {
-            this.courses().all = retCourses;
-            this.courseLst = retCourses;
-
-            this.dispProgress = false;
+            this.coursesChange.emit({ ...this.courses(), all: retCourses });
+            this.dispProgress.set(false);
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
-    } else if (this.selectedTab() === 0) {
-      this.courseLst = this.courses().favourites;
-    } else {
-      this.courseLst = this.courses().all;
     }
   }
 
@@ -94,7 +90,7 @@ export class ListCoursesComponent implements OnInit {
   }
 
   onClickFavourite(course: Course) {
-    this.loadingFav = true;
+    this.loadingFav.set(true);
 
     // TAB ≠ 0 → Add to favourites
     if (this.selectedTab() !== 0) {
@@ -103,7 +99,7 @@ export class ListCoursesComponent implements OnInit {
           $localize`:@@listCourses-alreadyAddedFavourites:${course.name} already added to favourites.`,
           false,
         );
-        this.loadingFav = false;
+        this.loadingFav.set(false);
         return;
       }
 
@@ -114,13 +110,14 @@ export class ListCoursesComponent implements OnInit {
         )
         .pipe(
           tap(() => {
-            this.courses().favourites.push(course);
+            this.coursesChange.emit({ ...this.courses(), favourites: [...(this.courses().favourites ?? []), course] });
             this.alertService.success(
               $localize`:@@listCourses-addedFavourites:${course.name} added to favourites.`,
               false,
             );
-            this.loadingFav = false;
+            this.loadingFav.set(false);
           }),
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
 
@@ -139,12 +136,13 @@ export class ListCoursesComponent implements OnInit {
             $localize`:@@listCourses-removeFavourites:${course.name} removed from favourites.`,
             false,
           );
-          this.courses().favourites = this.courses().favourites.filter(
-            (c) => c.id !== course.id,
-          );
-          this.courseLst = this.courses().favourites;
-          this.loadingFav = false;
+          this.coursesChange.emit({
+            ...this.courses(),
+            favourites: this.courses().favourites.filter((c) => c.id !== course.id),
+          });
+          this.loadingFav.set(false);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

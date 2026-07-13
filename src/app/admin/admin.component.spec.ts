@@ -84,7 +84,7 @@ describe("AdminComponent", () => {
     //flushMicrotasks();
     fixture.detectChanges();
     expect(mockContainer.createComponent).toHaveBeenCalled();
-    expect(mockContainer.length).toBe(0);
+    expect(mockContainer).toHaveSize(0);
   });
 
   it("loads UpdRoundHcp", async () => {
@@ -92,7 +92,7 @@ describe("AdminComponent", () => {
     await component.loadComponent(2);
     fixture.detectChanges();
     expect(mockContainer.createComponent).toHaveBeenCalled();
-    expect(mockContainer.length).toBe(0);
+    expect(mockContainer).toHaveSize(0);
   });
 
   it("loads PlayersComponent (playerRoundCnt)", async () => {
@@ -100,7 +100,7 @@ describe("AdminComponent", () => {
     await component.loadComponent(3);
     fixture.detectChanges();
     expect(mockContainer.createComponent).toHaveBeenCalled();
-    expect(mockContainer.length).toBe(0);
+    expect(mockContainer).toHaveSize(0);
   });
 
   it("should create but player does not exist", async  () => {

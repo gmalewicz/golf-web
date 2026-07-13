@@ -1,8 +1,8 @@
-
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
 import { Course } from '@/_models/course';
+import { Courses } from '@/_models/courses';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
@@ -47,9 +47,11 @@ describe('ListCoursesComponent', () => {
 
     fixture.detectChanges();
 
+    let emitted: Courses | undefined;
+    component.coursesChange.subscribe(c => emitted = c);
     component.onClickFavourite(course);
 
-    expect(component.courses().favourites.length).toBe(0);
+    expect(emitted?.favourites).toHaveSize(0);
   }));
 
   it('should add to favourites', fakeAsync(() => {
@@ -64,9 +66,11 @@ describe('ListCoursesComponent', () => {
 
     fixture.detectChanges();
 
+    let emitted: Courses | undefined;
+    component.coursesChange.subscribe(c => emitted = c);
     component.onClickFavourite({id: 2, name: 'Lisia Polana', par: 72, holeNbr: 18});
 
-    expect(component.courses().favourites.length).toBe(2);
+    expect(emitted?.favourites).toHaveSize(2);
   }));
 
   it('should search for all courses', fakeAsync(() => {
@@ -79,9 +83,12 @@ describe('ListCoursesComponent', () => {
     componentRef.setInput('courses', {favourites: [course]});
     componentRef.setInput('selectedTab', 2);
 
+    let emitted: Courses | undefined;
+    component.coursesChange.subscribe(c => emitted = c);
+
     fixture.detectChanges();
 
-    expect(component.courses().all.length).toBe(1);
+    expect(emitted?.all).toHaveSize(1);
   }));
 
   afterAll(() => {

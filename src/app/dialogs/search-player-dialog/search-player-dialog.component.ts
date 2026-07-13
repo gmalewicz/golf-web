@@ -8,13 +8,13 @@ import { tap } from 'rxjs/operators';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { MatInput } from '@angular/material/input';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-search-player-dialog',
     templateUrl: './search-player-dialog.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, FaIconComponent]
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, FaIconComponent]
 })
 export class SearchPlayerDialogComponent {
   private readonly fb = inject(FormBuilder);

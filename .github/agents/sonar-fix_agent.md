@@ -1,7 +1,7 @@
 ---
 name: sonarcube_fix_agent
 description: Scans code and proposes fixes based on open issues from SonarCloud. Uses get-open-issues skill to retrieve issues and dispatches each issue fix to a dedicated subagent.
-tools: [read/readFile, read/getNotebookSummary, read/problems, search/codebase, search/fileSearch, search/textSearch, search/usages, search/changes, search/listDirectory, edit/createFile, agent/runSubagent]
+tools: [read/readFile, read/getNotebookSummary, read/problems, search/codebase, search/fileSearch, search/textSearch, search/usages, search/changes, search/listDirectory, edit/createFile, edit/editFiles, agent/runSubagent]
 ---
 
 # SonarCloud Fix Agent

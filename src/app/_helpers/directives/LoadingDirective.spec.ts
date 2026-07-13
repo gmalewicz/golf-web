@@ -186,6 +186,6 @@ describe('Directive: Loading', () => {
     tick();
 
     const spinners = fixture.nativeElement.querySelectorAll('.spinner-border');
-    expect(spinners.length).toBe(1);
+    expect(spinners).toHaveSize(1);
   }));
 });

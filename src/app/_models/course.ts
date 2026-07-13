@@ -1,5 +1,5 @@
 import { Hole } from './hole';
-import { Tee } from '.';
+import { Tee } from './tee';
 
 export interface Course {
   id?: number;

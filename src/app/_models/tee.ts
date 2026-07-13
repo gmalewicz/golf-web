@@ -11,4 +11,4 @@ export const teeTypes = {
   TEE_TYPE_18: 0,
   TEE_TYPE_FIRST_9: 1,
   TEE_TYPE_LAST_9: 2
-};
+} as const;

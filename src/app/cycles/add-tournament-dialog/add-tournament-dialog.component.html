@@ -2,7 +2,8 @@
   <h2 style="color: red" mat-dialog-title i18n="@@addTournamentDialog-header">Add the new cycle tournament</h2>
   <mat-dialog-content [formGroup]="form">
     <mat-form-field style="width: 250px;">
-      <input matInput i18n-placeholder="@@addTournamentDialog-tournamentName" placeholder="Tournament name" formControlName="name" />
+      <mat-label i18n="@@addTournamentDialog-tournamentName">Tournament name</mat-label>
+      <input matInput id="name" aria-label="Tournament name" formControlName="name" />
       @if (f.name.errors && f.name.errors.required) {
         <mat-error i18n="@@addTournamentDialog-tournamentReq">Tournament name is required</mat-error>
       }
@@ -12,9 +13,8 @@
     </mat-form-field>
 
     <mat-form-field style="width: 250px;">
-      
-
-      <input matInput type="number" i18n-placeholder="@@addTournamentDialog-NoOfRounds" placeholder="Number of rounds" formControlName="rounds"/>
+      <mat-label i18n="@@addTournamentDialog-NoOfRounds">Number of rounds</mat-label>
+      <input matInput type="number" formControlName="rounds"/>
       @if (f.rounds.errors && f.rounds.errors.required) {
         <mat-error i18n="@@addTournamentDialog-NoRndsReq">No. of rounds is required</mat-error>
       }
@@ -32,7 +32,8 @@
     <br/>
 
     <mat-form-field style="width: 250px;">
-      <input matInput type="number" i18n-placeholder="@@addTournamentDialog-TourNo" placeholder="Tournament no." formControlName="tournamentNo"/>
+      <mat-label i18n="@@addTournamentDialog-TourNo">Tournament no.</mat-label>
+      <input matInput id="tournamentNo" aria-label="Tournament no." type="number" formControlName="tournamentNo"/>
       @if (f.tournamentNo.errors && f.tournamentNo.errors.required) {
         <mat-error i18n="@@addTournamentDialog-TourNoReq">Tournament no. is required</mat-error>
       }

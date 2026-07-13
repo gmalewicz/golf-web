@@ -61,7 +61,7 @@ describe('TournamentRoundsComponent', () => {
 
   it('should add round', () => {
     component.addRound(component.rounds[0], 1);
-    expect(component.rounds.length).toEqual(0);
+    expect(component.rounds).toHaveSize(0);
   });
 
 

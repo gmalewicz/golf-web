@@ -6,13 +6,13 @@ import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 
 import { MatInput } from '@angular/material/input';
-import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-finish-social-dialog',
     templateUrl: './finish-social-dialog.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class FinishSocialDialogComponent extends DialogBaseComponent {
 

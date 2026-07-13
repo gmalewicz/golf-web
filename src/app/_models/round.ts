@@ -1,4 +1,6 @@
-import { Course, Player, ScoreCard } from '.';
+import { Course } from './course';
+import { Player } from './player';
+import { ScoreCard } from './scoreCard';
 
 
 export interface Round {

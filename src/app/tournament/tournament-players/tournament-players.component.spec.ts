@@ -59,7 +59,7 @@ describe('TournamentPlayersComponent', () => {
     component.navigationService.tournamentResults.set([]);
     component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.deletePlayer(getTournamentPlayer(), 0);
-    expect(component.navigationService.tournamentPlayers().length).toBe(0);
+    expect(component.navigationService.tournamentPlayers()).toHaveSize(0);
   }));
 
   it('should try to delete player with results', () => {
@@ -67,7 +67,7 @@ describe('TournamentPlayersComponent', () => {
     component.navigationService.tournamentPlayers.set([getTournamentPlayer()]);
     component.navigationService.tournamentResults.set([getTournamentResult()]);
     component.deletePlayer(getTournamentPlayer(), 0);
-    expect(component.navigationService.tournamentPlayers().length).toBe(1);
+    expect(component.navigationService.tournamentPlayers()).toHaveSize(1);
   });
 
   it('should search player and player found', () => {

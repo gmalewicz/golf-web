@@ -5,10 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatLabel } from '@angular/material/form-field';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    imports: [FontAwesomeModule, ReactiveFormsModule, MatDialogModule, MatInputModule, MatButtonModule],
+    imports: [FontAwesomeModule, ReactiveFormsModule, MatDialogModule, MatInputModule, MatLabel, MatButtonModule],
     selector: 'app-update-tournament-player-whs-dialog',
     changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './update-tournament-player-whs-dialog.component.html'
