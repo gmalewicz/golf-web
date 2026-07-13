@@ -5,13 +5,13 @@ import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 
 import { MatInput } from '@angular/material/input';
-import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatFormField, MatError, MatLabel } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-add-tournament-dialog',
     templateUrl: './add-tournament-dialog.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
+    imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatCheckbox, MatDialogActions, MatButton]
 })
 export class AddTournamentDialogComponent {
   private readonly fb = inject(FormBuilder);

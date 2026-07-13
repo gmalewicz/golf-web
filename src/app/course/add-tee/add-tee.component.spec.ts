@@ -53,7 +53,7 @@ describe('AddTeeComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(1);
+    expect(courseNavigationService.tees()).toHaveSize(1);
 
   }));
 
@@ -73,7 +73,7 @@ describe('AddTeeComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(1);
+    expect(courseNavigationService.tees()).toHaveSize(1);
 
   }));
 
@@ -92,7 +92,7 @@ describe('AddTeeComponent', () => {
 
     radioElement.triggerEventHandler('click',  null);
     tick();
-    expect(courseNavigationService.tees().length).toBe(1);
+    expect(courseNavigationService.tees()).toHaveSize(1);
 
   }));
 

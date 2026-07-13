@@ -56,7 +56,7 @@ describe('PlayersComponent', () => {
     component = fixture.componentInstance;
     component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0}];
     component.onClickDelete(1);
-    expect(component.playerRound.length).toEqual(0);
+    expect(component.playerRound).toHaveSize(0);
   }));
 
   it('should click update', fakeAsync(() => {

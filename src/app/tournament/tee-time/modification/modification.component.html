@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (row of navigationService.teeTimes(); track row; let idx = $index) {
+    @for (row of navigationService.teeTimes(); track idx; let idx = $index) {
       <tr>
         @if (idx === 0 || navigationService.teeTimes()[idx].flight !== navigationService.teeTimes()[idx - 1].flight) {
           <td [ngClass]="modBackCls[idx]" (click)="modifyFlight(idx)" onKeyDown="modifyFlight(idx)">

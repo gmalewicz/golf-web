@@ -66,7 +66,7 @@ describe('CoursesComponent', () => {
 
     component.f.courseName.setValue('lis');
     component.onKey();
-    expect(component.courses.searchRes.length).toBe(1);
+    expect(component.courses.searchRes).toHaveSize(1);
   }));
 
   afterAll(() => {

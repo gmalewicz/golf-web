@@ -9,7 +9,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label i18n="@@login-Username" for="username">Username</label>
-        <input type="text" formControlName="username" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+        <input id="username" type="text" formControlName="username" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
         @if (submitted && f.username.errors) {
           <div class="invalid-feedback">
             @if (f.username.errors.required) {
@@ -21,7 +21,7 @@
       <br/>
       <div class="form-group">
         <label i18n="@@login-Password" for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
         @if (submitted && f.password.errors) {
           <div class="invalid-feedback">
             @if (f.password.errors.required) {

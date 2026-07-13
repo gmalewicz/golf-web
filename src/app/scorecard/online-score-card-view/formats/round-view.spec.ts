@@ -105,8 +105,8 @@ describe('RoundView', () => {
     )  
     .subscribe(() => {  
       // matrix initialized  
-      expect(scoreBruttoClassSgn().length).toBe(1);  
-      expect(scoreBruttoClassSgn()[0].length).toBe(18);  
+      expect(scoreBruttoClassSgn()).toHaveSize(1);  
+      expect(scoreBruttoClassSgn()[0]).toHaveSize(18);  
   
       // API calls  
       expect(scorecardHttpService.getOnlineScoreCard).toHaveBeenCalledWith(1);  
@@ -209,4 +209,4 @@ describe('RoundView', () => {
         done();  
       });  
   });  
-});  
+});

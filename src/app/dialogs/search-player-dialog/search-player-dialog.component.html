@@ -3,7 +3,8 @@
   <mat-dialog-content [formGroup]="form" style="width: 300px;">
 
     <mat-form-field>
-      <input matInput i18n-placeholder="@@searchPlayerDialog-nick" placeholder="Player nick" formControlName="nick" (keyup)="onKey()"/>
+      <mat-label i18n="@@searchPlayerDialog-nick">Player nick</mat-label>
+      <input matInput formControlName="nick" (keyup)="onKey()"/>
     </mat-form-field>
 
     @if (dispPlayers) {

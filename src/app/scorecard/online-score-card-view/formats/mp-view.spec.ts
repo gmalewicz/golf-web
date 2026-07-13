@@ -74,13 +74,13 @@ describe("MPView", () => {
         lstUpdTimeSgn,
       )
       .subscribe(() => {
-        expect(onlineRoundsSgn().length).toBe(2);
+        expect(onlineRoundsSgn()).toHaveSize(2);
 
-        expect(holeHCP[0].length).toBe(18);
-        expect(holeHCP[1].length).toBe(18);
+        expect(holeHCP[0]).toHaveSize(18);
+        expect(holeHCP[1]).toHaveSize(18);
 
-        expect(highlightHCPSgn()[0].length).toBe(18);
-        expect(highlightHCPSgn()[1].length).toBe(18);
+        expect(highlightHCPSgn()[0]).toHaveSize(18);
+        expect(highlightHCPSgn()[1]).toHaveSize(18);
 
         expect([-1, 0, 1]).toContain(mpScore[0]);
 

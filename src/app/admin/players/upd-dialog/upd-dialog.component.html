@@ -3,6 +3,7 @@
   <mat-dialog-content [formGroup]="form" style="width: 260px;">
 
     <mat-form-field>
+      <mat-label>Player nick</mat-label>
       <input matInput placeholder="Player nick" formControlName="nick" />
       @if (f.nick.errors && f.nick.errors.required) {
         <mat-error>Nick is required</mat-error>
@@ -17,6 +18,7 @@
     <br/>
 
     <mat-form-field>
+      <mat-label>Player whs (X.X)</mat-label>
       <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
       @if (form.controls.whs.errors && form.controls.whs.errors.required) {
         <mat-error>WHS is required</mat-error>

@@ -1,4 +1,3 @@
-
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { authenticationServiceStub } from '@/_helpers/test.helper';
@@ -49,7 +48,7 @@ describe('ListCoursesComponent', () => {
 
     component.onClickFavourite(course);
 
-    expect(component.courses().favourites.length).toBe(0);
+    expect(component.courses().favourites).toHaveSize(0);
   }));
 
   it('should add to favourites', fakeAsync(() => {
@@ -66,7 +65,7 @@ describe('ListCoursesComponent', () => {
 
     component.onClickFavourite({id: 2, name: 'Lisia Polana', par: 72, holeNbr: 18});
 
-    expect(component.courses().favourites.length).toBe(2);
+    expect(component.courses().favourites).toHaveSize(2);
   }));
 
   it('should search for all courses', fakeAsync(() => {
@@ -81,7 +80,7 @@ describe('ListCoursesComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.courses().all.length).toBe(1);
+    expect(component.courses().all).toHaveSize(1);
   }));
 
   afterAll(() => {

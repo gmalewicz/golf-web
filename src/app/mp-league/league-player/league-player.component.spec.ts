@@ -70,7 +70,7 @@ describe('LeaguePlayerComponent', () => {
     component.navigationService.matches.set([{id: 1, winnerId: 1, looserId: 2, league: {id: 1, name: 'test league', status: true, player: {id: 1}}, result: 'A/S'}]);
 
     component.deletePlayer({id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}, 1);
-    expect(component.navigationService.players().length).toBe(2);
+    expect(component.navigationService.players()).toHaveSize(2);
   });
 
   it('should delete player', () => {
@@ -78,7 +78,7 @@ describe('LeaguePlayerComponent', () => {
                                              {id: 2, playerId: 2, nick: 'Test 2', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}]);
 
     component.deletePlayer({id: 1, playerId: 1, nick: 'Test 1', league: {id: 1, name: 'test league', status: true, player: {id: 1}}}, 1);
-    expect(component.navigationService.players().length).toBe(1);
+    expect(component.navigationService.players()).toHaveSize(1);
   });
 
 });

@@ -19,7 +19,7 @@ describe('Common', () => {
         false,
         false);
 
-    expect(teeTimes.length).toBe(2);
+    expect(teeTimes).toHaveSize(2);
   });
 
   it('should generate tee times by hcp for two players', () => {
@@ -36,7 +36,7 @@ describe('Common', () => {
         false,
         false);
 
-    expect(teeTimes.length).toBe(2);
+    expect(teeTimes).toHaveSize(2);
   });
 
   it('should generate tee times by results for two players', () => {
@@ -53,7 +53,7 @@ describe('Common', () => {
         false,
         false);
 
-    expect(teeTimes.length).toBe(2);
+    expect(teeTimes).toHaveSize(2);
   });
 
   it('should generate tee times by results for two players but no results', () => {
@@ -70,7 +70,7 @@ describe('Common', () => {
         false,
         false);
 
-    expect(teeTimes.length).toBe(2);
+    expect(teeTimes).toHaveSize(2);
   });
 
   it('should swap 2 players within tee times', () => {

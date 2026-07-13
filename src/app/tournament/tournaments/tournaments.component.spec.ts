@@ -62,7 +62,7 @@ describe('TournamentsComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       const tableRows = fixture.nativeElement.querySelectorAll('tr');
-      expect(tableRows.length).toBe(11);
+      expect(tableRows).toHaveSize(11);
       // Header row
       const headerRow = tableRows[0];
       expect(headerRow.cells[1].innerHTML).toBe('Name');

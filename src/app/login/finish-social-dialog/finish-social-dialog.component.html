@@ -2,7 +2,8 @@
   <h2 style="color: red" mat-dialog-title>Adding the new player: {{nick}}</h2>
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
-      <input matInput maxlength="4" placeholder="Player whs (X.X)" formControlName="whs" />
+      <mat-label>Player whs (X.X)</mat-label>
+      <input matInput maxlength="4" formControlName="whs" />
       @if (form.controls.whs.errors && form.controls.whs.errors.required) {
         <mat-error
           >WHS is required</mat-error

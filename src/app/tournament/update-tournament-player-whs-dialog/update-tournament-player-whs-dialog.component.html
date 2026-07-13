@@ -2,7 +2,8 @@
   <h2 style="color: red" mat-dialog-title>{{player.nick}}: <span i18n="@@updTourPlrDlg-updateHcp">Update HCP</span></h2>
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
-      <input matInput maxlength="4" i18n-placeholder="@@updTourPlrDlg-whs" placeholder="Player whs (X.X)" formControlName="whs" />
+      <mat-label i18n="@@updTourPlrDlg-whs">Player whs (X.X)</mat-label>
+      <input matInput maxlength="4" formControlName="whs" />
       @if (form.controls.whs.errors && form.controls.whs.errors.required) {
         <mat-error i18n="@@updTourPlrDlg-whsReq">WHS is required</mat-error>
       }
