@@ -10,7 +10,7 @@ export class AuthenticationService {
   private readonly httpService = inject(HttpService);
 
   private readonly currentPlayerSubject: BehaviorSubject<Player>;
-  public currentPlayer: Observable<Player>;
+  public readonly currentPlayer: Observable<Player>;
 
   constructor() {
     this.currentPlayerSubject = new BehaviorSubject<Player>(JSON.parse(localStorage.getItem('currentPlayer')));
@@ -30,7 +30,7 @@ export class AuthenticationService {
       return roles;
     }
 
-    if (this.currentPlayerSubject.value.role == 0) {
+    if (this.currentPlayerSubject.value.role === 0) {
 			roles += 'ROLE_ADMIN,';
 		}
 		roles += 'ROLE_PLAYER';

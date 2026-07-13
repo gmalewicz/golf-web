@@ -1,5 +1,5 @@
 <p></p>
-<div [loading]="dispProgress" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+<div [loading]="dispProgress()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
     <table id="courses-tbl" class="table table-striped" aria-describedby="List of courses">
       <thead>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (row of courseLst; track row) {
+        @for (row of courseLst(); track row) {
           <tr>
             @if (data().parent === 'tournament') {
               <td>
@@ -59,7 +59,7 @@
             @if (data().parent === 'courses') {
               <td>
                 <a (click)="onClickFavourite(row)">
-                  <fa-icon [loading]="loadingFav" [icon]="getIcon()" class="golf-green"></fa-icon>
+                  <fa-icon [loading]="loadingFav()" [icon]="getIcon()" class="golf-green"></fa-icon>
                 </a>
               </td>
             }

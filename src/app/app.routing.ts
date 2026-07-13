@@ -2,7 +2,6 @@ import { RoleGuard } from './_helpers/role.guard';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { CoursesComponent } from './courses/courses/courses.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@/_helpers';
 import { RegistrationComponent } from './registration/registration.component';
@@ -16,7 +15,7 @@ export const routing: Routes = [
   { path: '', component: HomeComponent },
   // navigation main manu in navigation component or during round adding
   { path: 'home', component: HomeComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
-  { path: 'courses', component: CoursesComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
+  { path: 'courses', loadComponent: () => import('./courses/courses/courses.component').then(m => m.CoursesComponent), canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'rounds', component: RoundsComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'round', component: RoundComponent, canActivate: [() => inject(AuthGuard).canActivate()] },
   { path: 'addScorecard/:courseId/:courseName/:coursePar', loadComponent: () => import('./add-scorecard/add-scorecard.component').then(m => m.AddScorecardComponent), canActivate: [() => inject(AuthGuard).canActivate()] },

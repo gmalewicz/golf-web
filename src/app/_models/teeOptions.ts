@@ -1,4 +1,4 @@
 export interface TeeOptions {
-  label: string,
-  value: number
+  label: string;
+  value: number;
 }

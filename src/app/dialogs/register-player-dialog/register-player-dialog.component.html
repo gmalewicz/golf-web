@@ -4,7 +4,7 @@
   <mat-dialog-content [formGroup]="form" style="width: 290px;">
     <mat-form-field>
       <mat-label i18n="@@registerPlr-nick">Player nick</mat-label>
-      <input matInput formControlName="nick" />
+      <input matInput id="nick" aria-label="Player nick" formControlName="nick" />
       @if (f.nick.errors && f.nick.errors.required) {
         <mat-error i18n="@@registerPlr-nickReq">Nick is required</mat-error>
       }

@@ -3,7 +3,7 @@
   <mat-dialog-content [formGroup]="form">
     <mat-form-field>
       <mat-label i18n="@@updTourPlrDlg-whs">Player whs (X.X)</mat-label>
-      <input matInput maxlength="4" formControlName="whs" />
+      <input matInput id="whs" aria-label="Player whs" maxlength="4" formControlName="whs" />
       @if (form.controls.whs.errors && form.controls.whs.errors.required) {
         <mat-error i18n="@@updTourPlrDlg-whsReq">WHS is required</mat-error>
       }

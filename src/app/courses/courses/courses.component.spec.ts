@@ -52,21 +52,21 @@ describe('CoursesComponent', () => {
     tabElement.triggerEventHandler('click', '');
     tick();
     fixture.detectChanges();
-    expect(component.selectedTab).toBe(1);
+    expect(component.selectedTab()).toBe(1);
   }));
 
   it('should key up with less than 2 letters', fakeAsync(() => {
 
-    component.f.courseName.setValue('li');
+    component.controls.courseName.setValue('li');
     component.onKey();
-    expect(component.courses.searchRes).toBeUndefined();
+    expect(component.courses().searchRes).toBeUndefined();
   }));
 
   it('should key up with more than 2 letters', fakeAsync(() => {
 
-    component.f.courseName.setValue('lis');
+    component.controls.courseName.setValue('lis');
     component.onKey();
-    expect(component.courses.searchRes).toHaveSize(1);
+    expect(component.courses().searchRes).toHaveSize(1);
   }));
 
   afterAll(() => {

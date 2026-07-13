@@ -4,7 +4,7 @@
 
     <mat-form-field>
       <mat-label i18n="@@searchPlayerDialog-nick">Player nick</mat-label>
-      <input matInput formControlName="nick" (keyup)="onKey()"/>
+      <input matInput id="nick" aria-label="Player nick" formControlName="nick" (keyup)="onKey()"/>
     </mat-form-field>
 
     @if (dispPlayers) {
