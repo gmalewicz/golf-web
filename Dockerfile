@@ -1,4 +1,4 @@
-FROM httpd:2.4.67-alpine
+FROM httpd:2.4.68-alpine
 LABEL maintainer="Grzegorz Malewicz"
 ARG APP=./dist/golf-web/browser
 
