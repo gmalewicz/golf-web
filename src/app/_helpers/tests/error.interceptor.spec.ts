@@ -33,7 +33,6 @@ describe('error.interceptor', () => {
 
     let errResponse: string;
 
-
     httpClient.get('/rest/Courses').subscribe({ error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
@@ -53,7 +52,6 @@ describe('error.interceptor', () => {
 
     let errResponse: string;
 
-
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
@@ -63,8 +61,6 @@ describe('error.interceptor', () => {
       statusText: '404',
     });
 
-
-
     tick(200);
     expect(errResponse).toMatch('Error: 404');
 
@@ -73,7 +69,6 @@ describe('error.interceptor', () => {
   it('repsonse error 504', fakeAsync(() => {
 
     let errResponse: string;
-
 
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
@@ -94,7 +89,6 @@ describe('error.interceptor', () => {
 
     let errResponse: string;
 
-
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
@@ -114,7 +108,6 @@ describe('error.interceptor', () => {
 
     let errResponse: string;
 
-
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
@@ -130,30 +123,55 @@ describe('error.interceptor', () => {
 
   }));
 
-  it('repsonse error 998', fakeAsync(() => {
+  it('response error 401 with invalid_token forces logout', fakeAsync(() => {
+    // Replaces old '998' test — the server now sends 401 + RFC 6750 invalid_token header
+    // to signal that both tokens are dead and the user must re-authenticate.
 
     let errResponse: string;
-
 
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 
     const req = httpMock.expectOne('/rest/Courses');
 
-    req.error(new ProgressEvent('Error 998'), {
-      status: 998,
-      statusText: '998',
+    req.flush('Unauthorized', {
+      status: 401,
+      statusText: 'Unauthorized',
+      headers: { 'WWW-Authenticate': 'Bearer error="invalid_token"' },
     });
 
     tick(200);
 
-    expect(errResponse).toMatch('Error: 998');
+    expect(errResponse).toMatch('Error: 401');
+
+  }));
+
+  it('response error 401 with token_expired passes through to SessionRecoveryInterceptor', fakeAsync(() => {
+    // The error interceptor must NOT consume token_expired 401s —
+    // they are handled by SessionRecoveryInterceptor which calls /rest/Refresh.
+
+    let errResponse: string;
+
+    httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
+
+    const req = httpMock.expectOne('/rest/Courses');
+
+    req.flush('Unauthorized', {
+      status: 401,
+      statusText: 'Unauthorized',
+      headers: { 'WWW-Authenticate': 'Bearer error="token_expired"' },
+    });
+
+    tick(200);
+
+    // Error is re-thrown as-is (HttpErrorResponse), not converted to Error string
+    expect(errResponse).toBeInstanceOf(Object);
+    expect((errResponse as unknown as { status: number }).status).toBe(401);
 
   }));
 
   it('repsonse error 403', fakeAsync(() => {
 
     let errResponse: string;
-
 
     httpClient.get('/rest/Courses').subscribe({error: err => errResponse = err});
 

@@ -39,11 +39,10 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   }
 
   private _checkTokenExpiryErr(error: HttpErrorResponse): boolean {
-
-    return (
-      (error?.status === 999) ||
-      (error?.error && error.error?.status === 999)
-    );
+    // RFC 6750: access token expired — server signals this via
+    // 401 + WWW-Authenticate: Bearer error="token_expired"
+    const wwwAuth = error.headers?.get('WWW-Authenticate') ?? '';
+    return error?.status === 401 && wwwAuth.includes('token_expired');
   }
 
   intercept(

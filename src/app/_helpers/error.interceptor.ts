@@ -19,11 +19,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         return;
       }
 
-      if (err.status === 998) {
+      // RFC 6750: 401 + WWW-Authenticate: Bearer error="invalid_token"
+      // means both tokens are dead — force re-login
+      const wwwAuth = err.headers?.get('WWW-Authenticate') ?? '';
+      if (err.status === 401 && wwwAuth.includes('invalid_token')) {
         this.authenticationService.logout();
         this.alertService.error($localize`:@@errorInterceptor-sessionExpired:Session expired. Please sign on again.`, true);
         this.router.navigate(['/login']).catch(error => console.log(error));
         return throwError(() => new Error(String(err.status)));
+      }
+
+      // 401 + token_expired is handled by SessionRecoveryInterceptor — skip here
+      if (err.status === 401 && wwwAuth.includes('token_expired')) {
+        return throwError(() => err);
       }
 
       if (err.status === 403) {
