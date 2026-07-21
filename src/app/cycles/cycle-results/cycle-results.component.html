@@ -1,58 +1,11 @@
 <br/>
 <div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
-    <div class="table-responsive">
-      <table id="result-tbl" class="table table-striped" aria-describedby="result view">
-        <thead>
-          <tr>
-            <th id="hno" i18n="@@cycleResults-no">No.</th>
-            @if (!cycle().status) {
-              <th id="htrend"><span class="text-success">▲</span><span class="text-danger">▼</span></th>
-            }
-            <th id="hname" i18n="@@cycleResults-name">Name</th>
-            @for (i of rounds.length | range; track i;) {
-              <th id="hr23" class="w-5">
-                <div style="font-size:x-small;">
-                  {{cycleTournaments()[names[i]].name}}
-                </div>
-                <div class="hr">
-                  R{{i + 1}}
-                </div>
-              </th>
-            }
-            <th id="hresult" i18n="@@cycleResults-result">RESULT</th>
-            <th class="golf-green" id="htotal" i18n="@@cycleResults-total">TOTAL</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cycleResult of cycleResults(); track cycleResult; let idx = $index) {
-            @if (cycleResult.series === 1) {
-              <tr>
-                <td id="no">{{ idx + 1 }}</td>
-                @if (!cycle().status) {
-                  <td id="trend" class="text-start align-middle">
-                    @if (cycleResult.oldPlace !== undefined && cycleResult.oldPlace !== null) {
-                      @if (cycleResult.oldPlace === 0 || cycleResult.oldPlace === idx + 1) {
-                        <span class="golf-green fs-5" title="Position unchanged">●</span>
-                      } @else if (cycleResult.oldPlace > idx + 1) {
-                        <span class="text-success" title="Position improved">▲ {{ cycleResult.oldPlace - (idx + 1) }}</span>
-                      } @else {
-                        <span class="text-danger" title="Position worsened">▼ {{ (idx + 1) - cycleResult.oldPlace }}</span>
-                      }
-                    }
-                  </td>
-                }
-                <td id="name">{{ cycleResult.name }}</td>
-                @for (i of rounds.length | range; track i;) {
-                  <td id="r" class="w-5">{{cycleResults()[idx].r[rounds[i]]}}</td>
-                }
-                <th id="result">{{ cycleResult.cycleResult }}</th>
-                <th class="golf-green" id="total">{{ cycleResult.total }}</th>
-              </tr>
-            }
-          }
-        </tbody>
-      </table>
-    </div>
+    <app-cycle-results-table
+      [cycle]="cycle()"
+      [results]="filteredResults()"
+      [cycleTournaments]="cycleTournaments()"
+      [rounds]="rounds"
+      [names]="names" />
   </div>
 </div>
