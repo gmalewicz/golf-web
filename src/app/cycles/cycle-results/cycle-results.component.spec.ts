@@ -128,7 +128,7 @@ describe('CycleResultsComponent', () => {
     fixture.detectChanges();
     const compiled: HTMLElement = fixture.nativeElement;
     expect(compiled.querySelector('th[id="htrend"]')).not.toBeNull();
-    expect(compiled.querySelectorAll('td[id="trend"]').length).toBe(3);
+    expect(compiled.querySelectorAll('td[id="trend"]')).toHaveSize(3);
   });
 
   afterEach(() => {

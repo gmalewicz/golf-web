@@ -6,7 +6,7 @@ import { SessionRecoveryInterceptor } from '../session.interceptor';
 import { authenticationServiceStub, MyRouterStub } from '../test.helper';
 import { AuthenticationService } from '@/_services/authentication.service';
 import { HttpService } from '@/_services/http.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
 const httpServiceStub: Partial<HttpService> = {
@@ -140,5 +140,63 @@ describe('session.interceptor', () => {
 
     expect(errResponse).toBeTruthy();
     httpMock.verify();
+  }));
+
+});
+
+describe('session.interceptor — refresh failure', () => {
+
+  let httpClient: HttpClient;
+  let httpMock: HttpTestingController;
+
+  const refreshError = new Error('refresh failed');
+  const failingHttpServiceStub: Partial<HttpService> = {
+    refresh(_playerId: number) {
+      return throwError(() => refreshError);
+    }
+  };
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [
+        { provide: Router, useClass: MyRouterStub },
+        { provide: HTTP_INTERCEPTORS, useClass: SessionRecoveryInterceptor, multi: true },
+        { provide: AuthenticationService, useValue: authenticationServiceStub },
+        { provide: HttpService, useValue: failingHttpServiceStub },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
+    });
+
+    httpClient = TestBed.inject(HttpClient);
+    httpMock = TestBed.inject(HttpTestingController);
+  }));
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should logout, navigate to /login and rethrow error when refresh fails', fakeAsync(() => {
+    const authService = TestBed.inject(AuthenticationService);
+    const router = TestBed.inject(Router);
+    spyOn(authService, 'logout');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+
+    let caughtError: unknown;
+    httpClient.get('/rest/Courses').subscribe({ error: err => caughtError = err });
+
+    const req = httpMock.expectOne('/rest/Courses');
+    req.flush('Unauthorized', {
+      status: 401,
+      statusText: 'Unauthorized',
+      headers: { 'WWW-Authenticate': 'Bearer error="token_expired"' },
+    });
+
+    tick(200);
+
+    expect(authService.logout).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
+    expect(caughtError).toBe(refreshError);
   }));
 });
