@@ -84,8 +84,8 @@ describe('CycleResultsComponent', () => {
     fixture.detectChanges();
     const compiled: HTMLElement = fixture.nativeElement;
     const trendCells = compiled.querySelectorAll('td[id="trend"]');
-    // Bob was at position 1, now at position 2 (idx=1+1) -> worsened -> ▼ -1
-    expect(trendCells[1].textContent?.trim()).toBe('▼ -1');
+    // Bob was at position 1, now at position 2 (idx=1+1) -> worsened -> ▼ 1
+    expect(trendCells[1].textContent?.trim()).toBe('▼ 1');
   });
 
   it('should display circle for player whose position is unchanged', () => {
@@ -93,9 +93,9 @@ describe('CycleResultsComponent', () => {
     fixture.detectChanges();
     const compiled: HTMLElement = fixture.nativeElement;
     const trendCells = compiled.querySelectorAll('td[id="trend"]');
-    // Carol was at position 3, now at position 3 (idx=2+1) -> unchanged -> fa-icon circle
-    expect(trendCells[2].querySelector('fa-icon')).not.toBeNull();
-    expect(trendCells[2].querySelector('span')).toBeNull();
+    // Carol was at position 3, now at position 3 (idx=2+1) -> unchanged -> ● span
+    expect(trendCells[2].querySelector('span')).not.toBeNull();
+    expect(trendCells[2].querySelector('span')?.textContent?.trim()).toBe('●');
   });
 
   it('should display circle and no delta when oldPlace is 0 (first tournament or after deletion)', () => {
@@ -107,11 +107,11 @@ describe('CycleResultsComponent', () => {
     fixture.detectChanges();
     const compiled: HTMLElement = fixture.nativeElement;
     const trendCells = compiled.querySelectorAll('td[id="trend"]');
-    // both players should show fa-icon circle only, no span with number
-    expect(trendCells[0].querySelector('fa-icon')).not.toBeNull();
-    expect(trendCells[0].querySelector('span')).toBeNull();
-    expect(trendCells[1].querySelector('fa-icon')).not.toBeNull();
-    expect(trendCells[1].querySelector('span')).toBeNull();
+    // both players should show ● span only
+    expect(trendCells[0].querySelector('span')).not.toBeNull();
+    expect(trendCells[0].querySelector('span')?.textContent?.trim()).toBe('●');
+    expect(trendCells[1].querySelector('span')).not.toBeNull();
+    expect(trendCells[1].querySelector('span')?.textContent?.trim()).toBe('●');
   });
 
   it('should NOT display trend column for a closed cycle', () => {
