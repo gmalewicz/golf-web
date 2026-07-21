@@ -1,28 +1,28 @@
 import { CycleTournament } from './../_models/cycleTournament';
 import { AuthenticationService } from '@/_services/authentication.service';
-import { ChangeDetectionStrategy, Component, OnChanges, OnInit, input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnInit, computed, input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleResultsBase } from '../base/cycle-results-base';
-import { RangePipe } from "../../_helpers/range";
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
-
+import { CycleResultsTableComponent } from '../cycle-results-table/cycle-results-table.component';
 
 @Component({
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe, LoadingDirective]
+    imports: [LoadingDirective, CycleResultsTableComponent]
 })
 export class CycleResultsComponent extends CycleResultsBase implements OnInit, OnChanges {
   authenticationService: AuthenticationService;
   protected readonly router: Router;
 
-
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();
   cycleTournaments = input.required<CycleTournament[]>();
+
+  filteredResults = computed(() => (this.cycleResults() ?? []).filter(r => r.series === 1));
 
 
   constructor() {

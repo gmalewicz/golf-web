@@ -1,42 +1,11 @@
 <br/>
 <div [loading]="!display" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
   <div>
-    <div class="table-responsive">
-      <table id="result-tbl" class="table table-striped" aria-describedby="result view">
-        <thead>
-          <tr>
-            <th id="hno" i18n="@@cycleResults-no">No.</th>
-            <th id="hname" i18n="@@cycleResults-name">Name</th>
-            @for (i of rounds.length | range; track i;) {
-              <th id="hr23" class="w-5">
-                <tr style="font-size:x-small;">
-                  {{cycleTournaments()[names[i]].name}}
-                </tr>
-                <tr id="hr">
-                  R{{i + 1}}
-                </tr>
-              </th>
-            }
-            <th id="hresult" i18n="@@cycleResults-result">RESULT</th>
-            <th class="golf-green" id="htotal" i18n="@@cycleResults-total">TOTAL</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cycleResult of cycleResults(); track cycleResult; let idx = $index) {
-            @if (cycleResult.series === 1) {
-              <tr >
-                <td id="no">{{ idx + 1 }}</td>
-                <td id="name">{{ cycleResult.name }}</td>
-                @for (i of rounds.length | range; track i;) {
-                  <td id="r" class="w-5">{{cycleResults()[idx].r[rounds[i]]}}</td>
-                }
-                <th id="result">{{ cycleResult.cycleResult }}</th>
-                <th class="golf-green" id="total">{{ cycleResult.total }}</th>
-              </tr>
-            }
-          }
-        </tbody>
-      </table>
-    </div>
+    <app-cycle-results-table
+      [cycle]="cycle()"
+      [results]="filteredResults()"
+      [cycleTournaments]="cycleTournaments()"
+      [rounds]="rounds"
+      [names]="names" />
   </div>
 </div>

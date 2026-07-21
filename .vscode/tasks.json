@@ -105,6 +105,26 @@
 			"label": "run tests failed names",
 			"type": "shell",
 			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'FAILED|✗|\\bF\\b' -Context 2,0 | Select-Object -First 80"
+		},
+		{
+			"label": "find failed test",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'FAILED' | Select-Object -First 20"
+		},
+		{
+			"label": "find actual failed test",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'FAILED$|\\d+ FAILED' | Select-Object -First 20"
+		},
+		{
+			"label": "find error detail",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'Expected|Error:|repsonse error 403' -Context 3,3 | Select-Object -First 40"
+		},
+		{
+			"label": "get error detail 2",
+			"type": "shell",
+			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'Expected|at UserContext' -Context 2,4 | Select-Object -First 30"
 		}
 	]
 }

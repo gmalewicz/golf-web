@@ -1,0 +1,3 @@
+[submodule "golf-app"]
+	path = golf-app
+	url = https://github.com/gmalewicz/golf-app.git

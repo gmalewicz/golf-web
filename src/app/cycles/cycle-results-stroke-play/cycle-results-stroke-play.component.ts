@@ -5,20 +5,18 @@ import { Router } from '@angular/router';
 import { Cycle } from '../_models/cycle';
 import { CycleResult } from '../_models/cycleResult';
 import { CycleResultsBase } from '../base/cycle-results-base';
-import { RangePipe } from "../../_helpers/range";
+import { CycleResultsTableComponent } from '../cycle-results-table/cycle-results-table.component';
 
 
 @Component({
     selector: 'app-cycle-results-stroke-play',
     templateUrl: './cycle-results-stroke-play.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe]
+    imports: [CycleResultsTableComponent]
 })
 export class CycleResultsStrokePlayComponent extends CycleResultsBase implements OnInit, OnChanges {
   authenticationService: AuthenticationService;
   protected readonly router: Router;
-
-
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();
   strokePlayResults = [];
