@@ -7,5 +7,6 @@ export interface CycleResult {
   series: number;
   played?: number;
   sequence?: string; 
-  hcp?: string[]
+  hcp?: string[];
+  oldPlace?: number;
 }

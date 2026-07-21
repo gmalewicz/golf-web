@@ -8,7 +8,6 @@ import { CycleResultsBase } from '../base/cycle-results-base';
 import { RangePipe } from "../../_helpers/range";
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
-
 @Component({
     selector: 'app-cycle-results',
     templateUrl: './cycle-results.component.html',
@@ -18,7 +17,6 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 export class CycleResultsComponent extends CycleResultsBase implements OnInit, OnChanges {
   authenticationService: AuthenticationService;
   protected readonly router: Router;
-
 
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();

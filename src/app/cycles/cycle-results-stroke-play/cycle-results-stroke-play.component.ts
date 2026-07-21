@@ -17,8 +17,6 @@ import { RangePipe } from "../../_helpers/range";
 export class CycleResultsStrokePlayComponent extends CycleResultsBase implements OnInit, OnChanges {
   authenticationService: AuthenticationService;
   protected readonly router: Router;
-
-
   cycle = input.required<Cycle>();
   cycleResults = input.required<CycleResult[]>();
   strokePlayResults = [];
