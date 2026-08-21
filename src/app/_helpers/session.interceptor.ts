@@ -21,7 +21,7 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
   }
 
   private _readXsrfToken(): string | null {
-    const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+    const match = /(?:^|;\s*)XSRF-TOKEN=([^;]+)/.exec(document.cookie);
     return match ? decodeURIComponent(match[1]) : null;
   }
 
