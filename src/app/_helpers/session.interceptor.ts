@@ -20,6 +20,11 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
     return error?.status === 401 && wwwAuth.includes('token_expired');
   }
 
+  private _readXsrfToken(): string | null {
+    const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
   intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler
@@ -40,6 +45,15 @@ export class SessionRecoveryInterceptor implements HttpInterceptor {
                 return throwError(() => refreshError);
               })
             );
+          }
+          // the 403 response re-seeds the XSRF-TOKEN cookie; resend once with the fresh token
+          if (error instanceof HttpErrorResponse && error.status === 403 && !req.headers.has('X-CSRF-Retry')) {
+            const token = this._readXsrfToken();
+            let retried = req.clone({ setHeaders: { 'X-CSRF-Retry': '1' } });
+            if (token) {
+              retried = retried.clone({ setHeaders: { 'X-XSRF-TOKEN': token } });
+            }
+            return next.handle(retried);
           }
           return throwError(() => error);
         })

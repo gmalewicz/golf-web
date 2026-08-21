@@ -3,13 +3,14 @@ import { Player } from '@/_models';
 import { AuthenticationService, AlertService } from '@/_services';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CanDirective } from '@/_helpers/directives/CanDirective';
 
 
 @Component({
     selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [ReactiveFormsModule, FormsModule, RouterLink]
+    imports: [ReactiveFormsModule, FormsModule, RouterLink, CanDirective]
 })
 export class NavigationComponent implements OnInit {
   private readonly authenticationService = inject(AuthenticationService);

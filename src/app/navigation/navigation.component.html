@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DGNG v3.20.0</a>
+    <a class="navbar-brand" href="#">DGNG v3.21.0</a>
     @if (currentPlayer) {
       <a class="navbar-brand" style="margin-bottom: 0rem; line-height:12px; font-size:12px;" routerLink="/updatePlayer">
         HCP:{{currentPlayer.whs}}
@@ -39,6 +39,7 @@
           <li class="nav-item"><a class="nav-link" routerLink="/rounds" (click)="onClick()" i18n="@@nav-rounds">Historical Rounds</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/tournaments" (click)="onClick()" i18n="@@nav-tournaments">Tournaments</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/cycles" (click)="onClick()" i18n="@@nav-cycles">Cycles</a></li>
+          <li class="nav-item" *can="'ADMIN'"><a class="nav-link" routerLink="/hcp34" (click)="onClick()" i18n="@@nav-hcp34">3/4 HCP calculation</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/mpLeagues" (click)="onClick()" i18n="@@nav-leagues">Match Play Ligues</a></li>
           <li class="nav-item"><a class="nav-link" routerLink= "/courses" [state]="{ data: { parent: 'courses' } }"(click)="onClick()" i18n="@@nav-courses">Courses</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/admin" (click)="onClick()" i18n="@@nav-admin">Administration</a></li>

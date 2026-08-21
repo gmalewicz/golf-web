@@ -1,0 +1,100 @@
+<div [loading]="loading()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+  <div class="container-fluid">
+    <h2 class="col" i18n="@@hcp34-title">3/4 HCP calculation</h2>
+
+    <form [formGroup]="form">
+      <div class="form-group col">
+        <label for="tournamentNo" i18n="@@hcp34-tournamentNo">Tournament id</label>
+        <input type="text" id="tournamentNo" formControlName="tournamentNo" class="form-control"
+          [ngClass]="{ 'is-invalid': f.tournamentNo.touched && f.tournamentNo.errors }" />
+        @if (f.tournamentNo.touched && f.tournamentNo.errors) {
+          <div class="invalid-feedback">
+            @if (f.tournamentNo.errors.required) {
+              <div i18n="@@hcp34-tournamentNoReq">Tournament id must be provided</div>
+            }
+            @if (f.tournamentNo.errors.pattern) {
+              <div i18n="@@hcp34-tournamentNoPattern">Provide a valid tournament id</div>
+            }
+          </div>
+        }
+      </div>
+
+      <br/>
+
+      <div class="form-group col">
+        <label for="courseName" i18n="@@hcp34-course">Course (type at least 3 letters)</label>
+        <input type="text" id="courseName" formControlName="courseName" class="form-control"
+          (keyup)="onCourseKey()" autocomplete="off" />
+      </div>
+
+      @if (courseResults().length > 0) {
+        <div class="form-group col">
+          <ul class="list-group" [loading]="searching()">
+            @for (course of courseResults(); track course.id) {
+              <li class="list-group-item">
+                <a href="javascript:void(0)" (click)="selectCourse(course)">{{ course.name }}</a>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (selectedCourse()) {
+        <div class="form-group col golf-margin-top">
+          <span i18n="@@hcp34-selectedCourse">Selected course:</span>&nbsp;<b>{{ selectedCourse()?.name }}</b>
+        </div>
+      }
+
+      <br/>
+
+      <div class="form-group col golf-margin-top">
+        <button type="button" [disabled]="loading()" [loading]="loading()" class="btn btn-success"
+          (click)="calculate()">
+          <span i18n="@@hcp34-calculate">Calculate</span>
+        </button>
+        <a routerLink="/home" class="btn btn-link text-success" i18n="@@hcp34-cancel">Cancel</a>
+      </div>
+    </form>
+
+    @if (calculated()) {
+      <div class="col golf-margin-top">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col" i18n="@@hcp34-pos">Pos.</th>
+              <th scope="col" i18n="@@hcp34-player">Player</th>
+              <th scope="col" class="text-danger" i18n="@@hcp34-stb34">3/4 STB net</th>
+              <th scope="col" i18n="@@hcp34-last9">9</th>
+              <th scope="col" i18n="@@hcp34-last6">6</th>
+              <th scope="col" i18n="@@hcp34-last3">3</th>
+              <th scope="col" i18n="@@hcp34-last1">1</th>
+              <th scope="col" class="text-success" i18n="@@hcp34-stbFull">STB net</th>
+              <th scope="col" i18n="@@hcp34-playerHcp">HCP</th>
+              <th scope="col" class="text-primary" i18n="@@hcp34-capPlayerHcp">CAP HCP</th>
+              <th scope="col" i18n="@@hcp34-playingHcp">Playing HCP</th>
+              <th scope="col" i18n="@@hcp34-playingHcp34">3/4 playing HCP</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (result of results(); track $index) {
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ result.firstName }} {{ result.lastName }}</td>
+                <td class="text-danger">{{ result.netto34 }}</td>
+                <td>{{ result.last9 }}</td>
+                <td>{{ result.last6 }}</td>
+                <td>{{ result.last3 }}</td>
+                <td>{{ result.last1 }}</td>
+                <td class="text-success">{{ result.fullNetto }}</td>
+                <td>{{ result.playerHcp }}</td>
+                <td class="text-primary">{{ result.capPlayerHcp }}</td>
+                <td>{{ result.playingHcp }}</td>
+                <td>{{ result.playingHcp34 }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

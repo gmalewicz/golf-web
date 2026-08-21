@@ -31,6 +31,7 @@ export const routing: Routes = [
   { path: 'addCourse', loadChildren: () => import('./course/add-course/add-course.component').then((m) => m.addCourseRoutes)  },
   { path: 'tournaments', loadChildren: () => import('./tournament/tournaments/tournaments.component').then((m) => m.tournamentRoutes)},
   { path: 'cycles', loadChildren: () => import('./cycles/cycles/cycles.component').then((m) => m.cyclesRoutes)},
+  { path: 'hcp34', loadChildren: () => import('./hcp34/hcp34.component').then((m) => m.hcp34Routes)},
   { path: 'mpLeagues', loadChildren: () => import('./mp-league/mp-leagues/mp-leagues.component').then((m) => m.mpLeaguesRoutes)},
 
   { path: 'login', component: LoginComponent },

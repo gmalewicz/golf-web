@@ -125,6 +125,11 @@
 			"label": "get error detail 2",
 			"type": "shell",
 			"command": "npx ng test --watch=false --browsers=ChromeHeadless 2>&1 | Select-String -Pattern 'Expected|at UserContext' -Context 2,4 | Select-Object -First 30"
+		},
+		{
+			"label": "eslint hcp34",
+			"type": "shell",
+			"command": "npx eslint src/app/hcp34/hcp34.component.ts src/app/hcp34/hcp34.component.spec.ts 2>&1 | Select-Object -First 80"
 		}
 	]
 }
