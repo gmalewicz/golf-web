@@ -238,6 +238,24 @@ describe('TournamentResultsComponent', () => {
     expect(results[1].id).toEqual(11);
   }));
 
+  it('should sort by strokes net when all players played fewer rounds than bestRounds', fakeAsync(() => {
+    standardSetup();
+    component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 6});
+    // both players played only 2 rounds (< bestRounds = 6)
+    // player id 1 has LOWER total net strokes but FEWER strokeRounds
+    // player id 2 has HIGHER total net strokes but MORE strokeRounds
+    component.navigationService.tournamentResults.set([
+      {...getTournamentResult2(), id: 2, playedRounds: 2, strokesNetto: 150, strokeRounds: 3},
+      {...getTournamentResult(), id: 1, playedRounds: 2, strokesNetto: 100, strokeRounds: 2}
+    ]);
+    fixture.detectChanges();
+    component.updateSort(3);
+    // player with the lower total net strokes must be on top
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(1);
+    expect(component.navigationService.tournamentResults()[1].id).toEqual(2);
+
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
