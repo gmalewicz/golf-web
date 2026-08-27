@@ -143,6 +143,8 @@ export class TournamentResultsComponent implements OnInit {
       const tempLst = this.navigationService.tournamentResults().filter(r => r.playedRounds >= bestRounds);
       this.navigationService.tournamentResults.set(tempLst.concat((this.navigationService.tournamentResults()
         .filter(r => r.playedRounds < bestRounds)).sort((a, b) => {
+          const roundsDiff = b.playedRounds - a.playedRounds;
+          if (roundsDiff !== 0) return roundsDiff;
           const strokeDiff = (a[strokeField] as number) - (b[strokeField] as number);
           if (strokeDiff !== 0) return strokeDiff;
           return b.strokeRounds - a.strokeRounds;
