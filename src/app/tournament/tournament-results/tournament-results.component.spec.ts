@@ -256,6 +256,23 @@ describe('TournamentResultsComponent', () => {
 
   }));
 
+  it('should rank players with more rounds first when below bestRounds', fakeAsync(() => {
+    standardSetup();
+    component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 6});
+    // both players played fewer than bestRounds = 6
+    // player id 1 played FEWER rounds (2), player id 2 played MORE rounds (4)
+    component.navigationService.tournamentResults.set([
+      {...getTournamentResult(), id: 1, playedRounds: 2, strokesNetto: 100, strokeRounds: 2},
+      {...getTournamentResult2(), id: 2, playedRounds: 4, strokesNetto: 200, strokeRounds: 4}
+    ]);
+    fixture.detectChanges();
+    component.updateSort(3);
+    // player who played more rounds must be on top
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(2);
+    expect(component.navigationService.tournamentResults()[1].id).toEqual(1);
+
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
