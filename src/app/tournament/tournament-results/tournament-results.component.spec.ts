@@ -209,6 +209,35 @@ describe('TournamentResultsComponent', () => {
     expect(component.navigationService.tournamentResults()[0].id).toEqual(3);
   }));
 
+  it('should test updateSort with strokes net and best round = 1', fakeAsync(() => {
+    standardSetup();
+    component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 1});
+    component.navigationService.tournamentResults.set([getTournamentResult(), getTournamentResult2()]);
+    fixture.detectChanges();
+    component.updateSort(3);
+    expect(component.navigationService.tournamentResults()[0].id).toEqual(1);
+
+  }));
+
+  it('should keep net stroke ascending order for players who played enough rounds even if some rounds have no strokes (bestRounds set)', fakeAsync(() => {
+    standardSetup();
+    component.navigationService.tournament.set({...component.navigationService.tournament(), bestRounds: 2});
+    // All players played 2 rounds and bestRounds = 2, so all qualify (playedRounds >= bestRounds).
+    // id=13 played 2 rounds but only 1 was stroke-applicable (e.g. a Stableford / ball-picked-up round),
+    // so strokeRounds = 1. Filtering by strokeRounds (the old bug) would wrongly demote id=13 to the
+    // bottom group that is sorted descending. Filtering by playedRounds keeps net strokes ascending.
+    component.navigationService.tournamentResults.set([
+      { id: 11, playedRounds: 2, player: { id: 11 }, strokesBrutto: 80, strokesNetto: 68, stbNet: 28, stbGross: 18, strokeRounds: 2 },
+      { id: 13, playedRounds: 2, player: { id: 13 }, strokesBrutto: 75, strokesNetto: 65, stbNet: 30, stbGross: 20, strokeRounds: 1 },
+    ]);
+    fixture.detectChanges();
+    component.updateSort(3);
+    const results = component.navigationService.tournamentResults();
+    // Both qualify; ranked ascending by net strokes: id=13 (65) before id=11 (68)
+    expect(results[0].id).toEqual(13);
+    expect(results[1].id).toEqual(11);
+  }));
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });
