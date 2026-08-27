@@ -138,9 +138,15 @@ export class TournamentResultsComponent implements OnInit {
         })
       );
     } else if (this.navigationService.tournament().bestRounds !== 0 &&  action > 1) {
-      const tempLst = this.navigationService.tournamentResults().filter(r => r.playedRounds >= this.navigationService.tournament().bestRounds!);
+      const strokeField: keyof TournamentResult = action === 2 ? 'strokesBrutto' : 'strokesNetto';
+      const bestRounds = this.navigationService.tournament().bestRounds!;
+      const tempLst = this.navigationService.tournamentResults().filter(r => r.playedRounds >= bestRounds);
       this.navigationService.tournamentResults.set(tempLst.concat((this.navigationService.tournamentResults()
-        .filter(r => r.playedRounds < this.navigationService.tournament().bestRounds!)).sort((a, b) => b.strokeRounds - a.strokeRounds)));
+        .filter(r => r.playedRounds < bestRounds)).sort((a, b) => {
+          const strokeDiff = (a[strokeField] as number) - (b[strokeField] as number);
+          if (strokeDiff !== 0) return strokeDiff;
+          return b.strokeRounds - a.strokeRounds;
+        })));
     }
   }
 
