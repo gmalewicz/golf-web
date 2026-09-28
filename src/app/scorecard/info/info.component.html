@@ -18,7 +18,14 @@
             <td id="nick">{{round.player.nick}}</td>
             <td>{{round.player.whs}}</td>
             <td>{{round.courseHCP}}</td>
-            <td>{{round.tee.tee}}</td>
+            <td>
+              @if (round.tee?.tee | teeColour) {
+                <span [style.background-color]="round.tee?.tee | teeColour"
+                      style="display:inline-block;width:1rem;height:1rem;border:1px solid #888;vertical-align:middle"></span>
+              } @else {
+                {{round.tee?.tee | teeName}}
+              }
+            </td>
           </tr>
         }
       </tbody>

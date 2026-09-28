@@ -1,4 +1,3 @@
-import { RoundViewComponent } from './../round-view/round-view.component';
 import { routing } from '@/app.routing';
 import { MimicBackendAppInterceptor } from '@/_helpers/MimicBackendAppInterceptor';
 import { MatDialogMock, MyRouterStub, alertServiceStub, authenticationServiceStub, getTestRound } from '@/_helpers/test.helper';
@@ -10,7 +9,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoundComponent } from './round.component';
 import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { PreloadAllModules, Router, provideRouter, withPreloading } from '@angular/router';
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -20,9 +18,7 @@ describe('RoundComponent', () => {
     TestBed.configureTestingModule({
     imports: [
         MatDialogModule,
-        BaseChartDirective,
-        RoundComponent,
-        RoundViewComponent
+        RoundComponent
     ],
     providers: [HttpService,
         { provide: AuthenticationService, useValue: authenticationServiceStub },
@@ -31,7 +27,6 @@ describe('RoundComponent', () => {
         { provide: Router, useClass: MyRouterStub },
         { provide: AlertService, useValue: alertServiceStub },
         RoundsNavigationService,
-        provideCharts(withDefaultRegisterables()),
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideRouter(routing, withPreloading(PreloadAllModules))]
 })
@@ -84,11 +79,11 @@ describe('RoundComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set display to true and selectedTab to 0 after init', () => {
+  it('should set display to true and selectedTab to 1 after init', () => {
     history.pushState({data: {round: getTestRound()}}, '');
     fixture.detectChanges();
     expect(component.display).toBeTrue();
-    expect(component.selectedTab).toBe(0);
+    expect(component.selectedTab).toBe(1);
   });
 
   it('should set viewOnly to false when current player is in round', () => {

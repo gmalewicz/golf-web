@@ -3,12 +3,13 @@ import { Round } from "@/_models/round";
 import { Component, OnInit, input, ChangeDetectionStrategy } from "@angular/core";
 import { DecimalPipe } from "@angular/common";
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { TeeColourPipe, TeeNamePipe } from '@/tournament/_helpers/tee.pipe';
 
 @Component({
   selector: "app-round-summary",
   templateUrl: "./round-summary.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [DecimalPipe, LoadingDirective],
+  imports: [DecimalPipe, LoadingDirective, TeeColourPipe, TeeNamePipe],
 })
 export class RoundSummaryComponent implements OnInit {
   round = input.required<Round>();
@@ -39,6 +40,11 @@ export class RoundSummaryComponent implements OnInit {
 
     this.calculateSummary();
   }
+
+  protected teeName(teeId: number): string | undefined {
+    return this.round().course.tees?.find((t) => t.id === teeId)?.tee;
+  }
+
 
   private calculateSummary() {
     this.round().player.forEach((pl, idx) => {

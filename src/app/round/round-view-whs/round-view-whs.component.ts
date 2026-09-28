@@ -33,9 +33,13 @@ export class RoundViewWHSComponent implements OnInit {
   last9Putt: number;
   first9Penalty: number;
   last9Penalty: number;
+  first9Hcp: number;
+  last9Hcp: number;
   scoreBruttoClass: string[];
   scoreNettoClass: string[];
   ballPickedUp: boolean;
+  ballPickedUpFirst9: boolean;
+  ballPickedUpLast9: boolean;
 
   display: boolean;
 
@@ -47,9 +51,12 @@ export class RoundViewWHSComponent implements OnInit {
     this.scoreNettoClass = new Array(18).fill('');
 
 
-    // check if at least for one hole the ball was picked up
-    this.ballPickedUp = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 18)
+    // check per nine if the ball was picked up so the unaffected nine still shows its sum
+    this.ballPickedUpFirst9 = this.round().scoreCard.slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
       .some(v => v?.stroke === ballPickedUpStrokes);
+    this.ballPickedUpLast9 = this.round().scoreCard.slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
+      .some(v => v?.stroke === ballPickedUpStrokes);
+    this.ballPickedUp = this.ballPickedUpFirst9 || this.ballPickedUpLast9;
 
     // create pars for first and last 9
     this.first9par = this.round().course.holes.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0);
@@ -73,6 +80,11 @@ export class RoundViewWHSComponent implements OnInit {
     this.first9Penalty = this.round().scoreCard.map(s => s.penalty).slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
       .reduce((p, n) =>  p + n, 0);
     this.last9Penalty = this.round().scoreCard.map(s => s.penalty).slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
+      .reduce((p, n) =>  p + n, 0);
+    // create player hcp for each 9
+    this.first9Hcp = this.round().scoreCard.map(s => s.hcp).slice(this.playerOffset() * 18, (this.playerOffset() * 18) + 9)
+      .reduce((p, n) =>  p + n, 0);
+    this.last9Hcp = this.round().scoreCard.map(s => s.hcp).slice((this.playerOffset() * 18) + 9, (this.playerOffset() * 18) + 18)
       .reduce((p, n) =>  p + n, 0);
 
     // tslint:disable-next-line: variable-name
