@@ -78,13 +78,21 @@
               <th  id="bck">{{round().player?.[idx]?.nick}}</th>
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="[highlightHCPSgn()[idx][i], highlightWinnerSgn()[idx][i]]">
-                  {{round().scoreCard?.[i + (idx * 18)]?.stroke}}
+                  @if (round().scoreCard?.[i + (idx * 18)]?.stroke === 16) {
+                    <span>x</span>
+                  } @else {
+                    {{round().scoreCard?.[i + (idx * 18)]?.stroke}}
+                  }
                 </td>
               }
               <th  id="mpr2" class="center"></th>
               @for (index2 of 9 | range; track index2; let i = $index) {
                 <td class="center" [ngClass]="[highlightHCPSgn()[idx][i + 9], highlightWinnerSgn()[idx][i + 9]]">
-                   {{round().scoreCard?.[i + 9 + (idx * 18)]?.stroke}}
+                  @if (round().scoreCard?.[i + 9 + (idx * 18)]?.stroke === 16) {
+                    <span>x</span>
+                  } @else {
+                    {{round().scoreCard?.[i + 9 + (idx * 18)]?.stroke}}
+                  }
                 </td>
               }
               <th  id="mpt3" class="center"></th>

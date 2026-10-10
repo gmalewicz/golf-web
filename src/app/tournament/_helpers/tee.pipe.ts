@@ -6,8 +6,8 @@ const TEE_COLOURS = new Set(['red', 'yellow', 'blue', 'white', 'black']);
 export class TeeColourPipe implements PipeTransform {
   transform(tee: string | undefined): string | null {
     if (!tee) return null;
-    const name = tee.toLowerCase();
-    return TEE_COLOURS.has(name) ? name : null;
+    const match = tee.toLowerCase().split(/\s+/).find((word) => TEE_COLOURS.has(word));
+    return match ?? null;
   }
 }
 

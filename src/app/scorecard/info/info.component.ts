@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { Format } from '@/_models/format';
 import { MPLegendComponent } from '@/_helpers/mpLegend.component';
+import { TeeColourPipe, TeeNamePipe } from '@/tournament/_helpers/tee.pipe';
 
 @Component({
   selector: 'app-info',
-  imports: [ MatButton, MPLegendComponent],
+  imports: [ MatButton, MPLegendComponent, TeeColourPipe, TeeNamePipe],
   providers: [NavigationService],
   standalone: true,
   templateUrl: './info.component.html',

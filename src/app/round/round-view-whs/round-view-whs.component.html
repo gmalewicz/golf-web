@@ -94,7 +94,7 @@
                 </td>
               }
               <th id="f9" class="center">
-                @if (!ballPickedUp) {
+                @if (!ballPickedUpFirst9) {
                   <span>
                     {{first9score}}
                   </span>
@@ -125,7 +125,7 @@
                 </td>
               }
               <th id="l9" class="center">
-                @if (!ballPickedUp) {
+                @if (!ballPickedUpLast9) {
                   <span>
                     {{last9score}}
                   </span>
@@ -149,7 +149,7 @@
                     {{round().scoreCard[i + (playerOffset() * 18)].hcp}}
                   </td>
                 }
-                <th scope="col"></th>
+                <th class="center" scope="col">{{first9Hcp}}</th>
               }
               @if (round().player[playerOffset()].roundDetails.ninesFull !== 1) {
                 @for (i of 9 | range; track i;) {
@@ -157,9 +157,9 @@
                     {{round().scoreCard[i + (playerOffset() * 18) + 9].hcp}}
                   </td>
                 }
-                <th scope="col"></th>
+                <th class="center" scope="col">{{last9Hcp}}</th>
               }
-              <th scope="col"></th>
+              <th class="center" scope="col">{{first9Hcp + last9Hcp}}</th>
             </tr>
           }
           @if (round().player[playerOffset()].roundDetails.ninesFull >= 0) {
@@ -180,7 +180,7 @@
                   </td>
                 }
                 <th id="f9n" class="center">
-                  @if (!ballPickedUp) {
+                  @if (!ballPickedUpFirst9) {
                     <span>
                       {{first9scoreNetto}}
                     </span>
@@ -202,7 +202,7 @@
                   </td>
                 }
                 <th id="l9n" class="center">
-                  @if (!ballPickedUp) {
+                  @if (!ballPickedUpLast9) {
                     <span>
                       {{last9scoreNetto}}
                     </span>

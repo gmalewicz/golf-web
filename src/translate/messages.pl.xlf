@@ -1708,14 +1708,6 @@
           <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="round-over" datatype="html">
-        <source>Overview</source>
-        <target>Wykres</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/round/round/round.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="round-summary" datatype="html">
         <source>Summary</source>
         <target>Podsumowanie</target>
@@ -4446,6 +4438,198 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/scorecard/info/info.component.html</context>
           <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-title" datatype="html">
+        <source>3/4 HCP calculation</source>
+        <target>Obliczanie 3/4 HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-tournamentNo" datatype="html">
+        <source>Tournament id</source>
+        <target>Numer turnieju</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-tournamentNoReq" datatype="html">
+        <source>Tournament id must be provided</source>
+        <target>Numer turnieju jest wymagany</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-tournamentNoPattern" datatype="html">
+        <source>Provide a valid tournament id</source>
+        <target>Podaj prawidłowy numer turnieju</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-course" datatype="html">
+        <source>Course (type at least 3 letters)</source>
+        <target>Pole (wpisz co najmniej 3 litery)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-selectedCourse" datatype="html">
+        <source>Selected course:</source>
+        <target>Wybrane pole:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-calculate" datatype="html">
+        <source>Calculate</source>
+        <target>Oblicz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-cancel" datatype="html">
+        <source>Cancel</source>
+        <target>Wróć</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-pos" datatype="html">
+        <source>Pos.</source>
+        <target>Poz.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-player" datatype="html">
+        <source>Player</source>
+        <target>Gracz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-stb34" datatype="html">
+        <source>3/4 STB net</source>
+        <target>3/4 STB net</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-last9" datatype="html">
+        <source>9</source>
+        <target>9</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-last6" datatype="html">
+        <source>6</source>
+        <target>6</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-last3" datatype="html">
+        <source>3</source>
+        <target>3</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-last1" datatype="html">
+        <source>1</source>
+        <target>1</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-stbFull" datatype="html">
+        <source>STB net</source>
+        <target>STB net</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-playerHcp" datatype="html">
+        <source>HCP</source>
+        <target>HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-capPlayerHcp" datatype="html">
+        <source>CAP HCP</source>
+        <target>CAP HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-playingHcp" datatype="html">
+        <source>Playing HCP</source>
+        <target>HCP gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-playingHcp34" datatype="html">
+        <source>3/4 playing HCP</source>
+        <target>3/4 HCP gry</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-invalid" datatype="html">
+        <source>Provide a valid tournament id and select a course</source>
+        <target>Podaj prawidłowy numer turnieju i wybierz pole</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.ts</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-noPlayers" datatype="html">
+        <source>No players with results found for this tournament</source>
+        <target>Nie znaleziono graczy z wynikami dla tego turnieju</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hcp34-error" datatype="html">
+        <source>Failed to calculate results</source>
+        <target>Nie udało się obliczyć wyników</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/hcp34/hcp34.component.ts</context>
+          <context context-type="linenumber">201</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav-hcp34" datatype="html">
+        <source>3/4 HCP calculation</source>
+        <target>Obliczanie 3/4 HCP</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/navigation/navigation.component.html</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
     </body>

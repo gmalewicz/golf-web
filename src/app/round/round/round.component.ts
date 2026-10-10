@@ -11,7 +11,6 @@ import { RoundsNavigationService } from '@/rounds/roundsNavigation.service';
 import { RoundViewMPComponent } from '../round-view-mp/round-view-mp.component';
 import { RoundViewWHSComponent } from '../round-view-whs/round-view-whs.component';
 import { RoundSummaryComponent } from '../round-summary/round-summary.component';
-import { RoundViewComponent } from '../round-view/round-view.component';
 import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.component';
 import { RoundViewFbMpComponent } from '../round-view-fb-mp/round-view-fb-mp.component';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
@@ -20,8 +19,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
     selector: 'app-round',
     templateUrl: './round.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [RoundViewComponent, 
-              RoundSummaryComponent, 
+    imports: [RoundSummaryComponent, 
               RoundViewWHSComponent, 
               RoundViewMPComponent, 
               RoundViewSkinsComponent, 
@@ -62,8 +60,9 @@ export class RoundComponent implements OnInit {
 
       combineLatest([this.httpService.getScoreCards(this.round.id!),
                      this.httpService.getPlayersRoundDetails(this.round.id!),
-                     this.httpService.getHoles(this.round.course.id!)]).pipe(tap(
-        ([retScoreCards, playerRoundsDetails, retHoles]) => {
+                     this.httpService.getHoles(this.round.course.id!),
+                     this.httpService.getTees(this.round.course.id!)]).pipe(tap(
+        ([retScoreCards, playerRoundsDetails, retHoles, retTees]) => {
 
           this.round.scoreCard = retScoreCards;
           this.round.player = [];
@@ -79,6 +78,7 @@ export class RoundComponent implements OnInit {
           }
 
           this.round.course.holes = retHoles;
+          this.round.course.tees = retTees;
 
           this.round.player.forEach((pl, idx) => {
             this.setNinesFull(pl, idx);
@@ -89,7 +89,7 @@ export class RoundComponent implements OnInit {
           });
 
           this.display = true;
-          this.selectedTab = 0;
+          this.selectedTab = 1;
         })
       ).subscribe();
     }
