@@ -47,7 +47,7 @@ export class PlayerResultsComponent {
       tap(
         (round: Round) => {
 
-          this.router.navigate(['/round/'], { state: { data: { round, tournamentRound: true } }});
+          void this.router.navigate(['/round/'], { state: { data: { round, tournamentRound: true } }});
         }),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe();
@@ -67,7 +67,7 @@ export class PlayerResultsComponent {
         round.scoreCard = scoreCards.filter(s => s.player!.id === playerId);
         round.player = [this.tournamentResult().player!];
 
-        this.router.navigate(
+        void this.router.navigate(
           ['/addScorecard/' + round.course.id + '/' + round.course.name + '/' + round.course.par],
           {
             state: {

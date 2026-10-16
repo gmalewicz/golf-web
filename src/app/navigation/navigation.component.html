@@ -6,7 +6,8 @@
         HCP:{{currentPlayer.whs}}
       </a>
     }
-    <select class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
+    <label for="localeSelect" class="visually-hidden">Language</label>
+    <select id="localeSelect" class="navbar navbar-dark bg-success form-select" style="width: 70px; height: 30px; line-height:10px; font-size:10px; color: white;" (change)="onChange()" [(ngModel)]="activeLocale">
       @for (locale of locales; track locale) {
         <option [value]="locale.code">
           &nbsp;

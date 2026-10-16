@@ -342,7 +342,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     }
     
 
-    submit(this.playerDataForm, async () => {    
+    void submit(this.playerDataForm, () => {    
       
       const onlineRounds: OnlineRound[] = new Array(this.noOfPlayersSgn());
 
@@ -384,7 +384,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
 
       // verify if there is the same tee type for both players in case of MP
       if ((this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) && !this.isMpTeeTypeCorrect()) {
-        return;
+        return Promise.resolve();
       }
 
       this.loadingSgn.set(true);
@@ -411,7 +411,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
             this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));
             break;
         }
-      })
+      });
+      return Promise.resolve();
     });
   }   
 }  

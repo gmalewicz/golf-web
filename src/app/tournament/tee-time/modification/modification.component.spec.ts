@@ -54,7 +54,7 @@ describe('ModificationComponent', () => {
   it('should modifyFlight but player is not selected', async() => {
     component.modifyFlight(0);
     
-    expect(component.modBackCls[0]).toBe(undefined);
+    expect(component.modBackCls[0]).toBeUndefined();
   });
 
   it('should modifyFlight but player selected the same flight', fakeAsync(() => {

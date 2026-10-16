@@ -101,8 +101,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   width: 50%;
 }
 
+// Bootstrap table cells take color/background from --bs-table-* variables, so set them alongside plain properties.
 .golf-green {
-  color: #198754 !important;
+  color: #198754;
+  --bs-table-color-state: #198754;
 }
 
 .golf-margin-top {
@@ -112,7 +114,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 
 .golf-margin-top-6 {
   display: inline-block;
-  margin-top: 6px !important;
+  margin-top: 6px;
 }
 
 .golf-padding {
@@ -121,22 +123,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 
 
 .form-check-input-green:checked {
-  border-color: #198754 !important;
-  background-color: #198754 !important;
+  border-color: #198754;
+  background-color: #198754;
 }
 
 .form-check-input-green:not(:checked) {
-  border-color: #28a745 !important;
+  border-color: #28a745;
 }
 
 .form-check-input-green:focus {
-  border-color: #198754 !important;
-  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+  border-color: #198754;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
 
 .highlight {
-  background-color: #198754 !important;
-  color: white !important;
+  background-color: #198754;
+  color: white;
+  --bs-table-bg: #198754;
+  --bs-table-color-state: white;
 }
 
 .no-highlight {
@@ -145,23 +149,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 }
 
 .highlightHcp {
-  background-color: #1bff0742 !important;
+  background-color: #1bff0742;
+  --bs-table-bg: #1bff0742;
 }
 
 .highlightHcp2 {
-  background-color: #ffc50739 !important;
+  background-color: #ffc50739;
+  --bs-table-bg: #ffc50739;
 }
 
 .highlightHcp3 {
-  background-color: #ff5e0739 !important;
+  background-color: #ff5e0739;
+  --bs-table-bg: #ff5e0739;
 }
 
 .golf-red {
-  color: red !important;
+  color: red;
+  --bs-table-color-state: red;
+  --bs-btn-color: red;
+  --bs-btn-hover-color: red;
+  --bs-btn-active-color: red;
 }
 
 .golf-red-bold {
-  color: red !important;
+  color: red;
+  --bs-table-color-state: red;
   font-weight: bold;
 }
 
@@ -184,15 +196,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 
 
 .golf-orange {
-  color: orange !important;
+  color: orange;
+  --bs-table-color-state: orange;
 }
 
 .golf-gold {
-  color: darkkhaki !important;
+  color: darkkhaki;
+  --bs-table-color-state: darkkhaki;
 }
 
 .search {
-  margin-top: 5px !important;
+  margin-top: 5px;
 }
 
 .mdc-checkbox  {
@@ -200,7 +214,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 }
 
 .golf-margin-top-15 {
-  margin-top: 15px  !important;
+  margin-top: 15px;
 }
 
 .golf-thick {
@@ -208,35 +222,36 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
 }
 
 .golf-width-120 {
-  width: 120px !important;
+  width: 120px;
 }
 
 .golf-width-150 {
-  width: 150px !important;
+  width: 150px;
 }
 
 .golf-width-160 {
-  width: 160px !important;
+  width: 160px;
 }
 
 .golf-width-210 {
-  width: 210px !important;
+  width: 210px;
 }
 
 .golf-width-300 {
-  width: 300px !important;
+  width: 300px;
 }
 
 .golf-margin-bottom-6 {
-  margin-bottom: 6px !important;
+  margin-bottom: 6px;
 }
 
 .golf-background-red {
-  background-color: red !important;
+  background-color: red;
+  --bs-table-bg: red;
 }
 
 .w-5 {
-  width: 4% !important;
+  width: 4%;
   min-width: 36px;
   text-align: center;
 }
