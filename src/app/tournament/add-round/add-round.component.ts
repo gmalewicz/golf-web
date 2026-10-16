@@ -82,7 +82,7 @@ export class AddRoundComponent implements OnInit {
   ngOnInit(): void {
 
     if (history.state.data === undefined || history.state.data.tournament === undefined || history.state.data.course === undefined) {
-      this.router.navigate(['/home']);
+      void this.router.navigate(['/home']);
     } else {
       this.tournament = history.state.data.tournament;
       this.course = history.state.data.course;

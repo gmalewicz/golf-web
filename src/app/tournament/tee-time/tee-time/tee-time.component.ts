@@ -162,7 +162,7 @@ export class TeeTimeComponent implements OnInit {
     });
   }
 
-  async deleteTeeTimes() {
+  deleteTeeTimes() {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
