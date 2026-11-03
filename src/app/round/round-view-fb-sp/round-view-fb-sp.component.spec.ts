@@ -39,7 +39,7 @@ describe('RoundViewFbSpComponent', () => {
 
   it('should mark winning team results', () => {
     const teams = component.resultSgn().teams;
-    expect(teams.length).toBe(2);
+    expect(teams).toHaveSize(2);
     component.holeWinnerSgn().forEach((holes, t) =>
       holes.forEach((cls, hole) => {
         const net = teams[t].holes[hole];

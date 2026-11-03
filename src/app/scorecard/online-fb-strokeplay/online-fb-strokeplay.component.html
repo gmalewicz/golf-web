@@ -33,7 +33,7 @@
           <th id="empty4"></th>
           <th id="hole" i18n="@@onlMatch-hole">Hole</th>
           @for (round of onlineRoundsSgn(); track round.id) {
-            <th>
+            <th scope="col">
               {{round.player.nick}}
               <span>({{round.courseHCP}})</span>
             </th>

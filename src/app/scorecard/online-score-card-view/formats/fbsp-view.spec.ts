@@ -47,7 +47,7 @@ describe("FBSPView", () => {
 
     const result = calculateFbspResult(rounds, hcp);
 
-    expect(result.teams.length).toBe(2);
+    expect(result.teams).toHaveSize(2);
     expect(result.teams[0].holes.slice(0, 2)).toEqual([4, 4]);
     expect(result.teams[1].holes.slice(0, 2)).toEqual([4, 4]);
     expect(result.teams[0].total).toBe(8);
@@ -109,7 +109,7 @@ describe("FBSPView", () => {
           expect(onlineRoundsSgn()[0].team).toBe(1);
           // 10 * 113 / 113 + 72 - 72 = 10, 85% => 8.5 => 9
           expect(onlineRoundsSgn()[0].courseHCP).toBe(9);
-          expect(holeHcpSgn().length).toBe(2);
+          expect(holeHcpSgn()).toHaveSize(2);
           expect(holeHcpSgn()[0].reduce((p, n) => p + n, 0)).toBe(9);
           expect(lstUpdTimeSgn()).toBe("10:00");
           done();

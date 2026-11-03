@@ -60,12 +60,12 @@
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="holeWinnerSgn()[t][i]">{{team.holes[i]}}</td>
               }
-              <th class="center">{{team.front}}</th>
+              <th scope="col" class="center">{{team.front}}</th>
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="holeWinnerSgn()[t][i + 9]">{{team.holes[i + 9]}}</td>
               }
-              <th class="center">{{team.back}}</th>
-              <th class="center">{{team.total}}</th>
+              <th scope="col" class="center">{{team.back}}</th>
+              <th scope="col" class="center">{{team.total}}</th>
             </tr>
           }
           <tr id="empty4" colspan="21">&nbsp;</tr>
@@ -82,7 +82,7 @@
                     }
                   </td>
                 }
-                <th class="center"></th>
+                <th scope="col" class="center"></th>
                 @for (i of 9 | range; track i;) {
                   <td class="center" [ngClass]="[highlightHCPSgn()[idx]?.[i + 9] ?? '', resultSgn().counting[idx]?.[i + 9] ? 'golf-red-bold' : '']">
                     @if (round().scoreCard?.[i + 9 + (idx * 18)]?.stroke === 16) {
@@ -92,8 +92,8 @@
                     }
                   </td>
                 }
-                <th class="center"></th>
-                <th class="center">Team {{team.team}}</th>
+                <th scope="col" class="center"></th>
+                <th scope="col" class="center">Team {{team.team}}</th>
               </tr>
             }
           }

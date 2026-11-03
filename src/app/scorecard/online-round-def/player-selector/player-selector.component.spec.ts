@@ -231,7 +231,7 @@ describe('PlayerSelectorComponent', () => {
 
     expect(scorecardHttpSpy.addOnlineRounds).toHaveBeenCalled();
     const rounds = scorecardHttpSpy.addOnlineRounds.calls.mostRecent().args[0];
-    expect(rounds.length).toBe(3);
+    expect(rounds).toHaveSize(3);
     expect(rounds.map(r => r.team)).toEqual([1, 1, 1]);
     expect(rounds.every(r => r.mpFormat === 0.85 && r.format === Format.FOUR_BALL_STROKE_PLAY)).toBeTrue();
   });
