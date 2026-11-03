@@ -49,6 +49,12 @@
           role="tab" aria-controls="fbmp" aria-selected="false" (click)="onTabClick(8)">Four Ball Match Play</button>
         }
       </li>
+      <li>
+        @if (round?.format === Format.FOUR_BALL_STROKE_PLAY) {
+          <button class="nav-link" id="fbsp-tab" data-bs-toggle="tab" data-bs-target="#fbsp" type="button"
+          role="tab" aria-controls="fbsp" aria-selected="false" (click)="onTabClick(9)">Four Ball Stroke Play</button>
+        }
+      </li>
 
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -98,6 +104,11 @@
       <div class="tab-pane fade" id="fbmp" role="tabpanel" aria-labelledby="fbmp-tab">
         @if (round?.format === Format.FOUR_BALL_MATCH_PLAY && selectedTab === 8) {
           <app-round-view-fb-mp [round]='round'></app-round-view-fb-mp>
+        }
+      </div>
+      <div class="tab-pane fade" id="fbsp" role="tabpanel" aria-labelledby="fbsp-tab">
+        @if (round?.format === Format.FOUR_BALL_STROKE_PLAY && selectedTab === 9) {
+          <app-round-view-fb-sp [round]='round'></app-round-view-fb-sp>
         }
       </div>
     </div>

@@ -1,0 +1,104 @@
+<div [loading]="!displaySgn()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+  <div>
+    <br/>
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View four ball stroke play round">
+        <thead>
+          <tr>
+            <th id="hole" i18n="@@roundViewMp-hole" class="center">Hole</th>
+            @for (i of 9 | range; track i;) {
+              <th id="no" class="w-5">
+                {{i + 1}}
+              </th>
+            }
+            <th id="out" class="center">OUT</th>
+            @for (index of 9 | range; track index; let i = $index) {
+              <th id="no2" class="w-5">
+                {{i + 10}}
+              </th>
+            }
+            <th id="in" class="center">IN</th>
+            <th id="total" class="center">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th id="par" class="center">PAR</th>
+            @for (i of 9 | range; track i;) {
+              <td class="center">
+                {{round().course.holes?.[i]?.par}}
+              </td>
+            }
+            <th id="firstPar" class="center">{{first9parSgn()}}</th>
+            @for (i of 9 | range; track i;) {
+              <td class="center">
+                {{round().course.holes?.[i + 9]?.par}}
+              </td>
+            }
+            <th id="lpar" class="center">{{last9parSgn()}}</th>
+            <th id="ptotal" class="center">{{first9parSgn() + last9parSgn()}}</th>
+          </tr>
+          <tr>
+            <th id="si" class="center">SI</th>
+            @for (i of 9 | range; track i;) {
+              <td class="center">
+                {{round().course.holes?.[i]?.si}}
+              </td>
+            }
+            <th id="empty"></th>
+            @for (i of 9 | range; track i;) {
+              <td class="center">
+                {{round().course.holes?.[i + 9]?.si}}
+              </td>
+            }
+            <th id="empty2"></th>
+            <th id="empty3"></th>
+          </tr>
+          @for (team of resultSgn().teams; track team.team; let t = $index) {
+            <tr class="center">
+              <th id="teamNet">Team {{team.team}} (net)</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center" [ngClass]="holeWinnerSgn()[t][i]">{{team.holes[i]}}</td>
+              }
+              <th class="center">{{team.front}}</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center" [ngClass]="holeWinnerSgn()[t][i + 9]">{{team.holes[i + 9]}}</td>
+              }
+              <th class="center">{{team.back}}</th>
+              <th class="center">{{team.total}}</th>
+            </tr>
+          }
+          <tr id="empty4" colspan="21">&nbsp;</tr>
+          @for (team of resultSgn().teams; track team.team) {
+            @for (idx of team.players; track idx) {
+              <tr class="center">
+                <th id="player">{{round().player?.[idx]?.nick}} ({{playingHcp[idx]}})</th>
+                @for (i of 9 | range; track i;) {
+                  <td class="center" [ngClass]="[highlightHCPSgn()[idx]?.[i] ?? '', resultSgn().counting[idx]?.[i] ? 'golf-red-bold' : '']">
+                    @if (round().scoreCard?.[i + (idx * 18)]?.stroke === 16) {
+                      <span>x</span>
+                    } @else {
+                      {{round().scoreCard?.[i + (idx * 18)]?.stroke}}
+                    }
+                  </td>
+                }
+                <th class="center"></th>
+                @for (i of 9 | range; track i;) {
+                  <td class="center" [ngClass]="[highlightHCPSgn()[idx]?.[i + 9] ?? '', resultSgn().counting[idx]?.[i + 9] ? 'golf-red-bold' : '']">
+                    @if (round().scoreCard?.[i + 9 + (idx * 18)]?.stroke === 16) {
+                      <span>x</span>
+                    } @else {
+                      {{round().scoreCard?.[i + 9 + (idx * 18)]?.stroke}}
+                    }
+                  </td>
+                }
+                <th class="center"></th>
+                <th class="center">Team {{team.team}}</th>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

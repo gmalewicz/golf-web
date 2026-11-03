@@ -89,7 +89,8 @@ export const ViewType = {
   COURSE: 0,
   PLAYER: 1,
   MP: 2,
-  FBMP: 3
+  FBMP: 3,
+  FBSP: 4
 };
 
 export type ViewType = (typeof ViewType)[keyof typeof ViewType]; 

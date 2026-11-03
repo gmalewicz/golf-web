@@ -88,6 +88,7 @@ export class ViewSelectorComponent implements OnInit {
         break;
       }
       case ViewType.MP: // view for MP round
+      case ViewType.FBSP: // view for FBSP round
       case ViewType.FBMP: { // view for FBMP round
       
         this.navigationService.setOwnerSgn(signal(onlineRound.owner));

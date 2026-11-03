@@ -15,6 +15,8 @@ import { MPView } from './formats/mp-view';
 import { RoundView } from './formats/round-view';
 import { CourseView } from './formats/course-view';
 import { FBMPView } from './formats/fbmp-view';
+import { calculateFbspResult, FBSPView } from './formats/fbsp-view';
+import { FbspResult } from '@/_helpers/fbsp.routines';
 import { RangePipe } from '@/_helpers/range';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
@@ -78,6 +80,27 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
     return rounds[0].course.par - this.first9parSgn();
   });
   mpResultSgn!: Signal<string[]>;
+
+  // four ball stroke play view
+  holeHcpSgn = signal<number[][]>([]);
+  fbspResultSgn: Signal<FbspResult> = computed(() => calculateFbspResult(this.onlineRoundsSgn(), this.holeHcpSgn()));
+  // css class highlighting the handicap strokes per hole [player][hole], same colours as on the online score card
+  fbspHcpClassSgn: Signal<string[][]> = computed(() =>
+    this.holeHcpSgn().map(playerHoles =>
+      playerHoles.map(hcp => {
+        switch (hcp) {
+          case 0:
+            return '';
+          case 1:
+            return 'highlightHcp';
+          case 2:
+            return 'highlightHcp2';
+          default:
+            return 'highlightHcp3';
+        }
+      })
+    )
+  );
 
   ngOnDestroy(): void {
 
@@ -192,6 +215,24 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
                           this.startLisenning();
                         }
                       }) 
+      } else if (this.viewTypeSgn() === ViewType.FBSP) {
+        this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized!);
+        this.teeTime  = this.onlineRoundsSgn()[0].teeTime!;
+
+        const fbsp = new FBSPView( this.scorecardHttpService,
+                                   this.httpService);
+
+        fbsp.showFBSP( this.onlineRoundsSgn,
+                       this.courseSgn,
+                       this.holeHcpSgn,
+                       this.lstUpdTimeSgn
+                     ).subscribe({
+                        complete: () => {
+                          this.resetCounter();
+                          this.displaySgn.set(true);
+                          this.startLisenning();
+                        }
+                      })
       } else if (this.viewTypeSgn() === ViewType.COURSE) {
        
         const cw = new CourseView( this.scorecardHttpService, 
@@ -231,7 +272,9 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // process score card received from the web socket
   handleMessage(onlineScoreCard: OnlineScoreCard) {
 
-    if (this.ownerSgn()) {
+    if (this.viewTypeSgn() === ViewType.FBSP) {
+      this.handleFbspMessage(onlineScoreCard);
+    } else if (this.ownerSgn()) {
       this.handleMatchPlayMessage(onlineScoreCard);
        // calculate MP result texts
       //this.mpResultSgn = computed(() => createMPResultText(this.onlineRoundsSgn()[0].player.nick, this.onlineRoundsSgn()[1].player.nick, this.mpScore, Format.MATCH_PLAY));
@@ -239,6 +282,21 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       this.mpResultHistorySgn.set(createMPResultHistory(this.mpScore));
     } else {
       this.handleStrokeMessage(onlineScoreCard);
+    }
+  }
+
+  private handleFbspMessage(onlineScoreCard: OnlineScoreCard) {
+
+    const onlineRound = this.onlineRoundsSgn().find(or => or.player!.id === onlineScoreCard.player.id);
+
+    if (onlineRound) {
+      this.lstUpdTimeSgn.set(onlineScoreCard.time);
+      this.resetCounter();
+
+      onlineRound.scoreCardAPI![onlineScoreCard.hole - 1] = onlineScoreCard;
+      this.checkForReload(onlineRound, onlineScoreCard.hole - 1);
+
+      this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
     }
   }
 

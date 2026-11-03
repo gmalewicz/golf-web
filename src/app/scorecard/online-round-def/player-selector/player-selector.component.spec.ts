@@ -201,17 +201,59 @@ describe('PlayerSelectorComponent', () => {
     fixture.detectChanges();
 
      (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn = signal([ { id: 1, nick: 'a' }, { id: 2, nick: 'b' } ]);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).courseSgn = signal({ ...mockCourse, tees: mockTees });
 
     const evt = new Event('submit');
     spyOn(evt, 'preventDefault').and.callThrough();
 
-    component.tees = [{ id: 11, sex: false, tee: 'Blue', teeType: 0 }];
-    component.tees.push({ id: 12, sex: false, tee: 'Blue', teeType: 0 });
-    
     component.onStartOnlineRound(evt);  
   
     expect(evt.preventDefault).toHaveBeenCalled();  
     expect(scorecardHttpSpy.addOnlineRounds).toHaveBeenCalled();  
+  });
+
+  it('onStartOnlineRound should send teams and allowance for four ball stroke play round with 3 players', () => {
+
+    fixture.detectChanges();
+
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(3);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).teamSgn = signal([1, 1, 1]);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn =
+      signal([{ id: 1, nick: 'a' }, { id: 2, nick: 'b' }, { id: 3, nick: 'c' }]);
+
+    component.playerDataModel.update(current => ({
+      ...current,
+      mpFormat: '0.85',
+      teeDropDowns: [{ tee: '1' }, { tee: '1' }, { tee: '1' }, { tee: '1' }]
+    }));
+
+    component.onStartOnlineRound(new Event('submit'));
+
+    expect(scorecardHttpSpy.addOnlineRounds).toHaveBeenCalled();
+    const rounds = scorecardHttpSpy.addOnlineRounds.calls.mostRecent().args[0];
+    expect(rounds.length).toBe(3);
+    expect(rounds.map(r => r.team)).toEqual([1, 1, 1]);
+    expect(rounds.every(r => r.mpFormat === 0.85 && r.format === Format.FOUR_BALL_STROKE_PLAY)).toBeTrue();
+  });
+
+  it('onStartOnlineRound should reject four ball stroke play round with different tee types', () => {
+
+    httpServiceSpy.getTees.and.returnValue(of([...mockTees, { id: 3, sex: false, tee: 'Short', teeType: 1 }]));
+    fixture.detectChanges();
+
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).noOfPlayersSgn = signal(3);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).teamSgn = signal([1, 1, 1]);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn =
+      signal([{ id: 1, nick: 'a' }, { id: 2, nick: 'b' }, { id: 3, nick: 'c' }]);
+
+    component.playerDataModel.update(current => ({
+      ...current,
+      teeDropDowns: [{ tee: '1' }, { tee: '1' }, { tee: '3' }, { tee: '1' }]
+    }));
+
+    component.onStartOnlineRound(new Event('submit'));
+
+    expect(scorecardHttpSpy.addOnlineRounds).not.toHaveBeenCalled();
   });
 
   it('onPlayers should set number of players and initialize playersSgn', () => {
