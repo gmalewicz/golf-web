@@ -51,7 +51,7 @@ describe('TournamentResultsComponent', () => {
 
 
   it('should create without player ', () => {
-    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null as any);
+    spyOnProperty(authenticationServiceStub , 'currentPlayerValue', 'get').and.returnValue(null as never);
     standardSetup();
     expect(component).toBeTruthy();
   });

@@ -127,6 +127,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
         this.playerDataModel.update(form => ({ ...form, mpFormat: "0.75" }));
       } else if (this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
         this.playerDataModel.update(form => ({ ...form, mpFormat: "0.9" }));
+      } else if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY) {
+        this.playerDataModel.update(form => ({ ...form, mpFormat: "0.85" }));
       }
     });
   }  
@@ -181,7 +183,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }
 
   private isMpTeeTypeCorrect(): boolean {
-    if (this.tees[0].teeType !== this.tees[1].teeType) {
+    if (this.tees.some(tee => tee.teeType !== this.tees[0].teeType)) {
       this.alertService.error(
         $localize`:@@onlnRndDef-holeNotRight:Tee types (number of holes) for both players must be the same in case of MP round`,
         false
@@ -345,6 +347,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
     void submit(this.playerDataForm, () => {    
       
       const onlineRounds: OnlineRound[] = new Array(this.noOfPlayersSgn());
+      this.tees = [];
 
       let counter = 0;
       while (counter < this.noOfPlayersSgn()) {
@@ -372,9 +375,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           format: this.formatSgn(),
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
-          mpFormat: this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? 
-            +this.playerDataForm.mpFormat().value() : undefined,
-          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ? Math.floor(counter / 2) + 1 : undefined,
+          mpFormat: this.formatSgn() === Format.STROKE_PLAY ? undefined : +this.playerDataForm.mpFormat().value(),
+          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY ?
+            this.teamSgn()[counter] : undefined,
           identifier: +teeTime.replace(":", "").concat(String(this.playersSgn()[0].id))
         };
 
@@ -383,7 +386,7 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
       }
 
       // verify if there is the same tee type for both players in case of MP
-      if ((this.formatSgn() === Format.MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY) && !this.isMpTeeTypeCorrect()) {
+      if (this.formatSgn() !== Format.STROKE_PLAY && !this.isMpTeeTypeCorrect()) {
         return Promise.resolve();
       }
 

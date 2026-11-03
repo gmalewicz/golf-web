@@ -37,6 +37,10 @@ export class ViewSelectorComponent implements OnInit {
   readonly ViewType = ViewType;
   readonly Format = Format;
   readonly faSearchPlus: IconDefinition = faSearchPlus;
+  readonly fourballTabs = [
+    { id: 'FBMProunds', format: Format.FOUR_BALL_MATCH_PLAY, viewType: ViewType.FBMP, description: 'Fourball MatchPlay rounds' },
+    { id: 'FBSProunds', format: Format.FOUR_BALL_STROKE_PLAY, viewType: ViewType.FBSP, description: 'Fourball StrokePlay rounds' }
+  ];
 
   playersSgn: WritableSignal <Map<number, string[]>> = signal(new Map());
   displaySgn: WritableSignal<boolean> = signal(false);
@@ -88,6 +92,7 @@ export class ViewSelectorComponent implements OnInit {
         break;
       }
       case ViewType.MP: // view for MP round
+      case ViewType.FBSP: // view for FBSP round
       case ViewType.FBMP: { // view for FBMP round
       
         this.navigationService.setOwnerSgn(signal(onlineRound.owner));

@@ -14,6 +14,8 @@ import { MimicBackendScoreInterceptor } from "../_helpers/MimicBackendScoreInter
 import {
   getOnlineRoundFirstPlayer,
   getOnlineRoundSecondPlayer,
+  getOnlineRoundThirdPlayer,
+  getOnlineRoundFourthPlayer,
   getOnlineScoreCard,
   rxStompServiceStub,
 } from "../_helpers/test.helper";
@@ -29,6 +31,7 @@ import { signal } from "@angular/core";
 import { MPView } from "./formats/mp-view";
 import { of } from "rxjs";
 import { FBMPView } from "./formats/fbmp-view";
+import { FBSPView } from "./formats/fbsp-view";
 
 describe("OnlineScoreCardViewComponent", () => {
   let component: OnlineScoreCardViewComponent;
@@ -116,6 +119,25 @@ describe("OnlineScoreCardViewComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it("should create and display four ball stroke play round before handicaps are loaded", () => {
+    spyOn(FBSPView.prototype, "showFBSP").and.returnValue(of(void 0));
+    const rounds = [
+      getOnlineRoundFirstPlayer(),
+      getOnlineRoundSecondPlayer(),
+      getOnlineRoundThirdPlayer(),
+      getOnlineRoundFourthPlayer(),
+    ];
+    rounds.forEach((round, idx) => (round.team = Math.floor(idx / 2) + 1));
+    navigationService.setCourseSgn(signal(getTestCourse()));
+    navigationService.setOnlineRoundsSgn(signal(rounds));
+    navigationService.setViewTypeSgn(signal(ViewType.FBSP));
+    navigationService.setOwnerSgn(signal(1));
+    fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
+    component = fixture.componentInstance;
+    expect(() => fixture.detectChanges()).not.toThrow();
+    expect(fixture.nativeElement.textContent).toContain("Team 1 (net)");
   });
 
   it("should create and display course round", () => {

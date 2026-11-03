@@ -143,8 +143,8 @@ describe('PlayerResultsComponent', () => {
       {hole: 2, stroke: 3, pats: 1, player: {id: 3, nick: 'OtherPlayer'}}
     ];
 
-    spyOn(tournamentHttpService, 'getRound').and.returnValue(of(mockRound as any));
-    spyOn(httpService, 'getScoreCards').and.returnValue(of(mockScoreCards as any));
+    spyOn(tournamentHttpService, 'getRound').and.returnValue(of(mockRound) as never);
+    spyOn(httpService, 'getScoreCards').and.returnValue(of(mockScoreCards) as never);
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
 
     componentRef.setInput('tournamentResult', {
@@ -196,8 +196,8 @@ describe('PlayerResultsComponent', () => {
       {hole: 1, stroke: 3, pats: 0, player: {id: 7, nick: 'OtherPlayer'}}
     ];
 
-    spyOn(tournamentHttpService, 'getRound').and.returnValue(of(mockRound as any));
-    spyOn(httpService, 'getScoreCards').and.returnValue(of(mockScoreCards as any));
+    spyOn(tournamentHttpService, 'getRound').and.returnValue(of(mockRound) as never);
+    spyOn(httpService, 'getScoreCards').and.returnValue(of(mockScoreCards) as never);
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
 
     componentRef.setInput('tournamentResult', {

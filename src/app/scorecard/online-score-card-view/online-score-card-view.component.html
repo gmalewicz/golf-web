@@ -176,6 +176,54 @@
               </tr>  
             }
           }
+          @if (viewTypeSgn() === ViewType.FBSP) {
+            @for (teamResult of fbspResultSgn().teams; track teamResult.team) {
+              @for (player of teamResult.players; track player) {
+                <tr class="center">
+                  <th id="fbspNick">{{onlineRoundsSgn()[player]?.player?.nick}} ({{onlineRoundsSgn()[player]?.courseHCP}})</th>
+                  @for (index of counterSgn(); track index;) {
+                    <td class="center" [ngClass]="[fbspHcpClassSgn()[player]?.[index] ?? '', fbspResultSgn().counting[player]?.[index] ? 'golf-red' : '']">
+                      @if (onlineRoundsSgn()[player]?.scoreCardAPI?.[index]) {
+                        @if (onlineRoundsSgn()[player].scoreCardAPI[index].stroke === 16) {
+                          <span>x</span>
+                        } @else {
+                          <span>{{onlineRoundsSgn()[player].scoreCardAPI[index].stroke}}</span>
+                        }
+                      }
+                    </td>
+                  }
+                  <th class="center" scope="col"></th>
+                  @for (index of counterSgn(); track index;) {
+                    <td class="center" [ngClass]="[fbspHcpClassSgn()[player]?.[index + 9] ?? '', fbspResultSgn().counting[player]?.[index + 9] ? 'golf-red' : '']">
+                      @if (onlineRoundsSgn()[player]?.scoreCardAPI?.[index + 9]) {
+                        @if (onlineRoundsSgn()[player].scoreCardAPI[index + 9].stroke === 16) {
+                          <span>x</span>
+                        } @else {
+                          <span>{{onlineRoundsSgn()[player].scoreCardAPI[index + 9].stroke}}</span>
+                        }
+                      }
+                    </td>
+                  }
+                  <th class="center" scope="col"></th>
+                  <th class="center" scope="col"></th>
+                </tr>
+              }
+            }
+            @for (teamResult of fbspResultSgn().teams; track teamResult.team) {
+              <tr class="center">
+                <th id="fbspTeam">Team {{teamResult.team}} (net)</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center">{{teamResult.holes[index]}}</td>
+                }
+                <th class="center" scope="col">{{teamResult.front}}</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center">{{teamResult.holes[index + 9]}}</td>
+                }
+                <th class="center" scope="col">{{teamResult.back}}</th>
+                <th class="center" scope="col">{{teamResult.total}}</th>
+              </tr>
+            }
+          }
         </tbody>
       </table>
       @if (viewTypeSgn() === ViewType.MP || viewTypeSgn() === ViewType.FBMP) {  
