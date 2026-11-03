@@ -37,6 +37,10 @@ export class ViewSelectorComponent implements OnInit {
   readonly ViewType = ViewType;
   readonly Format = Format;
   readonly faSearchPlus: IconDefinition = faSearchPlus;
+  readonly fourballTabs = [
+    { id: 'FBMProunds', format: Format.FOUR_BALL_MATCH_PLAY, viewType: ViewType.FBMP, description: 'Fourball MatchPlay rounds' },
+    { id: 'FBSProunds', format: Format.FOUR_BALL_STROKE_PLAY, viewType: ViewType.FBSP, description: 'Fourball StrokePlay rounds' }
+  ];
 
   playersSgn: WritableSignal <Map<number, string[]>> = signal(new Map());
   displaySgn: WritableSignal<boolean> = signal(false);
