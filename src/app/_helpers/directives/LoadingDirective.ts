@@ -1,9 +1,12 @@
-import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, inject } from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[loading]',
 })
 export class LoadingDirective implements OnChanges {
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
   private wrapper: HTMLElement | null = null;
   private originalChildren: ChildNode[] = [];
 
@@ -66,6 +69,4 @@ export class LoadingDirective implements OnChanges {
     );
     this.originalChildren = [];
   }
-
-  constructor(private readonly el: ElementRef, private readonly renderer: Renderer2) {}
 }

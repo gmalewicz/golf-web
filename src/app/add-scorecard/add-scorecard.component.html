@@ -30,7 +30,7 @@
         <div class="col-auto">
           <mat-form-field>
             <mat-label>tee</mat-label>
-            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(round() == null)">
+            <mat-select [formControlName]="'teeDropDown'" (selectionChange)="teeChange(round() === null)">
               @for (tee of teeOptions(); track tee.value) {
                 <mat-option [value]="tee.value">{{tee.label}}</mat-option>
               }

@@ -221,11 +221,11 @@ describe('PlayerSelectorComponent', () => {
     (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn =
       signal([{ id: 1, nick: 'a' }, { id: 2, nick: 'b' }, { id: 3, nick: 'c' }]);
 
-    component.playerDataModel.update(current => ({
-      ...current,
-      mpFormat: '0.85',
-      teeDropDowns: [{ tee: '1' }, { tee: '1' }, { tee: '1' }, { tee: '1' }]
-    }));
+    component.playerDataModel.update(current => ({ ...current, mpFormat: '0.85' }));
+    // set via child fields: replacing array elements orphans the rendered form fields (NG01904)
+    for (let i = 0; i < 4; i++) {
+      component.playerDataForm.teeDropDowns[i].tee().controlValue.set('1');
+    }
 
     component.onStartOnlineRound(new Event('submit'));
 
@@ -246,10 +246,7 @@ describe('PlayerSelectorComponent', () => {
     (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn =
       signal([{ id: 1, nick: 'a' }, { id: 2, nick: 'b' }, { id: 3, nick: 'c' }]);
 
-    component.playerDataModel.update(current => ({
-      ...current,
-      teeDropDowns: [{ tee: '1' }, { tee: '1' }, { tee: '3' }, { tee: '1' }]
-    }));
+    ['1', '1', '3', '1'].forEach((tee, i) => component.playerDataForm.teeDropDowns[i].tee().controlValue.set(tee));
 
     component.onStartOnlineRound(new Event('submit'));
 

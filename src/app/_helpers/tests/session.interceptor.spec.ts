@@ -10,7 +10,7 @@ import { of, throwError } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
 const httpServiceStub: Partial<HttpService> = {
-  refresh(_playerId: number) {
+  refresh() {
     return of(new HttpResponse({ status: 200 }));
   }
 };
@@ -151,7 +151,7 @@ describe('session.interceptor — refresh failure', () => {
 
   const refreshError = new Error('refresh failed');
   const failingHttpServiceStub: Partial<HttpService> = {
-    refresh(_playerId: number) {
+    refresh() {
       return throwError(() => refreshError);
     }
   };

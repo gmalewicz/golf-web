@@ -1,28 +1,23 @@
 import { defineConfig, globalIgnores } from "eslint/config";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+import tseslint from "typescript-eslint";
+import angular from "angular-eslint";
 
 export default defineConfig([globalIgnores(["projects/**/*"]), {
     files: ["**/*.ts"],
 
-    extends: compat.extends(
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-    ),
+    extends: [
+        js.configs.recommended,
+        tseslint.configs.recommended,
+        angular.configs.tsRecommended,
+    ],
+
+    processor: angular.processInlineTemplates,
 
     rules: {
+        // v22 recommended flags components that explicitly use Default change detection
+        "@angular-eslint/prefer-on-push-component-change-detection": "off",
+
         "@angular-eslint/directive-selector": ["error", {
             type: "attribute",
             prefix: "app",
@@ -37,6 +32,6 @@ export default defineConfig([globalIgnores(["projects/**/*"]), {
     },
 }, {
     files: ["**/*.html"],
-    extends: compat.extends("plugin:@angular-eslint/template/recommended"),
+    extends: [angular.configs.templateRecommended],
     rules: {},
 }]);
