@@ -23,7 +23,7 @@ describe('CommonScorecardComponent', () => {
     componentRef.setInput('curPlayerStyleSgn', ['edit']);
     componentRef.setInput('curHoleIdxSgn', 0);
     componentRef.setInput('curHoleStrokesSgn', [1]);
-    componentRef.setInput('ballPickedUpSgn', false);
+    componentRef.setInput('ballPickedUpSgn', [false]);
     componentRef.setInput('totalStrokesSgn', [1]);
     componentRef.setInput('curHolePuttsSgn', [1]);
     componentRef.setInput('curHolePenaltiesSgn', [1]);

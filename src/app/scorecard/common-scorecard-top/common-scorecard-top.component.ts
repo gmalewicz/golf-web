@@ -16,7 +16,7 @@ export class CommonScorecardTopComponent {
   curHolePuttsSgn = input.required<number[]>();
   curHolePenaltiesSgn = input.required<number[]>();
   
-  ballPickedUpSgn = input.required<boolean>();
+  ballPickedUpSgn = input.required<boolean[]>();
   totalStrokesSgn = input.required<number[]>();
   penaltySelectorActiveSgn = input.required<{active: boolean}[]>();
   curPlayerIdxSgn = input.required<number>();

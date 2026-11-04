@@ -35,7 +35,7 @@ describe('CommonScorecardTopComponent', () => {
     componentRef.setInput('curHolePuttsSgn', [1]);
     componentRef.setInput('curHolePenaltiesSgn', [1]);
     componentRef.setInput('roundsSgn', [{putts: false, penalties: false, matchPlay: false, player: {nick: 'test'}}]);
-    componentRef.setInput('ballPickedUpSgn', false);
+    componentRef.setInput('ballPickedUpSgn', [false]);
     componentRef.setInput('totalStrokesSgn', [1]);
     componentRef.setInput('penaltySelectorActiveSgn', [{active: false}]);
     componentRef.setInput('curPlayerIdxSgn', 0);
