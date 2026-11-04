@@ -16,7 +16,7 @@ export class CommonScorecardComponent {
   curHolePuttsSgn = input.required<number[]>();
   curHolePenaltiesSgn = input.required<number[]>();
   roundsSgn =  input.required<OnlineRound[]>();
-  ballPickedUpSgn = input.required<boolean>();
+  ballPickedUpSgn = input.required<boolean[]>();
   totalStrokesSgn = input.required<number[]>();
   curPlayerStyleSgn = input.required<string[]>();
 }
