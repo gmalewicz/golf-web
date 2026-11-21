@@ -150,6 +150,14 @@ export class HttpService {
     return this.http.patch<HttpResponse<null>>('rest/UpdatePlayerOnBehalf', player);
   }
 
+  updatePlayerPzgId(id: number, pzgId: number | null): Observable<HttpResponse<null>> {
+    return this.http.patch<HttpResponse<null>>('rest/PlayerPzgId', {id, pzgId});
+  }
+
+  updatePlayerWhsFromPzg(id: number): Observable<{id: number, whs: number}> {
+    return this.http.patch<{id: number, whs: number}>('rest/PlayerWhsFromPzg', {id});
+  }
+
   getSocialPlayer(token: string): Observable<HttpResponse<Player>> {
 
     const headers = new HttpHeaders({Authorization: `Bearer ${token}`});

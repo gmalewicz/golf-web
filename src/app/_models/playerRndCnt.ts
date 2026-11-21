@@ -6,4 +6,5 @@ export interface PlayerRndCnt {
   role: number;
   roundCnt: number;
   type: number;
+  pzgId?: number | null;
 }
