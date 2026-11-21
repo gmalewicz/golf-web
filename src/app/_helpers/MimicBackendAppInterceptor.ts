@@ -85,6 +85,7 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
                (req.url.endsWith('rest/ScoreCard/1/1')) ||
                (req.url.startsWith('rest/DeletePlayer')) ||
                (req.url.startsWith('rest/UpdatePlayerOnBehalf')) ||
+               (req.url.endsWith('rest/PlayerPzgId')) ||
                (req.url.startsWith('rest/SwapPlrRnd')) ||
                (req.url.startsWith('rest/Rounds')) ||
                (req.url.startsWith('rest/RecentRounds')) ||
@@ -94,6 +95,11 @@ export class MimicBackendAppInterceptor implements HttpInterceptor{
                ) {
       return new Observable (observer => {
         observer.next(new HttpResponse<unknown>({status: 200}));
+        observer.complete();
+      });
+    } else if (req.url.endsWith('rest/PlayerWhsFromPzg')) {
+      return new Observable (observer => {
+        observer.next(new HttpResponse<unknown>({status: 200, body: {id: 1, whs: 5.5}}));
         observer.complete();
       });
     } else if (req.url.endsWith('rest/ScoreCard/1')) {

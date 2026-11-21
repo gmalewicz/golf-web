@@ -65,4 +65,60 @@ describe('PlayersComponent', () => {
     component.onClickUpdate(0);
     expect(component.playerRound[0].nick).toEqual('Player');
   }));
+
+  it('should update PZG ID', fakeAsync(() => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: null}];
+    (TestBed.inject(MatDialog) as unknown as MatDialogMock).setRetVal({pzgId: 123});
+    component.onClickPzgId(0);
+    expect(component.playerRound[0].pzgId).toEqual(123);
+  }));
+
+  it('should clear PZG ID', fakeAsync(() => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: 123}];
+    (TestBed.inject(MatDialog) as unknown as MatDialogMock).setRetVal({pzgId: null});
+    component.onClickPzgId(0);
+    expect(component.playerRound[0].pzgId).toBeNull();
+  }));
+
+  it('should not change PZG ID when dialog cancelled', fakeAsync(() => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: 123}];
+    (TestBed.inject(MatDialog) as unknown as MatDialogMock).setRetVal(undefined);
+    component.onClickPzgId(0);
+    expect(component.playerRound[0].pzgId).toEqual(123);
+  }));
+
+  it('should update WHS from PZG', fakeAsync(() => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: 123}];
+    component.onClickPzgHcp(0, new Event('click'));
+    expect(component.playerRound[0].whs).toEqual(5.5);
+    expect(component.pzgUpdating.size).toEqual(0);
+  }));
+
+  it('should show PZG update button only for player with PZG ID and not open dialog', () => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0},
+                             {id: 2, nick: 'test2', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: 77}];
+    fixture.detectChanges();
+    const cells = fixture.nativeElement.querySelectorAll('tbody tr td:nth-child(8)');
+    expect(cells[0].querySelector('button')).toBeNull();
+    const button = cells[1].querySelector('button');
+    expect(button).not.toBeNull();
+    spyOn(component, 'onClickPzgId');
+    button.click();
+    expect(component.onClickPzgId).not.toHaveBeenCalled();
+  });
+
+  it('should display n/a when PZG ID is not set', () => {
+    component = fixture.componentInstance;
+    component.playerRound = [{id: 1, nick: 'test', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0},
+                             {id: 2, nick: 'test2', sex: false, whs: 1.0, role: 1, roundCnt: 1, type: 0, pzgId: 77}];
+    fixture.detectChanges();
+    const cells = fixture.nativeElement.querySelectorAll('tbody tr td:nth-child(8)');
+    expect(cells[0].textContent.trim()).toEqual('n/a');
+    expect(cells[1].textContent.trim()).toEqual('77');
+  });
 });

@@ -12,6 +12,7 @@
           <th id="role">Role</th>
           <th id="type">Type</th>
           <th id="id">ID</th>
+          <th id="pzgId">PZG ID</th>
           <th id="roundCnt">Rounds</th>
           <th id="delete">Delete</th>
         </tr>
@@ -51,6 +52,16 @@
             </td>
             <td>
               {{row.id}}
+            </td>
+            <td (click)="onClickPzgId(idx)" onKeyDown="onClickPzgId(idx)">
+              {{ row.pzgId ?? 'n/a' }}
+              @if (row.pzgId) {
+                <button type="button" class="btn btn-link text-success p-0 ms-2" title="Update HCP from PZG"
+                        aria-label="Update HCP from PZG" [disabled]="pzgUpdating.has(row.id)"
+                        (click)="onClickPzgHcp(idx, $event)">
+                  <fa-icon [icon]="faArrowDown"></fa-icon>
+                </button>
+              }
             </td>
             <td>{{ row.roundCnt }}</td>
             @if (row.roundCnt === 0) {

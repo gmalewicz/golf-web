@@ -1,0 +1,20 @@
+<div class="golf-theme">
+  <h2 style="color: red" mat-dialog-title>Update PZG ID: {{nick}}</h2>
+  <mat-dialog-content [formGroup]="form" style="width: 260px;">
+
+    <mat-form-field>
+      <mat-label>PZG ID</mat-label>
+      <input matInput inputmode="numeric" placeholder="PZG ID" formControlName="pzgId" (keyup.enter)="save()" />
+      @if (form.controls.pzgId.errors?.pattern) {
+        <mat-error>Provide a positive integer or leave empty</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+      &nbsp;
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save()">Save</button>
+    </mat-dialog-actions>
+
+  </mat-dialog-content>
+</div>
