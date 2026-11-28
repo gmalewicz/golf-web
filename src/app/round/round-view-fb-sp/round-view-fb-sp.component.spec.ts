@@ -34,8 +34,8 @@ describe('RoundViewFbSpComponent', () => {
     expect(component.displaySgn()).toBeTrue();
     expect(component.resultSgn().teams.map(t => t.players)).toEqual([[0, 1], [2, 3]]);
     expect(component.resultSgn().teams[0].holes[1]).toBeDefined();
-    expect(fixture.nativeElement.querySelector('#teamNet').getAttribute('rowspan')).toBe('2');
-    expect(fixture.nativeElement.querySelector('#teamNet').textContent).toContain('Result');
+    const names = Array.from(fixture.nativeElement.querySelectorAll('#teamNet')).map(el => (el as HTMLElement).textContent?.trim());
+    expect(names).toEqual(['test/test2', 'test3/test2']);
   });
 
   it('should mark winning team results', () => {
@@ -66,9 +66,16 @@ describe('RoundViewFbSpComponent', () => {
 
   it('should merge team cells of players and separate teams with an empty row', () => {
     const cells: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('th.align-middle'));
-    // result cell and one team cell per team spanning its two players
-    expect(cells.map(c => c.getAttribute('rowspan'))).toEqual(['2', '2', '2']);
+    // one team cell per team spanning its two players
+    expect(cells.map(c => c.getAttribute('rowspan'))).toEqual(['2', '2']);
     expect(fixture.nativeElement.querySelectorAll('td[colspan="23"]')).toHaveSize(1);
+  });
+
+  it('should show team net result below the table with the players names', () => {
+    const teams = component.resultSgn().teams;
+    const text: string = fixture.nativeElement.querySelector('h3').textContent.replace(/\s+/g, ' ').trim();
+    expect(text).toBe(`test/test2 ${teams[0].total} : test3/test2 ${teams[1].total}`);
+    expect(fixture.nativeElement.querySelectorAll('h3 .golf-red')).toHaveSize(2);
   });
 
   it('should apply allowance to playing handicap', () => {

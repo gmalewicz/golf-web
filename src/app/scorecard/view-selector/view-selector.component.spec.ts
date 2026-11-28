@@ -75,12 +75,13 @@ describe('ViewSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should define fourball tabs for match play and stroke play', () => {
+  it('should define fourball and texas scramble tabs', () => {
     fixture = TestBed.createComponent(ViewSelectorComponent);
     component = fixture.componentInstance;
     expect(component.fourballTabs.map(t => [t.id, t.format, t.viewType])).toEqual([
       ['FBMProunds', Format.FOUR_BALL_MATCH_PLAY, ViewType.FBMP],
-      ['FBSProunds', Format.FOUR_BALL_STROKE_PLAY, ViewType.FBSP]
+      ['FBSProunds', Format.FOUR_BALL_STROKE_PLAY, ViewType.FBSP],
+      ['TSrounds', Format.TEXAS_SCRAMBLE, ViewType.TEXAS]
     ]);
   });
 

@@ -236,6 +236,48 @@ describe('PlayerSelectorComponent', () => {
     expect(rounds.every(r => r.mpFormat === 0.85 && r.format === Format.FOUR_BALL_STROKE_PLAY)).toBeTrue();
   });
 
+  it('onStartOnlineRound should send one team and no allowance for texas scramble round with 3 players', () => {
+
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).formatSgn = signal(Format.TEXAS_SCRAMBLE);
+    fixture.detectChanges();
+
+    component.onPlayers(3);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).playersSgn =
+      signal([{ id: 1, nick: 'a' }, { id: 2, nick: 'b' }, { id: 3, nick: 'c' }]);
+
+    // the form still holds the fields of all four players until change detection
+    for (let i = 0; i < 4; i++) {
+      component.playerDataForm.teeDropDowns[i].tee().controlValue.set('1');
+    }
+
+    component.onStartOnlineRound(new Event('submit'));
+
+    expect(scorecardHttpSpy.addOnlineRounds).toHaveBeenCalled();
+    const rounds = scorecardHttpSpy.addOnlineRounds.calls.mostRecent().args[0];
+    expect(rounds.map(r => r.team)).toEqual([1, 1, 1]);
+    expect(rounds.every(r => r.mpFormat === undefined && r.format === Format.TEXAS_SCRAMBLE)).toBeTrue();
+  });
+
+  it('should show the texas scramble allowance applied to each player from the lowest handicap', () => {
+
+    httpServiceSpy.getTees.and.returnValue(of([{ id: 1, sex: false, tee: 'Blue', teeType: 0, cr: 72, sr: 113 }]));
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).formatSgn = signal(Format.TEXAS_SCRAMBLE);
+    (component as unknown as Record<string, (...args: unknown[]) => unknown>).courseSgn =
+      signal({ id: 123, par: 72, holes: [], tees: [] });
+    fixture.detectChanges();
+
+    component.playersSgn.set([{ id: 1, nick: 'a', whs: 30 }, { id: 2, nick: 'b', whs: 10 },
+                              { id: 3, nick: 'c', whs: 20 }, { id: 4, nick: 'd', whs: 20 }]);
+    for (let i = 0; i < 4; i++) {
+      component.playerDataForm.teeDropDowns[i].tee().controlValue.set('1');
+    }
+
+    expect(component.texasAllowancesSgn()).toEqual([15, 35, 35, 15]);
+
+    component.onPlayers(3);
+    expect(component.texasAllowancesSgn()).toEqual([10, 30, 20]);
+  });
+
   it('onStartOnlineRound should reject four ball stroke play round with different tee types', () => {
 
     httpServiceSpy.getTees.and.returnValue(of([...mockTees, { id: 3, sex: false, tee: 'Short', teeType: 1 }]));

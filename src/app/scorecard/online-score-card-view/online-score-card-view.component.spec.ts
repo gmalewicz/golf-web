@@ -137,7 +137,8 @@ describe("OnlineScoreCardViewComponent", () => {
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
     component = fixture.componentInstance;
     expect(() => fixture.detectChanges()).not.toThrow();
-    expect(fixture.nativeElement.textContent).toContain("Result");
+    const names = Array.from(fixture.nativeElement.querySelectorAll("#fbspTeam")).map(el => (el as HTMLElement).textContent?.trim());
+    expect(names).toEqual(["golfer/test", "test 2/test 3"]);
   });
 
   it("should create and display course round", () => {

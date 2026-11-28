@@ -22,6 +22,10 @@
         <button class="nav-link" id="fbmp-tab" data-bs-toggle="tab" data-bs-target="#fbmp" type="button"
           role="tab" aria-controls="fbmp-tab" aria-selected="false" (click)="changeFormat(Format.FOUR_BALL_MATCH_PLAY)">Four Ball MP</button>
       </li>
+      <li class="nav-item">
+        <button class="nav-link" id="ts-tab" data-bs-toggle="tab" data-bs-target="#ts" type="button"
+          role="tab" aria-controls="ts-tab" aria-selected="false" (click)="changeFormat(Format.TEXAS_SCRAMBLE)">Texas Scramble</button>
+      </li>
     </ul>
     <app-player-selector [courseSgn]='courseSgn()' [formatSgn]='formatSgn()'></app-player-selector>
       

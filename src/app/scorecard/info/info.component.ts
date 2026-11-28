@@ -43,6 +43,9 @@ export class InfoComponent {
       case Format.FOUR_BALL_STROKE_PLAY:
         this.router.navigate(['/scorecard/onlineFbStrokeplay']).catch(error => console.log(error));
         break;
+      case Format.TEXAS_SCRAMBLE:
+        this.router.navigate(['/scorecard/onlineTexasScramble']).catch(error => console.log(error));
+        break;
       default:
         this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));
         break;

@@ -14,6 +14,7 @@ import { RoundSummaryComponent } from '../round-summary/round-summary.component'
 import { RoundViewSkinsComponent } from '../round-view-skins/round-view-skins.component';
 import { RoundViewFbMpComponent } from '../round-view-fb-mp/round-view-fb-mp.component';
 import { RoundViewFbSpComponent } from '../round-view-fb-sp/round-view-fb-sp.component';
+import { RoundViewTexasScrambleComponent } from '../round-view-texas-scramble/round-view-texas-scramble.component';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
 @Component({
@@ -26,6 +27,7 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               RoundViewSkinsComponent, 
               RoundViewFbMpComponent,
               RoundViewFbSpComponent,
+              RoundViewTexasScrambleComponent,
               LoadingDirective]
 })
 export class RoundComponent implements OnInit {

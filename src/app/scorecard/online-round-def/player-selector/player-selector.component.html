@@ -26,14 +26,30 @@
       </div>
     }
 
-    @if (formatSgn() === Format.STROKE_PLAY || formatSgn() === Format.FOUR_BALL_STROKE_PLAY) { 
+    @if (formatSgn() === Format.TEXAS_SCRAMBLE) {
+      <div class="row golf-margin-top">
+        <div class="col">
+          <span class="golf-thick" i18n="@@onlnRndDef-texasAllowance">Team handicap allowance (from the lowest to the highest handicap):</span>
+          <div>
+            @if (noOfPlayersSgn() === 3) {
+              <span i18n="@@onlnRndDef-texasAllowance3">1 team of 3 players: 30% / 20% / 10%</span>
+            } @else {
+              <span i18n="@@onlnRndDef-texasAllowance4">2 teams of 2 players: 35% / 15%</span>
+            }
+          </div>
+          <br />
+        </div>
+      </div>
+    }
+
+    @if (formatSgn() === Format.STROKE_PLAY || formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.TEXAS_SCRAMBLE) { 
       <div class="col">
         <div class="btn-group" aria-label="Number of players">
           
-          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 1, disabled: formatSgn() === Format.FOUR_BALL_STROKE_PLAY}"
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 1, disabled: isTeamFormat()}"
           i18n="@@onlnRndDef-p1Btn" (click)="onPlayers(1)">1 player</button>
           
-          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 2, disabled: formatSgn() === Format.FOUR_BALL_STROKE_PLAY }"
+          <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 2, disabled: isTeamFormat() }"
           i18n="@@onlnRndDef-p2Btn" (click)="onPlayers(2)">2 players</button>
           
           <button class="btn btn-outline-success" [ngClass]="{active: noOfPlayersSgn() === 3}"
@@ -54,7 +70,7 @@
          
           @if (!playersSgn()[id]) {
           
-            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+            @if (isTeamFormat() || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
             <span class="golf-margin-top golf-red golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
             } 
             <span class="golf-margin-top golf-red golf-thick" i18n="@@onlnRndDef-p">
@@ -67,11 +83,14 @@
               <fa-icon [icon]="faSearchPlusSgn()" class="golf-green" (click)="onSearchPlayer(id)" onKeyDown="onSearchPlayer(id)"></fa-icon>
             </span>
           } @else {
-            @if (formatSgn() === Format.FOUR_BALL_STROKE_PLAY || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
+            @if (isTeamFormat() || formatSgn() === Format.FOUR_BALL_MATCH_PLAY) {
               <span class="golf-margin-top golf-thick">({{teamSgn()[id]}}) &nbsp;</span>
              } 
             <span class="golf-margin-top golf-thick">
               {{playersSgn()[id].nick}} HCP: {{playersSgn()[id].whs}}
+              @if (texasAllowancesSgn()[id] !== undefined) {
+                <span class="golf-red">({{texasAllowancesSgn()[id]}}%)</span>
+              }
             </span>
             <span class="golf-padding golf-thick">
               <fa-icon [icon]="faCheckCircleSgn()" class="golf-green"></fa-icon>

@@ -56,6 +56,13 @@
         }
       </li>
 
+      <li>
+        @if (round?.format === Format.TEXAS_SCRAMBLE) {
+          <button class="nav-link" id="ts-tab" data-bs-toggle="tab" data-bs-target="#ts" type="button"
+          role="tab" aria-controls="ts" aria-selected="false" (click)="onTabClick(10)">Texas Scramble</button>
+        }
+      </li>
+
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
@@ -109,6 +116,11 @@
       <div class="tab-pane fade" id="fbsp" role="tabpanel" aria-labelledby="fbsp-tab">
         @if (round?.format === Format.FOUR_BALL_STROKE_PLAY && selectedTab === 9) {
           <app-round-view-fb-sp [round]='round'></app-round-view-fb-sp>
+        }
+      </div>
+      <div class="tab-pane fade" id="ts" role="tabpanel" aria-labelledby="ts-tab">
+        @if (round?.format === Format.TEXAS_SCRAMBLE && selectedTab === 10) {
+          <app-round-view-texas-scramble [round]='round'></app-round-view-texas-scramble>
         }
       </div>
     </div>

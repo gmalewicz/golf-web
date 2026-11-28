@@ -59,9 +59,7 @@
           </tr>
           @for (team of resultSgn().teams; track team.team; let t = $index) {
             <tr class="center">
-              @if (t === 0) {
-                <th id="teamNet" class="center align-middle" [attr.rowspan]="resultSgn().teams.length" i18n="@@onlnScorView-fbspResult">Result</th>
-              }
+              <th id="teamNet" class="center">{{scoresSgn()[t]?.name}}</th>
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="holeWinnerSgn()[t][i]">{{team.holes[i]}}</td>
               }
@@ -113,6 +111,13 @@
           }
         </tbody>
       </table>
+      <div>
+        <h3 class="fw-bold">
+          @for (score of scoresSgn(); track $index; let last = $last) {
+            {{score.name}} <span class="golf-red">{{score.total}}</span>{{last ? '' : ' : '}}
+          }
+        </h3>
+      </div>
     </div>
   </div>
 </div>

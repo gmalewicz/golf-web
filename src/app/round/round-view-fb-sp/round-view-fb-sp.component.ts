@@ -30,6 +30,12 @@ export class RoundViewFbSpComponent implements OnInit {
   first9parSgn = computed(() => this.round().course.holes!.map(h => h.par).reduce((p, n, i) => (i < 9 ? p + n : p), 0));
   last9parSgn = computed(() => this.round().course.par - this.first9parSgn());
 
+  // current net result of the teams
+  scoresSgn = computed(() => this.resultSgn().teams.map(team => ({
+    name: team.players.map(idx => this.round().player?.[idx]?.nick).join('/'),
+    total: team.total
+  })));
+
   // css class marking the winning team result per hole [team][hole], same as for match play
   holeWinnerSgn = computed<string[][]>(() => {
     const teams = this.resultSgn().teams;
