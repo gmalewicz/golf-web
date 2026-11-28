@@ -4,56 +4,11 @@
     <div class="table-responsive">
       <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View texas scramble round">
         <thead>
-          <tr>
-            <th id="hole" i18n="@@roundViewMp-hole" class="center">Hole</th>
-            @for (i of 9 | range; track i;) {
-              <th id="no" class="w-5">
-                {{i + 1}}
-              </th>
-            }
-            <th id="out" class="center">OUT</th>
-            @for (index of 9 | range; track index; let i = $index) {
-              <th id="no2" class="w-5">
-                {{i + 10}}
-              </th>
-            }
-            <th id="in" class="center">IN</th>
-            <th id="total" class="center">TOTAL</th>
-          </tr>
+          <tr appRoundHoleHead></tr>
         </thead>
         <tbody>
-          <tr>
-            <th id="par" class="center">PAR</th>
-            @for (i of 9 | range; track i;) {
-              <td class="center">
-                {{round().course.holes?.[i]?.par}}
-              </td>
-            }
-            <th id="firstPar" class="center">{{first9parSgn()}}</th>
-            @for (i of 9 | range; track i;) {
-              <td class="center">
-                {{round().course.holes?.[i + 9]?.par}}
-              </td>
-            }
-            <th id="lpar" class="center">{{last9parSgn()}}</th>
-            <th id="ptotal" class="center">{{first9parSgn() + last9parSgn()}}</th>
-          </tr>
-          <tr>
-            <th id="si" class="center">SI</th>
-            @for (i of 9 | range; track i;) {
-              <td class="center">
-                {{round().course.holes?.[i]?.si}}
-              </td>
-            }
-            <th id="empty"></th>
-            @for (i of 9 | range; track i;) {
-              <td class="center">
-                {{round().course.holes?.[i + 9]?.si}}
-              </td>
-            }
-            <th id="empty2"></th>
-            <th id="empty3"></th>
-          </tr>
+          <tr appRoundParRow [round]="round()"></tr>
+          <tr appRoundSiRow [round]="round()"></tr>
           @for (team of teams; track team.team; let t = $index) {
             <tr class="center">
               <th id="texasGross">{{teamNames[t]}}</th>

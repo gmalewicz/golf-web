@@ -50,6 +50,10 @@ export class OnlineTexasScrambleComponent extends OnlineRoundBaseComponent {
     this.scorersSgn().map(round => ({ ...round, player: { ...round.player, nick: `Team ${round.team}` } }))
   );
 
+  // team players names [team], e.g. "anna/bob"
+  teamNamesSgn = computed<string[]>(() =>
+    this.teamsSgn().map(team => team.players.map(idx => this.allRoundsSgn()[idx].player.nick).join('/')));
+
   highlightHCPSgn = computed<string[][]>(() =>
     this.holeHcpSgn().map(teamHoles => teamHoles.map(hcpStrokesClass))
   );

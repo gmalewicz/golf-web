@@ -230,11 +230,7 @@
           @if (viewTypeSgn() === ViewType.TEXAS) {
             @for (team of texasTeamsSgn(); track team.team; let t = $index) {
               <tr class="center">
-                <th id="texasGross">
-                  @for (idx of team.players; track idx; let last = $last) {
-                    {{onlineRoundsSgn()[idx]?.player?.nick}}{{last ? '' : '/'}}
-                  }
-                </th>
+                <th id="texasGross">{{texasNamesSgn()[t]}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center" [ngClass]="texasHcpClassSgn()[t]?.[index] ?? ''">
                     @if (onlineRoundsSgn()[team.scorer]?.scoreCardAPI?.[index]) {
@@ -267,12 +263,7 @@
             </tr>
             @for (team of texasTeamsSgn(); track team.team; let t = $index) {
               <tr class="center">
-                <th id="texasNet">
-                  @for (idx of team.players; track idx; let last = $last) {
-                    {{onlineRoundsSgn()[idx]?.player?.nick}}{{last ? '' : '/'}}
-                  }
-                  (net)
-                </th>
+                <th id="texasNet">{{texasNamesSgn()[t]}} (net)</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center">{{texasResultSgn().teams[t]?.holes[index]}}</td>
                 }

@@ -32,13 +32,8 @@
         <tr class="fw-normal">
           <th id="empty3"></th>
           <th id="hole" class="fw-normal" i18n="@@onlMatch-hole">Hole</th>
-          @for (team of teamsSgn(); track team.team) {
-            <th scope="col" class="text-center fw-normal">
-              @for (idx of team.players; track idx; let last = $last) {
-                {{allRoundsSgn()[idx].player.nick}}{{last ? '' : '/'}}
-              }
-              ({{team.hcp}})
-            </th>
+          @for (team of teamsSgn(); track team.team; let t = $index) {
+            <th scope="col" class="text-center fw-normal">{{teamNamesSgn()[t]}} ({{team.hcp}})</th>
           }
         </tr>
       </thead>

@@ -13,6 +13,7 @@ import {
   hcpStrokesClass,
   TexasTeam
 } from '@/_helpers/texas-scramble.routines';
+import { RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent } from '../round-hole-rows/round-hole-rows.component';
 
 const HOLES = 18;
 
@@ -20,7 +21,7 @@ const HOLES = 18;
     selector: 'app-round-view-texas-scramble',
     templateUrl: './round-view-texas-scramble.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe, NgClass, LoadingDirective]
+    imports: [RangePipe, NgClass, LoadingDirective, RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent]
 })
 export class RoundViewTexasScrambleComponent implements OnInit {
 
@@ -37,9 +38,6 @@ export class RoundViewTexasScrambleComponent implements OnInit {
   grossSums: FbspPlayerSum[] = [];
   // gross strokes [player][hole]
   strokes: (number | undefined)[][] = [];
-
-  first9parSgn = computed(() => this.round().course.holes!.map(h => h.par).reduce((p, n, i) => (i < 9 ? p + n : p), 0));
-  last9parSgn = computed(() => this.round().course.par - this.first9parSgn());
 
   // css class marking the winning team on the hole [team][hole], same as for match play
   holeWinnerSgn = computed<string[][]>(() => {

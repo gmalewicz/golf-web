@@ -120,9 +120,11 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   texasHcpClassSgn: Signal<string[][]> = computed(() =>
     this.holeHcpSgn().map(teamHoles => teamHoles.map(hcpStrokesClass)));
   // current net result of the teams
+  texasNamesSgn: Signal<string[]> = computed(() =>
+    this.texasTeamsSgn().map(team => team.players.map(player => this.onlineRoundsSgn()[player]?.player?.nick).join('/')));
   texasScoresSgn: Signal<{ name: string; total: number }[]> = computed(() =>
     this.texasResultSgn().teams.map((result, idx) => ({
-      name: this.texasTeamsSgn()[idx].players.map(player => this.onlineRoundsSgn()[player]?.player?.nick).join('/'),
+      name: this.texasNamesSgn()[idx],
       total: result.total
     })));
 
