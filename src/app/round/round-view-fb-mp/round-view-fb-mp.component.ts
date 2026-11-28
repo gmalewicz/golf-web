@@ -7,6 +7,7 @@ import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 import { NgClass } from '@angular/common';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { calculateFbspPlayerSum, FbspPlayerSum } from '@/_helpers/fbsp.routines';
 
 @Component({
     selector: 'app-round-view-fb-mp',
@@ -38,7 +39,10 @@ export class RoundViewFbMpComponent implements OnInit {
   mpResultHistorySgn: WritableSignal<string[][]> = signal((new Array(2).fill('').map(() => new Array(18).fill(''))));
 
   teamNumbers: number[] = [1,1,2,2];
-  sortedPlayerIndices: number[] = [0, 1, 2, 3];
+  // player indexes grouped by team: [team 1, team 2]
+  teamPlayers: number[][] = [[0, 1], [2, 3]];
+  // gross strokes sums per player
+  playerSums: FbspPlayerSum[] = [];
   private team1Indices: number[] = [0, 1];
   private team2Indices: number[] = [2, 3];
 
@@ -91,7 +95,10 @@ export class RoundViewFbMpComponent implements OnInit {
     this.teamNumbers = this.round().player!.map((pl, idx) => pl.roundDetails!.team ?? (idx < 2 ? 1 : 2));
     this.team1Indices = [0, 1, 2, 3].filter(i => this.teamNumbers[i] === 1);
     this.team2Indices = [0, 1, 2, 3].filter(i => this.teamNumbers[i] === 2);
-    this.sortedPlayerIndices = [...this.team1Indices, ...this.team2Indices];
+    this.teamPlayers = [this.team1Indices, this.team2Indices].filter(players => players.length > 0);
+
+    this.playerSums = [0, 1, 2, 3].map(idx => calculateFbspPlayerSum(
+      Array.from({ length: 18 }, (_, hole) => this.round().scoreCard?.[hole + idx * 18]?.stroke)));
 
     for (let i = 0; i < 4; i++) {
       calculateHoleHCP(

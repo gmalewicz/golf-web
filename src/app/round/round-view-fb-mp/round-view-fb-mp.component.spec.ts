@@ -34,6 +34,21 @@ describe('RoundViewFbMpComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should merge team result cells and show team column', () => {
+    const resultCell = fixture.nativeElement.querySelector('#bck2');
+    expect(resultCell.getAttribute('rowspan')).toBe('2');
+    expect(resultCell.textContent).toContain('Result');
+    expect(fixture.nativeElement.querySelector('#teamCol').textContent).toContain('Team');
+    expect(component.playerSums).toHaveSize(4);
+  });
+
+  it('should merge team cells of players and separate teams with an empty row', () => {
+    const cells: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('th.align-middle'));
+    // result cell and one team cell per team spanning its two players
+    expect(cells.map(c => c.getAttribute('rowspan'))).toEqual(['2', '2', '2']);
+    expect(fixture.nativeElement.querySelectorAll('td[colspan="23"]')).toHaveSize(1);
+  });
+
   afterAll(() => {
     TestBed.resetTestingModule();
   });

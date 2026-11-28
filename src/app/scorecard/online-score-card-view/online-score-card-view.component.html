@@ -192,7 +192,7 @@
                       }
                     </td>
                   }
-                  <th class="center" scope="col"></th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.front}}</th>
                   @for (index of counterSgn(); track index;) {
                     <td class="center" [ngClass]="[fbspHcpClassSgn()[player]?.[index + 9] ?? '', fbspResultSgn().counting[player]?.[index + 9] ? 'golf-red' : '']">
                       @if (onlineRoundsSgn()[player]?.scoreCardAPI?.[index + 9]) {
@@ -204,14 +204,17 @@
                       }
                     </td>
                   }
-                  <th class="center" scope="col"></th>
-                  <th class="center" scope="col"></th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.back}}</th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.total}}</th>
                 </tr>
               }
             }
+            <tr>
+              <td colspan="22" class="border-start-0 border-end-0">&nbsp;</td>
+            </tr>
             @for (teamResult of fbspResultSgn().teams; track teamResult.team) {
               <tr class="center">
-                <th id="fbspTeam">Team {{teamResult.team}} (net)</th>
+                <th id="fbspTeam" i18n="@@onlnScorView-fbspResult">Result</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center">{{teamResult.holes[index]}}</td>
                 }

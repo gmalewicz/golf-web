@@ -19,6 +19,7 @@
             }
             <th  id="in" class="center">IN</th>
             <th  id="total" class="center">TOTAL</th>
+            <th  id="teamCol" class="center">Team</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
             }
             <th  id="lpar" class="center">{{last9parSgn()}}</th>
             <th  id="ptotal" class="center">{{first9parSgn() + last9parSgn()}}</th>
+            <th  id="pteam"></th>
           </tr>
           <tr>
             <th  id="si" class="center">SI</th>
@@ -53,10 +55,13 @@
             }
             <th  id="empty2"></th>
             <th  id="empty3"></th>
+            <th  id="empty5"></th>
           </tr>
           @for (idx of 2 | range; track idx;) {
             <tr class="center">
-              <th  id="bck2">Team {{idx + 1}}</th>
+              @if (idx === 0) {
+                <th id="bck2" class="center align-middle" rowspan="2" i18n="@@onlnScorView-fbspResult">Result</th>
+              }
               @for (i of 9 | range; track i;) {
                 <td class="center" [ngClass]="highlightResultSgn()[idx][i]">
                   {{mpResultHistorySgn()[idx][i]}}
@@ -70,10 +75,17 @@
               }
               <th  id="mpt2" class="center"></th>
               <th  id="mp4" class="center"></th>
+              <th  id="mpTeam" class="center">{{idx + 1}}</th>
             </tr>
           }
           <tr id="empty4" colspan="21">&nbsp;</tr>
-          @for (idx of sortedPlayerIndices; track idx;) {
+          @for (players of teamPlayers; track $index; let t = $index) {
+            @if (t > 0) {
+              <tr>
+                <td colspan="23" class="border-start-0 border-end-0">&nbsp;</td>
+              </tr>
+            }
+            @for (idx of players; track idx; let first = $first) {
             <tr class="center">
               <th  id="bck">{{round().player?.[idx]?.nick}}</th>
               @for (i of 9 | range; track i;) {
@@ -85,7 +97,7 @@
                   }
                 </td>
               }
-              <th  id="mpr2" class="center"></th>
+              <th  id="mpr2" class="center">{{playerSums[idx]?.front}}</th>
               @for (index2 of 9 | range; track index2; let i = $index) {
                 <td class="center" [ngClass]="[highlightHCPSgn()[idx][i + 9], highlightWinnerSgn()[idx][i + 9]]">
                   @if (round().scoreCard?.[i + 9 + (idx * 18)]?.stroke === 16) {
@@ -95,9 +107,13 @@
                   }
                 </td>
               }
-              <th  id="mpt3" class="center"></th>
-              <th  id="mp3" class="center"> Team {{ teamNumbers[idx] }}</th>
+              <th  id="mpt3" class="center">{{playerSums[idx]?.back}}</th>
+              <th  id="mp3" class="center">{{playerSums[idx]?.total}}</th>
+              @if (first) {
+                <th  id="mpTeam2" class="center align-middle" [attr.rowspan]="players.length">{{teamNumbers[idx]}}</th>
+              }
             </tr>
+            }
           }
         </tbody>
       </table>

@@ -137,7 +137,7 @@ describe("OnlineScoreCardViewComponent", () => {
     fixture = TestBed.createComponent(OnlineScoreCardViewComponent);
     component = fixture.componentInstance;
     expect(() => fixture.detectChanges()).not.toThrow();
-    expect(fixture.nativeElement.textContent).toContain("Team 1 (net)");
+    expect(fixture.nativeElement.textContent).toContain("Result");
   });
 
   it("should create and display course round", () => {

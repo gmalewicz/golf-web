@@ -1,5 +1,5 @@
 import { calculateHoleHCP, calculateUnroundedCourseHCP, getPlayedCoursePar } from "@/_helpers/whs.routines";
-import { calculateFbspTeamResults, FbspResult } from "@/_helpers/fbsp.routines";
+import { calculateFbspPlayerSum, calculateFbspTeamResults, FbspPlayerSum, FbspResult } from "@/_helpers/fbsp.routines";
 import { Course } from "@/_models/course";
 import { HttpService } from "@/_services/http.service";
 import { OnlineRound } from "@/scorecard/_models/onlineRound";
@@ -17,6 +17,12 @@ export function calculateFbspResult(rounds: OnlineRound[], holeHcp: number[][]):
     (rounds ?? []).map(round => Array.from({ length: HOLES }, (_, hole) => round.scoreCardAPI?.[hole]?.stroke)),
     (rounds ?? []).map(round => round.team),
     holeHcp);
+}
+
+export function calculateFbspPlayerSums(rounds: OnlineRound[]): FbspPlayerSum[] {
+
+  return (rounds ?? []).map(round =>
+    calculateFbspPlayerSum(Array.from({ length: HOLES }, (_, hole) => round.scoreCardAPI?.[hole]?.stroke)));
 }
 
 export class FBSPView {

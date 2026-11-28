@@ -34,7 +34,8 @@ describe('RoundViewFbSpComponent', () => {
     expect(component.displaySgn()).toBeTrue();
     expect(component.resultSgn().teams.map(t => t.players)).toEqual([[0, 1], [2, 3]]);
     expect(component.resultSgn().teams[0].holes[1]).toBeDefined();
-    expect(fixture.nativeElement.textContent).toContain('Team 1 (net)');
+    expect(fixture.nativeElement.querySelector('#teamNet').getAttribute('rowspan')).toBe('2');
+    expect(fixture.nativeElement.querySelector('#teamNet').textContent).toContain('Result');
   });
 
   it('should mark winning team results', () => {
@@ -46,6 +47,28 @@ describe('RoundViewFbSpComponent', () => {
         const other = teams[1 - t].holes[hole];
         expect(cls === 'highlightMPResult').toBe(net !== undefined && other !== undefined && net < other);
       }));
+  });
+
+  it('should sum gross strokes per player', () => {
+    const scoreCard = component.round().scoreCard!;
+    component.playerSums.forEach((sum, idx) => {
+      const strokes = Array.from({ length: 18 }, (_, hole) => scoreCard[hole + idx * 18]?.stroke);
+      const entered = (from: number) => strokes.slice(from, from + 9).reduce((s, v) => s + (v ?? 0), 0);
+      expect(sum.front).toBe(entered(0));
+      expect(sum.back).toBe(entered(9));
+      expect(sum.total).toBe(entered(0) + entered(9));
+    });
+  });
+
+  it('should show team number per player', () => {
+    expect(fixture.nativeElement.querySelector('#teamCol').textContent).toContain('Team');
+  });
+
+  it('should merge team cells of players and separate teams with an empty row', () => {
+    const cells: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('th.align-middle'));
+    // result cell and one team cell per team spanning its two players
+    expect(cells.map(c => c.getAttribute('rowspan'))).toEqual(['2', '2', '2']);
+    expect(fixture.nativeElement.querySelectorAll('td[colspan="23"]')).toHaveSize(1);
   });
 
   it('should apply allowance to playing handicap', () => {

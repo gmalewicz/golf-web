@@ -15,8 +15,8 @@ import { MPView } from './formats/mp-view';
 import { RoundView } from './formats/round-view';
 import { CourseView } from './formats/course-view';
 import { FBMPView } from './formats/fbmp-view';
-import { calculateFbspResult, FBSPView } from './formats/fbsp-view';
-import { FbspResult } from '@/_helpers/fbsp.routines';
+import { calculateFbspResult, calculateFbspPlayerSums, FBSPView } from './formats/fbsp-view';
+import { FbspPlayerSum, FbspResult } from '@/_helpers/fbsp.routines';
 import { RangePipe } from '@/_helpers/range';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
@@ -84,6 +84,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // four ball stroke play view
   holeHcpSgn = signal<number[][]>([]);
   fbspResultSgn: Signal<FbspResult> = computed(() => calculateFbspResult(this.onlineRoundsSgn(), this.holeHcpSgn()));
+  fbspPlayerSumsSgn: Signal<FbspPlayerSum[]> = computed(() => calculateFbspPlayerSums(this.onlineRoundsSgn()));
   // css class highlighting the handicap strokes per hole [player][hole], same colours as on the online score card
   fbspHcpClassSgn: Signal<string[][]> = computed(() =>
     this.holeHcpSgn().map(playerHoles =>
