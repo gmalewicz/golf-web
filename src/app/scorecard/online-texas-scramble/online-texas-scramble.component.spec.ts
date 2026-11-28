@@ -149,6 +149,75 @@ describe('OnlineTexasScrambleComponent', () => {
     expect(teammate.hole).toBe(3);
   });
 
+  it('should show the winning team with the margin in the result header', () => {
+    component['calculateMPHoleHCP']();
+    component.holeHcpSgn.set([new Array(18).fill(0), new Array(18).fill(0)]);
+    component.strokesSgn.set(new Array(18).fill(0).map(() => new Array(2).fill(0)));
+    component.strokesSgn()[0] = [4, 5];
+    component.strokesSgn()[1] = [4, 5];
+    component.strokesSgn()[2] = [3, 4];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+
+    const heading = () => (fixture.nativeElement.querySelector('h3') as HTMLElement).textContent.replace(/\s+/g, ' ').trim();
+
+    // net 11 against 14
+    expect(component.teamDiffSgn()).toBe(3);
+    expect(heading()).toBe('Team 1: 3');
+
+    component.strokesSgn()[2] = [7, 4];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+    expect(component.teamDiffSgn()).toBe(-1);
+    expect(heading()).toBe('Team 2: 1');
+  });
+
+  it('should show Tie in the result header when the teams have the same net score', () => {
+    component['calculateMPHoleHCP']();
+    component.holeHcpSgn.set([new Array(18).fill(0), new Array(18).fill(0)]);
+    component.strokesSgn.set(new Array(18).fill(0).map(() => new Array(2).fill(0)));
+    component.strokesSgn()[0] = [4, 4];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+
+    expect(component.teamDiffSgn()).toBe(0);
+    expect((fixture.nativeElement.querySelector('h3') as HTMLElement).textContent.trim()).toBe('Tie');
+  });
+
+  it('should show the header rows in black, the first translatable and the second bold', () => {
+    component['calculateMPHoleHCP']();
+    fixture.detectChanges();
+    const rows = fixture.nativeElement.querySelectorAll('table[aria-describedby="Texas scramble online round results"] thead tr') as NodeListOf<HTMLElement>;
+    const firstRowTeam = rows[0].querySelector('th.text-center') as HTMLElement;
+    const secondRowTeam = rows[1].querySelector('th.text-center') as HTMLElement;
+
+    expect(firstRowTeam.classList).not.toContain('golf-red');
+    expect(firstRowTeam.textContent.trim()).toMatch(/^Team 1 \(/);
+    expect(rows[1].classList).not.toContain('fw-normal');
+    expect(secondRowTeam.classList).not.toContain('fw-normal');
+  });
+
+  it('should show the total net score of the team when there are 3 players in one team', () => {
+    const rounds = getRounds().slice(0, 3);
+    rounds.forEach(round => round.team = 1);
+    navigationService.setOnlineRoundsSgn(signal(rounds));
+    const localFixture = TestBed.createComponent(OnlineTexasScrambleComponent);
+    const localComponent = localFixture.componentInstance;
+    localFixture.detectChanges();
+
+    localComponent['calculateMPHoleHCP']();
+    localComponent.holeHcpSgn.set([new Array(18).fill(0)]);
+    localComponent.strokesSgn.set(new Array(18).fill(0).map(() => new Array(1).fill(0)));
+    localComponent.strokesSgn()[0] = [4];
+    localComponent.strokesSgn()[1] = [5];
+    localComponent.strokesSgn.set([...localComponent.strokesSgn()]);
+    localFixture.detectChanges();
+
+    expect(localComponent.teamDiffSgn()).toBeUndefined();
+    const heading = localFixture.nativeElement.querySelector('h3') as HTMLElement;
+    expect(heading.textContent.replace(/\s+/g, ' ').trim()).toBe('Team 1: 9');
+  });
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });

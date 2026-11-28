@@ -130,6 +130,63 @@ describe('OnlineFbStrokeplayComponent', () => {
     expect(component.countingScoresSgn()[1]).toEqual([false, false, true, false]);
   });
 
+  it('should show team 1 with the winning margin when team 1 is ahead', () => {
+    component.holeHcpSgn.set(new Array(4).fill(0).map(() => new Array(18).fill(0)));
+    component.strokesSgn.set(new Array(18).fill(0).map(() => new Array(4).fill(0)));
+    component.strokesSgn()[0] = [3, 6, 5, 6];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+
+    // team 1: 3, team 2: 5 => -(3 - 5) = 2
+    expect(component.teamDiffSgn()).toBe(2);
+    const heading: HTMLElement = fixture.nativeElement.querySelector('h3');
+    expect(heading.textContent.replace(/\s+/g, ' ').trim()).toBe('Team 1: 2');
+    expect(heading.querySelectorAll('.golf-red-bold').length).toBe(0);
+  });
+
+  it('should show team 2 with the winning margin when team 2 is ahead', () => {
+    component.holeHcpSgn.set(new Array(4).fill(0).map(() => new Array(18).fill(0)));
+    component.strokesSgn.set(new Array(18).fill(0).map(() => new Array(4).fill(0)));
+    component.strokesSgn()[0] = [5, 6, 4, 6];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+
+    expect(component.teamDiffSgn()).toBe(-1);
+    const heading: HTMLElement = fixture.nativeElement.querySelector('h3');
+    expect(heading.textContent.replace(/\s+/g, ' ').trim()).toBe('Team 2: 1');
+    expect(heading.querySelectorAll('.golf-red-bold').length).toBe(0);
+  });
+
+  it('should show Tie when the result is a tie', () => {
+    component.holeHcpSgn.set(new Array(4).fill(0).map(() => new Array(18).fill(0)));
+    component.strokesSgn.set(new Array(18).fill(0).map(() => new Array(4).fill(0)));
+    component.strokesSgn()[0] = [4, 6, 4, 6];
+    component.strokesSgn.set([...component.strokesSgn()]);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('h3').textContent.replace(/\s+/g, ' ').trim()).toBe('Tie');
+  });
+
+  it('should show the total net score of the team when there are 3 players in one team', () => {
+    const rounds = getRounds().slice(0, 3);
+    rounds.forEach(round => round.team = 1);
+    navigationService.setOnlineRoundsSgn(signal(rounds));
+    const localFixture = TestBed.createComponent(OnlineFbStrokeplayComponent);
+    const localComponent = localFixture.componentInstance;
+    localFixture.detectChanges();
+
+    localComponent.holeHcpSgn.set(new Array(3).fill(0).map(() => new Array(18).fill(0)));
+    localComponent.strokesSgn.set(new Array(18).fill(0).map(() => new Array(3).fill(0)));
+    localComponent.strokesSgn()[0] = [5, 4, 6];
+    localComponent.strokesSgn()[1] = [6, 5, 4];
+    localComponent.strokesSgn.set([...localComponent.strokesSgn()]);
+    localFixture.detectChanges();
+
+    expect(localComponent.teamDiffSgn()).toBeUndefined();
+    const heading: HTMLElement = localFixture.nativeElement.querySelector('h3');
+    expect(heading.textContent.replace(/\s+/g, ' ').trim()).toBe('Team 1: 8');
+  });
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });

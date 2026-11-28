@@ -20,20 +20,37 @@
     <br />
   }
   <div>
+    @if (teamDiffSgn() !== undefined) {
+      <div>
+        <h3>
+          @if (teamDiffSgn() === 0) {
+            <ng-container i18n="@@onlFbSp-tie">Tie</ng-container>
+          } @else {
+            <ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{teamDiffSgn() > 0 ? 1 : 2}}:&ngsp;{{teamDiffSgn() > 0 ? teamDiffSgn() : -teamDiffSgn()}}
+          }
+        </h3>
+      </div>
+    } @else if (resultSgn().teams.length === 1) {
+      <div>
+        <h3>
+          <ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{resultSgn().teams[0].team}}:&ngsp;{{resultSgn().teams[0].total}}
+        </h3>
+      </div>
+    }
     <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Texas scramble online round results">
       <thead>
         <tr>
           <th id="empty1"></th>
           <th id="empty2"></th>
           @for (team of teamsSgn(); track team.team; let t = $index) {
-            <th class="text-center golf-red">Team {{team.team}} ({{resultSgn().teams[t]?.total}})</th>
+            <th class="text-center"><ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{team.team}} ({{resultSgn().teams[t]?.total}})</th>
           }
         </tr>
-        <tr class="fw-normal">
+        <tr>
           <th id="empty3"></th>
-          <th id="hole" class="fw-normal" i18n="@@onlMatch-hole">Hole</th>
+          <th id="hole" i18n="@@onlMatch-hole">Hole</th>
           @for (team of teamsSgn(); track team.team; let t = $index) {
-            <th scope="col" class="text-center fw-normal">{{teamNamesSgn()[t]}} ({{team.hcp}})</th>
+            <th scope="col" class="text-center">{{teamNamesSgn()[t]}} ({{team.hcp}})</th>
           }
         </tr>
       </thead>
@@ -106,3 +123,4 @@
     </div>
   </div>
 </div>
+<app-mp-legend></app-mp-legend>

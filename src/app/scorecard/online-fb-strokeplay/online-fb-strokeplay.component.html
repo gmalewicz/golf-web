@@ -20,13 +20,30 @@
     <br />
   }
   <div>
+    @if (teamDiffSgn() !== undefined) {
+      <div>
+        <h3>
+          @if (teamDiffSgn() === 0) {
+            <ng-container i18n="@@onlFbSp-tie">Tie</ng-container>
+          } @else {
+            <ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{teamDiffSgn() > 0 ? 1 : 2}}:&ngsp;{{teamDiffSgn() > 0 ? teamDiffSgn() : -teamDiffSgn()}}
+          }
+        </h3>
+      </div>
+    } @else if (teamsSgn().length === 1) {
+      <div>
+        <h3>
+          <ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{teamsSgn()[0].team}}:&ngsp;{{totalTeamNetSgn()[0]}}
+        </h3>
+      </div>
+    }
     <table id="holeStake-tbl" class="table table-bordered" aria-describedby="Four ball stroke play online round results">
       <thead>
         <tr>
           <th id="empty1"></th>
           <th id="empty2"></th>
           @for (teamInfo of teamsSgn(); track teamInfo.team; let t = $index) {
-            <th [attr.colspan]="teamInfo.players.length" class="text-center">Team {{teamInfo.team}} ({{totalTeamNetSgn()[t]}})</th>
+            <th [attr.colspan]="teamInfo.players.length" class="text-center"><ng-container i18n="@@onlFbSp-team">Team</ng-container>&ngsp;{{teamInfo.team}} ({{totalTeamNetSgn()[t]}})</th>
           }
         </tr>
         <tr>
@@ -109,3 +126,4 @@
     </div>
   </div>
 </div>
+<app-mp-legend></app-mp-legend>

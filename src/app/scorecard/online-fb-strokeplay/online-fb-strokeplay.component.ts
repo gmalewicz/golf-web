@@ -9,6 +9,7 @@ import { OnlineRoundBaseComponent } from '../_helpers/online-round-base';
 import { NavigationService } from '../_services/navigation.service';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from '../../_helpers/range';
+import { MPLegendComponent } from '@/_helpers/mpLegend.component';
 
 export interface TeamHoleResult {
   // best net score of the team for the hole, undefined if not all players have entered the score
@@ -32,7 +33,8 @@ export interface TeamInfo {
               FaIconComponent,
               MatButton,
               RangePipe,
-              LoadingDirective],
+              LoadingDirective,
+              MPLegendComponent],
     changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
@@ -95,6 +97,16 @@ export class OnlineFbStrokeplayComponent extends OnlineRoundBaseComponent {
   totalTeamNetSgn = computed<number[]>(() =>
     this.teamResultsSgn().map(results => results.reduce((sum, result) => sum + (result.score ?? 0), 0))
   );
+
+  // difference of the team 1 result against the team 2 (positive when team 1 is ahead)
+  teamDiffSgn = computed(() => {
+    const teams = this.teamsSgn();
+    const totals = this.totalTeamNetSgn();
+    if (teams.length < 2) {
+      return undefined;
+    }
+    return totals[1] - totals[0];
+  });
 
   // true for the players whose score is counted for their team on the hole [hole][player]
   countingScoresSgn = computed<boolean[][]>(() => {

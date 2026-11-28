@@ -18,6 +18,7 @@ import { OnlineScoreCard } from '../_models/onlineScoreCard';
 import { NavigationService } from '../_services/navigation.service';
 import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scorecard-top.component';
 import { RangePipe } from '../../_helpers/range';
+import { MPLegendComponent } from '@/_helpers/mpLegend.component';
 
 @Component({
     selector: 'app-online-texas-scramble',
@@ -28,7 +29,8 @@ import { RangePipe } from '../../_helpers/range';
               FaIconComponent,
               MatButton,
               RangePipe,
-              LoadingDirective],
+              LoadingDirective,
+              MPLegendComponent],
     changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
@@ -47,7 +49,10 @@ export class OnlineTexasScrambleComponent extends OnlineRoundBaseComponent {
 
   // the score entry shows teams instead of players
   entryRoundsSgn = computed<OnlineRound[]>(() =>
-    this.scorersSgn().map(round => ({ ...round, player: { ...round.player, nick: `Team ${round.team}` } }))
+    this.scorersSgn().map(round => ({
+      ...round,
+      player: { ...round.player, nick: `${$localize`:@@onlFbSp-team:Team`} ${round.team}` }
+    }))
   );
 
   // team players names [team], e.g. "anna/bob"
@@ -68,6 +73,12 @@ export class OnlineTexasScrambleComponent extends OnlineRoundBaseComponent {
   resultSgn = computed<FbspResult>(() =>
     calculateTexasResult(this.teamsSgn(), this.scorerStrokesSgn(), this.holeHcpSgn())
   );
+
+  // difference of the team 1 result against the team 2 (positive when team 1 is ahead)
+  teamDiffSgn = computed<number | undefined>(() => {
+    const teams = this.resultSgn().teams;
+    return teams.length < 2 ? undefined : teams[1].total - teams[0].total;
+  });
 
   // true when the team has the lower net score than the other team on the hole [team][hole]
   holeWinnerSgn = computed<boolean[][]>(() => {

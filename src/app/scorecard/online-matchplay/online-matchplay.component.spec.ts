@@ -16,6 +16,7 @@ import { MimicBackendScoreInterceptor } from '../_helpers/MimicBackendScoreInter
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { signal } from '@angular/core';
+import { NEVER } from 'rxjs';
 
 describe('OnlineMatchplayComponent', () => {
 
@@ -60,6 +61,22 @@ describe('OnlineMatchplayComponent', () => {
   it('should call updateMPResults', () => {
    component.getRoundData();
    expect(component).toBeTruthy();
+  });
+
+  it('should render without errors when course holes are not loaded yet', () => {
+    const courseWithoutHoles = { ...getTestCourse(), holes: undefined };
+    navigationService.setCourseSgn(signal(courseWithoutHoles));
+    navigationService.setOnlineRoundsSgn(signal([getOnlineRoundFirstPlayer(), getOnlineRoundSecondPlayer()]));
+    spyOn(TestBed.inject(HttpService), 'getHoles').and.returnValue(NEVER);
+    const localFixture = TestBed.createComponent(OnlineMatchplayComponent);
+
+    expect(() => localFixture.detectChanges()).not.toThrow();
+  });
+
+  it('should highlight holes according to the number of additional strokes', () => {
+    const classes = [3, 2, 1, 0].map(hcp => component['getHcpHighlightClass'](hcp));
+
+    expect(classes).toEqual(['highlightHcp3', 'highlightHcp2', 'highlightHcp', 'no-edit']);
   });
 
   afterEach(() => {

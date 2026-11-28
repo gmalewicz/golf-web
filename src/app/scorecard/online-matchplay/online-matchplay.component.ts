@@ -9,6 +9,7 @@ import { CommonScorecardTopComponent } from '../common-scorecard-top/common-scor
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { MPLegendComponent } from '@/_helpers/mpLegend.component';
 
 @Component({
     selector: 'app-online-matchplay',
@@ -19,7 +20,8 @@ import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
               FaIconComponent, 
               MatButton, 
               RangePipe,
-              LoadingDirective],
+              LoadingDirective,
+              MPLegendComponent],
     changeDetection: ChangeDetectionStrategy.Eager,
     providers: [NavigationService]
 })
@@ -109,9 +111,19 @@ export class OnlineMatchplayComponent extends OnlineRoundBaseComponent implement
                       this.courseSgn());
     this.onlineRoundsSgn.set([...this.onlineRoundsSgn()]); // trigger change detection
     
-    this.highlightHCPSgn()[0] = this.holeHCP[0].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');
-    this.highlightHCPSgn()[1] = this.holeHCP[1].map(hcp => hcp > 0 ? 'highlightHcp' : 'no-edit');  
+    this.highlightHCPSgn()[0] = this.holeHCP[0].map(hcp => this.getHcpHighlightClass(hcp));
+    this.highlightHCPSgn()[1] = this.holeHCP[1].map(hcp => this.getHcpHighlightClass(hcp));
     this.highlightHCPSgn.set([...this.highlightHCPSgn()]); // trigger change detection
+  }
+
+  private getHcpHighlightClass(hcp: number): string {
+    if (hcp >= 3) {
+      return 'highlightHcp3';
+    }
+    if (hcp === 2) {
+      return 'highlightHcp2';
+    }
+    return hcp === 1 ? 'highlightHcp' : 'no-edit';
   }
 
   protected updateMPresults() {

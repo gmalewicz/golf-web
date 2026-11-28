@@ -121,6 +121,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; touch-actio
   padding: 6px;
 }
 
+// Bootstrap tabs use the application green instead of the default link blue.
+.nav-tabs {
+  --bs-nav-link-color: #198754;
+  --bs-nav-link-hover-color: #146c43;
+  --bs-nav-tabs-link-active-color: #198754;
+}
+
 
 .form-check-input-green:checked {
   border-color: #198754;

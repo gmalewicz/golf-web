@@ -122,10 +122,10 @@
               }
             </td>
             <td>
-              {{courseSgn().holes[i].par}}
+              {{courseSgn()?.holes?.[i]?.par}}
             </td>
             <td>
-              {{courseSgn().holes[i].si}}
+              {{courseSgn()?.holes?.[i]?.si}}
             </td>
           </tr>
         }
@@ -147,4 +147,5 @@
     </div>
   </div>
 </div>
+<app-mp-legend></app-mp-legend>
 
