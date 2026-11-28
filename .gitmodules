@@ -1,3 +1,6 @@
 [submodule "golf-app"]
 	path = golf-app
 	url = https://github.com/gmalewicz/golf-app.git
+[submodule "golf-kubernetes"]
+	path = golf-kubernetes
+	url = https://github.com/gmalewicz/golf-kubernetes.git
