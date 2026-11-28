@@ -1,0 +1,66 @@
+<div [loading]="!displaySgn()" loadingSize="lg" loadingColor="text-success" style="min-height: 4rem">
+  <div>
+    <br/>
+    <div class="table-responsive">
+      <table id="holeStake-tbl" class="table table-bordered" aria-describedby="View texas scramble round">
+        <thead>
+          <tr appRoundHoleHead></tr>
+        </thead>
+        <tbody>
+          <tr appRoundParRow [round]="round()"></tr>
+          <tr appRoundSiRow [round]="round()"></tr>
+          @for (team of teams; track team.team; let t = $index) {
+            <tr class="center">
+              <th id="texasGross">{{teamNames[t]}}</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center" [ngClass]="[highlightHCPSgn()[t]?.[i] ?? '', holeWinnerSgn()[t]?.[i] ?? '']">
+                  @if (strokes[team.scorer][i] === 16) {
+                    <span>x</span>
+                  } @else {
+                    {{strokes[team.scorer][i]}}
+                  }
+                </td>
+              }
+              <th scope="col" class="center">{{grossSums[t].front}}</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center" [ngClass]="[highlightHCPSgn()[t]?.[i + 9] ?? '', holeWinnerSgn()[t]?.[i + 9] ?? '']">
+                  @if (strokes[team.scorer][i + 9] === 16) {
+                    <span>x</span>
+                  } @else {
+                    {{strokes[team.scorer][i + 9]}}
+                  }
+                </td>
+              }
+              <th scope="col" class="center">{{grossSums[t].back}}</th>
+              <th scope="col" class="center">{{grossSums[t].total}}</th>
+            </tr>
+          }
+          <tr>
+            <td colspan="22" class="border-0">&nbsp;</td>
+          </tr>
+          @for (team of teams; track team.team; let t = $index) {
+            <tr class="center">
+              <th id="texasNet">{{teamNames[t]}} (net)</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center">{{resultSgn().teams[t]?.holes?.[i]}}</td>
+              }
+              <th scope="col" class="center">{{resultSgn().teams[t]?.front}}</th>
+              @for (i of 9 | range; track i;) {
+                <td class="center">{{resultSgn().teams[t]?.holes?.[i + 9]}}</td>
+              }
+              <th scope="col" class="center">{{resultSgn().teams[t]?.back}}</th>
+              <th scope="col" class="center">{{resultSgn().teams[t]?.total}}</th>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div>
+        <h3 class="fw-bold">
+          @for (team of teams; track team.team; let t = $index; let last = $last) {
+            {{teamNames[t]}} <span class="golf-red">{{resultSgn().teams[t]?.total}}</span>{{last ? '' : ' : '}}
+          }
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>

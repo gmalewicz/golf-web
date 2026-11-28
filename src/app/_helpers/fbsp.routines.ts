@@ -20,6 +20,28 @@ export interface FbspResult {
   counting: boolean[][];
 }
 
+export interface FbspPlayerSum {
+  front: number | null;
+  back: number | null;
+  total: number | null;
+}
+
+/**
+ * Sums gross strokes of a player. A half with a picked up ball has no sum, so neither has the total.
+ * @param strokes gross strokes per hole, undefined or null when the score is not entered
+ */
+export function calculateFbspPlayerSum(strokes: (number | null | undefined)[]): FbspPlayerSum {
+
+  const half = (from: number): number | null => {
+    const entered = strokes.slice(from, from + HALF).filter((stroke): stroke is number => stroke != null);
+    return entered.includes(ballPickedUpStrokes) ? null : entered.reduce((sum, stroke) => sum + stroke, 0);
+  };
+
+  const front = half(0);
+  const back = half(HALF);
+  return { front, back, total: front === null || back === null ? null : front + back };
+}
+
 /**
  * Calculates four ball stroke play result.
  * @param strokes gross strokes [player][hole], undefined, null or 0 when the score is not entered

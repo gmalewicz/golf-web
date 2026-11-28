@@ -90,7 +90,8 @@ export const ViewType = {
   PLAYER: 1,
   MP: 2,
   FBMP: 3,
-  FBSP: 4
+  FBSP: 4,
+  TEXAS: 5
 };
 
 export type ViewType = (typeof ViewType)[keyof typeof ViewType]; 

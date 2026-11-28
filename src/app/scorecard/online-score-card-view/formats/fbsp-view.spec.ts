@@ -1,4 +1,4 @@
-import { calculateFbspResult, FBSPView } from "./fbsp-view";
+import { calculateFbspPlayerSums, calculateFbspResult, FBSPView } from "./fbsp-view";
 import { ScorecardHttpService } from "@/scorecard/_services/scorecardHttp.service";
 import { HttpService } from "@/_services/http.service";
 import { signal } from "@angular/core";
@@ -34,6 +34,18 @@ describe("FBSPView", () => {
   }
 
   const noHcp = () => Array.from({ length: 4 }, () => new Array(18).fill(0));
+
+  it("should sum gross strokes per player and skip a half with a picked up ball", () => {
+    const full = createCalculatedRound(1, 1, new Array(18).fill(5));
+    const pickedUp = createCalculatedRound(2, 1, [4, 4, 16, ...new Array(15).fill(4)]);
+    const partial = createCalculatedRound(3, 2, [4, 5, 6]);
+
+    expect(calculateFbspPlayerSums([full, pickedUp, partial])).toEqual([
+      { front: 45, back: 45, total: 90 },
+      { front: null, back: 36, total: null },
+      { front: 15, back: 0, total: 15 },
+    ]);
+  });
 
   it("should calculate team net as best net score and mark counting players", () => {
     const rounds = [

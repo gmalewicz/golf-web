@@ -192,7 +192,7 @@
                       }
                     </td>
                   }
-                  <th class="center" scope="col"></th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.front}}</th>
                   @for (index of counterSgn(); track index;) {
                     <td class="center" [ngClass]="[fbspHcpClassSgn()[player]?.[index + 9] ?? '', fbspResultSgn().counting[player]?.[index + 9] ? 'golf-red' : '']">
                       @if (onlineRoundsSgn()[player]?.scoreCardAPI?.[index + 9]) {
@@ -204,14 +204,17 @@
                       }
                     </td>
                   }
-                  <th class="center" scope="col"></th>
-                  <th class="center" scope="col"></th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.back}}</th>
+                  <th class="center" scope="col">{{fbspPlayerSumsSgn()[player]?.total}}</th>
                 </tr>
               }
             }
-            @for (teamResult of fbspResultSgn().teams; track teamResult.team) {
+            <tr>
+              <td colspan="22" class="border-start-0 border-end-0">&nbsp;</td>
+            </tr>
+            @for (teamResult of fbspResultSgn().teams; track teamResult.team; let t = $index) {
               <tr class="center">
-                <th id="fbspTeam">Team {{teamResult.team}} (net)</th>
+                <th id="fbspTeam">{{fbspScoresSgn()[t]?.name}}</th>
                 @for (index of counterSgn(); track index;) {
                   <td class="center">{{teamResult.holes[index]}}</td>
                 }
@@ -224,8 +227,75 @@
               </tr>
             }
           }
+          @if (viewTypeSgn() === ViewType.TEXAS) {
+            @for (team of texasTeamsSgn(); track team.team; let t = $index) {
+              <tr class="center">
+                <th id="texasGross">{{texasNamesSgn()[t]}}</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="texasHcpClassSgn()[t]?.[index] ?? ''">
+                    @if (onlineRoundsSgn()[team.scorer]?.scoreCardAPI?.[index]) {
+                      @if (onlineRoundsSgn()[team.scorer].scoreCardAPI[index].stroke === 16) {
+                        <span>x</span>
+                      } @else {
+                        <span>{{onlineRoundsSgn()[team.scorer].scoreCardAPI[index].stroke}}</span>
+                      }
+                    }
+                  </td>
+                }
+                <th class="center" scope="col">{{texasGrossSumsSgn()[t]?.front}}</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center" [ngClass]="texasHcpClassSgn()[t]?.[index + 9] ?? ''">
+                    @if (onlineRoundsSgn()[team.scorer]?.scoreCardAPI?.[index + 9]) {
+                      @if (onlineRoundsSgn()[team.scorer].scoreCardAPI[index + 9].stroke === 16) {
+                        <span>x</span>
+                      } @else {
+                        <span>{{onlineRoundsSgn()[team.scorer].scoreCardAPI[index + 9].stroke}}</span>
+                      }
+                    }
+                  </td>
+                }
+                <th class="center" scope="col">{{texasGrossSumsSgn()[t]?.back}}</th>
+                <th class="center" scope="col">{{texasGrossSumsSgn()[t]?.total}}</th>
+              </tr>
+            }
+            <tr>
+              <td colspan="22" class="border-0">&nbsp;</td>
+            </tr>
+            @for (team of texasTeamsSgn(); track team.team; let t = $index) {
+              <tr class="center">
+                <th id="texasNet">{{texasNamesSgn()[t]}} (net)</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center">{{texasResultSgn().teams[t]?.holes[index]}}</td>
+                }
+                <th class="center" scope="col">{{texasResultSgn().teams[t]?.front}}</th>
+                @for (index of counterSgn(); track index;) {
+                  <td class="center">{{texasResultSgn().teams[t]?.holes[index + 9]}}</td>
+                }
+                <th class="center" scope="col">{{texasResultSgn().teams[t]?.back}}</th>
+                <th class="center" scope="col">{{texasResultSgn().teams[t]?.total}}</th>
+              </tr>
+            }
+          }
         </tbody>
       </table>
+      @if (viewTypeSgn() === ViewType.FBSP) {
+        <div>
+          <h3 [style.font-weight]="finalizedSgn() ? 'bold' : 'normal'">
+            @for (score of fbspScoresSgn(); track $index; let last = $last) {
+              {{score.name}} <span class="golf-red">{{score.total}}</span>{{last ? '' : ' : '}}
+            }
+          </h3>
+        </div>
+      }
+      @if (viewTypeSgn() === ViewType.TEXAS) {
+        <div>
+          <h3 [style.font-weight]="finalizedSgn() ? 'bold' : 'normal'">
+            @for (score of texasScoresSgn(); track $index; let last = $last) {
+              {{score.name}} <span class="golf-red">{{score.total}}</span>{{last ? '' : ' : '}}
+            }
+          </h3>
+        </div>
+      }
       @if (viewTypeSgn() === ViewType.MP || viewTypeSgn() === ViewType.FBMP) {  
         <div>
           @if (!mpResultSgn()[1]) {

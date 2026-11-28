@@ -1,18 +1,20 @@
 import { calculateHoleHCP, calculateUnroundedCourseHCP, createMPResultHistory, createMPResultText } from '@/_helpers/whs.routines';
 import { Round } from '@/_models/round';
 import { HttpService } from '@/_services/http.service';
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, computed, input, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, input, signal, inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { RangePipe } from "../../_helpers/range";
 import { Format } from '@/_models/format';
 import { NgClass } from '@angular/common';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { calculateFbspPlayerSum, FbspPlayerSum } from '@/_helpers/fbsp.routines';
+import { RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent } from '../round-hole-rows/round-hole-rows.component';
 
 @Component({
     selector: 'app-round-view-fb-mp',
     templateUrl: './round-view-fb-mp.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe, NgClass, LoadingDirective]
+    imports: [RangePipe, NgClass, LoadingDirective, RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent]
 })
 export class RoundViewFbMpComponent implements OnInit {
   private readonly httpService = inject(HttpService);
@@ -25,9 +27,6 @@ export class RoundViewFbMpComponent implements OnInit {
   highlightWinnerSgn:  WritableSignal<string[][]> = signal(new Array(4).fill('').map(() => new Array(18).fill('')));
   highlightResultSgn:  WritableSignal<string[][]> = signal(new Array(2).fill('').map(() => new Array(18).fill('')));
   displaySgn = signal(false);
-  last9parSgn = computed (() => this.round().course.par - this.first9parSgn());
-
-  first9parSgn = computed (() => this.round().course.holes!.map(h => h.par).reduce((p, n, i) => { if (i < 9) { return p + n; } else { return p; } }, 0));
 
   // -2 not set
   // -1 first player won
@@ -38,7 +37,10 @@ export class RoundViewFbMpComponent implements OnInit {
   mpResultHistorySgn: WritableSignal<string[][]> = signal((new Array(2).fill('').map(() => new Array(18).fill(''))));
 
   teamNumbers: number[] = [1,1,2,2];
-  sortedPlayerIndices: number[] = [0, 1, 2, 3];
+  // player indexes grouped by team: [team 1, team 2]
+  teamPlayers: number[][] = [[0, 1], [2, 3]];
+  // gross strokes sums per player
+  playerSums: FbspPlayerSum[] = [];
   private team1Indices: number[] = [0, 1];
   private team2Indices: number[] = [2, 3];
 
@@ -91,7 +93,10 @@ export class RoundViewFbMpComponent implements OnInit {
     this.teamNumbers = this.round().player!.map((pl, idx) => pl.roundDetails!.team ?? (idx < 2 ? 1 : 2));
     this.team1Indices = [0, 1, 2, 3].filter(i => this.teamNumbers[i] === 1);
     this.team2Indices = [0, 1, 2, 3].filter(i => this.teamNumbers[i] === 2);
-    this.sortedPlayerIndices = [...this.team1Indices, ...this.team2Indices];
+    this.teamPlayers = [this.team1Indices, this.team2Indices].filter(players => players.length > 0);
+
+    this.playerSums = [0, 1, 2, 3].map(idx => calculateFbspPlayerSum(
+      Array.from({ length: 18 }, (_, hole) => this.round().scoreCard?.[hole + idx * 18]?.stroke)));
 
     for (let i = 0; i < 4; i++) {
       calculateHoleHCP(

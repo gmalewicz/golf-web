@@ -15,8 +15,10 @@ import { MPView } from './formats/mp-view';
 import { RoundView } from './formats/round-view';
 import { CourseView } from './formats/course-view';
 import { FBMPView } from './formats/fbmp-view';
-import { calculateFbspResult, FBSPView } from './formats/fbsp-view';
-import { FbspResult } from '@/_helpers/fbsp.routines';
+import { calculateFbspResult, calculateFbspPlayerSums, FBSPView } from './formats/fbsp-view';
+import { getTexasStrokes, TexasView } from './formats/texas-view';
+import { FbspPlayerSum, FbspResult } from '@/_helpers/fbsp.routines';
+import { calculateTexasGrossSums, calculateTexasResult, hcpStrokesClass, TexasTeam } from '@/_helpers/texas-scramble.routines';
 import { RangePipe } from '@/_helpers/range';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 
@@ -84,6 +86,13 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // four ball stroke play view
   holeHcpSgn = signal<number[][]>([]);
   fbspResultSgn: Signal<FbspResult> = computed(() => calculateFbspResult(this.onlineRoundsSgn(), this.holeHcpSgn()));
+  fbspPlayerSumsSgn: Signal<FbspPlayerSum[]> = computed(() => calculateFbspPlayerSums(this.onlineRoundsSgn()));
+  // current net result of the teams
+  fbspScoresSgn: Signal<{ name: string; total: number }[]> = computed(() =>
+    this.fbspResultSgn().teams.map(team => ({
+      name: team.players.map(player => this.onlineRoundsSgn()?.[player]?.player?.nick).join('/'),
+      total: team.total
+    })));
   // css class highlighting the handicap strokes per hole [player][hole], same colours as on the online score card
   fbspHcpClassSgn: Signal<string[][]> = computed(() =>
     this.holeHcpSgn().map(playerHoles =>
@@ -101,6 +110,23 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
       })
     )
   );
+
+  // texas scramble view, the team handicap strokes are kept in holeHcpSgn [team][hole]
+  texasTeamsSgn = signal<TexasTeam[]>([]);
+  texasResultSgn: Signal<FbspResult> = computed(() =>
+    calculateTexasResult(this.texasTeamsSgn(), getTexasStrokes(this.onlineRoundsSgn()), this.holeHcpSgn()));
+  texasGrossSumsSgn: Signal<FbspPlayerSum[]> = computed(() =>
+    calculateTexasGrossSums(this.texasTeamsSgn(), getTexasStrokes(this.onlineRoundsSgn())));
+  texasHcpClassSgn: Signal<string[][]> = computed(() =>
+    this.holeHcpSgn().map(teamHoles => teamHoles.map(hcpStrokesClass)));
+  // current net result of the teams
+  texasNamesSgn: Signal<string[]> = computed(() =>
+    this.texasTeamsSgn().map(team => team.players.map(player => this.onlineRoundsSgn()[player]?.player?.nick).join('/')));
+  texasScoresSgn: Signal<{ name: string; total: number }[]> = computed(() =>
+    this.texasResultSgn().teams.map((result, idx) => ({
+      name: this.texasNamesSgn()[idx],
+      total: result.total
+    })));
 
   ngOnDestroy(): void {
 
@@ -233,6 +259,25 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
                           this.startLisenning();
                         }
                       })
+      } else if (this.viewTypeSgn() === ViewType.TEXAS) {
+        this.finalizedSgn.set(this.onlineRoundsSgn()[0].finalized!);
+        this.teeTime  = this.onlineRoundsSgn()[0].teeTime!;
+
+        const texas = new TexasView( this.scorecardHttpService,
+                                     this.httpService);
+
+        texas.showTexas( this.onlineRoundsSgn,
+                         this.courseSgn,
+                         this.texasTeamsSgn,
+                         this.holeHcpSgn,
+                         this.lstUpdTimeSgn
+                       ).subscribe({
+                          complete: () => {
+                            this.resetCounter();
+                            this.displaySgn.set(true);
+                            this.startLisenning();
+                          }
+                        })
       } else if (this.viewTypeSgn() === ViewType.COURSE) {
        
         const cw = new CourseView( this.scorecardHttpService, 
@@ -272,7 +317,7 @@ export class OnlineScoreCardViewComponent implements OnInit, OnDestroy {
   // process score card received from the web socket
   handleMessage(onlineScoreCard: OnlineScoreCard) {
 
-    if (this.viewTypeSgn() === ViewType.FBSP) {
+    if (this.viewTypeSgn() === ViewType.FBSP || this.viewTypeSgn() === ViewType.TEXAS) {
       this.handleFbspMessage(onlineScoreCard);
     } else if (this.ownerSgn()) {
       this.handleMatchPlayMessage(onlineScoreCard);

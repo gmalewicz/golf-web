@@ -6,7 +6,7 @@ import { AlertService } from "@/_services/alert.service";
 import { AuthenticationService } from "@/_services/authentication.service";
 import { HttpService } from "@/_services/http.service";
 import { LocationStrategy, formatDate } from "@angular/common";
-import { Component, OnDestroy, OnInit, signal, inject, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnDestroy, OnInit, signal, inject, ChangeDetectionStrategy, WritableSignal } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { faPlay, IconDefinition } from "@fortawesome/free-solid-svg-icons";
@@ -94,9 +94,14 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     });
   }
 
+  // allows a format to work on a subset of the online rounds passed through the navigation
+  protected selectOnlineRounds(rounds: WritableSignal<OnlineRound[]>): WritableSignal<OnlineRound[]> {
+    return rounds;
+  }
+
   ngOnInit(): void {
     // get passed data
-    this.onlineRoundsSgn = this.navigationService.getOnlineRoundsSgn();
+    this.onlineRoundsSgn = this.selectOnlineRounds(this.navigationService.getOnlineRoundsSgn());
 
     if (
       this.authenticationService.currentPlayerValue === null ||
@@ -449,7 +454,7 @@ export class OnlineRoundBaseComponent implements OnDestroy, OnInit {
     this.penaltiesSgn.set([...this.penaltiesSgn()]); // trigger change detection
   }
 
-  private sendMessage(onlineScoreCard: OnlineScoreCard) {
+  protected sendMessage(onlineScoreCard: OnlineScoreCard) {
     this.inProgress = true;
 
     const receiptId = "" + Math.random() * 10000;

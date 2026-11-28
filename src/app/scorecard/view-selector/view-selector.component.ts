@@ -15,6 +15,7 @@ import { OnlineRoundDefComponent } from '../online-round-def/online-round-def.co
 import { OnlineScoreCardViewComponent } from '../online-score-card-view/online-score-card-view.component';
 import { OnlineFbMatchplayComponent } from '../online-fb-matchplay/online-fb-matchplay.component';
 import { OnlineFbStrokeplayComponent } from '../online-fb-strokeplay/online-fb-strokeplay.component';
+import { OnlineTexasScrambleComponent } from '../online-texas-scramble/online-texas-scramble.component';
 import { OnlineStrokeplayComponent } from '../online-strokeplay/online-strokeplay.component';
 import { Format } from '@/_models/format';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
@@ -39,7 +40,8 @@ export class ViewSelectorComponent implements OnInit {
   readonly faSearchPlus: IconDefinition = faSearchPlus;
   readonly fourballTabs = [
     { id: 'FBMProunds', format: Format.FOUR_BALL_MATCH_PLAY, viewType: ViewType.FBMP, description: 'Fourball MatchPlay rounds' },
-    { id: 'FBSProunds', format: Format.FOUR_BALL_STROKE_PLAY, viewType: ViewType.FBSP, description: 'Fourball StrokePlay rounds' }
+    { id: 'FBSProunds', format: Format.FOUR_BALL_STROKE_PLAY, viewType: ViewType.FBSP, description: 'Fourball StrokePlay rounds' },
+    { id: 'TSrounds', format: Format.TEXAS_SCRAMBLE, viewType: ViewType.TEXAS, description: 'Texas Scramble rounds' }
   ];
 
   playersSgn: WritableSignal <Map<number, string[]>> = signal(new Map());
@@ -93,6 +95,7 @@ export class ViewSelectorComponent implements OnInit {
       }
       case ViewType.MP: // view for MP round
       case ViewType.FBSP: // view for FBSP round
+      case ViewType.TEXAS: // view for Texas Scramble round
       case ViewType.FBMP: { // view for FBMP round
       
         this.navigationService.setOwnerSgn(signal(onlineRound.owner));
@@ -115,4 +118,5 @@ export const onlineScoreCardRouts: Routes = [
   { path: 'onlineMatchplay', component: OnlineMatchplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineFbMatchplay', component: OnlineFbMatchplayComponent, canActivate: [AuthGuard] },
   { path: 'onlineFbStrokeplay', component: OnlineFbStrokeplayComponent, canActivate: [AuthGuard] },
+  { path: 'onlineTexasScramble', component: OnlineTexasScrambleComponent, canActivate: [AuthGuard] },
 ];

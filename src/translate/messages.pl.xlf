@@ -2128,6 +2128,30 @@
           <context context-type="linenumber">249</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="onlnRndDef-texasAllowance" datatype="html">
+        <source>Team handicap allowance (from the lowest to the highest handicap):</source>
+        <target>Udział w HCP drużyny (od najniższego do najwyższego HCP):</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/player-selector/player-selector.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-texasAllowance3" datatype="html">
+        <source>1 team of 3 players: 30% / 20% / 10%</source>
+        <target>1 drużyna po 3 graczy: 30% / 20% / 10%</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/player-selector/player-selector.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnRndDef-texasAllowance4" datatype="html">
+        <source>2 teams of 2 players: 35% / 15%</source>
+        <target>2 drużyny po 2 graczy: 35% / 15%</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-round-def/player-selector/player-selector.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="onlnRndDef-lookForPlrs" datatype="html">
         <source>Please use loupe for remaning players to verify them. Each player needs to be greayed out before proceeding.</source>
         <target>Użyj lupki do odszukania graczy. Każdy gracz musi być wyszukany w systemie (wyszarzony) by rozpocząć rundę.</target>
@@ -2214,6 +2238,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
           <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="onlnScorView-fbspResult" datatype="html">
+        <source>Result</source>
+        <target>Wynik</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/scorecard/online-score-card-view/online-score-card-view.component.html</context>
+          <context context-type="linenumber">214</context>
         </context-group>
       </trans-unit>
       <trans-unit id="onlnScorView-cancel" datatype="html">

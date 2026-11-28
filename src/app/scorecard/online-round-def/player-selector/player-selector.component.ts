@@ -18,6 +18,7 @@ import { ScorecardHttpService } from '@/scorecard/_services/scorecardHttp.servic
 import { Router, RouterModule } from '@angular/router';
 import { form, required, submit, applyEach, FormField } from '@angular/forms/signals';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
+import { buildTexasTeams, calculateTexasPlayerHcp } from '@/_helpers/texas-scramble.routines';
 
 interface PlayerData {
       teeDropDowns: {tee: string}[]  
@@ -92,6 +93,36 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   teeOptionsFemale = signal<TeeOptions[]>([]);   
   
   tees: Tee[] = [];  
+
+  // handicap allowance (percentage) applied to each player of the Texas Scramble team, known when all players are selected
+  texasAllowancesSgn = computed<number[]>(() => {
+
+    const count = this.noOfPlayersSgn();
+    const players = Array.from({ length: count }, (_, idx) => this.playersSgn()[idx]);
+
+    if (this.formatSgn() !== Format.TEXAS_SCRAMBLE || !this.displaySgn() || players.some(player => !player)) {
+      return [];
+    }
+
+    const course = this.courseSgn();
+    const selectedTees = players.map((_, idx) =>
+      course.tees?.find(tee => tee.id === +this.playerDataModel().teeDropDowns[idx]?.tee));
+
+    // the order of the handicaps is based on the course handicaps once all tees are selected, on WHS otherwise
+    const byTee = selectedTees.every(tee => !!tee);
+
+    const teams = buildTexasTeams(players.map((player, idx) => ({
+      team: this.teamSgn()[idx],
+      teeType: selectedTees[idx]?.teeType ?? 0,
+      hcp: byTee ?
+        calculateTexasPlayerHcp(selectedTees[idx].teeType, player.whs, selectedTees[idx].sr, selectedTees[idx].cr, course.holes, course.par) :
+        player.whs
+    })));
+
+    const allowances: number[] = [];
+    teams.forEach(team => team.players.forEach((playerIdx, i) => allowances[playerIdx] = team.allowances[i]));
+    return allowances;
+  });
     
   constructor() {
     const httpService = inject(HttpService);
@@ -166,7 +197,8 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
 
       let team = [];
       
-      if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ) {
+      if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY || this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY ||
+          this.formatSgn() === Format.TEXAS_SCRAMBLE) {
         team = [1,1,2,2];
       }
 
@@ -235,13 +267,17 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
   }  
 
    
+  isTeamFormat(): boolean {
+    return this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY || this.formatSgn() === Format.TEXAS_SCRAMBLE;
+  }
+
   onPlayers(players: number): void {
 
     this.noOfPlayersSgn.set(players);
 
-    if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 3) {
+    if (this.isTeamFormat() && players === 3) {
       this.teamSgn.set([1,1,1]);
-    } else if (this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY && players === 4) {
+    } else if (this.isTeamFormat() && players === 4) {
       this.teamSgn.set([1,1,2,2]);
     }
   }
@@ -375,8 +411,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
           format: this.formatSgn(),
           // required not to filter on frontend on view page
           nick2: this.formatSgn() === Format.MATCH_PLAY ? this.playersSgn()[1].nick : '',
-          mpFormat: this.formatSgn() === Format.STROKE_PLAY ? undefined : +this.playerDataForm.mpFormat().value(),
-          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY || this.formatSgn() === Format.FOUR_BALL_STROKE_PLAY ?
+          mpFormat: this.formatSgn() === Format.STROKE_PLAY || this.formatSgn() === Format.TEXAS_SCRAMBLE ?
+            undefined : +this.playerDataForm.mpFormat().value(),
+          team: this.formatSgn() === Format.FOUR_BALL_MATCH_PLAY || this.isTeamFormat() ?
             this.teamSgn()[counter] : undefined,
           identifier: +teeTime.replace(":", "").concat(String(this.playersSgn()[0].id))
         };
@@ -409,6 +446,9 @@ export class PlayerSelectorComponent extends CreateOrSearchDialogBase implements
             break;
           case Format.FOUR_BALL_STROKE_PLAY:
             this.router.navigate(['/scorecard/onlineFbStrokeplay']).catch(error => console.log(error));
+            break;
+          case Format.TEXAS_SCRAMBLE:
+            this.router.navigate(['/scorecard/onlineTexasScramble']).catch(error => console.log(error));
             break;
           default:
             this.router.navigate(['/scorecard/onlineStrokeplay']).catch(error => console.log(error));

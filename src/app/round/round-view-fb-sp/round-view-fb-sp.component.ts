@@ -4,7 +4,8 @@ import { Round } from '@/_models/round';
 import { RangePipe } from '../../_helpers/range';
 import { LoadingDirective } from '@/_helpers/directives/LoadingDirective';
 import { calculateHoleHCP, calculateUnroundedCourseHCP, getPlayedCoursePar } from '@/_helpers/whs.routines';
-import { calculateFbspTeamResults, FbspResult } from '@/_helpers/fbsp.routines';
+import { calculateFbspPlayerSum, calculateFbspTeamResults, FbspPlayerSum, FbspResult } from '@/_helpers/fbsp.routines';
+import { RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent } from '../round-hole-rows/round-hole-rows.component';
 
 const HOLES = 18;
 
@@ -12,7 +13,7 @@ const HOLES = 18;
     selector: 'app-round-view-fb-sp',
     templateUrl: './round-view-fb-sp.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RangePipe, NgClass, LoadingDirective]
+    imports: [RangePipe, NgClass, LoadingDirective, RoundHoleHeadComponent, RoundParRowComponent, RoundSiRowComponent]
 })
 export class RoundViewFbSpComponent implements OnInit {
 
@@ -24,9 +25,14 @@ export class RoundViewFbSpComponent implements OnInit {
   highlightHCPSgn = signal<string[][]>([]);
   teamNumbers: number[] = [];
   playingHcp: number[] = [];
+  // gross strokes sums per player
+  playerSums: FbspPlayerSum[] = [];
 
-  first9parSgn = computed(() => this.round().course.holes!.map(h => h.par).reduce((p, n, i) => (i < 9 ? p + n : p), 0));
-  last9parSgn = computed(() => this.round().course.par - this.first9parSgn());
+  // current net result of the teams
+  scoresSgn = computed(() => this.resultSgn().teams.map(team => ({
+    name: team.players.map(idx => this.round().player?.[idx]?.nick).join('/'),
+    total: team.total
+  })));
 
   // css class marking the winning team result per hole [team][hole], same as for match play
   holeWinnerSgn = computed<string[][]>(() => {
@@ -72,6 +78,7 @@ export class RoundViewFbSpComponent implements OnInit {
     const strokes = players.map((_, idx) =>
       Array.from({ length: HOLES }, (__, hole) => this.round().scoreCard?.[hole + idx * HOLES]?.stroke));
 
+    this.playerSums = strokes.map(playerStrokes => calculateFbspPlayerSum(playerStrokes));
     this.resultSgn.set(calculateFbspTeamResults(strokes, this.teamNumbers, holeHcp));
     this.displaySgn.set(true);
   }
